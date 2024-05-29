@@ -1,8 +1,8 @@
 ---
-name: Bug report
-about: 버그 생겼을 때 쓰는 이슈 템플릿 ╯︿╰
-title: 'bug: '
-labels: bug, fix
+name: refactor
+about: 리팩토링을 위한 이슈 템플릿
+title: 'refactor: '
+labels: refactor
 assignees: ''
 
 ---
