@@ -13,7 +13,7 @@ import { ReactNode } from "react";
 import { List } from "@phosphor-icons/react";
 
 const headerItemStyle =
-  "flex items-center justify-center h-[60px] md:h-[80px] rounded-none px-3 text-lg font-medium text-background hover:text-background bg-primary hover:bg-primary transition hover:brightness-95 cursor-pointer";
+  "flex items-center justify-center h-[60px] md:h-[80px] rounded-none px-3 text-lg font-bold text-background hover:text-background bg-primary hover:bg-primary transition hover:brightness-95 cursor-pointer";
 
 function HeaderSheet({ trigger }: { trigger: ReactNode }) {
   return (
@@ -75,7 +75,7 @@ export function Header() {
         </div>
         <div className="flex">
           {!isMobile && (
-            <div className={cn(headerItemStyle, "px-6 text-base")}>로그인</div>
+            <div className={cn(headerItemStyle, "px-6")}>로그인</div>
           )}
           {isMobile && (
             <HeaderSheet
