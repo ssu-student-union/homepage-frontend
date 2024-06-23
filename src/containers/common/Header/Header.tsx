@@ -75,7 +75,7 @@ export function Header() {
         </div>
         <div className="flex">
           {!isMobile && (
-            <div className={cn(headerItemStyle, "px-6")}>로그인</div>
+            <div className={cn(headerItemStyle, "px-10")}>로그인</div>
           )}
           {isMobile && (
             <HeaderSheet
