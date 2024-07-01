@@ -6,15 +6,17 @@ interface BoardSelectorProp {
 
 export function BoardSelector({ category }: BoardSelectorProp) {
   return (
-    <div className=" p-1 ml-[85px] font-bold border bg-white rounded-md absolute top-[252px]">
-      <ul className="list-none flex gap-2">
-        {category.map((menu) => {
+    <div className="inline-flex p-1 ml-[85px] bg-white border rounded-sm absolute top-[246px]">
+      <ul className="flex">
+        {category.map((menu, index) => {
           return (
-            <li>
+            <li key={index} className="relative">
               <NavLink
                 to={`/boardTest/${menu}`}
                 className={({ isActive }) =>
-                  isActive ? "p-1 bg-primary text-white rounded-sm" : "p-1"
+                  `px-4 py-1 font-bold block ${
+                    isActive ? "text-white bg-primary rounded-sm" : "text-black"
+                  }`
                 }
               >
                 {menu}
