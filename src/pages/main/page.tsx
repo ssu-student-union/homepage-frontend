@@ -5,7 +5,7 @@ import { MainScheduleSection } from "./containers/MainScheduleSection";
 export function MainPage() {
   return (
     <>
-      <Header state={State.LoginPage}/>
+      <Header state={State.Logout} />
       <MainHeroSection />
       <MainScheduleSection />
     </>

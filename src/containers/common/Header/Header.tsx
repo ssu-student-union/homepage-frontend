@@ -39,8 +39,10 @@ export function Header({ state = State.Login }: HeaderProps) {
   const isMobile = useIsMobile();
 
   const bgColor = state === State.LoginPage ? "bg-background" : "bg-primary";
-  const hoverBgColor = state === State.LoginPage ? "hover:bg-[#F1F1F1]" : "hover:bg-[#1C36DB]";
-  const textColor = state === State.LoginPage ? "text-ghost" : "text-background";
+  const hoverBgColor =
+    state === State.LoginPage ? "hover:bg-[#F1F1F1]" : "hover:bg-[#1C36DB]";
+  const textColor =
+    state === State.LoginPage ? "text-ghost" : "text-background";
   const fillColor = state === State.LoginPage ? "#000000" : "#ffffff"; // Logo의 아이콘은 text-color 형식이 아니기 때문에 중복 코드 발생
 
   const headerItemStyle = `flex items-center justify-center h-[60px] md:h-[80px] rounded-none px-3 text-lg font-bold ${textColor} hover:${textColor} ${bgColor} ${hoverBgColor} transition hover:brightness-95 cursor-pointer`;
@@ -64,16 +66,19 @@ export function Header({ state = State.Login }: HeaderProps) {
             <NavigationMenu className="h-full">
               <NavigationMenuList className="h-full">
                 {Object.entries(menuItems).map(([category, items]) => (
-                  <NavigationMenuItem key={category} className="relative h-full">
+                  <NavigationMenuItem
+                    key={category}
+                    className="relative h-full"
+                  >
                     <NavigationMenuTrigger className={cn(headerItemStyle)}>
                       {category}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <DropMenu 
-                        items={items} 
-                        bgColor={bgColor} 
-                        textColor={textColor} 
-                        hoverBgColor={hoverBgColor} 
+                      <DropMenu
+                        items={items}
+                        bgColor={bgColor}
+                        textColor={textColor}
+                        hoverBgColor={hoverBgColor}
                       />
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -84,9 +89,7 @@ export function Header({ state = State.Login }: HeaderProps) {
         </div>
         <div className="flex pr-4">
           {!isMobile && state === State.Logout && (
-            <div className={cn(headerItemStyle, "px-6 text-base")}>
-              로그인
-            </div>
+            <div className={cn(headerItemStyle, "px-6 text-base")}>로그인</div>
           )}
           {isMobile && (
             <HeaderSheet

@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
+// MenuItem에 들어갈 값은 "/DropMenu/const/index.tsx"에서 관리합니다.
 interface MenuItem {
   name: string;
   path: string;
@@ -13,14 +14,19 @@ interface DropMenuProps {
   hoverBgColor: string;
 }
 
-const DropMenu: FC<DropMenuProps> = ({ items, bgColor, textColor, hoverBgColor }) => {
+const DropMenu: FC<DropMenuProps> = ({
+  items,
+  bgColor,
+  textColor,
+  hoverBgColor,
+}) => {
   return (
-    <div className={`w-40 rounded-xs shadow-md ${bgColor}`}>
+    <div className={`w-40 shadow-md rounded-xs ${bgColor}`}>
       {items.map((item) => (
         <Link
           key={item.path}
           to={item.path}
-          className={`block px-4 py-3 cursor-pointer ${textColor} hover: ${hoverBgColor}`}
+          className={`block px-4 py-3.5 rounded-xs cursor-pointer ${textColor} ${hoverBgColor}`}
         >
           {item.name}
         </Link>
