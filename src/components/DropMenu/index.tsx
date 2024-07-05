@@ -8,16 +8,19 @@ interface MenuItem {
 
 interface DropMenuProps {
   items: MenuItem[];
+  bgColor: string;
+  textColor: string;
+  hoverBgColor: string;
 }
 
-const DropMenu: FC<DropMenuProps> = ({ items }) => {
+const DropMenu: FC<DropMenuProps> = ({ items, bgColor, textColor, hoverBgColor }) => {
   return (
-    <div className="w-56 bg-white shadow-md rounded-md p-1">
+    <div className={`w-40 rounded-xs shadow-md ${bgColor}`}>
       {items.map((item) => (
         <Link
           key={item.path}
           to={item.path}
-          className="block px-4 py-2 hover:bg-gray-100 rounded-md cursor-pointer"
+          className={`block px-4 py-3 cursor-pointer ${textColor} hover: ${hoverBgColor}`}
         >
           {item.name}
         </Link>
