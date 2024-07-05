@@ -7,14 +7,14 @@ interface MenuItem {
   path: string;
 }
 
-interface DropMenuProps {
+interface DropDownMenuProps {
   items: MenuItem[];
   bgColor: string;
   textColor: string;
   hoverBgColor: string;
 }
 
-const DropMenu: FC<DropMenuProps> = ({
+const DropDownMenu: FC<DropDownMenuProps> = ({
   items,
   bgColor,
   textColor,
@@ -35,4 +35,4 @@ const DropMenu: FC<DropMenuProps> = ({
   );
 };
 
-export default DropMenu;
+export default DropDownMenu;
