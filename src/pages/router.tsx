@@ -7,6 +7,10 @@ export function MainRouter() {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/boardTest/:category" element={<BoardTestPage />} />
+      <Route
+        path="/boardTest/:category/:subcategory"
+        element={<BoardTestPage />}
+      />
     </Routes>
   );
 }

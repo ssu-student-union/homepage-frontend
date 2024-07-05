@@ -6,7 +6,7 @@ interface BoardSelectorProp {
 
 export function BoardSelector({ category }: BoardSelectorProp) {
   return (
-    <div className="inline-flex p-1 ml-[85px] bg-white border rounded-sm absolute top-[98px]">
+    <div className="inline-flex p-1 bg-white border rounded-sm">
       <ul className="flex">
         {category.map((menu, index) => {
           return (
