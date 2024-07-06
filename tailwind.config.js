@@ -15,6 +15,7 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+      
     },
     extend: {
       colors: {
@@ -51,6 +52,11 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        kakao: {
+          DEFAULT: "hsl(var(--kakao))",
+          foreground: "hsl(var(--kakao-foreground))",
+        },       
+        
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -71,7 +77,29 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      rotate: {
+        '-12': '-12.416deg',
+      },
+      fontSize: {
+        '600px': '600px',
+      },
+      fontWeight: {
+        '900': '900',
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins:  [
+  require("tailwindcss-animate"),
+  function ({ addUtilities }) {
+    const newUtilities = {
+      '.text-stroke-2': {
+        '-webkit-text-stroke-width': '2px',
+      },
+      '.text-stroke-gray': {
+        '-webkit-text-stroke-color': '#D5D5D5',
+      },
+    };
+    addUtilities(newUtilities, ['responsive', 'hover']);
+  },
+]
 }
