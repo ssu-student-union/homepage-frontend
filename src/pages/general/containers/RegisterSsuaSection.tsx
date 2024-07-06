@@ -4,13 +4,12 @@ import { RegisterFailedSection } from "@/pages/general/containers/RegisterFailed
 import PropTypes from 'prop-types';
 
 
-// Define an enum for the result states
+// 학생인증 성공 여부
 enum ResultEnum {
   SUCCESS = 'success',
   FAILED = 'failed'
 }
 
-// Define the props for the component
 interface RegisterSsuaSectionProps {
   result: ResultEnum;
 }
