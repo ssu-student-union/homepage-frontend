@@ -1,43 +1,35 @@
-import { BoardFooter } from "@/components/Board/BoardFooter";
-import { BoardHead } from "@/components/Board/BoardHead";
-import { BoardNavigator } from "@/components/Board/BoardNavigator";
+// import { BoardNavigator } from "@/components/Board/BoardNavigator";
 import { BoardSelector } from "@/components/Board/BoardSelector";
-import { useParams } from "react-router-dom";
+import { MainNotices } from "@/components/Board/const";
+// import { useEffect } from "react";
+// import { useNavigate, useParams } from "react-router-dom";
 
-interface ListType {
-  [prop: string]: string[];
-}
-const LIST: ListType = {
-  중앙: [
-    "전체",
-    "조직도",
-    "중앙집행위원회",
-    "중앙운영위원회",
-    "선거관리위원회",
-    "동아리연합회",
-  ],
-  단과대: [
-    "전체",
-    "경영",
-    "경제통상",
-    "공과",
-    "법과",
-    "사회과학",
-    "인문",
-    "자연과학",
-    "IT",
-    "융특",
-  ],
-};
+// import { StudentUnion } from "@/components/Board/const";
 
-export function BoardTestPage() {
-  const { category } = useParams() as { category: string };
+export function BoardPage() {
+  // const { category = "총학생회", subcategory } = useParams();
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (!subcategory) {
+  //     navigate(`/board/${category}/${StudentUnion[category][0]}`, {
+  //       replace: true,
+  //     });
+  //   }
+  // }, [category, subcategory, navigate]);
+
+  const handleSelector = (content: string) => {
+    console.log(content);
+  };
+
   return (
-    <>
-      <BoardHead title="공지사항" subtitle="오늘 총 5개의 공지가 올라왔어요!" />
-      <BoardSelector category={Object.keys(LIST)} />
-      <BoardNavigator subcategory={Object.values(LIST[category])} />
-      <BoardFooter />
-    </>
+    <div className="p-4">
+      {/* <BoardNavigator categories={Object.keys(StudentUnion)} baseUrl="/board" /> */}
+      <BoardSelector
+        subcategories={MainNotices}
+        baseUrl={`/board`}
+        onSelect={handleSelector}
+      />
+    </div>
   );
 }

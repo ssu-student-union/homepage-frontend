@@ -1,30 +1,28 @@
-import { NavLink } from "react-router-dom";
+import { Category } from "../Category";
 
-interface BoardSelectorProp {
-  category: string[];
+interface BoardSelectorProps {
+  subcategories: string[];
+  baseUrl: string;
+  onSelect(content: string): void;
 }
 
-export function BoardSelector({ category }: BoardSelectorProp) {
+export function BoardSelector({
+  subcategories,
+  baseUrl,
+  onSelect,
+}: BoardSelectorProps) {
   return (
-    <div className="inline-flex p-1 bg-white border rounded-sm">
-      <ul className="flex">
-        {category.map((menu, index) => {
-          return (
-            <li key={index}>
-              <NavLink
-                to={`/boardTest/${menu}`}
-                className={({ isActive }) =>
-                  `px-4 py-1 font-bold block ${
-                    isActive ? "text-white bg-primary rounded-sm" : "text-black"
-                  }`
-                }
-              >
-                {menu}
-              </NavLink>
-            </li>
-          );
-        })}
-      </ul>
+    <div className="flex flex-wrap gap-2">
+      {subcategories &&
+        subcategories.map((subcategory) => (
+          <Category
+            key={subcategory}
+            path={`${baseUrl}/${subcategory}`}
+            onSelect={onSelect}
+          >
+            {subcategory}
+          </Category>
+        ))}
     </div>
   );
 }
