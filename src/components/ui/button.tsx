@@ -21,6 +21,7 @@ const buttonVariants = cva(
           "bg-[#EBEBEB] text-paginationText text-xl font-medium hover:bg-accent rounded-sm",
         paginationLinkGhostStyle:
           "hover:bg-accent text-paginationText text-xl font-medium rounded-sm",
+        edit: "border border-input bg-background hover:bg-accent text-gray-700 hover:text-accent-foreground rounded-xs",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
