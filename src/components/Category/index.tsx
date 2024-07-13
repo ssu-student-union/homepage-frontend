@@ -1,18 +1,16 @@
-interface CategoryProps {
+interface CategoryProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isActive: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
 }
 
-export function Category({ isActive, onClick, children }: CategoryProps) {
+export function Category({ isActive, children, ...props }: CategoryProps) {
   return (
     <button
-      onClick={onClick}
-      className={`px-4 py-2 rounded-full font-medium text-sm transition-colors duration-100 ${
+      className={`px-5 py-[9px] border border-gray-800 rounded-full font-bold transition-colors duration-100 min-[721px]:text-lg text-sm${
         isActive
-          ? "bg-blue-600 text-white"
+          ? "bg bg-primary text-white"
           : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
-      }`}
+      } `}
+      {...props}
     >
       {children}
     </button>
