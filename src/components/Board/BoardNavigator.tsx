@@ -2,18 +2,26 @@ import { Switch } from "../Switch";
 
 interface BoardNavigatorProps {
   categories: string[];
-  baseUrl: string;
+  selectedCategory: string;
+  onCategorySelect: (subcategory: string) => void;
 }
 
-export function BoardNavigator({ categories, baseUrl }: BoardNavigatorProps) {
+export function BoardNavigator({
+  categories,
+  selectedCategory,
+  onCategorySelect,
+}: BoardNavigatorProps) {
   return (
-    <div className="inline-flex gap-2 mb-4 p-1 bg-white border rounded-sm">
-      {categories &&
-        categories.map((category) => (
-          <Switch key={category} path={`${baseUrl}/${category}`}>
-            {category}
-          </Switch>
-        ))}
+    <div className="p-1 inline-flex rounded-md border border-gray-300 overflow-hidden">
+      {categories.map((subcategory) => (
+        <Switch
+          key={subcategory}
+          isActive={selectedCategory === subcategory}
+          onClick={() => onCategorySelect(subcategory)}
+        >
+          {subcategory}
+        </Switch>
+      ))}
     </div>
   );
 }

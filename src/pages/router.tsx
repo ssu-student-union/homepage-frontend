@@ -6,8 +6,7 @@ export function MainRouter() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/board/:category" element={<BoardPage />} />
-      {/* <Route path="/board/:category/:subcategory" element={<BoardPage />} /> */}
+      <Route path="/board" element={<BoardPage />} />
     </Routes>
   );
 }

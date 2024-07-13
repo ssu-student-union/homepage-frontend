@@ -1,22 +1,20 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-
 interface SwitchProps {
-  path: string;
+  isActive: boolean;
+  onClick: () => void;
   children: React.ReactNode;
 }
 
-export function Switch({ path, children }: SwitchProps) {
+export function Switch({ isActive, onClick, children }: SwitchProps) {
   return (
-    <NavLink
-      to={path}
-      className={({ isActive }) =>
-        `px-4 py-1 font-bold block ${
-          isActive ? "text-white bg-primary rounded-sm" : "text-black"
-        }`
-      }
+    <button
+      onClick={onClick}
+      className={`px-4 py-2 font-medium text-base transition-colors duration-100 rounded-md ${
+        isActive
+          ? "bg-blue-600 text-white"
+          : "bg-white text-gray-700 hover:bg-gray-100"
+      }`}
     >
       {children}
-    </NavLink>
+    </button>
   );
 }

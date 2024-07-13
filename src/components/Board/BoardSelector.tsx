@@ -2,27 +2,26 @@ import { Category } from "../Category";
 
 interface BoardSelectorProps {
   subcategories: string[];
-  baseUrl: string;
-  onSelect(content: string): void;
+  selectedSubcategory: string;
+  onSubcategorySelect: (category: string) => void;
 }
 
 export function BoardSelector({
   subcategories,
-  baseUrl,
-  onSelect,
+  selectedSubcategory,
+  onSubcategorySelect,
 }: BoardSelectorProps) {
   return (
     <div className="flex flex-wrap gap-2">
-      {subcategories &&
-        subcategories.map((subcategory) => (
-          <Category
-            key={subcategory}
-            path={`${baseUrl}/${subcategory}`}
-            onSelect={onSelect}
-          >
-            {subcategory}
-          </Category>
-        ))}
+      {subcategories.map((category) => (
+        <Category
+          key={category}
+          isActive={selectedSubcategory === category}
+          onClick={() => onSubcategorySelect(category)}
+        >
+          {category}
+        </Category>
+      ))}
     </div>
   );
 }
