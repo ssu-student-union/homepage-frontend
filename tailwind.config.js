@@ -10,11 +10,12 @@ module.exports = {
   prefix: "",
   theme: {
     screens: {
-      "2xl": "1920px",
-      xl: "1440px",
-      lg: "1080px",
-      md: "720px",
-      xs: "390px",
+      "2xl": { min: "1921px" },
+      xl: { min: "1441px", max: "1920px" },
+      lg: { min: "1081px", max: "1440px" },
+      md: { min: "721px", max: "1080px" },
+      sm: { min: "391px", max: "720px" },
+      xs: { max: "390px" },
     },
     container: {
       center: true,
