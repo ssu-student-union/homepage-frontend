@@ -23,6 +23,7 @@ export function Search() {
     return () => window.removeEventListener("resize", updatePlaceholder);
   }, []);
 
+  // 반응형 작업은 임의로 해둔 상태 tailwind.config.js 변동사항 적용 시 수정 예정
   return (
     <div className="flex gap-2">
       <Input
