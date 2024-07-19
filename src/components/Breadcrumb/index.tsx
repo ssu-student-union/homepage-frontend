@@ -7,7 +7,7 @@ interface BreadcrumbProps {
   items?: string[];
 }
 
-const Breadcrumb: React.FC<BreadcrumbProps> = ({ items = [] }) => {
+const Breadcrumb = ({ items = [] }: BreadcrumbProps) => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
 

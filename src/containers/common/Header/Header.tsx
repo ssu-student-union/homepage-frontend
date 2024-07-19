@@ -55,6 +55,15 @@ export function Header({ state = State.Login }: HeaderProps) {
           bgColor
         )}
       >
+        {isMobile && (
+          <HeaderSheet
+            trigger={
+              <div className={cn(headerItemStyle, "px-6 text-base")}>
+                <List size={28} />
+              </div>
+            }
+          />
+        )}
         <div className="flex">
           <div className={cn(headerItemStyle, "px-8")}>
             <div className="flex items-center gap-3">
@@ -87,20 +96,12 @@ export function Header({ state = State.Login }: HeaderProps) {
             </NavigationMenu>
           )}
         </div>
-        <div className="flex pr-4">
-          {!isMobile && state === State.Logout && (
+
+        {!isMobile && state === State.Logout && (
+          <div className="flex pr-4">
             <div className={cn(headerItemStyle, "px-6 text-base")}>로그인</div>
-          )}
-          {isMobile && (
-            <HeaderSheet
-              trigger={
-                <div className={cn(headerItemStyle, "px-6 text-base")}>
-                  <List size={28} />
-                </div>
-              }
-            />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
