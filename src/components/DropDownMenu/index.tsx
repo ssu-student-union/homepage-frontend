@@ -21,7 +21,7 @@ const DropDownMenu = ({
 }: DropDownMenuProps) => {
   return (
     <div
-      className={`absolute left-0 end-0 w-40 shadow-md rounded-xs ${bgColor} mt-1.5`}
+      className={`absolute left-0 end-0 w-40 shadow-md rounded-xs font-semibold ${bgColor} mt-1.5`}
     >
       {items.map((item) => (
         <Link

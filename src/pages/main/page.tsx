@@ -1,4 +1,3 @@
-import React from "react";
 import { Header } from "@/containers/common/Header/Header";
 import { MainHeroSection } from "./containers/MainHeroSection";
 import { MainScheduleSection } from "./containers/MainScheduleSection";

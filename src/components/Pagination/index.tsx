@@ -1,3 +1,4 @@
+import React from "react";
 import {
   PaginationContainer,
   PaginationContent,
@@ -7,56 +8,29 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "../ui/pagination";
+import { cn } from "@/libs/utils";
+import { getPageNumbers } from "./utils";
 
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
   onPageChange: (page: number) => void;
+  className?: string;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination = ({
   totalPages,
   currentPage,
   onPageChange,
-}) => {
+  className,
+}: PaginationProps) => {
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
     onPageChange(page);
   };
 
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    let startPage = 1;
-    let endPage = totalPages;
-
-    if (totalPages > 6) {
-      if (currentPage <= 3) {
-        endPage = 6;
-      } else if (currentPage + 2 >= totalPages) {
-        startPage = totalPages - 5;
-      } else {
-        startPage = currentPage - 2;
-        endPage = currentPage + 2;
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <PaginationItem key={i}>
-          <PaginationLink
-            isActive={i === currentPage}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </PaginationLink>
-        </PaginationItem>
-      );
-    }
-    return pageNumbers;
-  };
-
   return (
-    <PaginationContainer>
+    <PaginationContainer className={cn(className)}>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
@@ -73,7 +47,16 @@ const Pagination: React.FC<PaginationProps> = ({
             {currentPage > 4 && <PaginationEllipsis />}
           </>
         )}
-        {renderPageNumbers()}
+        {getPageNumbers(totalPages, currentPage).map((page) => (
+          <PaginationItem key={page}>
+            <PaginationLink
+              isActive={page === currentPage}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
         {currentPage < totalPages - 2 && totalPages > 6 && (
           <>
             {currentPage < totalPages - 3 && <PaginationEllipsis />}
