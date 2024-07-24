@@ -18,6 +18,12 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        Register:
+          "bg-primary hover:bg-primary/90 min-[721px]:w-[105px] w-full h-10 text-white text-lg text-center font-semibold rounded-[7px]",
+        List_Edit:
+          "pl-2 flex gap-2 pr-6 w-32 h-10 bg-white border border-gray-400 text-lg text-center font-semibold text-gray-700 hover:border-primary hover:bg-white hover:text-primary",
+        Write:
+          "pl-5 flex gap-1 pr-6 w-32 h-10 bg-white border border-gray-400 text-lg text-center font-semibold text-gray-700 hover:border-primary hover:bg-white hover:text-primary",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -37,15 +43,20 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  isDisabled?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, isDisabled = false, asChild = false, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        disabled={isDisabled}
         {...props}
       />
     );
