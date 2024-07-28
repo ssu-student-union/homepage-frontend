@@ -1,3 +1,11 @@
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { cn } from "@/libs/utils";
+import { List, CaretDown } from "@phosphor-icons/react";
+import { Link } from "react-router-dom";
+import DropDownMenu from "@/components/DropDownMenu";
+import { menuItems } from "@/components/DropDownMenu/const";
+import { dataPath, State } from "./const/state";
 import { Logo } from "@/components/Logo/Logo";
 import {
   NavigationMenu,
@@ -6,80 +14,55 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useIsMobile } from "@/hooks/useIsMobile";
-import { cn } from "@/libs/utils";
-import { ReactNode } from "react";
-import { List } from "@phosphor-icons/react";
-import DropDownMenu from "@/components/DropDownMenu";
-import { menuItems } from "@/components/DropDownMenu/const";
-import { dataPath, State } from "./const/state";
-import { Link } from "react-router-dom";
+import { getStyles } from "./const/style";
+import { ReactNode, useState } from "react";
 
 interface HeaderProps {
   state?: State;
 }
 
-function HeaderSheet({
-  trigger,
-  bgColor,
-}: {
+interface HeaderSheetProps {
   trigger: ReactNode;
+  sheetBorderColor: string;
   bgColor: string;
-}) {
-  return (
-    <Sheet>
-      <SheetTrigger asChild>{trigger}</SheetTrigger>
-      <SheetContent className={`border-0 ${bgColor}`}>Content</SheetContent>
-    </Sheet>
-  );
+  textColor: string;
+  sheetIconColor: string;
+  sheetItemsColor: string;
 }
 
 export function Header({ state = State.Onboarding }: HeaderProps) {
   const isMobile = useIsMobile();
-
-  const bgColor = state === State.Onboarding ? "bg-background" : "bg-primary";
-  const hoverBgColor =
-    state === State.Onboarding ? "hover:bg-[#F1F1F1]" : "hover:bg-[#1D4ED8]";
-  const textColor =
-    state === State.Onboarding ? "text-ghost" : "text-background";
-  const fillColor = state === State.Onboarding ? "#000000" : "#ffffff";
-
-  const headerItemStyle = `flex items-center justify-center h-[60px] sm:h-[50px] xs:h-[50px] px-[35px] rounded-none text-lg font-bold ${textColor} hover:${textColor} ${bgColor} ${hoverBgColor} transition hover:brightness-95 cursor-pointer`;
+  const styles = getStyles(state);
 
   return (
     <div
-      className={
-        isMobile
-          ? cn(
-              "fixed top-0 w-[100vw] h-[60px] sm:h-[50px] xs:h-[50px] flex justify-start z-50",
-              bgColor
-            )
-          : cn(
-              "fixed top-0 w-[100vw] h-[60px] sm:h-[50px] xs:h-[50px] flex justify-between z-50",
-              bgColor
-            )
-      }
+      className={cn(
+        "fixed top-0 w-[100vw] h-[60px] sm:h-[50px] xs:h-[50px] z-50",
+        isMobile ? "flex justify-start" : "flex justify-between",
+        styles.bgColor
+      )}
     >
       {isMobile && (
         <HeaderSheet
           trigger={
-            <div className={cn(headerItemStyle, "px-3 text-base")}>
+            <div className={cn(styles.headerItemStyle, "px-3 text-base")}>
               <List size={28} />
             </div>
           }
-          bgColor={bgColor}
+          sheetBorderColor={styles.sheetBorderColor}
+          bgColor={styles.bgColor}
+          textColor={styles.textColor}
+          sheetIconColor={styles.sheetIconColor}
+          sheetItemsColor={styles.sheetItemsColor}
         />
       )}
       <div className="flex">
-        <div
-          className={
-            isMobile ? cn(headerItemStyle, "px-0.5") : cn(headerItemStyle)
-          }
-        >
+        <div className={cn(styles.headerItemStyle, { "px-0.5": isMobile })}>
           <div className="flex items-center gap-4">
-            <Logo size={isMobile ? "23px" : "46px"} fill={fillColor} />
-            <span className={cn(textColor, "text-lg font-bold")}>US:SUM</span>
+            <Logo size={isMobile ? "23px" : "46px"} fill={styles.fillColor} />
+            <span className={cn(styles.textColor, "text-lg font-bold")}>
+              US:SUM
+            </span>
           </div>
         </div>
         {!isMobile && renderNavigationMenu()}
@@ -94,15 +77,15 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
         <NavigationMenuList className="h-full">
           {Object.entries(menuItems).map(([category, items]) => (
             <NavigationMenuItem key={category} className="relative h-full">
-              <NavigationMenuTrigger className={cn(headerItemStyle)}>
+              <NavigationMenuTrigger className={cn(styles.headerItemStyle)}>
                 {category}
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <DropDownMenu
                   items={items}
-                  bgColor={bgColor}
-                  textColor={textColor}
-                  hoverBgColor={hoverBgColor}
+                  bgColor={styles.bgColor}
+                  textColor={styles.textColor}
+                  hoverBgColor={styles.hoverBgColor}
                 />
               </NavigationMenuContent>
             </NavigationMenuItem>
@@ -110,7 +93,7 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
           <NavigationMenuItem className="relative h-full">
             <NavigationMenuTrigger
               isData={true}
-              className={cn(headerItemStyle)}
+              className={cn(styles.headerItemStyle)}
             >
               <Link to={dataPath}>자료집</Link>
             </NavigationMenuTrigger>
@@ -120,15 +103,85 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
     );
   }
 
+  function HeaderSheet({
+    trigger,
+    sheetBorderColor,
+    bgColor,
+    textColor,
+    sheetIconColor,
+    sheetItemsColor,
+  }: HeaderSheetProps) {
+    const [expandedCategory, setExpandedCategory] = useState<string | null>(
+      null
+    );
+
+    const toggleCategory = (category: string) => {
+      setExpandedCategory((prevCategory) =>
+        prevCategory === category ? null : category
+      );
+    };
+
+    return (
+      <Sheet>
+        <SheetTrigger asChild>{trigger}</SheetTrigger>
+        <SheetContent
+          className={`border-0 outline-none flex items-start justify-start w-3/4 px-0 py-0 ${bgColor}`}
+        >
+          <div className="w-full flex flex-col font-semibold text-xl">
+            {Object.entries(menuItems).map(([category, items], index) => (
+              <div key={index} className="w-full">
+                <div
+                  className={`w-full h-[64px] flex flex-row items-center justify-between pl-10 border-b ${sheetBorderColor} cursor-pointer`}
+                  onClick={() => toggleCategory(category)}
+                >
+                  <div className={`flex-1 flex items-center ${textColor}`}>
+                    {category}
+                  </div>
+                  <CaretDown className={`${sheetIconColor}`} size={20} />
+                  <div className="w-3"></div>
+                </div>
+                {expandedCategory === category && (
+                  <div
+                    className={`flex flex-col flex-center justify-center py-4 ${bgColor} border-b ${sheetBorderColor}`}
+                  >
+                    {items.map((item) => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className={`flex items-center h-[32px] px-4 pl-12 font-medium text-base ${sheetItemsColor}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+            <Link
+              to={dataPath}
+              className={`h-[64px] flex items-center pl-10 border-b ${sheetBorderColor} ${textColor}`}
+            >
+              자료집
+            </Link>
+          </div>
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
   function renderAuthButtons() {
     if (state === State.Login) {
       return (
-        <div className={cn(headerItemStyle, "px-10 text-base")}>내정보</div>
+        <div className={cn(styles.headerItemStyle, "px-10 text-base")}>
+          내정보
+        </div>
       );
     }
     if (state === State.Logout) {
       return (
-        <div className={cn(headerItemStyle, "px-10 text-base")}>로그인</div>
+        <div className={cn(styles.headerItemStyle, "px-10 text-base")}>
+          로그인
+        </div>
       );
     }
     return null;

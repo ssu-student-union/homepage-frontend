@@ -4,6 +4,6 @@ enum State {
   Onboarding, // 로그인 진행 상태
 }
 
-const dataPath = "/data";
+const dataPath = "/data"; // 자료집 라우트 경로
 
 export { State, dataPath };
