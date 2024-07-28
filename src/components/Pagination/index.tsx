@@ -1,4 +1,3 @@
-import React from "react";
 import {
   PaginationContainer,
   PaginationContent,
@@ -7,9 +6,12 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  PaginationTenNext,
+  PaginationTenPrevious,
 } from "../ui/pagination";
 import { cn } from "@/libs/utils";
-import { getPageNumbers } from "./utils";
+import { getPageNumbers } from "./utils/PageNumberUtils";
+import { PaginationUtils } from "./utils/PaginationUtils";
 
 interface PaginationProps {
   totalPages: number;
@@ -24,15 +26,14 @@ const Pagination = ({
   onPageChange,
   className,
 }: PaginationProps) => {
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    onPageChange(page);
-  };
+  const { handlePageChange, handleTenPrevious, handleTenNext } =
+    PaginationUtils(totalPages, currentPage, onPageChange);
 
   return (
     <PaginationContainer className={cn(className)}>
       <PaginationContent>
         <PaginationItem>
+          <PaginationTenPrevious onClick={handleTenPrevious} />
           <PaginationPrevious
             onClick={() => handlePageChange(currentPage - 1)}
           />
@@ -69,6 +70,7 @@ const Pagination = ({
         )}
         <PaginationItem>
           <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+          <PaginationTenNext onClick={handleTenNext} />
         </PaginationItem>
       </PaginationContent>
     </PaginationContainer>
