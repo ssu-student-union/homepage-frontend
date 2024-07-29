@@ -10,7 +10,8 @@ module.exports = {
   prefix: "",
   theme: {
     screens: {
-      sm: { max: "719px" },
+      xs: { max: "389px" },
+      sm: { min: "390px", max: "719px" },
       md: { min: "720px", max: "1079px" },
       lg: { min: "1080px", max: "1439px" },
       xl: { min: "1440px", max: "1919px" },
