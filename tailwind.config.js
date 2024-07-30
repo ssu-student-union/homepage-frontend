@@ -10,19 +10,16 @@ module.exports = {
   prefix: "",
   theme: {
     screens: {
-      "2xl": { min: "1921px" },
-      xl: { min: "1441px", max: "1920px" },
-      lg: { min: "1081px", max: "1440px" },
-      md: { min: "721px", max: "1080px" },
-      sm: { min: "391px", max: "720px" },
-      xs: { max: "390px" },
+      xs: { max: "389px" },
+      sm: { min: "390px", max: "719px" },
+      md: { min: "720px", max: "1079px" },
+      lg: { min: "1080px", max: "1439px" },
+      xl: { min: "1440px", max: "1919px" },
+      xxl: { min: "1920px" },
     },
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       colors: {

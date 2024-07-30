@@ -70,6 +70,7 @@ PaginationItem.displayName = "PaginationItem";
 
 const PaginationLink = ({ className, ...props }: React.ComponentProps<"a">) => (
   <a aria-current={"page"} className={cn("", className)} {...props} />
+
 );
 PaginationLink.displayName = "PaginationLink";
 
@@ -113,7 +114,9 @@ const PaginationTenPrevious = ({
     <CaretDoubleLeft weight="bold" className="size-full" color="#374151" />
   </PaginationLink>
 );
+
 PaginationTenPrevious.displayName = "PaginationPrevious";
+
 
 const PaginationTenNext = ({
   className,
