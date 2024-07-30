@@ -28,26 +28,17 @@ const Pagination = ({
   return (
     <PaginationContainer>
       <PaginationContent>
-        <PaginationItem>
-          <PaginationTenPrevious onClick={handleTenPrevious} />
-          <PaginationPrevious
-            onClick={() => handlePageChange(currentPage - 1)}
-          />
-        </PaginationItem>
+        <PaginationTenPrevious onClick={handleTenPrevious} />
+        <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
         {getPageGroup(currentPage, totalPages).map((page) => (
-          <PaginationItem>
-            <PaginationLink
-              isActive={page === currentPage}
-              onClick={() => handlePageChange(page)}
-            >
+          <PaginationItem isActive={page === currentPage}>
+            <PaginationLink onClick={() => handlePageChange(page)}>
               {page}
             </PaginationLink>
           </PaginationItem>
         ))}
-        <PaginationItem>
-          <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
-          <PaginationTenNext onClick={handleTenNext} />
-        </PaginationItem>
+        <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
+        <PaginationTenNext onClick={handleTenNext} />
       </PaginationContent>
     </PaginationContainer>
   );

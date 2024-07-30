@@ -1,13 +1,12 @@
 import * as React from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreHorizontal,
-} from "lucide-react";
 import { cn } from "@/libs/utils";
 import { cva } from "class-variance-authority";
+import {
+  CaretDoubleLeft,
+  CaretDoubleRight,
+  CaretLeft,
+  CaretRight,
+} from "@phosphor-icons/react";
 
 const PaginationContainer = ({
   className,
@@ -34,51 +33,43 @@ const PaginationContent = React.forwardRef<
 ));
 PaginationContent.displayName = "PaginationContent";
 
-const PaginationItem = React.forwardRef<
-  HTMLLIElement,
-  React.ComponentProps<"li">
->(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    className={cn("cursor-pointer select-none", className)}
-    {...props}
-  />
-));
-PaginationItem.displayName = "PaginationItem";
-
-const PaginationLinkVariants = cva("rounded-xs h-8 w-8", {
-  variants: {
-    variant: {
-      active:
-        "bg-[#EBEBEB] text-paginationText text-xl font-medium hover:bg-accent rounded-sm",
-      default:
-        "hover:bg-accent text-paginationText text-xl font-medium rounded-sm",
+const PaginationLinkVariants = cva(
+  "cursor-pointer select-none h-[27px] w-[27px] text-[18px] flex text-gray-700 font-medium justify-center items-center",
+  {
+    variants: {
+      variant: {
+        active: "bg-gray-100 rounded-[4px]",
+        default: " font-medium ",
+      },
     },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
 
-interface PaginationLinkProps extends React.ComponentProps<"a"> {
+interface PaginationItemProps extends React.ComponentProps<"li"> {
   isActive?: boolean;
 }
 
-const PaginationLink = ({
-  className,
-  isActive,
-  ...props
-}: PaginationLinkProps) => (
-  <a
-    aria-current={isActive ? "page" : undefined}
-    className={cn(
-      PaginationLinkVariants({
-        variant: isActive ? "active" : "default",
-      }),
-      className
-    )}
-    {...props}
-  />
+const PaginationItem = React.forwardRef<HTMLLIElement, PaginationItemProps>(
+  ({ className, isActive, ...props }, ref) => (
+    <li
+      ref={ref}
+      className={cn(
+        PaginationLinkVariants({
+          variant: isActive ? "active" : "default",
+        }),
+        className
+      )}
+      {...props}
+    />
+  )
+);
+PaginationItem.displayName = "PaginationItem";
+
+const PaginationLink = ({ className, ...props }: React.ComponentProps<"a">) => (
+  <a aria-current={"page"} className={cn("", className)} {...props} />
 );
 PaginationLink.displayName = "PaginationLink";
 
@@ -88,10 +79,10 @@ const PaginationPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    className={cn("px-2", className)}
+    className={cn("mr-[9.5px] size-[15px]", className)}
     {...props}
   >
-    <ChevronLeft className="size-5 stroke-1" />
+    <CaretLeft weight="bold" className="size-full" color="#374151" />
   </PaginationLink>
 );
 PaginationPrevious.displayName = "PaginationPrevious";
@@ -102,10 +93,10 @@ const PaginationNext = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
-    className={cn("px-2", className)}
+    className={cn("ml-[9.5px]", className)}
     {...props}
   >
-    <ChevronRight className="size-5 stroke-1" />
+    <CaretRight weight="bold" className="size-full" color="#374151" />
   </PaginationLink>
 );
 PaginationNext.displayName = "PaginationNext";
@@ -116,10 +107,10 @@ const PaginationTenPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous 10 pages"
-    className={cn("px-2", className)}
+    className={cn("mr-[9.5px]", className)}
     {...props}
   >
-    <ChevronsLeft className="size-5 stroke-1" />
+    <CaretDoubleLeft weight="bold" className="size-full" color="#374151" />
   </PaginationLink>
 );
 PaginationTenPrevious.displayName = "PaginationPrevious";
@@ -130,33 +121,17 @@ const PaginationTenNext = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next 10 pages"
-    className={cn("px-2", className)}
+    className={cn("ml-[9.5px]", className)}
     {...props}
   >
-    <ChevronsRight className="size-5 stroke-1" />
+    <CaretDoubleRight weight="bold" className="size-full" color="#374151" />
   </PaginationLink>
 );
 PaginationTenNext.displayName = "PaginationPrevious";
 
-const PaginationEllipsis = ({
-  className,
-  ...props
-}: React.ComponentProps<"span">) => (
-  <span
-    aria-hidden
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
-    {...props}
-  >
-    <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More pages</span>
-  </span>
-);
-PaginationEllipsis.displayName = "PaginationEllipsis";
-
 export {
   PaginationContainer,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
