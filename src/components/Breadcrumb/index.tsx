@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { CaretRight } from "@phosphor-icons/react";
+
+import { cn } from "@/libs/utils";
 
 interface BreadcrumbProps {
   items: Map<string, string | null>;
@@ -11,13 +12,16 @@ const Breadcrumb = ({ items, className = "" }: BreadcrumbProps) => {
 
   return (
     <nav
-      className={`flex items-center text-sm font-regular text-[#374151] ${className}`}
+      className={cn(
+        "flex items-center text-[18px] font-semibold text-gray-700",
+        className
+      )}
     >
       {pathnames.map((key, index) => {
         const to = items.get(key);
         return (
           <span key={key} className="flex items-center">
-            {index > 0 && <CaretRight className="size-4 mx-1.5" />}
+            {index > 0 && <span className="px-[3px]">&gt;</span>}
             {to ? (
               <Link to={to} className="hover:text-gray-500">
                 {key}
