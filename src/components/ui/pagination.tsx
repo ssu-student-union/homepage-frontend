@@ -38,7 +38,11 @@ const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", (className = "cursor-pointer"))} {...props} />
+  <li
+    ref={ref}
+    className={cn("cursor-pointer select-none", className)}
+    {...props}
+  />
 ));
 PaginationItem.displayName = "PaginationItem";
 
