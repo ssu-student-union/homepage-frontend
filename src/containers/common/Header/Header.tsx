@@ -31,7 +31,7 @@ export function Header() {
 
   return (
     <>
-      <div className="fixed top-0 bottom-0 w-[100dvw] h-[60px] md:h-[80px] bg-primary flex justify-between">
+      <div className="fixed top-0 bottom-0 w-[100dvw] h-[60px] md:h-[80px] bg-primary flex justify-between z-10">
         <div className="flex">
           <div className={cn(headerItemStyle, "px-4")}>
             <div className="flex items-center gap-3">
