@@ -1,7 +1,6 @@
 import {
   PaginationContainer,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -9,28 +8,25 @@ import {
   PaginationTenNext,
   PaginationTenPrevious,
 } from "../ui/pagination";
-import { cn } from "@/libs/utils";
-import { getPageNumbers } from "./utils/PageNumberUtils";
 import { PaginationUtils } from "./utils/PaginationUtils";
+import { getPageGroup } from "./utils/PageNumberUtils";
 
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-  className?: string;
 }
 
 const Pagination = ({
   totalPages,
   currentPage,
   onPageChange,
-  className,
 }: PaginationProps) => {
   const { handlePageChange, handleTenPrevious, handleTenNext } =
     PaginationUtils(totalPages, currentPage, onPageChange);
 
   return (
-    <PaginationContainer className={cn(className)}>
+    <PaginationContainer>
       <PaginationContent>
         <PaginationItem>
           <PaginationTenPrevious onClick={handleTenPrevious} />
@@ -38,18 +34,8 @@ const Pagination = ({
             onClick={() => handlePageChange(currentPage - 1)}
           />
         </PaginationItem>
-        {currentPage > 3 && totalPages > 6 && (
-          <>
-            <PaginationItem>
-              <PaginationLink onClick={() => handlePageChange(1)}>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            {currentPage > 4 && <PaginationEllipsis />}
-          </>
-        )}
-        {getPageNumbers(totalPages, currentPage).map((page) => (
-          <PaginationItem key={page}>
+        {getPageGroup(currentPage, totalPages).map((page) => (
+          <PaginationItem>
             <PaginationLink
               isActive={page === currentPage}
               onClick={() => handlePageChange(page)}
@@ -58,16 +44,6 @@ const Pagination = ({
             </PaginationLink>
           </PaginationItem>
         ))}
-        {currentPage < totalPages - 2 && totalPages > 6 && (
-          <>
-            {currentPage < totalPages - 3 && <PaginationEllipsis />}
-            <PaginationItem>
-              <PaginationLink onClick={() => handlePageChange(totalPages)}>
-                {totalPages}
-              </PaginationLink>
-            </PaginationItem>
-          </>
-        )}
         <PaginationItem>
           <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
           <PaginationTenNext onClick={handleTenNext} />
