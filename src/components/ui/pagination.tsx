@@ -7,7 +7,7 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { cn } from "@/libs/utils";
-import { ButtonProps, buttonVariants } from "@/components/ui/button";
+import { cva } from "class-variance-authority";
 
 const PaginationContainer = ({
   className,
@@ -46,25 +46,34 @@ const PaginationItem = React.forwardRef<
 ));
 PaginationItem.displayName = "PaginationItem";
 
-type PaginationLinkProps = {
+const PaginationLinkVariants = cva("rounded-xs h-8 w-8", {
+  variants: {
+    variant: {
+      active:
+        "bg-[#EBEBEB] text-paginationText text-xl font-medium hover:bg-accent rounded-sm",
+      default:
+        "hover:bg-accent text-paginationText text-xl font-medium rounded-sm",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+interface PaginationLinkProps extends React.ComponentProps<"a"> {
   isActive?: boolean;
-} & Pick<ButtonProps, "size"> &
-  React.ComponentProps<"a">;
+}
 
 const PaginationLink = ({
   className,
   isActive,
-  size = "paginationLink",
   ...props
 }: PaginationLinkProps) => (
   <a
     aria-current={isActive ? "page" : undefined}
     className={cn(
-      buttonVariants({
-        variant: isActive
-          ? "paginationLinkActiveStyle"
-          : "paginationLinkGhostStyle",
-        size,
+      PaginationLinkVariants({
+        variant: isActive ? "active" : "default",
       }),
       className
     )}
@@ -79,7 +88,6 @@ const PaginationPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    size="default"
     className={cn("px-2", className)}
     {...props}
   >
@@ -94,7 +102,6 @@ const PaginationNext = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
-    size="default"
     className={cn("px-2", className)}
     {...props}
   >
@@ -109,7 +116,6 @@ const PaginationTenPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous 10 pages"
-    size="default"
     className={cn("px-2", className)}
     {...props}
   >
@@ -124,7 +130,6 @@ const PaginationTenNext = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next 10 pages"
-    size="default"
     className={cn("px-2", className)}
     {...props}
   >
