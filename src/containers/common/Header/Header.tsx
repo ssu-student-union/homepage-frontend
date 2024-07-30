@@ -60,7 +60,12 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
         <div className={cn(styles.headerItemStyle, { "px-0.5": isMobile })}>
           <div className="flex items-center gap-4">
             <Logo size={isMobile ? "23px" : "46px"} fill={styles.fillColor} />
-            <span className={cn(styles.textColor, "text-lg font-bold")}>
+            <span
+              className={cn(
+                styles.textColor,
+                "text-lg font-bold text-[20px] min-w-fit"
+              )}
+            >
               US:SUM
             </span>
           </div>
@@ -76,7 +81,10 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
       <NavigationMenu className="h-full">
         <NavigationMenuList className="h-full">
           {Object.entries(menuItems).map(([category, items]) => (
-            <NavigationMenuItem key={category} className="relative h-full">
+            <NavigationMenuItem
+              key={category}
+              className="relative h-full text-[20px] min-w-fit"
+            >
               <NavigationMenuTrigger className={cn(styles.headerItemStyle)}>
                 {category}
               </NavigationMenuTrigger>
@@ -90,7 +98,7 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
               </NavigationMenuContent>
             </NavigationMenuItem>
           ))}
-          <NavigationMenuItem className="relative h-full">
+          <NavigationMenuItem className="relative h-full text-[20px] min-w-fit">
             <NavigationMenuTrigger
               isData={true}
               className={cn(styles.headerItemStyle)}
@@ -172,14 +180,24 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
   function renderAuthButtons() {
     if (state === State.Login) {
       return (
-        <div className={cn(styles.headerItemStyle, "px-10 text-base")}>
+        <div
+          className={cn(
+            styles.headerItemStyle,
+            "px-10 text-base text-[20px] min-w-fit"
+          )}
+        >
           내정보
         </div>
       );
     }
     if (state === State.Logout) {
       return (
-        <div className={cn(styles.headerItemStyle, "px-10 text-base")}>
+        <div
+          className={cn(
+            styles.headerItemStyle,
+            "px-10 text-base text-[20px] min-w-fit"
+          )}
+        >
           로그인
         </div>
       );
