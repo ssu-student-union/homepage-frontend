@@ -23,7 +23,7 @@ export const menuItems = {
     { name: "감사기구", path: "/intro?category=audit" },
   ],
   소통: [
-    { name: "학생청원게시판", path: "/petition" },
+    { name: "학생청원게시판", path: "/petition-notice" },
     { name: "건의게시판", path: "/sug-notice" },
     { name: "인권신고게시판", path: "/human-notice" },
   ],
