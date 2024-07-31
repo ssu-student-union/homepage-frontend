@@ -7,8 +7,8 @@ import {
   NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import DropMenu from "@/components/DropMenu";
-import { menuItems, studentInfo } from "@/components/DropMenu/const";
+import DropMenu from "@/components/DropDownMenu";
+import { menuItems, studentInfo } from "@/components/DropDownMenu/const";
 
 
 
@@ -55,7 +55,7 @@ export function RegisterFailedSection() {
 
             <div className="mt-[35px]"></div>
 
-            <Button variant={"default"} size={"default"} className="w-[431px] mb-4 bg-[#9CA3AF] text-[#fff]">입력완료</Button>
+            <Button variant={"default"} size={"default"} className="w-[431px] mb-4 bg-[#9CA3AF] text-[#fff]">총학생회 홈페이지 이용하기</Button>
     </div>
   );
 }

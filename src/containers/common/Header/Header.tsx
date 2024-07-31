@@ -11,8 +11,8 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/libs/utils";
 import { ReactNode } from "react";
 import { List } from "@phosphor-icons/react";
-import DropMenu from "@/components/DropMenu";
-import { menuItems } from "@/components/DropMenu/const";
+import DropMenu from "@/components/DropDownMenu";
+import { menuItems } from "@/components/DropDownMenu/const";
 
 export enum State {
   Logout, // 로그아웃 상태
