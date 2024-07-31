@@ -56,11 +56,20 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        ghost: {
+          DEFAULT: "hsl(var(--ghost))",
+          foreground: "hsl(var(--ghost-foreground))",
+        },
+        paginationText: { DEFAULT: "hsl(var(--paginationText))" },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xs: "calc(var(--radius) - 6px)",
+      },
+      fontFamily: {
+        pretendard: ["Pretendard", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
