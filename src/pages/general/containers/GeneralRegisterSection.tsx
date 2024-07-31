@@ -1,5 +1,3 @@
-// onboarding 페이지 input, select 부분입니다
-
 import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +27,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }) {
   const [selectedFaculty, setSelectedFaculty] = useState('');
   const [dropdownSelected, setDropdownSelected] = useState(false);
   const [departmentDropdownSelected, setDepartmentDropdownSelected] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
     localStorage.setItem('formValues', JSON.stringify(formValues));
@@ -38,6 +37,13 @@ export function GeneralRegisterSection({ subSection1, buttonSection }) {
     console.log("formValues.dropdown:", formValues.dropdown);
     setSelectedFaculty(formValues.dropdown || ''); 
   }, [formValues.dropdown]);
+
+  useEffect(() => {
+    const isFormValid = isScouncilPath
+      ? formValues.id && formValues.password
+      : formValues.name && formValues.id && formValues.dropdown && formValues.departmentDropdown;
+    setIsButtonDisabled(!isFormValid);
+  }, [formValues, isScouncilPath]);
 
   const onSubmit = async (data) => {
     console.log("Form submitted:", data); 
@@ -171,12 +177,12 @@ export function GeneralRegisterSection({ subSection1, buttonSection }) {
 
             </>
           )}
-          <Button
+        <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isButtonDisabled}
             variant={"default"}
             size={"default"}
-            className="w-[420px] mt-4"
+            className={`w-[420px] mt-4 ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
           >
             {buttonSection}
           </Button>
