@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+// onboarding 페이지 input, select 부분입니다
+
+import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from "@/components/ui/select";
-import { faculties, departments } from './index'; // Adjust the path accordingly
+  InputDropDown,
+  InputDropDownTrigger,
+  InputDropDownContent,
+  InputDropDownItem,
+  InputDropDownValue,
+} from "@/components/ui/inputdropdown";
+import { faculties, departments } from './index'; 
 
 const KakaoUserData = localStorage.getItem('transformedUserData');
 let userData = KakaoUserData ? JSON.parse(KakaoUserData) : null;
@@ -34,14 +36,15 @@ export function GeneralRegisterSection({ subSection1, buttonSection }) {
 
   useEffect(() => {
     console.log("formValues.dropdown:", formValues.dropdown);
-    setSelectedFaculty(formValues.dropdown || ''); // Handle default case
+    setSelectedFaculty(formValues.dropdown || ''); 
   }, [formValues.dropdown]);
 
   const onSubmit = async (data) => {
-    console.log("Form submitted:", data); // Debug log for form data
+    console.log("Form submitted:", data); 
 
     if (userData && userData.data && userData.data.name === InputUserData?.name) {
-      // Update userData with the submitted ID
+      
+      //카카오 로그인으로 받은 데이터에 학번 추가
       userData.data.studentId = data.id;
 
       const resultData = {
@@ -52,7 +55,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }) {
         }
       };
 
-      // Store resultData in localStorage
+      // 로컬스토리지에 input 된 학번을 포함하여 onboarding 이후 데이터를 저장
       localStorage.setItem('ResultData', JSON.stringify(resultData));
 
       alert("학생 정보가 확인되었습니다");
@@ -129,8 +132,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }) {
 
           {showSelects && (
             <>
-              <div className="mt-4"></div>
-              <Select
+             <div className="mt-4"></div>
+              <InputDropDown
                 {...register("dropdown", { required: "옵션을 선택해 주세요." })}
                 aria-invalid={isSubmitted ? (errors.dropdown ? "true" : "false") : undefined}
                 onValueChange={(value) => {
@@ -138,17 +141,17 @@ export function GeneralRegisterSection({ subSection1, buttonSection }) {
                   setDropdownSelected(true);
                 }}
               >
-                <SelectTrigger className={dropdownSelected ? "text-black font-semibold" : "text-[#9CA3AF]"}>
-                  <SelectValue placeholder="단과대 선택" />
-                </SelectTrigger>
-                <SelectContent>
+                <InputDropDownTrigger className={dropdownSelected ? "text-black font-semibold" : "text-[#9CA3AF]"}>
+                  <InputDropDownValue placeholder="단과대 선택" />
+                </InputDropDownTrigger>
+                <InputDropDownContent>
                   {faculties.map(faculty => (
-                    <SelectItem key={faculty} value={faculty}>{faculty}</SelectItem>
+                    <InputDropDownItem key={faculty} value={faculty}>{faculty}</InputDropDownItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </InputDropDownContent>
+              </InputDropDown>
               <div className="mt-4"></div>
-              <Select 
+              <InputDropDown 
                 {...register("departmentDropdown", { required: "학과/부를 선택해 주세요." })}
                 aria-invalid={isSubmitted ? (errors.departmentDropdown ? "true" : "false") : undefined}
                 onValueChange={(value) => {
@@ -156,15 +159,16 @@ export function GeneralRegisterSection({ subSection1, buttonSection }) {
                   setDepartmentDropdownSelected(true);
                 }}
               >
-                <SelectTrigger className={departmentDropdownSelected ? "text-black font-semibold" : "text-[#9CA3AF]"}>
-                  <SelectValue placeholder="학과/부 선택" />
-                </SelectTrigger>
-                <SelectContent>
+                <InputDropDownTrigger className={departmentDropdownSelected ? "text-black font-semibold" : "text-[#9CA3AF]"}>
+                  <InputDropDownValue placeholder="학과/부 선택" />
+                </InputDropDownTrigger>
+                <InputDropDownContent>
                   {(departments[selectedFaculty] || []).map(department => (
-                    <SelectItem key={department} value={department}>{department}</SelectItem>
+                    <InputDropDownItem key={department} value={department}>{department}</InputDropDownItem>
                   ))}
-                </SelectContent>
-              </Select>
+                </InputDropDownContent>
+              </InputDropDown>
+
             </>
           )}
           <Button

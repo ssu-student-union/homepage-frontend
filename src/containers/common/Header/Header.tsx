@@ -200,7 +200,8 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
         >
           로그인
         </div>
-      </div>
-    </>
-  );
-}
+        );
+      }
+      return null;
+    }
+  }

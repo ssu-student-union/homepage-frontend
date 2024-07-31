@@ -1,17 +1,13 @@
 import { useParams } from "react-router-dom";
-import { Header, State } from "@/containers/common/Header/Header";
-import { RegisterSsuaSection, ResultEnum } from "@/pages/general/containers/RegisterSsuaSection.tsx";
+import { Header } from "@/containers/common/Header/Header";
 import { GeneralRegisterSection } from "@/pages/general/containers/GeneralRegisterSection";
-import { RegisterSuccessSection } from "@/pages/general/containers/RegisterSuccessSection"; // Import the RegisterSuccessSection component
-import { RegisterFailedSection } from "./containers/RegisterFailedSections";
 
 export function GeneralRegisterPage() {
   const { sort } = useParams();
-  const result = ResultEnum.SUCCESS; // or ResultEnum.FAILED
 
   return (
     <>
-      <Header state={State.LoginPage} />
+      <Header  />
       {
         sort === 'scouncil'
           ? <GeneralRegisterSection subSection1={'학생 자치기구 로그인'} buttonSection={'입력 완료'} />

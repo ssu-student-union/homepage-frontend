@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Rest_api_key = import.meta.env.VITE_REST_API_KEY; // REST API KEY
-const redirect_uri = import.meta.env.VITE_REDIRECT_URI; // Redirect URI
-const encoded_redirect_uri = encodeURIComponent(redirect_uri); // Ensure proper encoding
+const Rest_api_key = import.meta.env.VITE_REST_API_KEY; 
+const redirect_uri = import.meta.env.VITE_REDIRECT_URI;
+const encoded_redirect_uri = encodeURIComponent(redirect_uri); 
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${encoded_redirect_uri}&response_type=code`;
 
 const getToken = async (code) => {
@@ -15,13 +15,13 @@ const getToken = async (code) => {
       'https://kauth.kakao.com/oauth/token',
       new URLSearchParams({
         grant_type,
-        client_id: Rest_api_key, // Correct parameter name
-        redirect_uri: redirect_uri, // Use the raw redirect_uri
+        client_id: Rest_api_key, 
+        redirect_uri: redirect_uri, 
         code,
-      }).toString(), // Convert to URL-encoded string
+      }).toString(),
       {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', // Correct Content-Type
+          'Content-Type': 'application/x-www-form-urlencoded', 
         },
       }
     );
@@ -56,7 +56,6 @@ const getToken = async (code) => {
       isSuccess: true
     };
 
-    // Store transformedUserData in localStorage
     localStorage.setItem('transformedUserData', JSON.stringify(transformedUserData));
 
     return transformedUserData;
@@ -77,18 +76,16 @@ const KakaoRedirect = () => {
       getToken(code)
         .then(transformedUserData => {
           console.log('Transformed User Data:', transformedUserData);
-          // Redirect or handle successful login here
-          navigate('/register/onboarding'); // Change to your desired path
+          navigate('/register/onboarding');
         })
         .catch(error => {
           console.error('Error fetching user data:', error);
-          // Handle error case here
         });
     }
   }, []);
 
   return (
-    <div>Loading...</div> // You can change this to a loading spinner or any other component
+    <div>Loading...</div> 
   );
 };
 

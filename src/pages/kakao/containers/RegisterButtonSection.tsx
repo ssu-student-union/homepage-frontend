@@ -1,11 +1,9 @@
-import React from 'react';
-import { Button } from "@/components/ui/button.tsx";
 import { Link } from "react-router-dom";
 import kakao_middle_button_narrow from "../../../assets/image/kakao_login_medium_narrow.png"
 
-const Rest_api_key = import.meta.env.VITE_REST_API_KEY; // REST API KEY
-const redirect_uri = import.meta.env.VITE_REDIRECT_URI; // Redirect URI
-const encoded_redirect_uri = encodeURIComponent(redirect_uri); // Ensure proper encoding
+const Rest_api_key = import.meta.env.VITE_REST_API_KEY;
+const redirect_uri = import.meta.env.VITE_REDIRECT_URI;
+const encoded_redirect_uri = encodeURIComponent(redirect_uri); 
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${encoded_redirect_uri}&response_type=code`;
 
 const handleLogin = () => {
