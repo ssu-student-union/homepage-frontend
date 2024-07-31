@@ -2,20 +2,24 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
+    screens: {
+      xs: { max: "389px" },
+      sm: { min: "390px", max: "719px" },
+      md: { min: "720px", max: "1079px" },
+      lg: { min: "1080px", max: "1439px" },
+      xl: { min: "1440px", max: "1919px" },
+      xxl: { min: "1920px" },
+    },
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-      
     },
     extend: {
       colors: {
@@ -52,16 +56,20 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        kakao: {
-          DEFAULT: "hsl(var(--kakao))",
-          foreground: "hsl(var(--kakao-foreground))",
-        },       
-        
+        ghost: {
+          DEFAULT: "hsl(var(--ghost))",
+          foreground: "hsl(var(--ghost-foreground))",
+        },
+        paginationText: { DEFAULT: "hsl(var(--paginationText))" },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xs: "calc(var(--radius) - 6px)",
+      },
+      fontFamily: {
+        pretendard: ["Pretendard", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
@@ -88,18 +96,5 @@ module.exports = {
       },
     },
   },
-  plugins:  [
-  require("tailwindcss-animate"),
-  function ({ addUtilities }) {
-    const newUtilities = {
-      '.text-stroke-2': {
-        '-webkit-text-stroke-width': '2px',
-      },
-      '.text-stroke-gray': {
-        '-webkit-text-stroke-color': '#D5D5D5',
-      },
-    };
-    addUtilities(newUtilities, ['responsive', 'hover']);
-  },
-]
-}
+  plugins: [require("tailwindcss-animate")],
+};
