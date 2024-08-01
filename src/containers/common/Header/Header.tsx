@@ -37,10 +37,11 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
   return (
     <div
       className={cn(
-        "fixed top-0 w-[100vw] h-[60px] sm:h-[50px] xs:h-[50px] z-50",
+        "fixed top-0 w-[100vw] h-[60px] sm:h-[50px] xs:h-[50px] z-60",
         isMobile ? "flex justify-start" : "flex justify-between",
         styles.bgColor
       )}
+      style={{ zIndex: 100 }}
     >
       {isMobile && (
         <HeaderSheet
@@ -133,9 +134,9 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
       <Sheet>
         <SheetTrigger asChild>{trigger}</SheetTrigger>
         <SheetContent
-          className={`border-0 outline-none flex items-start justify-start w-3/4 px-0 py-0 ${bgColor}`}
+          className={`top-[50px] left-0 border-0 outline-none flex items-start justify-start w-[280px] px-0 py-0 ${bgColor}`}
         >
-          <div className="w-full flex flex-col font-semibold text-xl">
+          <div className="flex flex-col w-full text-lg font-semibold">
             {Object.entries(menuItems).map(([category, items], index) => (
               <div key={index} className="w-full">
                 <div

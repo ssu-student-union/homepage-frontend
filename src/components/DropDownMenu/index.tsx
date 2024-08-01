@@ -27,7 +27,7 @@ const DropDownMenu = ({
         <Link
           key={item.path}
           to={item.path}
-          className={`block px-4 py-3.5 rounded-xs cursor-pointer ${textColor} ${hoverBgColor}`}
+          className={`block px-4 py-3.5 rounded-xs cursor-pointer text-base ${textColor} ${hoverBgColor}`}
         >
           {item.name}
         </Link>
