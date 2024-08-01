@@ -3,6 +3,7 @@ import { MainPage } from "./main/page";
 import { BoardPage } from "./boardTest/page";
 import { PetitionNoticePage } from "./petition-notice/page";
 import { PetitionNoticeEditPage } from "./petition-notice/edit/page";
+import { PetitionNoticeDetailPage } from "./petition-notice/[id]/page";
 
 export function MainRouter() {
   return (
@@ -13,6 +14,10 @@ export function MainRouter() {
       <Route
         path="/petition-notice/edit"
         element={<PetitionNoticeEditPage />}
+      />
+      <Route
+        path="/petition-notice/:id"
+        element={<PetitionNoticeDetailPage />}
       />
     </Routes>
   );
