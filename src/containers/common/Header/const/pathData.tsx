@@ -28,3 +28,5 @@ export const menuItems = {
     { name: '인권신고게시판', path: '/human-notice' },
   ],
 };
+
+export const dataPath = "/data"; // 자료집 라우트 경로
