@@ -1,6 +1,6 @@
-import { Spacing } from "../Spacing";
-import { User } from "@phosphor-icons/react";
-import { formatYYYYMMDDHHMM } from "@/utils/formatYYYYMMDDHHMM";
+import { Spacing } from '../Spacing';
+import { User } from '@phosphor-icons/react';
+import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 
 interface PostHeadProps {
   title: string;

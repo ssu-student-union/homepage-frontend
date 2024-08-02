@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export function useCurrentPage(initialPage: number = 1) {
   const [currentPage, setCurrentPage] = useState<number>(initialPage);
