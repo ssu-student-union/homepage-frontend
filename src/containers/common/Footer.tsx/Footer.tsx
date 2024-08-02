@@ -1,5 +1,5 @@
-import { Logo } from "@/components/Logo/Logo";
-import { EnvelopeSimple } from "@phosphor-icons/react";
+import { Logo } from '@/components/Logo/Logo';
+import { EnvelopeSimple } from '@phosphor-icons/react';
 
 export const Footer = () => {
   return (
@@ -13,11 +13,11 @@ export const Footer = () => {
         </strong>
         <p>서울시 동작구 상도로 369 숭실대학교 학생회관 106호 총학생회실</p>
       </div>
-      <div className="flex gap-[8px] items-center">
+      <div className="flex items-center gap-[8px]">
         <EnvelopeSimple size={23} />
         <p>ussum64@gmail.com</p>
       </div>
-      <div className="flex gap-[1px] items-center">
+      <div className="flex items-center gap-[1px]">
         <a href="#">개인정보처리방침</a>
         <span className="w-[18px] text-center">|</span>
         <a href="#">이용약관</a>
