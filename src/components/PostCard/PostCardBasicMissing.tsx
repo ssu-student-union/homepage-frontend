@@ -1,3 +1,4 @@
+import React from "react";
 import { Badge } from "../ui/badge";
 import { Logo } from "../Logo/Logo";
 import { Size } from "./const/state";
@@ -9,7 +10,7 @@ interface PostCardProps {
   date?: string;
   badgeType?: "Emergency" | "New" | "Default"; // postCard 배지 종류 - 긴급, NEW!, 없음
   cardType: "Basic" | "Missing";
-  size?: Size;  // 페이지마다 반응형 기준이 다름 -> 자동 반응형이 아니라 수동으로 적용하도록 제작
+  size?: Size; // 페이지마다 반응형 기준이 다름 -> 자동 반응형이 아니라 수동으로 적용하도록 제작
 }
 
 const truncateText = (text: string, maxLength: number) => {
@@ -19,13 +20,13 @@ const truncateText = (text: string, maxLength: number) => {
   return text;
 };
 
-const PostCard = ({ 
-  title, 
-  subtitle = "", 
-  date, 
-  badgeType, 
-  cardType, 
-  size = Size.default 
+const PostCard = ({
+  title,
+  subtitle = "",
+  date,
+  badgeType,
+  cardType,
+  size = Size.default,
 }: PostCardProps) => {
   const styles = getStyles(size);
 
@@ -68,11 +69,11 @@ const PostCard = ({
 };
 
 // PostCardBasic => title, subtitle, date, badgeType, size 속성 기입해서 사용
-export const PostCardBasic = (props: Omit<PostCardProps, 'cardType'>) => (
+export const PostCardBasic = (props: Omit<PostCardProps, "cardType">) => (
   <PostCard cardType="Basic" {...props} />
 );
 
 // PostCardBasic => title, subtitle, date, size 속성 기입해서 사용
-export const PostCardMissing = (props: Omit<PostCardProps, 'cardType' | 'badgeType'>) => (
-  <PostCard cardType="Missing" badgeType="Default" {...props} />
-);
+export const PostCardMissing = (
+  props: Omit<PostCardProps, "cardType" | "badgeType">
+) => <PostCard cardType="Missing" badgeType="Default" {...props} />;

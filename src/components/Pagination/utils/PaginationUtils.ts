@@ -1,8 +1,4 @@
-export const PaginationUtils = (
-  totalPages: number,
-  currentPage: number,
-  onPageChange: (page: number) => void
-) => {
+export const PaginationUtils = (totalPages: number, currentPage: number, onPageChange: (page: number) => void) => {
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
     onPageChange(page);
