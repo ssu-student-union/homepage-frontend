@@ -1,13 +1,9 @@
-import { type CarouselApi } from "@/components/ui/carousel";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
-import { MainHeroSection } from "@/pages/main/containers/MainHeroSection";
-import { useEffect, useState } from "react";
-import { Counter, CounterItem } from "./components/counter";
-import { IMAGE_COUNT } from "./const";
+import { type CarouselApi } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { MainHeroSection } from '@/pages/main/containers/MainHeroSection';
+import { useEffect, useState } from 'react';
+import { Counter, CounterItem } from './components/counter';
+import { IMAGE_COUNT } from './const';
 
 const MainCarousel = () => {
   const [api, setApi] = useState<CarouselApi>();
@@ -20,7 +16,7 @@ const MainCarousel = () => {
 
     setCurrent(api.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
+    api.on('select', () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
   }, [api]);
@@ -37,13 +33,8 @@ const MainCarousel = () => {
                 <CounterItem isActive={3 === current} />
               </Counter>
               <MainHeroSection />
-              <div className="size-full z-10 bg-black absolute opacity-20" />
-              <img
-                src={`/image/${index + 1}.jpeg`}
-                draggable={false}
-                alt="landscape"
-                className="z-0 size-screen"
-              />
+              <div className="absolute z-10 size-full bg-black opacity-20" />
+              <img src={`/image/${index + 1}.jpeg`} draggable={false} alt="landscape" className="size-screen z-0" />
             </CarouselItem>
           ))}
         </CarouselContent>

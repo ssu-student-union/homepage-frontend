@@ -3,9 +3,9 @@ import { EnvelopeSimple } from '@phosphor-icons/react';
 
 export const Footer = () => {
   return (
-    <footer className="flex flex-col xxl:gap-[27px] xl:gap-[27px] lg:gap-[27px] md:gap-[19px] sm:gap-[5px] sm:items-center w-full bg-primary text-white h-fit xxl:px-[87px] xxl:py-[71px] xl:px-[87px] xl:py-[71px] lg:px-[87px] lg:py-[71px] md:px-[60px] md:py-[34.5px] sm:px-[34px] sm:py-[21px]">
-      <div className="xxl:w-[103px] xl:w-[103px] lg:size-[103px] md:size-[64px] sm:size-[28px]">
-        <Logo size={"100%"} />
+    <footer className="flex h-fit w-full flex-col bg-primary text-white sm:items-center sm:gap-[5px] sm:px-[34px] sm:py-[21px] md:gap-[19px] md:px-[60px] md:py-[34.5px] lg:gap-[27px] lg:px-[87px] lg:py-[71px] xl:gap-[27px] xl:px-[87px] xl:py-[71px] xxl:gap-[27px] xxl:px-[87px] xxl:py-[71px]">
+      <div className="sm:size-[28px] md:size-[64px] lg:size-[103px] xl:w-[103px] xxl:w-[103px]">
+        <Logo size={'100%'} />
       </div>
       <div className="flex flex-col gap-[10px] sm:text-center">
         <strong>
