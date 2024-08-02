@@ -7,9 +7,9 @@ import {
   PaginationPrevious,
   PaginationTenNext,
   PaginationTenPrevious,
-} from "../ui/pagination";
-import { PaginationUtils } from "./utils/PaginationUtils";
-import { getPageGroup } from "./utils/PageNumberUtils";
+} from '../ui/pagination';
+import { PaginationUtils } from './utils/PaginationUtils';
+import { getPageGroup } from './utils/PageNumberUtils';
 
 interface PaginationProps {
   totalPages: number;
@@ -17,13 +17,8 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-const Pagination = ({
-  totalPages,
-  currentPage,
-  onPageChange,
-}: PaginationProps) => {
-  const { handlePageChange, handleTenPrevious, handleTenNext } =
-    PaginationUtils(totalPages, currentPage, onPageChange);
+const Pagination = ({ totalPages, currentPage, onPageChange }: PaginationProps) => {
+  const { handlePageChange, handleTenPrevious, handleTenNext } = PaginationUtils(totalPages, currentPage, onPageChange);
 
   return (
     <PaginationContainer>
@@ -32,9 +27,7 @@ const Pagination = ({
         <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
         {getPageGroup(currentPage, totalPages).map((page) => (
           <PaginationItem isActive={page === currentPage}>
-            <PaginationLink onClick={() => handlePageChange(page)}>
-              {page}
-            </PaginationLink>
+            <PaginationLink onClick={() => handlePageChange(page)}>{page}</PaginationLink>
           </PaginationItem>
         ))}
         <PaginationNext onClick={() => handlePageChange(currentPage + 1)} />
