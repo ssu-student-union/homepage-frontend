@@ -35,11 +35,11 @@ export function HeaderSheet({
                   cursor-pointer`}
                   onClick={() => toggleCategory(category)}
                 >
-                  <div className={`flex-1 flex items-center text-[#1F2937]`}>
+                  <div className={`flex-1 flex items-center text-[#1F2937] hover:text-[#6B7280]`}>
                     {category}
                   </div>
                   <CaretDown className="text-[#9CA3AF]" size={20} />
-                  <div className="w-3"></div>
+                  <div className="w-4"></div>
                 </div>
                 {expandedCategory === category && (
                   <div
@@ -49,7 +49,7 @@ export function HeaderSheet({
                       <Link
                         key={item.path}
                         to={item.path}
-                        className={`flex items-center h-[32px] px-4 pl-12 font-medium text-base text-[#4B5563]`}
+                        className={`flex items-center h-[32px] px-4 pl-12 font-medium text-base text-[#4B5563] hover:text-[#9CA3AF]`}
                       >
                         {item.name}
                       </Link>
