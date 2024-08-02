@@ -22,7 +22,16 @@ const truncateText = (text: string, maxLength: number) => {
   return text;
 };
 
-const PostCard = ({ imgUrl, imgName, title, subtitle = '', date, badgeType, cardType, size = Size.default }: PostCardProps) => {
+const PostCard = ({
+  imgUrl,
+  imgName,
+  title,
+  subtitle = '',
+  date,
+  badgeType,
+  cardType,
+  size = Size.default,
+}: PostCardProps) => {
   const styles = getStyles(size);
 
   return (
