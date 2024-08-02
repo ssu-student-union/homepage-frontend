@@ -1,22 +1,14 @@
-import { HTMLAttributes, memo } from "react";
+import { HTMLAttributes, memo } from 'react';
 
 interface SpacingProps extends HTMLAttributes<HTMLDivElement> {
-  direction: "horizontal" | "vertical";
+  direction: 'horizontal' | 'vertical';
   size: number;
 }
 
-export const Spacing = memo(function Spacing({
-  direction = "vertical",
-  size,
-  ...props
-}: SpacingProps) {
+export const Spacing = memo(function Spacing({ direction = 'vertical', size, ...props }: SpacingProps) {
   return (
     <div
-      style={
-        direction === "horizontal"
-          ? { width: `${size}px` }
-          : { height: `${size}px` }
-      }
+      style={direction === 'horizontal' ? { width: `${size}px` } : { height: `${size}px` }}
       className=""
       {...props}
     />
