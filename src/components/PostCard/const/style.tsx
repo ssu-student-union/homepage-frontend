@@ -16,10 +16,10 @@ export function getStyles(state: Size): Styles {
     case Size.medium:
       return {
         container: 'px-5 py-[23px] w-[1004px] h-[171px]',
-        title: 'h-[95px] text-base',
+        title: 'h-[95px] text-base gap-2',
         subtitle: 'text-sm',
         date: 'h-[30px] text-sm',
-        image: 'min-w-[125px] h-[125px]',
+        image: 'min-w-[125px] max-w-[125px] h-[125px]',
         gap: 'gap-[27px]',
         logoSize: '15px',
         hr: '',
@@ -27,10 +27,10 @@ export function getStyles(state: Size): Styles {
     case Size.mediumSmall:
       return {
         container: 'px-5 py-[23px] w-[637px] h-[171px]',
-        title: 'h-[95px] text-base',
+        title: 'h-[95px] text-base gap-2',
         subtitle: 'text-sm',
         date: 'h-[30px] text-sm',
-        image: 'min-w-[125px] h-[125px]',
+        image: 'min-w-[125px] max-w-[125px] h-[125px]',
         gap: 'gap-[27px]',
         logoSize: '15px',
         hr: '',
@@ -38,10 +38,10 @@ export function getStyles(state: Size): Styles {
     case Size.small:
       return {
         container: 'px-5 py-[13px] w-[324px] h-[121px]',
-        title: 'h-[65px] text-sm',
-        subtitle: 'text-xs',
+        title: 'h-[65px] text-sm gap-2',
+        subtitle: 'text-xs leading-[14px]',
         date: 'h-[30px] text-[10px]',
-        image: 'min-w-[95px] h-[95px]',
+        image: 'min-w-[95px] max-w-[95px] h-[95px]',
         gap: 'gap-[17px]',
         logoSize: '13px',
         hr: 'hidden',
@@ -49,10 +49,10 @@ export function getStyles(state: Size): Styles {
     case Size.view:
       return {
         container: 'px-5 py-5 w-[248px] h-[376px]',
-        title: 'h-[82px] text-base',
-        subtitle: 'text-sm',
+        title: 'h-[82px] text-base gap-3',
+        subtitle: 'text-sm leading-4',
         date: 'h-[30px] text-sm',
-        image: 'min-w-[208px] min-h-[208px]',
+        image: 'min-w-[208px] max-w-[208px] min-h-[208px] max-h-[208px]',
         gap: 'flex-col gap-[17px]',
         logoSize: '15px',
         hr: 'hidden',
@@ -61,10 +61,10 @@ export function getStyles(state: Size): Styles {
     default:
       return {
         container: 'px-5 py-[21.5px] w-[491px] h-[252px]',
-        title: 'h-[178px] text-lg',
+        title: 'h-[178px] text-lg gap-3',
         subtitle: 'text-sm',
         date: 'h-[30px] text-sm',
-        image: 'min-w-[208px] h-[208px]',
+        image: 'min-w-[208px] max-w-[208px] h-[208px]',
         gap: 'gap-[29px]',
         logoSize: '15px',
         hr: '',

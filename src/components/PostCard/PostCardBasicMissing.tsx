@@ -5,6 +5,8 @@ import { Size } from './const/state';
 import { getStyles } from './const/style';
 
 interface PostCardProps {
+  imgUrl?: string;
+  imgName?: string;
   title?: string;
   subtitle?: string;
   date?: string;
@@ -20,7 +22,7 @@ const truncateText = (text: string, maxLength: number) => {
   return text;
 };
 
-const PostCard = ({ title, subtitle = '', date, badgeType, cardType, size = Size.default }: PostCardProps) => {
+const PostCard = ({ imgUrl, imgName, title, subtitle = '', date, badgeType, cardType, size = Size.default }: PostCardProps) => {
   const styles = getStyles(size);
 
   return (
@@ -31,11 +33,11 @@ const PostCard = ({ title, subtitle = '', date, badgeType, cardType, size = Size
       {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
       {badgeType === 'Default' && <Badge variant="Default"></Badge>}
       <div className={`flex h-full w-full ${styles.gap}`}>
-        <img alt="imageUrl" src="imageUrl" className={`rounded-[8px] bg-gray-200 ${styles.image}`} />
+        <img alt={imgName} src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
         <div className="w-full flex-col">
-          <div className={`flex-col ${styles.title}`}>
-            <p className={`mb-3 font-semibold`}>{title}</p>
-            <p className={`font-normal text-gray-500 ${styles.subtitle}`}>{truncateText(subtitle, 35)}</p>
+          <div className={`flex flex-col ${styles.title}`}>
+            <p className={`font-semibold`}>{title}</p>
+            <p className={`font-normal text-gray-500 ${styles.subtitle}`}>{truncateText(subtitle, 40)}</p>
           </div>
           <hr className={`w-full border border-gray-300 ${styles.hr}`} />
           <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>
@@ -53,10 +55,10 @@ const PostCard = ({ title, subtitle = '', date, badgeType, cardType, size = Size
   );
 };
 
-// PostCardBasic => title, subtitle, date, badgeType, size 속성 기입해서 사용
+// PostCardBasic => imgUrl, imgName, title, subtitle, date, badgeType, size 속성 기입해서 사용
 export const PostCardBasic = (props: Omit<PostCardProps, 'cardType'>) => <PostCard cardType="Basic" {...props} />;
 
-// PostCardBasic => title, subtitle, date, size 속성 기입해서 사용
+// PostCardBasic => imgUrl, imgName, title, subtitle, date, size 속성 기입해서 사용
 export const PostCardMissing = (props: Omit<PostCardProps, 'cardType' | 'badgeType'>) => (
   <PostCard cardType="Missing" badgeType="Default" {...props} />
 );
