@@ -66,10 +66,8 @@ export function HeaderSheet({
                 )}
               </div>
             ))}
-            <Link
-              to={dataPath}
-              className={`h-[64px] flex items-center pl-10 border-b ${sheetBorderColor} ${textColor}`}
-            >
+            {/* pretier ignore */}
+            <Link to={dataPath} className={`h-[64px] flex items-center pl-10 border-b ${sheetBorderColor} ${textColor}`}>
               자료집
             </Link>
           </div>
