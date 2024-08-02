@@ -7,7 +7,7 @@ interface Styles {
   date: string;
   image: string;
   gap: string;
-  logoSize: string;
+  profileImg: string;
   hr: string;
 }
 
@@ -21,7 +21,7 @@ export function getStyles(state: Size): Styles {
         date: 'h-[30px] text-sm',
         image: 'min-w-[125px] max-w-[125px] h-[125px]',
         gap: 'gap-[27px]',
-        logoSize: '15px',
+        profileImg: 'w-4 h-4',
         hr: '',
       };
     case Size.mediumSmall:
@@ -32,7 +32,7 @@ export function getStyles(state: Size): Styles {
         date: 'h-[30px] text-sm',
         image: 'min-w-[125px] max-w-[125px] h-[125px]',
         gap: 'gap-[27px]',
-        logoSize: '15px',
+        profileImg: 'w-4 h-4',
         hr: '',
       };
     case Size.small:
@@ -43,7 +43,7 @@ export function getStyles(state: Size): Styles {
         date: 'h-[30px] text-[10px]',
         image: 'min-w-[95px] max-w-[95px] h-[95px]',
         gap: 'gap-[17px]',
-        logoSize: '13px',
+        profileImg: 'w-3.5 h-3.5',
         hr: 'hidden',
       };
     case Size.view:
@@ -54,7 +54,7 @@ export function getStyles(state: Size): Styles {
         date: 'h-[30px] text-sm',
         image: 'min-w-[208px] max-w-[208px] min-h-[208px] max-h-[208px]',
         gap: 'flex-col gap-[17px]',
-        logoSize: '15px',
+        profileImg: 'w-4 h-4',
         hr: 'hidden',
       };
     case Size.default:
@@ -66,7 +66,7 @@ export function getStyles(state: Size): Styles {
         date: 'h-[30px] text-sm',
         image: 'min-w-[208px] max-w-[208px] h-[208px]',
         gap: 'gap-[29px]',
-        logoSize: '15px',
+        profileImg: 'w-4 h-4',
         hr: '',
       };
   }
