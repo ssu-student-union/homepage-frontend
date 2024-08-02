@@ -1,13 +1,11 @@
 export function MainScheduleSection() {
   return (
     <div className="h-[180px] w-full bg-primary text-primary-foreground">
-      <div className="h-full flex xxl:flex-col xl:flex-col lg:flex-col md:flex-row sm:flex-row items-center justify-center text-center xxl:gap-[7px] xl:gap-[7px] lg:gap-[7px] md:gap-[10px] sm:gap-[161px]">
-        <div className="bg-background text-primary xxl:text-2xl xl:text-2xl lg:text-2xl md:text-xl sm:text-xl font-bold py-1 px-6 rounded">
+      <div className="flex h-full items-center justify-center text-center sm:flex-row sm:gap-[161px] md:flex-row md:gap-[10px] lg:flex-col lg:gap-[7px] xl:flex-col xl:gap-[7px] xxl:flex-col xxl:gap-[7px]">
+        <div className="rounded bg-background px-6 py-1 font-bold text-primary sm:text-xl md:text-xl lg:text-2xl xl:text-2xl xxl:text-2xl">
           대동제
         </div>
-        <h1 className="xxl:text-6xl xl:text-6xl lg:text-6xl md:text-3xl sm:text-2xl font-black leading-none">
-          D-30
-        </h1>
+        <h1 className="font-black leading-none sm:text-2xl md:text-3xl lg:text-6xl xl:text-6xl xxl:text-6xl">D-30</h1>
       </div>
     </div>
   );

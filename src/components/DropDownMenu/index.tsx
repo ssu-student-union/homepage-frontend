@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 // MenuItem에 들어갈 값은 "/DropMenu/const/index.tsx"에서 관리합니다.
 interface MenuItem {
@@ -13,21 +13,14 @@ interface DropDownMenuProps {
   hoverBgColor: string;
 }
 
-const DropDownMenu = ({
-  items,
-  bgColor,
-  textColor,
-  hoverBgColor,
-}: DropDownMenuProps) => {
+const DropDownMenu = ({ items, bgColor, textColor, hoverBgColor }: DropDownMenuProps) => {
   return (
-    <div
-      className={`absolute left-0 end-0 w-40 shadow-md rounded-xs font-semibold ${bgColor} mt-1.5`}
-    >
+    <div className={`absolute end-0 left-0 w-40 rounded-xs font-semibold shadow-md ${bgColor} mt-1.5`}>
       {items.map((item) => (
         <Link
           key={item.path}
           to={item.path}
-          className={`block px-4 py-3.5 rounded-xs cursor-pointer ${textColor} ${hoverBgColor}`}
+          className={`block cursor-pointer rounded-xs px-4 py-3.5 ${textColor} ${hoverBgColor}`}
         >
           {item.name}
         </Link>
