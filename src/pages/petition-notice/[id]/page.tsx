@@ -1,5 +1,6 @@
 import { Header } from "@/containers/common/Header/Header";
-import { Viewer } from "@toast-ui/react-editor";
+import { Editor, Viewer } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import { ThumbsUp } from "@phosphor-icons/react";
 import {
   EditButton,
@@ -7,9 +8,11 @@ import {
   RegisterButton,
 } from "@/components/Buttons/BoardActionButtons";
 import { BoardSelector } from "@/components/Board/BoardSelector";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Input } from "@/components/ui/input";
+import Breadcrumb from "@/components/Breadcrumb";
+import { PostHead } from "@/components/PostHead";
 
 const Content =
   "<h3>청원취지</h3><h6><br></h6><p>청원취지를 작성해주세요.</p><h3><br></h3><h3>청원내용</h3><h6><br></h6><p>청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.</p><h3><br></h3><h3>청원대안</h3><h6><br></h6><p>청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.</p>";
@@ -17,6 +20,7 @@ const Content =
 const COMMENT_ORDER = ["인기순", "최신순"];
 
 export function PetitionNoticeDetailPage() {
+  const editorRef = useRef<Editor>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -24,6 +28,12 @@ export function PetitionNoticeDetailPage() {
     return searchParams.get("order") || COMMENT_ORDER[0];
   });
   const [commentCount, setCommentCount] = useState<number | null>(0);
+  const [isEditting, setIsEditting] = useState(false);
+
+  const breadcrumbItems = new Map<string, string | null>([
+    ["소통", null],
+    ["청원게시판", "/petition-notice"],
+  ]);
 
   useEffect(() => {
     navigate(`/petition-notice/1/?order=${selectedCommentOrder}`);
@@ -37,14 +47,25 @@ export function PetitionNoticeDetailPage() {
     setCommentCount(e.target.value.length);
   };
 
+  const handleEditContent = () => {
+    setIsEditting((prev) => !prev);
+  };
+
+  const handleMoveToList = () => {
+    navigate("/petition-notice");
+  };
+
   return (
     <div>
       <Header />
       {/* headsection */}
       <div className="mt-[182px] px-[200px]">
-        <div>breadcrumb</div>
-        <div>제목제목제목제목제목제목제목제목제목</div>
-        <div>2024/07/31</div>
+        <Breadcrumb items={breadcrumbItems} />
+        <PostHead
+          title="[답변완료] 대동체 축제 때 에스파 불러주세요"
+          writer="20****03"
+          date="2021-11-08T11:44:30.327959"
+        />
       </div>
       <hr />
 
@@ -52,7 +73,21 @@ export function PetitionNoticeDetailPage() {
       <div className="flex-col mt-[59px] px-[200px]">
         <div className="flex justify-between gap-10">
           <div className="w-[1000px]">
-            <Viewer initialValue={Content} />
+            {isEditting ? (
+              <Editor
+                ref={editorRef}
+                height="620px"
+                initialValue={Content}
+                previewStyle="vertical"
+                initialEditType="wysiwyg"
+                useCommandShortcut={true}
+                hideModeSwitch={true}
+                language="ko-KR"
+              />
+            ) : (
+              <Viewer initialValue={Content} />
+            )}
+
             <div className="mt-[51px] flex justify-start text-primary">
               <ThumbsUp size={25} />
               <span>32</span>
@@ -63,8 +98,8 @@ export function PetitionNoticeDetailPage() {
           </div>
         </div>
         <div className="flex justify-end gap-4 mb-[35px]">
-          <EditButton />
-          <ListButton />
+          <EditButton onClick={handleEditContent} />
+          <ListButton onClick={handleMoveToList} />
         </div>
       </div>
       <hr />
