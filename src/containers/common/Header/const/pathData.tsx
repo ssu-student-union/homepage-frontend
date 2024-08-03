@@ -29,4 +29,4 @@ export const menuItems = {
   ],
 };
 
-export const dataPath = "/data"; // 자료집 라우트 경로
+export const dataPath = '/data'; // 자료집 라우트 경로

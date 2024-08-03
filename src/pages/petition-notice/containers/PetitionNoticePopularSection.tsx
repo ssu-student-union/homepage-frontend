@@ -1,13 +1,13 @@
 export function PetitionNoticePopularSection() {
   return (
-    <div className="mt-[70px] font-bold text-[28px] pl-[200px] lg:pl-10 md:pl-10 sm:pl-10 xs:pl-10 overflow-x-hidden">
+    <div className="mt-[70px] overflow-x-hidden pl-[200px] text-[28px] font-bold xs:pl-10 sm:pl-10 md:pl-10 lg:pl-10">
       <p className="mb-[11px]">인기청원</p>
 
-      <div className="flex gap-6 w-max">
-        <div className="w-[362px] h-[237px] bg-primary flex-shrink-0"></div>
-        <div className="w-[362px] h-[237px] bg-primary/80 flex-shrink-0"></div>
-        <div className="w-[362px] h-[237px] bg-primary/60 flex-shrink-0"></div>
-        <div className="w-[362px] h-[237px] bg-primary/40 flex-shrink-0 "></div>
+      <div className="flex w-max gap-6">
+        <div className="h-[237px] w-[362px] flex-shrink-0 bg-primary"></div>
+        <div className="h-[237px] w-[362px] flex-shrink-0 bg-primary/80"></div>
+        <div className="h-[237px] w-[362px] flex-shrink-0 bg-primary/60"></div>
+        <div className="h-[237px] w-[362px] flex-shrink-0 bg-primary/40 "></div>
       </div>
     </div>
   );

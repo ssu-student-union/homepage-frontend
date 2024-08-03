@@ -16,12 +16,12 @@ interface DropDownMenuProps {
 const DropDownMenu = ({ items, bgColor, textColor, hoverBgColor }: DropDownMenuProps) => {
   return (
     // prettier ignore
-    <div className={`absolute left-0 end-0 w-40 shadow-md rounded-xs font-semibold ${bgColor} mt-1.5`}>
+    <div className={`absolute end-0 left-0 w-40 rounded-xs font-semibold shadow-md ${bgColor} mt-1.5`}>
       {items.map((item) => (
         <Link
           key={item.path}
           to={item.path}
-          className={`block px-4 py-3.5 rounded-xs cursor-pointer text-base ${textColor} ${hoverBgColor}`}
+          className={`block cursor-pointer rounded-xs px-4 py-3.5 text-base ${textColor} ${hoverBgColor}`}
         >
           {item.name}
         </Link>
