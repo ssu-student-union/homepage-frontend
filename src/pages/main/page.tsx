@@ -5,6 +5,9 @@ import Pagination from '@/components/Pagination';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import Breadcrumb from '@/components/Breadcrumb';
 import { State } from '@/containers/common/Header/const/state';
+import { PostCardNotice } from '@/components/PostCard/PostCardNotice';
+import { PostTextPetitionView } from '@/components/PostCard/PostTextPetitionView';
+import { PostCardMissing } from '@/components/PostCard/PostCardBasicMissing';
 
 export function MainPage() {
   const { currentPage, handlePageChange } = useCurrentPage(1); // 페이지 상태 관리 훅
@@ -21,6 +24,19 @@ export function MainPage() {
       <MainHeroSection />
       <MainScheduleSection />
       <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
+      <PostCardNotice
+        imgUrl="text"
+        title="[2024-1] 학기 학생회비 추가 납부"
+        date="2023/10/02"
+        badgeType="New"
+        profileName="중앙운영위원회"
+      />
+      <PostTextPetitionView
+        title="청원 제목이 들어갈 자리입니다"
+        subtitle="청원 게시글 내용입니다. 학생분들이 작성해주신 청원 내용이 이곳에 보여집니다. 청원 게시글 내용입니다."
+        date="2023/03/21"
+        goodNumber={21}
+      />
       <Breadcrumb items={breadcrumbItems} />
     </>
   );
