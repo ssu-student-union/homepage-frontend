@@ -70,6 +70,6 @@ const PostCard = ({
 export const PostCardBasic = (props: Omit<PostCardProps, 'cardType'>) => <PostCard cardType="Basic" {...props} />;
 
 // PostCardBasic => imgUrl, title, subtitle, date, size 속성 기입해서 사용
-export const PostCardMissing = (props: Omit<PostCardProps, 'cardType' | 'badgeType' | 'profileImg' | 'profileName'>) => (
-  <PostCard cardType="Missing" badgeType="Default" {...props} />
-);
+export const PostCardMissing = (
+  props: Omit<PostCardProps, 'cardType' | 'badgeType' | 'profileImg' | 'profileName'>
+) => <PostCard cardType="Missing" badgeType="Default" {...props} />;

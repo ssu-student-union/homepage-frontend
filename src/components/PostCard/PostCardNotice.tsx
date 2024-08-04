@@ -48,7 +48,7 @@ const PostCardMain = ({
               <span>{profileName}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Pencil className='h-3.5 w-3.5 xs:h-3 xs:w-3' />
+              <Pencil className="h-3.5 w-3.5 xs:h-3 xs:w-3" />
               <span>{date}</span>
             </div>
           </div>

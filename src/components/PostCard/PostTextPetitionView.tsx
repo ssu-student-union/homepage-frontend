@@ -17,9 +17,9 @@ const truncateText = (text: string, maxLength: number) => {
 const PostCardPetit = ({ title = '', subtitle = '', date, goodNumber = 0 }: PostCardPetitProps) => {
   return (
     <div
-      className={`flex h-[15.75rem] w-[22.75rem] xs:h-[9.75rem] xs:w-[15.5rem] px-7 py-6 xs:px-[1.37rem] xs:py-4 
-      cursor-pointer flex-col items-center justify-between rounded-[0.8rem] border border-gray-300 bg-white 
-      xs:rounded-[0.62rem]`}
+      className={`flex h-[15.75rem] w-[22.75rem] cursor-pointer flex-col items-center justify-between rounded-[0.8rem] border 
+      border-gray-300 bg-white px-7 py-6 xs:h-[9.75rem] xs:w-[15.5rem] xs:rounded-[0.62rem] xs:px-[1.37rem] 
+      xs:py-4`}
     >
       <div className={`flex w-full flex-col gap-2.5 xs:gap-2`}>
         <p className="text-[1.37rem] font-bold xs:text-base">{truncateText(title, 17)}</p>
