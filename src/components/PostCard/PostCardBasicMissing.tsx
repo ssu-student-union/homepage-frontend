@@ -24,7 +24,7 @@ const truncateText = (text: string, maxLength: number) => {
 
 const PostCard = ({
   imgUrl,
-  title,
+  title = '',
   subtitle = '',
   date,
   badgeType,
@@ -37,16 +37,16 @@ const PostCard = ({
 
   return (
     <div
-      className={`relative flex cursor-pointer items-center justify-center rounded-[10px] border border-gray-300 bg-white text-xs ${styles.container}`}
+      className={`relative flex cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white text-xs ${styles.container}`}
     >
       {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
       {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
       {badgeType === 'Default' && <Badge variant="Default"></Badge>}
       <div className={`flex h-full w-full ${styles.gap}`}>
-        <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
+        <img alt="image" src={imgUrl} className={`rounded-[0.5rem] bg-gray-200 object-cover ${styles.image}`} />
         <div className="w-full flex-col">
           <div className={`flex flex-col ${styles.title}`}>
-            <p className={`font-semibold`}>{title}</p>
+            <p className={`font-semibold`}>{truncateText(title, 23)}</p>
             <p className={`font-normal text-gray-500 ${styles.subtitle}`}>{truncateText(subtitle, 40)}</p>
           </div>
           <hr className={`w-full border border-gray-300 ${styles.hr}`} />
@@ -69,7 +69,7 @@ const PostCard = ({
 // PostCardBasic => imgUrl, title, subtitle, date, badgeType, size, profileImg, profileName 속성 기입해서 사용
 export const PostCardBasic = (props: Omit<PostCardProps, 'cardType'>) => <PostCard cardType="Basic" {...props} />;
 
-// PostCardBasic => imgUrl, title, subtitle, date, size, profileImg, profileName 속성 기입해서 사용
-export const PostCardMissing = (props: Omit<PostCardProps, 'cardType' | 'badgeType'>) => (
+// PostCardBasic => imgUrl, title, subtitle, date, size 속성 기입해서 사용
+export const PostCardMissing = (props: Omit<PostCardProps, 'cardType' | 'badgeType' | 'profileImg' | 'profileName'>) => (
   <PostCard cardType="Missing" badgeType="Default" {...props} />
 );
