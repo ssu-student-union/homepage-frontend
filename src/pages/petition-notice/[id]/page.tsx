@@ -9,11 +9,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import Breadcrumb from '@/components/Breadcrumb';
 import { PostHead } from '@/components/PostHead';
+import { StateTag } from '@/components/StateTag';
+import { Logo } from '@/components/Logo/Logo';
 
-const Content =
-  '<h3>청원취지</h3><h6><br></h6><p>청원취지를 작성해주세요.</p><h3><br></h3><h3>청원내용</h3><h6><br></h6><p>청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.</p><h3><br></h3><h3>청원대안</h3><h6><br></h6><p>청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.</p>';
+const Content = `<h3>청원취지</h3><h6><br></h6><p>청원취지를 작성해주세요.</p><h3><br></h3><h3>청원내용</h3><h6><br></h6><p>청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.</p><h3><br></h3><h3>청원대안</h3><h6><br></h6><p>청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.</p>`;
 
-const COMMENT_ORDER = ['인기순', '최신순'];
+const COMMENT_ORDER = ['최신순', '인기순'];
 
 export function PetitionNoticeDetailPage() {
   const editorRef = useRef<Editor>(null);
@@ -55,7 +56,7 @@ export function PetitionNoticeDetailPage() {
     <div>
       <Header />
       {/* headsection */}
-      <div className="mt-[182px] px-[200px]">
+      <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
         <Breadcrumb items={breadcrumbItems} />
         <PostHead
           title="[답변완료] 대동체 축제 때 에스파 불러주세요"
@@ -66,9 +67,9 @@ export function PetitionNoticeDetailPage() {
       <hr />
 
       {/* postsection */}
-      <div className="mt-[59px] flex-col px-[200px]">
-        <div className="flex justify-between gap-10">
-          <div className="w-[1000px]">
+      <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+        <div className="flex justify-between gap-10 lg:justify-center">
+          <div className="">
             {isEditting ? (
               <Editor
                 ref={editorRef}
@@ -84,35 +85,50 @@ export function PetitionNoticeDetailPage() {
               <Viewer initialValue={Content} />
             )}
 
-            <div className="mt-[51px] flex justify-start text-primary">
+            <div className="mt-[51px] flex justify-start gap-1 text-primary">
               <ThumbsUp size={25} />
-              <span>32</span>
+              <span className="pt-1">32</span>
             </div>
           </div>
-          <div className="h-[266px] w-[140px] border border-black">status bar</div>
+          <div className="xs:hidden sm:hidden md:hidden">
+            <StateTag current="ANSWERED" />
+          </div>
         </div>
-        <div className="mb-[35px] flex justify-end gap-4">
-          <EditButton onClick={handleEditContent} />
-          <ListButton onClick={handleMoveToList} />
+        <div className="mt-[60px] flex-col">
+          <div className="w-full rounded-[10px] border border-primary bg-gray-50 p-8">
+            <div className="mb-2 flex text-lg font-bold">
+              <Logo size="26px" fill="#2F4BF7" />
+              <span className="ml-2 text-[#2F4BF7]">중앙운영위원회 공식답변</span>
+            </div>
+            <p className="text-lg font-medium text-[#7E7E7E]">
+              와 샌즈! Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+              the industry's standard dummy text ever since the 1500s, when an unknown printer took galley of type and
+              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release
+              of Letraset sheets containing Lorem Ipsum passages, and more recently with 와 샌즈! Lorem Ipsum is simply
+              dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s, when an unknown printer took galley of type and scrambled it to make a type
+              specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+              remaining{' '}
+            </p>
+          </div>
+          <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 sm:mt-20">
+            <EditButton onClick={handleEditContent} />
+            <ListButton onClick={handleMoveToList} />
+          </div>
         </div>
       </div>
       <hr />
 
       {/* commentsection */}
-      <div className="mb-[512px] mt-16 px-[200px]">
+      <div className="mb-[512px] mt-16 px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
         <div className="mb-[51px] flex justify-between">
           <div className="text-[28px] font-bold">댓글</div>
           <BoardSelector
-            subcategories={['인기순', '최신순']}
+            subcategories={COMMENT_ORDER}
             selectedSubcategory={selectedCommentOrder}
             onSubcategorySelect={handleSortComment}
           />
-        </div>
-        <div className="">
-          <div className="mb-11 h-60 w-full bg-gray-50">댓글컴포넌트</div>
-          <div className="mb-11 h-60 w-full bg-gray-50">댓글컴포넌트</div>
-          <div className="mb-11 h-60 w-full bg-gray-50">댓글컴포넌트</div>
-          <div className="mb-11 h-60 w-full bg-gray-50">댓글컴포넌트</div>
         </div>
         <div className="relative">
           <Input

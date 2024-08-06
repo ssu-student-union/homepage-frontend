@@ -5,11 +5,7 @@ import '@toast-ui/editor/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export function PetitionNoticeEditorSection() {
-  const editorRef = useRef<Editor>(null);
-  const [initialContent, setInitialContent] = useState<
-    string | null
-  >(`  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
+const DEFAULT_GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
   ### 청원취지
 ######
@@ -21,7 +17,13 @@ export function PetitionNoticeEditorSection() {
 ###
   ### 청원대안
 ######
-청원대안을 작성해주세요.`);
+청원대안을 작성해주세요.
+`;
+
+export function PetitionNoticeEditorSection() {
+  const editorRef = useRef<Editor>(null);
+
+  const [initialContent, setInitialContent] = useState<string | null>(DEFAULT_GUIDE_LINE);
 
   const onClickEnrollBtn = useCallback(() => {
     if (!editorRef.current) return;
@@ -37,7 +39,7 @@ export function PetitionNoticeEditorSection() {
       if (initialContent === '') {
         editorRef!.current.getInstance().reset();
       } else {
-        editorRef!.current.getInstance().setMarkdown(initialContent); // cursor를 초기값의 뒤에 위치시킴
+        editorRef!.current.getInstance().setMarkdown(initialContent);
         setInitialContent(initialContent);
       }
     }
@@ -67,13 +69,14 @@ export function PetitionNoticeEditorSection() {
       </div>
       <hr />
       <div className="flex-col px-[200px] xs:px-[34px] sm:px-[34px] md:px-[72px]">
-        <div className="mt-12 text-lg font-bold">
-          <p className="text-[#767676 mb-8">※ 청원 게시판 안내</p>
+        <div className="mt-12 text-lg font-bold xs:text-xs sm:text-xs">
+          <p className="mb-8 text-[#767676]">※ 청원 게시판 안내</p>
           <p className="text-[#A4A4A4]">
             학생청원게시판은 학생이 함께 만들어가는 학생자치를 위해, 학우분들의 의견을 반영하고자 개설한 게시판입니다.
             <br />
             <br /> 청원 게시글 등록 후 30일 이내 100명 이상 동의를 얻은 청원의 경우 중앙운영위원회에서 안건 상정 및 답변
             의무를 가집니다.
+            <br />
             <br /> * 중앙운영위원회는? <br />
             총학생회장, 부총학생회장, 8개 단과대학생회장, 융합특성화자유전공학부 학생회장, 동아리연합회장 등으로 구성된
             총학생회 의결기구입니다.
@@ -83,8 +86,8 @@ export function PetitionNoticeEditorSection() {
             1. 청원 글을 등록하면 [진행중] 청원으로 분류 <br />
             2. 30일 이내 100명 이상 동의 시, [접수 완료] 청원으로 분류 30일 이내 100명 이상 동의를 얻지 못한 경우
             [종료됨] 청원으로 분류 <br />
-            3. [접수 완료] 청원으로 분류된 게시글은 중앙운영위원회 안건으로 상정 4. 중앙운영위원회 논의 후 게시글에 답변
-            등록. [답변 완료] 청원으로 분류 <br />
+            3. [접수 완료] 청원으로 분류된 게시글은 중앙운영위원회 안건으로 상정 <br />
+            4. 중앙운영위원회 논의 후 게시글에 답변 등록. [답변 완료] 청원으로 분류 <br />
             <br />
             아래와 같은 내용의 청원은 사전 고지 없이 삭제되거나, 사유를 안내하고 안건 상정 및 처리를 진행하지 않을 수
             있습니다.

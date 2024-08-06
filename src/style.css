@@ -61,86 +61,123 @@
 }
 
 body {
-  font-family: "Pretendard", sans-serif;
+  font-family: 'Pretendard', sans-serif;
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 900;
   font-display: swap;
-  src: local("Pretendard Black"),
-    url(/src/assets/fonts/woff2/Pretendard-Black.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-Black.woff) format("woff");
+  src:
+    local('Pretendard Black'),
+    url(/src/assets/fonts/woff2/Pretendard-Black.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-Black.woff) format('woff');
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 800;
   font-display: swap;
-  src: local("Pretendard ExtraBold"),
-    url(/src/assets/fonts/woff2/Pretendard-ExtraBold.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-ExtraBold.woff) format("woff");
+  src:
+    local('Pretendard ExtraBold'),
+    url(/src/assets/fonts/woff2/Pretendard-ExtraBold.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-ExtraBold.woff) format('woff');
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 700;
   font-display: swap;
-  src: local("Pretendard Bold"),
-    url(/src/assets/fonts/woff2/Pretendard-Bold.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-Bold.woff) format("woff");
+  src:
+    local('Pretendard Bold'),
+    url(/src/assets/fonts/woff2/Pretendard-Bold.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-Bold.woff) format('woff');
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 600;
   font-display: swap;
-  src: local("Pretendard SemiBold"),
-    url(/src/assets/fonts/woff2/Pretendard-SemiBold.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-SemiBold.woff) format("woff");
+  src:
+    local('Pretendard SemiBold'),
+    url(/src/assets/fonts/woff2/Pretendard-SemiBold.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-SemiBold.woff) format('woff');
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 500;
   font-display: swap;
-  src: local("Pretendard Medium"),
-    url(/src/assets/fonts/woff2/Pretendard-Medium.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-Medium.woff) format("woff");
+  src:
+    local('Pretendard Medium'),
+    url(/src/assets/fonts/woff2/Pretendard-Medium.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-Medium.woff) format('woff');
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 400;
   font-display: swap;
-  src: local("Pretendard Regular"),
-    url(/src/assets/fonts/woff2/Pretendard-Regular.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-Regular.woff) format("woff");
+  src:
+    local('Pretendard Regular'),
+    url(/src/assets/fonts/woff2/Pretendard-Regular.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-Regular.woff) format('woff');
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 300;
   font-display: swap;
-  src: local("Pretendard Light"),
-    url(/src/assets/fonts/woff2/Pretendard-Light.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-Light.woff) format("woff");
+  src:
+    local('Pretendard Light'),
+    url(/src/assets/fonts/woff2/Pretendard-Light.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-Light.woff) format('woff');
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 200;
   font-display: swap;
-  src: local("Pretendard ExtraLight"),
-    url(/src/assets/fonts/woff2/Pretendard-ExtraLight.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-ExtraLight.woff) format("woff");
+  src:
+    local('Pretendard ExtraLight'),
+    url(/src/assets/fonts/woff2/Pretendard-ExtraLight.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-ExtraLight.woff) format('woff');
 }
 
 @font-face {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-weight: 100;
   font-display: swap;
-  src: local("Pretendard Thin"),
-    url(/src/assets/fonts/woff2/Pretendard-Thin.woff2) format("woff2"),
-    url(/src/assets/fonts/woff/Pretendard-Thin.woff) format("woff");
+  src:
+    local('Pretendard Thin'),
+    url(/src/assets/fonts/woff2/Pretendard-Thin.woff2) format('woff2'),
+    url(/src/assets/fonts/woff/Pretendard-Thin.woff) format('woff');
+}
+
+.toastui-editor-contents p {
+  font-weight: 500;
+  color: #7e7e7e;
+}
+
+.toastui-editor-contents h3 {
+  font-weight: 900;
+  color: #484848;
+}
+
+.toastui-editor-contents p {
+  font-size: 12px;
+}
+
+.toastui-editor-contents h3 {
+  font-size: 19px;
+}
+
+@media screen and (min-width: 720px) {
+  .toastui-editor-contents p {
+    font-size: 18px;
+  }
+
+  .toastui-editor-contents h3 {
+    font-size: 24px;
+  }
 }

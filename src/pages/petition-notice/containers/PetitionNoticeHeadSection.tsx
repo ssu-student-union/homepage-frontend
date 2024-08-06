@@ -1,5 +1,5 @@
 import { BoardHead } from '@/components/Board/BoardHead';
-import { Search } from '@/components/Search/Search';
+import { Search } from '@/components/Search';
 
 export function PetitionNoticeHeadSection() {
   return (
@@ -8,7 +8,10 @@ export function PetitionNoticeHeadSection() {
         title="학생청원게시판"
         subtitle={
           <>
-            100인 이상의 동의를 받으면, <span className="text-primary">중앙운영위원회의 안건</span>으로 상정됩니다.
+            100인 이상의 동의를 받으면,{' '}
+            <span className="xs:block sm:block">
+              <span className="text-primary">중앙운영위원회의 안건</span>으로 상정됩니다.
+            </span>
           </>
         }
       />
