@@ -17,20 +17,34 @@ const Content = `<h3>청원취지</h3><h6><br></h6><p>청원취지를 작성해�
 const COMMENT_ORDER = ['최신순', '인기순'];
 
 export function PetitionNoticeDetailPage() {
-  const editorRef = useRef<Editor>(null);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const [selectedCommentOrder, setSelectedCommentOrder] = useState(() => {
-    return searchParams.get('order') || COMMENT_ORDER[0];
-  });
-  const [commentCount, setCommentCount] = useState<number | null>(0);
-  const [isEditting, setIsEditting] = useState(false);
 
   const breadcrumbItems = new Map<string, string | null>([
     ['소통', null],
     ['청원게시판', '/petition-notice'],
   ]);
+
+  const [isEditting, setIsEditting] = useState(false);
+  const [likeState, setLikeState] = useState(false);
+  const editorRef = useRef<Editor>(null);
+
+  const handleEditContent = () => {
+    setIsEditting((prev) => !prev);
+  };
+
+  const handleMoveToList = () => {
+    navigate('/petition-notice');
+  };
+
+  const handleLikeButton = () => {
+    setLikeState((prev) => !prev);
+  };
+
+  const [searchParams] = useSearchParams();
+  const [selectedCommentOrder, setSelectedCommentOrder] = useState(() => {
+    return searchParams.get('order') || COMMENT_ORDER[0];
+  });
+  const [commentCount, setCommentCount] = useState<number | null>(0);
 
   useEffect(() => {
     navigate(`/petition-notice/1/?order=${selectedCommentOrder}`);
@@ -42,14 +56,6 @@ export function PetitionNoticeDetailPage() {
 
   const commentLengthHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCommentCount(e.target.value.length);
-  };
-
-  const handleEditContent = () => {
-    setIsEditting((prev) => !prev);
-  };
-
-  const handleMoveToList = () => {
-    navigate('/petition-notice');
   };
 
   return (
@@ -69,7 +75,7 @@ export function PetitionNoticeDetailPage() {
       {/* postsection */}
       <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
         <div className="flex justify-between gap-10 lg:justify-center">
-          <div className="">
+          <div>
             {isEditting ? (
               <Editor
                 ref={editorRef}
@@ -84,10 +90,11 @@ export function PetitionNoticeDetailPage() {
             ) : (
               <Viewer initialValue={Content} />
             )}
-
             <div className="mt-[51px] flex justify-start gap-1 text-primary">
-              <ThumbsUp size={25} />
-              <span className="pt-1">32</span>
+              <span className="cursor-pointer" onClick={handleLikeButton}>
+                <ThumbsUp size={25} weight={likeState ? 'regular' : 'fill'} />
+              </span>
+              <span className="cursor-pointer pt-1">32</span>
             </div>
           </div>
           <div className="xs:hidden sm:hidden md:hidden">
