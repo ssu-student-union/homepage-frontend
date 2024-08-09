@@ -17,7 +17,7 @@ export function PetitionPostContent({ data, onClick }: TestType) {
     >
       <div className="flex gap-5 xs:mb-[11px] sm:mb-[11px]">
         <div className="w-20 whitespace-nowrap text-indigo-500">[{data.state}]</div>
-        <div className="text-gray-700 underline decoration-white hover:decoration-black hover:underline-offset-1">
+        <div className="text-gray-700 underline decoration-white hover:decoration-gray-400 hover:underline-offset-1">
           {data.title}
         </div>
       </div>

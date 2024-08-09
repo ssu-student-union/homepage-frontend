@@ -1,6 +1,6 @@
 import Pagination from '@/components/Pagination';
 import { WriteButton } from '@/components/Buttons/BoardActionButtons';
-import { Search } from '@/components/Search';
+import { Search } from '@/components/Search/Search';
 import { BodyLayoutProps } from '@/types/layout';
 
 export function BodyLayout({

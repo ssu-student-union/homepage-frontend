@@ -1,5 +1,5 @@
 import { BoardHead } from '@/components/Board/BoardHead';
-import { Search } from '@/components/Search';
+import { Search } from '@/components/Search/Search';
 import { HeadLayoutProps } from '@/types/layout';
 
 export function HeadLayout({ title, subtitle }: HeadLayoutProps) {
