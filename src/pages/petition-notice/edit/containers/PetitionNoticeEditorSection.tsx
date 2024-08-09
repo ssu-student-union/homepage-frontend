@@ -4,8 +4,9 @@ import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { EditLayout } from '@/template/EditLayout';
 
-const DEFAULT_GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
+const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
   ### 청원취지
 ######
@@ -23,7 +24,7 @@ const DEFAULT_GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작�
 export function PetitionNoticeEditorSection() {
   const editorRef = useRef<Editor>(null);
 
-  const [initialContent, setInitialContent] = useState<string | null>(DEFAULT_GUIDE_LINE);
+  const [initialContent, setInitialContent] = useState<string | null>(GUIDE_LINE);
 
   const onClickEnrollBtn = useCallback(() => {
     if (!editorRef.current) return;
@@ -46,9 +47,8 @@ export function PetitionNoticeEditorSection() {
   }, [initialContent]);
 
   return (
-    <>
-      <div className="mb-14 mt-[150px] flex flex-col px-[200px] xs:px-[34px] sm:px-[34px] md:px-[72px]">
-        <div className="mb-[29px] whitespace-nowrap text-[34px] font-bold">청원글 작성</div>
+    <EditLayout title="청원글 작성">
+      <section>
         <Input
           type="text"
           placeholder="제목을 입력하세요."
@@ -66,9 +66,8 @@ export function PetitionNoticeEditorSection() {
             language="ko-KR"
           />
         </div>
-      </div>
-      <hr />
-      <div className="flex-col px-[200px] xs:px-[34px] sm:px-[34px] md:px-[72px]">
+      </section>
+      <section>
         <div className="mt-12 text-lg font-bold xs:text-xs sm:text-xs">
           <p className="mb-8 text-[#767676]">※ 청원 게시판 안내</p>
           <p className="text-[#A4A4A4]">
@@ -100,10 +99,10 @@ export function PetitionNoticeEditorSection() {
             6. 글 작성 가이드라인을 준수하지 않은 청원
           </p>
         </div>
-        <div className="mb-10 mt-14 flex justify-end">
-          <RegisterButton onClick={onClickEnrollBtn} />
-        </div>
+      </section>
+      <div className="mb-10 mt-14 flex justify-end">
+        <RegisterButton onClick={onClickEnrollBtn} />
       </div>
-    </>
+    </EditLayout>
   );
 }
