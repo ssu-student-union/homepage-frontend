@@ -154,10 +154,14 @@ export function PetitionPostSection() {
   );
 
   // Page 메인 컨텐츠 들어가는 자리
+  const movePostContentDetail = (id: number) => {
+    navigate(`/petition-notice/${id}`);
+  };
+
   const contentComponent = (
     <>
       {displayedPostContent.map((data, index) => (
-        <PetitionPostContent data={data} key={index} />
+        <PetitionPostContent data={data} key={index} onClick={movePostContentDetail} />
       ))}
     </>
   );
