@@ -21,7 +21,7 @@ export function MainPage() {
       <MainHeroSection />
       <MainScheduleSection />
       <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
-      <Breadcrumb items={breadcrumbItems} />
+      <Breadcrumb items={breadcrumbItems} className="text-sm" />
     </>
   );
 }
