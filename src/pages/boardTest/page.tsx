@@ -1,11 +1,11 @@
 // 소개 페이지, 공지사항 페이지와 같이 BoardNavigator, BoardSelector 두 컴포넌트 모두 활용하는 페이지 예시
 
-import { BoardNavigator } from "@/components/Board/BoardNavigator";
-import { BoardSelector } from "@/components/Board/BoardSelector";
-import { Notices } from "@/types";
+import { BoardNavigator } from '@/components/Board/BoardNavigator';
+import { BoardSelector } from '@/components/Board/BoardSelector';
+import { Notices } from '@/types';
 
-import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 interface SelectedState {
   category: string;
@@ -17,10 +17,8 @@ export function BoardPage() {
   const [searchParams] = useSearchParams();
 
   const [selected, setSelected] = useState<SelectedState>(() => {
-    const categoryFromUrl =
-      searchParams.get("category") || Object.keys(Notices)[0];
-    const subcategoryFromUrl =
-      searchParams.get("subcategory") || Notices[categoryFromUrl][0];
+    const categoryFromUrl = searchParams.get('category') || Object.keys(Notices)[0];
+    const subcategoryFromUrl = searchParams.get('subcategory') || Notices[categoryFromUrl][0];
     return {
       category: categoryFromUrl,
       subcategory: subcategoryFromUrl,
@@ -28,9 +26,7 @@ export function BoardPage() {
   });
 
   useEffect(() => {
-    navigate(
-      `/board?category=${selected.category}&subcategory=${selected.subcategory}`
-    );
+    navigate(`/board?category=${selected.category}&subcategory=${selected.subcategory}`);
   }, [selected, navigate]);
 
   const handleCategorySelect = (category: string) => {

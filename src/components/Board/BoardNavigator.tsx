@@ -1,4 +1,4 @@
-import { Switch } from "../Switch";
+import { Switch } from '../Switch';
 
 interface BoardNavigatorProps {
   categories: string[];
@@ -6,13 +6,9 @@ interface BoardNavigatorProps {
   onCategorySelect: (subcategory: string) => void;
 }
 
-export function BoardNavigator({
-  categories,
-  selectedCategory,
-  onCategorySelect,
-}: BoardNavigatorProps) {
+export function BoardNavigator({ categories, selectedCategory, onCategorySelect }: BoardNavigatorProps) {
   return (
-    <div className="p-1 inline-flex rounded-md border border-gray-300 overflow-hidden">
+    <div className="inline-flex overflow-hidden rounded-md border border-gray-300 p-1">
       {categories.map((subcategory) => (
         <Switch
           key={subcategory}

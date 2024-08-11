@@ -5,7 +5,6 @@ import { BoardPage } from './boardTest/page'
 import { KakaoRegisterPage } from './kakao/page'
 import { GeneralRegisterPage } from './general/page'
 import KakaoRedirect from './kakao/containers/KakaoRedirect'
-import { Data } from './data/page'
 
 export function MainRouter() {
     return (
@@ -16,7 +15,6 @@ export function MainRouter() {
             <Route path='/register' element={<KakaoRegisterPage />} />
             <Route path='/register/:sort' element={<GeneralRegisterPage />} />
             <Route path='/auth/callback' element={<KakaoRedirect />} />
-            <Route path='/data' element={<Data />} />
         </Routes>
     )
 }

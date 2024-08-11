@@ -1,10 +1,4 @@
-export function Logo({
-  fill = "#ffffff",
-  size = "32px",
-}: {
-  fill?: string;
-  size?: string;
-}) {
+export function Logo({ fill = '#ffffff', size = '32px' }: { fill?: string; size?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

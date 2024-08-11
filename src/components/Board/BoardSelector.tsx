@@ -1,4 +1,4 @@
-import { Category } from "../Category";
+import { Category } from '../Category';
 
 interface BoardSelectorProps {
   subcategories: string[];
@@ -6,11 +6,7 @@ interface BoardSelectorProps {
   onSubcategorySelect: (category: string) => void;
 }
 
-export function BoardSelector({
-  subcategories,
-  selectedSubcategory,
-  onSubcategorySelect,
-}: BoardSelectorProps) {
+export function BoardSelector({ subcategories, selectedSubcategory, onSubcategorySelect }: BoardSelectorProps) {
   return (
     <div className="flex flex-wrap gap-2">
       {subcategories.map((category) => (
