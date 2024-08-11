@@ -1,13 +1,17 @@
-import { Button } from '@/components/ui/button';
-import { Pencil } from 'lucide-react';
+import { EditButton } from '@/components/Buttons/BoardActionButtons';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function IntroEditButton() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const handleEditClick = () => {
+    navigate(`/intro/edit?${searchParams.toString()}`);
+  };
+
   return (
-    <div className="flex h-[200px] w-full items-center justify-end px-[30px] xs:px-[50px] md:px-[70px] lg:px-[80px] xl:px-[100px]">
-      <Button variant="edit">
-        <Pencil size="15px" />
-        <div className="pl-1 font-bold">글쓰기</div>
-      </Button>
+    <div className="flex w-full items-center justify-end px-[120px] pt-[120px] xs:px-[30px] xs:pt-[5px] sm:px-[60px] sm:pt-[40px] md:pt-[60px] lg:pt-[60px]">
+      <EditButton className="w-[110px] rounded-xs" onClick={handleEditClick} />
     </div>
   );
 }
