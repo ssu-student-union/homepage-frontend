@@ -6,13 +6,13 @@ import IntroEditButton from './container/IntroEditButton';
 import { State } from '@/containers/common/Header/const/state';
 
 export function IntroPage() {
-  return (
-    <>
-      <Header state={State.Login} />
-      <IntroTitleSection />
-      <IntroNavSection />
-      <IntroContentSection />
-      <IntroEditButton />
-    </>
-  );
+    return (
+        <>
+            <Header state={State.Login} />
+            <IntroTitleSection />
+            <IntroNavSection />
+            <IntroContentSection />
+            <IntroEditButton />
+        </>
+    )
 }
