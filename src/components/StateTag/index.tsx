@@ -45,7 +45,6 @@ export function StateTag({ current }: StateTagProps) {
         });
         break;
     }
-    console.log(currentState);
   }, []);
 
   return (
