@@ -5,7 +5,7 @@ interface ContentProps {
 
 export default function IntroContentSection({ category, subCategory }: ContentProps) {
   return (
-    <div className="px-[120px] pt-[40px] xs:px-[30px] xs:pt-[0px] sm:px-[60px]">
+    <div className="px-[120px] pt-[40px] pb-[80px] xs:px-[30px] xs:pt-[0px] sm:px-[60px]">
       {/*sub-category 값에 따라 소개 또는 조직도를 보여줍니다.*/}
       {subCategory == 'intro' && <RenderIntro category={category!} />}
       {subCategory == 'org' && <RenderOrg category={category!}/>}
