@@ -1,4 +1,4 @@
-import { mainName } from './const/data';
+import { paramToTitle } from './utils/dataUtils';
 
 interface IntroTitleProps {
   category?: string;
@@ -13,17 +13,4 @@ export default function IntroTitleSection({ category = 'president' }: IntroTitle
       </div>
     </div>
   );
-}
-
-function paramToTitle(category: string) {
-  switch (category) {
-    case 'president':
-      return mainName[0];
-    case 'central_executive_committee':
-      return mainName[1];
-    case 'central_operating_committee':
-      return mainName[2];
-    default:
-      return '쿼리가 잘못되었습니다.';
-  }
 }

@@ -6,6 +6,7 @@ import IntroTitleSection from './container/IntroTitleSection';
 import IntroNavSection from './container/IntroNavSection';
 import IntroContentSection from './container/IntroContentSection';
 
+// /intro
 export function IntroPage() {
   const [searchParams] = useSearchParams();
 
