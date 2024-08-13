@@ -35,18 +35,18 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
           }
         />
       )}
-      <Link to="/" className="flex">
-        <div className={cn(styles.headerItemStyle, { 'px-0.5': isMobile })}>
+      <div className={cn(styles.headerItemStyle, { 'px-0.5': isMobile })}>
+        <Link to="/">
           <div className="flex items-center gap-4">
             <Logo size={isMobile ? '23px' : '46px'} fill={styles.fillColor} />
             <span className={cn(styles.textColor, 'min-w-fit text-[20px] text-lg font-bold')}>US:SUM</span>
           </div>
-        </div>
-        {!isMobile && <Navigation state={state} />}
-      </Link>
+        </Link>
+      </div>
+      {!isMobile && <Navigation state={state} />}
       {!isMobile && (
         <div className="flex pr-4">
-          <AuthButton />
+          <AuthButton state={state} />
         </div>
       )}
     </div>
