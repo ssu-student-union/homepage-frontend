@@ -4,7 +4,10 @@ import { BoardPage } from './boardTest/page';
 import { KakaoRegisterPage } from './kakao/page';
 import { GeneralRegisterPage } from './general/page';
 import KakaoRedirect from './kakao/containers/KakaoRedirect';
-import { IntroPage } from './Intro/page';
+import { IntroPage } from './intro/page';
+import { IntroEditPage } from './intro/IntroEdit/page';
+import { AuditPage } from './audit/page';
+import { AuditDetailPage } from './audit/auditDetail/page';
 
 export function MainRouter() {
   return (
@@ -15,6 +18,9 @@ export function MainRouter() {
       <Route path="/register" element={<KakaoRegisterPage />} />
       <Route path="/register/:sort" element={<GeneralRegisterPage />} />
       <Route path="/auth/callback" element={<KakaoRedirect />} />
+      <Route path="/intro/edit" element={<IntroEditPage />} />
+      <Route path="/audit" element={<AuditPage />} />
+      <Route path="/audit/:id" element={<AuditDetailPage />} />
     </Routes>
   );
 }
