@@ -3,7 +3,8 @@ import { Header } from '@/containers/common/Header/Header';
 import { useLocation } from 'react-router-dom';
 import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
-
+import { AuditDetailFileSection } from './container/auditDetailFileSection';
+import { AuditDetailEditSection } from './container/auditDetailEditSection';
 export function AuditDetailPage() {
   const location = useLocation();
   const postData = location.state?.postData;
@@ -16,7 +17,9 @@ export function AuditDetailPage() {
     <>
       <Header state={State.Logout} />
       <AuditDetailTopSection title={postData.title} subTitle={postData.subTitle} />
-      <AuditDetailContentSection />
+      <AuditDetailContentSection text={postData.contentText} images={postData.contentImages} />
+      <AuditDetailFileSection file={postData.file} />
+      <AuditDetailEditSection />
     </>
   );
 }

@@ -8,6 +8,7 @@ import { IntroPage } from './intro/page';
 import { IntroEditPage } from './intro/IntroEdit/page';
 import { AuditPage } from './audit/page';
 import { AuditDetailPage } from './audit/auditDetail/page';
+import { AuditEditPage } from './audit/auditEdit/page';
 
 export function MainRouter() {
   return (
@@ -21,6 +22,7 @@ export function MainRouter() {
       <Route path="/intro/edit" element={<IntroEditPage />} />
       <Route path="/audit" element={<AuditPage />} />
       <Route path="/audit/:id" element={<AuditDetailPage />} />
+      <Route path="/audit/edit" element={<AuditEditPage />} />
     </Routes>
   );
 }
