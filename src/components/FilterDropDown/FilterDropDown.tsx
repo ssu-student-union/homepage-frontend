@@ -1,10 +1,10 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface FilterDropDownProps {
-    defaultValue: string
-    optionValue: string[]
-    onValueChange: (value: string) => void
-    value: string
+  defaultValue: string;
+  optionValue: string[];
+  onValueChange: (value: string) => void;
+  value: string;
 }
 
 export function FilterDropDown({ defaultValue, optionValue, onValueChange, value }: FilterDropDownProps) {
