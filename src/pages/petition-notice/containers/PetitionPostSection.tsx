@@ -1,6 +1,6 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { Petition } from '@/types';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PetitionPostContent } from '../../../containers/common/PostContent/PetitionPostContent';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
@@ -118,12 +118,9 @@ export function PetitionPostSection() {
     return searchParams.get('subcategory') || Petition[0];
   });
 
-  useEffect(() => {
-    navigate(`/petition-notice?category=${selectedSubcategory}`);
-  }, [selectedSubcategory, navigate]);
-
   const handleSubcategorySelect = (subcategory: string) => {
     setSelectedSubcategory(subcategory);
+    navigate(`/petition-notice?category=${subcategory}`);
   };
 
   const filteredData = useMemo(() => {

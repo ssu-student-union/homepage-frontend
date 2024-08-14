@@ -6,9 +6,9 @@ export function ACTIVE_TAG({ isActive }: ActiveTagProps) {
   return (
     <div className={active_Style}>
       <span className="pt-1">
-        <Spinner />
+        <Spinner size={18} />
       </span>
-      <p className="inline-block pt-[2px] align-middle">진행중</p>
+      <p className="inline-block pt-[2px] align-middle text-[14px]">진행중</p>
     </div>
   );
 }
@@ -18,9 +18,9 @@ export function RECEIVED_TAG({ isActive }: ActiveTagProps) {
   return (
     <div className={received_Style}>
       <span className="pt-1">
-        <CheckCircle />
+        <CheckCircle size={18} />
       </span>
-      <p className="inline-block pt-[2px] align-middle">접수완료</p>
+      <p className="inline-block pt-[2px] align-middle text-[14px]">접수완료</p>
     </div>
   );
 }
@@ -30,9 +30,9 @@ export function ANSWERED_TAG({ isActive }: ActiveTagProps) {
   return (
     <div className={answered_Style}>
       <span className="pt-1">
-        <ChatTeardropText />
+        <ChatTeardropText size={18} />
       </span>
-      <p className="inline-block pt-[2px] align-middle">답변완료</p>
+      <p className="inline-block pt-[2px] align-middle text-[14px]">답변완료</p>
     </div>
   );
 }
@@ -42,9 +42,9 @@ export function CLOSED_TAG({ isActive }: ActiveTagProps) {
   return (
     <div className={closed_Style}>
       <span className="pt-1">
-        <ClockCountdown />
+        <ClockCountdown size={18} />
       </span>
-      <p className="inline-block pt-[2px] align-middle">종료됨</p>
+      <p className="inline-block pt-[2px] align-middle text-[14px]">종료됨</p>
     </div>
   );
 }

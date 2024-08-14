@@ -19,6 +19,20 @@ const COMMENT_ORDER = ['최신순', '인기순'];
 export function PetitionNoticeDetailPage() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    window.history.pushState(null, '', window.location.href);
+
+    const handlePopState = () => {
+      navigate('/petition-notice');
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate]);
+
   const breadcrumbItems = new Map<string, string | null>([
     ['소통', null],
     ['청원게시판', '/petition-notice'],
@@ -46,12 +60,9 @@ export function PetitionNoticeDetailPage() {
   });
   const [commentCount, setCommentCount] = useState<number | null>(0);
 
-  useEffect(() => {
-    navigate(`/petition-notice/1/?order=${selectedCommentOrder}`);
-  }, [selectedCommentOrder, navigate]);
-
   const handleSortComment = (subcategory: string) => {
     setSelectedCommentOrder(subcategory);
+    navigate(`/petition-notice/1/?order=${subcategory}`);
   };
 
   const commentLengthHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
