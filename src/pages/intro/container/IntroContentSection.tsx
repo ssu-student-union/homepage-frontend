@@ -1,7 +1,16 @@
-export default function IntroContentSection() {
+import { RenderIntro, RenderOrg } from './component/RenderImage';
+
+interface ContentProps {
+  category?: string;
+  subCategory?: string;
+}
+
+export default function IntroContentSection({ category, subCategory }: ContentProps) {
   return (
-    <div className="h-[450px] w-full px-[25px] pt-[20px] xs:px-[50px] md:px-[100px]">
-      <div className="h-[430px] w-full bg-gray-300"></div>
+    <div className="px-[120px] pb-[80px] pt-[40px] xs:px-[30px] xs:pt-[0px] sm:px-[60px]">
+      {/*sub-category 값에 따라 소개 또는 조직도를 보여줍니다.*/}
+      {subCategory == 'intro' && <RenderIntro category={category!} />}
+      {subCategory == 'org' && <RenderOrg category={category!} />}
     </div>
   );
 }
