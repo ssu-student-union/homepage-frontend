@@ -22,7 +22,7 @@ export function PostTextPetition({ current }: StateTagProps) {
   };
 
   return (
-    <div className="w-[362px] flex-shrink-0 cursor-pointer rounded-[13px] border border-gray-300 bg-white px-5 py-7 xs:w-[304px] xs:py-[15px]">
+    <div className="petition-item w-[362px] flex-shrink-0 cursor-pointer rounded-[13px] border border-gray-300 bg-white px-5 py-7 xs:w-[304px] xs:py-[15px]">
       <div className="flex flex-col">
         {renderStatusTag()}
         <div className="mb-[22px] mt-[7px] text-[22px] font-bold text-gray-700 xs:mb-[12px] xs:text-[16px]">
