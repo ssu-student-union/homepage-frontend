@@ -4,7 +4,7 @@ import { BoardPage } from './boardTest/page';
 import { KakaoRegisterPage } from './kakao/page';
 import { GeneralRegisterPage } from './general/page';
 import KakaoRedirect from './kakao/containers/KakaoRedirect';
-import { IntroPage } from './Intro/page';
+import { IntroPage } from './intro/page';
 
 export function MainRouter() {
   return (
