@@ -1,8 +1,6 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { RegisterButton } from '@/components/Buttons/BoardActionButtons';
-import { useResize } from '@/hooks/useResize';
-import { DotsThree } from '@phosphor-icons/react';
-import { ThumbsUp, User } from 'lucide-react';
+import { Comment } from '@/containers/common/Comment/Comment';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -10,8 +8,6 @@ const COMMENT_ORDER = ['최신순', '인기순'];
 
 export function PostPetitionDetailCommentSection() {
   const navigate = useNavigate();
-  const { width } = useResize();
-  const mobile_screen = width < 391;
 
   useEffect(() => {
     window.history.pushState(null, '', window.location.href);
@@ -75,34 +71,11 @@ export function PostPetitionDetailCommentSection() {
             <RegisterButton disabled={commentCount === 0 ? true : false} />
           </div>
         </div>
-        <div>
-          <div className="flex flex-col rounded-[10px] bg-gray-50 px-5 py-[30px]">
-            <div className="flex justify-between text-gray-400">
-              <div className="mb-[9px] flex gap-4">
-                <span>
-                  <User size={mobile_screen ? '14px' : '24px'} />
-                </span>
-                <div className="text-lg font-medium xs:text-xs">20193003</div>
-              </div>
-              <span className="cursor-pointer">
-                <DotsThree size={mobile_screen ? '13px' : '20px'} weight="bold" />
-              </span>
-            </div>
-            <div className="mb-[11px] text-lg font-medium text-gray-500 xs:text-xs">
-              와 샌즈! Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-              the industry's standard dummy text ever since the 1500s, when an unknown printer took galley of type and
-            </div>
-            <div className="flex justify-start gap-4 text-base font-medium text-gray-400 xs:text-xs">
-              <div>2024/08/15 01:30</div>
-              <div className="cursor-pointer whitespace-nowrap">답글쓰기</div>
-              <div className="flex gap-[3px] text-primary">
-                <span className="cursor-pointer">
-                  <ThumbsUp size={mobile_screen ? '13px' : '23px'} />
-                </span>
-                <span className="pt-[1px] xs:pt-0">32</span>
-              </div>
-            </div>
-          </div>
+        <div className="flex flex-col gap-11">
+          <Comment />
+          <Comment />
+          <Comment />
+          <Comment />
         </div>
       </div>
     </>
