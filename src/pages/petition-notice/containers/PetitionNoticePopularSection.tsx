@@ -60,7 +60,7 @@ export function PetitionNoticePopularSection() {
       const { current } = moveRef;
       if (current) {
         const petitionWidth = current.querySelector('.petition-item')?.clientWidth || 0;
-        const newScrollPosition = Math.max(scrollPosition - petitionWidth, 0);
+        const newScrollPosition = Math.max(scrollPosition - petitionWidth - 25, 0);
         current.scrollTo({ left: newScrollPosition, behavior: 'smooth' });
         setScrollPosition(newScrollPosition);
       }
