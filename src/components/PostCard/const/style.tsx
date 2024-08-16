@@ -13,6 +13,17 @@ interface Styles {
 
 export function getStyles(state: Size): Styles {
   switch (state) {
+    case Size.audit:
+      return {
+        container: 'w-[400px] h-[209px] px-[16px] py-[16px]',
+        title: 'h-[146px] text-base gap-1',
+        subtitle: 'text-xs',
+        date: 'h-[28px]',
+        image: 'min-w-[175px] max-w-[175px] h-[175px]',
+        gap: 'gap-[24px]',
+        profileImg: 'w-4 h-4',
+        hr: '',
+      };
     case Size.medium:
       return {
         container: 'px-5 py-[23px] w-[400px] h-[171px]',

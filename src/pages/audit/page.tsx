@@ -29,6 +29,7 @@ export function AuditPage() {
         currentPage={currentPage}
         onPageChange={handlePageChange}
         onWriteClick={handleWriteClick}
+        className="px-[120px] xs:px-[30px] sm:px-[30px] md:px-[30px]"
       />
     </>
   );

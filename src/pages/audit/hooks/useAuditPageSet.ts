@@ -18,13 +18,13 @@ export function useAuditPageSet(posts: any[]) {
         setSize(Size.small);
       } else if (width <= 1080) {
         setItemsPerPage(5);
-        setSize(Size.medium);
+        setSize(Size.mediumSmall);
       } else if (width <= 1440) {
         setItemsPerPage(6);
-        setSize(Size.medium);
+        setSize(Size.audit);
       } else {
         setItemsPerPage(9);
-        setSize(Size.default);
+        setSize(Size.audit);
       }
     };
 

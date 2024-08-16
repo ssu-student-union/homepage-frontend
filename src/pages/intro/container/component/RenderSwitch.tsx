@@ -27,9 +27,9 @@ export function RenderMainSwitch({
   const handleAuditSwitchClick = useAuditSwitch();
 
   return (
-    <div className="relative mt-[24px] px-[120px] xs:hidden sm:hidden" {...props}>
+    <div className="relative mt-[24px] px-[120px] xs:hidden sm:px-[60px]" {...props}>
       <div className="absolute left-0 right-0 top-1/2 h-[2px] -translate-y-1/2 transform bg-[#E7E7E7]" />
-      <span className="relative z-10 rounded-lg border-2 border-[#E7E7E7] bg-white px-[4px] py-[10px]">
+      <span className="relative z-10 inline-flex items-center rounded-lg border-2 border-[#E7E7E7] bg-white px-[4px] py-[4px]">
         {groupNames.map((label, index) => (
           <Switch
             key={index}
@@ -41,14 +41,7 @@ export function RenderMainSwitch({
                 handleSwitchClick(index);
               }
             }}
-            style={{
-              paddingTop: '2px',
-              paddingBottom: '2px',
-              paddingLeft: '16px',
-              paddingRight: '16px',
-              borderRadius: '8px',
-              font: '1rem',
-            }}
+            className={`text-semibold rounded-xs px-[16px] py-[2px] ${activeIndex === index ? 'text-white' : 'text-black'}`}
           >
             {label}
           </Switch>
