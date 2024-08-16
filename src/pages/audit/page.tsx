@@ -14,7 +14,12 @@ export function AuditPage() {
   return (
     <>
       <Header state={State.Logout} />
-      <HeadLayout title="감사기구" subtitle="제12대 중앙감사위원회 한빛" borderOff={true} />
+      <HeadLayout
+        title="감사기구"
+        subtitle="제12대 중앙감사위원회 한빛"
+        borderOff={true}
+        className="px-[120px] xs:px-[30px] sm:px-[30px] md:px-[30px]"
+      />
       <IntroNavSection category="audit" switchIndex={1} />
       <BodyLayout
         selector={
