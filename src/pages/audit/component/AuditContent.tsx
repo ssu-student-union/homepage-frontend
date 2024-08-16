@@ -25,7 +25,7 @@ export function AuditContent({ posts, size = Size.default }: AuditContentProps) 
   const navigate = useNavigate();
 
   return (
-    <div className="grid grid-cols-3 gap-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+    <div className="grid grid-cols-3 gap-6 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
       {posts.map((post) => {
         const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
 
