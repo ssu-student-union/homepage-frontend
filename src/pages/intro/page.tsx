@@ -1,5 +1,3 @@
-import { Header } from '@/containers/common/Header/Header';
-import { State } from '@/containers/common/Header/const/state';
 import { useSearchParams } from 'react-router-dom';
 import { useValidateAndRedirect } from './container/hooks/useValidateAndRedirect';
 import IntroTitleSection from './container/IntroTitleSection';
@@ -23,7 +21,6 @@ export function IntroPage() {
 
   return (
     <>
-      <Header state={State.Logout} />
       <IntroTitleSection
         title={paramToTitle(category)}
         subTitle={`${paramToHisNum(category)} ${paramToSubTitle(category)} ${paramToName(category)}`}
