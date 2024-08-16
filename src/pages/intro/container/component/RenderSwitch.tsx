@@ -2,6 +2,7 @@ import { Switch } from '@/components/Switch';
 import { useSwitchHook } from '../hooks/useSwitchHook';
 import { subCategory, subName } from '../const/data';
 import { useAuditSwitch } from '../utils/switchUtils';
+import { cn } from '@/libs/utils';
 
 interface MainSwitchProps {
   paramName: string;
@@ -9,6 +10,7 @@ interface MainSwitchProps {
   groupNames: string[];
   isAudit: boolean;
   switchIndex?: number;
+  className?: string;
 }
 
 export function RenderMainSwitch({
@@ -17,6 +19,7 @@ export function RenderMainSwitch({
   groupNames,
   isAudit,
   switchIndex = 0,
+  className = '',
   ...props
 }: MainSwitchProps) {
   const { activeIndex, handleSwitchClick } = useSwitchHook({
@@ -27,9 +30,14 @@ export function RenderMainSwitch({
   const handleAuditSwitchClick = useAuditSwitch();
 
   return (
-    <div className="relative mt-[24px] px-[120px] xs:hidden sm:px-[60px]" {...props}>
-      <div className="absolute left-0 right-0 top-1/2 h-[2px] -translate-y-1/2 transform bg-[#E7E7E7]" />
-      <span className="relative z-10 inline-flex items-center rounded-lg border-2 border-[#E7E7E7] bg-white px-[4px] py-[4px]">
+    <div className="relative mt-[24px] xs:hidden" {...props}>
+      <div className={cn(`absolute top-1/2 h-[2px] w-full -translate-y-1/2 transform bg-[#E7E7E7]`)} />
+      <span
+        className={cn(
+          `relative z-10 ml-[120px] inline-flex items-center rounded-lg border-2 border-[#E7E7E7] bg-white px-[4px] py-[4px] xs:ml-[20px] sm:ml-[40px]`,
+          className
+        )}
+      >
         {groupNames.map((label, index) => (
           <Switch
             key={index}
@@ -58,7 +66,7 @@ export function RenderSubSwitch({ ...props }) {
   });
 
   return (
-    <div className="mt-[24px] px-[120px] xs:px-[30px] sm:px-[60px]" {...props}>
+    <div className="mt-[24px] pl-[120px] xs:pl-[30px] sm:pl-[60px]" {...props}>
       {subName.map((label, index) => (
         <Switch
           key={index}
