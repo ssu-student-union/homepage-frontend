@@ -1,10 +1,34 @@
 import { RenderMainSwitch, RenderSubSwitch } from './component/RenderSwitch';
+import { auditSubCategory, mainName } from './const/data';
+import { category as params } from './const/data';
 
-export default function IntroNavSection() {
+interface IntroNavProps {
+  category?: string;
+  switchIndex?: number; // switchIndex를 optional로 받음
+}
+
+export default function IntroNavSection({ category, switchIndex = 0 }: IntroNavProps) {
   return (
-    <div className="sm: flex h-[150px] w-full flex-col justify-evenly xs:h-[100px] sm:h-[100px]">
-      <RenderMainSwitch />
-      <RenderSubSwitch />
+    <div className="sm: flex h-auto w-full flex-col justify-start">
+      {category != params[3] && (
+        <RenderMainSwitch
+          paramName="category"
+          params={params}
+          groupNames={mainName}
+          isAudit={false}
+          switchIndex={switchIndex}
+        />
+      )}
+      {category != params[3] && <RenderSubSwitch />}
+      {category == params[3] && (
+        <RenderMainSwitch
+          paramName="sub-category"
+          params={auditSubCategory}
+          groupNames={['소개', '게시판']}
+          isAudit={true}
+          switchIndex={switchIndex}
+        />
+      )}
     </div>
   );
 }

@@ -10,8 +10,8 @@ export default function IntroEditButton() {
   };
 
   return (
-    <div className="flex w-full items-center justify-end px-[120px] pt-[120px] xs:px-[30px] xs:pt-[5px] sm:px-[60px] sm:pt-[40px] md:pt-[60px] lg:pt-[60px]">
-      <EditButton className="w-[110px] rounded-xs" onClick={handleEditClick} />
+    <div className="flex w-full items-center justify-end px-[120px] py-[60px] xs:px-[30px] xs:pb-[120px] xs:pt-[0px] sm:px-[60px] sm:pb-[80px] sm:pt-[0px]">
+      <EditButton className="w-[100px] rounded-xs" onClick={handleEditClick} />
     </div>
   );
 }

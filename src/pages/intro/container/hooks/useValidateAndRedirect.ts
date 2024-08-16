@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { category as validCategories, subCategory as validSubCategories } from '../const/data';
+import { category as validCategories, subCategory as validSubCategories, auditSubCategory } from '../const/data';
 
 interface ValidateAndRedirectProps {
   category: string | null;
@@ -10,8 +10,10 @@ interface ValidateAndRedirectProps {
 export function useValidateAndRedirect({ category, subCategory }: ValidateAndRedirectProps) {
   const navigate = useNavigate();
 
+  const combinedSubCategories = [...validSubCategories, ...auditSubCategory];
+
   const isValidCategory = validCategories.includes(category!);
-  const isValidSubCategory = validSubCategories.includes(subCategory!);
+  const isValidSubCategory = combinedSubCategories.includes(subCategory!);
 
   useEffect(() => {
     if (!isValidCategory || !isValidSubCategory) {
