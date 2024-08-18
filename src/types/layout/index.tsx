@@ -6,7 +6,7 @@ export interface HeadLayoutProps {
 export interface BodyLayoutProps {
   title?: string;
   selector: React.ReactNode;
-  content: React.ReactNode;
+  children: React.ReactNode;
   totalPages: number;
   currentPage: number;
   onPageChange: (page: number) => void;
