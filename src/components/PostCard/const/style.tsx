@@ -15,18 +15,7 @@ export function getStyles(state: Size): Styles {
   switch (state) {
     case Size.medium:
       return {
-        container: 'px-5 py-[23px] w-[1004px] h-[171px]',
-        title: 'h-[95px] text-base gap-2',
-        subtitle: 'text-sm',
-        date: 'h-[30px] text-sm',
-        image: 'min-w-[125px] max-w-[125px] h-[125px]',
-        gap: 'gap-[27px]',
-        profileImg: 'w-4 h-4',
-        hr: '',
-      };
-    case Size.mediumSmall:
-      return {
-        container: 'px-5 py-[23px] w-[637px] h-[171px]',
+        container: 'px-5 py-[23px] w-full h-[171px]',
         title: 'h-[95px] text-base gap-2',
         subtitle: 'text-sm',
         date: 'h-[30px] text-sm',
@@ -37,7 +26,7 @@ export function getStyles(state: Size): Styles {
       };
     case Size.small:
       return {
-        container: 'px-5 py-[13px] w-[324px] h-[121px]',
+        container: 'px-5 py-[13px] w-full h-[121px]',
         title: 'h-[65px] text-sm gap-2',
         subtitle: 'text-xs leading-[14px]',
         date: 'h-[30px] text-[10px]',
