@@ -5,7 +5,7 @@ interface AuditDetailContentProps {
 
 export function AuditDetailContentSection({ text, images }: AuditDetailContentProps) {
   return (
-    <div className="px-[120px] pt-[32px] xs:px-[20px] sm:px-[40px]">
+    <div className="pt-[32px]">
       <div className="font-sm text-[#484848]">{text}</div>
       <div className="h-[32px]" />
       {images?.map((image, index) => (

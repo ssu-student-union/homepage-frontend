@@ -13,18 +13,18 @@ export function useAuditPageSet(posts: any[]) {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width <= 390) {
+      if (width < 720) {
         setItemsPerPage(5);
         setSize(Size.small);
-      } else if (width <= 1080) {
+      } else if (width < 1440) {
         setItemsPerPage(5);
         setSize(Size.mediumSmall);
-      } else if (width <= 1440) {
+      } else if (width < 1920) {
         setItemsPerPage(6);
         setSize(Size.audit);
       } else {
         setItemsPerPage(9);
-        setSize(Size.audit);
+        setSize(Size.default);
       }
     };
 

@@ -14,12 +14,12 @@ export function AuditDetailPage() {
   }
 
   return (
-    <>
+    <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <Header state={State.Logout} />
       <AuditDetailTopSection title={postData.title} subTitle={postData.subTitle} />
       <AuditDetailContentSection text={postData.contentText} images={postData.contentImages} />
       <AuditDetailFileSection file={postData.file} />
       <AuditDetailEditSection />
-    </>
+    </div>
   );
 }

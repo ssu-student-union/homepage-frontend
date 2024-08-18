@@ -1,5 +1,3 @@
-import { State } from '@/containers/common/Header/const/state';
-import { Header } from '@/containers/common/Header/Header';
 import { HeadLayout } from '@/template/HeadLayout';
 import IntroNavSection from '../intro/container/IntroNavSection';
 import { BodyLayout } from '@/template/BodyLayout';
@@ -17,9 +15,9 @@ export function AuditPage() {
         title="감사기구"
         subtitle="제12대 중앙감사위원회 한빛"
         borderOff={true}
-        className="px-[120px] pb-[0px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[120px]"
+        className="px-[120px] pb-[0px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]"
       />
-      <IntroNavSection category="audit" switchIndex={1} mainClassName="md:ml-[30px]" />
+      <IntroNavSection category="audit" switchIndex={1} mainClassName="lg:ml-[30px] md:ml-[30px]" />
       <BodyLayout
         selector={
           <AuditSelector
@@ -33,7 +31,7 @@ export function AuditPage() {
         currentPage={currentPage}
         onPageChange={handlePageChange}
         onWriteClick={handleWriteClick}
-        className="mt-[0px] w-full px-[120px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[120px]"
+        className="ls:px-[30px] mt-[0px] w-full px-[120px] xs:px-[30px] sm:px-[30px] md:px-[30px]"
       />
     </>
   );
