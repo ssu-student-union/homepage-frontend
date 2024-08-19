@@ -7,13 +7,6 @@ interface PostCardPetitProps {
   goodNumber?: number; // 좋아요 갯수
 }
 
-const truncateText = (text: string, maxLength: number) => {
-  if (text.length > maxLength) {
-    return text.slice(0, maxLength) + '...';
-  }
-  return text;
-};
-
 const PostCardPetit = ({ title = '', subtitle = '', date, goodNumber = 0 }: PostCardPetitProps) => {
   return (
     <div
@@ -22,9 +15,9 @@ const PostCardPetit = ({ title = '', subtitle = '', date, goodNumber = 0 }: Post
       xs:py-4`}
     >
       <div className={`flex w-full flex-col gap-2.5 xs:gap-2`}>
-        <p className="text-[1.37rem] font-bold xs:text-base">{truncateText(title, 17)}</p>
-        <p className={`text-lg font-normal leading-[1.37rem] text-gray-500 xs:text-sm xs:leading-4`}>
-          {truncateText(subtitle, 45)}
+        <p className="line-clamp-1 text-[1.37rem] font-bold xs:text-base">{title}</p>
+        <p className={`line-clamp-2 text-lg font-normal leading-[1.37rem] text-gray-500 xs:text-sm xs:leading-4`}>
+          {subtitle}
         </p>
       </div>
       <div className={`flex w-full items-center justify-between font-normal`}>

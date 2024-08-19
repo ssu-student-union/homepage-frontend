@@ -26,7 +26,7 @@ export function getStyles(state: Size): Styles {
       };
     case Size.mediumSmall:
       return {
-        container: 'px-5 py-[23rem] w-[637rem] h-[10.69rem]',
+        container: 'px-5 py-[1.44rem] w-[39.8rem] h-[10.69rem]',
         title: 'h-[5.94rem] text-base gap-2 leading-[1.19rem]',
         subtitle: 'text-sm leading-[1.07rem]',
         date: 'h-[1.88rem] text-sm',

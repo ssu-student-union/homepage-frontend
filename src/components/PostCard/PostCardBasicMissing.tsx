@@ -15,13 +15,6 @@ interface PostCardProps {
   profileName?: string; // 계정명
 }
 
-const truncateText = (text: string, maxLength: number) => {
-  if (text.length > maxLength) {
-    return text.slice(0, maxLength) + '...';
-  }
-  return text;
-};
-
 const PostCard = ({
   imgUrl,
   title = '',
@@ -46,8 +39,8 @@ const PostCard = ({
         <img alt="image" src={imgUrl} className={`rounded-[0.5rem] bg-gray-200 object-cover ${styles.image}`} />
         <div className="w-full flex-col">
           <div className={`flex flex-col ${styles.title}`}>
-            <p className={`font-semibold`}>{truncateText(title, 23)}</p>
-            <p className={`font-normal text-gray-500 ${styles.subtitle}`}>{truncateText(subtitle, 40)}</p>
+            <p className={`line-clamp-2 font-semibold`}>{title}</p>
+            <p className={`line-clamp-2 font-normal text-gray-500 ${styles.subtitle}`}>{subtitle}</p>
           </div>
           <hr className={`w-full border border-gray-300 ${styles.hr}`} />
           <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>

@@ -27,21 +27,21 @@ export function MainPage() {
       <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
       <PostCardNotice
         imgUrl="이미지"
-        title="[2024-1] 학기 학생회비 추가 납부"
+        title="[2024-1] 학기 학생회비 추가 납부 납부 방법 안내 어쩌구 저쩌구"
         date="2023/10/02"
         badgeType="New"
         profileName="중앙운영위원회"
       />
       <PostTextPetitionView
-        title="청원 제목이 들어갈 자리입니다"
-        subtitle="청원 게시글 내용입니다. 학생분들이 작성해주신 청원 내용이 이곳에 보여집니다. 청원 게시글 내용입니다."
+        title="청원 제목이 들어갈 자리입니다 청원 제목이 들어갈 자리입니다"
+        subtitle="청원 게시글 내용입니다. 학생분들이 작성해주신 청원 내용이 이곳에 보여집니다. 작성해주신 청원 게시글 내용이 이곳에 보여집니다."
         date="2023/03/21"
         goodNumber={21}
       />
       <PostCardMissing
         imgUrl="이미지"
-        title="에어팟 2세대 에어팟 2세대 에어팟 2세대 에어팟 2세대"
-        subtitle="분실물 번호: 42 / 투명 하드 케이스를 장착한 에어팟 2세대를 보관중입니다."
+        title="에어팟 2세대를 잃어버린 주인을 찾아요 에어팟은 소중합니다 에어팟 주인을 찾습니다"
+        subtitle="분실물 번호: 42 / 투명 하드 케이스를 장착한 에어팟 2세대를 보관중입니다. 투명 하드 케이스를 장착한 에어팟 2세대를 보관중입니다."
         date="2023/10/02"
         size={Size.default}
       />
