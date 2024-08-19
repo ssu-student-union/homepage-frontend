@@ -16,7 +16,7 @@ const Breadcrumb = ({
   items = new Map<string, string | null>([
     ['소개', '/intro?category=president&sub-category=intro'],
     ['총학생회', '/intro?category=president&sub-category=intro'],
-  ]), // 기본값 설정
+  ]),
   className = '',
 }: BreadcrumbProps) => {
   const pathnames = Array.from(items.keys());

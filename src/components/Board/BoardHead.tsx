@@ -1,13 +1,17 @@
+import { cn } from '@/libs/utils';
+
 interface BoardHeadProp {
   title: string;
   subtitle: React.ReactNode;
+  mainStyle?: string;
+  subStyle?: string;
 }
 
-export function BoardHead({ title, subtitle }: BoardHeadProp) {
+export function BoardHead({ title, subtitle, mainStyle = '', subStyle = '' }: BoardHeadProp) {
   return (
     <div className="block">
-      <div className="mb-[11px] text-4xl font-bold">{title}</div>
-      <div className="text-base font-normal text-gray-700">{subtitle}</div>
+      <div className={cn(`mb-1 text-2xl font-bold text-black`, mainStyle)}>{title}</div>
+      <div className={cn(`text-base font-bold text-gray-700`, subStyle)}>{subtitle}</div>
     </div>
   );
 }
