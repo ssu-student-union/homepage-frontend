@@ -26,7 +26,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }: PaginationProps) 
         <PaginationTenPrevious onClick={handleTenPrevious} />
         <PaginationPrevious onClick={() => handlePageChange(currentPage - 1)} />
         {getPageGroup(currentPage, totalPages).map((page) => (
-          <PaginationItem isActive={page === currentPage}>
+          <PaginationItem key={page} isActive={page === currentPage}>
             <PaginationLink onClick={() => handlePageChange(page)}>{page}</PaginationLink>
           </PaginationItem>
         ))}
