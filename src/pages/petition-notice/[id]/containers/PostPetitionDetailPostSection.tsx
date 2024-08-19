@@ -1,4 +1,4 @@
-import { EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
+import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
 import { StateTag } from '@/components/StateTag';
 import { useResize } from '@/hooks/useResize';
 import { Editor, Viewer } from '@toast-ui/react-editor';
@@ -79,6 +79,7 @@ export function PostPetitionDetailPostSection() {
             </p>
           </div>
           <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
+            <DeleteButton />
             <EditButton onClick={handleEditContent} />
             <ListButton onClick={handleMoveToList} />
           </div>
