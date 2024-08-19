@@ -1,5 +1,3 @@
-import { State } from '@/containers/common/Header/const/state';
-import { Header } from '@/containers/common/Header/Header';
 import { useLocation } from 'react-router-dom';
 import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
@@ -15,7 +13,6 @@ export function AuditDetailPage() {
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
-      <Header state={State.Logout} />
       <AuditDetailTopSection title={postData.title} subTitle={postData.subTitle} />
       <AuditDetailContentSection text={postData.contentText} images={postData.contentImages} />
       <AuditDetailFileSection file={postData.file} />
