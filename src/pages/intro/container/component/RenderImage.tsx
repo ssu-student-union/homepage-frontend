@@ -20,7 +20,7 @@ export function RenderImage({ category, subCategory }: RenderImageProps) {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
   const updateImageSrc = () => {
-    const screenWidth = window.innerWidth; // window.screen.width 대신 window.innerWidth 사용
+    const screenWidth = window.innerWidth;
     const imagePaths = getImagePaths(category, subCategory);
 
     if (screenWidth <= 389) {
@@ -34,27 +34,26 @@ export function RenderImage({ category, subCategory }: RenderImageProps) {
     } else if (screenWidth >= 1440) {
       setImageSrc(imagePaths.xl);
     } else {
-      setImageSrc(imagePaths.lg); // 기본 이미지 설정
+      setImageSrc(imagePaths.lg);
     }
   };
 
   useEffect(() => {
-    updateImageSrc(); // 초기 로드 시 이미지 설정
-    window.addEventListener('resize', updateImageSrc); // 화면 크기 변경 시 이미지 업데이트
+    updateImageSrc();
+    window.addEventListener('resize', updateImageSrc);
 
-    // Clean up 이벤트 리스너
     return () => {
       window.removeEventListener('resize', updateImageSrc);
     };
   }, [category, subCategory]);
 
   if (!imageSrc) {
-    return <p>Loading...</p>;
+    return <p>로딩중...</p>;
   }
 
   return (
     <div className="h-auto w-full">
-      <img src={imageSrc} alt="Responsive Image" className="h-auto w-full" />
+      <img src={imageSrc} alt="이미지" className="h-auto w-full" />
     </div>
   );
 }
