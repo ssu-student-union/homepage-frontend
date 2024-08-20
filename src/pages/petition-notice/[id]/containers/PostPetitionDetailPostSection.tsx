@@ -12,7 +12,7 @@ const Content = `<h3>청원취지</h3><h6><br></h6><p>청원취지를 작성해�
 
 export function PostPetitionDetailPostSection() {
   const [isEditting, setIsEditting] = useState(false);
-  const [likeState, setLikeState] = useState(false);
+
   const editorRef = useRef<Editor>(null);
   const navigate = useNavigate();
   const { width } = useResize();
@@ -26,9 +26,7 @@ export function PostPetitionDetailPostSection() {
     navigate('/petition-notice');
   };
 
-  const handleLikeButton = () => {
-    setLikeState((prev) => !prev);
-  };
+  const handleLikeButton = () => {};
   return (
     <>
       <PostPetitionDetailHeadSection />
@@ -51,7 +49,7 @@ export function PostPetitionDetailPostSection() {
             )}
             <div className="mt-[51px] flex justify-start gap-1 text-primary">
               <span className="cursor-pointer" onClick={handleLikeButton}>
-                <ThumbsUp size={25} weight={likeState ? 'regular' : 'fill'} />
+                <ThumbsUp size={25} weight="regular" />
               </span>
               <span className="pt-1">32</span>
             </div>

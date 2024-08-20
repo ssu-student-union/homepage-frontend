@@ -2,29 +2,13 @@ import { BoardSelector } from '@/components/Board/BoardSelector';
 import { Comment } from '@/containers/common/Comment/Comment';
 import { TextArea } from '@/containers/common/TextArea/TextArea';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { PetitionCommentOrderType } from '../../type';
 import { PetitionCommentOrder } from '../../const';
 
 export function PostPetitionDetailCommentSection() {
-  const navigate = useNavigate();
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PetitionCommentOrderType>(
     PetitionCommentOrder[0]
   );
-  useEffect(() => {
-    window.history.pushState(null, '', window.location.href);
-
-    const handlePopState = () => {
-      navigate('/petition-notice');
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [navigate]);
 
   return (
     <>
