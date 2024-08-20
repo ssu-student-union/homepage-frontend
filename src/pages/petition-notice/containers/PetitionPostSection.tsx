@@ -1,11 +1,15 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { Petition } from '@/types';
-import { useState, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PetitionPostContent } from '../../../containers/common/PostContent/PetitionPostContent';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { PAGE_PER_GROUP } from '@/components/Pagination/const';
 import { BodyLayout } from '@/template/BodyLayout';
+import { useBoardSelect } from '@/hooks/useBoardSelect';
+import { PetitionSubcategoriesType } from '../type';
+import { PetitionSubcategories } from '../const';
+import { Spacing } from '@/components/Spacing';
 
 const TEST_DATA = [
   {
@@ -112,23 +116,17 @@ const TEST_DATA = [
 
 export function PetitionPostSection() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { currentPage, handlePageChange } = useCurrentPage(1);
-  const [selectedSubcategory, setSelectedSubcategory] = useState(() => {
-    return searchParams.get('subcategory') || Petition[0];
-  });
-
-  const handleSubcategorySelect = (subcategory: string) => {
-    setSelectedSubcategory(subcategory);
-    navigate(`/petition-notice?category=${subcategory}`);
-  };
+  const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PetitionSubcategoriesType>(
+    PetitionSubcategories[0]
+  );
 
   const filteredData = useMemo(() => {
-    if (selectedSubcategory === '전체') {
+    if (selectedSubcategories === '전체') {
       return TEST_DATA;
     }
-    return TEST_DATA.filter((item) => item.state === selectedSubcategory);
-  }, [selectedSubcategory]);
+    return TEST_DATA.filter((item) => item.state === selectedSubcategories);
+  }, [selectedSubcategories]);
 
   const displayedPostContent = useMemo(() => {
     const startIndex = (currentPage - 1) * PAGE_PER_GROUP;
@@ -141,37 +139,28 @@ export function PetitionPostSection() {
     navigate('/petition-notice/edit');
   };
 
-  // BoardSelector 컴포넌트 들어가는 자리
-  const selectorComponent = (
-    <BoardSelector
-      subcategories={Petition}
-      selectedSubcategory={selectedSubcategory}
-      onSubcategorySelect={handleSubcategorySelect}
-    />
-  );
-
   // Page 메인 컨텐츠 들어가는 자리
   const movePostContentDetail = (id: number) => {
     navigate(`/petition-notice/${id}`);
   };
 
-  const contentComponent = (
-    <>
-      {displayedPostContent.map((data, index) => (
-        <PetitionPostContent data={data} key={index} onClick={movePostContentDetail} />
-      ))}
-    </>
-  );
-
   return (
     <BodyLayout
       title="청원글"
-      selector={selectorComponent}
-      content={contentComponent}
       totalPages={totalPages}
       currentPage={currentPage}
       onPageChange={handlePageChange}
       onWriteClick={handleWriteBtnClick}
-    />
+    >
+      <BoardSelector
+        subcategories={Petition}
+        selectedSubcategory={selectedSubcategories}
+        onSubcategorySelect={onSubcategorySelect}
+      />
+      <Spacing size={40} direction="vertical"></Spacing>
+      {displayedPostContent.map((data, index) => (
+        <PetitionPostContent data={data} key={index} onClick={movePostContentDetail} />
+      ))}
+    </BodyLayout>
   );
 }
