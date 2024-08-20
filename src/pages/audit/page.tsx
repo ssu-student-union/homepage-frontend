@@ -1,5 +1,3 @@
-import { State } from '@/containers/common/Header/const/state';
-import { Header } from '@/containers/common/Header/Header';
 import { HeadLayout } from '@/template/HeadLayout';
 import IntroNavSection from '../intro/container/IntroNavSection';
 import { BodyLayout } from '@/template/BodyLayout';

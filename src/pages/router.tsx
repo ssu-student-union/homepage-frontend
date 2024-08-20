@@ -1,6 +1,5 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { MainPage } from './main/page';
-import { BoardPage } from './boardTest/page';
 import { KakaoRegisterPage } from './kakao/page';
 import { GeneralRegisterPage } from './general/page';
 import KakaoRedirect from './kakao/containers/KakaoRedirect';
@@ -11,6 +10,8 @@ import { AuditDetailPage } from './audit/auditDetail/page';
 import { AuditEditPage } from './audit/auditEdit/page';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
+import { BoardPage } from './boardTest/page';
+import { PartnershipPage } from './partnership/page';
 
 function Layout() {
   return (
@@ -37,6 +38,7 @@ export function MainRouter() {
         <Route path="/audit" element={<AuditPage />} />
         <Route path="/audit/:id" element={<AuditDetailPage />} />
         <Route path="/audit/edit" element={<AuditEditPage />} />
+        <Route path="/partnership" element={<PartnershipPage />} />
       </Route>
     </Routes>
   );
