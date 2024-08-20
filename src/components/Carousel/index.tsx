@@ -13,14 +13,14 @@ export function RigthCarouselButton({ onClick }: CarouselProps) {
         viewBox="0 0 256 256"
         style={{ filter: 'drop-shadow(2px 2px 10px rgba(0,0,0,0.25))' }}
       >
-        <circle cx="128" cy="128" r="120" fill="white" stroke="#E6E6E6" stroke-width="2" filter="url(#shadow)" />
+        <circle cx="128" cy="128" r="120" fill="white" stroke="#E6E6E6" strokeWidth="2" filter="url(#shadow)" />
         <path
           d="M112,84 L168,128 L112,172"
           fill="none"
           stroke="#4A7AFF"
-          stroke-width="24"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="24"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </div>
@@ -40,9 +40,9 @@ export function LeftCarouselButton({ onClick }: CarouselProps) {
           d="M150,84 L94,128 L150,172"
           fill="none"
           stroke="#4A7AFF"
-          stroke-width="32"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="32"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </div>
