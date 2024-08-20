@@ -1,9 +1,9 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
-import { Comment } from '@/containers/common/Comment/Comment';
-import { TextArea } from '@/containers/common/TextArea/TextArea';
+import { TextArea } from '@/components/TextArea/TextArea';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PetitionCommentOrderType } from '../../type';
 import { PetitionCommentOrder } from '../../const';
+import { Comment } from '@/components/Comment/Comment';
 
 export function PostPetitionDetailCommentSection() {
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PetitionCommentOrderType>(
@@ -14,7 +14,7 @@ export function PostPetitionDetailCommentSection() {
     <>
       <div className="mb-[512px] mt-16 px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
         <div className="mb-[51px] flex items-center justify-between">
-          <div className="text-[28px] font-bold xs:text-xl">댓글</div>
+          <div className="text-[1.75rem] font-bold xs:text-[1.25rem]">댓글</div>
           <BoardSelector
             subcategories={PetitionCommentOrder}
             selectedSubcategory={selectedSubcategories}

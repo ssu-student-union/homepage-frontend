@@ -15,7 +15,7 @@ export function PetitionPostContent({ data, onClick }: TestType) {
   const isSmallScreen = width <= 390;
   return (
     <div
-      className="flex cursor-pointer justify-between border-b border-b-gray-400 p-5 text-lg font-medium xs:flex-col xs:p-2 xs:text-xs sm:flex-col sm:p-2"
+      className="flex cursor-pointer justify-between border-b border-b-gray-400 p-5 text-[1.125rem] font-medium xs:flex-col xs:p-2 xs:text-[0.75rem] sm:flex-col sm:p-2"
       onClick={() => onClick(1)}
     >
       <div className="flex gap-5 xs:mb-[11px] sm:mb-[11px]">

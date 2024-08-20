@@ -60,11 +60,11 @@ export function PostPetitionDetailPostSection() {
         </div>
         <div className="mt-[60px] flex-col">
           <div className="w-full rounded-[10px] border border-primary bg-gray-50 p-8">
-            <div className="mb-2 flex text-lg font-bold xs:text-xs">
+            <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
               <Logo size={mobile_screen ? '15px' : '26px'} fill="#2F4BF7" />
               <span className="ml-2 text-[#2F4BF7]">중앙운영위원회 공식답변</span>
             </div>
-            <p className="text-lg font-medium text-[#7E7E7E] xs:text-xs">
+            <p className="text-[1.125rem] font-medium text-[#7E7E7E] xs:text-[0.75rem]">
               와 샌즈! Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
               the industry's standard dummy text ever since the 1500s, when an unknown printer took galley of type and
               scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into

@@ -25,20 +25,20 @@ export function PostTextPetition({ current }: StateTagProps) {
     <div className="petition-item w-[362px] flex-shrink-0 cursor-pointer rounded-[13px] border border-gray-300 bg-white px-5 py-7 xs:w-[304px] xs:py-[15px]">
       <div className="flex flex-col">
         {renderStatusTag()}
-        <div className="mb-[22px] mt-[7px] text-[22px] font-bold text-gray-700 xs:mb-[12px] xs:text-[16px]">
+        <div className="mb-[22px] mt-[7px] text-[1.375rem] font-bold text-gray-700 xs:mb-[12px] xs:text-[1rem]">
           대동제 축제 때 에스파 불러주세요
         </div>
-        <div className="mb-[14px] text-lg font-medium text-gray-500 xs:mb-[9px] xs:text-sm">
+        <div className="mb-[14px] text-[1.125rem] font-medium text-gray-500 xs:mb-[9px] xs:text-[0.875rem]">
           대동제가 좋아요. 우리 학교 축제 짱 디혁국 짱짱 우와우와우 히히히 지금이 몇시죠 집에 가고싶어요. YOASIBI가
           대동제에 올 수 있을까요?
         </div>
         <div className="flex justify-between">
-          <div className="text-lg font-normal text-gray-400 xs:text-xs">2023/03/21</div>
+          <div className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem]">2023/03/21</div>
           <div className="flex gap-1 text-[#7D7BFF]">
             <span className="cursor-pointer xs:pb-[9px] xs:pt-0">
               <ThumbsUp size={isSmallScreen ? 14 : 22} />
             </span>
-            <span className="text-lg font-medium xs:text-xs">32</span>
+            <span className="text-[1.125rem] font-medium xs:text-[0.875rem]">32</span>
           </div>
         </div>
       </div>

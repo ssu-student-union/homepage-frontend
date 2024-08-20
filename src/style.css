@@ -167,19 +167,19 @@ body {
 }
 
 .toastui-editor-contents p {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .toastui-editor-contents h3 {
-  font-size: 19px;
+  font-size: 1.188rem;
 }
 
 @media screen and (min-width: 390px) {
   .toastui-editor-contents p {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 
   .toastui-editor-contents h3 {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 }

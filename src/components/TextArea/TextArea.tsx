@@ -27,10 +27,10 @@ export function TextArea({ children }: TextAreaProps) {
         placeholder="댓글을 남겨보세요"
         onChange={commentLengthHandler}
         maxLength={2000}
-        className="w-full resize-none overflow-hidden rounded-md border border-gray-500 px-8 py-12 text-lg placeholder:text-lg placeholder:font-medium placeholder:text-gray-400 placeholder:xs:text-xs"
+        className="w-full resize-none overflow-hidden rounded-md border border-gray-500 px-8 py-12 text-[1.125rem] placeholder:text-[1.125rem] placeholder:font-medium placeholder:text-gray-400 placeholder:xs:text-[0.75rem]"
       />
       <div className="absolute bottom-4 right-3 flex justify-center gap-1">
-        <p className="mr-[15px] pt-[10px] text-lg text-gray-400 xs:text-xs">{commentCount}/2000</p>
+        <p className="mr-[15px] pt-[10px] text-[1.125rem] text-gray-400 xs:text-[0.75rem]">{commentCount}/2000</p>
         <>{children}</>
         <RegisterButton disabled={commentCount === 0 ? true : false} />
       </div>

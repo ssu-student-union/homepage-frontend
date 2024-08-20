@@ -1,7 +1,7 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PetitionPostContent } from '../../../containers/common/PostContent/PetitionPostContent';
+import { PetitionPostContent } from '../../../components/PostContent/PetitionPostContent';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { PAGE_PER_GROUP } from '@/components/Pagination/const';
 import { BodyLayout } from '@/template/BodyLayout';

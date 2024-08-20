@@ -52,7 +52,7 @@ export function PetitionNoticeEditorSection() {
         <Input
           type="text"
           placeholder="제목을 입력하세요."
-          className="mb-[26px] rounded-[6px] border-gray-300 text-lg placeholder:font-medium placeholder:text-[#BFBFBF]"
+          className="mb-[26px] rounded-[6px] border-gray-300 text-[1.125rem] placeholder:font-medium placeholder:text-[#BFBFBF]"
         />
         <div className="z-0">
           <Editor
@@ -68,7 +68,7 @@ export function PetitionNoticeEditorSection() {
         </div>
       </section>
       <section>
-        <div className="mt-12 text-lg font-bold xs:text-xs sm:text-xs">
+        <div className="mt-12 text-[1.125rem] font-bold xs:text-[0.75rem] sm:text-[0.75rem]">
           <p className="mb-8 text-[#767676]">※ 청원 게시판 안내</p>
           <p className="text-[#A4A4A4]">
             학생청원게시판은 학생이 함께 만들어가는 학생자치를 위해, 학우분들의 의견을 반영하고자 개설한 게시판입니다.
