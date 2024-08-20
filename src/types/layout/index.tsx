@@ -11,6 +11,7 @@ export interface BodyLayoutProps {
   children: React.ReactNode;
   totalPages: number;
   currentPage: number;
+  className: string;
   onPageChange: (page: number) => void;
   onWriteClick: () => void;
 }

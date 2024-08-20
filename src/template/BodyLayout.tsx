@@ -15,7 +15,7 @@ export function BodyLayout({
   className = '',
 }: BodyLayoutProps) {
   return (
-    <div className="mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10">
+    <div className={cn(className, 'mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10')}>
       <p className="mb-6 text-[28px] font-bold">{title}</p>
       {selector}
       <div className="mt-[53px] xs:mt-[25px]">
