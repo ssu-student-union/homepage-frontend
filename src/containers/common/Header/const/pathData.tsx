@@ -20,7 +20,7 @@ export const menuItems = {
   학생자치기구: [
     { name: '산하기구', path: '/affiliated_organization' },
     { name: '특별기구', path: '/special_organization' },
-    { name: '감사기구', path: '/intro?category=audit' },
+    { name: '감사기구', path: '/intro?category=audit&sub-category=intro' },
   ],
   소통: [
     { name: '학생청원게시판', path: '/petition-notice' },

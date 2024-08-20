@@ -2,6 +2,7 @@ import Pagination from '@/components/Pagination';
 import { WriteButton } from '@/components/Buttons/BoardActionButtons';
 import { Search } from '@/components/Search/Search';
 import { BodyLayoutProps } from '@/types/layout';
+import { cn } from '@/libs/utils';
 
 export function BodyLayout({
   title,
@@ -11,6 +12,7 @@ export function BodyLayout({
   currentPage,
   onPageChange,
   onWriteClick,
+  className = '',
 }: BodyLayoutProps) {
   return (
     <div className="mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10">
