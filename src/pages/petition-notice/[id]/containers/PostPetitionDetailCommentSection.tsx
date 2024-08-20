@@ -1,14 +1,17 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { Comment } from '@/containers/common/Comment/Comment';
 import { TextArea } from '@/containers/common/TextArea/TextArea';
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-
-const COMMENT_ORDER = ['최신순', '인기순'];
+import { useBoardSelect } from '@/hooks/useBoardSelect';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { PetitionCommentOrderType } from '../../type';
+import { PetitionCommentOrder } from '../../const';
 
 export function PostPetitionDetailCommentSection() {
   const navigate = useNavigate();
-
+  const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PetitionCommentOrderType>(
+    PetitionCommentOrder[0]
+  );
   useEffect(() => {
     window.history.pushState(null, '', window.location.href);
 
@@ -23,25 +26,15 @@ export function PostPetitionDetailCommentSection() {
     };
   }, [navigate]);
 
-  const [searchParams] = useSearchParams();
-  const [selectedCommentOrder, setSelectedCommentOrder] = useState(() => {
-    return searchParams.get('order') || COMMENT_ORDER[0];
-  });
-
-  const handleSortComment = (subcategory: string) => {
-    setSelectedCommentOrder(subcategory);
-    navigate(`/petition-notice/1/?order=${subcategory}`);
-  };
-
   return (
     <>
       <div className="mb-[512px] mt-16 px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
         <div className="mb-[51px] flex items-center justify-between">
           <div className="text-[28px] font-bold xs:text-xl">댓글</div>
           <BoardSelector
-            subcategories={COMMENT_ORDER}
-            selectedSubcategory={selectedCommentOrder}
-            onSubcategorySelect={handleSortComment}
+            subcategories={PetitionCommentOrder}
+            selectedSubcategory={selectedSubcategories}
+            onSubcategorySelect={onSubcategorySelect}
           />
         </div>
         <TextArea>{null}</TextArea>

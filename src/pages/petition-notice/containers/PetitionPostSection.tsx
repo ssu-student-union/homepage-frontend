@@ -1,5 +1,4 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
-import { Petition } from '@/types';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PetitionPostContent } from '../../../containers/common/PostContent/PetitionPostContent';
@@ -153,7 +152,7 @@ export function PetitionPostSection() {
       onWriteClick={handleWriteBtnClick}
     >
       <BoardSelector
-        subcategories={Petition}
+        subcategories={PetitionSubcategories}
         selectedSubcategory={selectedSubcategories}
         onSubcategorySelect={onSubcategorySelect}
       />
