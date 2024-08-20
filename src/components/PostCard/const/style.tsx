@@ -26,18 +26,7 @@ export function getStyles(state: Size): Styles {
       };
     case Size.medium:
       return {
-        container: 'px-5 py-[1.44rem] w-[62.75rem] h-[10.69rem]',
-        title: 'h-[5.94rem] text-base gap-2 leading-[1.19rem]',
-        subtitle: 'text-sm leading-[1.07rem]',
-        date: 'h-[1.88rem] text-sm',
-        image: 'min-w-[7.81rem] max-w-[7.81rem] h-[7.81rem]',
-        gap: 'gap-[1.69rem]',
-        profileImg: 'w-4 h-4',
-        hr: '',
-      };
-    case Size.mediumSmall:
-      return {
-        container: 'px-5 py-[1.44rem] w-[39.8rem] h-[10.69rem]',
+        container: 'px-5 py-[1.44rem] w-full h-[10.69rem]',
         title: 'h-[5.94rem] text-base gap-2 leading-[1.19rem]',
         subtitle: 'text-sm leading-[1.07rem]',
         date: 'h-[1.88rem] text-sm',
@@ -48,7 +37,7 @@ export function getStyles(state: Size): Styles {
       };
     case Size.small:
       return {
-        container: 'px-5 py-[0.81rem] w-[20.25rem] h-[7.56rem]',
+        container: 'px-5 py-[0.81rem] w-full h-[7.56rem]',
         title: 'h-[4.06rem] text-sm gap-2 leading-4',
         subtitle: 'text-xs leading-[0.88rem]',
         date: 'h-[1.88rem] text-[0.62rem]',
