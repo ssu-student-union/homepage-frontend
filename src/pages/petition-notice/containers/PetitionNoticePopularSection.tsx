@@ -35,7 +35,7 @@ export function PetitionNoticePopularSection() {
     return () => {
       if (current) {
         window.removeEventListener('scroll', () => handleScroll(ref));
-      } // clean up
+      }
     };
   }, []);
 
