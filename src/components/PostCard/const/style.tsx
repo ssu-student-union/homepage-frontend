@@ -13,7 +13,7 @@ interface Styles {
 
 export function getStyles(state: Size): Styles {
   switch (state) {
-    case Size.audit:
+    case Size.large:
       return {
         container: 'w-[400px] h-[209px] px-[16px] py-[16px]',
         title: 'h-[146px] text-base gap-1',
