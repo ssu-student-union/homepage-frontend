@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Size } from '@/components/PostCard/const/state';
-import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { calculateTotalPages, getCurrentPosts } from '../utils/paginationUtils';
-import { useNavigate } from 'react-router-dom';
 
-export function useAuditPageSet(posts: any[]) {
-  const { currentPage, handlePageChange } = useCurrentPage(1);
+export function useResponseHook() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(9);
   const [size, setSize] = useState<Size>(Size.default);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,19 +31,5 @@ export function useAuditPageSet(posts: any[]) {
     };
   }, []);
 
-  const totalPages = calculateTotalPages(posts.length, itemsPerPage);
-  const currentPosts = getCurrentPosts(posts, currentPage, itemsPerPage);
-
-  const handleWriteClick = () => {
-    navigate('/audit/edit');
-  };
-
-  return {
-    currentPage,
-    handlePageChange,
-    size,
-    currentPosts,
-    totalPages,
-    handleWriteClick,
-  };
+  return { itemsPerPage, size };
 }

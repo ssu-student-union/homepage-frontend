@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
-import { AuditDetailFileSection } from './container/auditDetailFileSection';
 import { AuditDetailEditSection } from './container/auditDetailEditSection';
 export function AuditDetailPage() {
   const location = useLocation();
@@ -13,9 +12,9 @@ export function AuditDetailPage() {
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
-      <AuditDetailTopSection title={postData.title} subTitle={postData.subTitle} />
-      <AuditDetailContentSection text={postData.contentText} images={postData.contentImages} />
-      <AuditDetailFileSection file={postData.file} />
+      <AuditDetailTopSection title={postData.title} date={postData.date} />
+      <AuditDetailContentSection content={postData.content} />
+      {/* <AuditDetailFileSection file={postData.file} /> */}
       <AuditDetailEditSection />
     </div>
   );

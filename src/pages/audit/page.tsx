@@ -1,13 +1,23 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import IntroNavSection from '../intro/container/IntroNavSection';
 import { BodyLayout } from '@/template/BodyLayout';
-import { useAuditPageSet } from './hooks/useAuditPageSet';
 import { AuditContent } from './component/AuditContent';
 import { AuditSelector } from './component/AuditSelector';
-import { fakeData } from './const/fakeData';
+import { usePagination } from './hooks/usePagination';
 
 export function AuditPage() {
-  const { currentPage, handlePageChange, size, currentPosts, totalPages, handleWriteClick } = useAuditPageSet(fakeData);
+  const boardCode = '감사기구게시판';
+  const groupCode = '감사위원회';
+  const memberCode = '중앙감사위원회';
+  const accessToken =
+    'eyJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzI0MTQwNzg2LCJleHAiOjE3MjQxNTE1ODZ9.08W4GhLHHCEaip7od0ou2JuDk7Zqyl60-KKTAbfFFKM';
+
+  const { currentPage, handlePageChange, size, currentPosts, totalPages, handleWriteClick } = usePagination(
+    boardCode,
+    groupCode,
+    memberCode,
+    accessToken
+  );
 
   return (
     <>
