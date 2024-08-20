@@ -33,8 +33,8 @@ export function PostPetitionDetailPostSection() {
     <>
       <PostPetitionDetailHeadSection />
       <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
-        <div className="flex justify-between gap-10 lg:justify-center">
-          <div>
+        <div className="flex justify-between gap-10 ">
+          <div className="w-full">
             {isEditting ? (
               <Editor
                 ref={editorRef}
@@ -53,7 +53,7 @@ export function PostPetitionDetailPostSection() {
               <span className="cursor-pointer" onClick={handleLikeButton}>
                 <ThumbsUp size={25} weight={likeState ? 'regular' : 'fill'} />
               </span>
-              <span className="cursor-pointer pt-1">32</span>
+              <span className="pt-1">32</span>
             </div>
           </div>
           <div className="xs:hidden sm:hidden md:hidden">

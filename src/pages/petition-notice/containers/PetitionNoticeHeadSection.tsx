@@ -12,6 +12,7 @@ export function PetitionNoticeHeadSection() {
           </span>
         </>
       }
+      borderOff={false}
     />
   );
 }

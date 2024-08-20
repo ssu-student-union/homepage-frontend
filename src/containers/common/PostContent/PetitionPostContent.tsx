@@ -12,7 +12,7 @@ interface TestType {
 export function PetitionPostContent({ data, onClick }: TestType) {
   return (
     <div
-      className="flex cursor-pointer justify-between border-b border-b-gray-400 p-5 text-lg font-medium xs:flex-col xs:p-0 sm:flex-col sm:p-0"
+      className="flex cursor-pointer justify-between border-b border-b-gray-400 p-5 text-lg font-medium xs:flex-col xs:p-2 sm:flex-col sm:p-2"
       onClick={() => onClick(1)}
     >
       <div className="flex gap-5 xs:mb-[11px] sm:mb-[11px]">
