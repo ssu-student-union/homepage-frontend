@@ -1,25 +1,26 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
 import { StateTag } from '@/components/StateTag';
 import { useResize } from '@/hooks/useResize';
-import { Editor, Viewer } from '@toast-ui/react-editor';
+import { Viewer } from '@toast-ui/react-editor';
 import { ThumbsUp } from '@phosphor-icons/react';
-import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '@/components/Logo/Logo';
-import { PostPetitionDetailHeadSection } from './PostPetitionDetailHeadSection';
+import Breadcrumb from '@/components/Breadcrumb';
+import { PostHead } from '@/components/PostHead';
 
 const Content = `<h3>청원취지</h3><h6><br></h6><p>청원취지를 작성해주세요.</p><h3><br></h3><h3>청원내용</h3><h6><br></h6><p>청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.</p><h3><br></h3><h3>청원대안</h3><h6><br></h6><p>청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.</p>`;
 
 export function PostPetitionDetailPostSection() {
-  const [isEditting, setIsEditting] = useState(false);
-
-  const editorRef = useRef<Editor>(null);
+  const breadcrumbItems = new Map<string, string | null>([
+    ['소통', null],
+    ['청원게시판', '/petition-notice'],
+  ]);
   const navigate = useNavigate();
   const { width } = useResize();
   const mobile_screen = width < 391;
 
   const handleEditContent = () => {
-    setIsEditting((prev) => !prev);
+    navigate('/petition-notice/edit');
   };
 
   const handleMoveToList = () => {
@@ -29,24 +30,19 @@ export function PostPetitionDetailPostSection() {
   const handleLikeButton = () => {};
   return (
     <>
-      <PostPetitionDetailHeadSection />
+      <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+        <Breadcrumb items={breadcrumbItems} />
+        <PostHead
+          title="[답변완료] 대동체 축제 때 에스파 불러주세요"
+          writer="20****03"
+          date="2021-11-08T11:44:30.327959"
+        />
+      </div>
+      <hr />
       <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
         <div className="flex justify-between gap-10 ">
           <div className="w-full">
-            {isEditting ? (
-              <Editor
-                ref={editorRef}
-                height="620px"
-                initialValue={Content}
-                previewStyle="vertical"
-                initialEditType="wysiwyg"
-                useCommandShortcut={true}
-                hideModeSwitch={true}
-                language="ko-KR"
-              />
-            ) : (
-              <Viewer initialValue={Content} />
-            )}
+            <Viewer initialValue={Content} />
             <div className="mt-[51px] flex justify-start gap-1 text-primary">
               <span className="cursor-pointer" onClick={handleLikeButton}>
                 <ThumbsUp size={25} weight="regular" />
