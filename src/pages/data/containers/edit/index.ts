@@ -28,7 +28,6 @@ export const userCategories: UserCategories = {
   ssuvoteit: ['선거시행세칙', '선거세부지침서', '특별선거시행세칙'],
   ssuvotessudy: ['선거시행세칙', '선거세부지침서', '특별선거시행세칙'],
 
-  // Other ssuvote categories are the same, so omitted for brevity...
   ssuaudit1897: ['회계교육자료', '감사시행세칙', '회계지침서', '감사결과보고서', '회의록'],
   ssuauditbusiness: ['감사시행세칙', '회계지침서', '감사결과보고서', '회의록'],
   ssuauditecontrade: ['감사시행세칙', '회계지침서', '감사결과보고서', '회의록'],
@@ -39,7 +38,6 @@ export const userCategories: UserCategories = {
   ssuauditnatural: ['감사시행세칙', '회계지침서', '감사결과보고서', '회의록'],
   ssuauditit: ['감사시행세칙', '회계지침서', '감사결과보고서', '회의록'],
 
-  // Other audit categories are the same, so omitted for brevity...
   ssubusiness1897: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '대표자회의 결과보고'],
   ssuengineering1897: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '대표자회의 결과보고'],
   ssucollegeoflaw1897: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '대표자회의 결과보고'],

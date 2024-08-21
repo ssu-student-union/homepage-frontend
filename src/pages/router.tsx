@@ -12,6 +12,7 @@ import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
 import { BoardPage } from './boardTest/page';
 import { PartnershipPage } from './partnership/page';
+import { Data } from './data/page';
 
 function Layout() {
   return (
@@ -39,6 +40,8 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<AuditDetailPage />} />
         <Route path="/audit/edit" element={<AuditEditPage />} />
         <Route path="/partnership" element={<PartnershipPage />} />
+        <Route path="/data" element={<Data />} />
+        <Route path="/data/edit" element={<Data />} />
       </Route>
     </Routes>
   );

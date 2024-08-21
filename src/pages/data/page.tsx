@@ -13,7 +13,7 @@ import UploadSection from './containers/edit/UploadSection';
 
 export function Data() {
   const location = useLocation();
-  const userId = 'ssutudent1897';
+  const userId = 'ssuoperating1897';
 
   return (
     <>

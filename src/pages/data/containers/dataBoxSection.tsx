@@ -1,4 +1,4 @@
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import {
   PaginationContainer,
   PaginationContent,
@@ -25,17 +25,26 @@ export default function DataBoxSection() {
 
     const categorizedDataBoxes = fileData.map((file: any) => ({
       ...file,
-      category: majorOptions[Math.floor(Math.random() * majorOptions.length)],
+      category: file.category || majorOptions[Math.floor(Math.random() * majorOptions.length)], // Ensure category is present
       createdAt: file.createdAt ? new Date(file.createdAt).getTime() : new Date().getTime(),
     }));
 
-    const sortedData = categorizedDataBoxes.sort((a, b) => b.createdAt - a.createdAt);
-    setDataBoxes(sortedData);
+    const specialCategoryData = categorizedDataBoxes.filter(
+      (data) => Array.isArray(data.category) && data.category.includes('총학생회칙')
+    );
+    const regularData = categorizedDataBoxes.filter(
+      (data) => Array.isArray(data.category) && !data.category.includes('총학생회칙')
+    );
+
+    const sortedRegularData = regularData.sort((a, b) => b.createdAt - a.createdAt);
+
+    const combinedData = [...specialCategoryData, ...sortedRegularData];
+    setDataBoxes(combinedData);
   }, []);
 
   const totalPages = Math.ceil(dataBoxes.length / ITEMS_PER_PAGE);
 
-  const handlePageChange = (page: SetStateAction<number>) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
@@ -66,34 +75,45 @@ export default function DataBoxSection() {
 
   return (
     <div className="mt-8 grid place-items-center border-t border-black sm:w-[364px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]">
-      {currentData.map((data, index) => (
-        <div
-          key={index}
-          className="h-[100px] border-b border-[#C2C2C2] py-4 sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
-        >
-          <div className="flex justify-between">
-            <div className="text-lg font-medium text-black xs:text-sm sm:text-sm">
-              {data.uploadName || 'Unnamed Upload'}
-            </div>
-            <div className="text-lg font-medium text-[#888888] xs:text-sm sm:text-sm">
-              {data.uploadDate || 'Unknown Date'}
-            </div>
-          </div>
-          <div className="mt-[5px] flex justify-end space-x-2">
-            {Array.isArray(data.fileData) &&
-              Array.isArray(data.fileName) &&
-              data.fileData.map((fileData: string, fileIndex: number) => (
-                <button
-                  key={fileIndex}
-                  onClick={() => handleDownload(fileData, data.fileName[fileIndex])}
-                  className="h-[31px] w-auto cursor-pointer rounded-[5px] border-none bg-[#f0f0f0] px-6 text-[16px]"
+      {currentData.length > 0 ? (
+        currentData.map((data, index) => {
+          const hasSpecialCategory = Array.isArray(data.category) && data.category.includes('총학생회칙');
+          return (
+            <div
+              key={index}
+              className="h-[100px] border-b border-[#C2C2C2] py-4 sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
+            >
+              <div className="flex justify-between">
+                <div
+                  className={`flex ${hasSpecialCategory ? '' : 'pl-16'} text-lg font-medium text-black xs:text-sm sm:text-sm`}
                 >
-                  {data.fileName[fileIndex]}
-                </button>
-              ))}
-          </div>
-        </div>
-      ))}
+                  {hasSpecialCategory && <div className="mr-5">[공지]</div>}
+                  {data.uploadName || 'Unnamed Upload'}
+                </div>
+                <div className="text-lg font-medium text-[#888888] xs:text-sm sm:text-sm">
+                  {data.uploadDate || 'Unknown Date'}
+                </div>
+              </div>
+
+              <div className="mt-[5px] flex justify-end space-x-2">
+                {Array.isArray(data.fileData) &&
+                  Array.isArray(data.fileName) &&
+                  data.fileData.map((fileData: string, fileIndex: number) => (
+                    <button
+                      key={fileIndex}
+                      onClick={() => handleDownload(fileData, data.fileName[fileIndex])}
+                      className="h-[31px] w-auto cursor-pointer rounded-[5px] border-none bg-[#f0f0f0] px-6 text-[16px]"
+                    >
+                      {data.fileName[fileIndex]}
+                    </button>
+                  ))}
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        <div className="text-center text-lg font-medium text-gray-500">No data available</div>
+      )}
 
       <div className="mt-[34px] hidden xs:block sm:block md:block">
         <DataEditBtn />

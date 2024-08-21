@@ -10,7 +10,7 @@ export default function DataEditBtn({ ...props }) {
   };
 
   return (
-    <Button variant={'Write'} {...props} onClick={handleClick}>
+    <Button className="h-[42px] w-[123px]" variant={'Write'} {...props} onClick={handleClick}>
       <Pencil />
       <p>글쓰기</p>
     </Button>

@@ -8,14 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
 export default function UploadSection({ userId }: { userId: string }) {
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors, isValid },
-    trigger,
-  } = useForm({
+  const { control, handleSubmit, setValue, getValues, trigger } = useForm({
     mode: 'onChange',
     defaultValues: {
       uploadName: '',
@@ -27,6 +20,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   const [categories, setCategories] = useState<string[]>([]);
   const [fileInputs, setFileInputs] = useState([{ id: 1, type: '', fileName: '', isNew: true }]);
   const [fileOptions, setFileOptions] = useState([]);
+  const [tempFiles, setTempFiles] = useState([]);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -79,29 +73,14 @@ export default function UploadSection({ userId }: { userId: string }) {
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        const existingFiles = JSON.parse(localStorage.getItem('fileData')) || [];
-        const existingFileData = existingFiles.find((f) => f.uploadName === uploadName);
+        const newFile = {
+          fileData: reader.result,
+          fileName: file.name,
+          category,
+          fileType: fileType || '',
+        };
 
-        if (existingFileData) {
-          // 기존 파일에 추가
-          existingFileData.fileData.push(reader.result);
-          existingFileData.fileName.push(file.name);
-          existingFileData.category.push(category);
-          existingFileData.fileType.push(fileType || '');
-          aptured;
-        } else {
-          const newFileData = {
-            uploadName,
-            uploadDate: new Date().toLocaleDateString(),
-            fileData: [reader.result],
-            fileName: [file.name],
-            category: [category],
-            fileType: [fileType || ''],
-          };
-          existingFiles.push(newFileData);
-        }
-
-        localStorage.setItem('fileData', JSON.stringify(existingFiles));
+        setTempFiles((prevFiles) => [...prevFiles, newFile]);
 
         setFileInputs((prevInputs) => [
           { id: prevInputs.length + 1, type: '', fileName: file.name, isNew: false },
@@ -118,6 +97,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   const handleRemoveInput = (id) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
       setFileInputs((prevInputs) => prevInputs.filter((input) => input.id !== id));
+      setTempFiles((prevFiles) => prevFiles.filter((file, index) => index !== id - 1));
       trigger();
     }
   };
@@ -128,6 +108,21 @@ export default function UploadSection({ userId }: { userId: string }) {
       alert('제목이 없습니다. 제목을 입력하세요.');
       return;
     }
+
+    const existingFiles = JSON.parse(localStorage.getItem('fileData')) || [];
+
+    const newFileData = {
+      uploadName: formValues.uploadName,
+      uploadDate: new Date().toLocaleDateString(),
+      fileData: tempFiles.map((file) => file.fileData),
+      fileName: tempFiles.map((file) => file.fileName),
+      category: tempFiles.map((file) => file.category),
+      fileType: tempFiles.map((file) => file.fileType),
+    };
+
+    existingFiles.push(newFileData);
+    localStorage.setItem('fileData', JSON.stringify(existingFiles));
+
     navigate('/data');
   };
 
@@ -166,7 +161,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                 trigger();
               }}
               value={field.value}
-              className="ml-[10px] py-0 pl-9 text-lg text-gray-500 xs:h-[33px] xs:w-[105px] sm:h-[43px] sm:w-[141px] md:h-[44px] md:w-[140px] lg:h-[44px] lg:w-[141px] xl:h-[44px] xl:w-[141px] xxl:h-[44px] xxl:w-[354px]"
+              className="ml-[10px] py-0 pl-9 text-sm text-gray-500 xs:h-[33px] xs:w-[105px] sm:h-[43px] sm:w-[141px] md:h-[44px] md:w-[140px] lg:h-[44px] lg:w-[141px] xl:h-[44px]  xl:w-[141px] xxl:h-[44px] xxl:w-[354px]"
             />
           )}
         />
@@ -182,15 +177,15 @@ export default function UploadSection({ userId }: { userId: string }) {
                     <FileText className="top-20% absolute left-3 text-gray-600" />
                     <Input
                       type="text"
-                      placeholder="파일이름"
-                      className="left-2 border-gray-300 pl-10 text-sm font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] xl:h-[62px] xl:w-[727px] xxl:h-[62px] xxl:w-[1061px]"
+                      placeholder="파일을 선택해주세요"
+                      className="left-2 border-gray-300 pl-10 text-sm font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] lg:text-lg xl:h-[62px] xl:w-[727px]  xl:text-lg xxl:h-[62px] xxl:w-[1061px]"
                     />
                   </div>
 
                   <FilterDropDown
                     defaultValue="파일종류 선택"
                     optionValue={fileOptions}
-                    className="ml-[16px] border-gray-500 pl-9 text-gray-500 xs:h-[31px] xs:w-[186px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] xl:h-[62px] xl:w-[224px] xxl:h-[62px] xxl:w-[354px]"
+                    className="ml-[16px] border-gray-500 pl-9 text-sm  text-gray-500 xs:h-[31px] xs:w-[186px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg  xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                     value={''}
                     aria-disabled="true"
                     disabled
@@ -212,7 +207,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                         <Input
                           type="text"
                           placeholder="파일이름"
-                          className="left-2 border-gray-300 pl-10 text-sm font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] xl:h-[62px] xl:w-[727px] xxl:h-[62px] xxl:w-[1061px]"
+                          className="xl: left-2 border-gray-300 pl-10 font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] lg:text-lg xl:h-[62px] xl:w-[727px] xl:text-lg xxl:h-[62px] xxl:w-[1061px]"
                           {...field}
                           onChange={(e) => {
                             field.onChange(e);
@@ -237,7 +232,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                           trigger();
                         }}
                         value={field.value}
-                        className="ml-[16px] border-gray-500 pl-9 text-gray-500 xs:h-[31px] xs:w-[186px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] xl:h-[62px] xl:w-[224px] xxl:h-[62px] xxl:w-[354px]"
+                        className="ml-[16px] border-gray-500 pl-9  text-sm text-gray-500 xs:h-[31px] xs:w-[186px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px]  xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
                   />

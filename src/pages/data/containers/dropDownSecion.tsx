@@ -31,6 +31,7 @@ export function DropdownSection({ majorOptions, middleOptions, minorOptions }: S
           optionValue={middleCategoryOptions}
           onValueChange={setMiddleCategory}
           value={middleCategory}
+          className="xs:w-[335px] sm:w-[335px]"
         />
       </div>
       <div className="mt-4"></div>
@@ -40,6 +41,7 @@ export function DropdownSection({ majorOptions, middleOptions, minorOptions }: S
           optionValue={minorCategoryOptions}
           onValueChange={setMinorCategory}
           value={minorCategory}
+          className="xs:w-[335px] sm:w-[335px]"
         />
       </div>
     </div>
