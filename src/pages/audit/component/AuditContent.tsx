@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { Size } from '@/components/PostCard/const/state';
 import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
 import { handleCardClick } from '../utils/handleCardClick';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
+import { Size } from '@/components/PostCard/const/state';
+import { useResponseHook } from '../hooks/useResponseHook';
+import { useEffect, useState } from 'react';
 
 interface AuditContentProps {
-  posts: {
+  initPosts: {
     postId: number;
     title: string;
     content: string;
@@ -13,59 +15,74 @@ interface AuditContentProps {
     thumbNail: string | null;
     status: 'Emergency' | 'New' | 'Default';
   }[];
-  size?: Size;
   className?: string;
 }
 
-export function AuditContent({ posts, size = Size.default }: AuditContentProps) {
+export function AuditContent({ initPosts }: AuditContentProps) {
   const navigate = useNavigate();
+  const { size } = useResponseHook();
+  const screenWidth = window.innerWidth;
+  const [posts, setPosts] = useState(initPosts);
 
-  if (size == Size.default) {
+  useEffect(() => {
+    setPosts(initPosts);
+  }, [initPosts]);
+
+  if (!posts || posts.length === 0) {
+    return <div>게시물이 없습니다.</div>;
+  }
+
+  if (screenWidth >= 1920) {
     return (
       <div className="flex flex-col justify-between">
         <div className="flex flex-row justify-between pb-[30px]">
           {posts.slice(0, 3).map((post) => (
-            <RenderCard key={post.postId} post={post} />
+            <RenderCard key={post.postId} post={post} size={size} />
           ))}
         </div>
         <div className="flex flex-row justify-between pb-[30px]">
           {posts.slice(3, 6).map((post) => (
-            <RenderCard key={post.postId} post={post} />
+            <RenderCard key={post.postId} post={post} size={size} />
           ))}
         </div>
         <div className="flex flex-row justify-between">
           {posts.slice(6, 9).map((post) => (
-            <RenderCard key={post.postId} post={post} />
+            <RenderCard key={post.postId} post={post} size={size} />
           ))}
         </div>
       </div>
     );
-  } else if (size == Size.audit) {
+  } else if (screenWidth >= 1440 && screenWidth < 1920) {
     return (
       <div className="flex flex-col justify-between">
         <div className="flex flex-row justify-between pb-[30px]">
-          {posts.slice(0, 3).map((post) => (
-            <RenderCard key={post.postId} post={post} />
+          {posts.slice(0, 2).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
           ))}
         </div>
         <div className="flex flex-row justify-between">
-          {posts.slice(3, 6).map((post) => (
-            <RenderCard key={post.postId} post={post} />
+          {posts.slice(2, 4).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
+          ))}
+        </div>
+        <div className="flex flex-row justify-between">
+          {posts.slice(4, 6).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
           ))}
         </div>
       </div>
     );
-  } else if (size == Size.medium || size == Size.mediumSmall || size == Size.small) {
+  } else {
     return (
       <div className="flex flex-col justify-between">
         {posts.map((post) => (
-          <RenderCard key={post.postId} post={post} />
+          <RenderCard key={post.postId} post={post} size={size} />
         ))}
       </div>
     );
   }
 
-  function RenderCard({ post }: { post: AuditContentProps['posts'][number] }) {
+  function RenderCard({ post, size }: { post: AuditContentProps['initPosts'][number]; size: Size }) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
     return (
       <div key={post.postId} className="xs-pb[20px] sm:pb-[20px] md:pb-[20px] lg:pb-[20px]">

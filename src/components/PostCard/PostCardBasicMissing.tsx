@@ -28,36 +28,25 @@ const PostCard = ({
   size = Size.default,
   profileImg = profileImgDefault, // default 프로필이미지 - 추후 변경 또는 삭제
   profileName = 'US:SUM', // default 계정명 - 추후 변경 또는 삭제
-<<<<<<< HEAD
   onClick = () => {},
   className = '',
-=======
->>>>>>> main
 }: PostCardProps) => {
   const styles = getStyles(size);
 
   return (
     <div
-<<<<<<< HEAD
       className={cn(
         `relative flex cursor-pointer items-center justify-center rounded-[10px] border border-gray-300 bg-white text-xs`,
         styles.container,
         className
       )}
       onClick={onClick}
-=======
-      className={`relative flex cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white text-xs ${styles.container}`}
->>>>>>> main
     >
       {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
       {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
       {badgeType === 'Default' && <Badge variant="Default"></Badge>}
       <div className={`flex h-full w-full ${styles.gap}`}>
-<<<<<<< HEAD
         <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
-=======
-        <img alt="image" src={imgUrl} className={`rounded-[0.5rem] bg-gray-200 object-cover ${styles.image}`} />
->>>>>>> main
         <div className="w-full flex-col">
           <div className={`flex flex-col ${styles.title}`}>
             <p className={`line-clamp-2 font-semibold`}>{title}</p>

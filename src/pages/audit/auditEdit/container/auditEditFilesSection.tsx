@@ -31,7 +31,7 @@ export function AuditEditFilesSection() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center pt-[8px]">
+    <div className="flex flex-col items-center justify-center pt-[12px]">
       <div className="full flex w-full flex-col">
         {files.map((fileItem, index) => (
           <div key={fileItem.id} className="flex items-center pb-[8px]">

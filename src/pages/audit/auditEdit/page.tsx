@@ -3,6 +3,7 @@ import { AuditEditTitleSection } from './container/auditEditTitleSection';
 import { AuditEditContentSection } from './container/auditEditContentSection/auditEditContentSection';
 import { AuditEditSubmitButton } from './container/auditEditSubmitButton';
 import { AuditEditFilesSection } from './container/auditEditFilesSection';
+import { AuditEditImageSection } from './container/auditEditImageSection';
 
 export function AuditEditPage() {
   return (
@@ -10,6 +11,7 @@ export function AuditEditPage() {
       <AuditEditTopSection title="감사기구" />
       <AuditEditTitleSection />
       <AuditEditContentSection />
+      <AuditEditImageSection />
       <AuditEditFilesSection />
       <AuditEditSubmitButton />
     </div>

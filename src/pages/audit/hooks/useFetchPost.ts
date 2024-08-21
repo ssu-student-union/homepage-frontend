@@ -1,30 +1,16 @@
+import { client } from '@/apis/client';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
-export function useFetchPost(
-  boardCode: string,
-  groupCode: string,
-  memberCode: string,
-  accessToken: string,
-  currentPage: number,
-  itemsPerPage: number
-) {
+export function useFetchPost(boardCode: string, accessToken: string, currentPage: number, itemsPerPage: number) {
   const [posts, setPosts] = useState<any[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      console.log('Fetching posts with params:', {
-        boardCode,
-        groupCode,
-        memberCode,
-        accessToken,
-        itemsPerPage,
-        currentPage,
-      });
-
+      setLoading(true);
       try {
-        const response = await axios.get('/api/board/감사기구게시판/감사위원회/중앙감사위원회/posts', {
+        const response = await client.get(`/board/${boardCode}/posts`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -34,9 +20,7 @@ export function useFetchPost(
           },
         });
 
-        console.log('Received response:', response.data);
-
-        if (response.data.isSuccess) {
+        if (response.data.isSuccess && Array.isArray(response.data.data.postListResDto)) {
           const transformedPosts = response.data.data.postListResDto.map((post: any) => ({
             postId: post.postId,
             title: post.title,
@@ -47,17 +31,22 @@ export function useFetchPost(
           }));
 
           setPosts(transformedPosts);
-          setTotalPages(Math.ceil(response.data.data.pageInfo.totalElements / itemsPerPage));
         } else {
-          console.error('Error fetching posts:', response.data.message);
+          console.error('에러');
+          setPosts([]);
         }
+
+        setTotalPages(Math.ceil(response.data.data.pageInfo.totalElements / itemsPerPage));
       } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.error('에러: ', error);
+        setPosts([]);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPosts();
-  }, [boardCode, groupCode, memberCode, accessToken, currentPage, itemsPerPage]);
+  }, [boardCode, accessToken, currentPage, itemsPerPage]);
 
-  return { posts, totalPages };
+  return { posts, totalPages, loading };
 }

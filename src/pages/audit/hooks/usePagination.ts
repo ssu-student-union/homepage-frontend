@@ -1,16 +1,22 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { getCurrentPosts } from '../utils/paginationUtils';
 import { useResponseHook } from './useResponseHook';
 import { useFetchPost } from './useFetchPost';
 
-export function usePagination(boardCode: string, groupCode: string, memberCode: string, accessToken: string) {
+export function usePagination(boardCode: string, accessToken: string) {
   const { currentPage, handlePageChange } = useCurrentPage(1);
   const { itemsPerPage, size } = useResponseHook();
-  const { posts, totalPages } = useFetchPost(boardCode, groupCode, memberCode, accessToken, currentPage, itemsPerPage);
+  const { posts, totalPages, loading } = useFetchPost(boardCode, accessToken, currentPage, itemsPerPage);
   const navigate = useNavigate();
 
-  const currentPosts = getCurrentPosts(posts, currentPage, itemsPerPage);
+  const [currentPosts, setCurrentPosts] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!loading) {
+      setCurrentPosts(posts);
+    }
+  }, [posts, loading]);
 
   const handleWriteClick = () => {
     navigate('/audit/edit');
@@ -23,5 +29,6 @@ export function usePagination(boardCode: string, groupCode: string, memberCode: 
     currentPosts,
     totalPages,
     handleWriteClick,
+    loading,
   };
 }

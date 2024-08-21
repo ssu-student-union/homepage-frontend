@@ -13,10 +13,10 @@ export function useResponseHook() {
         setSize(Size.small);
       } else if (width < 1440) {
         setItemsPerPage(5);
-        setSize(Size.mediumSmall);
+        setSize(Size.medium);
       } else if (width < 1920) {
         setItemsPerPage(6);
-        setSize(Size.large);
+        setSize(Size.default);
       } else {
         setItemsPerPage(9);
         setSize(Size.default);
