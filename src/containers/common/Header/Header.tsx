@@ -10,12 +10,12 @@ import { Navigation } from './component/Navigation';
 import { Link } from 'react-router-dom';
 
 interface HeaderProps {
-    state?: State
+  state?: State;
 }
 
 export function Header({ state = State.Onboarding }: HeaderProps) {
-    const isMobile = useIsMobile()
-    const styles = getStyles(state)
+  const isMobile = useIsMobile();
+  const styles = getStyles(state);
 
   return (
     <div
