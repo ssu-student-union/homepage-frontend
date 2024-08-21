@@ -18,16 +18,9 @@ interface PostCardProps {
   className?: string;
 }
 
-const truncateText = (text: string, maxLength: number) => {
-  if (text.length > maxLength) {
-    return text.slice(0, maxLength) + '...';
-  }
-  return text;
-};
-
 const PostCard = ({
   imgUrl,
-  title,
+  title = '',
   subtitle = '',
   date,
   badgeType,
@@ -35,29 +28,40 @@ const PostCard = ({
   size = Size.default,
   profileImg = profileImgDefault, // default 프로필이미지 - 추후 변경 또는 삭제
   profileName = 'US:SUM', // default 계정명 - 추후 변경 또는 삭제
+<<<<<<< HEAD
   onClick = () => {},
   className = '',
+=======
+>>>>>>> main
 }: PostCardProps) => {
   const styles = getStyles(size);
 
   return (
     <div
+<<<<<<< HEAD
       className={cn(
         `relative flex cursor-pointer items-center justify-center rounded-[10px] border border-gray-300 bg-white text-xs`,
         styles.container,
         className
       )}
       onClick={onClick}
+=======
+      className={`relative flex cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white text-xs ${styles.container}`}
+>>>>>>> main
     >
       {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
       {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
       {badgeType === 'Default' && <Badge variant="Default"></Badge>}
       <div className={`flex h-full w-full ${styles.gap}`}>
+<<<<<<< HEAD
         <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
+=======
+        <img alt="image" src={imgUrl} className={`rounded-[0.5rem] bg-gray-200 object-cover ${styles.image}`} />
+>>>>>>> main
         <div className="w-full flex-col">
           <div className={`flex flex-col ${styles.title}`}>
-            <p className={`font-semibold`}>{title}</p>
-            <p className={`font-normal text-gray-500 ${styles.subtitle}`}>{truncateText(subtitle, 40)}</p>
+            <p className={`line-clamp-2 font-semibold`}>{title}</p>
+            <p className={`line-clamp-2 font-normal text-gray-500 ${styles.subtitle}`}>{subtitle}</p>
           </div>
           <hr className={`w-full border border-gray-300 ${styles.hr}`} />
           <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>
@@ -79,7 +83,7 @@ const PostCard = ({
 // PostCardBasic => imgUrl, title, subtitle, date, badgeType, size, profileImg, profileName 속성 기입해서 사용
 export const PostCardBasic = (props: Omit<PostCardProps, 'cardType'>) => <PostCard cardType="Basic" {...props} />;
 
-// PostCardBasic => imgUrl, title, subtitle, date, size, profileImg, profileName 속성 기입해서 사용
-export const PostCardMissing = (props: Omit<PostCardProps, 'cardType' | 'badgeType'>) => (
-  <PostCard cardType="Missing" badgeType="Default" {...props} />
-);
+// PostCardBasic => imgUrl, title, subtitle, date, size 속성 기입해서 사용
+export const PostCardMissing = (
+  props: Omit<PostCardProps, 'cardType' | 'badgeType' | 'profileImg' | 'profileName'>
+) => <PostCard cardType="Missing" badgeType="Default" {...props} />;

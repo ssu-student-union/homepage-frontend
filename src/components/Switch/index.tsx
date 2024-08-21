@@ -1,10 +1,10 @@
 import { cn } from '@/libs/utils';
 
 interface SwitchProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  isActive: boolean;
+  isActive?: boolean;
 }
 
-export function Switch({ isActive, children, className, ...props }: SwitchProps) {
+export function Switch({ isActive = false, children, className, ...props }: SwitchProps) {
   return (
     <button
       className={cn(
