@@ -1,24 +1,15 @@
-import { MainHeroSection } from './containers/MainHeroSection';
 import { MainScheduleSection } from './containers/MainScheduleSection';
-import Pagination from '@/components/Pagination';
-import { useCurrentPage } from '@/hooks/useCurrentPage';
-import Breadcrumb from '@/components/Breadcrumb';
+import MainCarousel from '@/components/MainCarousel';
+import NoticeSection from './containers/NoticeSection';
 
 export function MainPage() {
-  const { currentPage, handlePageChange } = useCurrentPage(1); // 페이지 상태 관리 훅
-  const totalPages = 10; // 총 페이지 수
-  const breadcrumbItems = new Map<string, string | null>([
-    ['학교생활', null],
-    ['공지사항', '/notice'],
-    ['중앙기구', '/notice?category=center'],
-  ]);
-
   return (
-    <>
-      <MainHeroSection />
+    <main>
+      <MainCarousel />
       <MainScheduleSection />
-      <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
-      <Breadcrumb items={breadcrumbItems} />
-    </>
+      <div className="xs:pl-[3.125rem] sm:pl-[3.125rem] md:px-[12.5rem] lg:px-[12.5rem] xl:px-[12.5rem] xxl:px-[12.5rem]">
+        <NoticeSection noticeCount={10} />
+      </div>
+    </main>
   );
 }
