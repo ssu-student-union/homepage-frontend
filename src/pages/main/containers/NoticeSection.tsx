@@ -16,7 +16,7 @@ const NoticeSection = ({ noticeCount }: NoticeSectionProps) => {
   const { width } = useResize();
 
   return (
-    <section className="mt-[86px] w-full whitespace-nowrap">
+    <section className="w-full whitespace-nowrap">
       <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">공지사항</h1>
       <Spacing size={11} direction="vertical" />
       <p className="font-bold">
@@ -42,16 +42,16 @@ const NoticeSection = ({ noticeCount }: NoticeSectionProps) => {
             ))}
           </div>
         ) : null}
-        {/* sm */}
-        {width < 720 && width >= 390 ? (
+        {/* sm, md */}
+        {width < 1080 && width >= 390 ? (
           <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll">
             {Array.from({ length: 3 }).map((_) => (
               <PostCardNotice></PostCardNotice>
             ))}
           </div>
         ) : null}
-        {/* lg, md */}
-        {width < 1440 && width >= 720 ? (
+        {/* lg */}
+        {width < 1440 && width >= 1080 ? (
           <div className="flex h-fit w-full justify-between gap-[26px]">
             {Array.from({ length: 2 }).map((_) => (
               <PostCardNotice></PostCardNotice>
