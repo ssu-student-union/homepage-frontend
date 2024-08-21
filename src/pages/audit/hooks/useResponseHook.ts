@@ -16,7 +16,7 @@ export function useResponseHook() {
         setSize(Size.mediumSmall);
       } else if (width < 1920) {
         setItemsPerPage(6);
-        setSize(Size.audit);
+        setSize(Size.large);
       } else {
         setItemsPerPage(9);
         setSize(Size.default);
