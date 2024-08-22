@@ -1,15 +1,4 @@
-// types.d.ts
-
-export interface KakaoUserData {
-  id: number;
-  properties: {
-    nickname?: string;
-    profile_image?: string;
-  };
-  studentId?: string;
-}
-
-export interface TransformedUserData {
+export interface UserType {
   code: string;
   message: string;
   data: {

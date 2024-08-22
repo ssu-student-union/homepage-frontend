@@ -3,29 +3,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'; // Select 컴포넌트의 경로를 적절히 수정하세요
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 import { faculties, departments } from './index';
-import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-const nameRegex = new RegExp(/^[ㄱ-ㅎ|가-힣]+$/);
+import { client } from '@/apis/client';
+import { LoginSchemaRegister, LoginType } from './ZodCheck'; // 수정된 zod 스키마 경로
 
 interface LoginFormProps {
   subSection1: string;
   buttonSection: string;
 }
-
-const LoginSchema = z.object({
-  name: z
-    .string()
-    .min(1, '이름을 입력해주세요')
-    .max(10, '이름은 10자 이내여야 합니다.')
-    .regex(nameRegex, '잘못된 입력입니다.'),
-  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
-  id: z.string().length(8, '학번은 8자리여야 합니다.'),
-});
-
-type LoginType = z.infer<typeof LoginSchema>;
 
 export function GeneralRegisterSection({ subSection1, buttonSection }: LoginFormProps) {
   const {
@@ -35,13 +22,12 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
     watch,
     setValue,
   } = useForm<LoginType>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(LoginSchemaRegister),
   });
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [userData, setUserData] = useState(null);
   const [inputUserData, setInputUserData] = useState(null);
   const [selectedFaculty, setSelectedFaculty] = useState<string>('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -51,60 +37,78 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const formValues = watch();
 
   useEffect(() => {
-    const KakaoUserData = localStorage.getItem('transformedUserData');
-    setUserData(KakaoUserData ? JSON.parse(KakaoUserData) : null);
-
     const storedFormValues = localStorage.getItem('formValues');
     setInputUserData(storedFormValues ? JSON.parse(storedFormValues) : null);
-  }, []);
+
+    const kakaoData = localStorage.getItem('kakaoData');
+    if (kakaoData) {
+      const parsedKakaoData = JSON.parse(kakaoData);
+      if (parsedKakaoData.data?.name && parsedKakaoData.data?.studentId) {
+        navigate('/');
+      }
+    }
+  }, [navigate]);
 
   useEffect(() => {
     localStorage.setItem('formValues', JSON.stringify(formValues));
   }, [formValues]);
 
   useEffect(() => {
-    setSelectedFaculty(formValues.dropdown || '');
-    if (!formValues.dropdown) {
-      setValue('departmentDropdown', ''); // 상위 카테고리가 선택되지 않으면 하위 카테고리를 선택할 수 없음
+    localStorage.setItem('formValues', JSON.stringify(formValues));
+  }, [formValues]);
+
+  useEffect(() => {
+    setSelectedFaculty(formValues.memberCode || '');
+    if (!formValues.memberCode) {
+      setValue('majorCode', '');
     }
-  }, [formValues.dropdown]);
+  }, [formValues.memberCode]);
 
   useEffect(() => {
     const isFormValid = isScouncilPath
-      ? formValues.id && formValues.password
-      : formValues.name && formValues.id && formValues.dropdown && formValues.departmentDropdown;
+      ? formValues.studentId && formValues.password
+      : formValues.name && formValues.studentId && formValues.memberCode && formValues.majorCode;
     setIsButtonDisabled(!isFormValid);
   }, [formValues, isScouncilPath]);
 
-  const onSubmit = async (data) => {
-    if (userData && userData.data && data.name === inputUserData?.name) {
-      const resultData = {
-        name: userData.data.name,
-        studentId: formValues.id,
-        accessToken: userData.data.accessToken,
-        refreshToken: userData.data.refreshToken,
-        id: userData.data.id,
-      };
+  const onSubmit = async () => {
+    try {
+      const UserData = localStorage.getItem('kakaoData');
 
-      localStorage.setItem('ResultData', JSON.stringify(resultData));
+      if (UserData) {
+        const parsedUserData = JSON.parse(UserData);
+        const accessToken = parsedUserData?.data?.accessToken;
+        if (accessToken) {
+          const response = await client.post(`/onboarding/academy-information`, formValues, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
 
-      alert('학생 정보가 확인되었습니다');
-      navigate('/');
-    } else {
-      alert('입력하신 정보가 올바르지 않습니다.');
-    }
-
-    const postData = isScouncilPath
-      ? {
-          studentId: data.id,
-          password: data.password,
+          if (response.status === 200) {
+            alert('학생 정보가 확인되었습니다');
+            if (typeof navigate === 'function') {
+              navigate('/');
+            } else {
+              console.warn('navigate 함수가 정의되지 않았습니다.');
+            }
+          } else {
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
+          }
+        } else {
+          alert('AccessToken이 없습니다.');
         }
-      : {
-          userId: data.name,
-          studentId: data.id,
-        };
+      } else {
+        alert('유저데이터가 없습니다.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
 
-    console.log('postData', postData);
+  const handleCertifyError = () => {
+    navigate('/register/errorcheck');
   };
 
   return (
@@ -123,7 +127,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 })}
                 aria-invalid={isSubmitted ? (errors.id ? 'true' : 'false') : undefined}
               />
-              {errors.id && <small>{errors.id.message}</small>}
+              <div className="mt-3"></div>
+              {errors.id && <small className=" text-[13px] text-red-600">{errors.id.message}</small>}
               <Input
                 type="password"
                 placeholder="비밀번호"
@@ -133,7 +138,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 })}
                 aria-invalid={isSubmitted ? (errors.password ? 'true' : 'false') : undefined}
               />
-              {errors.password && <small>{errors.password.message}</small>}
+              <div className="mt-3"></div>
+              {errors.password && <small className=" text-[13px] text-red-600">{errors.password.message}</small>}
             </>
           ) : (
             <>
@@ -146,17 +152,21 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 })}
                 aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
               />
-              {errors.name?.message && <small>{errors.name?.message}</small>}
+              <div className="mt-3"></div>
+              {errors.name?.message && <small className=" text-[13px] text-red-600">{errors.name?.message}</small>}
               <Input
                 type="text"
                 placeholder="학번"
                 className="mt-4"
-                {...register('id', {
+                {...register('studentId', {
                   required: '학번은 필수 입력입니다.',
                 })}
-                aria-invalid={isSubmitted ? (errors.id ? 'true' : 'false') : undefined}
+                aria-invalid={isSubmitted ? (errors.studentId ? 'true' : 'false') : undefined}
               />
-              {errors.id?.message && <small>{errors.id?.message}</small>}
+              <div className="mt-3"></div>
+              {errors.studentId?.message && (
+                <small className=" text-[13px] text-red-600">{errors.studentId?.message}</small>
+              )}
             </>
           )}
 
@@ -164,18 +174,18 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
             <>
               <div className="mt-4"></div>
               <Select
-                {...register('dropdown', {
+                {...register('memberCode', {
                   required: '옵션을 선택해 주세요.',
                 })}
                 onValueChange={(value) => {
-                  setValue('dropdown', value);
+                  setValue('memberCode', value);
                   setSelectedFaculty(value);
                 }}
-                value={formValues.dropdown || ''}
+                value={formValues.memberCode || ''}
               >
                 <SelectTrigger
                   className={`min-h-[46px] w-full border-gray-500 px-[20px] py-[26px] text-sm font-medium ${
-                    formValues.dropdown ? 'font-semibold text-black' : 'text-[#9CA3AF]'
+                    formValues.memberCode ? 'font-semibold text-black' : 'text-[#9CA3AF]'
                   }`}
                 >
                   <SelectValue placeholder="단과대 선택" />
@@ -190,14 +200,14 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               </Select>
               <div className="mt-4"></div>
               <Select
-                {...register('departmentDropdown', {
+                {...register('majorCode', {
                   required: '학과/부를 선택해 주세요.',
                 })}
                 onValueChange={(value) => {
-                  setValue('departmentDropdown', value);
+                  setValue('majorCode', value);
                 }}
-                value={formValues.departmentDropdown || ''}
-                disabled={!selectedFaculty} // 상위 카테고리가 선택되지 않으면 비활성화
+                value={formValues.majorCode || ''}
+                disabled={!selectedFaculty}
               >
                 <SelectTrigger
                   className={`min-h-[46px] w-full border-gray-500 px-[20px] py-[26px] text-sm font-medium`}
@@ -225,6 +235,10 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
             {buttonSection}
           </Button>
         </form>
+
+        <button onClick={handleCertifyError} className="mt-[117px] text-lg font-normal text-gray-500">
+          학생인증이 안 되시나요?
+        </button>
       </div>
     </div>
   );
