@@ -33,8 +33,13 @@ const MainCarousel = () => {
                 <CounterItem isActive={3 === current} />
               </Counter>
               <MainHeroSection />
-              <div className="absolute z-10 size-full bg-black opacity-20" />
-              <img src={`/image/${index + 1}.jpeg`} draggable={false} alt="landscape" className="size-screen z-0" />
+              <div className="absolute z-10 size-full overflow-clip bg-black opacity-20" />
+              <img
+                src={`/image/${index + 1}.jpeg`}
+                draggable={false}
+                alt="landscape"
+                className="z-0 h-full w-full object-cover"
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
