@@ -1,12 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { kakaoAuthCodeApi } from './apis/kakaoLoginApi';
-import { kakakLoginState, loginState } from '@/recoil/atoms';
+import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 
 const KakaoRedirect = () => {
-  const setIsLogin = useSetRecoilState(loginState);
-  const setKakaoLogin = useSetRecoilState(kakakLoginState);
   const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
 
   const navigate = useNavigate();
@@ -27,7 +23,7 @@ const KakaoRedirect = () => {
     };
 
     kakaoLogin();
-  }, [AUTHORIZE_CODE, navigate, setIsLogin, setKakaoLogin]);
+  }, [AUTHORIZE_CODE, navigate]);
 
   return <div>Loading...</div>;
 };
