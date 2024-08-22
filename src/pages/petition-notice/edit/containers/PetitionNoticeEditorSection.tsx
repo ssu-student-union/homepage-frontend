@@ -5,6 +5,7 @@ import '@toast-ui/editor/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { EditLayout } from '@/template/EditLayout';
+import { PetitionNoticeEditApi } from '@/apis/PetitionNoticeApi';
 
 const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
@@ -21,9 +22,14 @@ const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주�
 청원대안을 작성해주세요.
 `;
 
+type HookMap = {
+  addImageBlobHook?: (blob: File, callback: HookCallback) => void;
+};
+
+type HookCallback = (url: string, text?: string) => void;
+
 export function PetitionNoticeEditorSection() {
   const editorRef = useRef<Editor>(null);
-
   const [initialContent, setInitialContent] = useState<string | null>(GUIDE_LINE);
 
   const onClickEnrollBtn = useCallback(() => {
@@ -46,6 +52,30 @@ export function PetitionNoticeEditorSection() {
     }
   }, [initialContent]);
 
+  const hooks: HookMap = {
+    addImageBlobHook: async (blob: File, callback: HookCallback) => {
+      if (blob !== null) {
+        const file = new FormData();
+        file.append('files', blob);
+
+        for (const key of file.keys()) {
+          console.log(key);
+        }
+        for (const value of file.values()) {
+          console.log(value);
+        }
+        try {
+          const res = await PetitionNoticeEditApi(file, 'image');
+          console.log(res);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      // callback(url, 'alt text');
+      return false;
+    },
+  };
+
   return (
     <EditLayout title="청원글 작성">
       <section>
@@ -64,6 +94,7 @@ export function PetitionNoticeEditorSection() {
             useCommandShortcut={true}
             hideModeSwitch={true}
             language="ko-KR"
+            hooks={hooks}
           />
         </div>
       </section>
