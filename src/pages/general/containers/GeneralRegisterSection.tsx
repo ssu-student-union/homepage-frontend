@@ -7,8 +7,7 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@
 import { faculties, departments } from './index';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { client } from '@/apis/client'; // axios client import
-
+import { client } from '@/apis/client';
 const nameRegex = new RegExp(/^[ㄱ-ㅎ|가-힣]+$/);
 
 interface LoginFormProps {
@@ -70,7 +69,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   useEffect(() => {
     setSelectedFaculty(formValues.memberCode || '');
     if (!formValues.memberCode) {
-      setValue('majorCode', ''); // 상위 카테고리가 선택되지 않으면 하위 카테고리를 선택할 수 없음
+      setValue('majorCode', '');
     }
   }, [formValues.memberCode]);
 
@@ -83,22 +82,18 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
 
   const onSubmit = async () => {
     try {
-      // localStorage에서 formValues 가져오기
       const UserData = localStorage.getItem('kakaoData');
 
       if (UserData) {
         const parsedUserData = JSON.parse(UserData);
-        const accessToken = parsedUserData?.data?.accessToken; // 안전하게 accessToken 추출
-
+        const accessToken = parsedUserData?.data?.accessToken;
         if (accessToken) {
-          // API 요청
           const response = await client.post(`/onboarding/academy-information`, formValues, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
           });
 
-          // 응답 상태 코드 처리
           if (response.status === 200) {
             alert('학생 정보가 확인되었습니다');
             if (typeof navigate === 'function') {

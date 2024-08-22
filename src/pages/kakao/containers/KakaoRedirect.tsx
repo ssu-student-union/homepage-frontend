@@ -18,19 +18,9 @@ const KakaoRedirect = () => {
         const response = await kakaoAuthCodeApi(AUTHORIZE_CODE);
         console.log(response);
         const res = response.data;
-        // JSON 문자열로 변환하여 저장
         localStorage.setItem('kakaoData', JSON.stringify(res));
 
         navigate('/register/onboarding');
-
-        if (typeof response.data === 'string') {
-          const accessToken = response.data.data.accessToken;
-          localStorage.setItem('accessToken', accessToken);
-          setIsLogin(true);
-          setKakaoLogin(true);
-          navigate('/register/onboarding');
-          return;
-        }
       } catch (err) {
         console.log(err);
       }

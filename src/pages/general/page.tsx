@@ -11,9 +11,9 @@ export function GeneralRegisterPage() {
       {sort === 'scouncil' ? (
         <GeneralRegisterSection subSection1={'학생 자치기구 로그인'} buttonSection={'입력 완료'} />
       ) : sort === 'errorcheck' ? (
-        <CertifyErrorSection /> // sort가 'errorcheck'일 때 CertifyErrorSection 렌더링
+        <CertifyErrorSection />
       ) : sort === 'errorapply' ? (
-        <CertifyApplySection /> // sort가 'errorapply'일 때 CertifyErrorSection을 applyError prop과 함께 렌더링
+        <CertifyApplySection />
       ) : (
         <GeneralRegisterSection subSection1={'학생 정보 입력'} buttonSection={'입력 완료'} />
       )}
