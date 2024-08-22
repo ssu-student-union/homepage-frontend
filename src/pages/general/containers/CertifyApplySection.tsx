@@ -3,24 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-const nameRegex = new RegExp(/^[ㄱ-ㅎ|가-힣]+$/);
-
-const LoginSchema = z.object({
-  name: z
-    .string()
-    .min(1, '이름을 입력해주세요')
-    .max(10, '이름은 10자 이내여야 합니다.')
-    .regex(nameRegex, '잘못된 입력입니다.'),
-  email: z.string().email('올바른 이메일 형식이 아닙니다.').min(1, '이메일을 입력해주세요'),
-  id: z.string().length(8, '학번 8자리를 입력해주세요').regex(/^\d+$/, '학번은 숫자만 입력해야 합니다.'),
-  inquiry: z.string().min(1, '문의내용을 입력해주세요'),
-});
-
-type LoginType = z.infer<typeof LoginSchema>;
+import { LoginSchemaCertify, LoginType } from './ZodCheck';
 
 export function CertifyApplySection() {
   const {
@@ -29,7 +13,7 @@ export function CertifyApplySection() {
     formState: { errors, isSubmitted, isSubmitting },
     watch,
   } = useForm<LoginType>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(LoginSchemaCertify),
   });
 
   const navigate = useNavigate();

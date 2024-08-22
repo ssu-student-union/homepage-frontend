@@ -5,27 +5,14 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 import { faculties, departments } from './index';
-import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
-const nameRegex = new RegExp(/^[ㄱ-ㅎ|가-힣]+$/);
+import { LoginSchemaRegister, LoginType } from './ZodCheck'; // 수정된 zod 스키마 경로
 
 interface LoginFormProps {
   subSection1: string;
   buttonSection: string;
 }
-
-const LoginSchema = z.object({
-  name: z
-    .string()
-    .min(1, '이름을 입력해주세요')
-    .max(10, '이름은 10자 이내여야 합니다.')
-    .regex(nameRegex, '잘못된 입력입니다.'),
-  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
-  studentId: z.string().length(8, '학번은 8자리여야 합니다.'),
-});
-
-type LoginType = z.infer<typeof LoginSchema>;
 
 export function GeneralRegisterSection({ subSection1, buttonSection }: LoginFormProps) {
   const {
@@ -35,7 +22,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
     watch,
     setValue,
   } = useForm<LoginType>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(LoginSchemaRegister),
   });
 
   const navigate = useNavigate();
@@ -65,6 +52,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   useEffect(() => {
     localStorage.setItem('formValues', JSON.stringify(formValues));
   }, [formValues]);
+
   useEffect(() => {
     localStorage.setItem('formValues', JSON.stringify(formValues));
   }, [formValues]);
@@ -100,7 +88,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           if (response.status === 200) {
             alert('학생 정보가 확인되었습니다');
             if (typeof navigate === 'function') {
-              navigate('/'); // navigate 함수가 존재하는 경우에만 호출
+              navigate('/');
             } else {
               console.warn('navigate 함수가 정의되지 않았습니다.');
             }
@@ -111,7 +99,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           alert('AccessToken이 없습니다.');
         }
       } else {
-        alert('UserData가 localStorage에 없습니다.');
+        alert('유저데이터가 없습니다.');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -139,7 +127,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 })}
                 aria-invalid={isSubmitted ? (errors.id ? 'true' : 'false') : undefined}
               />
-              {errors.id && <small>{errors.id.message}</small>}
+              <div className="mt-3"></div>
+              {errors.id && <small className=" text-[13px] text-red-600">{errors.id.message}</small>}
               <Input
                 type="password"
                 placeholder="비밀번호"
@@ -149,7 +138,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 })}
                 aria-invalid={isSubmitted ? (errors.password ? 'true' : 'false') : undefined}
               />
-              {errors.password && <small>{errors.password.message}</small>}
+              <div className="mt-3"></div>
+              {errors.password && <small className=" text-[13px] text-red-600">{errors.password.message}</small>}
             </>
           ) : (
             <>
@@ -162,7 +152,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 })}
                 aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
               />
-              {errors.name?.message && <small>{errors.name?.message}</small>}
+              <div className="mt-3"></div>
+              {errors.name?.message && <small className=" text-[13px] text-red-600">{errors.name?.message}</small>}
               <Input
                 type="text"
                 placeholder="학번"
@@ -172,7 +163,10 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 })}
                 aria-invalid={isSubmitted ? (errors.studentId ? 'true' : 'false') : undefined}
               />
-              {errors.studentId?.message && <small>{errors.studentId?.message}</small>}
+              <div className="mt-3"></div>
+              {errors.studentId?.message && (
+                <small className=" text-[13px] text-red-600">{errors.studentId?.message}</small>
+              )}
             </>
           )}
 
