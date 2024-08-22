@@ -33,4 +33,3 @@ const KakaoRedirect = () => {
 };
 
 export default KakaoRedirect;
-export default KakaoRedirect;

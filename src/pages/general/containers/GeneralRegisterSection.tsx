@@ -13,8 +13,6 @@ const nameRegex = new RegExp(/^[ㄱ-ㅎ|가-힣]+$/);
 interface LoginFormProps {
   subSection1: string;
   buttonSection: string;
-  subSection1: string;
-  buttonSection: string;
 }
 
 const LoginSchema = z.object({
@@ -27,7 +25,6 @@ const LoginSchema = z.object({
   studentId: z.string().length(8, '학번은 8자리여야 합니다.'),
 });
 
-type LoginType = z.infer<typeof LoginSchema>;
 type LoginType = z.infer<typeof LoginSchema>;
 
 export function GeneralRegisterSection({ subSection1, buttonSection }: LoginFormProps) {
