@@ -3,6 +3,7 @@ export interface HeadLayoutProps {
   subtitle: React.ReactNode;
   className?: string;
   borderOff?: boolean; // 감사페이지에 선이 필요 없기에 제거할 수 있게 추가했습니다.
+  searchHidden?: string;
 }
 
 export interface BodyLayoutProps {
