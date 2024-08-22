@@ -29,6 +29,10 @@ export const Partnership: PartnershipType[] = ['전체', '의료', '문화', '�
 type LostandFoundType = '분실물 현황' | '분실 신고';
 export const LostandFound: LostandFoundType[] = ['분실물 현황', '분실 신고'];
 
+// 학생 청원 게시판
+type PetitionType = '전체' | '진행중' | '접수완료' | '답변완료' | '종료됨';
+export const Petition: PetitionType[] = ['전체', '진행중', '접수완료', '답변완료', '종료됨'];
+
 // 메인페이지 공지사항
 type MainNoticesType = '전체' | '행사&이벤트' | '소통' | '감사결과';
 export const MainNotices: MainNoticesType[] = ['전체', '행사&이벤트', '소통', '감사결과'];

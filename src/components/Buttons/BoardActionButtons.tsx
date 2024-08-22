@@ -9,6 +9,14 @@ export function RegisterButton({ ...props }) {
   );
 }
 
+export function CancelButton({ ...props }) {
+  return (
+    <Button variant={'Register'} {...props}>
+      <p>취소</p>
+    </Button>
+  );
+}
+
 export function ListButton({ ...props }) {
   return (
     <Button variant={'List_Edit'} {...props}>
