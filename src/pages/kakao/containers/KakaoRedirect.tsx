@@ -1,25 +1,29 @@
 import { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import getToken from './apis/GetToken';
+import { useNavigate } from 'react-router-dom';
+import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 
 const KakaoRedirect = () => {
+  const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
+
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const code = searchParams.get('code');
+    const kakaoLogin = async () => {
+      try {
+        console.log(AUTHORIZE_CODE);
+        const response = await kakaoAuthCodeApi(AUTHORIZE_CODE);
+        console.log(response);
+        const res = response.data;
+        localStorage.setItem('kakaoData', JSON.stringify(res));
 
-    if (code) {
-      getToken(code)
-        .then((transformedUserData) => {
-          console.log('Transformed User Data:', transformedUserData);
-          navigate('/register/onboarding');
-        })
-        .catch((error) => {
-          console.error('Error fetching user data:', error);
-        });
-    }
-  }, [searchParams, navigate]);
+        navigate('/register/onboarding');
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    kakaoLogin();
+  }, [AUTHORIZE_CODE, navigate]);
 
   return <div>Loading...</div>;
 };
