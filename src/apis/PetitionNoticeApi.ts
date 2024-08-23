@@ -1,5 +1,5 @@
 import { PostListDtoResponse } from '@/components/PostTextPetition/types';
-import { client } from './client';
+import { client, clientAuth } from './client';
 
 // 청원 게시판 게시물 전체 리스트 불러오는 api
 
@@ -64,11 +64,14 @@ export interface PetitionNoticeEditResponse {
 }
 
 export const PetitionNoticeEditApi = (images: FormData) => {
-  const accessToken = localStorage.getItem('accessToken');
-  return client.post<PetitionNoticeEditResponse>('/board/청원게시판/files', images, {
+  return clientAuth<PetitionNoticeEditResponse>({
+    url: '/board/청원게시판/files',
+    method: 'post',
+    data: {
+      files: images,
+    },
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${accessToken}`,
     },
   });
 };
