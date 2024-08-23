@@ -60,7 +60,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
             <RenderCard key={post.postId} post={post} size={size} />
           ))}
         </div>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between pb-[30px]">
           {posts.slice(2, 4).map((post) => (
             <RenderCard key={post.postId} post={post} size={size} />
           ))}

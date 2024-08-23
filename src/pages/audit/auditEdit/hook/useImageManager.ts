@@ -1,37 +1,35 @@
 import { useState } from 'react';
 
-export interface ImageItem {
-  id: number;
-  file: File | null;
+export interface ManagedImage {
+  id: string;
+  image: File | null;
 }
 
 export function useImageManager() {
-  const [images, setImages] = useState<ImageItem[]>([]);
-  const [thumbnailId, setThumbnailId] = useState<number | null>(null); // 대표 이미지를 위한 상태
+  const [images, setImages] = useState<ManagedImage[]>([]);
+
+  const generateId = () => {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  };
 
   const addImage = (acceptedFiles: File[]) => {
-    if (images.length < 5) {
-      const newImage: ImageItem = { id: Date.now(), file: acceptedFiles[0] };
-      setImages([...images, newImage]);
-    }
+    const newImages = acceptedFiles.map((image) => ({
+      id: generateId(),
+      image,
+    }));
+    setImages((prevImages) => [...prevImages, ...newImages]);
   };
 
-  const removeImage = (id: number) => {
+  const removeImage = (id: string) => {
     setImages(images.filter((imageItem) => imageItem.id !== id));
-    if (id === thumbnailId) {
-      setThumbnailId(null);
-    }
   };
 
-  const selectAsThumbnail = (id: number) => {
-    setThumbnailId(id);
-  };
+  const getValidImages = () => images.filter((item) => item.image !== null).map((item) => item.image as File);
 
   return {
     images,
-    thumbnailId,
     addImage,
     removeImage,
-    selectAsThumbnail,
+    getValidImages,
   };
 }

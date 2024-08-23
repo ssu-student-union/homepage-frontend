@@ -5,7 +5,7 @@ import { cn } from '@/libs/utils';
 
 export function HeadLayout({
   title,
-  subtitle,
+  subtitle = '',
   borderOff = false,
   className = '',
   searchHidden = false,

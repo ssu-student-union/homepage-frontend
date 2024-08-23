@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
-interface AuditEditContentProps {}
+interface AuditEditContentProps {
+  onContentChange: (content: string) => void;
+}
 
-export function AuditEditContentSection({}: AuditEditContentProps) {
+export function AuditEditContentSection({ onContentChange }: AuditEditContentProps) {
   const [editorHeight, setEditorHeight] = useState('500px');
+  const editorRef = useRef<Editor>(null);
 
   const handleResize = () => {
     const windowWidth = window.innerWidth;
@@ -13,6 +16,13 @@ export function AuditEditContentSection({}: AuditEditContentProps) {
       setEditorHeight('300px');
     } else {
       setEditorHeight('500px');
+    }
+  };
+
+  const handleContentChange = () => {
+    if (editorRef.current) {
+      const content = editorRef.current.getInstance().getMarkdown();
+      onContentChange(content);
     }
   };
 
@@ -25,8 +35,9 @@ export function AuditEditContentSection({}: AuditEditContentProps) {
   }, []);
 
   return (
-    <div className="audit-edit-content pt-[32px]">
+    <div className="audit-edit-content px-[200px] pt-[32px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]">
       <Editor
+        ref={editorRef}
         initialValue=" "
         placeholder="글을 작성해주세요"
         previewStyle="vertical"
@@ -34,6 +45,7 @@ export function AuditEditContentSection({}: AuditEditContentProps) {
         useCommandShortcut={true}
         hideModeSwitch={true}
         height={editorHeight}
+        onChange={handleContentChange}
       />
     </div>
   );

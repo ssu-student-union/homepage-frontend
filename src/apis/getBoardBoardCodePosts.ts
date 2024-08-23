@@ -1,5 +1,7 @@
 import { client } from './client';
 
+// GET:/board/{boardCode}/posts 요청
+
 export interface getBoardBoardCodePostsProps {
   boardCode: string;
   category?: string | null;

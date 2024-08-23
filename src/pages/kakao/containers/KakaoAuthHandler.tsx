@@ -7,7 +7,7 @@ const KakaoAuthHandler = () => {
     const code = url.searchParams.get('code');
     if (code) {
       axios
-        .post('http://43.200.50.193/auth/oauth', { code })
+        .post('https://kusitms28.shop/auth/oauth', { code })
         .then((response) => {
           console.log('Access Token:', response.data);
         })

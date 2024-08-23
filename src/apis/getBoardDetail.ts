@@ -1,5 +1,7 @@
 import { client } from './client';
 
+// GET:/board/{boardCode}/posts/postId 요청
+
 export interface getBoardDetailProps {
   boardCode: string;
   postId: number;

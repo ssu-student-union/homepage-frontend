@@ -39,6 +39,7 @@ export function AuditPage() {
   // 화면, 페이지, 카테고리가 바뀌면 refetch
   useEffect(() => {
     refetch();
+    console.log(posts);
   }, [itemsPerPage, currentPage, selectedCategory]);
 
   return (
@@ -75,7 +76,9 @@ export function AuditPage() {
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
-        onWriteClick={() => {}}
+        onWriteClick={() => {
+          navigate(`/audit/edit`);
+        }}
         className="pt-[32px]"
       />
     </>

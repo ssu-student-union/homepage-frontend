@@ -1,14 +1,16 @@
 import { XCircle } from '@phosphor-icons/react';
-import { ImageItem } from '../hook/useImageManager';
+import { ManagedImage } from '../hook/useImageManager';
 
 interface ImagePreviewProps {
-  imageItem: ImageItem;
+  imageItem: ManagedImage;
   onRemove: () => void;
   onSelect: () => void;
   isThumbnail: boolean;
 }
 
 export function ImagePreview({ imageItem, onRemove, onSelect, isThumbnail }: ImagePreviewProps) {
+  const fileURL = imageItem.image ? URL.createObjectURL(imageItem.image) : '';
+
   return (
     <div
       className="relative flex h-[231px] w-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
@@ -19,7 +21,7 @@ export function ImagePreview({ imageItem, onRemove, onSelect, isThumbnail }: Ima
           대표
         </div>
       )}
-      <img src={URL.createObjectURL(imageItem.file!)} alt="uploaded" className="h-full w-full object-cover" />
+      {fileURL && <img src={fileURL} alt="uploaded" className="h-full w-full object-cover" />}
       <button
         className="absolute right-[-0.75rem] top-[-0.75rem]"
         onClick={(e) => {
