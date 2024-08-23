@@ -15,7 +15,7 @@ export function getStyles(state: Size): Styles {
   switch (state) {
     case Size.large:
       return {
-        container: 'w-[400px] h-[209px] px-[16px] py-[16px]',
+        container: 'min-w-[400px] h-[209px] px-[16px] py-[16px]',
         title: 'h-[146px] text-base gap-1',
         subtitle: 'text-xs',
         date: 'h-[28px]',
@@ -48,7 +48,7 @@ export function getStyles(state: Size): Styles {
       };
     case Size.view:
       return {
-        container: 'px-5 py-5 w-[15.5rem] h-[23.5rem]',
+        container: 'px-5 py-5 min-w-[15.5rem] h-[23.5rem]',
         title: 'h-[5.12rem] text-base gap-3 leading-[1.19rem]',
         subtitle: 'text-sm leading-[1.07rem]',
         date: 'h-[1.88rem] text-sm',
@@ -60,7 +60,7 @@ export function getStyles(state: Size): Styles {
     case Size.default:
     default:
       return {
-        container: 'px-5 py-[1.34rem] w-[30.68rem] h-[15.75rem]',
+        container: 'px-5 py-[1.34rem] min-w-[30.68rem] h-[15.75rem]',
         title: 'h-[11.12rem] text-lg gap-3 leading-[1.32rem]',
         subtitle: 'text-sm leading-[1.07rem]',
         date: 'h-[1.88rem] text-sm',

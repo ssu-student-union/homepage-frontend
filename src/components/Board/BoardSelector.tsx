@@ -6,16 +6,20 @@ interface BoardSelectorProps<T> {
   onSubcategorySelect: (category: T) => void;
 }
 
-export function BoardSelector<T>({ subcategories, selectedSubcategory, onSubcategorySelect }: BoardSelectorProps<T>) {
+export function BoardSelector<T extends string>({
+  subcategories,
+  selectedSubcategory,
+  onSubcategorySelect,
+}: BoardSelectorProps<T>) {
   return (
     <div className="flex flex-wrap gap-2">
       {subcategories.map((category) => (
         <Category
-          key={category as string}
+          key={category}
           isActive={selectedSubcategory === category}
           onClick={() => onSubcategorySelect(category)}
         >
-          {category as string}
+          {category}
         </Category>
       ))}
     </div>
