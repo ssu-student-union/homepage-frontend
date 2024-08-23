@@ -11,13 +11,11 @@ export function AuditDetailFileSection({ file }: AuditDetailFileProps) {
   };
 
   return (
-    <div className="px-[120px] xs:px-[20px] sm:px-[40px]">
-      <div className="flex flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2">
-        <DownloadSimple size="24px" className="cursor-pointer pl-[3px]" onClick={handleDownload} />
-        <div className="w-[5px]" />
-        <div>
-          <p className="text-base font-medium text-gray-600">{file.fileName}</p>
-        </div>
+    <div className="flex flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2">
+      <DownloadSimple size="24px" className="cursor-pointer pl-[3px]" onClick={handleDownload} />
+      <div className="w-[5px]" />
+      <div>
+        <p className="text-base font-medium text-gray-600">{file.fileName}</p>
       </div>
     </div>
   );

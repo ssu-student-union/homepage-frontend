@@ -25,7 +25,7 @@ export function AuditEditContentSection({}: AuditEditContentProps) {
   }, []);
 
   return (
-    <div className="audit-edit-content px-[120px] pt-[32px] xs:px-[20px] sm:px-[40px]">
+    <div className="audit-edit-content pt-[32px]">
       <Editor
         initialValue=" "
         placeholder="글을 작성해주세요"

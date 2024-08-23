@@ -14,7 +14,7 @@ export function AuditEditTitleSection() {
   };
 
   return (
-    <div className="px-[120px] pt-[32px] xs:px-[20px] sm:px-[40px]">
+    <div className="pt-[32px]">
       <div className="flex flex-row gap-4">
         <input
           type="text"
