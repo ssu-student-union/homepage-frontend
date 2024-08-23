@@ -14,7 +14,9 @@ const KakaoRedirect = () => {
         const response = await kakaoAuthCodeApi(AUTHORIZE_CODE);
         console.log(response);
         const res = response.data;
+        const accessToken = response.data.data.accessToken;
         localStorage.setItem('kakaoData', JSON.stringify(res));
+        localStorage.setItem('accessToken', accessToken);
 
         navigate('/register/onboarding');
       } catch (err) {

@@ -57,21 +57,15 @@ export function PetitionNoticeEditorSection() {
       if (blob !== null) {
         const file = new FormData();
         file.append('files', blob);
-
-        for (const key of file.keys()) {
-          console.log(key);
-        }
-        for (const value of file.values()) {
-          console.log(value);
-        }
         try {
-          const res = await PetitionNoticeEditApi(file, 'image');
+          const res = await PetitionNoticeEditApi(file);
           console.log(res);
+
+          callback(res.data.data[0].url, 'alt text');
         } catch (err) {
           console.log(err);
         }
       }
-      // callback(url, 'alt text');
       return false;
     },
   };
