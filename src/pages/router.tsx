@@ -15,6 +15,7 @@ import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
 import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
+import { Data } from './data/page';
 
 function Layout() {
   return (
@@ -45,6 +46,8 @@ export function MainRouter() {
         <Route path="/petition-notice" element={<PetitionNoticePage />} />
         <Route path="/petition-notice/edit" element={<PetitionNoticeEditPage />} />
         <Route path="/petition-notice/:id" element={<PetitionNoticeDetailPage />} />
+        <Route path="/data" element={<Data />} />
+        <Route path="/data/edit" element={<Data />} />
       </Route>
     </Routes>
   );
