@@ -11,7 +11,7 @@ const LostArticleSection = () => {
       <Spacing size={18} direction="vertical" />
       {/* xs */}
       {width < 390 ? (
-        <div className="scrollbar-hide flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem]">
+        <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
           {Array.from({ length: 3 }).map((_) => (
             <PostCardMissing size={Size.view}></PostCardMissing>
           ))}
@@ -19,7 +19,7 @@ const LostArticleSection = () => {
       ) : null}
       {/* sm, md */}
       {width < 1080 && width >= 390 ? (
-        <div className="scrollbar-hide flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem]">
+        <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
           {Array.from({ length: 2 }).map((_) => (
             <PostCardMissing></PostCardMissing>
           ))}
