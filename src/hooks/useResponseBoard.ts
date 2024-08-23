@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Size } from '@/components/PostCard/const/state';
 
-export function useResponseHook() {
+export function useResponseBoard() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(9);
   const [size, setSize] = useState<Size>(Size.default);
 

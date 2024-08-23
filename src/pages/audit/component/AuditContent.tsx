@@ -3,8 +3,8 @@ import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
 import { handleCardClick } from '../utils/handleCardClick';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { Size } from '@/components/PostCard/const/state';
-import { useResponseHook } from '../hooks/useResponseHook';
 import { useEffect, useState } from 'react';
+import { useResponseBoard } from '@/hooks/useResponseBoard';
 
 interface AuditContentProps {
   initPosts: {
@@ -20,7 +20,7 @@ interface AuditContentProps {
 
 export function AuditContent({ initPosts }: AuditContentProps) {
   const navigate = useNavigate();
-  const { size } = useResponseHook();
+  const { size } = useResponseBoard();
   const screenWidth = window.innerWidth;
   const [posts, setPosts] = useState(initPosts);
 

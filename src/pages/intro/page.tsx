@@ -1,32 +1,59 @@
-import { useSearchParams } from 'react-router-dom';
-import { useValidateAndRedirect } from './container/hooks/useValidateAndRedirect';
-import IntroTitleSection from './container/IntroTitleSection';
-import IntroNavSection from './container/IntroNavSection';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import IntroEditButton from './container/IntroEditButton';
-import { paramToHisNum, paramToName, paramToSubTitle, paramToTitle } from './container/utils/dataUtils';
 import IntroContentSection from './container/IntroContentSection';
+import { HeadLayout } from '@/template/HeadLayout';
+import { useBoardSelect } from '@/hooks/useBoardSelect';
+import { useValidateAndRedirect } from './container/hooks/useValidateAndRedirect';
+import { useCategoryMap } from './container/hooks/useQueryMap';
+import { paramToHisNum, paramToName, paramToSubTitle, paramToTitle } from './container/utils/dataUtils';
+import { IntroNavSection } from './container/IntroNavSection';
 
-// /intro
 export function IntroPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const category = searchParams.get('category') || '';
-  const subCategory = searchParams.get('sub-category') || '';
+  const categoryParam = searchParams.get('category') || '';
+  const subCategoryParam = searchParams.get('sub-category') || '';
 
-  const { isValidCategory, isValidSubCategory } = useValidateAndRedirect({ category, subCategory });
+  const { isValidCategory, isValidSubCategory } = useValidateAndRedirect({
+    category: categoryParam,
+    subCategory: subCategoryParam,
+  });
 
   if (!isValidCategory || !isValidSubCategory) {
     return null;
   }
 
+  const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<string>(categoryParam);
+  const { selectedSubcategories: selectedSubcategory, onSubcategorySelect: onSubSelect } =
+    useBoardSelect<string>(subCategoryParam);
+
+  const { mainCategoryName, subCategoryDisplayName, handleSelection } = useCategoryMap({
+    categoryParam,
+    subCategoryParam,
+    onSubcategorySelect,
+    onSubSelect,
+    setSearchParams,
+    navigate,
+  });
+
   return (
     <>
-      <IntroTitleSection
-        title={paramToTitle(category)}
-        subTitle={`${paramToHisNum(category)} ${paramToSubTitle(category)} ${paramToName(category)}`}
+      <HeadLayout
+        className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[60px] lg:px-[200px]"
+        searchHidden={true}
+        borderOff={true}
+        title={paramToTitle(categoryParam)}
+        subtitle={`${paramToHisNum(categoryParam)} ${paramToSubTitle(categoryParam)} ${paramToName(categoryParam)}`}
       />
-      <IntroNavSection category={category} />
-      <IntroContentSection category={category} subCategory={subCategory} />
+      <IntroNavSection
+        categoryParam={categoryParam}
+        subCategoryParam={subCategoryParam}
+        handleSelection={handleSelection}
+        mainCategoryName={mainCategoryName}
+        subCategoryDisplayName={subCategoryDisplayName}
+      />
+      <IntroContentSection category={categoryParam} subCategory={subCategoryParam} />
       <IntroEditButton />
     </>
   );
