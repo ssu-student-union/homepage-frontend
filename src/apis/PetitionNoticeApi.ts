@@ -17,14 +17,22 @@ export interface PetitionNoticePostDataResponse {
   };
 }
 
-export const PetitionNoticeListApi = (page: number, take: number) => {
-  return client.get<PetitionNoticePostDataResponse>('/board/청원게시판/posts', {
-    params: {
-      page: page,
-      take: take,
-    },
-  });
+export const PetitionNoticeListApi = async (page: number, take: number) => {
+  try {
+    const response = await client.get<PetitionNoticePostDataResponse>('/board/청원게시판/posts', {
+      params: {
+        page: page,
+        take: take,
+      },
+    });
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
+
+// 청원 게시판 인기 청원 4개 가져오는 api
 
 export const PetitionNoticePopularContentApi = async () => {
   try {

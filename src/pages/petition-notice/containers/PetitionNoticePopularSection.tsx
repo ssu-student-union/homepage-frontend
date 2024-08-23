@@ -12,9 +12,10 @@ export function PetitionNoticePopularSection() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollState, setScrollState] = useState<'left' | 'right' | 'both'>('right');
 
-  const { data } = useQuery({
+  const { data: PetitionNoticePopularData } = useQuery({
     queryKey: ['petition-notice-popular'],
     queryFn: PetitionNoticePopularContentApi,
+    staleTime: 60 * 1000 * 50,
   });
 
   const handleScroll = (moveRef: MutableRefObject<HTMLDivElement | null>) => {
@@ -81,16 +82,21 @@ export function PetitionNoticePopularSection() {
     <div className="relative mb-[66px] mt-[70px] pl-[200px] text-[1.75rem] font-bold xs:mb-[33px] xs:pl-10 sm:pl-10 md:pl-10 lg:pl-10">
       <p className="mb-[11px]">인기청원</p>
       <div className="flex gap-6 overflow-scroll pr-5 scrollbar-hide" ref={ref}>
-        {data?.postListResDto && data?.postListResDto.map((content) => <PostTextPetition data={content} />)}
+        {PetitionNoticePopularData?.postListResDto &&
+          PetitionNoticePopularData?.postListResDto.map((content) => (
+            <PostTextPetition data={content} key={content.postId} />
+          ))}
       </div>
-      {isOverflow && data?.postListResDto && data.postListResDto.length > 0 && (
-        <>
-          {(scrollState === 'left' || scrollState === 'both') && <LeftCarouselButton onClick={() => moveLeft(ref)} />}
-          {(scrollState === 'right' || scrollState === 'both') && (
-            <RigthCarouselButton onClick={() => moveRight(ref)} />
-          )}
-        </>
-      )}
+      {isOverflow &&
+        PetitionNoticePopularData?.postListResDto &&
+        PetitionNoticePopularData.postListResDto.length > 0 && (
+          <>
+            {(scrollState === 'left' || scrollState === 'both') && <LeftCarouselButton onClick={() => moveLeft(ref)} />}
+            {(scrollState === 'right' || scrollState === 'both') && (
+              <RigthCarouselButton onClick={() => moveRight(ref)} />
+            )}
+          </>
+        )}
     </div>
   );
 }

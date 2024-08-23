@@ -2,6 +2,7 @@ import { ThumbsUp } from 'lucide-react';
 import { ACTIVE_TAG, ANSWERED_TAG, CLOSED_TAG, RECEIVED_TAG } from '../StateTag/const';
 import { useResize } from '@/hooks/useResize';
 import { PostListDtoResponse } from './types';
+import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 
 interface PostTextPetitionProps {
   data: PostListDtoResponse;
@@ -42,7 +43,9 @@ export function PostTextPetition({ data }: PostTextPetitionProps) {
           {data?.content}
         </div>
         <div className="flex justify-between">
-          <div className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem]">{data?.date}</div>
+          <div className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem]">
+            {formatYYYYMMDD(data?.date)}
+          </div>
           <div className="flex gap-1 text-[#7D7BFF]">
             <span className="cursor-pointer xs:pb-[9px] xs:pt-0">
               <ThumbsUp size={isSmallScreen ? 14 : 22} />
