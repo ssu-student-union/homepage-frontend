@@ -18,11 +18,11 @@ export function BoardSelector<T>({
     <div className={cn(`flex flex-wrap gap-2`, className)}>
       {subcategories.map((category) => (
         <Category
-          key={category as string}
+          key={category}
           isActive={selectedSubcategory === category}
           onClick={() => onSubcategorySelect(category)}
         >
-          {category as string}
+          {category}
         </Category>
       ))}
     </div>

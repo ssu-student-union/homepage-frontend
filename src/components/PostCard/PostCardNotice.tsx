@@ -22,7 +22,7 @@ const PostCardMain = ({
 }: PostCardMainProps) => {
   return (
     <div
-      className={`relative flex h-[24.25rem] w-[20.6rem] cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white xs:h-[17.5rem] xs:w-[14.5rem]`}
+      className={`relative flex h-[24.25rem] min-w-[20.6rem] cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white xs:h-[17.5rem] xs:w-[14.5rem]`}
     >
       {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
       {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
