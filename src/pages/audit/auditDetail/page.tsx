@@ -18,7 +18,7 @@ export function AuditDetailPage() {
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
-      <AuditDetailContentSection content={postDetail.content} />
+      <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
       {/* <AuditDetailFileSection file={postDetail.file} /> */}
       <AuditDetailEditSection />
     </div>
