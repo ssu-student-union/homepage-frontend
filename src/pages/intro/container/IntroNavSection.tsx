@@ -42,11 +42,10 @@ export function IntroNavSection({
           }}
           className="relative z-10 mx-[200px] bg-white md:mx-[60px]"
         />
-        <div className="pt-[32px]" />
       </div>
       {categoryParam !== 'audit' && (
         <BoardSelector
-          className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[60px]"
+          className="px-[200px] pt-[32px] xs:px-[30px] xs:pt-0 sm:px-[30px] sm:pt-0 md:px-[60px]"
           subcategories={subName}
           selectedSubcategory={subCategoryDisplayName}
           onSubcategorySelect={(subcategory) => {
