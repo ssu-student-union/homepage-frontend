@@ -53,7 +53,7 @@ export function AuditPage() {
         currentPage={currentPage}
         onPageChange={(page) => setCurrentPage(page)}
         onWriteClick={() => {}}
-        className="ls:px-[30px] mt-[0px] w-full px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px]"
+        className="ls:px-[30px] mt-[30px] w-full px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px]"
       />
     </>
   );
