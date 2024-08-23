@@ -5,8 +5,8 @@ import { AuditSelector } from './component/AuditSelector';
 import { IntroNavSection } from '../intro/container/IntroNavSection';
 import { useGetBoardBoardCodePosts } from '@/hooks/useGetBoardBoardCodePosts';
 import { useResponseBoard } from '../../hooks/useResponseBoard';
-
 import { useEffect } from 'react';
+import { useCurrentPage } from '@/hooks/useCurrentPage';
 
 export function AuditPage() {
   const boardCode = '감사기구게시판';
@@ -15,15 +15,18 @@ export function AuditPage() {
 
   const { itemsPerPage } = useResponseBoard();
 
-  const { posts, currentPage, setCurrentPage, totalPages, refetch } = useGetBoardBoardCodePosts({
+  const { currentPage, handlePageChange } = useCurrentPage();
+
+  const { posts, totalPages, refetch } = useGetBoardBoardCodePosts({
     boardCode,
-    accessToken,
+    accessToken, // 제거 예정
     take: itemsPerPage,
+    page: currentPage,
   });
 
   useEffect(() => {
     refetch();
-  }, [itemsPerPage]);
+  }, [itemsPerPage, currentPage]);
 
   return (
     <>
@@ -51,7 +54,7 @@ export function AuditPage() {
         children={<AuditContent initPosts={posts} />}
         totalPages={totalPages}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={handlePageChange}
         onWriteClick={() => {}}
         className="ls:px-[30px] mt-[30px] w-full px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px]"
       />

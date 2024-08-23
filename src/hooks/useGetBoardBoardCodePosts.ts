@@ -1,6 +1,5 @@
 import { getBoardBoardCodePosts } from '@/apis/getBoardBoardCodePosts';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 
 interface UseGetBoardBoardCodePostsProps {
   boardCode: string;
@@ -15,9 +14,7 @@ export function useGetBoardBoardCodePosts({
   page = 1,
   take = 9,
 }: UseGetBoardBoardCodePostsProps) {
-  const [currentPage, setCurrentPage] = useState(page);
-
-  const queryKey = ['get-board-boardCode-posts', boardCode, currentPage];
+  const queryKey = ['get-board-boardCode-posts', boardCode];
 
   const { data, refetch } = useQuery({
     queryKey,
@@ -25,7 +22,7 @@ export function useGetBoardBoardCodePosts({
       getBoardBoardCodePosts({
         accessToken,
         boardCode,
-        page: currentPage,
+        page: page,
         take,
       }),
     staleTime: 300000,
@@ -37,8 +34,6 @@ export function useGetBoardBoardCodePosts({
   return {
     posts: posts,
     totalPages: totalPages,
-    currentPage,
-    setCurrentPage,
     refetch,
   };
 }
