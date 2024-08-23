@@ -28,7 +28,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
     setPosts(initPosts);
   }, [initPosts]);
 
-  if (!posts || posts.length === 0) {
+  if (!posts || posts.length == 0) {
     return <div>게시물이 없습니다.</div>;
   }
 
@@ -96,7 +96,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
           profileImg={''}
           profileName={''}
           className="cursor-pointer"
-          onClick={() => handleCardClick(post.postId.toString(), post, navigate)}
+          onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />
       </div>
     );

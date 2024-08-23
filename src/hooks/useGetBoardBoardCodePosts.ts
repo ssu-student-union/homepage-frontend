@@ -3,16 +3,16 @@ import { useQuery } from '@tanstack/react-query';
 
 interface UseGetBoardBoardCodePostsProps {
   boardCode: string;
-  accessToken: string;
   page?: number;
   take?: number;
+  category?: string | null;
 }
 
 export function useGetBoardBoardCodePosts({
   boardCode,
-  accessToken,
   page = 1,
   take = 9,
+  category = null,
 }: UseGetBoardBoardCodePostsProps) {
   const queryKey = ['get-board-boardCode-posts', boardCode];
 
@@ -20,10 +20,10 @@ export function useGetBoardBoardCodePosts({
     queryKey,
     queryFn: () =>
       getBoardBoardCodePosts({
-        accessToken,
         boardCode,
         page: page,
         take,
+        category,
       }),
     staleTime: 300000,
   });
