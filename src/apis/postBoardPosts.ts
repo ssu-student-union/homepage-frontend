@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 // POST:/board/{boardCode}/posts 요청
 
-interface postBoardPostsProps {
+export interface postBoardPostsProps {
   boardCode: string;
   post: {
     title: string;

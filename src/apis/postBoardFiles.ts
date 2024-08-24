@@ -1,7 +1,9 @@
 import { clientAuth } from './client';
 import { AxiosResponse } from 'axios';
 
-interface postBoardFilesProps {
+// POST:/board/{boardCode}/files 요청
+
+export interface postBoardFilesProps {
   boardCode: string;
   files?: File[];
   images?: File[];
