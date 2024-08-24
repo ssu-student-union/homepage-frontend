@@ -6,7 +6,10 @@ export interface File {
 export interface PostBoardFilesResponse {
   code: string;
   message: string;
-  data: File[];
+  data: {
+    postFiles: File[];
+    thumbnailUrl: string;
+  };
   isSuccess: boolean;
 }
 

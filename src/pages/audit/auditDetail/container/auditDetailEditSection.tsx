@@ -18,7 +18,7 @@ export function AuditDetailEditSection({ boardCode, postId }: AuditDetailEditPro
         <DeleteButton
           onClick={() => {
             deleteHandler({ boardCode, postId, mutation });
-            navigate(-1);
+            navigate(`/audit?category=notice`);
           }}
         />
         <EditButton />
