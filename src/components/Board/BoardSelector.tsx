@@ -8,7 +8,7 @@ interface BoardSelectorProps<T> {
   onSubcategorySelect: (category: T) => void;
 }
 
-export function BoardSelector<T>({
+export function BoardSelector<T extends string>({
   subcategories,
   selectedSubcategory,
   className = '',

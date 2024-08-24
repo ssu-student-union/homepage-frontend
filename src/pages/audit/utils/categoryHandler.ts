@@ -1,4 +1,5 @@
 import { NavigateFunction } from 'react-router-dom';
+import { categoryMap } from '../const/data';
 
 export function handleCategory(
   categories: string[],
@@ -9,4 +10,8 @@ export function handleCategory(
   const categoryIndex = categories.indexOf(selectedCategory);
   const value = categoryValues[categoryIndex];
   navigate(`/audit?category=${value}`);
+}
+
+export function findCategoryKey(selectedCategory: string): string | undefined {
+  return Object.keys(categoryMap).find((key) => categoryMap[key] === selectedCategory);
 }

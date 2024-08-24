@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
-import { handleCardClick } from '../utils/handleCardClick';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { Size } from '@/components/PostCard/const/state';
 import { useEffect, useState } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
+import { handleCardClick } from '../utils/cardHandler';
 
 interface AuditContentProps {
   initPosts: {

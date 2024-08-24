@@ -1,25 +1,20 @@
-import { getBoardBoardCodePosts } from '@/apis/getBoardBoardCodePosts';
+import { getBoardPosts } from '@/apis/getBoardPosts';
 import { useQuery } from '@tanstack/react-query';
 
-interface UseGetBoardBoardCodePostsProps {
+interface UseGetBoardPostsProps {
   boardCode: string;
   page?: number;
   take?: number;
   category?: string | null;
 }
 
-export function useGetBoardBoardCodePosts({
-  boardCode,
-  page = 1,
-  take = 9,
-  category = null,
-}: UseGetBoardBoardCodePostsProps) {
+export function useGetBoardPosts({ boardCode, page = 0, take = 9, category = null }: UseGetBoardPostsProps) {
   const queryKey = ['get-board-boardCode-posts', boardCode];
 
   const { data, refetch } = useQuery({
     queryKey,
     queryFn: () =>
-      getBoardBoardCodePosts({
+      getBoardPosts({
         boardCode,
         page: page,
         take,

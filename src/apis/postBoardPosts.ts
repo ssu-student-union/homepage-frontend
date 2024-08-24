@@ -1,7 +1,9 @@
 import { clientAuth } from './client';
 import { AxiosResponse } from 'axios';
 
-export interface postBoardPostsProps {
+// POST:/board/{boardCode}/posts 요청
+
+interface postBoardPostsProps {
   boardCode: string;
   post: {
     title: string;

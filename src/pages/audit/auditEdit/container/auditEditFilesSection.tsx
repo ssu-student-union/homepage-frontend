@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { Trash, Plus } from '@phosphor-icons/react';
-import { onDrop } from '../utils/onDrop';
-import { addEmptyField } from '../utils/addEmptyField';
-import { removeFileField } from '../utils/removeFileField';
 import { FileDropzone } from '../component/fileDropzone';
+import { addEmptyField, onDrop, removeFileField } from '../utils/fileHandler';
 
 export interface FileItem {
   id: number;

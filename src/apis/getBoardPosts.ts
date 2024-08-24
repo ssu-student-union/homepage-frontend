@@ -2,19 +2,14 @@ import { client } from './client';
 
 // GET:/board/{boardCode}/posts 요청
 
-export interface getBoardBoardCodePostsProps {
+export interface getBoardPostsProps {
   boardCode: string;
   category?: string | null;
   page?: number;
   take: number;
 }
 
-export async function getBoardBoardCodePosts({
-  boardCode,
-  page = 0,
-  take = 9,
-  category = null,
-}: getBoardBoardCodePostsProps) {
+export async function getBoardPosts({ boardCode, page = 0, take = 9, category = null }: getBoardPostsProps) {
   try {
     const resp = await client.get(`/board/${boardCode}/posts`, {
       params: {
