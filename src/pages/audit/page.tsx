@@ -1,29 +1,17 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { AuditContent } from './component/AuditContent';
-import { AuditSelector } from './component/AuditSelector';
 import { IntroNavSection } from '../intro/container/IntroNavSection';
-import { useGetBoardBoardCodePosts } from '@/hooks/useGetBoardBoardCodePosts';
-import { useResponseBoard } from '../../hooks/useResponseBoard';
-
-import { useEffect } from 'react';
+import { BoardSelector } from '@/components/Board/BoardSelector';
+import { useAuditBoard } from './hooks/useAuditBoard';
+import { categoryMap } from './const/data';
 
 export function AuditPage() {
+  // 게시판 CODE
   const boardCode = '감사기구게시판';
-  const accessToken =
-    'eyJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzI0MjYxMzQwLCJleHAiOjE3MjQyNzIxNDB9.4RX1NtgtDpZFHLNfH1JK4vLB8dUFtO-F7fRNsKlK0Ns';
 
-  const { itemsPerPage } = useResponseBoard();
-
-  const { posts, currentPage, setCurrentPage, totalPages, refetch } = useGetBoardBoardCodePosts({
-    boardCode,
-    accessToken,
-    take: itemsPerPage,
-  });
-
-  useEffect(() => {
-    refetch();
-  }, [itemsPerPage]);
+  const { posts, totalPages, currentPage, handlePageChange, navigate, categoryParam, subcategories, selectedCategory } =
+    useAuditBoard(boardCode);
 
   return (
     <>
@@ -39,21 +27,30 @@ export function AuditPage() {
         handleSelection={() => {}}
         mainCategoryName="게시판"
         subCategoryDisplayName="게시판"
+        isHidden={false}
+        className="mx-[200px] xs:mx-[30px] sm:mx-[30px] md:mx-[30px] lg:mx-[30px]"
       />
       <BodyLayout
         selector={
-          <AuditSelector
-            paramName="category"
-            categories={['all', 'plan', 'result', 'ect']}
-            labels={['전체', '감사계획', '감사결과', '기타']}
+          <BoardSelector
+            subcategories={subcategories}
+            selectedSubcategory={categoryMap[categoryParam] || '전체'}
+            onSubcategorySelect={(selectedCategory) => {
+              const categoryKey = Object.keys(categoryMap).find((key) => categoryMap[key] === selectedCategory);
+              if (categoryKey) {
+                navigate(`/audit?category=${categoryKey}`);
+              }
+            }}
           />
         }
         children={<AuditContent initPosts={posts} />}
         totalPages={totalPages}
         currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
-        onWriteClick={() => {}}
-        className="ls:px-[30px] mt-[30px] w-full px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px]"
+        onPageChange={handlePageChange}
+        onWriteClick={() => {
+          navigate(`/audit/edit`);
+        }}
+        className="pt-[32px]"
       />
     </>
   );

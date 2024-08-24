@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
-import { handleCardClick } from '../utils/handleCardClick';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { Size } from '@/components/PostCard/const/state';
 import { useEffect, useState } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
+import { handleCardClick } from '../utils/cardHandler';
 
 interface AuditContentProps {
   initPosts: {
@@ -28,7 +28,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
     setPosts(initPosts);
   }, [initPosts]);
 
-  if (!posts || posts.length === 0) {
+  if (!posts || posts.length == 0) {
     return <div>게시물이 없습니다.</div>;
   }
 
@@ -60,7 +60,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
             <RenderCard key={post.postId} post={post} size={size} />
           ))}
         </div>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between pb-[30px]">
           {posts.slice(2, 4).map((post) => (
             <RenderCard key={post.postId} post={post} size={size} />
           ))}
@@ -96,7 +96,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
           profileImg={''}
           profileName={''}
           className="cursor-pointer"
-          onClick={() => handleCardClick(post.postId.toString(), post, navigate)}
+          onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />
       </div>
     );

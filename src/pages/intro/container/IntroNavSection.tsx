@@ -2,6 +2,7 @@ import { BoardNavigator } from '@/components/Board/BoardNavigator';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { category, mainName, subCategory, subName } from './const/data';
 import { useAuditSwitch } from './utils/switchUtils';
+import { cn } from '@/libs/utils';
 
 interface IntroNavSectionProps {
   categoryParam: string;
@@ -9,6 +10,8 @@ interface IntroNavSectionProps {
   handleSelection: (selectedCategory: string, selectedSubcategory?: string) => void;
   mainCategoryName: string;
   subCategoryDisplayName: string;
+  className?: string;
+  isHidden?: boolean;
 }
 
 export function IntroNavSection({
@@ -17,6 +20,8 @@ export function IntroNavSection({
   handleSelection,
   mainCategoryName,
   subCategoryDisplayName,
+  className = '',
+  isHidden = true,
 }: IntroNavSectionProps) {
   const handleAuditSwitchClick = useAuditSwitch();
 
@@ -25,7 +30,7 @@ export function IntroNavSection({
 
   return (
     <>
-      <div className="relative xs:hidden sm:hidden">
+      <div className={isHidden ? 'relative xs:hidden sm:hidden' : 'relative'}>
         <div className="absolute left-0 top-1/2 z-0 h-[1px] w-full -translate-y-1/2 transform bg-[#E7E7E7]"></div>
         <BoardNavigator
           categories={categoryParam === 'audit' ? auditCategories : mainName}
@@ -40,7 +45,7 @@ export function IntroNavSection({
               handleSelection(categoryQueryParam);
             }
           }}
-          className="relative z-10 mx-[200px] bg-white md:mx-[60px]"
+          className={cn(`relative z-10 mx-[200px] bg-white md:mx-[60px]`, className)}
         />
       </div>
       {categoryParam !== 'audit' && (
