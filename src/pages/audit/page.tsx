@@ -7,10 +7,8 @@ import { useAuditBoard } from './hooks/useAuditBoard';
 import { categoryMap } from './const/data';
 
 export function AuditPage() {
-  // 게시판 CODE
   const boardCode = '감사기구게시판';
-
-  const { posts, totalPages, currentPage, handlePageChange, navigate, categoryParam, subcategories, selectedCategory } =
+  const { posts, totalPages, currentPage, handlePageChange, navigate, categoryParam, subcategories } =
     useAuditBoard(boardCode);
 
   return (

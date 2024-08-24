@@ -26,16 +26,11 @@ export interface PostBoardPostsResponse {
 }
 
 export async function postBoardPosts({ boardCode, post }: postBoardPostsProps): Promise<PostBoardPostsResponse> {
-  try {
-    const response: AxiosResponse<PostBoardPostsResponse> = await clientAuth<PostBoardPostsResponse>({
-      method: 'post',
-      url: `/board/${boardCode}/posts`,
-      data: post,
-    });
-    console.log('API 요청 성공:', response.data);
-    return response.data;
-  } catch (e) {
-    console.log('API 요청 실패:', e);
-    throw e;
-  }
+  const response: AxiosResponse<PostBoardPostsResponse> = await clientAuth<PostBoardPostsResponse>({
+    method: 'post',
+    url: `/board/${boardCode}/posts`,
+    data: post,
+  });
+  console.log('API 요청 성공:', response.data);
+  return response.data;
 }

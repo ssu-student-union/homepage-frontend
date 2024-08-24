@@ -7,13 +7,13 @@ import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { handleCardClick } from '../utils/cardHandler';
 
 interface AuditContentProps {
-  initPosts: {
+  initPosts?: {
     postId: number;
     title: string;
     content: string;
     date: string;
     thumbNail: string | null;
-    status: 'Emergency' | 'New' | 'Default';
+    status: string | null;
   }[];
   className?: string;
 }
@@ -28,7 +28,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
     setPosts(initPosts);
   }, [initPosts]);
 
-  if (!posts || posts.length == 0) {
+  if (!posts || posts.length === 0) {
     return <div>게시물이 없습니다.</div>;
   }
 

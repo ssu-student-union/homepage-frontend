@@ -9,11 +9,5 @@ export function usePostBoardFiles(): UseMutationResult<
 > {
   return useMutation<AxiosResponse<PostBoardFilesResponse>, AxiosError, postBoardFilesProps>({
     mutationFn: postBoardFiles,
-    onSuccess: (data) => {
-      console.log('파일 업로드 성공:', data.data);
-    },
-    onError: (error) => {
-      console.error('파일 업로드 실패:', error);
-    },
   });
 }

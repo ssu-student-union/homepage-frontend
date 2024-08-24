@@ -10,16 +10,12 @@ export interface getBoardPostsProps {
 }
 
 export async function getBoardPosts({ boardCode, page = 0, take = 9, category = null }: getBoardPostsProps) {
-  try {
-    const resp = await client.get(`/board/${boardCode}/posts`, {
-      params: {
-        take: take,
-        page: page - 1,
-        category: category,
-      },
-    });
-    return resp.data;
-  } catch (error) {
-    console.error(error);
-  }
+  const resp = await client.get(`/board/${boardCode}/posts`, {
+    params: {
+      take: take,
+      page: page - 1,
+      category: category,
+    },
+  });
+  return resp.data;
 }

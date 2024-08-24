@@ -1,5 +1,6 @@
 import { getBoardDetail } from '@/apis/getBoardDetail';
-import { useQuery } from '@tanstack/react-query';
+import { GetBoardDetailResponse } from '@/types/apis';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 interface useBoardDetailProps {
   boardCode: string;
@@ -7,18 +8,17 @@ interface useBoardDetailProps {
   userId?: number;
 }
 
-export function useGetBoardDetail({ boardCode, postId, userId = 0 }: useBoardDetailProps) {
+export function useGetBoardDetail({
+  boardCode,
+  postId,
+  userId = 0,
+}: useBoardDetailProps): UseQueryResult<GetBoardDetailResponse> {
   const queryKey = ['get-board-boardCode-posts-postId', boardCode, postId];
 
-  const { data } = useQuery({
+  const queryResult = useQuery<GetBoardDetailResponse>({
     queryKey,
     queryFn: () => getBoardDetail({ boardCode, postId, userId }),
-    staleTime: 300000,
   });
 
-  const postDetail = data?.data?.postDetailResDto || null;
-  console.log(postDetail);
-  return {
-    postDetail,
-  };
+  return queryResult;
 }
