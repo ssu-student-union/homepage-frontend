@@ -5,7 +5,7 @@ import { deleteHandler } from '../utils/deleteHandler';
 
 interface AuditDetailEditProps {
   boardCode: string;
-  postId: string;
+  postId: number;
 }
 
 export function AuditDetailEditSection({ boardCode, postId }: AuditDetailEditProps) {

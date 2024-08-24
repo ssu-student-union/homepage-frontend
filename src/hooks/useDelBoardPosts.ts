@@ -5,7 +5,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 export function useDelBoardPosts(): UseMutationResult<
   AxiosResponse<any>,
   AxiosError,
-  { boardCode: string; postId: string }
+  { boardCode: string; postId: number }
 > {
   return useMutation({
     mutationFn: ({ boardCode, postId }) => delBoardPosts(boardCode, postId),

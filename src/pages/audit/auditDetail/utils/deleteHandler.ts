@@ -3,8 +3,8 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 interface DeleteHandlerProps {
   boardCode: string;
-  postId: string;
-  mutation: UseMutationResult<AxiosResponse<void>, AxiosError, { boardCode: string; postId: string }>;
+  postId: number;
+  mutation: UseMutationResult<AxiosResponse<void>, AxiosError, { boardCode: string; postId: number }>;
 }
 
 export const deleteHandler = ({ boardCode, postId, mutation }: DeleteHandlerProps) => {
