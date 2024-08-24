@@ -1,6 +1,5 @@
 import { UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 interface DeleteHandlerProps {
   boardCode: string;
@@ -9,14 +8,9 @@ interface DeleteHandlerProps {
 }
 
 export const deleteHandler = ({ boardCode, postId, mutation }: DeleteHandlerProps) => {
-  const navigate = useNavigate();
-
   mutation.mutate(
     { boardCode, postId },
     {
-      onSuccess: () => {
-        navigate(-1);
-      },
       onError: () => {
         alert('삭제 권한이 없습니다.');
       },

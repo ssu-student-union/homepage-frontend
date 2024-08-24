@@ -15,7 +15,12 @@ export function AuditDetailEditSection({ boardCode, postId }: AuditDetailEditPro
   return (
     <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
       <div className="flex w-[420px] flex-row items-end justify-between xs:h-[150px] xs:flex-col">
-        <DeleteButton onClick={() => deleteHandler({ boardCode, postId, mutation })} />
+        <DeleteButton
+          onClick={() => {
+            deleteHandler({ boardCode, postId, mutation });
+            navigate(-1);
+          }}
+        />
         <EditButton />
         <ListButton onClick={() => navigate(-1)} />
       </div>
