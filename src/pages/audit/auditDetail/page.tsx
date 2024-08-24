@@ -6,8 +6,8 @@ import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 
 export function AuditDetailPage() {
   const location = useLocation();
-  const postId = location.state?.postId;
-  const boardCode = '감사기구게시판';
+  const postId: number = location.state?.postId;
+  const boardCode: string = '감사기구게시판';
 
   const { data: resp, isLoading, error } = useGetBoardDetail({ boardCode, postId });
 

@@ -36,12 +36,10 @@ export function useAuditEdit() {
       });
 
       const uploadedFiles = uploadResponse.data;
-      console.log(uploadedFiles);
+      console.log('1', uploadedFiles);
 
       const thumbnailImage = handleThumbnailImage(uploadedFiles.data);
       const postFileList = handleFileLists(uploadedFiles.data);
-
-      console.log(postFileList);
 
       await createPost({
         boardCode: '감사기구게시판',

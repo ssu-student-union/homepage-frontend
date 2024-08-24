@@ -4,6 +4,7 @@ import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { useCategory } from './useCategory';
 import { categoryMap } from '../const/data';
 import { Post } from '@/types/apis/get';
+import { calculateTotalPages } from '../utils/paginationUtils';
 
 export function useAuditBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
@@ -21,7 +22,10 @@ export function useAuditBoard(boardCode: string) {
   });
 
   const posts: Post[] = data?.data?.postListResDto || [];
-  const totalPages: number = data?.data?.pageInfo?.totalPages || 1;
+  const totalItems: number = data?.data?.pageInfo?.totalElements || 0;
+  const totalPages: number = calculateTotalPages(totalItems, itemsPerPage);
+
+  console.log(totalItems);
 
   return {
     posts,
