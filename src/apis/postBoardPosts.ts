@@ -1,3 +1,4 @@
+import { PostBoardPostsResponse } from '@/types/apis/post';
 import { clientAuth } from './client';
 import { AxiosResponse } from 'axios';
 
@@ -13,16 +14,6 @@ export interface postBoardPostsProps {
     isNotice?: boolean;
     postFileList?: number[];
   };
-}
-
-export interface PostBoardPostsResponse {
-  code: string;
-  message: string;
-  data: {
-    post_id: number;
-    boardCode: string;
-  };
-  isSuccess: boolean;
 }
 
 export async function postBoardPosts({ boardCode, post }: postBoardPostsProps): Promise<PostBoardPostsResponse> {

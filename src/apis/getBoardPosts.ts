@@ -17,5 +17,6 @@ export async function getBoardPosts({ boardCode, page = 0, take = 9, category = 
       category: category,
     },
   });
+
   return resp.data;
 }

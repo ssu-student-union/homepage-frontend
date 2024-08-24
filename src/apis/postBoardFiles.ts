@@ -9,18 +9,6 @@ export interface postBoardFilesProps {
   images?: File[];
 }
 
-interface FileData {
-  id: number;
-  url: string;
-}
-
-export interface PostBoardFilesResponse {
-  code: string;
-  message: string;
-  data: FileData[];
-  isSuccess: boolean;
-}
-
 export async function postBoardFiles({
   boardCode,
   files = [],

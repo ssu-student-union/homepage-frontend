@@ -1,4 +1,4 @@
-import { getBoardDetailProps, GetBoardDetailResponse } from '@/types/apis';
+import { getBoardDetailProps, GetBoardDetailResponse } from '@/types/apis/get';
 import { client } from './client';
 
 // GET:/board/{boardCode}/posts/postId 요청

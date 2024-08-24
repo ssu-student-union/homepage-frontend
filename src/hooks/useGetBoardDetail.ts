@@ -1,5 +1,5 @@
 import { getBoardDetail } from '@/apis/getBoardDetail';
-import { GetBoardDetailResponse } from '@/types/apis';
+import { GetBoardDetailResponse } from '@/types/apis/get';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 interface useBoardDetailProps {
