@@ -1,10 +1,11 @@
 import { UseMutationResult } from '@tanstack/react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 interface DeleteHandlerProps {
   boardCode: string;
   postId: string;
-  mutation: UseMutationResult;
+  mutation: UseMutationResult<AxiosResponse<void>, AxiosError, { boardCode: string; postId: string }>;
 }
 
 export const deleteHandler = ({ boardCode, postId, mutation }: DeleteHandlerProps) => {

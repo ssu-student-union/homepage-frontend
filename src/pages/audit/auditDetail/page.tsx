@@ -24,7 +24,7 @@ export function AuditDetailPage() {
       <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
       <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
       {/* <AuditDetailFileSection file={postDetail.file} /> */}
-      <AuditDetailEditSection />
+      <AuditDetailEditSection boardCode={boardCode} postId={postId} />
     </div>
   );
 }
