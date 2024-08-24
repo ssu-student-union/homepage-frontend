@@ -1,4 +1,5 @@
-import { postBoardPosts, postBoardPostsProps, PostBoardPostsResponse } from '@/apis/postBoardPosts';
+import { postBoardPosts, postBoardPostsProps } from '@/apis/postBoardPosts';
+import { PostBoardPostsResponse } from '@/types/apis/post';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 

@@ -35,10 +35,13 @@ export function useAuditEdit() {
         images,
       });
 
-      const uploadedFiles = uploadResponse.data.data;
+      const uploadedFiles = uploadResponse.data;
+      console.log(uploadedFiles);
 
-      const thumbnailImage = handleThumbnailImage(uploadedFiles);
-      const postFileList = handleFileLists(uploadedFiles);
+      const thumbnailImage = handleThumbnailImage(uploadedFiles.data);
+      const postFileList = handleFileLists(uploadedFiles.data);
+
+      console.log(postFileList);
 
       await createPost({
         boardCode: '감사기구게시판',
@@ -53,7 +56,6 @@ export function useAuditEdit() {
       });
 
       navigate(-1);
-      console.log('게시물 작성이 완료되었습니다.');
     } catch (e) {
       console.error(e);
     }

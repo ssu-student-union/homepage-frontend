@@ -17,11 +17,11 @@ export interface postBoardPostsProps {
 }
 
 export async function postBoardPosts({ boardCode, post }: postBoardPostsProps): Promise<PostBoardPostsResponse> {
-  const response: AxiosResponse<PostBoardPostsResponse> = await clientAuth<PostBoardPostsResponse>({
+  const resp: AxiosResponse<PostBoardPostsResponse> = await clientAuth<PostBoardPostsResponse>({
     method: 'post',
     url: `/board/${boardCode}/posts`,
     data: post,
   });
-  console.log('API 요청 성공:', response.data);
-  return response.data;
+  console.log('API 요청 성공:', resp.data);
+  return resp.data;
 }

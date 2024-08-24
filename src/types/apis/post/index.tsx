@@ -1,4 +1,4 @@
-export interface FileData {
+export interface File {
   id: number;
   url: string;
 }
@@ -6,7 +6,7 @@ export interface FileData {
 export interface PostBoardFilesResponse {
   code: string;
   message: string;
-  data: FileData[];
+  data: File[];
   isSuccess: boolean;
 }
 
