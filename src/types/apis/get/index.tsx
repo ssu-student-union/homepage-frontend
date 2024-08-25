@@ -38,3 +38,12 @@ export interface getBoardDetailProps {
   postId: number;
   userId?: number;
 }
+
+export interface getBoardPostsProps {
+  page?: number;
+  take: number;
+  groupCode?: string;
+  memberCode?: string;
+  category?: string;
+  boardCode: string;
+}
