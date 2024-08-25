@@ -65,8 +65,10 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
         <span className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem]">
           {formatYYYYMMDD(data?.date)}
         </span>
-        <div className="flex cursor-pointer items-center gap-1 text-[#7D7BFF] xs:pb-[9px] xs:pt-0">
-          <ThumbsUp size={isSmallScreen ? 14 : 22} />
+        <div className="flex cursor-pointer items-center gap-1 text-[#7D7BFF]">
+          <span className="pb-1">
+            <ThumbsUp size={isSmallScreen ? 14 : 22} />
+          </span>
           <span className="text-[1.125rem] font-medium xs:text-[0.875rem]">{data?.likeCount}</span>
         </div>
       </div>
