@@ -3,6 +3,7 @@ import { ACTIVE_TAG, ANSWERED_TAG, CLOSED_TAG, RECEIVED_TAG } from '../StateTag/
 import { useResize } from '@/hooks/useResize';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { PostListDtoResponse } from '@/types/getPetitionTopLiked';
+import { useMemo } from 'react';
 
 interface PostTextPetitionProps {
   data: PostListDtoResponse;
@@ -30,11 +31,21 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
 
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength).trim() + '…';
+    return text.slice(0, maxLength).trim() + '...';
   };
 
-  // const pattern = /<h3>청원내용<\/h3><h6><br><\/h6><p>([\s\S]*?)<\/p>/;
-  // const petition_content_summation = data.content!.match(pattern);
+  const extractPetitionPurpose = (content: string) => {
+    const purposeRegex = /<h3>청원취지<\/h3>.*?<p>(.*?)<\/p>/s;
+    const match = content.match(purposeRegex);
+    if (match && match[1]) {
+      return match[1].replace(/<[^>]*>/g, '').trim();
+    }
+    return '';
+  };
+
+  const petitionPurpose = useMemo(() => {
+    return data?.content ? extractPetitionPurpose(data.content) : '';
+  }, [data?.content]);
 
   return (
     <div
@@ -47,7 +58,7 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
           {data?.title && truncateText(data.title, 17)}
         </h3>
         <p className="mt-3 flex-grow overflow-hidden text-ellipsis text-[1.125rem] font-medium text-gray-500 xs:mt-2 xs:text-[0.875rem]">
-          {data?.content && truncateText(data?.content, 76)}
+          {petitionPurpose && truncateText(petitionPurpose, 74)}
         </p>
       </div>
       <div className="flex items-center justify-between">

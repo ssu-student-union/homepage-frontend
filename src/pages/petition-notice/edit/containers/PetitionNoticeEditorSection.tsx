@@ -6,6 +6,8 @@ import '@toast-ui/editor/dist/i18n/ko-kr';
 import { useEffect, useRef, useState } from 'react';
 import { EditLayout } from '@/template/EditLayout';
 import { postBoardImages } from '@/apis/postBoardImages';
+import { postBoardPosts } from '@/apis/postBoardPosts';
+import { useNavigate } from 'react-router-dom';
 
 const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
@@ -32,15 +34,37 @@ export function PetitionNoticeEditorSection() {
   const titleRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<Editor>(null);
   const [initialContent, setInitialContent] = useState<string | null>(GUIDE_LINE);
+  const navigate = useNavigate();
 
-  const onClickEnrollBtn = () => {
-    if (!editorRef.current) return;
-    const html = editorRef.current.getInstance().getHTML();
-    console.log(html);
-
+  const onClickEnrollBtn = async () => {
     if (!titleRef.current) return;
     const title = titleRef.current.value;
     console.log(title);
+
+    if (!editorRef.current) return;
+    const content = editorRef.current.getInstance().getHTML();
+    const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p>/, '').trim());
+    console.log(extractedContent);
+
+    const posts = {
+      boardCode: '청원게시판',
+      post: {
+        title: title,
+        content: extractedContent,
+        categoryCode: '진행중',
+        thumbNailImage: null,
+        isNotice: false,
+        postFileList: [313],
+      },
+    };
+
+    try {
+      const response = await postBoardPosts(posts);
+      console.log(response);
+      navigate('/petition-notice');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
