@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { clientAuth } from './client';
 
-interface patchBoardPostProps {
+export interface patchBoardPostProps {
   boardCode: string;
   postId: number;
   posts: {

@@ -52,5 +52,5 @@ export interface getBoardPostsProps {
   groupCode?: string;
   memberCode?: string;
   category?: string;
-  boardCode: string;
+  boardCode?: string;
 }

@@ -9,8 +9,8 @@ import { postBoardImages } from '@/apis/postBoardImages';
 import { postBoardPosts } from '@/apis/postBoardPosts';
 import { useNavigate } from 'react-router-dom';
 import { client } from '@/apis/client';
-import { patchBoardPosts } from '@/apis/patchBoardPosts';
 import { GuideMessage } from '../components/GuidMessage';
+import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
 
 const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
@@ -63,6 +63,8 @@ export function PetitionNoticeEditorSection() {
     setInitialTitle(e.target.value);
   };
 
+  const mutation = usePatchBoardPosts();
+
   const onClickEnrollBtn = async () => {
     if (!titleRef.current) return;
     const title = titleRef.current.value;
@@ -102,8 +104,12 @@ export function PetitionNoticeEditorSection() {
           thumbnailImage: null,
         },
       };
-      await patchBoardPosts(patch_posts);
-      navigate('/petition-notice');
+      try {
+        await mutation.mutateAsync(patch_posts);
+        navigate('/petition-notice');
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
