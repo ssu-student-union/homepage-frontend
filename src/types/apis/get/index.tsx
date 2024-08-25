@@ -21,10 +21,17 @@ export interface GetBoardPostsResp {
 }
 
 export interface PostDetailResDto {
+  postId: number;
+  categoryName: string;
+  authorName: string;
   title: string;
-  createdAt: string;
   content: string;
+  createdAt: string;
+  isAuthor: boolean;
+  studentId: string;
+  likeCount: number;
   imageList: string[];
+  officialCommentList: string[];
 }
 
 export interface GetBoardDetailResponse {

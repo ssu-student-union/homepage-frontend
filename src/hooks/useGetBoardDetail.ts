@@ -5,7 +5,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 interface useBoardDetailProps {
   boardCode: string;
   postId: number;
-  userId?: number;
+  userId: number;
 }
 
 export function useGetBoardDetail({

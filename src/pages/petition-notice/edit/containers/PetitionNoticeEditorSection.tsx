@@ -43,7 +43,7 @@ export function PetitionNoticeEditorSection() {
 
     if (!editorRef.current) return;
     const content = editorRef.current.getInstance().getHTML();
-    const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p>/, '').trim());
+    const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p><h3><br><\/h3>/, '').trim());
     console.log(extractedContent);
 
     const posts = {
@@ -59,8 +59,7 @@ export function PetitionNoticeEditorSection() {
     };
 
     try {
-      const response = await postBoardPosts(posts);
-      console.log(response);
+      await postBoardPosts(posts);
       navigate('/petition-notice');
     } catch (err) {
       console.log(err);
@@ -86,7 +85,6 @@ export function PetitionNoticeEditorSection() {
         file.append('images', blob);
         try {
           const res = await postBoardImages(file);
-          console.log(res);
           const url = res.data.data.postFiles[0].url;
           callback(url, 'alt text');
         } catch (err) {
