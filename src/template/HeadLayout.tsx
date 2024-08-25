@@ -3,7 +3,13 @@ import { Search } from '@/components/Search/Search';
 import { HeadLayoutProps } from '@/types/layout';
 import { cn } from '@/libs/utils';
 
-export function HeadLayout({ title, subtitle, borderOff = false, className = '', searchHidden = '' }: HeadLayoutProps) {
+export function HeadLayout({
+  title,
+  subtitle = '',
+  borderOff = false,
+  className = '',
+  searchHidden = false,
+}: HeadLayoutProps) {
   return (
     <div
       className={cn(
@@ -13,9 +19,13 @@ export function HeadLayout({ title, subtitle, borderOff = false, className = '',
       )}
     >
       <BoardHead title={title} subtitle={subtitle} />
-      <div className={cn(`xs:hidden sm:hidden md:hidden`, searchHidden)}>
-        <Search />
-      </div>
+      {searchHidden ? (
+        <></>
+      ) : (
+        <div className={cn(`xs:hidden sm:hidden md:hidden`)}>
+          <Search />
+        </div>
+      )}
     </div>
   );
 }
