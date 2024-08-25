@@ -17,6 +17,14 @@ type ParamsType = {
 export function PostPetitionDetailPostSection() {
   const { id } = useParams() as ParamsType;
   const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id;
+  const breadcrumbItems = new Map<string, string | null>([
+    ['소통', null],
+    ['청원게시판', '/petition-notice'],
+  ]);
+  const navigate = useNavigate();
+  const { width } = useResize();
+  const mobile_screen = width < 391;
+
   const { isLoading, data } = useGetBoardDetail({
     boardCode: '청원게시판',
     postId: Number(id),
@@ -26,14 +34,6 @@ export function PostPetitionDetailPostSection() {
   const replaceSN = (student_number: string, chracter: string) => {
     return student_number.substring(0, 2) + chracter.repeat(4) + student_number.substring(6);
   };
-
-  const breadcrumbItems = new Map<string, string | null>([
-    ['소통', null],
-    ['청원게시판', '/petition-notice'],
-  ]);
-  const navigate = useNavigate();
-  const { width } = useResize();
-  const mobile_screen = width < 391;
 
   const handleDeleteContent = async () => {
     const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
@@ -46,6 +46,7 @@ export function PostPetitionDetailPostSection() {
   };
 
   const handleEditContent = () => {
+    localStorage.setItem('edit-post', JSON.stringify(data?.data.postDetailResDto.postId));
     navigate('/petition-notice/edit');
   };
 
@@ -54,6 +55,7 @@ export function PostPetitionDetailPostSection() {
   };
 
   const handleLikeButton = () => {};
+
   return (
     <>
       {isLoading ? (

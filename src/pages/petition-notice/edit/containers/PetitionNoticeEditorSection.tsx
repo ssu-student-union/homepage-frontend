@@ -8,6 +8,8 @@ import { EditLayout } from '@/template/EditLayout';
 import { postBoardImages } from '@/apis/postBoardImages';
 import { postBoardPosts } from '@/apis/postBoardPosts';
 import { useNavigate } from 'react-router-dom';
+import { client } from '@/apis/client';
+import { patchBoardPosts } from '@/apis/patchBoardPosts';
 
 const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
@@ -34,35 +36,70 @@ export function PetitionNoticeEditorSection() {
   const titleRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<Editor>(null);
   const [initialContent, setInitialContent] = useState<string | null>(GUIDE_LINE);
+  const [initialTitle, setInitialTitle] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
+
+  const postID = localStorage.getItem('edit-post');
+  const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id;
+
+  useEffect(() => {
+    const response = client.get(`/board/청원게시판/posts/${postID}`, {
+      params: {
+        userId: userID,
+      },
+    });
+    response.then((result) => {
+      const postDetailResDto = result.data.data.postDetailResDto;
+      console.log(postDetailResDto);
+      setInitialTitle(postDetailResDto.title);
+      setInitialContent(JSON.parse(postDetailResDto.content));
+      setIsEditing(true);
+    });
+  }, []);
 
   const onClickEnrollBtn = async () => {
     if (!titleRef.current) return;
     const title = titleRef.current.value;
-    console.log(title);
 
     if (!editorRef.current) return;
     const content = editorRef.current.getInstance().getHTML();
-    const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p><h3><br><\/h3>/, '').trim());
-    console.log(extractedContent);
 
-    const posts = {
-      boardCode: '청원게시판',
-      post: {
-        title: title,
-        content: extractedContent,
-        categoryCode: '진행중',
-        thumbNailImage: null,
-        isNotice: false,
-        postFileList: [313],
-      },
-    };
+    if (!isEditing) {
+      const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p><h3><br><\/h3>/, '').trim());
 
-    try {
-      await postBoardPosts(posts);
+      const posts = {
+        boardCode: '청원게시판',
+        post: {
+          title: title,
+          content: extractedContent,
+          categoryCode: '진행중',
+          thumbNailImage: null,
+          isNotice: false,
+          postFileList: [313],
+        },
+      };
+
+      try {
+        await postBoardPosts(posts);
+        navigate('/petition-notice');
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log('수정중!');
+      const patch_posts = {
+        boardCode: '청원게시판',
+        postId: Number(postID),
+        posts: {
+          title: title,
+          content: JSON.stringify(content),
+          categoryCode: '진행중',
+          thumbnailImage: null,
+        },
+      };
+      await patchBoardPosts(patch_posts);
       navigate('/petition-notice');
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -100,6 +137,7 @@ export function PetitionNoticeEditorSection() {
       <section>
         <Input
           ref={titleRef}
+          value={initialTitle}
           type="text"
           placeholder="제목을 입력하세요."
           className="mb-[26px] rounded-[6px] border-gray-300 text-[1.125rem] placeholder:font-medium placeholder:text-[#BFBFBF]"

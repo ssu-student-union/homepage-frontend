@@ -1,7 +1,7 @@
-import { GetBoardPostsProps } from '@/types/getPetitionTopLiked';
+import { getBoardPostsProps } from '@/types/apis/get';
 import { client } from './client';
 
-export const getPetitionPostsTopLiked = async ({ page, take }: GetBoardPostsProps) => {
+export const getPetitionPostsTopLiked = async ({ page, take }: getBoardPostsProps) => {
   try {
     const response = await client.get('/boards/청원게시판/posts/top-liked', {
       params: {
@@ -9,7 +9,6 @@ export const getPetitionPostsTopLiked = async ({ page, take }: GetBoardPostsProp
         take,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err);
