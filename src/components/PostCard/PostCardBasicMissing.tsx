@@ -1,3 +1,4 @@
+import { cn } from '@/libs/utils';
 import { Badge } from '../ui/badge';
 import { Size } from './const/state';
 import { getStyles } from './const/style';
@@ -13,6 +14,8 @@ interface PostCardProps {
   size?: Size; // 페이지마다 반응형 기준이 다름 -> 자동 반응형이 아니라 수동으로 적용하도록 제작
   profileImg?: string; // 프로필 이미지
   profileName?: string; // 계정명
+  onClick?: () => void;
+  className?: string;
 }
 
 const PostCard = ({
@@ -25,18 +28,25 @@ const PostCard = ({
   size = Size.default,
   profileImg = profileImgDefault, // default 프로필이미지 - 추후 변경 또는 삭제
   profileName = 'US:SUM', // default 계정명 - 추후 변경 또는 삭제
+  onClick = () => {},
+  className = '',
 }: PostCardProps) => {
   const styles = getStyles(size);
 
   return (
     <div
-      className={`relative flex cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white text-xs ${styles.container}`}
+      className={cn(
+        `relative flex cursor-pointer items-center justify-center rounded-[10px] border border-gray-300 bg-white text-xs`,
+        styles.container,
+        className
+      )}
+      onClick={onClick}
     >
       {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
       {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
       {badgeType === 'Default' && <Badge variant="Default"></Badge>}
       <div className={`flex h-full w-full ${styles.gap}`}>
-        <img alt="image" src={imgUrl} className={`rounded-[0.5rem] bg-gray-200 object-cover ${styles.image}`} />
+        <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
         <div className="w-full flex-col">
           <div className={`flex flex-col ${styles.title}`}>
             <p className={`line-clamp-2 font-semibold`}>{title}</p>

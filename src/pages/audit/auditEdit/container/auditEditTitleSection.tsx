@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
+import { useState } from 'react';
 
-export function AuditEditTitleSection() {
+interface AuditEditTitleSectionProps {
+  onTitleChange: (title: string) => void;
+  onCategoryChange: (category: string) => void;
+}
+
+export function AuditEditTitleSection({ onTitleChange, onCategoryChange }: AuditEditTitleSectionProps) {
   const [title, setTitle] = useState<string>('');
   const [category, setCategory] = useState<string>('');
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
+    onTitleChange(event.target.value);
   };
 
   const handleCategoryChange = (value: string) => {
     setCategory(value);
+    onCategoryChange(value);
   };
 
   return (
-    <div className="px-[120px] pt-[32px] xs:px-[20px] sm:px-[40px]">
+    <div className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]">
       <div className="flex flex-row gap-4">
         <input
           type="text"

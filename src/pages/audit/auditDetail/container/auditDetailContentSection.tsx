@@ -1,12 +1,12 @@
 interface AuditDetailContentProps {
-  text: string;
+  content: string;
   images?: string[];
 }
 
-export function AuditDetailContentSection({ text, images }: AuditDetailContentProps) {
+export function AuditDetailContentSection({ content, images = [] }: AuditDetailContentProps) {
   return (
-    <div className="px-[120px] pt-[32px] xs:px-[20px] sm:px-[40px]">
-      <div className="font-sm text-[#484848]">{text}</div>
+    <div className="pt-[32px]">
+      <div className="font-sm text-[#484848]">{content}</div>
       <div className="h-[32px]" />
       {images?.map((image, index) => (
         <div key={index}>

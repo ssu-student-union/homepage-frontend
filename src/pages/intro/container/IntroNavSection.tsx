@@ -1,37 +1,65 @@
-import { RenderMainSwitch, RenderSubSwitch } from './component/RenderSwitch';
-import { auditSubCategory, mainName } from './const/data';
-import { category as params } from './const/data';
+import { BoardNavigator } from '@/components/Board/BoardNavigator';
+import { BoardSelector } from '@/components/Board/BoardSelector';
+import { category, mainName, subCategory, subName } from './const/data';
+import { useAuditSwitch } from './utils/switchUtils';
+import { cn } from '@/libs/utils';
 
-interface IntroNavProps {
-  category?: string;
-  switchIndex?: number; // switchIndex를 optional로 받음
-  mainClassName?: string;
+interface IntroNavSectionProps {
+  categoryParam: string;
+  subCategoryParam: string;
+  handleSelection: (selectedCategory: string, selectedSubcategory?: string) => void;
+  mainCategoryName: string;
+  subCategoryDisplayName: string;
+  className?: string;
+  isHidden?: boolean;
 }
 
-export default function IntroNavSection({ category, switchIndex = 0, mainClassName = '' }: IntroNavProps) {
+export function IntroNavSection({
+  categoryParam,
+  subCategoryParam,
+  handleSelection,
+  mainCategoryName,
+  subCategoryDisplayName,
+  className = '',
+  isHidden = true,
+}: IntroNavSectionProps) {
+  const handleAuditSwitchClick = useAuditSwitch();
+
+  const auditCategories = ['소개', '게시판'];
+  const auditSelectedCategory = subCategoryParam === 'intro' ? '소개' : '게시판';
+
   return (
-    <div className="flex h-auto w-full flex-col justify-start">
-      {category != params[3] && (
-        <RenderMainSwitch
-          paramName="category"
-          params={params}
-          groupNames={mainName}
-          isAudit={false}
-          switchIndex={switchIndex}
-          className={mainClassName}
+    <>
+      <div className={isHidden ? 'relative xs:hidden sm:hidden' : 'relative'}>
+        <div className="absolute left-0 top-1/2 z-0 h-[1px] w-full -translate-y-1/2 transform bg-[#E7E7E7]"></div>
+        <BoardNavigator
+          categories={categoryParam === 'audit' ? auditCategories : mainName}
+          selectedCategory={categoryParam === 'audit' ? auditSelectedCategory : mainCategoryName}
+          onCategorySelect={(selectedCategory) => {
+            if (categoryParam === 'audit') {
+              const selectedCategoryIndex = auditCategories.indexOf(selectedCategory);
+              handleAuditSwitchClick(selectedCategoryIndex);
+            } else {
+              const selectedCategoryIndex = mainName.indexOf(selectedCategory);
+              const categoryQueryParam = category[selectedCategoryIndex];
+              handleSelection(categoryQueryParam);
+            }
+          }}
+          className={cn(`relative z-10 mx-[200px] bg-white md:mx-[60px]`, className)}
+        />
+      </div>
+      {categoryParam !== 'audit' && (
+        <BoardSelector
+          className="px-[200px] pt-[32px] xs:px-[30px] xs:pt-0 sm:px-[30px] sm:pt-0 md:px-[60px]"
+          subcategories={subName}
+          selectedSubcategory={subCategoryDisplayName}
+          onSubcategorySelect={(subcategory) => {
+            const selectedSubCategoryIndex = subName.indexOf(subcategory);
+            const subCategoryQueryParam = subCategory[selectedSubCategoryIndex];
+            handleSelection(categoryParam, subCategoryQueryParam);
+          }}
         />
       )}
-      {category != params[3] && <RenderSubSwitch />}
-      {category == params[3] && (
-        <RenderMainSwitch
-          paramName="sub-category"
-          params={auditSubCategory}
-          groupNames={['소개', '게시판']}
-          isAudit={true}
-          switchIndex={switchIndex}
-          className={mainClassName}
-        />
-      )}
-    </div>
+    </>
   );
 }

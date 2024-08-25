@@ -27,7 +27,7 @@ const KakaoRedirect = () => {
     kakaoLogin();
   }, [AUTHORIZE_CODE, navigate]);
 
-  return <div>Loading...</div>;
+  return <div>Loading…</div>;
 };
 
 export default KakaoRedirect;
