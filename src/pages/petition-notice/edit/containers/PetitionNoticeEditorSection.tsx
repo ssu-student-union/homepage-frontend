@@ -12,21 +12,7 @@ import { client } from '@/apis/client';
 import { GuideMessage } from '../components/GuidMessage';
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
 import history from '@/hooks/useHistory';
-
-const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
-###
-  ### 청원취지
-######
-청원취지를 작성해주세요.
-###
-  ### 청원내용
-######
-청원내용을 작성해주세요.
-###
-  ### 청원대안
-######
-청원대안을 작성해주세요.
-`;
+import { GUIDE_LINE } from '../components/GuideLine';
 
 type HookMap = {
   addImageBlobHook?: (blob: File, callback: HookCallback) => void;
@@ -43,21 +29,23 @@ export function PetitionNoticeEditorSection() {
   const navigate = useNavigate();
 
   const postID = localStorage.getItem('edit-post');
-  const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id;
+  const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
 
   useEffect(() => {
-    const response = client.get(`/board/청원게시판/posts/${postID}`, {
-      params: {
-        userId: userID,
-      },
-    });
-    response.then((result) => {
-      const postDetailResDto = result.data.data.postDetailResDto;
-      console.log(postDetailResDto);
-      setInitialTitle(postDetailResDto.title);
-      setInitialContent(JSON.parse(postDetailResDto.content));
-      setIsEditing(true);
-    });
+    if (postID) {
+      const response = client.get(`/board/청원게시판/posts/${postID}`, {
+        params: {
+          userId: userID,
+        },
+      });
+      response.then((result) => {
+        const postDetailResDto = result.data.data.postDetailResDto;
+        console.log(postDetailResDto);
+        setInitialTitle(postDetailResDto.title);
+        setInitialContent(JSON.parse(postDetailResDto.content));
+        setIsEditing(true);
+      });
+    }
   }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,6 +60,7 @@ export function PetitionNoticeEditorSection() {
 
     if (!editorRef.current) return;
     const content = editorRef.current.getInstance().getHTML();
+    console.log(content);
 
     if (!isEditing) {
       const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p><h3><br><\/h3>/, '').trim());
