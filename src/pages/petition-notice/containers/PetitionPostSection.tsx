@@ -19,12 +19,6 @@ export function PetitionPostSection() {
 
   const { data, refetch, isLoading } = useGetPetitionTopLiked({ page: currentPage - 1, take: 10 });
 
-  // const { isLoading, data, refetch } = useQuery({
-  //   queryKey: ['petition-notice-post', currentPage, selectedSubcategories],
-  //   queryFn: () => getPetitionNoticeListApi(currentPage - 1, 10),
-  //   staleTime: 60 * 1000 * 5,
-  // });
-
   useEffect(() => {
     refetch();
   }, [selectedSubcategories, currentPage, refetch]);

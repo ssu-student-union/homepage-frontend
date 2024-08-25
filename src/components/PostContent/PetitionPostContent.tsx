@@ -1,6 +1,6 @@
 import { useResize } from '@/hooks/useResize';
 import { ThumbsUp } from '@phosphor-icons/react';
-import { PostListDtoResponse } from '../PostTextPetition/types';
+import { PostListDtoResponse } from '@/types/getPetitionTopLiked';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 
 interface PetitionPostContentProps {

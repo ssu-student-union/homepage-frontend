@@ -7,9 +7,10 @@ import { PostListDtoResponse } from '@/types/getPetitionTopLiked';
 
 interface PostTextPetitionProps {
   data: PostListDtoResponse;
+  onClick: (id: number) => void;
 }
 
-export function PostTextPetition({ data }: PostTextPetitionProps) {
+export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
   const { width } = useResize();
   const isSmallScreen = width <= 391;
 
@@ -37,7 +38,10 @@ export function PostTextPetition({ data }: PostTextPetitionProps) {
   // const petition_content_summation = data.content!.match(pattern);
 
   return (
-    <div className="petition-item flex h-[252px] w-[362px] flex-shrink-0 cursor-pointer items-center justify-center rounded-[13px] border border-gray-300 bg-white px-[1.25rem] xs:h-[184px] xs:w-[304px]">
+    <div
+      className="petition-item flex h-[252px] w-[362px] flex-shrink-0 cursor-pointer items-center justify-center rounded-[13px] border border-gray-300 bg-white px-[1.25rem] xs:h-[184px] xs:w-[304px]"
+      onClick={() => onClick(data.postId)}
+    >
       <div className="flex flex-col">
         {renderStatusTag()}
         <Spacing size={7} direction="vertical" />
