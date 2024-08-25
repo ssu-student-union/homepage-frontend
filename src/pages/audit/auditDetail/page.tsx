@@ -1,25 +1,30 @@
-import { State } from '@/containers/common/Header/const/state';
-import { Header } from '@/containers/common/Header/Header';
 import { useLocation } from 'react-router-dom';
 import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
-import { AuditDetailFileSection } from './container/auditDetailFileSection';
 import { AuditDetailEditSection } from './container/auditDetailEditSection';
+import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+
 export function AuditDetailPage() {
   const location = useLocation();
-  const postData = location.state?.postData;
+  const postId: number = location.state?.postId;
+  const boardCode: string = '감사기구게시판';
 
-  if (!postData) {
-    return <div>데이터를 불러올 수 없습니다.</div>;
+  const { data: resp, isLoading, error } = useGetBoardDetail({ boardCode, postId });
+
+  const postDetail = resp?.data.postDetailResDto;
+
+  if (!postDetail) {
+    return <div></div>;
   }
 
+  console.log(postDetail);
+
   return (
-    <>
-      <Header state={State.Logout} />
-      <AuditDetailTopSection title={postData.title} subTitle={postData.subTitle} />
-      <AuditDetailContentSection text={postData.contentText} images={postData.contentImages} />
-      <AuditDetailFileSection file={postData.file} />
-      <AuditDetailEditSection />
-    </>
+    <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
+      <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
+      <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
+      {/* <AuditDetailFileSection file={postDetail.file} /> */}
+      <AuditDetailEditSection boardCode={boardCode} postId={postId} />
+    </div>
   );
 }

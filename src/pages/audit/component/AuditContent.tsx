@@ -1,49 +1,119 @@
 import { useNavigate } from 'react-router-dom';
-import { Size } from '@/components/PostCard/const/state';
 import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
-import { handleCardClick } from '../utils/handleCardClick';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
+import { Size } from '@/components/PostCard/const/state';
+import { useEffect, useState } from 'react';
+import { useResponseBoard } from '@/hooks/useResponseBoard';
+import { handleCardClick } from '../utils/cardHandler';
 
 interface AuditContentProps {
-  posts: {
-    id: string;
-    imgUrl?: string;
+  initPosts?: Array<{
+    postId: number;
     title: string;
-    subTitle: string;
+    content: string;
     date: string;
-    badgeType?: 'Emergency' | 'New' | 'Default';
-    profileImg: string;
-    profileName: string;
-    contentText: string;
-    contentImages: string[];
-    file: { fileName: string; fileUrl: string };
-  }[];
-  size?: Size;
+    thumbNail: string | null;
+    status: string | null;
+  }>;
+  className?: string;
 }
 
-export function AuditContent({ posts, size = Size.default }: AuditContentProps) {
+export function AuditContent({ initPosts }: AuditContentProps) {
   const navigate = useNavigate();
+  const { size } = useResponseBoard();
+  const screenWidth = window.innerWidth;
+  const [posts, setPosts] = useState(initPosts);
 
-  return (
-    <div className="grid grid-cols-3 gap-6 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
-      {posts.map((post) => {
-        const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
+  useEffect(() => {
+    setPosts(initPosts);
+  }, [initPosts]);
 
-        return (
-          <div key={post.id} onClick={() => handleCardClick(post.id, post, navigate)} className="cursor-pointer">
-            <PostCardBasic
-              size={size}
-              imgUrl={post.imgUrl}
-              title={post.title}
-              subtitle={post.subTitle}
-              date={formattedDate}
-              badgeType={post.badgeType}
-              profileImg={post.profileImg}
-              profileName={post.profileName}
-            />
-          </div>
-        );
-      })}
-    </div>
-  );
+  if (!posts || posts.length === 0) {
+    return <div>게시물이 없습니다.</div>;
+  }
+
+  if (screenWidth >= 1920) {
+    return (
+      <div className="flex flex-col justify-between">
+        <div className="flex flex-row justify-between pb-[30px]">
+          {posts.slice(0, 3).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
+          ))}
+        </div>
+        <div className="flex flex-row justify-between pb-[30px]">
+          {posts.slice(3, 6).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
+          ))}
+        </div>
+        <div className="flex flex-row justify-between">
+          {posts.slice(6, 9).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
+          ))}
+        </div>
+      </div>
+    );
+  } else if (screenWidth >= 1440 && screenWidth < 1920) {
+    return (
+      <div className="flex flex-col justify-between">
+        <div className="flex flex-row justify-between pb-[30px]">
+          {posts.slice(0, 2).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
+          ))}
+        </div>
+        <div className="flex flex-row justify-between pb-[30px]">
+          {posts.slice(2, 4).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
+          ))}
+        </div>
+        <div className="flex flex-row justify-between">
+          {posts.slice(4, 6).map((post) => (
+            <RenderCard key={post.postId} post={post} size={size} />
+          ))}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex flex-col justify-between">
+        {posts.map((post) => (
+          <RenderCard key={post.postId} post={post} size={size} />
+        ))}
+      </div>
+    );
+  }
+
+  function RenderCard({
+    post,
+    size,
+  }: {
+    post: {
+      postId: number;
+      title: string;
+      content: string;
+      date: string;
+      thumbNail: string | null;
+      status: string | null;
+    };
+    size: Size;
+  }) {
+    const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
+    const status = post.status === '새로운' ? 'New' : 'Default';
+
+    return (
+      <div key={post.postId} className="xs-pb[20px] sm:pb-[20px] md:pb-[20px] lg:pb-[20px]">
+        <PostCardBasic
+          size={size}
+          imgUrl={post.thumbNail || undefined}
+          title={post.title}
+          subtitle={post.content}
+          date={formattedDate}
+          badgeType={status}
+          profileImg={''}
+          profileName={''}
+          className="cursor-pointer"
+          onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
+        />
+      </div>
+    );
+  }
 }
