@@ -8,10 +8,10 @@ interface UseGetBoardPostsProps {
   category?: string | null;
 }
 
-export function useGetBoardPosts({ boardCode, page = 0, take = 9, category = null }: UseGetBoardPostsProps) {
+export function useGetBoardPosts<T>({ boardCode, page = 0, take = 9, category = null }: UseGetBoardPostsProps) {
   const queryKey = ['get-board-boardCode-posts', boardCode, page, take, category];
 
-  return useQuery({
+  return useQuery<T>({
     queryKey,
     queryFn: () =>
       getBoardPosts({
