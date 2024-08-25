@@ -7,7 +7,7 @@ import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PetitionSubcategoriesType } from '../type';
 import { PetitionSubcategories } from '../const';
 import { Spacing } from '@/components/Spacing';
-import { useGetPetitionTopLiked } from '@/hooks/useGetPetitionPostsTopLiked';
+import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 
 export function PetitionPostSection() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export function PetitionPostSection() {
     PetitionSubcategories[0]
   );
 
-  const { data, isLoading } = useGetPetitionTopLiked({ page: currentPage - 1, take: 3 });
+  const { data, isLoading } = useGetBoardPosts({ page: currentPage - 1, take: 10, boardCode: '청원게시판' });
 
   const filteredData =
     selectedSubcategories === '전체'

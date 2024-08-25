@@ -1,24 +1,19 @@
 import { getBoardPosts } from '@/apis/getBoardPosts';
+import { getBoardPostsProps } from '@/types/apis/get';
+import { BoardPostsResponse } from '@/types/getPetitionTopLiked';
 import { useQuery } from '@tanstack/react-query';
 
-interface UseGetBoardPostsProps {
-  boardCode: string;
-  page?: number;
-  take?: number;
-  category?: string | null;
-}
-
-export function useGetBoardPosts({ boardCode, page = 0, take = 9, category = null }: UseGetBoardPostsProps) {
-  const queryKey = ['get-board-boardCode-posts', boardCode, page, take, category];
-
-  return useQuery({
-    queryKey,
+export const useGetBoardPosts = ({ page, take, groupCode, memberCode, category, boardCode }: getBoardPostsProps) => {
+  return useQuery<BoardPostsResponse>({
+    queryKey: ['get-board-boardCode-posts', page, take, groupCode, memberCode, category, boardCode],
     queryFn: () =>
       getBoardPosts({
-        boardCode,
         page,
         take,
+        groupCode,
+        memberCode,
         category,
+        boardCode,
       }),
   });
-}
+};

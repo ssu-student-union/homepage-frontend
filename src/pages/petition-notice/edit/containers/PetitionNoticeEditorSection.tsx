@@ -5,7 +5,7 @@ import '@toast-ui/editor/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import { useEffect, useRef, useState } from 'react';
 import { EditLayout } from '@/template/EditLayout';
-import { postPetitionNoticeEditApi } from '@/apis/PetitionNoticeApi';
+import { postBoardImages } from '@/apis/postBoardImages';
 
 const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
@@ -61,8 +61,9 @@ export function PetitionNoticeEditorSection() {
         const file = new FormData();
         file.append('images', blob);
         try {
-          const res = await postPetitionNoticeEditApi(file);
-          const url = res.data.data[0].url;
+          const res = await postBoardImages(file);
+          console.log(res);
+          const url = res.data.data.postFiles[0].url;
           callback(url, 'alt text');
         } catch (err) {
           console.log(err);

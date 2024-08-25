@@ -1,7 +1,6 @@
 import { ThumbsUp } from 'lucide-react';
 import { ACTIVE_TAG, ANSWERED_TAG, CLOSED_TAG, RECEIVED_TAG } from '../StateTag/const';
 import { useResize } from '@/hooks/useResize';
-import { Spacing } from '../Spacing';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { PostListDtoResponse } from '@/types/getPetitionTopLiked';
 
@@ -39,30 +38,25 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
 
   return (
     <div
-      className="petition-item flex h-[252px] w-[362px] flex-shrink-0 cursor-pointer items-center justify-center rounded-[13px] border border-gray-300 bg-white px-[1.25rem] xs:h-[184px] xs:w-[304px]"
+      className="petition-item flex h-[252px] w-[362px] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[13px] border border-gray-300 bg-white p-5 xs:h-[184px] xs:w-[304px] xs:p-4"
       onClick={() => onClick(data.postId)}
     >
       <div className="flex flex-col">
         {renderStatusTag()}
-        <Spacing size={7} direction="vertical" />
-        <div className="text-[1.375rem] font-bold text-gray-700 xs:text-[1rem]">
+        <h3 className="mt-2 text-[1.375rem] font-bold text-gray-700 xs:text-[1rem]">
           {data?.title && truncateText(data.title, 17)}
-        </div>
-        <Spacing size={width > 390 ? 22 : 12} direction="vertical" />
-        <div className="mb-[14px] w-[320px] text-[1.125rem] font-medium text-gray-500 xs:mb-[9px] xs:w-[250px] xs:text-[0.875rem]">
+        </h3>
+        <p className="mt-3 flex-grow overflow-hidden text-ellipsis text-[1.125rem] font-medium text-gray-500 xs:mt-2 xs:text-[0.875rem]">
           {data?.content && truncateText(data?.content, 76)}
-          {/* {truncateText(petition_content_summation![1], 65)} */}
-        </div>
-        <div className="flex justify-between">
-          <div className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem]">
-            {formatYYYYMMDD(data?.date)}
-          </div>
-          <div className="flex gap-1 text-[#7D7BFF]">
-            <span className="cursor-pointer xs:pb-[9px] xs:pt-0">
-              <ThumbsUp size={isSmallScreen ? 14 : 22} />
-            </span>
-            <span className="text-[1.125rem] font-medium xs:text-[0.875rem]">{data?.likeCount}</span>
-          </div>
+        </p>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem]">
+          {formatYYYYMMDD(data?.date)}
+        </span>
+        <div className="flex cursor-pointer items-center gap-1 text-[#7D7BFF] xs:pb-[9px] xs:pt-0">
+          <ThumbsUp size={isSmallScreen ? 14 : 22} />
+          <span className="text-[1.125rem] font-medium xs:text-[0.875rem]">{data?.likeCount}</span>
         </div>
       </div>
     </div>
