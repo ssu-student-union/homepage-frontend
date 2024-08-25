@@ -7,7 +7,6 @@ import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PetitionSubcategoriesType } from '../type';
 import { PetitionSubcategories } from '../const';
 import { Spacing } from '@/components/Spacing';
-import { useEffect } from 'react';
 import { useGetPetitionTopLiked } from '@/hooks/useGetPetitionPostsTopLiked';
 
 export function PetitionPostSection() {
@@ -17,11 +16,7 @@ export function PetitionPostSection() {
     PetitionSubcategories[0]
   );
 
-  const { data, refetch, isLoading } = useGetPetitionTopLiked({ page: currentPage - 1, take: 10 });
-
-  useEffect(() => {
-    refetch();
-  }, [selectedSubcategories, currentPage, refetch]);
+  const { data, isLoading } = useGetPetitionTopLiked({ page: currentPage - 1, take: 3 });
 
   const filteredData =
     selectedSubcategories === '전체'
@@ -38,7 +33,7 @@ export function PetitionPostSection() {
 
   const handleSubcategorySelect = (category: PetitionSubcategoriesType) => {
     onSubcategorySelect(category);
-    handlePageChange(1); // 카테고리가 변경되면 첫 페이지로 돌아갑니다
+    handlePageChange(1);
   };
 
   return (
