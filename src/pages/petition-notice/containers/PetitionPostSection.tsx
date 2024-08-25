@@ -7,9 +7,8 @@ import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PetitionSubcategoriesType } from '../type';
 import { PetitionSubcategories } from '../const';
 import { Spacing } from '@/components/Spacing';
-import { useQuery } from '@tanstack/react-query';
-import { getPetitionNoticeListApi } from '@/apis/PetitionNoticeApi';
 import { useEffect } from 'react';
+import { useGetPetitionTopLiked } from '@/hooks/useGetPetitionPostsTopLiked';
 
 export function PetitionPostSection() {
   const navigate = useNavigate();
@@ -18,11 +17,13 @@ export function PetitionPostSection() {
     PetitionSubcategories[0]
   );
 
-  const { isLoading, data, refetch } = useQuery({
-    queryKey: ['petition-notice-post', currentPage, selectedSubcategories],
-    queryFn: () => getPetitionNoticeListApi(currentPage - 1, 10),
-    staleTime: 60 * 1000 * 5,
-  });
+  const { data, refetch, isLoading } = useGetPetitionTopLiked({ page: currentPage - 1, take: 10 });
+
+  // const { isLoading, data, refetch } = useQuery({
+  //   queryKey: ['petition-notice-post', currentPage, selectedSubcategories],
+  //   queryFn: () => getPetitionNoticeListApi(currentPage - 1, 10),
+  //   staleTime: 60 * 1000 * 5,
+  // });
 
   useEffect(() => {
     refetch();
@@ -30,8 +31,8 @@ export function PetitionPostSection() {
 
   const filteredData =
     selectedSubcategories === '전체'
-      ? data?.postListResDto
-      : data?.postListResDto.filter((item) => item.onGoingStatus === selectedSubcategories);
+      ? data?.data.postListResDto
+      : data?.data.postListResDto.filter((item) => item.onGoingStatus === selectedSubcategories);
 
   const handleWriteBtnClick = () => {
     navigate('/petition-notice/edit');
@@ -49,7 +50,7 @@ export function PetitionPostSection() {
   return (
     <BodyLayout
       title="청원글"
-      totalPages={data?.pageInfo.totalPages as number}
+      totalPages={data?.data.pageInfo.totalPages as number}
       currentPage={currentPage}
       onPageChange={handlePageChange}
       onWriteClick={handleWriteBtnClick}

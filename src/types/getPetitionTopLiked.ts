@@ -1,11 +1,18 @@
-import { PostListDtoResponse } from '@/components/PostTextPetition/types';
+export interface PostListDtoResponse {
+  postId: number;
+  title: string;
+  content: string | null;
+  date: string;
+  likeCount: number;
+  onGoingStatus: '진행중' | '접수완료' | '답변완료' | '종료됨';
+}
 
-export interface GetPetitionPostsTopLikedProps {
+export interface GetBoardPostsProps {
   page: number;
   take: number;
 }
 
-export interface PetitionPostsTopLikedResponse {
+export interface BoardPostsResponse {
   code: string;
   message: string;
   data: {

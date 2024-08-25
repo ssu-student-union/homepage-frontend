@@ -1,22 +1,17 @@
 import { MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { LeftCarouselButton, RigthCarouselButton } from '@/components/Carousel';
-import { getPetitionNoticePopularContentApi } from '@/apis/PetitionNoticeApi';
 import { PostTextPetition } from '@/components/PostTextPetition';
 import { useIsOverflow } from '@/hooks/useIsOverflow';
 import { useResize } from '@/hooks/useResize';
-import { useQuery } from '@tanstack/react-query';
+import { useGetPetitionTopLiked } from '@/hooks/useGetPetitionPostsTopLiked';
 
 export function PetitionNoticePopularSection() {
+  const { data } = useGetPetitionTopLiked({ page: 0, take: 4 });
+
   const [ref, isOverflow] = useIsOverflow<HTMLDivElement>();
   const { width: windowWidth } = useResize();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [scrollState, setScrollState] = useState<'left' | 'right' | 'both'>('right');
-
-  const { data: PetitionNoticePopularData } = useQuery({
-    queryKey: ['petition-notice-popular'],
-    queryFn: getPetitionNoticePopularContentApi,
-    staleTime: 60 * 1000 * 50,
-  });
 
   const handleScroll = (moveRef: MutableRefObject<HTMLDivElement | null>) => {
     const { current } = moveRef;
@@ -82,21 +77,17 @@ export function PetitionNoticePopularSection() {
     <div className="relative mb-[66px] mt-[70px] pl-[200px] text-[1.75rem] font-bold xs:mb-[33px] xs:pl-10 sm:pl-10 md:pl-10 lg:pl-10">
       <p className="mb-[11px]">인기청원</p>
       <div className="flex gap-6 overflow-scroll pr-5 scrollbar-hide" ref={ref}>
-        {PetitionNoticePopularData?.postListResDto &&
-          PetitionNoticePopularData?.postListResDto.map((content) => (
-            <PostTextPetition data={content} key={content.postId} />
-          ))}
+        {data?.data.postListResDto &&
+          data?.data.postListResDto.map((content) => <PostTextPetition data={content} key={content.postId} />)}
       </div>
-      {isOverflow &&
-        PetitionNoticePopularData?.postListResDto &&
-        PetitionNoticePopularData.postListResDto.length > 0 && (
-          <>
-            {(scrollState === 'left' || scrollState === 'both') && <LeftCarouselButton onClick={() => moveLeft(ref)} />}
-            {(scrollState === 'right' || scrollState === 'both') && (
-              <RigthCarouselButton onClick={() => moveRight(ref)} />
-            )}
-          </>
-        )}
+      {isOverflow && data?.data.postListResDto && data?.data.postListResDto.length > 0 && (
+        <>
+          {(scrollState === 'left' || scrollState === 'both') && <LeftCarouselButton onClick={() => moveLeft(ref)} />}
+          {(scrollState === 'right' || scrollState === 'both') && (
+            <RigthCarouselButton onClick={() => moveRight(ref)} />
+          )}
+        </>
+      )}
     </div>
   );
 }
