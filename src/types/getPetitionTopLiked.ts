@@ -7,12 +7,12 @@ export interface PostListDtoResponse {
   onGoingStatus: '진행중' | '접수완료' | '답변완료' | '종료됨';
 }
 
-export interface GetBoardPostsProps {
+export interface GetPetitionPostsTopLikedProps {
   page: number;
   take: number;
 }
 
-export interface BoardPostsResponse {
+export interface PetitionPostsTopLikedResponse {
   code: string;
   message: string;
   data: {
