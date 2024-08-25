@@ -4,7 +4,6 @@ import { useResize } from '@/hooks/useResize';
 import { Spacing } from '../Spacing';
 import { PostListDtoResponse } from './types';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
-import { StateTagProps } from '../StateTag/types';
 
 interface PostTextPetitionProps {
   data: PostListDtoResponse;
@@ -27,6 +26,11 @@ export function PostTextPetition({ data }: PostTextPetitionProps) {
       default:
         return null;
     }
+  };
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength).trim() + '…';
   };
 
   return (
