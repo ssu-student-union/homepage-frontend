@@ -3,9 +3,9 @@ import { RegisterButton } from '@/components/Buttons/BoardActionButtons';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EditLayout } from '@/template/EditLayout';
-import { PetitionNoticeEditApi } from '@/apis/PetitionNoticeApi';
+import { postPetitionNoticeEditApi } from '@/apis/PetitionNoticeApi';
 
 const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
@@ -29,16 +29,19 @@ type HookMap = {
 type HookCallback = (url: string, text?: string) => void;
 
 export function PetitionNoticeEditorSection() {
+  const titleRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<Editor>(null);
   const [initialContent, setInitialContent] = useState<string | null>(GUIDE_LINE);
 
-  const onClickEnrollBtn = useCallback(() => {
+  const onClickEnrollBtn = () => {
     if (!editorRef.current) return;
-    const markdown = editorRef.current.getInstance().getMarkdown();
     const html = editorRef.current.getInstance().getHTML();
-    console.log(markdown);
     console.log(html);
-  }, []);
+
+    if (!titleRef.current) return;
+    const title = titleRef.current.value;
+    console.log(title);
+  };
 
   useEffect(() => {
     if (editorRef!.current) {
@@ -56,12 +59,11 @@ export function PetitionNoticeEditorSection() {
     addImageBlobHook: async (blob: File, callback: HookCallback) => {
       if (blob !== null) {
         const file = new FormData();
-        file.append('files', blob);
+        file.append('images', blob);
         try {
-          const res = await PetitionNoticeEditApi(file);
-          console.log(res);
-
-          callback(res.data.data[0].url, 'alt text');
+          const res = await postPetitionNoticeEditApi(file);
+          const url = res.data.data[0].url;
+          callback(url, 'alt text');
         } catch (err) {
           console.log(err);
         }
@@ -74,6 +76,7 @@ export function PetitionNoticeEditorSection() {
     <EditLayout title="청원글 작성">
       <section>
         <Input
+          ref={titleRef}
           type="text"
           placeholder="제목을 입력하세요."
           className="mb-[26px] rounded-[6px] border-gray-300 text-[1.125rem] placeholder:font-medium placeholder:text-[#BFBFBF]"

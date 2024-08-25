@@ -8,7 +8,7 @@ import { PetitionSubcategoriesType } from '../type';
 import { PetitionSubcategories } from '../const';
 import { Spacing } from '@/components/Spacing';
 import { useQuery } from '@tanstack/react-query';
-import { PetitionNoticeListApi } from '@/apis/PetitionNoticeApi';
+import { getPetitionNoticeListApi } from '@/apis/PetitionNoticeApi';
 import { useEffect } from 'react';
 
 export function PetitionPostSection() {
@@ -20,7 +20,7 @@ export function PetitionPostSection() {
 
   const { isLoading, data, refetch } = useQuery({
     queryKey: ['petition-notice-post', currentPage, selectedSubcategories],
-    queryFn: () => PetitionNoticeListApi(currentPage - 1, 10),
+    queryFn: () => getPetitionNoticeListApi(currentPage - 1, 10),
     staleTime: 60 * 1000 * 5,
   });
 

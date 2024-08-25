@@ -1,10 +1,10 @@
-import { PetitionNoticePopularContentApi } from '@/apis/PetitionNoticeApi';
+import { MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { LeftCarouselButton, RigthCarouselButton } from '@/components/Carousel';
+import { getPetitionNoticePopularContentApi } from '@/apis/PetitionNoticeApi';
 import { PostTextPetition } from '@/components/PostTextPetition';
 import { useIsOverflow } from '@/hooks/useIsOverflow';
 import { useResize } from '@/hooks/useResize';
 import { useQuery } from '@tanstack/react-query';
-import { MutableRefObject, useCallback, useEffect, useState } from 'react';
 
 export function PetitionNoticePopularSection() {
   const [ref, isOverflow] = useIsOverflow<HTMLDivElement>();
@@ -14,7 +14,7 @@ export function PetitionNoticePopularSection() {
 
   const { data: PetitionNoticePopularData } = useQuery({
     queryKey: ['petition-notice-popular'],
-    queryFn: PetitionNoticePopularContentApi,
+    queryFn: getPetitionNoticePopularContentApi,
     staleTime: 60 * 1000 * 50,
   });
 

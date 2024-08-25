@@ -17,7 +17,7 @@ export interface PetitionNoticePostDataResponse {
   };
 }
 
-export const PetitionNoticeListApi = async (page: number, take: number) => {
+export const getPetitionNoticeListApi = async (page: number, take: number) => {
   try {
     const response = await client.get<PetitionNoticePostDataResponse>('/board/청원게시판/posts', {
       params: {
@@ -34,7 +34,7 @@ export const PetitionNoticeListApi = async (page: number, take: number) => {
 
 // 청원 게시판 인기 청원 4개 가져오는 api
 
-export const PetitionNoticePopularContentApi = async () => {
+export const getPetitionNoticePopularContentApi = async () => {
   try {
     const response = await client.get<PetitionNoticePostDataResponse>('/boards/청원게시판/posts/top-liked', {
       params: {
@@ -63,15 +63,36 @@ export interface PetitionNoticeEditResponse {
   isSuccess: boolean;
 }
 
-export const PetitionNoticeEditApi = (images: FormData) => {
+export const postPetitionNoticeEditApi = (images: FormData) => {
   return clientAuth<PetitionNoticeEditResponse>({
     url: '/board/청원게시판/files',
     method: 'post',
-    data: {
-      files: images,
-    },
+    data: images,
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
 };
+
+// 청원 게시판 글쓰기 api
+// export const postCreateBoardApi = async (
+//   title: string,
+//   content: string,
+//   categoryCode: string,
+//   thumbNailImage: string,
+//   isNotice: boolean,
+//   postFileList: number[]
+// ) => {
+//   return clientAuth<>({
+//     url: '/board/청원게시판/posts',
+//     method: 'post',
+//     data: {
+//       title: title,
+//       content: content,
+//       categoryCode: categoryCode,
+//       thumbNailImage: thumbNailImage,
+//       isNotice: isNotice,
+//       postFileList: [postFileList],
+//     },
+//   });
+// };
