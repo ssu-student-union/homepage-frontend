@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { client } from '@/apis/client';
 import { GuideMessage } from '../components/GuidMessage';
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
+import history from '@/hooks/useHistory';
 
 const GUIDE_LINE = `  *글 작성 가이드라인에 맞춰 글을 작성해주시기 바랍니다. 가이드라인을 준수하지 않을 경우, 게시글이 삭제될 수 있습니다.
 ###
@@ -106,7 +107,13 @@ export function PetitionNoticeEditorSection() {
       };
       try {
         await mutation.mutateAsync(patch_posts);
-        navigate('/petition-notice');
+        localStorage.removeItem('edit-post');
+        const check = window.confirm('편집하시겠습니까?');
+        if (check) {
+          navigate('/petition-notice');
+        } else {
+          return;
+        }
       } catch (error) {
         console.error(error);
       }
@@ -141,6 +148,27 @@ export function PetitionNoticeEditorSection() {
       return false;
     },
   };
+
+  const [locationKeys, setLocationKeys] = useState<string[]>([]);
+
+  useEffect(() => {
+    return history.listen((location) => {
+      if (history.action === 'POP') {
+        if (locationKeys[1] === location.location.key) {
+          setLocationKeys(([_, ...keys]) => keys);
+          localStorage.removeItem('edit-post');
+        } else {
+          setLocationKeys((keys) => [location.location.key, ...keys]);
+          const check = window.confirm('작성 또는 편집한 내용은 저장되지 않습니다. 페이지를 나가시겠습니까?');
+          if (check) {
+            localStorage.removeItem('edit-post');
+          } else {
+            return;
+          }
+        }
+      }
+    });
+  }, [locationKeys, history]);
 
   return (
     <EditLayout title="청원글 작성">
