@@ -40,7 +40,7 @@ export function CertifyApplySection() {
     try {
       const resBody = {
         name: formValues.name,
-        studentId: Number(formValues.id), // 학번을 제대로 넘기도록 수정
+        studentId: Number(0),
         email: formValues.email,
         content: formValues.inquiry,
       };
