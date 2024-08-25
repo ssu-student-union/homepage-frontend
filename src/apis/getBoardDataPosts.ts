@@ -1,3 +1,5 @@
+import { client } from './client';
+
 export const getBoardDataPosts = (filters = {}) => {
   return client.get('/board/data/posts', {
     params: {
