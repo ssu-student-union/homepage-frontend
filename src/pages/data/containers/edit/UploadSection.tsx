@@ -6,6 +6,9 @@ import { userCategories, UserFileCategories } from './index';
 import { Trash2, Plus, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
+import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost'; // 분리한 파일을 import
+import { userNameMapping } from '../index';
 
 export default function UploadSection({ userId }: { userId: string }) {
   const { control, handleSubmit, setValue, getValues, trigger } = useForm({
@@ -40,10 +43,8 @@ export default function UploadSection({ userId }: { userId: string }) {
   const isFormValid = () => {
     const category = getValues('category');
     const fileInputsArray = getValues('fileInputs');
-    const hasValidFileInputs = fileInputsArray.some(
-      (input) => input.fileName.trim() !== '' && input.type.trim() !== ''
-    );
-    return category && hasValidFileInputs;
+
+    return category && fileInputsArray;
   };
 
   const handleAddInput = () => {
@@ -58,7 +59,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
 
     if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
+      const file = event.target.files[0]; // File 객체를 바로 사용
       const category = getValues('category');
 
       const fileInputsArray = getValues('fileInputs');
@@ -71,26 +72,22 @@ export default function UploadSection({ userId }: { userId: string }) {
         return;
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const newFile = {
-          fileData: reader.result,
-          fileName: file.name,
-          category,
-          fileType: fileType || '',
-        };
-
-        setTempFiles((prevFiles) => [...prevFiles, newFile]);
-
-        setFileInputs((prevInputs) => [
-          { id: prevInputs.length + 1, type: '', fileName: file.name, isNew: false },
-          ...prevInputs,
-        ]);
-
-        trigger();
+      // File 객체 자체를 저장
+      const newFile = {
+        file: file, // File 객체 자체를 저장
+        fileName: file.name,
+        category,
+        fileType: fileType || '',
       };
 
-      reader.readAsDataURL(file);
+      setTempFiles((prevFiles) => [...prevFiles, newFile]);
+
+      setFileInputs((prevInputs) => [
+        { id: prevInputs.length + 1, type: '', fileName: file.name, isNew: false },
+        ...prevInputs,
+      ]);
+
+      trigger();
     }
   };
 
@@ -102,7 +99,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const formValues = getValues();
     if (!formValues.uploadName) {
       alert('제목이 없습니다. 제목을 입력하세요.');
@@ -110,7 +107,6 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
 
     const existingFiles = JSON.parse(localStorage.getItem('fileData')) || [];
-
     const newFileData = {
       uploadName: formValues.uploadName,
       uploadDate: new Date().toLocaleDateString(),
@@ -123,7 +119,74 @@ export default function UploadSection({ userId }: { userId: string }) {
     existingFiles.push(newFileData);
     localStorage.setItem('fileData', JSON.stringify(existingFiles));
 
-    navigate('/data');
+    try {
+      const UserData = localStorage.getItem('kakaoData');
+      const subCategory = newFileData.category.length > 0 ? newFileData.category[0] : null;
+      const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
+      const fileName = newFileData.fileName.length > 0 ? newFileData.fileName.join(', ') : null;
+      const userName = userNameMapping[userId] || 'Unknown';
+      const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : null;
+      const fileType = '결과보고서';
+
+      if (UserData) {
+        const parsedUserData = JSON.parse(UserData);
+        const accessToken = parsedUserData?.data?.accessToken;
+
+        if (accessToken) {
+          // Post files to the server
+          const boardCode = '자료집게시판';
+          const fileResponse = await postBoardBoardCodeFiles(
+            boardCode,
+            accessToken,
+            tempFiles.map((file) => file.file), // File 객체 자체를 전송
+            []
+          );
+
+          // Log the entire response to inspect the structure
+          console.log('Complete File Response:', fileResponse);
+
+          // Access the nested `data` array inside `fileResponse.data.data`
+          const fileDataArray = fileResponse.data?.data?.postFiles;
+          // Check if `fileDataArray` is an array and extract the URLs
+          const fileUrls = Array.isArray(fileDataArray) ? fileDataArray.map((item) => item.id) : [];
+
+          // Log the extracted URLs to verify them
+          console.log('File URLs:', fileUrls);
+          console.log(fileUrls[0]);
+
+          if (fileUrls.length === 0) {
+            console.error('No URLs found in the response.');
+            return;
+          }
+
+          const resBody = {
+            title: uploadName,
+            content: fileName,
+            categoryCode: userName,
+            thumbNailImage: null,
+            isNotice: true,
+            postFileList: [fileUrls[0]],
+          };
+
+          // Post board data with the file URLs
+          const response = await postBoardDataSubCategoryPosts(fileCategory, fileType, resBody, accessToken);
+
+          console.log('Post Response:', response);
+
+          if (response.status === 200) {
+            alert('파일 업로드가 완료되었습니다.');
+            navigate('/data');
+          } else {
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
+          }
+        } else {
+          alert('AccessToken이 없습니다.');
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
