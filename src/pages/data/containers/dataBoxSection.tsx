@@ -14,15 +14,19 @@ import { Button } from '@/components/ui/button';
 import { majorOptions, middleOptions, minorOptions } from './index';
 import { DropdownSection } from './dropDownSecion';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
+import { useRecoilValue } from 'recoil';
+import { SearchState } from '@/recoil/atoms/SearchState';
 
 const ITEMS_PER_PAGE = 5;
 
-export default function DataBoxSection() {
+export default function DataBoxSection({ userId }: { userId: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataBoxes, setDataBoxes] = useState([]);
   const [selectedMajorOption, setSelectedMajorOption] = useState('');
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
+
+  const searchInput = useRecoilValue(SearchState); // 전역 상태로부터 검색어 불러오기
 
   const fetchData = async (filters: any = {}) => {
     console.log('Fetching data with filters:', filters);
@@ -42,13 +46,19 @@ export default function DataBoxSection() {
           fileName: post.content || [],
         }));
 
-        // Filter and keep only the latest '총학생회칙' post
-        const specialCategoryData = categorizedDataBoxes
+        // 검색어에 따른 필터링 (최소 두 글자 이상 일치)
+        const filteredDataBoxes = categorizedDataBoxes.filter((data) => {
+          if (!searchInput) return true; // 검색어가 없으면 모든 데이터 반환
+          const searchPattern = new RegExp(searchInput.split('').join('.*'), 'i'); // 패턴 생성
+          return searchPattern.test(data.uploadName);
+        });
+
+        const specialCategoryData = filteredDataBoxes
           .filter((data) => data.fileNames.includes('총학생회칙'))
           .sort((a, b) => b.createdAt - a.createdAt)
-          .slice(0, 1); // Keep only the latest post
+          .slice(0, 1);
 
-        const regularData = categorizedDataBoxes.filter((data) => !data.fileNames.includes('총학생회칙'));
+        const regularData = filteredDataBoxes.filter((data) => !data.fileNames.includes('총학생회칙'));
 
         const sortedRegularData = regularData.sort((a, b) => b.createdAt - a.createdAt);
 
@@ -63,9 +73,9 @@ export default function DataBoxSection() {
   };
 
   useEffect(() => {
-    // Fetch initial data without filters
+    // 검색어가 변경될 때마다 데이터를 다시 불러와영
     fetchData();
-  }, []);
+  }, [searchInput]);
 
   const handleFetchData = () => {
     const filters: any = {};
@@ -164,32 +174,52 @@ export default function DataBoxSection() {
             <div className="text-center text-lg font-medium text-gray-500">No data available</div>
           )}
 
-          <div className="mt-[34px] hidden xs:block sm:block md:block">
-            <DataEditBtn />
-          </div>
+          <div className="mt-[34px] hidden xs:block sm:block md:block">{userId && <DataEditBtn />}</div>
 
           <div className="mt-[109px] flex w-full justify-between sm:mt-[34px] md:mt-[34px] lg:mt-[49px] xl:mt-[49px]">
-            <PaginationContainer className="ml-[89px] xs:ml-0 sm:ml-0 md:ml-0">
-              <PaginationContent>
-                <PaginationTenPrevious onClick={handleTenPreviousPage} />
-                <PaginationPrevious onClick={handlePreviousPage} />
-                {[...Array(totalPages)].map((_, index) => (
-                  <PaginationItem
-                    key={index}
-                    isActive={index + 1 === currentPage}
-                    onClick={() => handlePageChange(index + 1)}
-                  >
-                    {index + 1}
-                  </PaginationItem>
-                ))}
-                <PaginationNext onClick={handleNextPage} />
-                <PaginationTenNext onClick={handleTenNextPage} />
-              </PaginationContent>
-            </PaginationContainer>
-
-            <div className="hidden lg:block xl:block xxl:block">
-              <DataEditBtn />
-            </div>
+            {userId && (
+              <PaginationContainer className="ml-[89px] xs:ml-0 sm:ml-0 md:ml-0">
+                <PaginationContent>
+                  <PaginationTenPrevious onClick={handleTenPreviousPage} />
+                  <PaginationPrevious onClick={handlePreviousPage} />
+                  {[...Array(totalPages)].map((_, index) => (
+                    <PaginationItem
+                      key={index}
+                      isActive={index + 1 === currentPage}
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </PaginationItem>
+                  ))}
+                  <PaginationNext onClick={handleNextPage} />
+                  <PaginationTenNext onClick={handleTenNextPage} />
+                </PaginationContent>
+              </PaginationContainer>
+            )}
+            {!userId && (
+              <PaginationContainer className="ml-[0px] xs:ml-0 sm:ml-0 md:ml-0">
+                <PaginationContent>
+                  <PaginationTenPrevious onClick={handleTenPreviousPage} />
+                  <PaginationPrevious onClick={handlePreviousPage} />
+                  {[...Array(totalPages)].map((_, index) => (
+                    <PaginationItem
+                      key={index}
+                      isActive={index + 1 === currentPage}
+                      onClick={() => handlePageChange(index + 1)}
+                    >
+                      {index + 1}
+                    </PaginationItem>
+                  ))}
+                  <PaginationNext onClick={handleNextPage} />
+                  <PaginationTenNext onClick={handleTenNextPage} />
+                </PaginationContent>
+              </PaginationContainer>
+            )}
+            {userId && (
+              <div className="hidden lg:block xl:block xxl:block">
+                <DataEditBtn />
+              </div>
+            )}
           </div>
         </div>
       </div>

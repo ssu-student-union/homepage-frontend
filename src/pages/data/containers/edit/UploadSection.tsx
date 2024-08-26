@@ -7,7 +7,7 @@ import { Trash2, Plus, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
-import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost'; // 분리한 파일을 import
+import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
 import { userNameMapping } from '../index';
 
 export default function UploadSection({ userId }: { userId: string }) {
@@ -59,7 +59,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
 
     if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0]; // File 객체를 바로 사용
+      const file = event.target.files[0];
       const category = getValues('category');
 
       const fileInputsArray = getValues('fileInputs');
@@ -72,9 +72,8 @@ export default function UploadSection({ userId }: { userId: string }) {
         return;
       }
 
-      // File 객체 자체를 저장
       const newFile = {
-        file: file, // File 객체 자체를 저장
+        file: file,
         fileName: file.name,
         category,
         fileType: fileType || '',
@@ -133,24 +132,19 @@ export default function UploadSection({ userId }: { userId: string }) {
         const accessToken = parsedUserData?.data?.accessToken;
 
         if (accessToken) {
-          // Post files to the server
           const boardCode = '자료집게시판';
           const fileResponse = await postBoardBoardCodeFiles(
             boardCode,
             accessToken,
-            tempFiles.map((file) => file.file), // File 객체 자체를 전송
+            tempFiles.map((file) => file.file),
             []
           );
 
-          // Log the entire response to inspect the structure
           console.log('Complete File Response:', fileResponse);
 
-          // Access the nested `data` array inside `fileResponse.data.data`
           const fileDataArray = fileResponse.data?.data?.postFiles;
-          // Check if `fileDataArray` is an array and extract the URLs
           const fileUrls = Array.isArray(fileDataArray) ? fileDataArray.map((item) => item.id) : [];
 
-          // Log the extracted URLs to verify them
           console.log('File URLs:', fileUrls);
           console.log(fileUrls[0]);
 
@@ -168,7 +162,6 @@ export default function UploadSection({ userId }: { userId: string }) {
             postFileList: [fileUrls[0]],
           };
 
-          // Post board data with the file URLs
           const response = await postBoardDataSubCategoryPosts(fileCategory, fileType, resBody, accessToken);
 
           console.log('Post Response:', response);
@@ -248,7 +241,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                   <FilterDropDown
                     defaultValue="파일종류 선택"
                     optionValue={fileOptions}
-                    className="ml-[16px] border-gray-500 pl-9 text-sm  text-gray-500 xs:h-[31px] xs:w-[186px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg  xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
+                    className="ml-[16px] border-gray-500 pl-9 text-sm  text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg  xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                     value={''}
                     aria-disabled="true"
                     disabled
@@ -295,7 +288,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                           trigger();
                         }}
                         value={field.value}
-                        className="ml-[16px] border-gray-500 pl-9  text-sm text-gray-500 xs:h-[31px] xs:w-[186px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px]  xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
+                        className="ml-[16px] border-gray-500 pl-9  text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px]  xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
                   />
@@ -309,6 +302,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           </div>
         ))}
         <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileChange} />
+
         <div className="text-end xs:text-center sm:text-center md:text-center">
           <Button
             type="submit"

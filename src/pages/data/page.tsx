@@ -20,7 +20,7 @@ export function Data() {
         <>
           <DataNavSection />
 
-          <DataBoxSection />
+          <DataBoxSection userId={userId} />
           <div className="flex justify-center sm:mt-[16px] md:mt-[62px] lg:hidden xl:hidden xxl:hidden">
             <Search />
           </div>
