@@ -10,7 +10,6 @@ export function AuditDetailPage() {
   const boardCode = '감사기구게시판';
 
   const { postDetail } = useGetBoardDetail({ boardCode, postId });
-  console.log('pageData: ', postDetail);
 
   if (postDetail == null) {
     return null;

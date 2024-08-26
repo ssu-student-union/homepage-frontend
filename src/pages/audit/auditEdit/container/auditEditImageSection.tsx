@@ -1,5 +1,5 @@
-import { ImageDropzone } from '../component/imageDropzone';
-import { ImagePreview } from '../component/imagePreview';
+import { ImageDropzone } from '../component/ImageDropzone';
+import { ImagePreview } from '../component/ImagePreview';
 import { useImageManager } from '../hook/useImageManager';
 import { useEffect } from 'react';
 

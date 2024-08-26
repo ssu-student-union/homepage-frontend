@@ -7,17 +7,8 @@ import { AuditEditSubmitButton } from './container/auditEditSubmitButton';
 import { useAuditEdit } from './hook/useAuditEdit';
 
 export function AuditEditPage() {
-  const {
-    files,
-    images,
-    handleTitleChange,
-    handleCategoryChange,
-    handleContentChange,
-    handleSubmit,
-    setFiles,
-    setImages,
-    isLoading,
-  } = useAuditEdit();
+  const { handleTitleChange, handleCategoryChange, handleContentChange, handleSubmit, setFiles, setImages, isLoading } =
+    useAuditEdit();
 
   return (
     <>
