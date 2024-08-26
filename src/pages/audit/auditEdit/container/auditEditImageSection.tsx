@@ -23,12 +23,12 @@ export function AuditEditImageSection({ onImagesChange }: AuditEditImageSectionP
       <div className="mt-[12px] flex h-[270px] w-full flex-row items-center justify-start gap-4 border border-gray-300 p-[1rem]">
         <ImageDropzone onDrop={handleImageAdd} />
         <div className="flex max-w-full flex-row gap-4">
-          {images.map((imageItem) => (
+          {images.map((imageItem, index) => (
             <ImagePreview
               key={imageItem.id}
               imageItem={imageItem}
               onRemove={() => removeImage(imageItem.id)}
-              isThumbnail={false}
+              isThumbnail={index == 0 ? true : false}
             />
           ))}
         </div>
