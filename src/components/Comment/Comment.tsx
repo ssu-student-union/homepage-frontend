@@ -62,9 +62,7 @@ export function Comment({ comment, replyComment, className }: CommentProps) {
             <span>
               <User size={mobile_screen ? '14px' : '24px'} />
             </span>
-            <div className="text-[1.125rem] font-medium xs:text-[0.75rem]">
-              {replaceSN(commentData.authorName, '*')}
-            </div>
+            <div className="text-[1.125rem] font-medium xs:text-[0.75rem]">{replaceSN(commentData.studentId, '*')}</div>
           </div>
           <div className="relative" ref={toggleRef}>
             <span className="cursor-pointer" onClick={handleToggle}>

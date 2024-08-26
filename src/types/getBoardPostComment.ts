@@ -7,6 +7,7 @@ export interface getBoardPostCommentProps {
 export interface postReplyCommentList {
   id: number;
   authorName: string;
+  studentId: string;
   content: string;
   createdAt: string;
   lastEditAt: string;
