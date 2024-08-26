@@ -28,7 +28,6 @@ export function AuditEditImageSection({ onImagesChange }: AuditEditImageSectionP
               key={imageItem.id}
               imageItem={imageItem}
               onRemove={() => removeImage(imageItem.id)}
-              onSelect={() => {}}
               isThumbnail={false}
             />
           ))}

@@ -4,12 +4,14 @@ import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { useCategory } from './useCategory';
 import { categoryMap } from '../const/data';
 import { GetAuditBoardResp, Post } from '@/types/apis/get';
-import { calculateTotalPages } from '../utils/paginationUtils';
 
 export function useAuditBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
   const { currentPage, handlePageChange } = useCurrentPage();
   const { categoryParam } = useCategory();
+
+  console.log('페이지당 요소 개수: ', itemsPerPage);
+  console.log('currentpage:', currentPage);
 
   const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
   const selectedCategory = categoryMap[categoryParam] === '전체' ? null : categoryMap[categoryParam];
@@ -25,10 +27,10 @@ export function useAuditBoard(boardCode: string) {
 
   const posts: Post[] = data?.data?.postListResDto || [];
   const totalItems: number = data?.data?.pageInfo?.totalElements || 0;
-  const totalPages: number = calculateTotalPages(totalItems, itemsPerPage);
-  console.log(posts);
-  console.log(totalItems);
-  console.log(totalPages);
+  const totalPages: number = data?.data?.pageInfo?.totalPages || 1;
+  console.log('게시물: ', posts);
+  console.log('게시물 개수: ', totalItems);
+  console.log('전체 페이지: ', totalPages);
 
   return {
     posts,
