@@ -27,6 +27,7 @@ export interface PostDetailResDto {
   createdAt: string;
   content: string;
   imageList: string[];
+  fileList: string[];
 }
 
 export interface GetBoardDetailResponse {
