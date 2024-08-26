@@ -3,7 +3,7 @@ export interface Post {
   title: string;
   content: string;
   date: string;
-  category: string | null;
+  category: string;
   thumbNail: string;
   status: string;
 }
@@ -16,8 +16,10 @@ export interface PageInfo {
 }
 
 export interface GetAuditBoardResp {
-  postListResDto: Post[];
-  pageInfo: PageInfo;
+  data: {
+    postListResDto: Post[];
+    pageInfo: PageInfo;
+  };
 }
 
 export interface PostDetailResDto {
