@@ -6,7 +6,13 @@ interface AuditDetailFileProps {
 
 export function AuditDetailFileSection({ files }: AuditDetailFileProps) {
   const handleDownload = (filePath: string) => {
-    window.location.href = filePath;
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = filePath.split('/').pop() || '파일명.pdf';
+    link.target = '_blank'; // 일부 브라우저에서 필요하답니다.
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -16,7 +22,7 @@ export function AuditDetailFileSection({ files }: AuditDetailFileProps) {
           <DownloadSimple size="24px" className="cursor-pointer pl-[3px]" onClick={() => handleDownload(file)} />
           <div className="w-[5px]" />
           <div>
-            <p className="text-base font-medium text-gray-600">{files}</p>
+            <p className="text-base font-medium text-gray-600">파일명.확장자</p>
           </div>
         </div>
       ))}
