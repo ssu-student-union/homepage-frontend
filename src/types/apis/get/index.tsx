@@ -15,7 +15,7 @@ export interface PageInfo {
   totalPages: number;
 }
 
-export interface GetBoardPostsResp {
+export interface GetAuditBoardResp {
   postListResDto: Post[];
   pageInfo: PageInfo;
 }
