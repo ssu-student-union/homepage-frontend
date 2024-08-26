@@ -46,6 +46,7 @@
     "react-hook-form": "^7.51.2",
     "react-router-dom": "^6.22.3",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.2",
     "tailwind-scrollbar-hide": "^1.1.7",

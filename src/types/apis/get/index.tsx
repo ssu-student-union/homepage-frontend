@@ -20,6 +20,16 @@ export interface GetBoardPostsResp {
   pageInfo: PageInfo;
 }
 
+export interface OfficialCommentList {
+  authorName: string;
+  commentType: string;
+  content: string;
+  createdAt: string;
+  id: number;
+  isAuthor: boolean;
+  lastEditedAt: string;
+}
+
 export interface PostDetailResDto {
   postId: number;
   categoryName: string;
@@ -31,7 +41,7 @@ export interface PostDetailResDto {
   studentId: string;
   likeCount: number;
   imageList: string[];
-  officialCommentList: string[];
+  officialCommentList: OfficialCommentList[];
 }
 
 export interface GetBoardDetailResponse {

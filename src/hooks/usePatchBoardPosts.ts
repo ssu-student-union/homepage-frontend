@@ -1,4 +1,5 @@
-import { patchBoardPostProps, patchBoardPosts, patchBoardPostsResponse } from '@/apis/patchBoardPosts';
+import { patchBoardPosts } from '@/apis/patchBoardPosts';
+import { patchBoardPostProps, patchBoardPostsResponse } from '@/types/patchBoardPosts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const usePatchBoardPosts = () => {
