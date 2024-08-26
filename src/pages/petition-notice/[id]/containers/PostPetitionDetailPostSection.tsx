@@ -10,8 +10,6 @@ import { PostHead } from '@/components/PostHead';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 import { usePostPostReaction } from '@/hooks/usePostPostReaction';
-import { useRecoilState } from 'recoil';
-import { LikeState } from '@/recoil/atom';
 
 type ParamsType = {
   id: string;
@@ -27,7 +25,6 @@ export function PostPetitionDetailPostSection() {
   const navigate = useNavigate();
   const { width } = useResize();
   const mobile_screen = width < 391;
-  const [like, setLike] = useRecoilState(LikeState);
 
   const { isLoading, data } = useGetBoardDetail({
     boardCode: '청원게시판',
@@ -69,7 +66,6 @@ export function PostPetitionDetailPostSection() {
     };
     try {
       await mutation.mutateAsync(post_reaction);
-      setLike((prev) => !prev);
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +92,7 @@ export function PostPetitionDetailPostSection() {
                 <Viewer initialValue={JSON.parse(data?.data.postDetailResDto.content as string)} />
                 <div className="mt-[51px] flex justify-start gap-1 text-primary">
                   <span className="cursor-pointer" onClick={handleLikeButton}>
-                    <ThumbsUp size={25} weight={like ? 'fill' : 'regular'} />
+                    <ThumbsUp size={25} weight="regular" />
                   </span>
                   <span className="pt-1">{data?.data.postDetailResDto.likeCount}</span>
                 </div>
