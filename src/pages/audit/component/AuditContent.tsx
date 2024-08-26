@@ -7,14 +7,14 @@ import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { handleCardClick } from '../utils/cardHandler';
 
 interface AuditContentProps {
-  initPosts: {
+  initPosts?: Array<{
     postId: number;
     title: string;
     content: string;
     date: string;
     thumbNail: string | null;
-    status: 'Emergency' | 'New' | 'Default';
-  }[];
+    status: string | null;
+  }>;
   className?: string;
 }
 
@@ -28,7 +28,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
     setPosts(initPosts);
   }, [initPosts]);
 
-  if (!posts || posts.length == 0) {
+  if (!posts || posts.length === 0) {
     return <div>게시물이 없습니다.</div>;
   }
 
@@ -82,8 +82,23 @@ export function AuditContent({ initPosts }: AuditContentProps) {
     );
   }
 
-  function RenderCard({ post, size }: { post: AuditContentProps['initPosts'][number]; size: Size }) {
+  function RenderCard({
+    post,
+    size,
+  }: {
+    post: {
+      postId: number;
+      title: string;
+      content: string;
+      date: string;
+      thumbNail: string | null;
+      status: string | null;
+    };
+    size: Size;
+  }) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
+    const status = post.status === '새로운' ? 'New' : 'Default';
+
     return (
       <div key={post.postId} className="xs-pb[20px] sm:pb-[20px] md:pb-[20px] lg:pb-[20px]">
         <PostCardBasic
@@ -92,7 +107,7 @@ export function AuditContent({ initPosts }: AuditContentProps) {
           title={post.title}
           subtitle={post.content}
           date={formattedDate}
-          badgeType={post.status}
+          badgeType={status}
           profileImg={''}
           profileName={''}
           className="cursor-pointer"

@@ -1,24 +1,18 @@
+import { getBoardDetailProps, GetBoardDetailResponse } from '@/types/apis/get';
 import { client } from './client';
 
 // GET:/board/{boardCode}/posts/postId 요청
 
-export interface getBoardDetailProps {
-  boardCode: string;
-  postId: number;
-  userId?: number;
-}
+export async function getBoardDetail({
+  boardCode,
+  postId,
+  userId = 0,
+}: getBoardDetailProps): Promise<GetBoardDetailResponse> {
+  const resp = await client.get<GetBoardDetailResponse>(`/board/${boardCode}/posts/${postId}`, {
+    params: {
+      userId,
+    },
+  });
 
-export async function getBoardDetail({ boardCode, postId, userId = 0 }: getBoardDetailProps) {
-  try {
-    const resp = await client.get(`/board/${boardCode}/posts/${postId}`, {
-      params: {
-        userId,
-      },
-    });
-    console.log('api 요청!!!', resp);
-    return resp.data;
-  } catch (e) {
-    console.log('api 에러!!!', e);
-    throw e;
-  }
+  return resp.data;
 }

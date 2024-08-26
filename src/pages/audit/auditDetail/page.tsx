@@ -6,20 +6,25 @@ import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 
 export function AuditDetailPage() {
   const location = useLocation();
-  const postId = location.state?.postId;
-  const boardCode = '감사기구게시판';
+  const postId: number = location.state?.postId;
+  const boardCode: string = '감사기구게시판';
 
-  const { postDetail } = useGetBoardDetail({ boardCode, postId });
+  const { data: resp, isLoading, error } = useGetBoardDetail({ boardCode, postId });
 
-  if (postDetail == null) {
-    return null;
+  const postDetail = resp?.data.postDetailResDto;
+
+  if (!postDetail) {
+    return <div></div>;
   }
+
+  console.log(postDetail);
+
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
       <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
       {/* <AuditDetailFileSection file={postDetail.file} /> */}
-      <AuditDetailEditSection />
+      <AuditDetailEditSection boardCode={boardCode} postId={postId} />
     </div>
   );
 }

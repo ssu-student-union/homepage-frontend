@@ -5,13 +5,12 @@ import { IntroNavSection } from '../intro/container/IntroNavSection';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useAuditBoard } from './hooks/useAuditBoard';
 import { categoryMap } from './const/data';
+import { useNavigate } from 'react-router-dom';
 
 export function AuditPage() {
-  // 게시판 CODE
   const boardCode = '감사기구게시판';
-
-  const { posts, totalPages, currentPage, handlePageChange, navigate, categoryParam, subcategories, selectedCategory } =
-    useAuditBoard(boardCode);
+  const { posts, totalPages, currentPage, handlePageChange, categoryParam, subcategories } = useAuditBoard(boardCode);
+  const navigate = useNavigate();
 
   return (
     <>

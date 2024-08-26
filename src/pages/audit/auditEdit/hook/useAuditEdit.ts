@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePostBoardFiles } from '@/hooks/usePostBoardFiles';
 import { usePostBoardPosts } from '@/hooks/usePostBoardPosts';
-import { handleFileLists, handleThumbnailImage } from '../utils/fileHandler';
+import { handleFileLists } from '../utils/fileHandler';
 
 export function useAuditEdit() {
   const navigate = useNavigate();
@@ -35,10 +35,13 @@ export function useAuditEdit() {
         images,
       });
 
-      const uploadedFiles = uploadResponse.data.data;
+      const { postFiles, thumbnailUrl } = uploadResponse.data.data;
 
-      const thumbnailImage = handleThumbnailImage(uploadedFiles);
-      const postFileList = handleFileLists(uploadedFiles);
+      const thumbnailImage = thumbnailUrl;
+      const postFileList = handleFileLists(postFiles);
+
+      console.log(postFileList);
+      console.log(thumbnailImage);
 
       await createPost({
         boardCode: '감사기구게시판',
@@ -52,8 +55,7 @@ export function useAuditEdit() {
         },
       });
 
-      navigate(-1);
-      console.log('게시물 작성이 완료되었습니다.');
+      navigate(`/audit?category=notice`);
     } catch (e) {
       console.error(e);
     }

@@ -1,4 +1,5 @@
-import { postBoardFiles, postBoardFilesProps, PostBoardFilesResponse } from '@/apis/postBoardFiles';
+import { postBoardFiles, postBoardFilesProps } from '@/apis/postBoardFiles';
+import { PostBoardFilesResponse } from '@/types/apis/post';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 
@@ -9,11 +10,5 @@ export function usePostBoardFiles(): UseMutationResult<
 > {
   return useMutation<AxiosResponse<PostBoardFilesResponse>, AxiosError, postBoardFilesProps>({
     mutationFn: postBoardFiles,
-    onSuccess: (data) => {
-      console.log('파일 업로드 성공:', data.data);
-    },
-    onError: (error) => {
-      console.error('파일 업로드 실패:', error);
-    },
   });
 }

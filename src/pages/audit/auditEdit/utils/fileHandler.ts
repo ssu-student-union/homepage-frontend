@@ -1,13 +1,9 @@
+import { File as Data } from '@/types/apis/post';
 import { FileItem } from '../container/auditEditFilesSection';
-
-interface UploadedFile {
-  id: number;
-  url: string;
-}
 
 const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
-export function handleThumbnailImage(uploadedFiles: UploadedFile[]): string | null {
+export function handleThumbnailImage(uploadedFiles: Data[]): string | null {
   return (
     uploadedFiles
       .filter((file) => imageExtensions.some((ext) => file.url.toLowerCase().endsWith(ext)))
@@ -15,7 +11,7 @@ export function handleThumbnailImage(uploadedFiles: UploadedFile[]): string | nu
   );
 }
 
-export function handleFileLists(uploadedFiles: UploadedFile[]): number[] {
+export function handleFileLists(uploadedFiles: Data[]): number[] {
   return uploadedFiles.map((file) => file.id);
 }
 
