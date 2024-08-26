@@ -17,8 +17,6 @@ export function AuditDetailPage() {
     return <div></div>;
   }
 
-  console.log(postDetail);
-
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />

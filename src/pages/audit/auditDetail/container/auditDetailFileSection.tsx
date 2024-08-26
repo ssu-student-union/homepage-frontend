@@ -1,21 +1,20 @@
 import { DownloadSimple } from '@phosphor-icons/react';
 
 interface AuditDetailFileProps {
-  file: { fileName: string; fileUrl: string };
+  files: { fileName: string; fileUrl: string };
 }
 
-export function AuditDetailFileSection({ file }: AuditDetailFileProps) {
+export function AuditDetailFileSection({ files }: AuditDetailFileProps) {
   const handleDownload = () => {
-    // 파일 다운로드
     alert('다운로드');
   };
-
+  s;
   return (
     <div className="flex flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2">
       <DownloadSimple size="24px" className="cursor-pointer pl-[3px]" onClick={handleDownload} />
       <div className="w-[5px]" />
       <div>
-        <p className="text-base font-medium text-gray-600">{file.fileName}</p>
+        <p className="text-base font-medium text-gray-600">{files.fileName}</p>
       </div>
     </div>
   );
