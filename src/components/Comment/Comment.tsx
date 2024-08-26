@@ -99,7 +99,7 @@ export function Comment({ comment, replyComment, className }: CommentProps) {
         </div>
       </div>
       {replyIsOpen && (
-        <TextArea className="ml-10 w-full">
+        <TextArea className="ml-10 w-full" isReply={true}>
           <CancelButton onClick={handleCloseReplyComment} />
         </TextArea>
       )}
