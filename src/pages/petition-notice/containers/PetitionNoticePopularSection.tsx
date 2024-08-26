@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 export function PetitionNoticePopularSection() {
   const { data } = useGetPetitionTopLiked({ page: 0, take: 4 });
-  console.log(data);
 
   const [ref, isOverflow] = useIsOverflow<HTMLDivElement>();
   const { width: windowWidth } = useResize();
@@ -30,9 +29,7 @@ export function PetitionNoticePopularSection() {
     }
   };
 
-  useEffect(() => {
-    // console.log(isOverflow);
-  }, [windowWidth]);
+  useEffect(() => {}, [windowWidth]);
 
   useEffect(() => {
     const { current } = ref;

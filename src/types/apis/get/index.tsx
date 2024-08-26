@@ -37,6 +37,7 @@ export interface PostDetailResDto {
   title: string;
   content: string;
   createdAt: string;
+  lastEditedAt: string;
   isAuthor: boolean;
   studentId: string;
   likeCount: number;

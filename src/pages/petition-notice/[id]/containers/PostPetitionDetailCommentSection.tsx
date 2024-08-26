@@ -4,11 +4,21 @@ import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PetitionCommentOrderType } from '../../type';
 import { PetitionCommentOrder } from '../../const';
 import { Comment } from '@/components/Comment/Comment';
+import { useParams } from 'react-router-dom';
+import { useGetBoardPostComment } from '@/hooks/useGetBoardPostComment';
+
+type ParamsType = {
+  id: string;
+};
 
 export function PostPetitionDetailCommentSection() {
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PetitionCommentOrderType>(
     PetitionCommentOrder[0]
   );
+  const { id } = useParams() as ParamsType;
+  const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id;
+
+  const { data } = useGetBoardPostComment({ postId: Number(id), type: selectedSubcategories, userId: Number(userID) });
 
   return (
     <>
@@ -21,12 +31,9 @@ export function PostPetitionDetailCommentSection() {
             onSubcategorySelect={onSubcategorySelect}
           />
         </div>
-        <TextArea>{null}</TextArea>
-        <div className="flex flex-col gap-11">
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
+        <TextArea className="w-full">{null}</TextArea>
+        <div className="flex flex-col">
+          {data?.data.postComments.map((comment) => <Comment comment={comment} key={comment.id} className="" />)}
         </div>
       </div>
     </>

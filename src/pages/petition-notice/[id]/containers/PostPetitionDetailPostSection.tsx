@@ -18,6 +18,7 @@ type ParamsType = {
 export function PostPetitionDetailPostSection() {
   const { id } = useParams() as ParamsType;
   const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id;
+
   const breadcrumbItems = new Map<string, string | null>([
     ['소통', null],
     ['청원게시판', '/petition-notice'],
@@ -31,7 +32,6 @@ export function PostPetitionDetailPostSection() {
     postId: Number(id),
     userId: userID as number,
   });
-  console.log(data);
 
   const replaceSN = (student_number: string, chracter: string) => {
     return student_number.substring(0, 2) + chracter.repeat(4) + student_number.substring(6);
@@ -57,6 +57,7 @@ export function PostPetitionDetailPostSection() {
   };
 
   const mutation = usePostPostReaction();
+
   const handleLikeButton = async () => {
     const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
     const post_reaction = {
@@ -82,7 +83,11 @@ export function PostPetitionDetailPostSection() {
             <PostHead
               title={`[${data?.data.postDetailResDto.categoryName}] ${data?.data.postDetailResDto.title}`}
               writer={replaceSN(data?.data.postDetailResDto.studentId!, '*')}
-              date={data?.data.postDetailResDto.createdAt!}
+              date={
+                data?.data.postDetailResDto.lastEditedAt!
+                  ? data?.data.postDetailResDto.lastEditedAt!
+                  : data?.data.postDetailResDto.createdAt!
+              }
             />
           </div>
           <hr />
