@@ -8,6 +8,11 @@ export const LoginSchemaRegister = z.object({
     .regex(/^[가-힣]+$/, '이름은 한글만 입력해야 합니다.'),
   password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
   studentId: z.string().length(8, '학번은 8자리여야 합니다.').regex(/^\d+$/, '학번은 숫자만 입력해야 합니다.'),
+  accountId: z
+    .string()
+    .min(5, '아이디는 최소 5자 이상이어야 합니다.')
+    .max(15, '아이디는 최대 15자 이내여야 합니다.')
+    .regex(/^[a-zA-Z0-9]+$/, '아이디는 알파벳과 숫자만 포함해야 합니다.'),
 });
 
 export const LoginSchemaCertify = z.object({
