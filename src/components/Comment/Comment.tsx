@@ -8,6 +8,7 @@ import { cn } from '@/libs/utils';
 import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 import { useDelBoardPostComment, useDelBoardPostReplyComment } from '@/hooks/useDelBoardPostComment';
 import { useResize } from '@/hooks/useResize';
+import { usePostPostCommentReaction, usePostPostReplyCommentReaction } from '@/hooks/usePostPostCommentReaction';
 
 export function Comment({ comment, replyComment, className, isReply = false, commentId, mother_id }: CommentProps) {
   const commentData = comment || replyComment;
@@ -67,6 +68,33 @@ export function Comment({ comment, replyComment, className, isReply = false, com
 
   const handleOpenReplyComment = () => {
     setReplyIsOpen(true);
+  };
+
+  const postCommentReactionMutation = usePostPostCommentReaction();
+  const postReplyCommentReactionMutation = usePostPostReplyCommentReaction();
+
+  const handleLikeButton = async () => {
+    if (!isReply) {
+      const post_comment_reaction = {
+        commentId: comment?.id!,
+        reaction: 'like',
+      };
+      try {
+        await postCommentReactionMutation.mutateAsync(post_comment_reaction);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      const post_reply_comment_reaction = {
+        replycommentId: replyComment?.id!,
+        reaction: 'like',
+      };
+      try {
+        await postReplyCommentReactionMutation.mutateAsync(post_reply_comment_reaction);
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   useEffect(() => {
@@ -160,7 +188,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
               </div>
               {commentData!.isDeleted ? null : (
                 <div className="flex gap-[3px] text-primary">
-                  <span className="cursor-pointer">
+                  <span className="cursor-pointer" onClick={handleLikeButton}>
                     <ThumbsUp size={mobile_screen ? '13px' : '19px'} />
                   </span>
                   <span className="pt-[1px] xs:pt-0">{commentData!.likeCount}</span>

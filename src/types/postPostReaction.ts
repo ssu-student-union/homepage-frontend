@@ -9,3 +9,20 @@ export interface postPostReactionResponse {
   message: string;
   isSuccess: boolean;
 }
+
+export interface postPostCommentReactionProps {
+  commentId: number;
+  reaction: string;
+}
+
+export interface postPostReplyCommentReactionProps {
+  replycommentId: number;
+  reaction: string;
+}
+
+export interface postPostCommentReactionResponse {
+  code: string;
+  message: string;
+  data: string;
+  isSuccess: boolean;
+}
