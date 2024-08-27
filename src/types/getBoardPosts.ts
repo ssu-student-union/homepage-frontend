@@ -1,11 +1,18 @@
 import { MainNoticesType } from '.';
 
+interface PageInfo {
+  pageNum: number;
+  pageSize: number;
+  totalElements: number;
+  totalPages: number;
+}
+
 export interface GetNoticeBoardPostsResponse {
   code: number;
   message: string;
   data: {
     postListResDto: NoticePostListResDto[];
-    pageInfo: NoticePageInfo;
+    pageInfo: PageInfo;
   };
   isSuccess: true;
 }
@@ -22,9 +29,22 @@ interface NoticePostListResDto {
   isEmergency: boolean;
 }
 
-interface NoticePageInfo {
-  pageNum: number;
-  pageSize: number;
-  totalElements: number;
-  totalPages: number;
+export interface GetLostArticlePostsResponse {
+  code: string;
+  message: string;
+  data: {
+    postListResDto: LostArticlePostListResDto[];
+    pageInfo: PageInfo;
+  };
+  isSuccess: boolean;
+}
+
+interface LostArticlePostListResDto {
+  postId: number;
+  title: string;
+  content: string;
+  date: string;
+  category: string;
+  lostId: number;
+  thumbNail: string;
 }

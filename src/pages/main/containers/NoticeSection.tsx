@@ -1,6 +1,5 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { Spacing } from '@/components/Spacing';
-import { MainSubcategories } from '../const';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { Button } from '@/components/ui/button';
 import { PostCardNotice } from '@/components/PostCard/PostCardNotice';
@@ -8,20 +7,21 @@ import { useResize } from '@/hooks/useResize';
 import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { GetNoticeBoardPostsResponse } from '@/types/getBoardPosts';
 import { useMemo } from 'react';
-import { MainNoticesType } from '@/types';
+import { MainNotices, MainNoticesType } from '@/types';
 
 const NoticeSection = () => {
-  const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<MainNoticesType>(MainSubcategories[0]);
+  const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<MainNoticesType>(MainNotices[0]);
   const { width } = useResize();
   const { data, isLoading } = useGetBoardPosts<GetNoticeBoardPostsResponse>({
     boardCode: '공지사항게시판',
-    page: 1,
+    page: 0,
     take: 4,
-    category: selectedSubcategories === '전체' ? null : selectedSubcategories,
+    groupCode: '중앙기구',
+    memberCode: selectedSubcategories === '전체' ? undefined : (selectedSubcategories as string),
   });
   const noticeCount = useMemo(() => {
-    if (!data?.data.pageInfo.totalElements) {
-      return undefined; // 로딩 중일 때는 undefined를 반환하여 UI가 바뀌지 않도록 합니다.
+    if (isLoading) {
+      return 0; // 로딩 중일 때는 undefined를 반환하여 UI가 바뀌지 않도록 합니다.
     }
     return data?.data.pageInfo.totalElements; // 데이터가 로딩되면 새로운 데이터로 UI를 업데이트합니다.
   }, [data?.data.pageInfo.totalElements, isLoading]);
@@ -36,13 +36,11 @@ const NoticeSection = () => {
         <span>{`의 공지가 올라왔어요!`}</span>
       </p>
       <Spacing size={21} direction="vertical" />
-
       <BoardSelector
-        subcategories={MainSubcategories}
+        subcategories={MainNotices}
         selectedSubcategory={selectedSubcategories}
         onSubcategorySelect={onSubcategorySelect}
       />
-
       <Spacing size={width > 390 ? 32 : 22} direction="vertical" />
       <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
         {/* xs */}
