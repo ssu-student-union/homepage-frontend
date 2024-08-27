@@ -3,7 +3,7 @@ import { client } from './client';
 
 export const getPetitionPostsTopLiked = async ({ page, take }: getBoardPostsProps) => {
   try {
-    const response = await client.get('/boards/청원게시판/posts/top-liked', {
+    const response = await client.get('/board/청원게시판/posts/top-liked', {
       params: {
         page,
         take,
