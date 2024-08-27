@@ -5,9 +5,12 @@ import { useIsOverflow } from '@/hooks/useIsOverflow';
 import { useResize } from '@/hooks/useResize';
 import { useGetPetitionTopLiked } from '@/hooks/useGetPetitionPostsTopLiked';
 import { useNavigate } from 'react-router-dom';
+import { PetitionNoticeHeadSection } from './HeadSection/PetitionNoticeHeadSection';
+import { PetitionNoticeHeadSectionSkeleton } from './HeadSection/PetitionNoticeHeadSectionSkeleton';
+import { PetitionNoticePopularSectionSkeleton } from './PetitionNoticePopularSectionSkeleton';
 
 export function PetitionNoticePopularSection() {
-  const { data } = useGetPetitionTopLiked({ page: 0, take: 4 });
+  const { isFetching, isLoading, data } = useGetPetitionTopLiked({ page: 0, take: 4 });
 
   const [ref, isOverflow] = useIsOverflow<HTMLDivElement>();
   const { width: windowWidth } = useResize();
@@ -78,22 +81,31 @@ export function PetitionNoticePopularSection() {
   };
 
   return (
-    <div className="relative mb-[66px] mt-[70px] pl-[200px] text-[1.75rem] font-bold xs:mb-[33px] xs:pl-10 sm:pl-10 md:pl-10 lg:pl-10">
-      <p className="mb-[11px]">인기청원</p>
-      <div className="flex gap-6 overflow-scroll pr-5 scrollbar-hide" ref={ref}>
-        {data?.data.postListResDto &&
-          data?.data.postListResDto.map((content) => (
-            <PostTextPetition data={content} key={content.postId} onClick={handlePostDetail} />
-          ))}
-      </div>
-      {isOverflow && data?.data.postListResDto && data?.data.postListResDto.length > 0 && (
-        <>
-          {(scrollState === 'left' || scrollState === 'both') && <LeftCarouselButton onClick={() => moveLeft(ref)} />}
-          {(scrollState === 'right' || scrollState === 'both') && (
-            <RigthCarouselButton onClick={() => moveRight(ref)} />
+    <>
+      {isFetching && isLoading ? <PetitionNoticeHeadSectionSkeleton /> : <PetitionNoticeHeadSection />}
+      {isFetching && isLoading ? (
+        <PetitionNoticePopularSectionSkeleton />
+      ) : (
+        <div className="relative mb-[66px] mt-[70px] pl-[200px] text-[1.75rem] font-bold xs:mb-[33px] xs:pl-10 sm:pl-10 md:pl-10 lg:pl-10">
+          <p className="mb-[11px]">인기청원</p>
+          <div className="flex gap-6 overflow-scroll pr-5 scrollbar-hide" ref={ref}>
+            {data?.data.postListResDto &&
+              data?.data.postListResDto.map((content) => (
+                <PostTextPetition data={content} key={content.postId} onClick={handlePostDetail} />
+              ))}
+          </div>
+          {isOverflow && data?.data.postListResDto && data?.data.postListResDto.length > 0 && (
+            <>
+              {(scrollState === 'left' || scrollState === 'both') && (
+                <LeftCarouselButton onClick={() => moveLeft(ref)} />
+              )}
+              {(scrollState === 'right' || scrollState === 'both') && (
+                <RigthCarouselButton onClick={() => moveRight(ref)} />
+              )}
+            </>
           )}
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 }
