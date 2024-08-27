@@ -14,7 +14,9 @@ const KakaoRedirect = () => {
         const response = await kakaoAuthCodeApi(AUTHORIZE_CODE);
         console.log(response);
         const res = response.data;
+        const accessToken = response.data.data.accessToken;
         localStorage.setItem('kakaoData', JSON.stringify(res));
+        localStorage.setItem('accessToken', accessToken);
 
         if (res) {
           // res.data 객체에 name과 studentId가 존재하는지 확인
@@ -32,7 +34,7 @@ const KakaoRedirect = () => {
     kakaoLogin();
   }, [AUTHORIZE_CODE, navigate]);
 
-  return <div>Loading...</div>;
+  return <div>Loading…</div>;
 };
 
 export default KakaoRedirect;
