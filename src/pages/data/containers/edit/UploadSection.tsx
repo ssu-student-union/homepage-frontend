@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import { userCategories, UserFileCategories } from './index';
-import { Trash2, Plus, FileText } from 'lucide-react';
+import { Trash2, Plus, FileText, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
@@ -122,10 +122,12 @@ export default function UploadSection({ userId }: { userId: string }) {
       const UserData = localStorage.getItem('kakaoData');
       const subCategory = newFileData.category.length > 0 ? newFileData.category[0] : null;
       const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
-      const fileName = newFileData.fileName.length > 0 ? newFileData.fileName.join(', ') : null;
+      const fileName = newFileData.fileName.length > 0 ? newFileData.fileName : null;
       const userName = userNameMapping[userId] || 'Unknown';
       const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : null;
       const fileType = '결과보고서';
+
+      console.log(fileName);
 
       if (UserData) {
         const parsedUserData = JSON.parse(UserData);
@@ -159,7 +161,7 @@ export default function UploadSection({ userId }: { userId: string }) {
             categoryCode: userName,
             thumbNailImage: null,
             isNotice: true,
-            postFileList: [fileUrls[0]],
+            postFileList: [fileUrls],
           };
 
           const response = await postBoardDataSubCategoryPosts(fileCategory, fileType, resBody, accessToken);
