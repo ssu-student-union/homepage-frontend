@@ -17,7 +17,14 @@ type ParamsType = {
 
 export function PostPetitionDetailPostSection() {
   const { id } = useParams() as ParamsType;
-  const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id;
+  const userID = (() => {
+    try {
+      const kakaoData = localStorage.getItem('kakaoData');
+      return kakaoData ? (JSON.parse(kakaoData)?.data?.id ?? null) : null;
+    } catch (err) {
+      console.log(err);
+    }
+  })();
 
   const breadcrumbItems = new Map<string, string | null>([
     ['소통', null],
@@ -32,6 +39,7 @@ export function PostPetitionDetailPostSection() {
     postId: Number(id),
     userId: userID as number,
   });
+  console.log(data);
 
   const replaceSN = (student_number: string, chracter: string) => {
     return student_number.substring(0, 2) + chracter.repeat(4) + student_number.substring(6);

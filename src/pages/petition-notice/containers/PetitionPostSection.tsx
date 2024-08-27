@@ -29,7 +29,12 @@ export function PetitionPostSection() {
       : data?.data.postListResDto.filter((item) => item.onGoingStatus === selectedSubcategories);
 
   const handleWriteBtnClick = () => {
-    navigate('/petition-notice/edit');
+    if (localStorage.getItem('kakaoData')) {
+      navigate('/petition-notice/edit');
+    } else {
+      window.alert('청원 글 작성은 로그인 후 이용이 가능합니다!');
+      navigate('/');
+    }
   };
 
   const handlePostDetail = (id: number) => {

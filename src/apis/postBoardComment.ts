@@ -1,27 +1,28 @@
 import { AxiosResponse } from 'axios';
 import { clientAuth } from './client';
+import { postCommentList } from '@/types/getBoardPostComment';
 
 export interface postBoardPostCommentProps {
   postId: number;
   content: string;
 }
 
+export interface postBoardPostReplyCommentProps {
+  commentId: number;
+  content: string;
+}
+
 export interface postBoardPostCommentResponse {
   code: string;
   message: string;
-  data: {
-    id: number;
-    authorName: string;
-    studentId: string;
-    content: string;
-    commentType: string;
-    createdAt: string;
-    lastEditedAt: string;
-    likeCount: number;
-    isAuthor: boolean;
-    postReplyComments: string[];
-  };
+  data: postCommentList[];
   isSuccess: boolean;
+}
+
+export interface postBoardPostReplyCommentResponse {
+  code: string;
+  message: string;
+  isSuccess: string;
 }
 
 export const postBoardComment = async ({
@@ -35,5 +36,20 @@ export const postBoardComment = async ({
       content: content,
     },
   });
+  return response.data;
+};
+
+export const postBoardReplyComment = async ({
+  commentId,
+  content,
+}: postBoardPostReplyCommentProps): Promise<postBoardPostReplyCommentResponse> => {
+  const response: AxiosResponse<postBoardPostReplyCommentResponse> =
+    await clientAuth<postBoardPostReplyCommentResponse>({
+      url: `/board/posts/comments/${commentId}/reply-comments`,
+      method: 'post',
+      data: {
+        content: content,
+      },
+    });
   return response.data;
 };

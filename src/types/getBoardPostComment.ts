@@ -1,7 +1,7 @@
 export interface getBoardPostCommentProps {
   postId: number;
   type: string;
-  userId: number;
+  userId?: number | null;
 }
 
 export interface postReplyCommentList {
@@ -10,12 +10,23 @@ export interface postReplyCommentList {
   studentId: string;
   content: string;
   createdAt: string;
-  lastEditAt: string;
+  lastEditedAt: string | null;
   likeCount: number;
+  isDeleted: boolean;
   isAuthor: boolean;
 }
 
-export interface postCommentList extends postReplyCommentList {
+export interface postCommentList {
+  id: number;
+  authorName: string;
+  studentId: string;
+  content: string;
+  commentType: string;
+  createdAt: string;
+  lastEditedAt: string | null;
+  likeCount: number;
+  isDeleted: boolean;
+  isAuthor: boolean;
   postReplyComments: postReplyCommentList[];
 }
 

@@ -1,51 +1,76 @@
-import { RegisterButton } from '@/components/Buttons/BoardActionButtons';
-import { usePostBoardPostComment } from '@/hooks/usePostBoardPostComment';
+import React, { useRef, useState, useEffect } from 'react';
+import { RegisterButton, CancelButton } from '@/components/Buttons/BoardActionButtons';
+import { usePatchBoardPostsComment, usePatchBoardPostsReplyComment } from '@/hooks/usePatchBoardPostComment';
+import { usePostBoardPostComment, usePostBoardPostReplyComment } from '@/hooks/usePostBoardPostComment';
 import { cn } from '@/libs/utils';
-import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-interface TextAreaProps {
-  children: React.ReactNode;
-  className: string;
-  isReply?: boolean;
-}
+import { TextAreaProps } from './types';
 
 type ParamsType = {
   id: string;
 };
 
-export function TextArea({ children, className, isReply = false }: TextAreaProps) {
+export function TextArea({
+  children,
+  className,
+  isReply = false,
+  isEdit = false,
+  commentId,
+  replycommentId,
+  mother_Id,
+  onReplySuccess,
+  onEditSuccess,
+  onCancel,
+  value = '',
+  comment_count = 0,
+}: TextAreaProps) {
   const { id } = useParams() as ParamsType;
-
-  const [commentCount, setCommentCount] = useState<number | null>(0);
-  const [text, setText] = useState('');
+  const [commentCount, setCommentCount] = useState<number>(comment_count);
+  const [text, setText] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const postBoardCommentMutation = usePostBoardPostComment();
+  const postBoardReplyCommentMutation = usePostBoardPostReplyComment();
+  const patchBoardCommentMutation = usePatchBoardPostsComment();
+  const patchBoardReplyCommentMutation = usePatchBoardPostsReplyComment();
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [text]);
 
   const commentLengthHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCommentCount(e.target.value.length);
-    setText(e.currentTarget.value);
-
-    if (textareaRef && textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
-    }
+    setText(e.target.value);
   };
 
-  const mutation = usePostBoardPostComment();
-
   const registerComment = async () => {
-    if (!isReply) {
-      console.log('댓글 입력창');
-      console.log(text);
-      try {
-        await mutation.mutateAsync({ postId: Number(id), content: text });
-        setText('');
-        setCommentCount(0);
-      } catch (err) {
-        console.log(err);
+    try {
+      if (!isEdit) {
+        if (!isReply) {
+          await postBoardCommentMutation.mutateAsync({ postId: Number(id), content: text });
+        } else {
+          await postBoardReplyCommentMutation.mutateAsync({ commentId: commentId!, content: text });
+        }
+        if (onReplySuccess) onReplySuccess();
+      } else {
+        if (!isReply) {
+          await patchBoardCommentMutation.mutateAsync({ postId: Number(id), commentId: commentId!, content: text });
+        } else {
+          await patchBoardReplyCommentMutation.mutateAsync({
+            commentId: mother_Id!,
+            replycommentId: replycommentId!,
+            content: text,
+          });
+        }
+        if (onEditSuccess) onEditSuccess(text);
       }
-    } else {
-      console.log('대댓글 입력창');
+      setText('');
+      setCommentCount(0);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -64,8 +89,9 @@ export function TextArea({ children, className, isReply = false }: TextAreaProps
       />
       <div className="absolute bottom-4 right-3 flex justify-center gap-1">
         <p className="mr-[15px] pt-[10px] text-[1.125rem] text-gray-400 xs:text-[0.75rem]">{commentCount}/2000</p>
-        <>{children}</>
-        <RegisterButton disabled={commentCount === 0 ? true : false} onClick={registerComment} />
+        {children}
+        <RegisterButton disabled={commentCount === 0} onClick={registerComment} />
+        {isEdit && <CancelButton onClick={onCancel} />}
       </div>
     </div>
   );

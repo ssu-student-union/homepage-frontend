@@ -16,7 +16,14 @@ export function PostPetitionDetailCommentSection() {
     PetitionCommentOrder[0]
   );
   const { id } = useParams() as ParamsType;
-  const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id;
+  const userID = (() => {
+    try {
+      const kakaoData = localStorage.getItem('kakaoData');
+      return kakaoData ? (JSON.parse(kakaoData)?.data?.id ?? null) : null;
+    } catch (err) {
+      console.log(err);
+    }
+  })();
 
   const { data } = useGetBoardPostComment({ postId: Number(id), type: selectedSubcategories, userId: Number(userID) });
 
@@ -24,7 +31,9 @@ export function PostPetitionDetailCommentSection() {
     <>
       <div className="mb-[512px] mt-16 px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
         <div className="mb-[51px] flex items-center justify-between">
-          <div className="text-[1.75rem] font-bold xs:text-[1.25rem]">댓글</div>
+          <div className="text-[1.75rem] font-bold xs:text-[1.25rem]">
+            댓글<span className="ml-3 text-primary">{data?.data.total}</span>
+          </div>
           <BoardSelector
             subcategories={PetitionCommentOrder}
             selectedSubcategory={selectedSubcategories}

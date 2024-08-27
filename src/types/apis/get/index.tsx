@@ -54,7 +54,7 @@ export interface GetBoardDetailResponse {
 export interface getBoardDetailProps {
   boardCode: string;
   postId: number;
-  userId?: number;
+  userId?: number | null;
 }
 
 export interface getBoardPostsProps {

@@ -25,6 +25,7 @@ export function PetitionNoticeEditorSection() {
   const editorRef = useRef<Editor>(null);
   const [initialContent, setInitialContent] = useState<string | null>(GUIDE_LINE);
   const [initialTitle, setInitialTitle] = useState('');
+  const [initialCategoryName, setInitialCategoryName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
@@ -43,6 +44,7 @@ export function PetitionNoticeEditorSection() {
         console.log(postDetailResDto);
         setInitialTitle(postDetailResDto.title);
         setInitialContent(JSON.parse(postDetailResDto.content));
+        setInitialCategoryName(postDetailResDto.categoryName);
         setIsEditing(true);
       });
     }
@@ -90,7 +92,7 @@ export function PetitionNoticeEditorSection() {
         posts: {
           title: title,
           content: JSON.stringify(content),
-          categoryCode: '진행중',
+          categoryCode: initialCategoryName,
           thumbnailImage: null,
         },
       };
