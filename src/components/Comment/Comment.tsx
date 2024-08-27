@@ -11,7 +11,6 @@ import { useResize } from '@/hooks/useResize';
 
 export function Comment({ comment, replyComment, className, isReply = false, commentId, mother_id }: CommentProps) {
   const commentData = comment || replyComment;
-  console.log(commentData);
 
   const [toggleIsOpen, setToggleIsOpen] = useState(false);
   const [replyIsOpen, setReplyIsOpen] = useState(false);

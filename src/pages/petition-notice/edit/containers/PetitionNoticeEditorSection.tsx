@@ -41,7 +41,6 @@ export function PetitionNoticeEditorSection() {
       });
       response.then((result) => {
         const postDetailResDto = result.data.data.postDetailResDto;
-        console.log(postDetailResDto);
         setInitialTitle(postDetailResDto.title);
         setInitialContent(JSON.parse(postDetailResDto.content));
         setInitialCategoryName(postDetailResDto.categoryName);
@@ -62,7 +61,6 @@ export function PetitionNoticeEditorSection() {
 
     if (!editorRef.current) return;
     const content = editorRef.current.getInstance().getHTML();
-    console.log(content);
 
     if (!isEditing) {
       const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p><h3><br><\/h3>/, '').trim());
@@ -79,13 +77,21 @@ export function PetitionNoticeEditorSection() {
       };
 
       try {
-        await postBoardPosts(posts);
-        navigate('/petition-notice');
+        if (title) {
+          const check = window.confirm('청원 글을 등록하시겠습니까?');
+          if (check) {
+            await postBoardPosts(posts);
+            navigate('/petition-notice');
+          } else {
+            return;
+          }
+        } else {
+          window.alert('청원 글 제목을 입력해주세요!');
+        }
       } catch (err) {
         console.log(err);
       }
     } else {
-      console.log('수정중!');
       const patch_posts = {
         boardCode: '청원게시판',
         postId: Number(postID),

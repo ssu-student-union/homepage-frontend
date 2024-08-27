@@ -39,7 +39,6 @@ export function PostPetitionDetailPostSection() {
     postId: Number(id),
     userId: userID as number,
   });
-  console.log(data);
 
   const replaceSN = (student_number: string, chracter: string) => {
     return student_number.substring(0, 2) + chracter.repeat(4) + student_number.substring(6);
