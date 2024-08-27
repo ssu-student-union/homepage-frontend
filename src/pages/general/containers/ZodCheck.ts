@@ -6,7 +6,7 @@ export const LoginSchemaRegister = z.object({
     .min(1, '이름을 입력해주세요')
     .max(10, '이름은 10자 이내여야 합니다.')
     .regex(/^[가-힣]+$/, '이름은 한글만 입력해야 합니다.'),
-  password: z.string().min(8, '비밀번호는 최소 8자 이상이어야 합니다.'),
+  password: z.string().min(4, '비밀번호는 최소 4자 이상이어야 합니다.'),
   studentId: z.string().length(8, '학번은 8자리여야 합니다.').regex(/^\d+$/, '학번은 숫자만 입력해야 합니다.'),
   accountId: z
     .string()
