@@ -6,5 +6,6 @@ export const useGetBoardPostComment = ({ postId, type, userId }: getBoardPostCom
   return useQuery<getBoardPostCommentResponse>({
     queryKey: ['getPostComment', type, postId, userId],
     queryFn: () => getBoardPostComment({ postId, type, userId }),
+    staleTime: 0,
   });
 };

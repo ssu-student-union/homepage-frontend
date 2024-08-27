@@ -23,6 +23,15 @@ export interface postPostReplyCommentReactionProps {
 export interface postPostCommentReactionResponse {
   code: string;
   message: string;
+  data: {
+    likeCount: number;
+  };
+  isSuccess: boolean;
+}
+
+export interface postPostReplyCommentReactionResponse {
+  code: string;
+  message: string;
   data: string;
   isSuccess: boolean;
 }

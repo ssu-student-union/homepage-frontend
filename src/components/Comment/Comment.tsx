@@ -17,6 +17,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
   const [replyIsOpen, setReplyIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(commentData!.content);
+  const [likeCount, setLikeCount] = useState(commentData?.likeCount);
 
   const toggleRef = useRef<HTMLDivElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
@@ -80,7 +81,8 @@ export function Comment({ comment, replyComment, className, isReply = false, com
         reaction: 'like',
       };
       try {
-        await postCommentReactionMutation.mutateAsync(post_comment_reaction);
+        const response = await postCommentReactionMutation.mutateAsync(post_comment_reaction);
+        setLikeCount(response.data.likeCount);
       } catch (err) {
         console.log(err);
       }
@@ -191,7 +193,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
                   <span className="cursor-pointer" onClick={handleLikeButton}>
                     <ThumbsUp size={mobile_screen ? '13px' : '19px'} />
                   </span>
-                  <span className="pt-[1px] xs:pt-0">{commentData!.likeCount}</span>
+                  <span className="pt-[1px] xs:pt-0">{likeCount}</span>
                 </div>
               )}
             </div>

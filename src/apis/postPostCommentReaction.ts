@@ -4,6 +4,7 @@ import {
   postPostCommentReactionProps,
   postPostCommentReactionResponse,
   postPostReplyCommentReactionProps,
+  postPostReplyCommentReactionResponse,
 } from '@/types/postPostReaction';
 
 export const postPostCommentReaction = async ({
@@ -23,8 +24,8 @@ export const postPostCommentReaction = async ({
 export const postPostReplyCommentReaction = async ({
   replycommentId,
   reaction,
-}: postPostReplyCommentReactionProps): Promise<postPostCommentReactionResponse> => {
-  const response: AxiosResponse<postPostCommentReactionResponse> = await clientAuth({
+}: postPostReplyCommentReactionProps): Promise<postPostReplyCommentReactionResponse> => {
+  const response: AxiosResponse<postPostReplyCommentReactionResponse> = await clientAuth({
     url: `/toggle/posts/comments/reply-comments/${replycommentId}`,
     method: 'post',
     data: {
