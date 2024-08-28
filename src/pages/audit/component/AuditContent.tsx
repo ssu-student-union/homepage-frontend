@@ -5,7 +5,7 @@ import { Size } from '@/components/PostCard/const/state';
 import { useEffect, useState } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { handleCardClick } from '../utils/cardHandler';
-import { Skeleton } from '@/components/ui/skeleton';
+import auditLogo from '@/assets/image/logo/audit_logo.png';
 import AuditContentLoading from './AuditContentLoading';
 
 interface AuditContentProps {
@@ -114,7 +114,7 @@ export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
           subtitle={post.content}
           date={formattedDate}
           badgeType={status}
-          profileImg={''}
+          profileImg={auditLogo}
           profileName={'한빛'}
           className="cursor-pointer"
           onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
