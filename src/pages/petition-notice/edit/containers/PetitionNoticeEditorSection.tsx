@@ -6,13 +6,13 @@ import '@toast-ui/editor/dist/i18n/ko-kr';
 import { useEffect, useRef, useState } from 'react';
 import { EditLayout } from '@/template/EditLayout';
 import { postBoardImages } from '@/apis/postBoardImages';
-import { postBoardPosts } from '@/apis/postBoardPosts';
 import { useNavigate } from 'react-router-dom';
 import { client } from '@/apis/client';
 import { GuideMessage } from '../components/GuidMessage';
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
 import history from '@/hooks/useHistory';
 import { GUIDE_LINE } from '../components/GuideLine';
+import { usePostBoardPosts } from '@/hooks/usePostBoardPosts';
 
 type HookMap = {
   addImageBlobHook?: (blob: File, callback: HookCallback) => void;
@@ -27,6 +27,7 @@ export function PetitionNoticeEditorSection() {
   const [initialTitle, setInitialTitle] = useState('');
   const [initialCategoryName, setInitialCategoryName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [imageId, setImageId] = useState<number>();
   const navigate = useNavigate();
 
   const postID = localStorage.getItem('edit-post');
@@ -53,7 +54,8 @@ export function PetitionNoticeEditorSection() {
     setInitialTitle(e.target.value);
   };
 
-  const mutation = usePatchBoardPosts();
+  const postPostMutation = usePostBoardPosts();
+  const patchPostMutation = usePatchBoardPosts();
 
   const onClickEnrollBtn = async () => {
     if (!titleRef.current) return;
@@ -72,7 +74,7 @@ export function PetitionNoticeEditorSection() {
           categoryCode: '진행중',
           thumbNailImage: null,
           isNotice: false,
-          postFileList: [313],
+          postFileList: [imageId!],
         },
       };
 
@@ -80,7 +82,7 @@ export function PetitionNoticeEditorSection() {
         if (title) {
           const check = window.confirm('청원 글을 등록하시겠습니까?');
           if (check) {
-            await postBoardPosts(posts);
+            await postPostMutation.mutateAsync(posts);
             navigate('/petition-notice');
           } else {
             return;
@@ -103,7 +105,7 @@ export function PetitionNoticeEditorSection() {
         },
       };
       try {
-        await mutation.mutateAsync(patch_posts);
+        await patchPostMutation.mutateAsync(patch_posts);
         localStorage.removeItem('edit-post');
         const check = window.confirm('편집하시겠습니까?');
         if (check) {
@@ -137,6 +139,8 @@ export function PetitionNoticeEditorSection() {
         try {
           const res = await postBoardImages(file);
           const url = res.data.data.postFiles[0].url;
+          const id = res.data.data.postFiles[0].id;
+          setImageId(id);
           callback(url, 'alt text');
         } catch (err) {
           console.log(err);
@@ -159,8 +163,6 @@ export function PetitionNoticeEditorSection() {
           const check = window.confirm('작성 또는 편집한 내용은 저장되지 않습니다. 페이지를 나가시겠습니까?');
           if (check) {
             localStorage.removeItem('edit-post');
-          } else {
-            return;
           }
         }
       }
