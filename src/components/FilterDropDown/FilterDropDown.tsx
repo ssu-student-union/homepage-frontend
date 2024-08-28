@@ -6,6 +6,7 @@ interface FilterDropDownProps extends React.HTMLAttributes<HTMLDivElement> {
   optionValue: string[];
   onValueChange: (value: string) => void;
   value: string;
+  mainTextStyle?: string;
   itemStyle?: string;
 }
 
@@ -15,6 +16,7 @@ export function FilterDropDown({
   optionValue,
   onValueChange,
   value,
+  mainTextStyle = '',
   itemStyle = '',
 }: FilterDropDownProps) {
   const isSelected = !!value;
@@ -24,7 +26,7 @@ export function FilterDropDown({
       <SelectTrigger
         className={cn(`h-[67px] w-[411px] pl-9 ${isSelected ? 'text-gray-800' : 'text-gray-500'}`, className)}
       >
-        <SelectValue placeholder={defaultValue} />
+        <SelectValue className={cn(mainTextStyle)} placeholder={defaultValue} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
