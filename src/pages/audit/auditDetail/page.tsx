@@ -14,8 +14,8 @@ export function AuditDetailPage() {
 
   const postDetail = resp?.data.postDetailResDto;
 
-  if (!postDetail) {
-    return <div></div>;
+  if (!postDetail || isError) {
+    return <div>에러 발생!!!</div>;
   }
 
   const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
