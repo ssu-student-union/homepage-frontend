@@ -64,13 +64,5 @@ export interface getBoardPostsProps {
   memberCode?: string;
   category?: string;
   boardCode?: string;
-}
-
-export interface getBoardPostsProps {
-  page?: number;
-  take: number;
-  groupCode?: string;
-  memberCode?: string;
-  category?: string;
-  boardCode: string;
+  q?: string;
 }

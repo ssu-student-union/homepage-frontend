@@ -4,25 +4,39 @@ import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { BodyLayout } from '@/template/BodyLayout';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { Spacing } from '@/components/Spacing';
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { PetitionPostsTopLikedResponse } from '@/types/getPetitionTopLiked';
 import { PetitionSubcategoriesType } from '../../type';
 import { PetitionSubcategories } from '../../const';
 import { PetitionPostContent } from '@/components/PostContent/PetitionPostContent';
 import { PetitionPostSectionSkeleton } from './PetitionPostSectionSkeleton';
+import { useRecoilValue } from 'recoil';
+import { SearchState } from '@/recoil/atoms/atom';
+import { useEffect } from 'react';
+import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function PetitionPostSection() {
   const navigate = useNavigate();
   const { currentPage, handlePageChange } = useCurrentPage(1);
+  const searchKeyword = useRecoilValue(SearchState);
+
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PetitionSubcategoriesType>(
     PetitionSubcategories[0]
   );
 
-  const { isFetching, isLoading, data } = useGetBoardPosts<PetitionPostsTopLikedResponse>({
+  const queryClient = useQueryClient();
+  const { isFetching, isLoading, data, refetch } = useGetBoardPostSearch<PetitionPostsTopLikedResponse>({
     page: currentPage - 1,
     take: 9,
     boardCode: '청원게시판',
+    q: searchKeyword,
   });
+
+  useEffect(() => {
+    if (!queryClient.getQueryData(['get-board-boardCode-posts-search'])) {
+      refetch();
+    }
+  }, [searchKeyword, refetch]);
 
   const filteredData =
     selectedSubcategories === '전체'

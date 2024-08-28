@@ -6,8 +6,8 @@ export function PetitionNoticePopularSectionSkeleton() {
       <Skeleton className="h-[24.5px] w-[104px] rounded-[35px]" />
       <div className="mt-[54px] flex w-full space-x-14 overflow-hidden ">
         {[...Array(4)].map((_, index) => (
-          <span className="flex-shrink-0">
-            <SkeletonPopular key={index} />
+          <span className="flex-shrink-0" key={index}>
+            <SkeletonPopular />
           </span>
         ))}
       </div>
