@@ -16,14 +16,15 @@ export function AuditDetailPage() {
   if (!postDetail) {
     return <div></div>;
   }
-  console.log(postDetail);
+
+  const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
       <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
       {/* <AuditDetailFileSection files={postDetail.fileList} /> */}
-      <AuditDetailEditSection boardCode={boardCode} postId={postId} />
+      <AuditDetailEditSection boardCode={boardCode} postId={postId} fileUrls={fileUrls} />
     </div>
   );
 }
