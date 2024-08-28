@@ -7,7 +7,14 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@
 import { faculties, departments } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
-import { LoginSchemaRegister, LoginType } from './ZodCheck';
+import {
+  LoginSchemaRegister,
+  LoginType,
+  LoginCertifyType,
+  LoginSchemaScoucil,
+  LoginSchemaCertify,
+  LoginScoucilType,
+} from './ZodCheck';
 
 interface LoginFormProps {
   subSection1: string;
@@ -15,25 +22,28 @@ interface LoginFormProps {
 }
 
 export function GeneralRegisterSection({ subSection1, buttonSection }: LoginFormProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isScouncilPath = location.pathname === '/register/scouncil';
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitted, isSubmitting },
     watch,
     setValue,
-  } = useForm<LoginType>({
-    resolver: zodResolver(LoginSchemaRegister),
-    mode: 'onChange', // 폼 상태가 변경될 때마다 유효성 검사
+  } = useForm({
+    resolver: zodResolver(isScouncilPath ? LoginSchemaScoucil : LoginSchemaRegister),
+    mode: 'onChange',
+    defaultValues: isScouncilPath ? ({} as LoginScoucilType) : ({} as LoginType),
   });
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const [selectedFaculty, setSelectedFaculty] = useState<string>('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [inputUserData, setInputUserData] = useState(null);
-  const isScouncilPath = location.pathname === '/register/scouncil';
+  const [scoucilError, setScoucilError] = useState(false);
   const showSelects = !isScouncilPath;
   const formValues = watch();
   const formValuesScouncil = watch();
@@ -67,13 +77,19 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
     // 폼 유효성 검사 추가
     const isFormValid = Object.keys(errors).length === 0 && Object.values(formValues).every(Boolean);
     setIsButtonDisabled(!isFormValid);
-  }, [errors, formValues]); // 필드 값이 변경될 때마다 재검사
+  }, [errors, formValues]);
+
+  useEffect(() => {
+    const isFormValidScouncil = Object.keys(errors).length === 0 && Object.values(formValuesScouncil).every(Boolean);
+    setIsButtonDisabled(!isFormValidScouncil);
+  }, [errors, formValuesScouncil]);
 
   const onSubmit = async () => {
-    if (isButtonDisabled) {
-      alert('폼에 오류가 있습니다. 입력 내용을 확인해 주세요.');
+    if (isSubmitting || isButtonDisabled) {
       return;
     }
+
+    setIsButtonDisabled(true);
 
     const targetFormValues = isScouncilPath ? formValuesScouncil : formValues;
 
@@ -82,7 +98,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       if (UserData) {
         const parsedUserData = JSON.parse(UserData);
         const accessToken = parsedUserData?.data?.accessToken;
-
+        console.log('test', targetFormValues);
         if (accessToken) {
           const endpoint = isScouncilPath ? '/auth/council-login' : '/onboarding/academy-information';
           const response = await client.post(endpoint, targetFormValues, {
@@ -93,9 +109,12 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
 
           if (response.status === 200) {
             alert('학생 정보가 확인되었습니다');
+            console.log(response.data);
+            localStorage.setItem('userId', formValuesScouncil.accountId);
             navigate('/');
           } else {
             alert('오류가 발생했습니다. 다시 시도해주세요.');
+            setScoucilError(true);
           }
         } else {
           alert('AccessToken이 없습니다.');
@@ -104,8 +123,11 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
         alert('유저데이터가 없습니다.');
       }
     } catch (error) {
+      setScoucilError(true);
       console.error('Error submitting form:', error);
       alert('오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsButtonDisabled(false);
     }
   };
 
@@ -224,6 +246,12 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                   ))}
                 </SelectContent>
               </Select>
+            </>
+          )}
+
+          {scoucilError && (
+            <>
+              <div className="mt-[10px] text-xs font-medium text-red-600">입력하신 정보가 올바르지 않습니다</div>
             </>
           )}
           <Button
