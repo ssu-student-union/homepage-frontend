@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 import { faculties, departments } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
-import { LoginSchemaRegister, LoginType } from './ZodCheck'; // 수정된 zod 스키마 경로
+import { LoginSchemaRegister, LoginType } from './ZodCheck';
 
 interface LoginFormProps {
   subSection1: string;
@@ -23,63 +23,68 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
     setValue,
   } = useForm<LoginType>({
     resolver: zodResolver(LoginSchemaRegister),
+    mode: 'onChange', // 폼 상태가 변경될 때마다 유효성 검사
   });
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [inputUserData, setInputUserData] = useState(null);
   const [selectedFaculty, setSelectedFaculty] = useState<string>('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+  const [inputUserData, setInputUserData] = useState(null);
   const isScouncilPath = location.pathname === '/register/scouncil';
   const showSelects = !isScouncilPath;
   const formValues = watch();
+  const formValuesScouncil = watch();
+  const { sort } = useParams();
 
   useEffect(() => {
-    const storedFormValues = localStorage.getItem('formValues');
-    setInputUserData(storedFormValues ? JSON.parse(storedFormValues) : null);
+    if (sort !== 'scouncil') {
+      const storedFormValues = localStorage.getItem('formValues');
+      setInputUserData(storedFormValues ? JSON.parse(storedFormValues) : null);
 
-    const kakaoData = localStorage.getItem('kakaoData');
-    if (kakaoData) {
-      const parsedKakaoData = JSON.parse(kakaoData);
-      if (parsedKakaoData.data?.name && parsedKakaoData.data?.studentId) {
-        navigate('/');
+      const kakaoData = localStorage.getItem('kakaoData');
+      if (kakaoData) {
+        const parsedKakaoData = JSON.parse(kakaoData);
+        if (parsedKakaoData.data?.name && parsedKakaoData.data?.studentId) {
+          navigate('/');
+        }
       }
     }
-  }, [navigate]);
+  }, [navigate, sort]);
 
   useEffect(() => {
-    localStorage.setItem('formValues', JSON.stringify(formValues));
-  }, [formValues]);
-
-  useEffect(() => {
-    localStorage.setItem('formValues', JSON.stringify(formValues));
-  }, [formValues]);
-
-  useEffect(() => {
-    setSelectedFaculty(formValues.memberCode || '');
-    if (!formValues.memberCode) {
-      setValue('majorCode', '');
+    if (!isScouncilPath) {
+      localStorage.setItem('formValues', JSON.stringify(formValues));
+    } else {
+      localStorage.setItem('formValuesScouncil', JSON.stringify(formValuesScouncil));
     }
-  }, [formValues.memberCode]);
+  }, [formValues, formValuesScouncil, isScouncilPath]);
 
   useEffect(() => {
-    const isFormValid = isScouncilPath
-      ? formValues.studentId && formValues.password
-      : formValues.name && formValues.studentId && formValues.memberCode && formValues.majorCode;
+    // 폼 유효성 검사 추가
+    const isFormValid = Object.keys(errors).length === 0 && Object.values(formValues).every(Boolean);
     setIsButtonDisabled(!isFormValid);
-  }, [formValues, isScouncilPath]);
+  }, [errors, formValues]); // 필드 값이 변경될 때마다 재검사
 
   const onSubmit = async () => {
+    if (isButtonDisabled) {
+      alert('폼에 오류가 있습니다. 입력 내용을 확인해 주세요.');
+      return;
+    }
+
+    const targetFormValues = isScouncilPath ? formValuesScouncil : formValues;
+
     try {
       const UserData = localStorage.getItem('kakaoData');
-
       if (UserData) {
         const parsedUserData = JSON.parse(UserData);
         const accessToken = parsedUserData?.data?.accessToken;
+
         if (accessToken) {
-          const response = await client.post(`/onboarding/academy-information`, formValues, {
+          const endpoint = isScouncilPath ? '/auth/council-login' : '/onboarding/academy-information';
+          const response = await client.post(endpoint, targetFormValues, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -87,11 +92,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
 
           if (response.status === 200) {
             alert('학생 정보가 확인되었습니다');
-            if (typeof navigate === 'function') {
-              navigate('/');
-            } else {
-              console.warn('navigate 함수가 정의되지 않았습니다.');
-            }
+            navigate('/');
           } else {
             alert('오류가 발생했습니다. 다시 시도해주세요.');
           }
@@ -108,7 +109,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   };
 
   const handleCertifyError = () => {
-    navigate('/register/errorcheck');
+    navigate('/register/errorapply');
   };
 
   return (
@@ -122,13 +123,13 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 type="text"
                 placeholder="아이디"
                 className="w-[420px]"
-                {...register('id', {
+                {...register('accountId', {
                   required: '아이디는 필수 입력입니다.',
                 })}
-                aria-invalid={isSubmitted ? (errors.id ? 'true' : 'false') : undefined}
+                aria-invalid={isSubmitted ? (errors.accountId ? 'true' : 'false') : undefined}
               />
               <div className="mt-3"></div>
-              {errors.id && <small className=" text-[13px] text-red-600">{errors.id.message}</small>}
+              {errors.accountId && <small className=" text-[13px] text-red-600">{errors.accountId.message}</small>}
               <Input
                 type="password"
                 placeholder="비밀번호"
@@ -224,6 +225,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               </Select>
             </>
           )}
+
           <Button
             type="submit"
             onClick={onSubmit}
@@ -236,9 +238,11 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           </Button>
         </form>
 
-        <button onClick={handleCertifyError} className="mt-[117px] text-lg font-normal text-gray-500">
-          학생인증이 안 되시나요?
-        </button>
+        {isScouncilPath ? null : (
+          <button onClick={handleCertifyError} className="mt-[117px] text-lg font-normal text-gray-500">
+            학생인증이 안 되시나요?
+          </button>
+        )}
       </div>
     </div>
   );
