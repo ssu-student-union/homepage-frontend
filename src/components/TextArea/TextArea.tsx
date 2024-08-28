@@ -3,7 +3,7 @@ import { RegisterButton, CancelButton } from '@/components/Buttons/BoardActionBu
 import { usePatchBoardPostsComment, usePatchBoardPostsReplyComment } from '@/hooks/usePatchBoardPostComment';
 import { usePostBoardPostComment, usePostBoardPostReplyComment } from '@/hooks/usePostBoardPostComment';
 import { cn } from '@/libs/utils';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { TextAreaProps } from './types';
 
 type ParamsType = {
@@ -25,9 +25,10 @@ export function TextArea({
   comment_count = 0,
 }: TextAreaProps) {
   const { id } = useParams() as ParamsType;
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [commentCount, setCommentCount] = useState<number>(comment_count);
   const [text, setText] = useState(value);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const navigate = useNavigate();
 
   const postBoardCommentMutation = usePostBoardPostComment();
   const postBoardReplyCommentMutation = usePostBoardPostReplyComment();
@@ -47,30 +48,39 @@ export function TextArea({
   };
 
   const registerComment = async () => {
-    try {
-      if (!isEdit) {
-        if (!isReply) {
-          await postBoardCommentMutation.mutateAsync({ postId: Number(id), content: text });
-        } else {
-          await postBoardReplyCommentMutation.mutateAsync({ commentId: commentId!, content: text });
-        }
-        if (onReplySuccess) onReplySuccess();
+    if (!localStorage.getItem('kakaoData')) {
+      const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
+      if (check) {
+        navigate('/');
       } else {
-        if (!isReply) {
-          await patchBoardCommentMutation.mutateAsync({ postId: Number(id), commentId: commentId!, content: text });
-        } else {
-          await patchBoardReplyCommentMutation.mutateAsync({
-            commentId: mother_Id!,
-            replycommentId: replycommentId!,
-            content: text,
-          });
-        }
-        if (onEditSuccess) onEditSuccess(text);
+        return;
       }
-      setText('');
-      setCommentCount(0);
-    } catch (err) {
-      console.error(err);
+    } else {
+      try {
+        if (!isEdit) {
+          if (!isReply) {
+            await postBoardCommentMutation.mutateAsync({ postId: Number(id), content: text });
+          } else {
+            await postBoardReplyCommentMutation.mutateAsync({ commentId: commentId!, content: text });
+          }
+          if (onReplySuccess) onReplySuccess();
+        } else {
+          if (!isReply) {
+            await patchBoardCommentMutation.mutateAsync({ postId: Number(id), commentId: commentId!, content: text });
+          } else {
+            await patchBoardReplyCommentMutation.mutateAsync({
+              commentId: mother_Id!,
+              replycommentId: replycommentId!,
+              content: text,
+            });
+          }
+          if (onEditSuccess) onEditSuccess(text);
+        }
+        setText('');
+        setCommentCount(0);
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 

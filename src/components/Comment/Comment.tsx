@@ -9,6 +9,7 @@ import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 import { useDelBoardPostComment, useDelBoardPostReplyComment } from '@/hooks/useDelBoardPostComment';
 import { useResize } from '@/hooks/useResize';
 import { usePostPostCommentReaction, usePostPostReplyCommentReaction } from '@/hooks/usePostPostCommentReaction';
+import { useNavigate } from 'react-router-dom';
 
 export function Comment({ comment, replyComment, className, isReply = false, commentId, mother_id }: CommentProps) {
   const commentData = comment || replyComment;
@@ -24,6 +25,8 @@ export function Comment({ comment, replyComment, className, isReply = false, com
 
   const { width } = useResize();
   const mobile_screen = width < 391;
+
+  const navigate = useNavigate();
 
   const delCommentMutation = useDelBoardPostComment();
   const delReplyCommentMutation = useDelBoardPostReplyComment();
@@ -75,26 +78,35 @@ export function Comment({ comment, replyComment, className, isReply = false, com
   const postReplyCommentReactionMutation = usePostPostReplyCommentReaction();
 
   const handleLikeButton = async () => {
-    if (!isReply) {
-      const post_comment_reaction = {
-        commentId: comment?.id!,
-        reaction: 'like',
-      };
-      try {
-        const response = await postCommentReactionMutation.mutateAsync(post_comment_reaction);
-        setLikeCount(response.data.likeCount);
-      } catch (err) {
-        console.log(err);
+    if (!localStorage.getItem('kakaoData')) {
+      const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
+      if (check) {
+        navigate('/');
+      } else {
+        return;
       }
     } else {
-      const post_reply_comment_reaction = {
-        replycommentId: replyComment?.id!,
-        reaction: 'like',
-      };
-      try {
-        await postReplyCommentReactionMutation.mutateAsync(post_reply_comment_reaction);
-      } catch (err) {
-        console.log(err);
+      if (!isReply) {
+        const post_comment_reaction = {
+          commentId: comment?.id!,
+          reaction: 'like',
+        };
+        try {
+          const response = await postCommentReactionMutation.mutateAsync(post_comment_reaction);
+          setLikeCount(response.data.likeCount);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        const post_reply_comment_reaction = {
+          replycommentId: replyComment?.id!,
+          reaction: 'like',
+        };
+        try {
+          await postReplyCommentReactionMutation.mutateAsync(post_reply_comment_reaction);
+        } catch (err) {
+          console.log(err);
+        }
       }
     }
   };

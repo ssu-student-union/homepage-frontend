@@ -66,16 +66,25 @@ export function PostPetitionDetailPostSection() {
   const mutation = usePostPostReaction();
 
   const handleLikeButton = async () => {
-    const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
-    const post_reaction = {
-      postId: data?.data.postDetailResDto.postId as number,
-      userId: Number(userID),
-      reaction: 'like',
-    };
-    try {
-      await mutation.mutateAsync(post_reaction);
-    } catch (err) {
-      console.log(err);
+    if (!localStorage.getItem('kakaoData')) {
+      const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
+      if (check) {
+        navigate('/');
+      } else {
+        return;
+      }
+    } else {
+      const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
+      const post_reaction = {
+        postId: data?.data.postDetailResDto.postId as number,
+        userId: Number(userID),
+        reaction: 'like',
+      };
+      try {
+        await mutation.mutateAsync(post_reaction);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
