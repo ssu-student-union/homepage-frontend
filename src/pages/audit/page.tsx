@@ -43,7 +43,7 @@ export function AuditPage() {
             }}
           />
         }
-        children={<AuditContent initPosts={posts} />}
+        children={<AuditContent initPosts={posts} isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
