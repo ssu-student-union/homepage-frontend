@@ -225,6 +225,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               </Select>
             </>
           )}
+
           <Button
             type="submit"
             onClick={onSubmit}
