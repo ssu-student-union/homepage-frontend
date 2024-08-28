@@ -14,8 +14,8 @@ export interface patchBoardPostsProps {
   };
 }
 
-export async function patchBoardPosts({ boardCode, postId, data }: patchBoardPostsProps): Promise<T> {
-  const resp: AxiosResponse<T> = await clientAuth<T>({
+export async function patchBoardPosts({ boardCode, postId, data }: patchBoardPostsProps): Promise<PatchBoardPostsResp> {
+  const resp: AxiosResponse<PatchBoardPostsResp> = await clientAuth<PatchBoardPostsResp>({
     method: 'patch',
     url: `/board/${boardCode}/posts/${postId}`,
     data: data,
