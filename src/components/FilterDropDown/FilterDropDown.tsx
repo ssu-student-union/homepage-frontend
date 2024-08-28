@@ -16,7 +16,6 @@ export function FilterDropDown({
   optionValue,
   onValueChange,
   value,
-  mainTextStyle = '',
   itemStyle = '',
 }: FilterDropDownProps) {
   const isSelected = !!value;
@@ -26,7 +25,7 @@ export function FilterDropDown({
       <SelectTrigger
         className={cn(`h-[67px] w-[411px] pl-9 ${isSelected ? 'text-gray-800' : 'text-gray-500'}`, className)}
       >
-        <SelectValue className={cn(mainTextStyle)} placeholder={defaultValue} />
+        <SelectValue placeholder={defaultValue} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
