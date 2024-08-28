@@ -2,22 +2,25 @@ import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/Board
 import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
 import { useNavigate } from 'react-router-dom';
 import { deleteHandler } from '../utils/deleteHandler';
+import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
 
 interface AuditDetailEditProps {
   boardCode: string;
   postId: number;
+  fileUrls: string[];
 }
 
-export function AuditDetailEditSection({ boardCode, postId }: AuditDetailEditProps) {
+export function AuditDetailEditSection({ boardCode, postId, fileUrls }: AuditDetailEditProps) {
   const navigate = useNavigate();
-  const mutation = useDelBoardPosts();
+  const mutFiles = useDelBoardFiles();
+  const mutPosts = useDelBoardPosts();
 
   return (
     <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
       <div className="flex w-[420px] flex-row items-end justify-between xs:h-[150px] xs:flex-col">
         <DeleteButton
           onClick={() => {
-            deleteHandler({ boardCode, postId, mutation });
+            deleteHandler({ boardCode, postId, fileUrls, mutFiles, mutPosts });
             navigate(`/audit?category=notice`);
           }}
         />
