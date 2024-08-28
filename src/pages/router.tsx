@@ -10,7 +10,6 @@ import { AuditDetailPage } from './audit/auditDetail/page';
 import { AuditEditPage } from './audit/auditEdit/page';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
-import { BoardPage } from './boardTest/page';
 import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
@@ -34,7 +33,6 @@ export function MainRouter() {
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<MainPage />} />
         <Route path="/intro" element={<IntroPage />} />
-        <Route path="/board" element={<BoardPage />} />
         <Route path="/register" element={<KakaoRegisterPage />} />
         <Route path="/register/:sort" element={<GeneralRegisterPage />} />
         <Route path="/auth/callback" element={<KakaoRedirect />} />
