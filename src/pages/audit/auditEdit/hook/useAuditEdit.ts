@@ -37,13 +37,8 @@ export function useAuditEdit() {
 
       const { postFiles, thumbnailUrl } = uploadResponse.data.data;
 
-      console.log(uploadResponse);
-
       const thumbnailImage = thumbnailUrl;
       const postFileList = handleFileLists(postFiles);
-
-      console.log(postFileList);
-      console.log(thumbnailImage);
 
       await createPost({
         boardCode: '감사기구게시판',
