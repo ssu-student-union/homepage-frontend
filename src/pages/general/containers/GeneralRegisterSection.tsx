@@ -43,7 +43,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [inputUserData, setInputUserData] = useState(null);
-  const [scoucilError, setScoucilError] = useState(true);
+  const [scoucilError, setScoucilError] = useState(false);
   const showSelects = !isScouncilPath;
   const formValues = watch();
   const formValuesScouncil = watch();
@@ -165,10 +165,6 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               />
               <div className="mt-3"></div>
               {errors.password && <small className=" text-[13px] text-red-600">{errors.password.message}</small>}
-
-              {!scoucilError && (
-                <div className="text-[13px] font-medium text-red-600">입력하신 정보가 올바르지 않습니다</div>
-              )}
             </>
           ) : (
             <>
@@ -251,6 +247,12 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                   ))}
                 </SelectContent>
               </Select>
+            </>
+          )}
+
+          {scoucilError && (
+            <>
+              <div className="mt-[10px] text-xs font-medium text-red-600">입력하신 정보가 올바르지 않습니다</div>
             </>
           )}
           <Button
