@@ -10,7 +10,7 @@ export function AuditDetailPage() {
   const postId: number = location.state?.postId;
   const boardCode: string = '감사기구게시판';
 
-  const { data: resp, isLoading, error } = useGetBoardDetail({ boardCode, postId });
+  const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
 
   const postDetail = resp?.data.postDetailResDto;
 
