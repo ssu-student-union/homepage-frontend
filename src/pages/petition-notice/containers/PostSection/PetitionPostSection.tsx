@@ -20,7 +20,7 @@ export function PetitionPostSection() {
 
   const { isFetching, isLoading, data } = useGetBoardPosts<PetitionPostsTopLikedResponse>({
     page: currentPage - 1,
-    take: 10,
+    take: 9,
     boardCode: '청원게시판',
   });
 
@@ -34,7 +34,7 @@ export function PetitionPostSection() {
       navigate('/petition-notice/edit');
     } else {
       window.alert('청원 글 작성은 로그인 후 이용이 가능합니다!');
-      navigate('/');
+      navigate('/register');
     }
   };
 
