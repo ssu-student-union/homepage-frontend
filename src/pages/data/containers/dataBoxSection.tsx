@@ -26,7 +26,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
         const allData = response.data.data.postListResDto.map((post: any) => ({
           ...post,
           createdAt: new Date(post.date).getTime(),
-          fileNames: post.fileNames || [],
+          fileNames: post.content || [],
         }));
 
         // Find the latest entry with "총학생회칙"
@@ -57,7 +57,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
           uploadName: post.title,
           uploadDate: post.date,
           fileData: post.files || [],
-          fileNames: post.fileNames || [],
+          fileNames: post.content || [],
           fileName: post.fileNames || [],
         }));
 
@@ -83,7 +83,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
     const filters: any = {};
     if (selectedMajorOption) filters.majorCategory = selectedMajorOption;
     if (selectedMiddleOption) filters.middleCategory = selectedMiddleOption;
-    if (selectedMinorOption) filters.minorCategory = selectedMinorOption;
+    if (selectedMinorOption) filters.subCategory = selectedMinorOption;
 
     fetchData(filters, currentPage);
   };
@@ -165,7 +165,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
                           onClick={() => handleDownload(fileData, data.fileNames[fileIndex])}
                           className="h-[31px] w-auto cursor-pointer rounded-[5px] border-none bg-[#f0f0f0] px-6 text-base xs:text-xs sm:text-xs md:text-sm"
                         >
-                          {data.fileName}
+                          {data.fileName[fileIndex]}
                         </button>
                       ))}
                     </div>

@@ -157,11 +157,11 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           const resBody = {
             title: uploadName,
-            content: null,
+            content: fileCategory,
             categoryCode: userName,
             thumbNailImage: null,
             isNotice: true,
-            postFileList: [fileUrls],
+            postFileList: fileUrls,
           };
 
           const response = await postBoardDataSubCategoryPosts(fileCategory, fileType, resBody, accessToken);
