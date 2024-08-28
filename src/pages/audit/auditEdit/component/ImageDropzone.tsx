@@ -8,7 +8,6 @@ interface ImageDropzoneProps {
 export function ImageDropzone({ onDrop }: ImageDropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
-      console.log('이미지 추가됨:', acceptedFiles);
       onDrop(acceptedFiles);
     },
     accept: {
@@ -22,7 +21,7 @@ export function ImageDropzone({ onDrop }: ImageDropzoneProps) {
   return (
     <div
       {...getRootProps()}
-      className="flex h-[231px] w-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
+      className="flex min-h-[231px] min-w-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
     >
       <input {...getInputProps()} />
       <div className="flex flex-col items-center text-black">

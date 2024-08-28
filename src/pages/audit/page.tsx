@@ -9,7 +9,8 @@ import { useNavigate } from 'react-router-dom';
 
 export function AuditPage() {
   const boardCode = '감사기구게시판';
-  const { posts, totalPages, currentPage, handlePageChange, categoryParam, subcategories } = useAuditBoard(boardCode);
+  const { posts, totalPages, currentPage, handlePageChange, categoryParam, subcategories, isLoading } =
+    useAuditBoard(boardCode);
   const navigate = useNavigate();
 
   return (
@@ -42,7 +43,7 @@ export function AuditPage() {
             }}
           />
         }
-        children={<AuditContent initPosts={posts} />}
+        children={<AuditContent initPosts={posts} isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}

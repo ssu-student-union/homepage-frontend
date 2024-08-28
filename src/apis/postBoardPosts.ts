@@ -22,6 +22,5 @@ export async function postBoardPosts({ boardCode, post }: postBoardPostsProps): 
     url: `/board/${boardCode}/posts`,
     data: post,
   });
-  console.log('API 요청 성공:', resp.data);
   return resp.data;
 }
