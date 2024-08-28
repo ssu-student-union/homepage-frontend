@@ -37,6 +37,8 @@ export function useAuditEdit() {
 
       const { postFiles, thumbnailUrl } = uploadResponse.data.data;
 
+      console.log(uploadResponse);
+
       const thumbnailImage = thumbnailUrl;
       const postFileList = handleFileLists(postFiles);
 
