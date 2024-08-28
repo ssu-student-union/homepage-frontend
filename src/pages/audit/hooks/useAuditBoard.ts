@@ -21,7 +21,6 @@ export function useAuditBoard(boardCode: string) {
   });
 
   const posts: Post[] = data?.data?.postListResDto || [];
-  const totalItems: number = data?.data?.pageInfo?.totalElements || 0;
   const totalPages: number = data?.data?.pageInfo?.totalPages || 1;
 
   return {
