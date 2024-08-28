@@ -7,7 +7,7 @@ interface IntroEditTitleProps {
 
 export function IntroEditTitleSection({ category, subCategory }: IntroEditTitleProps) {
   return (
-    <div className="mt-[160px] h-auto w-full">
+    <div className="mt-[160px] h-auto w-full px-[120px] xs:px-[30px] sm:px-[60px]">
       {/* prettier-ignore */}
       <div className="mb-1 text-2xl font-bold text-black">
         {
