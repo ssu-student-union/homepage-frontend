@@ -20,7 +20,7 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
   return (
     <div
       className={cn(
-        'fixed top-0 h-[60px] w-[100vw] xs:h-[50px] sm:h-[50px]',
+        'fixed top-0 h-[60px] w-[100vw] xs:h-[50px] sm:h-[50px] md:h-[50px]',
         isMobile ? 'flex justify-start' : 'flex justify-between',
         styles.bgColor
       )}
@@ -29,8 +29,8 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
       {isMobile && (
         <HeaderSheet
           trigger={
-            <div className={cn(styles.headerItemStyle, 'px-3 text-base')}>
-              <List size={28} />
+            <div className={cn(styles.headerItemStyle, 'px-[1.25rem] text-base')}>
+              <List size="1.5rem" />
             </div>
           }
         />

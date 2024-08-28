@@ -18,9 +18,16 @@ import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
 import { Data } from './data/page';
 
 function Layout() {
+  var headerState: State;
+  if (!localStorage.getItem('accessToken')) {
+    headerState = State.Logout;
+  } else {
+    headerState = State.Login;
+  }
+
   return (
     <>
-      <Header state={State.Logout} /> {/* 이 State 값으로 온보딩에 따른 Header 상태 관리 */}
+      <Header state={headerState} />
       <main>
         <Outlet />
       </main>

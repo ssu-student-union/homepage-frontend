@@ -39,6 +39,11 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
             <Link to={dataPath}>자료집</Link>
           </NavigationMenuTrigger>
         </NavigationMenuItem>
+        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
+          <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
+            <a href={`https://ssuketch60.cafe24.com/`}>이전 홈페이지</a>
+          </NavigationMenuTrigger>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
