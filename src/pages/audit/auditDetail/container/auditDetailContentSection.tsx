@@ -9,7 +9,7 @@ export function AuditDetailContentSection({ content, images = [] }: AuditDetailC
       <div className="font-sm text-[#484848]">{content}</div>
       <div className="h-[32px]" />
       {images?.map((image, index) => (
-        <div key={index}>
+        <div key={image + index}>
           <img
             src={image}
             alt={`ERROR 404`}

@@ -1,13 +1,20 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { handleCardClick } from '../../utils/cardHandler';
 
-export function useAuditEdit() {
+export function useAuditPatch() {
+  const location = useLocation();
+  const data = location.state?.data || {};
+  const postId: number = data.postId ?? 0;
+  const imageList: string[] = data.imageUrls ?? [];
+  const initialThumbNailImage: string = data.thumbNailImage ?? '';
+
   const navigate = useNavigate();
-  const [postId] = useState<number>(0);
-  const [title, setTitle] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
-  const [content, setContent] = useState<string>('');
+  const [title, setTitle] = useState<string>(data.title ?? '');
+  const [category, setCategory] = useState<string>(data.category ?? '');
+  const [content, setContent] = useState<string>(data.content ?? '');
+  const [thumbnailImage, setThumbnailImage] = useState<string>(initialThumbNailImage);
   const { mutateAsync: patchPost, isLoading } = usePatchBoardPosts();
 
   const handleTitleChange = (newTitle: string) => {
@@ -35,7 +42,7 @@ export function useAuditEdit() {
         postId: postId,
       });
 
-      navigate(`/audit/${postId}`);
+      handleCardClick(postId.toString(), postId, category, thumbnailImage, navigate);
       window.location.reload();
     } catch (e) {
       console.error(e);
@@ -43,12 +50,16 @@ export function useAuditEdit() {
   };
 
   return {
+    postId,
     title,
     category,
     content,
+    thumbnailImage,
+    imageList,
     handleTitleChange,
     handleCategoryChange,
     handleContentChange,
+    setThumbnailImage,
     handleSubmit,
     isLoading,
   };

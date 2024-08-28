@@ -13,6 +13,7 @@ interface AuditContentProps {
     postId: number;
     title: string;
     content: string;
+    category: string;
     date: string;
     thumbNail: string | null;
     status: string | null;
@@ -99,17 +100,19 @@ export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
       date: string;
       thumbNail: string | null;
       status: string | null;
+      category: string;
     };
     size: Size;
   }) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
     const status = post.status === '새로운' ? 'New' : 'Default';
+    const thumbnail = post.thumbNail || undefined;
 
     return (
       <div key={post.postId} className="xs-pb[20px] sm:pb-[20px] md:pb-[20px] lg:pb-[20px]">
         <PostCardBasic
           size={size}
-          imgUrl={post.thumbNail || undefined}
+          imgUrl={thumbnail}
           title={post.title}
           subtitle={post.content}
           date={formattedDate}
@@ -117,7 +120,7 @@ export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
           profileImg={auditLogo}
           profileName={'한빛'}
           className="cursor-pointer"
-          onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
+          onClick={() => handleCardClick(post.postId.toString(), post.postId, post.category, thumbnail, navigate)}
         />
       </div>
     );

@@ -2,19 +2,39 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { AuditEditTitleSection } from '../auditEdit/container/auditEditTitleSection';
 import { AuditEditContentSection } from '../auditEdit/container/auditEditContentSection';
 import { AuditEditSubmitButton } from '../auditEdit/container/auditEditSubmitButton';
-import { AuditEditImageSection } from '../auditEdit/container/auditEditImageSection';
-import { useAuditEdit } from '../auditEdit/hook/useAuditEdit';
+import { useAuditPatch } from './hook/useAuditPatch';
+import { AuditPatchImageSection } from './container/auditPatchImageSection';
 
 export default function AuditPatchPage() {
-  const { handleTitleChange, handleCategoryChange, handleContentChange, handleSubmit, setImages, isLoading } =
-    useAuditEdit();
+  const {
+    title,
+    category,
+    content,
+    handleTitleChange,
+    handleCategoryChange,
+    handleContentChange,
+    handleSubmit,
+    isLoading,
+    imageList,
+    thumbnailImage,
+    setThumbnailImage,
+  } = useAuditPatch();
 
   return (
     <>
       <HeadLayout title="감사기구" searchHidden={true} borderOff={true} />
-      <AuditEditTitleSection onTitleChange={handleTitleChange} onCategoryChange={handleCategoryChange} />
-      <AuditEditContentSection onContentChange={handleContentChange} />
-      <AuditEditImageSection onImagesChange={setImages} />
+      <AuditEditTitleSection
+        initialTitle={title}
+        initialCategory={category}
+        onTitleChange={handleTitleChange}
+        onCategoryChange={handleCategoryChange}
+      />
+      <AuditEditContentSection initialValue={content} onContentChange={handleContentChange} />
+      <AuditPatchImageSection
+        imageList={imageList}
+        thumbnailImage={thumbnailImage}
+        setThumbnailImage={setThumbnailImage}
+      />
       <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );

@@ -9,6 +9,8 @@ import AuditDetailLoading from './container/auditDetailLoading';
 export function AuditDetailPage() {
   const location = useLocation();
   const postId: number = location.state?.postId;
+  const category: string = location.state?.category;
+  const thumbnailImage: string = location.state?.thumbnailImage;
   const boardCode: string = '감사기구게시판';
 
   const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
@@ -30,7 +32,16 @@ export function AuditDetailPage() {
         <>
           <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
           <AuditDetailFileSection files={postDetail.fileList} />
-          <AuditDetailEditSection boardCode={boardCode} postId={postId} fileUrls={fileUrls} />
+          <AuditDetailEditSection
+            title={postDetail.title}
+            content={postDetail.content}
+            category={category}
+            imageUrls={postDetail.imageList}
+            boardCode={boardCode}
+            postId={postId}
+            fileUrls={fileUrls}
+            thumbnailImage={thumbnailImage}
+          />
         </>
       )}
     </div>

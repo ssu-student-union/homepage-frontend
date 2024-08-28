@@ -13,15 +13,13 @@ interface HeaderSheetProps {
 export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   const toggleCategory = (category: string) => {
     setExpandedCategory((prevCategory) => (prevCategory === category ? null : category));
   };
 
   const handleLinkClick = (path: string) => {
-    searchParams.set('path', path);
-    navigate({ search: searchParams.toString() });
+    navigate(path);
     window.location.reload();
   };
 
