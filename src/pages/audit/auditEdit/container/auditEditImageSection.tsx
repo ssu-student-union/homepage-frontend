@@ -20,7 +20,7 @@ export function AuditEditImageSection({ onImagesChange }: AuditEditImageSectionP
 
   return (
     <div className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]">
-      <div className="mt-[12px] flex h-[270px] w-full flex-row items-center justify-start gap-4 border border-gray-300 p-[1rem]">
+      <div className="mt-[12px] flex h-[270px] w-full flex-row items-center justify-start gap-4 overflow-x-auto whitespace-nowrap border border-gray-300 p-[1rem]">
         <ImageDropzone onDrop={handleImageAdd} />
         <div className="flex max-w-full flex-row gap-4">
           {images.map((imageItem, index) => (
