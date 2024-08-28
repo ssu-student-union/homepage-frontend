@@ -115,7 +115,7 @@ export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
           date={formattedDate}
           badgeType={status}
           profileImg={''}
-          profileName={''}
+          profileName={'한빛'}
           className="cursor-pointer"
           onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />

@@ -4,7 +4,7 @@ import { AuditDetailContentSection } from './container/auditDetailContentSection
 import { AuditDetailEditSection } from './container/auditDetailEditSection';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 import { AuditDetailFileSection } from './container/auditDetailFileSection';
-import AuditContentLoading from '../component/AuditContentLoading';
+import AuditDetailLoading from './container/auditDetailLoading';
 
 export function AuditDetailPage() {
   const location = useLocation();
@@ -25,7 +25,7 @@ export function AuditDetailPage() {
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
       {isLoading ? (
-        <AuditContentLoading />
+        <AuditDetailLoading />
       ) : (
         <>
           <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
