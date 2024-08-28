@@ -35,7 +35,7 @@ export function AuditEditContentSection({ onContentChange }: AuditEditContentPro
   }, []);
 
   return (
-    <div className="audit-edit-content px-[200px] pt-[32px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]">
+    <div className="audit-edit-content px-[200px] pt-[1rem] xs:px-[30px] xs:pt-[1rem] sm:px-[30px] sm:pt-[1rem] md:px-[30px] lg:px-[30px]">
       <Editor
         ref={editorRef}
         initialValue=" "

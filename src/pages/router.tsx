@@ -18,9 +18,16 @@ import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
 import { Data } from './data/page';
 
 function Layout() {
+  var headerState: State;
+  if (!localStorage.getItem('accessToken')) {
+    headerState = State.Logout;
+  } else {
+    headerState = State.Login;
+  }
+
   return (
     <>
-      <Header state={State.Logout} /> {/* 이 State 값으로 온보딩에 따른 Header 상태 관리 */}
+      <Header state={headerState} />
       <main>
         <Outlet />
       </main>
@@ -35,9 +42,6 @@ export function MainRouter() {
         <Route path="/" element={<MainPage />} />
         <Route path="/intro" element={<IntroPage />} />
         <Route path="/board" element={<BoardPage />} />
-        <Route path="/register" element={<KakaoRegisterPage />} />
-        <Route path="/register/:sort" element={<GeneralRegisterPage />} />
-        <Route path="/auth/callback" element={<KakaoRedirect />} />
         <Route path="/intro/edit" element={<IntroEditPage />} />
         <Route path="/audit" element={<AuditPage />} />
         <Route path="/audit/:id" element={<AuditDetailPage />} />
@@ -49,6 +53,9 @@ export function MainRouter() {
         <Route path="/data" element={<Data />} />
         <Route path="/data/edit" element={<Data />} />
       </Route>
+      <Route path="/register" element={<KakaoRegisterPage />} />
+      <Route path="/register/:sort" element={<GeneralRegisterPage />} />
+      <Route path="/auth/callback" element={<KakaoRedirect />} />
     </Routes>
   );
 }

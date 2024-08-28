@@ -3,6 +3,7 @@ import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
 import { AuditDetailEditSection } from './container/auditDetailEditSection';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { AuditDetailFileSection } from './container/auditDetailFileSection';
 
 export function AuditDetailPage() {
   const location = useLocation();
@@ -19,12 +20,14 @@ export function AuditDetailPage() {
 
   console.log(postDetail);
 
+  const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
+
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
       <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
-      {/* <AuditDetailFileSection file={postDetail.file} /> */}
-      <AuditDetailEditSection boardCode={boardCode} postId={postId} />
+      <AuditDetailFileSection files={postDetail.fileList} />
+      <AuditDetailEditSection boardCode={boardCode} postId={postId} fileUrls={fileUrls} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 export interface File {
   id: number;
   url: string;
+  originalFileName: string;
 }
 
 export interface PostBoardFilesResponse {

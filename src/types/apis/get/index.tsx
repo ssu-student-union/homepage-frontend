@@ -15,9 +15,11 @@ export interface PageInfo {
   totalPages: number;
 }
 
-export interface GetBoardPostsResp {
-  postListResDto: Post[];
-  pageInfo: PageInfo;
+export interface GetAuditBoardResp {
+  data: {
+    postListResDto: Post[];
+    pageInfo: PageInfo;
+  };
 }
 
 export interface PostDetailResDto {
@@ -25,6 +27,7 @@ export interface PostDetailResDto {
   createdAt: string;
   content: string;
   imageList: string[];
+  fileList: string[];
 }
 
 export interface GetBoardDetailResponse {
@@ -44,6 +47,6 @@ export interface getBoardPostsProps {
   take: number;
   groupCode?: string;
   memberCode?: string;
-  category?: string;
+  category?: string | null;
   boardCode: string;
 }
