@@ -163,7 +163,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
                         <button
                           key={fileIndex}
                           onClick={() => handleDownload(fileData, data.fileNames[fileIndex])}
-                          className="h-[31px] w-auto cursor-pointer rounded-[5px] border-none bg-[#f0f0f0] px-6 text-base xs:text-xs sm:text-xs md:text-sm"
+                          className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
                         >
                           {data.fileName[fileIndex]}
                         </button>
