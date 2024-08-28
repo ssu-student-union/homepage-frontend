@@ -12,11 +12,18 @@ export function AuthButton({ state = State.Onboarding }: AuthButtonProps) {
   const navigate = useNavigate();
 
   if (state === State.Login) {
-    return <div className={cn(styles.headerItemStyle, 'w-[120px] text-base')}>내정보</div>;
+    return (
+      <div className={cn(styles.headerItemStyle, 'w-[120px] text-base xs:hidden sm:hidden md:hidden lg:hidden')}>
+        내정보
+      </div>
+    );
   }
   if (state === State.Logout) {
     return (
-      <button className={cn(styles.headerItemStyle, 'w-[120px] text-base')} onClick={() => navigate('/register')}>
+      <button
+        className={cn(styles.headerItemStyle, 'w-[120px] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
+        onClick={() => navigate('/register')}
+      >
         로그인
       </button>
     );
