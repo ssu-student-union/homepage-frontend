@@ -7,7 +7,7 @@ interface PostCardMainProps {
   title?: string; // 게시글 제목
   subtitle?: string; // 게시글 내용
   date?: string; // 게시글 게시 날짜
-  badgeType?: 'Emergency' | 'New' | 'Default'; // postCard 배지 종류 - 긴급, NEW!, 없음
+  badgeType?: statusType; // postCard 배지 종류 - 긴급, NEW!, 없음
   profileImg?: string; // 프로필 이미지
   profileName?: string; // 계정명
 }
@@ -24,9 +24,9 @@ const PostCardMain = ({
     <div
       className={`relative flex h-[24.25rem] min-w-[20.6rem] cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white xs:h-[17.5rem] xs:w-[14.5rem]`}
     >
-      {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
-      {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
-      {badgeType === 'Default' && <Badge variant="Default"></Badge>}
+      {badgeType === '긴급' && <Badge variant="Emergency">긴급</Badge>}
+      {badgeType === '새로운' && <Badge variant="New">NEW!</Badge>}
+      {badgeType === '일반' && <Badge variant="Default"></Badge>}
       <div className={`flex flex-col gap-2.5`}>
         <img
           alt="image"

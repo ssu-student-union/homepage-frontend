@@ -34,8 +34,14 @@ type PetitionType = '전체' | '진행중' | '접수완료' | '답변완료' | '
 export const Petition: PetitionType[] = ['전체', '진행중', '접수완료', '답변완료', '종료됨'];
 
 // 메인페이지 공지사항
-type MainNoticesType = '전체' | '행사&이벤트' | '소통' | '감사결과';
-export const MainNotices: MainNoticesType[] = ['전체', '행사&이벤트', '소통', '감사결과'];
+export type MainNoticesType = '전체' | '총학생회' | '중앙운영위원회' | '중앙선거관리위원회' | '동아리연합회';
+export const MainNotices: MainNoticesType[] = [
+  '전체',
+  '총학생회',
+  '중앙운영위원회',
+  '중앙선거관리위원회',
+  '동아리연합회',
+];
 
 // 메인페이지 인기청원
 type MainPopularPetitionType = '인기' | '최근' | '청원';
