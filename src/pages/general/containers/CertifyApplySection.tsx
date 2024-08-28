@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchemaCertify, LoginType } from './ZodCheck';
+import { LoginSchemaCertify, LoginCertifyType } from './ZodCheck';
 import { postOnboardingMail } from '@/apis/postOnboardingMail'; // Import the postOnboardingMail function
 
 export function CertifyApplySection() {
@@ -13,7 +13,7 @@ export function CertifyApplySection() {
     handleSubmit,
     formState: { errors, isSubmitted, isSubmitting },
     watch,
-  } = useForm<LoginType>({
+  } = useForm<LoginCertifyType>({
     resolver: zodResolver(LoginSchemaCertify),
   });
 

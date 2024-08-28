@@ -7,7 +7,14 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@
 import { faculties, departments } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
-import { LoginSchemaRegister, LoginType } from './ZodCheck';
+import {
+  LoginSchemaRegister,
+  LoginType,
+  LoginCertifyType,
+  LoginSchemaScoucil,
+  LoginSchemaCertify,
+  LoginScoucilType,
+} from './ZodCheck';
 
 interface LoginFormProps {
   subSection1: string;
@@ -15,26 +22,28 @@ interface LoginFormProps {
 }
 
 export function GeneralRegisterSection({ subSection1, buttonSection }: LoginFormProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isScouncilPath = location.pathname === '/register/scouncil';
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitted, isSubmitting },
     watch,
     setValue,
-  } = useForm<LoginType>({
-    resolver: zodResolver(LoginSchemaRegister),
-    mode: 'onChange', // 폼 상태가 변경될 때마다 유효성 검사
+  } = useForm({
+    resolver: zodResolver(isScouncilPath ? LoginSchemaScoucil : LoginSchemaRegister),
+    mode: 'onChange',
+    defaultValues: isScouncilPath ? ({} as LoginScoucilType) : ({} as LoginType),
   });
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const [selectedFaculty, setSelectedFaculty] = useState<string>('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [inputUserData, setInputUserData] = useState(null);
   const [scoucilError, setScoucilError] = useState(true);
-  const isScouncilPath = location.pathname === '/register/scouncil';
   const showSelects = !isScouncilPath;
   const formValues = watch();
   const formValuesScouncil = watch();
@@ -90,7 +99,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       if (UserData) {
         const parsedUserData = JSON.parse(UserData);
         const accessToken = parsedUserData?.data?.accessToken;
-
+        console.log('test', targetFormValues);
         if (accessToken) {
           const endpoint = isScouncilPath ? '/auth/council-login' : '/onboarding/academy-information';
           const response = await client.post(endpoint, targetFormValues, {
@@ -101,7 +110,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
 
           if (response.status === 200) {
             alert('학생 정보가 확인되었습니다');
-            console.log(response);
+            console.log(response.data);
             localStorage.setItem('userId', formValuesScouncil.accountId);
             navigate('/');
           } else {
