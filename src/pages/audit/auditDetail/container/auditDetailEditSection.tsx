@@ -18,6 +18,7 @@ export function AuditDetailEditSection({ boardCode, postId, fileUrls }: AuditDet
   const handleDelete = async () => {
     await deleteHandler({ boardCode, postId, fileUrls, mutFile, mutPost });
     navigate(`/audit?category=notice`);
+    window.location.reload();
   };
 
   return (
