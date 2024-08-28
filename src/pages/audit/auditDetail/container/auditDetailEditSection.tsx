@@ -12,15 +12,15 @@ interface AuditDetailEditProps {
 
 export function AuditDetailEditSection({ boardCode, postId, fileUrls }: AuditDetailEditProps) {
   const navigate = useNavigate();
-  const mutFiles = useDelBoardFiles();
-  const mutPosts = useDelBoardPosts();
+  const mutFile = useDelBoardFiles();
+  const mutPost = useDelBoardPosts();
 
   return (
     <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
       <div className="flex w-[420px] flex-row items-end justify-between xs:h-[150px] xs:flex-col">
         <DeleteButton
           onClick={() => {
-            deleteHandler({ boardCode, postId, fileUrls, mutFiles, mutPosts });
+            deleteHandler({ boardCode, postId, fileUrls, mutFile, mutPost });
             navigate(`/audit?category=notice`);
           }}
         />
