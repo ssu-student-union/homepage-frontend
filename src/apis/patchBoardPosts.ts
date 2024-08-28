@@ -1,24 +1,21 @@
-import { clientAuth } from './client';
 import { AxiosResponse } from 'axios';
+import { clientAuth } from './client';
+import { patchBoardPostProps, patchBoardPostsResponse } from '@/types/patchBoardPosts';
 
-// PATCH:/board/{boardCode}/posts/{postId} 요청
-
-export interface patchBoardPostsProps {
-  boardCode: string;
-  postId: number;
-  data: {
-    title: string;
-    content: string;
-    categoryCode: string;
-    thumbNailImage?: string;
-  };
-}
-
-export async function patchBoardPosts({ boardCode, postId, data }: patchBoardPostsProps): Promise<PatchBoardPostsResp> {
-  const resp: AxiosResponse<PatchBoardPostsResp> = await clientAuth<PatchBoardPostsResp>({
-    method: 'patch',
+export const patchBoardPosts = async ({
+  boardCode,
+  postId,
+  posts,
+}: patchBoardPostProps): Promise<patchBoardPostsResponse> => {
+  const response: AxiosResponse<patchBoardPostsResponse> = await clientAuth({
     url: `/board/${boardCode}/posts/${postId}`,
-    data: data,
+    method: 'patch',
+    data: {
+      title: posts.title,
+      content: posts.content,
+      categoryCode: posts.categoryCode,
+      thumbnailImage: posts.thumbnailImage,
+    },
   });
-  return resp.data;
-}
+  return response.data;
+};

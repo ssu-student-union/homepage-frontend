@@ -2,13 +2,8 @@ import { ThumbsUp } from 'lucide-react';
 import { ACTIVE_TAG, ANSWERED_TAG, CLOSED_TAG, RECEIVED_TAG } from '../StateTag/const';
 import { useResize } from '@/hooks/useResize';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
-import { PostListDtoResponse } from '@/types/getPetitionTopLiked';
+import { PostTextPetitionProps } from './types';
 import { useMemo } from 'react';
-
-interface PostTextPetitionProps {
-  data: PostListDtoResponse;
-  onClick: (id: number) => void;
-}
 
 export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
   const { width } = useResize();
@@ -58,15 +53,17 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
           {data?.title && truncateText(data.title, 17)}
         </h3>
         <p className="mt-3 flex-grow overflow-hidden text-ellipsis text-[1.125rem] font-medium text-gray-500 xs:mt-2 xs:text-[0.875rem]">
-          {petitionPurpose && truncateText(petitionPurpose, 74)}
+          {petitionPurpose && truncateText(petitionPurpose, 72)}
         </p>
       </div>
       <div className="flex items-center justify-between">
         <span className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem]">
           {formatYYYYMMDD(data?.date)}
         </span>
-        <div className="flex cursor-pointer items-center gap-1 text-[#7D7BFF] xs:pb-[9px] xs:pt-0">
-          <ThumbsUp size={isSmallScreen ? 14 : 22} />
+        <div className="flex cursor-pointer items-center gap-1 text-[#7D7BFF]">
+          <span className="pb-1">
+            <ThumbsUp size={isSmallScreen ? 14 : 22} />
+          </span>
           <span className="text-[1.125rem] font-medium xs:text-[0.875rem]">{data?.likeCount}</span>
         </div>
       </div>

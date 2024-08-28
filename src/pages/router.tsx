@@ -42,7 +42,6 @@ export function MainRouter() {
       <Route path="/" element={<Layout />}>
         <Route path="/" element={<MainPage />} />
         <Route path="/intro" element={<IntroPage />} />
-        <Route path="/board" element={<BoardPage />} />
         <Route path="/intro/edit" element={<IntroEditPage />} />
         <Route path="/audit" element={<AuditPage />} />
         <Route path="/audit/:id" element={<AuditDetailPage />} />

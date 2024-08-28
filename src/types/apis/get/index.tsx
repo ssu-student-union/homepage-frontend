@@ -15,19 +15,35 @@ export interface PageInfo {
   totalPages: number;
 }
 
-export interface GetAuditBoardResp {
-  data: {
-    postListResDto: Post[];
-    pageInfo: PageInfo;
-  };
+export interface GetBoardPostsResp {
+  postListResDto: Post[];
+  pageInfo: PageInfo;
+}
+
+export interface OfficialCommentList {
+  authorName: string;
+  commentType: string;
+  content: string;
+  createdAt: string;
+  id: number;
+  isAuthor: boolean;
+  lastEditedAt: string;
 }
 
 export interface PostDetailResDto {
+  postId: number;
+  categoryName: string;
+  authorName: string;
   title: string;
-  createdAt: string;
   content: string;
+  createdAt: string;
+  lastEditedAt: string;
+  isAuthor: boolean;
+  isLiked: boolean;
+  studentId: string;
+  likeCount: number;
   imageList: string[];
-  fileList: string[];
+  officialCommentList: OfficialCommentList[];
 }
 
 export interface GetBoardDetailResponse {
@@ -39,7 +55,7 @@ export interface GetBoardDetailResponse {
 export interface getBoardDetailProps {
   boardCode: string;
   postId: number;
-  userId?: number;
+  userId?: number | null;
 }
 
 export interface getBoardPostsProps {
@@ -47,6 +63,7 @@ export interface getBoardPostsProps {
   take: number;
   groupCode?: string;
   memberCode?: string;
-  category?: string | null;
-  boardCode: string;
+  category?: string;
+  boardCode?: string;
+  q?: string;
 }

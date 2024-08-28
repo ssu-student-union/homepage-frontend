@@ -6,7 +6,7 @@ import { client } from './client';
 export async function getBoardDetail({
   boardCode,
   postId,
-  userId = 0,
+  userId,
 }: getBoardDetailProps): Promise<GetBoardDetailResponse> {
   const resp = await client.get<GetBoardDetailResponse>(`/board/${boardCode}/posts/${postId}`, {
     params: {

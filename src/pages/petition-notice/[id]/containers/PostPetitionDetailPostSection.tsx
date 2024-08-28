@@ -3,14 +3,30 @@ import { StateTag } from '@/components/StateTag';
 import { useResize } from '@/hooks/useResize';
 import { Viewer } from '@toast-ui/react-editor';
 import { ThumbsUp } from '@phosphor-icons/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Logo } from '@/components/Logo/Logo';
 import Breadcrumb from '@/components/Breadcrumb';
 import { PostHead } from '@/components/PostHead';
+import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { delBoardPosts } from '@/apis/delBoardPosts';
+import { usePostPostReaction } from '@/hooks/usePostPostReaction';
+import { useState } from 'react';
 
-const Content = `<h3>청원취지</h3><h6><br></h6><p>청원취지를 작성해주세요.</p><h3><br></h3><h3>청원내용</h3><h6><br></h6><p>청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.청원내용을 작성해주세요.</p><h3><br></h3><h3>청원대안</h3><h6><br></h6><p>청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.청원대안을 작성해주세요.</p>`;
+type ParamsType = {
+  id: string;
+};
 
 export function PostPetitionDetailPostSection() {
+  const { id } = useParams() as ParamsType;
+  const userID = (() => {
+    try {
+      const kakaoData = localStorage.getItem('kakaoData');
+      return kakaoData ? (JSON.parse(kakaoData)?.data?.id ?? null) : null;
+    } catch (err) {
+      console.log(err);
+    }
+  })();
+
   const breadcrumbItems = new Map<string, string | null>([
     ['소통', null],
     ['청원게시판', '/petition-notice'],
@@ -19,7 +35,28 @@ export function PostPetitionDetailPostSection() {
   const { width } = useResize();
   const mobile_screen = width < 391;
 
+  const { isLoading, data } = useGetBoardDetail({
+    boardCode: '청원게시판',
+    postId: Number(id),
+    userId: userID as number,
+  });
+
+  const replaceSN = (student_number: string, chracter: string) => {
+    return student_number.substring(0, 2) + chracter.repeat(4) + student_number.substring(6);
+  };
+
+  const handleDeleteContent = async () => {
+    const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
+    if (deleteCheck) {
+      await delBoardPosts('청원게시판', data?.data.postDetailResDto.postId!);
+      navigate('/petition-notice');
+    } else {
+      return;
+    }
+  };
+
   const handleEditContent = () => {
+    localStorage.setItem('edit-post', JSON.stringify(data?.data.postDetailResDto.postId));
     navigate('/petition-notice/edit');
   };
 
@@ -27,59 +64,93 @@ export function PostPetitionDetailPostSection() {
     navigate('/petition-notice');
   };
 
-  const handleLikeButton = () => {};
+  const mutation = usePostPostReaction();
+
+  const [animate, setAnimate] = useState(false);
+
+  const handleLikeButton = async () => {
+    if (!localStorage.getItem('kakaoData')) {
+      const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
+      if (check) {
+        navigate('/register');
+      } else {
+        return;
+      }
+    } else {
+      const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
+      const post_reaction = {
+        postId: data?.data.postDetailResDto.postId as number,
+        userId: Number(userID),
+        reaction: 'like',
+      };
+      try {
+        if (!data?.data.postDetailResDto.isLiked) {
+          setAnimate(true);
+          setTimeout(() => setAnimate(false), 500);
+        }
+        await mutation.mutateAsync(post_reaction);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <>
-      <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
-        <Breadcrumb items={breadcrumbItems} />
-        <PostHead
-          title="[답변완료] 대동체 축제 때 에스파 불러주세요"
-          writer="20****03"
-          date="2021-11-08T11:44:30.327959"
-        />
-      </div>
-      <hr />
-      <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
-        <div className="flex justify-between gap-10 ">
-          <div className="w-full">
-            <Viewer initialValue={Content} />
-            <div className="mt-[51px] flex justify-start gap-1 text-primary">
-              <span className="cursor-pointer" onClick={handleLikeButton}>
-                <ThumbsUp size={25} weight="regular" />
-              </span>
-              <span className="pt-1">32</span>
+      {isLoading ? (
+        <div>로딩중</div>
+      ) : (
+        <>
+          <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+            <Breadcrumb items={breadcrumbItems} />
+            <PostHead
+              title={`[${data?.data.postDetailResDto.categoryName}] ${data?.data.postDetailResDto.title}`}
+              writer={replaceSN(data?.data.postDetailResDto.studentId!, '*')}
+              date={
+                data?.data.postDetailResDto.lastEditedAt!
+                  ? data?.data.postDetailResDto.lastEditedAt!
+                  : data?.data.postDetailResDto.createdAt!
+              }
+            />
+          </div>
+          <hr />
+          <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+            <div className="flex justify-between gap-10 ">
+              <div className="w-full">
+                <Viewer initialValue={JSON.parse(data?.data.postDetailResDto.content as string)} />
+                <div className="mt-[51px] flex justify-start gap-1 text-primary">
+                  <span className={`cursor-pointer ${animate ? 'animate-sparkle' : ''}`} onClick={handleLikeButton}>
+                    <ThumbsUp size={25} weight={data?.data.postDetailResDto.isLiked ? 'fill' : 'regular'} />
+                  </span>
+                  <span className="pt-1">{data?.data.postDetailResDto.likeCount}</span>
+                </div>
+              </div>
+              <div className="xs:hidden sm:hidden md:hidden">
+                <StateTag current={data?.data.postDetailResDto.categoryName!} />
+              </div>
+            </div>
+            <div className="mt-[60px] flex-col">
+              {data?.data.postDetailResDto.officialCommentList.length === 0 ? null : (
+                <div className="w-full rounded-[10px] border border-primary bg-gray-50 p-8">
+                  <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
+                    <Logo size={mobile_screen ? '15px' : '26px'} fill="#2F4BF7" />
+                    <span className="ml-2 text-[#2F4BF7]">중앙운영위원회 공식답변</span>
+                  </div>
+                  <p className="text-[1.125rem] font-medium text-[#7E7E7E] xs:text-[0.75rem]">
+                    {data?.data.postDetailResDto.officialCommentList[0].content}
+                  </p>
+                </div>
+              )}
+              <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
+                {data?.data.postDetailResDto.isAuthor ? <DeleteButton onClick={handleDeleteContent} /> : null}
+                {data?.data.postDetailResDto.isAuthor ? <EditButton onClick={handleEditContent} /> : null}
+                <ListButton onClick={handleMoveToList} />
+              </div>
             </div>
           </div>
-          <div className="xs:hidden sm:hidden md:hidden">
-            <StateTag current="ANSWERED" />
-          </div>
-        </div>
-        <div className="mt-[60px] flex-col">
-          <div className="w-full rounded-[10px] border border-primary bg-gray-50 p-8">
-            <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
-              <Logo size={mobile_screen ? '15px' : '26px'} fill="#2F4BF7" />
-              <span className="ml-2 text-[#2F4BF7]">중앙운영위원회 공식답변</span>
-            </div>
-            <p className="text-[1.125rem] font-medium text-[#7E7E7E] xs:text-[0.75rem]">
-              와 샌즈! Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-              the industry's standard dummy text ever since the 1500s, when an unknown printer took galley of type and
-              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release
-              of Letraset sheets containing Lorem Ipsum passages, and more recently with 와 샌즈! Lorem Ipsum is simply
-              dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-              text ever since the 1500s, when an unknown printer took galley of type and scrambled it to make a type
-              specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining{' '}
-            </p>
-          </div>
-          <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
-            <DeleteButton />
-            <EditButton onClick={handleEditContent} />
-            <ListButton onClick={handleMoveToList} />
-          </div>
-        </div>
-      </div>
-      <hr />
+          <hr />
+        </>
+      )}
     </>
   );
 }

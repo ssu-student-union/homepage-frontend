@@ -1,9 +1,15 @@
-import { patchBoardPosts, patchBoardPostsProps } from '@/apis/patchBoardPosts';
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { patchBoardPosts } from '@/apis/patchBoardPosts';
+import { patchBoardPostProps, patchBoardPostsResponse } from '@/types/patchBoardPosts';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export function usePatchBoardPosts(): UseMutationResult<PatchBoardPostsResp, AxiosError, patchBoardPostsProps> {
-  return useMutation<PatchBoardPostsResp, AxiosError, patchBoardPostsProps>({
-    mutationFn: patchBoardPosts,
+export const usePatchBoardPosts = () => {
+  const queryClient = useQueryClient();
+  return useMutation<patchBoardPostsResponse, Error, patchBoardPostProps>({
+    mutationFn: (patchData: patchBoardPostProps) => patchBoardPosts(patchData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getPetitionTopLiked'] });
+      queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts'] });
+      queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts-postId'] });
+    },
   });
-}
+};
