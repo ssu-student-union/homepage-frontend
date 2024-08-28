@@ -32,7 +32,6 @@ export function AuditEditTitleSection({ onTitleChange, onCategoryChange }: Audit
           placeholder="제목을 입력하세요"
         />
         <FilterDropDown
-          className="flex h-full w-[90px] items-center justify-center text-center text-sm"
           defaultValue="카테고리"
           optionValue={['감사계획', '감사결과', '기타']}
           onValueChange={handleCategoryChange}

@@ -6,9 +6,17 @@ interface FilterDropDownProps extends React.HTMLAttributes<HTMLDivElement> {
   optionValue: string[];
   onValueChange: (value: string) => void;
   value: string;
+  itemStyle?: string;
 }
 
-export function FilterDropDown({ className, defaultValue, optionValue, onValueChange, value }: FilterDropDownProps) {
+export function FilterDropDown({
+  className,
+  defaultValue,
+  optionValue,
+  onValueChange,
+  value,
+  itemStyle = '',
+}: FilterDropDownProps) {
   const isSelected = !!value;
 
   return (
@@ -21,7 +29,7 @@ export function FilterDropDown({ className, defaultValue, optionValue, onValueCh
       <SelectContent>
         <SelectGroup>
           {optionValue.map((option, index) => (
-            <SelectItem key={index} value={option} className={cn(`text-gray-500`, className)}>
+            <SelectItem key={index} value={option} className={cn(`text-gray-500`, itemStyle)}>
               {option}
             </SelectItem>
           ))}
