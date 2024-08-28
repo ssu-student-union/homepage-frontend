@@ -1,5 +1,4 @@
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import IntroEditButton from './container/IntroEditButton';
 import IntroContentSection from './container/IntroContentSection';
 import { HeadLayout } from '@/template/HeadLayout';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
@@ -54,7 +53,7 @@ export function IntroPage() {
         subCategoryDisplayName={subCategoryDisplayName}
       />
       <IntroContentSection category={categoryParam} subCategory={subCategoryParam} />
-      <IntroEditButton />
+      {/* /intro/edit navigate 버튼 <IntroEditButton /> */}
     </>
   );
 }

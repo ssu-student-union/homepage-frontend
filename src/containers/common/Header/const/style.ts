@@ -20,7 +20,7 @@ export function getStyles(state: State): Styles {
   const sheetIconColor = state === State.Onboarding ? 'text-black' : 'text-white';
   const sheetItemsColor = state === State.Onboarding ? 'text-[#4B5563]' : 'text-white';
 
-  const headerItemStyle = `flex items-center justify-center h-[60px] sm:h-[50px] xs:h-[50px] px-[35px] rounded-none text-lg font-bold ${textColor} hover:${textColor} ${bgColor} ${hoverBgColor} transition hover:brightness-95 cursor-pointer`;
+  const headerItemStyle = `flex items-center justify-center h-[60px] sm:h-[50px] xs:h-[50px] md:h-[50px] px-[35px] rounded-none text-lg font-bold ${textColor} hover:${textColor} ${bgColor} ${hoverBgColor} transition hover:brightness-95 cursor-pointer`;
 
   return {
     bgColor,
