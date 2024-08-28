@@ -32,9 +32,7 @@ export function AuditEditFilesSection({ onFilesChange }: AuditEditFilesSectionPr
               </button>
             ) : (
               <div className="flex items-center">
-                <button onClick={() => addEmptyField(files, setFiles)} className="mx-6">
-                  <Plus size={24} />
-                </button>
+                <Plus size={24} className="mx-6" />
               </div>
             )}
           </div>
