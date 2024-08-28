@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchemaCertify, LoginCertifyType } from './ZodCheck';
@@ -36,13 +36,13 @@ export function CertifyApplySection() {
     setIsButtonDisabled(!isFormValid);
   }, [formValues, isScouncilPath]);
 
-  const onSubmit = async () => {
+  const onSubmit: SubmitHandler<LoginCertifyType> = async () => {
     try {
       const resBody = {
-        name: formValues.name,
-        studentId: Number(0),
-        email: formValues.email,
-        content: formValues.inquiry,
+        name: formValues.name || '', // Ensure `name` is a string
+        studentId: Number(formValues.id) || 0, // Ensure `studentId` is a number
+        email: formValues.email || '', // Ensure `email` is a string
+        content: formValues.inquiry || '', // Ensure `content` is a string
       };
 
       console.log('Request body being sent:', resBody);
@@ -52,7 +52,8 @@ export function CertifyApplySection() {
 
       alert('문의내용이 확인되었습니다.');
       navigate('/register/errorcheck');
-    } catch (error) {
+    } catch (error: any) {
+      // Added type `any` to handle any error shape
       if (error.response) {
         console.error('Server error response:', error.response.status, error.response.data);
         alert(`서버 오류 발생: ${error.response.data.message || '문의 내용을 전송하는데 실패했습니다.'}`);

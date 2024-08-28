@@ -1,14 +1,23 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
-import { userCategories, UserFileCategories } from './index';
-import { Trash2, Plus, FileText, List } from 'lucide-react';
+import { userCategories } from './index';
+import { Trash2, Plus, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
 import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
 import { userNameMapping } from '../index';
+import { any } from 'zod';
+
+interface FileItem {
+  file: File;
+  fileName: string;
+  category: string;
+  fileType: string;
+  fileData: any; // 'fileData' 속성이 필요합니다.
+}
 
 export default function UploadSection({ userId }: { userId: string }) {
   const { control, handleSubmit, setValue, getValues, trigger } = useForm({
@@ -22,8 +31,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
   const [categories, setCategories] = useState<string[]>([]);
   const [fileInputs, setFileInputs] = useState([{ id: 1, type: '', fileName: '', isNew: true }]);
-  const [tempFiles, setTempFiles] = useState([]);
-  const fileInputRef = useRef(null);
+  const [tempFiles, setTempFiles] = useState<FileItem[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -137,6 +145,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     '.markdown',
     // 필요시 더 많은 확장자를 추가
   ];
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddInput = () => {
     const fileInputsArray = getValues('fileInputs');
@@ -151,7 +160,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const uploadName = getValues('uploadName');
     if (!uploadName.trim()) {
       alert('제목을 먼저 입력해주세요.');
@@ -165,18 +174,19 @@ export default function UploadSection({ userId }: { userId: string }) {
       const fileInputsArray = getValues('fileInputs');
       const currentFileInput = fileInputsArray[fileInputsArray.length - 1];
       const fileType = currentFileInput?.type;
-      const isNew = currentFileInput?.isNew;
+      const isNew = currentFileInput && 'isNew' in currentFileInput ? currentFileInput.isNew : false;
 
       if (isNew && !fileType) {
         alert('파일종류를 선택하세요.');
         return;
       }
 
-      const newFile = {
+      const newFile: FileItem = {
         file: file,
         fileName: file.name,
         category,
         fileType: fileType || '',
+        fileData: any,
       };
 
       setTempFiles((prevFiles) => [...prevFiles, newFile]);
@@ -190,10 +200,10 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
-  const handleRemoveInput = (id) => {
+  const handleRemoveInput = (id: number) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
       setFileInputs((prevInputs) => prevInputs.filter((input) => input.id !== id));
-      setTempFiles((prevFiles) => prevFiles.filter((file, index) => index !== id - 1));
+      setTempFiles((prevFiles) => prevFiles.filter((_file, index) => index !== id - 1));
       trigger();
     }
   };
@@ -205,7 +215,7 @@ export default function UploadSection({ userId }: { userId: string }) {
       return;
     }
 
-    const existingFiles = JSON.parse(localStorage.getItem('fileData')) || [];
+    const existingFiles = JSON.parse(localStorage.getItem('fileData') ?? '[]');
     const newFileData = {
       uploadName: formValues.uploadName,
       uploadDate: new Date().toLocaleDateString('en-GB'),
@@ -220,11 +230,10 @@ export default function UploadSection({ userId }: { userId: string }) {
 
     try {
       const UserData = localStorage.getItem('kakaoData');
-      const subCategory = newFileData.category.length > 0 ? newFileData.category[0] : null;
       const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
       const fileName = newFileData.fileName.length > 0 ? newFileData.fileName : null;
-      const userName = userNameMapping[userId] || 'Unknown';
-      const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : null;
+      const userName = (userNameMapping as { [key: string]: string })[userId] || 'Unknown';
+      const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : 'defaultCategory'; // 'defaultCategory'를 기본값으로 설정
       const fileType = '결과보고서';
 
       console.log(fileName);
@@ -341,7 +350,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                   </div>
 
                   <Controller
-                    name={`fileInputs[${input.id}].type`}
+                    name={`fileInputs.${input.id}.type`} // 템플릿 리터럴 변경
                     control={control}
                     defaultValue={input.type}
                     render={({ field }) => (
@@ -349,11 +358,11 @@ export default function UploadSection({ userId }: { userId: string }) {
                         defaultValue="파일종류 선택"
                         optionValue={fileOptions}
                         onValueChange={(value) => {
-                          setValue(`fileInputs[${input.id}].type`, value);
-                          field.onChange(value); // 필드 값도 변경
+                          setValue(`fileInputs.${input.id}.type`, value); // 동일한 경로로 수정
+                          field.onChange(value);
                           trigger();
                         }}
-                        value={field.value} // 필드 값으로 설정
+                        value={field.value}
                         className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
@@ -368,7 +377,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                   <div className="relative flex items-center">
                     <FileText className="top-20% absolute left-3 text-gray-600" />
                     <Controller
-                      name={`fileInputs[${input.id}].fileName`}
+                      name={`fileInputs.${input.id}.fileName`} // 점 표기법으로 변경
                       control={control}
                       defaultValue={input.fileName}
                       render={({ field }) => (
@@ -387,7 +396,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                   </div>
 
                   <Controller
-                    name={`fileInputs[${input.id}].type`}
+                    name={`fileInputs.${input.id}.type`} // 점 표기법으로 변경
                     control={control}
                     defaultValue={input.type}
                     render={({ field }) => (
@@ -395,9 +404,9 @@ export default function UploadSection({ userId }: { userId: string }) {
                         defaultValue="파일종류 선택"
                         optionValue={fileOptions}
                         onValueChange={(value) => {
-                          setValue(`fileInputs[${input.id}].type`, value);
+                          setValue(`fileInputs.${input.id}.type`, value); // 동일한 경로로 수정
                           field.onChange(value); // 필드 값도 변경
-                          trigger();
+                          trigger(); // 폼 검증 트리거
                         }}
                         value={field.value} // 필드 값으로 설정
                         className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"

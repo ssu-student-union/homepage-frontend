@@ -1,3 +1,7 @@
+interface DepartmentMap {
+  [key: string]: string[];
+}
+
 // index.ts
 export const faculties = [
   '인문대학',
@@ -12,7 +16,7 @@ export const faculties = [
   '차세대반도체학과',
 ];
 
-export const departments = {
+export const departments: DepartmentMap = {
   인문대학: [
     '인문대학',
     '기독교학과',
