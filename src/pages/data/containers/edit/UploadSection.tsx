@@ -157,7 +157,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           const resBody = {
             title: uploadName,
-            content: fileName,
+            content: null,
             categoryCode: userName,
             thumbNailImage: null,
             isNotice: true,

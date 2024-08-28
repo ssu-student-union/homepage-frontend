@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button';
 import { majorOptions, middleOptions, minorOptions } from './index';
 import { DropdownSection } from './dropDownSecion';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
-import { useRecoilValue } from 'recoil';
-import { SearchState } from '@/recoil/atoms/SearchState';
 import Pagination from '@/components/Pagination';
 
 const ITEMS_PER_PAGE = 5;
@@ -20,8 +18,6 @@ export default function DataBoxSection({ userId }: { userId: string }) {
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
   const [latestSpecialCategory, setLatestSpecialCategory] = useState<any>(null); // State to store the latest "총학생회칙" entry across all pages
-
-  const searchInput = useRecoilValue(SearchState); // 전역 상태로부터 검색어 불러오기
 
   const fetchLatestSpecialCategory = async () => {
     try {
@@ -62,17 +58,10 @@ export default function DataBoxSection({ userId }: { userId: string }) {
           uploadDate: post.date,
           fileData: post.files || [],
           fileNames: post.fileNames || [],
-          fileName: post.content || [],
+          fileName: post.fileNames || [],
         }));
 
-        // 검색어에 따른 필터링 (최소 두 글자 이상 일치)
-        const filteredDataBoxes = categorizedDataBoxes.filter((data) => {
-          if (!searchInput) return true; // 검색어가 없으면 모든 데이터 반환
-          const searchPattern = new RegExp(searchInput.split('').join('.*'), 'i'); // 패턴 생성
-          return searchPattern.test(data.uploadName);
-        });
-
-        setDataBoxes(filteredDataBoxes); // Set the filtered data
+        setDataBoxes(categorizedDataBoxes); // Set the filtered data
       } else {
         console.error('API 응답 데이터가 예상과 다릅니다. 응답 구조:', response.data);
       }
@@ -88,7 +77,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
   useEffect(() => {
     // 검색어가 변경될 때마다 데이터를 다시 불러오기
     fetchData({}, currentPage);
-  }, [searchInput, currentPage]);
+  }, [currentPage]);
 
   const handleFetchData = () => {
     const filters: any = {};
