@@ -16,6 +16,8 @@ import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
 import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
 import { Data } from './data/page';
+import { PartnershipEditPage } from './partnership/partnershipEdit/page';
+import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
 
 function Layout() {
   var headerState: State;
@@ -47,6 +49,8 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<AuditDetailPage />} />
         <Route path="/audit/edit" element={<AuditEditPage />} />
         <Route path="/partnership" element={<PartnershipPage />} />
+        <Route path="/partnership/edit" element={<PartnershipEditPage />} />
+        <Route path="/partnership/:id" element={<PartnershipDetailPage />} />
         <Route path="/petition-notice" element={<PetitionNoticePage />} />
         <Route path="/petition-notice/edit" element={<PetitionNoticeEditPage />} />
         <Route path="/petition-notice/:id" element={<PetitionNoticeDetailPage />} />
