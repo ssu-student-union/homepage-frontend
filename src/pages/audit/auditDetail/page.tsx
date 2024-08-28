@@ -18,8 +18,6 @@ export function AuditDetailPage() {
     return <div></div>;
   }
 
-  console.log(postDetail);
-
   const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
 
   return (
