@@ -39,6 +39,7 @@ export interface PostDetailResDto {
   createdAt: string;
   lastEditedAt: string;
   isAuthor: boolean;
+  isLiked: boolean;
   studentId: string;
   likeCount: number;
   imageList: string[];

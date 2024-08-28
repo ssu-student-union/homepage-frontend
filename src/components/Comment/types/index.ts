@@ -1,3 +1,4 @@
+import { PetitionCommentOrderType } from '@/pages/petition-notice/type';
 import { postCommentList, postReplyCommentList } from '@/types/getBoardPostComment';
 
 export interface CommentProps {
@@ -6,5 +7,5 @@ export interface CommentProps {
   className: string;
   isReply?: boolean;
   commentId?: number;
-  mother_id?: number;
+  type?: PetitionCommentOrderType;
 }

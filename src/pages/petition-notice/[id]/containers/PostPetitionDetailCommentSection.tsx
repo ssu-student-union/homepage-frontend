@@ -55,7 +55,9 @@ export function PostPetitionDetailCommentSection() {
         <TextArea className="w-full">{null}</TextArea>
         <div className="flex flex-col">
           {localStorage.getItem('total-comment') === '0' ? (
-            data?.data.postComments.map((comment) => <Comment comment={comment} key={comment.id} className="" />)
+            data?.data.postComments.map((comment) => (
+              <Comment comment={comment} key={comment.id} className="" type={selectedSubcategories} />
+            ))
           ) : isLoading ? (
             <>
               {[...Array(4)].map((_, index) => (
@@ -63,7 +65,9 @@ export function PostPetitionDetailCommentSection() {
               ))}
             </>
           ) : (
-            data?.data.postComments.map((comment) => <Comment comment={comment} key={comment.id} className="" />)
+            data?.data.postComments.map((comment) => (
+              <Comment comment={comment} key={comment.id} className="" type={selectedSubcategories} />
+            ))
           )}
         </div>
       </div>

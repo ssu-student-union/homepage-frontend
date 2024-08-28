@@ -14,6 +14,7 @@ export interface postReplyCommentList {
   likeCount: number;
   isDeleted: boolean;
   isAuthor: boolean;
+  isLiked: boolean;
 }
 
 export interface postCommentList {
@@ -27,6 +28,7 @@ export interface postCommentList {
   likeCount: number;
   isDeleted: boolean;
   isAuthor: boolean;
+  isLiked: boolean;
   postReplyComments: postReplyCommentList[];
 }
 

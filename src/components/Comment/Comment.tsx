@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { DotsThree } from '@phosphor-icons/react';
-import { ThumbsUp, User } from 'lucide-react';
+import { DotsThree, ThumbsUp, User } from '@phosphor-icons/react';
 import { TextArea } from '../TextArea/TextArea';
 import { CancelButton } from '@/components/Buttons/BoardActionButtons';
 import { CommentProps } from './types';
@@ -11,7 +10,7 @@ import { useResize } from '@/hooks/useResize';
 import { usePostPostCommentReaction, usePostPostReplyCommentReaction } from '@/hooks/usePostPostCommentReaction';
 import { useNavigate } from 'react-router-dom';
 
-export function Comment({ comment, replyComment, className, isReply = false, commentId, mother_id }: CommentProps) {
+export function Comment({ comment, replyComment, className, isReply = false, commentId, type }: CommentProps) {
   const commentData = comment || replyComment;
 
   const [toggleIsOpen, setToggleIsOpen] = useState(false);
@@ -19,6 +18,8 @@ export function Comment({ comment, replyComment, className, isReply = false, com
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(commentData!.content);
   const [likeCount, setLikeCount] = useState(commentData?.likeCount);
+  const [isLiked, setIsLiked] = useState(commentData?.isLiked);
+  const [animate, setAnimate] = useState(false);
 
   const toggleRef = useRef<HTMLDivElement>(null);
   const commentRef = useRef<HTMLDivElement>(null);
@@ -74,7 +75,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
     setReplyIsOpen(true);
   };
 
-  const postCommentReactionMutation = usePostPostCommentReaction();
+  const postCommentReactionMutation = usePostPostCommentReaction(type!);
   const postReplyCommentReactionMutation = usePostPostReplyCommentReaction();
 
   const handleLikeButton = async () => {
@@ -92,8 +93,14 @@ export function Comment({ comment, replyComment, className, isReply = false, com
           reaction: 'like',
         };
         try {
+          if (!isLiked) {
+            setAnimate(true);
+            setTimeout(() => setAnimate(false), 500);
+          }
+
           const response = await postCommentReactionMutation.mutateAsync(post_comment_reaction);
           setLikeCount(response.data.likeCount);
+          setIsLiked((prev) => !prev);
         } catch (err) {
           console.log(err);
         }
@@ -103,7 +110,12 @@ export function Comment({ comment, replyComment, className, isReply = false, com
           reaction: 'like',
         };
         try {
+          if (!replyComment?.isLiked) {
+            setAnimate(true);
+            setTimeout(() => setAnimate(false), 500);
+          }
           await postReplyCommentReactionMutation.mutateAsync(post_reply_comment_reaction);
+          setIsLiked((prev) => !prev);
         } catch (err) {
           console.log(err);
         }
@@ -135,7 +147,6 @@ export function Comment({ comment, replyComment, className, isReply = false, com
             isReply={isReply}
             isEdit={true}
             commentId={comment?.id}
-            mother_Id={mother_id}
             replycommentId={replyComment?.id}
             onEditSuccess={handleEditSuccess}
             onCancel={handleCancelEdit}
@@ -202,10 +213,10 @@ export function Comment({ comment, replyComment, className, isReply = false, com
               </div>
               {commentData!.isDeleted ? null : (
                 <div className="flex gap-[3px] text-primary">
-                  <span className="cursor-pointer" onClick={handleLikeButton}>
-                    <ThumbsUp size={mobile_screen ? '13px' : '19px'} />
+                  <span className={`cursor-pointer ${animate ? 'animate-sparkle' : ''}`} onClick={handleLikeButton}>
+                    <ThumbsUp size={mobile_screen ? '13px' : '19px'} weight={isLiked ? 'fill' : 'regular'} />
                   </span>
-                  <span className="pt-[1px] xs:pt-0">{likeCount}</span>
+                  <span className="pt-[1px] xs:pt-0">{isReply ? commentData?.likeCount : likeCount}</span>
                 </div>
               )}
             </div>
@@ -229,7 +240,6 @@ export function Comment({ comment, replyComment, className, isReply = false, com
             replyComment={replyComment}
             key={replyComment.id}
             commentId={commentId}
-            mother_id={comment.id}
             className="ml-10"
             isReply={true}
           />

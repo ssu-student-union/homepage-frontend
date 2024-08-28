@@ -1,4 +1,5 @@
 import { postPostCommentReaction, postPostReplyCommentReaction } from '@/apis/postPostCommentReaction';
+import { PetitionCommentOrderType } from '@/pages/petition-notice/type';
 import {
   postPostCommentReactionProps,
   postPostCommentReactionResponse,
@@ -7,13 +8,15 @@ import {
 } from '@/types/postPostReaction';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const usePostPostCommentReaction = () => {
-  // const queryClient = useQueryClient();
+export const usePostPostCommentReaction = (type: PetitionCommentOrderType) => {
+  const queryClient = useQueryClient();
   return useMutation<postPostCommentReactionResponse, Error, postPostCommentReactionProps>({
     mutationFn: (postReaction: postPostCommentReactionProps) => postPostCommentReaction(postReaction),
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries({ queryKey: ['getPostComment'] });
-    // },
+    onSuccess: () => {
+      if (type === '최신순') {
+        queryClient.invalidateQueries({ queryKey: ['getPostComment'] });
+      }
+    },
   });
 };
 

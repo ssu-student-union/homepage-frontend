@@ -3,7 +3,6 @@ import { clientAuth } from './client';
 import { postReplyCommentList } from '@/types/getBoardPostComment';
 
 export interface patchBoardPostCommentProps {
-  postId: number;
   commentId: number;
   content: string;
 }
@@ -15,12 +14,11 @@ export interface patchBoardPostCommentResponse {
 }
 
 export const patchBoardPostComment = async ({
-  postId,
   commentId,
   content,
 }: patchBoardPostCommentProps): Promise<patchBoardPostCommentResponse> => {
   const response: AxiosResponse<patchBoardPostCommentResponse> = await clientAuth<patchBoardPostCommentResponse>({
-    url: `/board/posts/${postId}/comments/${commentId}`,
+    url: `/board/posts/comments/${commentId}`,
     method: 'patch',
     data: {
       content: content,
@@ -37,19 +35,17 @@ export interface patchBoardPostReplyCommentResponse {
 }
 
 export interface patchBoardPostReplyCommentProps {
-  commentId: number;
   replycommentId: number;
   content: string;
 }
 
 export const patchBoardPostReplyComment = async ({
-  commentId,
   replycommentId,
   content,
 }: patchBoardPostReplyCommentProps): Promise<patchBoardPostReplyCommentResponse> => {
   const response: AxiosResponse<patchBoardPostReplyCommentResponse> =
     await clientAuth<patchBoardPostReplyCommentResponse>({
-      url: `/board/posts/comments/${commentId}/reply-comments/${replycommentId}`,
+      url: `/board/posts/comments/reply-comments/${replycommentId}`,
       method: 'patch',
       data: {
         content: content,

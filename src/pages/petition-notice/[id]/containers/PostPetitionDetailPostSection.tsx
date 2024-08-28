@@ -10,6 +10,7 @@ import { PostHead } from '@/components/PostHead';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 import { usePostPostReaction } from '@/hooks/usePostPostReaction';
+import { useState } from 'react';
 
 type ParamsType = {
   id: string;
@@ -65,6 +66,8 @@ export function PostPetitionDetailPostSection() {
 
   const mutation = usePostPostReaction();
 
+  const [animate, setAnimate] = useState(false);
+
   const handleLikeButton = async () => {
     if (!localStorage.getItem('kakaoData')) {
       const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
@@ -81,6 +84,10 @@ export function PostPetitionDetailPostSection() {
         reaction: 'like',
       };
       try {
+        if (!data?.data.postDetailResDto.isLiked) {
+          setAnimate(true);
+          setTimeout(() => setAnimate(false), 500);
+        }
         await mutation.mutateAsync(post_reaction);
       } catch (err) {
         console.log(err);
@@ -112,8 +119,8 @@ export function PostPetitionDetailPostSection() {
               <div className="w-full">
                 <Viewer initialValue={JSON.parse(data?.data.postDetailResDto.content as string)} />
                 <div className="mt-[51px] flex justify-start gap-1 text-primary">
-                  <span className="cursor-pointer" onClick={handleLikeButton}>
-                    <ThumbsUp size={25} weight="regular" />
+                  <span className={`cursor-pointer ${animate ? 'animate-sparkle' : ''}`} onClick={handleLikeButton}>
+                    <ThumbsUp size={25} weight={data?.data.postDetailResDto.isLiked ? 'fill' : 'regular'} />
                   </span>
                   <span className="pt-1">{data?.data.postDetailResDto.likeCount}</span>
                 </div>

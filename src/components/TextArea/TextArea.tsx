@@ -17,7 +17,6 @@ export function TextArea({
   isEdit = false,
   commentId,
   replycommentId,
-  mother_Id,
   onReplySuccess,
   onEditSuccess,
   onCancel,
@@ -66,10 +65,9 @@ export function TextArea({
           if (onReplySuccess) onReplySuccess();
         } else {
           if (!isReply) {
-            await patchBoardCommentMutation.mutateAsync({ postId: Number(id), commentId: commentId!, content: text });
+            await patchBoardCommentMutation.mutateAsync({ commentId: commentId!, content: text });
           } else {
             await patchBoardReplyCommentMutation.mutateAsync({
-              commentId: mother_Id!,
               replycommentId: replycommentId!,
               content: text,
             });
