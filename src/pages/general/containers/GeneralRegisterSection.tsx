@@ -49,7 +49,6 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const formValuesScouncil = watch();
   const { sort } = useParams();
 
-  /*
   useEffect(() => {
     if (sort !== 'scouncil') {
       const storedFormValues = localStorage.getItem('formValues');
@@ -64,7 +63,6 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       }
     }
   }, [navigate, sort]);
-  */
 
   useEffect(() => {
     if (!isScouncilPath) {
