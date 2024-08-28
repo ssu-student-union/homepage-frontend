@@ -1,10 +1,14 @@
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function AuditContentLoading(screenW: number) {
+interface AuditContentLoadingProps {
+  screenWidth: number;
+}
+
+export default function AuditContentLoading({ screenWidth }: AuditContentLoadingProps) {
   const emptyFive = Array(5).fill(null);
   const emptyThree = Array(3).fill(null);
   const emptyTwo = Array(2).fill(null);
-  if (screenW >= 1920) {
+  if (screenWidth >= 1920) {
     return (
       <div className="flex flex-col justify-between">
         {emptyThree.map((_, index) => (
@@ -16,7 +20,7 @@ export default function AuditContentLoading(screenW: number) {
         ))}
       </div>
     );
-  } else if (screenW >= 1440 && screenW < 1920) {
+  } else if (screenWidth >= 1440 && screenWidth < 1920) {
     return (
       <div className="flex flex-col justify-between">
         {emptyThree.map((_, index) => (

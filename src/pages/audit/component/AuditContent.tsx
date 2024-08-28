@@ -32,7 +32,7 @@ export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
   }, [initPosts]);
 
   if (isLoading) {
-    return <AuditContentLoading screenW={screenWidth} />;
+    return <AuditContentLoading screenWidth={screenWidth} />;
   } else {
     if (!posts || posts.length === 0) {
       return <div>게시물이 없습니다.</div>;
