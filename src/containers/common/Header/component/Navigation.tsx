@@ -19,7 +19,7 @@ interface NavigationProps {
 export function Navigation({ state = State.Onboarding }: NavigationProps) {
   const styles = getStyles(state);
   return (
-    <NavigationMenu className="h-full">
+    <NavigationMenu className="h-full xs:hidden sm:hidden md:hidden lg:hidden">
       <NavigationMenuList className="h-full">
         {Object.entries(menuItems).map(([category, items]) => (
           <NavigationMenuItem key={category} className="relative h-full min-w-fit text-[20px]">

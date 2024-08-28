@@ -14,41 +14,35 @@ interface HeaderProps {
 }
 
 export function Header({ state = State.Onboarding }: HeaderProps) {
-  const isMobile = useIsMobile();
   const styles = getStyles(state);
 
   return (
     <div
       className={cn(
-        'fixed top-0 h-[60px] w-[100vw] xs:h-[50px] sm:h-[50px] md:h-[50px]',
-        isMobile ? 'flex justify-start' : 'flex justify-between',
+        'fixed top-0 flex h-[60px] w-[100vw] justify-start xs:h-[50px] sm:h-[50px] md:h-[50px] xl:justify-between xxl:justify-between',
         styles.bgColor
       )}
       style={{ zIndex: 100 }}
     >
-      {isMobile && (
-        <HeaderSheet
-          trigger={
-            <div className={cn(styles.headerItemStyle, 'px-[1.25rem] text-base')}>
-              <List size="1.5rem" />
-            </div>
-          }
-        />
-      )}
-      <div className={cn(styles.headerItemStyle, { 'px-0.5': isMobile })}>
+      <HeaderSheet
+        trigger={
+          <div className={cn(styles.headerItemStyle, 'px-[1.25rem] text-base')}>
+            <List size="1.5rem" />
+          </div>
+        }
+      />
+      <div className={cn(styles.headerItemStyle, 'xs:px-0.5 sm:px-0.5 md:px-0.5 lg:px-0.5')}>
         <Link to="/">
           <div className="flex items-center gap-4">
-            <Logo size={isMobile ? '23px' : '46px'} fill={styles.fillColor} />
+            <Logo size={'xl:46px xxl:46px 23px'} fill={styles.fillColor} />
             <span className={cn(styles.textColor, 'min-w-fit text-[20px] text-lg font-bold')}>US:SUM</span>
           </div>
         </Link>
       </div>
-      {!isMobile && <Navigation state={state} />}
-      {!isMobile && (
-        <div className="flex pr-4">
-          <AuthButton state={state} />
-        </div>
-      )}
+      <Navigation state={state} />
+      <div className="flex pr-4">
+        <AuthButton state={state} />
+      </div>
     </div>
   );
 }
