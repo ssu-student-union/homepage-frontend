@@ -22,7 +22,7 @@ export function CertifyApplySection() {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-  const isScouncilPath = location.pathname === '/register/scouncil';
+  const isScouncilPath = location.pathname === '/homepage-frontend/register/scouncil';
   const formValues = watch();
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export function CertifyApplySection() {
       console.log('Response from server:', response);
 
       alert('문의내용이 확인되었습니다.');
-      navigate('/register/errorcheck');
+      navigate('/homepage-frontend/register/errorcheck');
     } catch (error: any) {
       // Added type `any` to handle any error shape
       if (error.response) {

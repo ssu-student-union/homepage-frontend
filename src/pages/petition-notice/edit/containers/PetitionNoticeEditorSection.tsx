@@ -81,7 +81,7 @@ export function PetitionNoticeEditorSection() {
           const check = window.confirm('청원 글을 등록하시겠습니까?');
           if (check) {
             await postBoardPosts(posts);
-            navigate('/petition-notice');
+            navigate('/homepage-frontend/petition-notice');
           } else {
             return;
           }
@@ -107,7 +107,7 @@ export function PetitionNoticeEditorSection() {
         localStorage.removeItem('edit-post');
         const check = window.confirm('편집하시겠습니까?');
         if (check) {
-          navigate('/petition-notice');
+          navigate('/homepage-frontend/petition-notice');
         } else {
           return;
         }

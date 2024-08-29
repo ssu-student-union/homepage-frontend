@@ -279,7 +279,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           if (response.status === 200) {
             alert('파일 업로드가 완료되었습니다.');
-            navigate('/data');
+            navigate('/homepage-frontend/data');
           } else {
             alert('오류가 발생했습니다. 다시 시도해주세요.');
           }

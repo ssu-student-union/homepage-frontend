@@ -30,10 +30,10 @@ export const useCategoryMap = ({
     if (selectedSubcategory) {
       onSubSelect(selectedSubcategory);
       setSearchParams({ category: selectedCategory, 'sub-category': selectedSubcategory });
-      navigate(`/intro?category=${selectedCategory}&sub-category=${selectedSubcategory}`);
+      navigate(`/homepage-frontend/intro?category=${selectedCategory}&sub-category=${selectedSubcategory}`);
     } else {
       setSearchParams({ category: selectedCategory });
-      navigate(`/intro?category=${selectedCategory}&sub-category=intro`);
+      navigate(`/homepage-frontend/intro?category=${selectedCategory}&sub-category=intro`);
     }
   };
 

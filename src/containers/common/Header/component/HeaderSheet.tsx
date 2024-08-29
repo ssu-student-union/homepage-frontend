@@ -72,7 +72,7 @@ export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps)
             </a>
             <Link
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-              to={state === State.Login ? `/my` : `/register`}
+              to={state === State.Login ? `/homepage-frontend/my` : `/homepage-frontend/register`}
               onClick={() => window.location.reload()}
             >
               {state === State.Login ? '내정보' : '로그인'}

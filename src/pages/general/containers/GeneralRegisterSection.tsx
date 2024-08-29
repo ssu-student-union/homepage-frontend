@@ -19,7 +19,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const location = useLocation();
   const { sort } = useParams();
 
-  const isScouncilPath = location.pathname === '/register/scouncil';
+  const isScouncilPath = location.pathname === '/homepage-frontend/register/scouncil';
 
   const {
     register,
@@ -51,7 +51,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       if (kakaoData) {
         const parsedKakaoData = JSON.parse(kakaoData);
         if (parsedKakaoData.data?.name && parsedKakaoData.data?.studentId) {
-          navigate('/');
+          navigate('/homepage-frontend');
         }
       }
     }
@@ -100,7 +100,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           if (response.status === 200) {
             alert('학생 정보가 확인되었습니다');
             localStorage.setItem('userId', formValuesScouncil.accountId);
-            navigate('/');
+            navigate('/homepage-frontend');
           } else {
             alert('오류가 발생했습니다. 다시 시도해주세요.');
             setScoucilError(true);
@@ -121,7 +121,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   };
 
   const handleCertifyError = () => {
-    navigate('/register/errorapply');
+    navigate('/homepage-frontend/register/errorapply');
   };
 
   return (

@@ -6,7 +6,7 @@ export function CertifyErrorSection() {
   const navigate = useNavigate();
 
   const handleToMain = () => {
-    navigate('/');
+    navigate('/homepage-frontend');
   };
   return (
     <div className="mt-[260px] grid place-content-center text-center">

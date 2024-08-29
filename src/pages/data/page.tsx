@@ -16,7 +16,7 @@ export function Data() {
       <Header state={State.Login} />
       <DataTitleSection userId={userId} />
 
-      {location.pathname === '/data' && (
+      {location.pathname === '/homepage-frontend/data' && (
         <>
           <DataNavSection />
 
@@ -28,7 +28,7 @@ export function Data() {
         </>
       )}
 
-      {location.pathname === '/data/edit' && userId && (
+      {location.pathname === '/homepage-frontend/data/edit' && userId && (
         <>
           <div className="mt-8 grid place-items-center">
             <UploadSection userId={userId} />

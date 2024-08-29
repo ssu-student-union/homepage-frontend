@@ -38,7 +38,7 @@ export function AuditPage() {
             onSubcategorySelect={(selectedCategory) => {
               const categoryKey = Object.keys(categoryMap).find((key) => categoryMap[key] === selectedCategory);
               if (categoryKey) {
-                navigate(`/audit?category=${categoryKey}`);
+                navigate(`/homepage-frontend/audit?category=${categoryKey}`);
               }
             }}
           />
@@ -48,7 +48,7 @@ export function AuditPage() {
         currentPage={currentPage}
         onPageChange={handlePageChange}
         onWriteClick={() => {
-          navigate(`/audit/edit`);
+          navigate(`/homepage-frontend/audit/edit`);
         }}
         className="pt-[32px]"
       />
