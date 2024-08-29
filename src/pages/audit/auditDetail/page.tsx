@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
-import { AuditDetailEditSection } from './container/auditDetailEditSection';
+// import { AuditDetailEditSection } from './container/auditDetailEditSection';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 import { AuditDetailFileSection } from './container/auditDetailFileSection';
 import AuditDetailLoading from './container/auditDetailLoading';
@@ -9,8 +9,8 @@ import AuditDetailLoading from './container/auditDetailLoading';
 export function AuditDetailPage() {
   const location = useLocation();
   const postId: number = location.state?.postId;
-  const category: string = location.state?.category;
-  const thumbnailImage: string = location.state?.thumbnailImage;
+  // const category: string = location.state?.category;
+  // const thumbnailImage: string = location.state?.thumbnailImage;
   const boardCode: string = '감사기구게시판';
 
   const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
@@ -21,7 +21,7 @@ export function AuditDetailPage() {
     return <div>에러 발생!!!</div>;
   }
 
-  const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
+  // const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
@@ -32,7 +32,7 @@ export function AuditDetailPage() {
         <>
           <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
           <AuditDetailFileSection files={postDetail.fileList} />
-          <AuditDetailEditSection
+          {/* <AuditDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
             category={category}
@@ -41,7 +41,7 @@ export function AuditDetailPage() {
             postId={postId}
             fileUrls={fileUrls}
             thumbnailImage={thumbnailImage}
-          />
+          /> */}
         </>
       )}
     </div>
