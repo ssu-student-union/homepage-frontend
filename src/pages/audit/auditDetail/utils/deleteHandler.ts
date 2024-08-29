@@ -6,7 +6,7 @@ interface DeleteHandlerProps {
   postId: number;
   fileUrls: string[];
   mutFile: UseMutationResult<AxiosResponse<void>, AxiosError, { boardCode: string; fileUrls: string[] }>;
-  mutPost: UseMutationResult<AxiosResponse<void>, AxiosError, { boardCode: string; postId: number }>;
+  mutPost: UseMutationResult<AxiosResponse<any>, AxiosError, { boardCode: string; postId: number; fileurl?: string[] }>;
 }
 
 export const deleteHandler = ({ boardCode, postId, fileUrls, mutFile, mutPost }: DeleteHandlerProps) => {
