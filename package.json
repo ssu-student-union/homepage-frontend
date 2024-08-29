@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx,md}\"",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
