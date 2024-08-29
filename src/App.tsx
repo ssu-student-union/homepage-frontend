@@ -25,13 +25,11 @@ const queryClient = new QueryClient({
   },
 });
 
-const PUBLIC_URL = '/homepage-frontend';
-
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <BrowserRouter basename={PUBLIC_URL}>
+        <BrowserRouter basename={import.meta.env.PUBLIC_URL}>
           <MainRouter />
           <Toaster />
         </BrowserRouter>
