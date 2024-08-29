@@ -50,7 +50,7 @@ export function TextArea({
     if (!localStorage.getItem('kakaoData')) {
       const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
       if (check) {
-        navigate('/');
+        navigate('/homepage-frontend');
       } else {
         return;
       }

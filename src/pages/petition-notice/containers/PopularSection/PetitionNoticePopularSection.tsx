@@ -77,7 +77,7 @@ export function PetitionNoticePopularSection() {
   );
 
   const handlePostDetail = (id: number) => {
-    navigate(`/petition-notice/${id}`);
+    navigate(`/homepage-frontend/petition-notice/${id}`);
   };
 
   return (
@@ -88,7 +88,7 @@ export function PetitionNoticePopularSection() {
       ) : (
         <div className="relative mb-[66px] mt-[70px] pl-[200px] text-[1.75rem] font-bold xs:mb-[33px] xs:pl-10 sm:pl-10 md:pl-10 lg:pl-10">
           <p className="mb-[11px]">인기청원</p>
-          <div className="flex gap-6 overflow-scroll pr-5 scrollbar-hide" ref={ref}>
+          <div className="scrollbar-hide flex gap-6 overflow-scroll pr-5" ref={ref}>
             {data?.data.postListResDto &&
               data?.data.postListResDto.map((content) => (
                 <PostTextPetition data={content} key={content.postId} onClick={handlePostDetail} />
