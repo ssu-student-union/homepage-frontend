@@ -6,7 +6,7 @@ interface RenderImageProps {
 }
 
 function getImagePaths(category: string, subCategory: string) {
-  const basePath = `/src/assets/image/intro/${category}/${subCategory}`;
+  const basePath = `/homepage-frontend/src/assets/image/intro/${category}/${subCategory}`;
   return {
     xs: `${basePath}/xs.png`,
     sm: `${basePath}/sm.jpg`,
