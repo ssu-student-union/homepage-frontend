@@ -4,13 +4,13 @@ import { UserRound } from 'lucide-react';
 import { userNameMapping } from './index';
 
 interface DataTitleSectionProps {
-  userId: string | number;
+  userId: string | null;
 }
 
 export default function DataTitleSection({ userId }: DataTitleSectionProps) {
   const location = useLocation();
 
-  const userName = (userNameMapping as { [key: string]: string })[userId] || 'Unknown';
+  const userName = userId != null ? (userNameMapping as { [key: string]: string })[userId] || 'Unknown' : 'Unknown';
 
   return (
     <>
