@@ -102,6 +102,7 @@ export function PetitionNoticeEditorSection() {
           content: JSON.stringify(content),
           categoryCode: initialCategoryName,
           thumbnailImage: null,
+          postFileList: [imageId!],
         },
       };
       try {
