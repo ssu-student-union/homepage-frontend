@@ -26,6 +26,12 @@ export function Search() {
     }
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="flex gap-2">
       <Input
@@ -34,6 +40,7 @@ export function Search() {
         className="
         border-[#959595] text-base placeholder:text-[#B6B6B6] xs:h-[42px] xs:w-[211px] sm:h-[42px] sm:w-[211px] md:h-[58px] md:w-[488px] lg:h-[58px] lg:w-[254px] xl:h-[58px] xl:w-[488px] xxl:h-[58px] xxl:w-[488px]"
         placeholder="원하시는 키워드를 입력하세요"
+        onKeyDown={handleKeyPress}
       />
       <Button
         onClick={handleSearch}
