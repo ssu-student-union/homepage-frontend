@@ -13,7 +13,7 @@ export function useAuditEdit() {
   const [content, setContent] = useState<string>('');
 
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
-  const { mutateAsync: createPost, isLoading } = usePostBoardPosts();
+  const { mutateAsync: createPost, isLoading }: any = usePostBoardPosts();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);

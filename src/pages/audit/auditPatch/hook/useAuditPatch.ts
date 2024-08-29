@@ -15,7 +15,7 @@ export function useAuditPatch() {
   const [category, setCategory] = useState<string>(data.category ?? '');
   const [content, setContent] = useState<string>(data.content ?? '');
   const [thumbnailImage, setThumbnailImage] = useState<string>(initialThumbNailImage);
-  const { mutateAsync: patchPost, isLoading } = usePatchBoardPosts();
+  const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);

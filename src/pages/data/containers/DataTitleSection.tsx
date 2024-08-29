@@ -3,10 +3,14 @@ import { useLocation } from 'react-router-dom';
 import { UserRound } from 'lucide-react';
 import { userNameMapping } from './index';
 
-export default function DataTitleSection({ userId }) {
+interface DataTitleSectionProps {
+  userId: string | number;
+}
+
+export default function DataTitleSection({ userId }: DataTitleSectionProps) {
   const location = useLocation();
 
-  const userName = userNameMapping[userId] || 'Unknown';
+  const userName = (userNameMapping as { [key: string]: string })[userId] || 'Unknown';
 
   return (
     <>

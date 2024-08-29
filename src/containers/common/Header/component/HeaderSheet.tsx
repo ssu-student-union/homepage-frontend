@@ -2,7 +2,7 @@ import { dataPath, menuItems } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CaretDown } from '@phosphor-icons/react';
 import { ReactNode, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { State } from '../const/state';
 
 interface HeaderSheetProps {

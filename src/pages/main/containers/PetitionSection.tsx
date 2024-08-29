@@ -11,7 +11,13 @@ const PetitionSection = () => {
       <Spacing size={18} direction="vertical" />
       <div className="scrollbar-hide flex w-full gap-[1.5rem] overflow-x-scroll xs:pr-[1.5rem] sm:pr-[1.5rem]">
         {data?.data.postListResDto.map((petitionData) => (
-          <PostTextPetition data={petitionData} key={petitionData.postId} />
+          <PostTextPetition
+            data={petitionData}
+            key={petitionData.postId}
+            onClick={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+          />
         ))}
       </div>
     </section>

@@ -5,7 +5,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 interface useBoardDetailProps {
   boardCode: string;
   postId: number;
-  userId: number | null;
+  userId?: number | null; // 선택적으로 처리 (page.tsx 오류 처리 위함)
 }
 
 export function useGetBoardDetail({
