@@ -10,12 +10,12 @@ export const postBoardBoardCodeFiles = (
   const formData = new FormData();
 
   // files 배열을 'files' key로 추가
-  files.forEach((file, index) => {
+  files.forEach((file, _index) => {
     formData.append('files', file); // 여러 파일을 전송하려면 index를 사용해도 됨 (files[0], files[1], 등)
   });
 
   // images 배열을 'images' key로 추가
-  images.forEach((image, index) => {
+  images.forEach((image, _index) => {
     formData.append('images', image); // 여러 이미지를 전송하려면 index를 사용해도 됨 (images[0], images[1], 등)
   });
 

@@ -31,6 +31,7 @@ export interface OfficialCommentList {
 }
 
 export interface PostDetailResDto {
+  fileList: never[];
   postId: number;
   categoryName: string;
   authorName: string;

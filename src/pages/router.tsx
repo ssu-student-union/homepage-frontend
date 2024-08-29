@@ -10,7 +10,6 @@ import { AuditDetailPage } from './audit/auditDetail/page';
 import { AuditEditPage } from './audit/auditEdit/page';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
-import { BoardPage } from './boardTest/page';
 import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';

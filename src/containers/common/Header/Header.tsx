@@ -1,4 +1,3 @@
-import { useIsMobile } from '@/hooks/useIsMobile';
 import { cn } from '@/libs/utils';
 import { List } from '@phosphor-icons/react';
 import { Logo } from '@/components/Logo/Logo';

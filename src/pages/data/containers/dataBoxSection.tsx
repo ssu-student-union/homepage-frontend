@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import { getBoardDataPosts } from '@/apis/getBoardDataPosts';
 import DataEditBtn from './dataEditBtn';
 import { Button } from '@/components/ui/button';
@@ -8,22 +7,35 @@ import { DropdownSection } from './dropDownSecion';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
 import Pagination from '@/components/Pagination';
 
-const ITEMS_PER_PAGE = 5;
+// Define the Post interface for type safety
+interface Post {
+  category: string;
+  createdAt: number;
+  uploadName: string;
+  uploadDate: string;
+  fileData: string[];
+  fileNames: string[];
+  title?: string;
+  date: string;
+  content?: string[];
+  files?: string[];
+  [key: string]: any; // Add this line if there are additional dynamic keys
+}
 
 export default function DataBoxSection({ userId }: { userId: string }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [dataBoxes, setDataBoxes] = useState([]);
-  const [data, setData] = useState([]);
+  const [dataBoxes, setDataBoxes] = useState<Post[]>([]);
+  const [data, setData] = useState<any>([]); // Adjust type if `data` is more specific
   const [selectedMajorOption, setSelectedMajorOption] = useState('');
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
-  const [latestSpecialCategory, setLatestSpecialCategory] = useState<any>(null); // State to store the latest "총학생회칙" entry across all pages
+  const [latestSpecialCategory, setLatestSpecialCategory] = useState<Post | null>(null); // State to store the latest "총학생회칙" entry across all pages
 
   const fetchLatestSpecialCategory = async () => {
     try {
       const response = await getBoardDataPosts({ filters: {}, page: 1 });
       if (response.data && response.data.data && response.data.data.postListResDto) {
-        const allData = response.data.data.postListResDto.map((post: any) => ({
+        const allData: Post[] = response.data.data.postListResDto.map((post: any) => ({
           ...post,
           createdAt: new Date(post.date).getTime(),
           fileNames: post.content || [],
@@ -31,11 +43,11 @@ export default function DataBoxSection({ userId }: { userId: string }) {
 
         // Find the latest entry with "총학생회칙"
         const specialCategoryData = allData
-          .filter((data) => data.fileNames.includes('총학생회칙'))
-          .sort((a, b) => b.createdAt - a.createdAt);
+          .filter((data: Post) => data.fileNames.includes('총학생회칙'))
+          .sort((a: Post, b: Post) => b.createdAt - a.createdAt);
 
         const latestSpecialCategoryData = specialCategoryData[0]; // Get the most recent "총학생회칙" entry
-        setLatestSpecialCategory(latestSpecialCategoryData); // Store it in state
+        setLatestSpecialCategory(latestSpecialCategoryData || null); // Store it in state
       }
     } catch (error) {
       console.error('Error fetching latest special category:', error);
@@ -50,7 +62,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
       setData(response.data);
 
       if (response.data && response.data.data && response.data.data.postListResDto) {
-        const categorizedDataBoxes = response.data.data.postListResDto.map((post: any) => ({
+        const categorizedDataBoxes: Post[] = response.data.data.postListResDto.map((post: any) => ({
           ...post,
           category: post.category || '기타',
           createdAt: new Date(post.date).getTime(),
@@ -124,7 +136,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
         <div className="mt-8 grid place-items-center border-t border-black sm:w-[364px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]">
           {currentData.length > 0 ? (
             currentData
-              .sort((a, b) => {
+              .sort((a: Post, b: Post) => {
                 // Compare by createdAt to ensure the latest "총학생회칙" entry comes first
                 const isALatest = latestSpecialCategory?.createdAt === a.createdAt;
                 const isBLatest = latestSpecialCategory?.createdAt === b.createdAt;
@@ -135,7 +147,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
                 // For items that are not the latest "총학생회칙", sort by createdAt descending
                 return b.createdAt - a.createdAt;
               })
-              .map((data, index) => {
+              .map((data: Post, index: number) => {
                 // Determine if the current data entry is the latest "총학생회칙" entry across all pages
                 const isLatestSpecialCategory = latestSpecialCategory?.createdAt === data.createdAt;
 
