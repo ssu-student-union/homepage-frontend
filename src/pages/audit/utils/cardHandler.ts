@@ -7,5 +7,5 @@ export const handleCardClick = (
   thumbnailImage: string | undefined,
   navigate: NavigateFunction
 ) => {
-  navigate(`/audit/${id}`, { state: { postId, category, thumbnailImage } });
+  navigate(`/homepage-frontend/audit/${id}`, { state: { postId, category, thumbnailImage } });
 };

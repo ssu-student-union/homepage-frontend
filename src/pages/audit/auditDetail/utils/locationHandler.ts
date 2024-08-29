@@ -12,5 +12,5 @@ interface dataType {
 }
 
 export const handleLocation = ({ data }: dataType, navigate: NavigateFunction) => {
-  navigate(`/audit/patch`, { state: { data } });
+  navigate(`/homepage-frontend/audit/patch`, { state: { data } });
 };

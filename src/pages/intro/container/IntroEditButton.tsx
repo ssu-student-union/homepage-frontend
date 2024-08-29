@@ -6,7 +6,7 @@ export default function IntroEditButton() {
   const [searchParams] = useSearchParams();
 
   const handleEditClick = () => {
-    navigate(`/intro/edit?${searchParams.toString()}`);
+    navigate(`/homepage-frontend/intro/edit?${searchParams.toString()}`);
   };
 
   return (

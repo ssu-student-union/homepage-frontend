@@ -52,7 +52,7 @@ export function useAuditEdit() {
         },
       });
 
-      navigate(`/audit?category=notice`);
+      navigate(`/homepage-frontend/audit?category=notice`);
       window.location.reload();
     } catch (e) {
       console.error(e);

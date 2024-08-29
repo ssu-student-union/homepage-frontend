@@ -6,7 +6,7 @@ export default function DataEditBtn({ ...props }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/data/edit');
+    navigate('/homepage-frontend/data/edit');
   };
 
   return (

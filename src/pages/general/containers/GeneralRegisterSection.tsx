@@ -19,7 +19,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const location = useLocation();
   const { sort } = useParams();
 
-  const isScouncilPath = location.pathname === '/register/scouncil';
+  const isScouncilPath = location.pathname === '/homepage-frontend/register/scouncil';
 
   const {
     register,
@@ -51,7 +51,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       if (kakaoData) {
         const parsedKakaoData = JSON.parse(kakaoData);
         if (parsedKakaoData.data?.name && parsedKakaoData.data?.studentId) {
-          navigate('/');
+          navigate('/homepage-frontend');
         }
       }
     }
@@ -86,30 +86,31 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
 
     try {
       const UserData = localStorage.getItem('kakaoData');
+      let accessToken;
       if (UserData) {
         const parsedUserData = JSON.parse(UserData);
-        const accessToken = parsedUserData?.data?.accessToken;
-        if (accessToken) {
-          const endpoint = isScouncilPath ? '/auth/council-login' : '/onboarding/academy-information';
-          const response = await client.post(endpoint, targetFormValues, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+        accessToken = parsedUserData?.data?.accessToken;
+      }
 
-          if (response.status === 200) {
-            alert('학생 정보가 확인되었습니다');
-            localStorage.setItem('userId', formValuesScouncil.accountId);
-            navigate('/');
-          } else {
-            alert('오류가 발생했습니다. 다시 시도해주세요.');
-            setScoucilError(true);
-          }
-        } else {
-          alert('AccessToken이 없습니다.');
-        }
+      const endpoint = isScouncilPath ? '/auth/council-login' : '/onboarding/academy-information';
+
+      // accessToken이 필요한지 여부를 isScouncilPath를 기준으로 결정
+      const headers = isScouncilPath
+        ? {} // ScouncilPath일 경우 Authorization 없이 요청
+        : { Authorization: `Bearer ${accessToken}` }; // 그렇지 않을 경우 accessToken 사용
+
+      // client.post 요청을 실행
+      const response = await client.post(endpoint, targetFormValues, {
+        headers,
+      });
+
+      if (response.status === 200) {
+        alert('학생 정보가 확인되었습니다');
+        localStorage.setItem('userId', formValuesScouncil.accountId);
+        navigate('/homepage-frontend');
       } else {
-        alert('유저데이터가 없습니다.');
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+        setScoucilError(true);
       }
     } catch (error) {
       setScoucilError(true);
@@ -121,7 +122,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   };
 
   const handleCertifyError = () => {
-    navigate('/register/errorapply');
+    navigate('/homepage-frontend/register/errorapply');
   };
 
   return (
