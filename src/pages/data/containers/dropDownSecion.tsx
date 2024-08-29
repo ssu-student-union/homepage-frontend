@@ -22,8 +22,9 @@ export function DropdownSection({
   const [middleCategory, setMiddleCategory] = useState('');
   const [minorCategory, setMinorCategory] = useState('');
 
-  const middleCategoryOptions = majorCategory ? middleOptions[majorCategory] : [];
-  const minorCategoryOptions = middleCategory ? minorOptions[middleCategory] : [];
+  // Ensure middleCategoryOptions and minorCategoryOptions are arrays, defaulting to an empty array if undefined
+  const middleCategoryOptions = Array.isArray(middleOptions[majorCategory]) ? middleOptions[majorCategory] : [];
+  const minorCategoryOptions = Array.isArray(minorOptions[middleCategory]) ? minorOptions[middleCategory] : [];
 
   // Call the parent component's callback functions when the value changes
   const handleMajorChange = (value: string) => {
