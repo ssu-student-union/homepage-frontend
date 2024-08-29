@@ -9,18 +9,18 @@ import UploadSection from './containers/edit/UploadSection';
 
 export function Data() {
   const location = useLocation();
-  const userId = 'ssuoperating1897';
+  const userId = localStorage.getItem('userId');
 
   return (
     <>
       <Header state={State.Login} />
-      <DataTitleSection userId="ssutudent1897" />
+      <DataTitleSection userId={userId} />
 
       {location.pathname === '/data' && (
         <>
           <DataNavSection />
 
-          <DataBoxSection userId={userId} />
+          <DataBoxSection userId={userId ?? 'ssutudent1897'} />
           <div className="flex justify-center sm:mt-[16px] md:mt-[62px] lg:hidden xl:hidden xxl:hidden">
             <Search />
           </div>
