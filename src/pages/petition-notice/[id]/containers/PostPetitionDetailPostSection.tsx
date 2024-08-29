@@ -48,7 +48,7 @@ export function PostPetitionDetailPostSection() {
   const handleDeleteContent = async () => {
     const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
     if (deleteCheck) {
-      await delBoardPosts('청원게시판', data?.data.postDetailResDto.postId!);
+      await delBoardPosts('청원게시판', data?.data.postDetailResDto.postId!, data?.data.postDetailResDto.imageList!);
       navigate('/homepage-frontend/petition-notice');
     } else {
       return;

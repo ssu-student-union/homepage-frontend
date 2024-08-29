@@ -110,6 +110,10 @@ export function PetitionNoticeEditorSection() {
         const check = window.confirm('편집하시겠습니까?');
         if (check) {
           navigate('/homepage-frontend/petition-notice');
+
+          // 이미지 수정 시 원본 컨텐츠와 비교하여 바뀐 이미지는 삭제하는 로직 필요
+          console.log(initialContent);
+          console.log(JSON.stringify(content));
         } else {
           return;
         }
