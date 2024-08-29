@@ -11,6 +11,7 @@ import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 import { usePostPostReaction } from '@/hooks/usePostPostReaction';
 import { useState } from 'react';
+import { delBoardFiles } from '@/apis/delBoardFiles';
 
 type ParamsType = {
   id: string;
@@ -49,6 +50,7 @@ export function PostPetitionDetailPostSection() {
     const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
     if (deleteCheck) {
       await delBoardPosts('청원게시판', data?.data.postDetailResDto.postId!);
+      await delBoardFiles('청원게시판', data?.data.postDetailResDto.imageList!);
       navigate('/homepage-frontend/petition-notice');
     } else {
       return;
