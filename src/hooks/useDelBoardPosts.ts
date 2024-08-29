@@ -9,7 +9,7 @@ export function useDelBoardPosts(): UseMutationResult<
 > {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ boardCode, postId, fileurl }) => delBoardPosts(boardCode, postId, fileurl || []),
+    mutationFn: ({ boardCode, postId, fileurl }) => delBoardPosts(boardCode, postId, fileurl),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getPetitionTopLiked'] });
       queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts'] });

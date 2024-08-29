@@ -5,7 +5,7 @@ export async function delBoardPosts(boardCode: string, postId: number, fileurl: 
     method: 'delete',
     url: `/board/${boardCode}/posts/${postId}`,
     data: {
-      fileUrls: fileurl || [],
+      fileUrls: fileurl,
     },
   });
   return resp;
