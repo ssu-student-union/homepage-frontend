@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useResize } from '@/hooks/useResize';
 
 interface RenderImageProps {
   category: string;
@@ -6,7 +7,7 @@ interface RenderImageProps {
 }
 
 function getImagePaths(category: string, subCategory: string) {
-  const basePath = `/homepage-frontend/src/assets/image/intro/${category}/${subCategory}`;
+  const basePath = `${import.meta.env.BASE_URL}src/assets/image/intro/${category}/${subCategory}`;
   return {
     xs: `${basePath}/xs.png`,
     sm: `${basePath}/sm.jpg`,
@@ -17,10 +18,10 @@ function getImagePaths(category: string, subCategory: string) {
 }
 
 export function RenderImage({ category, subCategory }: RenderImageProps) {
+  const { width: screenWidth } = useResize();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-  const updateImageSrc = () => {
-    const screenWidth = window.innerWidth;
+  useEffect(() => {
     const imagePaths = getImagePaths(category, subCategory);
 
     if (screenWidth <= 389) {
@@ -36,17 +37,7 @@ export function RenderImage({ category, subCategory }: RenderImageProps) {
     } else {
       setImageSrc(imagePaths.lg);
     }
-  };
-
-  useEffect(() => {
-    updateImageSrc();
-    window.addEventListener('resize', updateImageSrc);
-
-    return () => {
-      window.removeEventListener('resize', updateImageSrc);
-    };
-  }, [category, subCategory]);
-
+  }, [screenWidth, category, subCategory]);
   if (!imageSrc) {
     return <p>로딩중...</p>;
   }
