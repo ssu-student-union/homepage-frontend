@@ -13,8 +13,6 @@ export default function AuditPatchPage() {
 
   const { postId, imageUrls, title, category, content, thumbnailImage } = data;
 
-  console.log(data);
-
   const {
     setFiles,
     handleTitleChange,
