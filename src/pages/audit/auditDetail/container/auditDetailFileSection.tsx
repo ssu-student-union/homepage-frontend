@@ -5,7 +5,7 @@ interface AuditDetailFileProps {
 }
 
 export function AuditDetailFileSection({ files }: AuditDetailFileProps) {
-  const handleDownload = async (filePath: string) => {
+  const downloadHandler = async (filePath: string) => {
     try {
       const response = await fetch(filePath);
       const blob = await response.blob();
@@ -29,11 +29,13 @@ export function AuditDetailFileSection({ files }: AuditDetailFileProps) {
   return (
     <>
       {files.map((file, index) => (
-        <div key={index} className="flex flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2">
-          <DownloadSimple size="24px" className="cursor-pointer pl-[3px]" onClick={() => handleDownload(file)} />
-          <div className="w-[5px]" />
-          <div>
-            <p className="text-base font-medium text-gray-600">{file}</p>
+        <div
+          key={file + index}
+          className="mb-[0.75rem] flex flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2"
+        >
+          <DownloadSimple size="24px" className="cursor-pointer" onClick={() => downloadHandler(file)} />
+          <div className="ml-[0.5rem] flex-1 overflow-hidden">
+            <p className="truncate text-base font-medium text-gray-600">{file}</p>
           </div>
         </div>
       ))}

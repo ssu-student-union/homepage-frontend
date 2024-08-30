@@ -12,5 +12,6 @@ interface dataType {
 }
 
 export const handleLocation = ({ data }: dataType, navigate: NavigateFunction) => {
+  console.log(data.thumbnailImage);
   navigate(`/homepage-frontend/audit/patch`, { state: { data } });
 };

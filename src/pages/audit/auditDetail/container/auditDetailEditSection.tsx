@@ -57,7 +57,7 @@ export function AuditDetailEditSection({
             )
           }
         />
-        <ListButton onClick={() => navigate(-1)} />
+        <ListButton onClick={() => navigate(`/homepage-frontend/audit?category=notice`)} />
       </div>
     </div>
   );

@@ -19,11 +19,7 @@ import AuditPatchPage from './audit/auditPatch/page';
 
 function Layout() {
   var headerState: State;
-  if (!localStorage.getItem('accessToken')) {
-    headerState = State.Logout;
-  } else {
-    headerState = State.Login;
-  }
+  headerState = State.Logout;
 
   return (
     <>

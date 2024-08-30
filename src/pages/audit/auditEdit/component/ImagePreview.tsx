@@ -8,7 +8,7 @@ interface ImagePreviewProps {
   isThumbnail: boolean;
 }
 
-export function ImagePreview({ imageItem, onRemove = () => {}, onClick = () => {}, isThumbnail }: ImagePreviewProps) {
+export function ImagePreview({ imageItem, onRemove, onClick, isThumbnail }: ImagePreviewProps) {
   const fileURL =
     typeof imageItem === 'string' ? imageItem : imageItem.image ? URL.createObjectURL(imageItem.image) : '';
 
@@ -23,15 +23,17 @@ export function ImagePreview({ imageItem, onRemove = () => {}, onClick = () => {
         </div>
       )}
       {fileURL && <img src={fileURL} alt="uploaded" className="h-full w-full object-cover" />}
-      <button
-        className="absolute right-[-0.75rem] top-[-0.75rem]"
-        onClick={(e) => {
-          e.stopPropagation();
-          onRemove();
-        }}
-      >
-        <XCircle size={32} color="#2F4BF7" weight="fill" />
-      </button>
+      {onRemove && (
+        <button
+          className="absolute right-[-0.75rem] top-[-0.75rem]"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove();
+          }}
+        >
+          <XCircle size={32} color="#2F4BF7" weight="fill" />
+        </button>
+      )}
     </div>
   );
 }

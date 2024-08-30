@@ -4,21 +4,34 @@ import { AuditEditContentSection } from '../auditEdit/container/auditEditContent
 import { AuditEditSubmitButton } from '../auditEdit/container/auditEditSubmitButton';
 import { useAuditPatch } from './hook/useAuditPatch';
 import { AuditPatchImageSection } from './container/auditPatchImageSection';
+import { useLocation } from 'react-router-dom';
+import { AuditEditFilesSection } from '../auditEdit/container/auditEditFilesSection';
 
 export default function AuditPatchPage() {
+  const location = useLocation();
+  const data = location.state?.data || {};
+
+  const { postId, imageUrls, title, category, content, thumbnailImage } = data;
+
+  console.log(data);
+
   const {
-    title,
-    category,
-    content,
+    setFiles,
     handleTitleChange,
     handleCategoryChange,
     handleContentChange,
     handleSubmit,
+    handleThumbnailImage,
     isLoading,
-    imageList,
-    thumbnailImage,
-    setThumbnailImage,
-  } = useAuditPatch();
+    newThumbnailImage,
+  } = useAuditPatch({
+    postId,
+    imageList: imageUrls,
+    initialTitle: title,
+    initialCategory: category,
+    initialContent: content,
+    initialThumbnailImage: thumbnailImage,
+  });
 
   return (
     <>
@@ -31,10 +44,11 @@ export default function AuditPatchPage() {
       />
       <AuditEditContentSection initialValue={content} onContentChange={handleContentChange} />
       <AuditPatchImageSection
-        imageList={imageList}
-        thumbnailImage={thumbnailImage}
-        setThumbnailImage={setThumbnailImage}
+        imageList={imageUrls}
+        thumbnailImage={newThumbnailImage}
+        setThumbnailImage={handleThumbnailImage}
       />
+      <AuditEditFilesSection onFilesChange={setFiles} />
       <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );

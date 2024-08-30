@@ -13,10 +13,9 @@ export function AuditPatchImageSection({ imageList, thumbnailImage, setThumbnail
         <div className="flex max-w-full flex-row gap-4">
           {imageList.map((image, index) => (
             <ImagePreview
-              key={image + index}
+              key={index}
               imageItem={image}
               isThumbnail={thumbnailImage === image}
-              onRemove={() => {}}
               onClick={() => setThumbnailImage(image)}
             />
           ))}

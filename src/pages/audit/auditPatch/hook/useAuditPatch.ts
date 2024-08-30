@@ -1,24 +1,50 @@
+import { useEffect, useState } from 'react';
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
-import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { handleCardClick } from '../../utils/cardHandler';
+import { usePostBoardFiles } from '@/hooks/usePostBoardFiles';
+import { handleFileLists } from '../../auditEdit/utils/fileHandler';
 
-export function useAuditPatch() {
-  const location = useLocation();
-  const data = location.state?.data || {};
-  const postId: number = data.postId ?? 0;
-  const imageList: string[] = data.imageUrls ?? [];
-  const initialThumbNailImage: string = data.thumbNailImage ?? '';
+interface UseAuditPatchProps {
+  postId: number;
+  imageList: string[];
+  initialTitle: string;
+  initialCategory: string;
+  initialContent: string;
+  initialThumbnailImage: string;
+}
 
+export function useAuditPatch({
+  postId,
+  imageList,
+  initialTitle,
+  initialCategory,
+  initialContent,
+  initialThumbnailImage,
+}: UseAuditPatchProps) {
   const navigate = useNavigate();
-  const [title, setTitle] = useState<string>(data.title ?? '');
-  const [category, setCategory] = useState<string>(data.category ?? '');
-  const [content, setContent] = useState<string>(data.content ?? '');
-  const [thumbnailImage, setThumbnailImage] = useState<string>(initialThumbNailImage);
+  const [title, setTitle] = useState<string>(initialTitle);
+  const [category, setCategory] = useState<string>(initialCategory);
+  const [content, setContent] = useState<string>(initialContent);
+  const [newThumbnailImage, setThumbnailImage] = useState<string>(initialThumbnailImage);
+  const [files, setFiles] = useState<File[]>([]);
   const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
+  const { mutateAsync: uploadFiles } = usePostBoardFiles();
+
+  useEffect(() => {
+    setTitle(initialTitle);
+    setCategory(initialCategory);
+    setContent(initialContent);
+    setThumbnailImage(initialThumbnailImage);
+  }, [initialTitle, initialCategory, initialContent, initialThumbnailImage]);
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
+  };
+
+  const handleThumbnailImage = (newImage: string) => {
+    setThumbnailImage(newImage);
+    console.log(newImage);
   };
 
   const handleCategoryChange = (newCategory: string) => {
@@ -31,18 +57,29 @@ export function useAuditPatch() {
 
   const handleSubmit = async () => {
     try {
+      const uploadResponse = await uploadFiles({
+        boardCode: '감사기구게시판',
+        files,
+      });
+
+      const { postFiles } = uploadResponse.data.data;
+      const postFileList = handleFileLists(postFiles);
+
+      console.log(newThumbnailImage);
+
       await patchPost({
         boardCode: '감사기구게시판',
-        data: {
+        posts: {
           title,
           content,
           categoryCode: category,
-          thumbNailImage: thumbnailImage,
+          thumbnailImage: newThumbnailImage,
+          postFileList: postFileList,
         },
         postId: postId,
       });
 
-      handleCardClick(postId.toString(), postId, category, thumbnailImage, navigate);
+      handleCardClick(postId.toString(), postId, category, newThumbnailImage, navigate);
       window.location.reload();
     } catch (e) {
       console.error(e);
@@ -50,16 +87,16 @@ export function useAuditPatch() {
   };
 
   return {
-    postId,
     title,
     category,
     content,
-    thumbnailImage,
+    newThumbnailImage,
     imageList,
+    setFiles,
     handleTitleChange,
     handleCategoryChange,
     handleContentChange,
-    setThumbnailImage,
+    handleThumbnailImage,
     handleSubmit,
     isLoading,
   };
