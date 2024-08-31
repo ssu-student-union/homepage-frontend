@@ -107,6 +107,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       if (response.status === 200) {
         alert('학생 정보가 확인되었습니다');
         localStorage.setItem('userId', formValuesScouncil.accountId);
+        localStorage.setItem('councilData', response.data);
+        localStorage.setItem('accessToken', response.data?.data?.accessToken);
         navigate('/homepage-frontend');
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');

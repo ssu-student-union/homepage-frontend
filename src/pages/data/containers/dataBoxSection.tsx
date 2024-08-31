@@ -6,6 +6,7 @@ import { majorOptions, middleOptions, minorOptions } from './index';
 import { DropdownSection } from './dropDownSecion';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
 import Pagination from '@/components/Pagination';
+import { useNavigate } from 'react-router-dom';
 
 // Define the Post interface for type safety
 interface Post {
@@ -30,6 +31,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
   const [latestSpecialCategory, setLatestSpecialCategory] = useState<Post | null>(null); // State to store the latest "총학생회칙" entry across all pages
+  const navigate = useNavigate();
 
   const fetchLatestSpecialCategory = async () => {
     try {
@@ -69,8 +71,10 @@ export default function DataBoxSection({ userId }: { userId: string }) {
           uploadName: post.title,
           uploadDate: post.date,
           fileData: post.files || [],
+          fileUrl: post.files.map((file: any) => file.fileUrl) || [], // 수정된 부분
           fileNames: post.content || [],
-          fileName: post.fileNames || [],
+          fileName: post.files.map((file: any) => file.fileName) || [], // 수정된 부분
+          fileType: post.files.map((file: any) => file.fileType) || [], // 수정된 부분
         }));
 
         setDataBoxes(categorizedDataBoxes); // Set the filtered data
@@ -102,9 +106,9 @@ export default function DataBoxSection({ userId }: { userId: string }) {
 
   const currentData = dataBoxes;
 
-  const handleDownload = (fileData: string, fileName: string) => {
+  const handleDownload = (fileUrl: string, fileName: string) => {
     const link = document.createElement('a');
-    link.href = fileData;
+    link.href = fileUrl;
     link.download = fileName;
     link.click();
   };
@@ -113,6 +117,10 @@ export default function DataBoxSection({ userId }: { userId: string }) {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleSendData = (post: Post) => {
+    navigate('/homepage-frontend/data/edit', { state: { post } });
   };
 
   return (
@@ -154,6 +162,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
                 return (
                   <div
                     key={index}
+                    onClick={() => handleSendData(data)}
                     className="h-[100px] border-b border-[#C2C2C2] py-4 sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
                   >
                     <div className="flex justify-between">
@@ -170,11 +179,11 @@ export default function DataBoxSection({ userId }: { userId: string }) {
                       </div>
                     </div>
 
-                    <div className="mt-[5px] flex justify-end space-x-2">
-                      {data.fileData.map((fileData: string, fileIndex: number) => (
+                    <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
+                      {data.fileUrl.map((fileUrl: string, fileIndex: number) => (
                         <button
                           key={fileIndex}
-                          onClick={() => handleDownload(fileData, data.fileNames[fileIndex])}
+                          onClick={() => handleDownload(fileUrl, data.fileNames[fileIndex])}
                           className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
                         >
                           {data.fileName[fileIndex]}

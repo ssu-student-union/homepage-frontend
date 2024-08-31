@@ -3,14 +3,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import { userCategories } from './index';
-import { Trash2, Plus, FileText, FileType } from 'lucide-react';
+import { Trash2, Plus, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
 import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
 import { userNameMapping } from '../index';
 import { any } from 'zod';
-import { delBoardFiles } from '@/apis/delBoardFiles';
 
 interface FileItem {
   file: File;
@@ -19,44 +18,25 @@ interface FileItem {
   fileType: string;
   fileData: any; // 'fileData' 속성이 필요합니다.
 }
-export default function UploadSection({ userId }: { userId: string }) {
-  const location = useLocation();
-  const { state } = location;
-  const { post } = state || {}; // 전달된 데이터를 받아옴
 
+export default function UploadSection({ userId }: { userId: string }) {
   const { control, handleSubmit, setValue, getValues, trigger } = useForm({
     mode: 'onChange',
     defaultValues: {
-      uploadName: post?.uploadName || '', // Ensure post is defined before accessing properties
-      category: post?.fileNames || '',
-      fileInputs: post?.fileInputs || [{ fileName: post?.fileName || '', type: post?.fileType || '' }], // Handle file inputs
+      uploadName: '',
+      category: '',
+      fileInputs: [{ fileName: '', type: '' }],
     },
   });
 
-  // 전달된 post 데이터의 fileData의 개수를 index에 저장
-  const fileDataList = post?.fileData || [];
-  const idx = fileDataList.length;
-
   const [categories, setCategories] = useState<string[]>([]);
-  // 첫 번째 파일 입력 필드는 고정된 값, 이후는 fileData를 사용하여 설정
-  const [fileInputs, setFileInputs] = useState(() => [
-    {
-      id: 1,
-      type: '',
-      fileName: '',
-      isNew: true,
-    },
-    ...fileDataList.map((fileData, idx) => ({
-      id: idx + 2, // id는 2부터 시작
-      type: post?.fileType || '',
-      fileName: fileData.fileName, // fileData에서 파일 이름 가져옴
-      fileType: fileData.fileType, // fileData에서 파일 타입을 가져옴
-      isNew: false,
-    })),
-  ]);
-
+  const [fileInputs, setFileInputs] = useState([{ id: 1, type: '', fileName: '', isNew: true }]);
   const [tempFiles, setTempFiles] = useState<FileItem[]>([]);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const { state } = location;
+  const { post } = state || {}; // 전달된 데이터를 받아옴
 
   useEffect(() => {
     if (post) {
@@ -230,34 +210,11 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
-  const handleRemoveInput = async (id: number) => {
+  const handleRemoveInput = (id: number) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
-      const fileToDelete = tempFiles[id - 1]; // Find the file to delete based on the input id
-      const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
-      const updatedTempFiles = tempFiles.filter((_file, index) => index !== id - 1);
-
-      setFileInputs(updatedFileInputs);
-      setTempFiles(updatedTempFiles);
+      setFileInputs((prevInputs) => prevInputs.filter((input) => input.id !== id));
+      setTempFiles((prevFiles) => prevFiles.filter((_file, index) => index !== id - 1));
       trigger();
-
-      if (post && fileToDelete) {
-        try {
-          const boardCode = '자료집게시판'; // Replace with the appropriate board code
-          const fileUrls = [fileToDelete.fileUrl];
-
-          // Call the API to delete the file from the server
-          const response = await delBoardFiles(boardCode, fileUrls);
-
-          if (response.status === 200) {
-            alert('파일이 성공적으로 삭제되었습니다.');
-          } else {
-            alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
-          }
-        } catch (error) {
-          console.error('Error deleting file:', error);
-          alert('파일 삭제 중 오류가 발생했습니다.');
-        }
-      }
     }
   };
 
@@ -287,14 +244,13 @@ export default function UploadSection({ userId }: { userId: string }) {
       const fileName = newFileData.fileName.length > 0 ? newFileData.fileName : null;
       const userName = (userNameMapping as { [key: string]: string })[userId] || 'Unknown';
       const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : 'defaultCategory'; // 'defaultCategory'를 기본값으로 설정
-      const fileType = String(newFileData.fileType.length > 0 ? newFileData.fileType : null);
+      const fileType = '결과보고서';
 
       console.log(fileName);
 
-      const accessToken = localStorage.getItem('accessToken');
-
-      if (accessToken) {
-        const accessToken = localStorage.getItem('accessToken');
+      if (UserData) {
+        const parsedUserData = JSON.parse(UserData);
+        const accessToken = parsedUserData?.data?.accessToken;
 
         if (accessToken) {
           const boardCode = '자료집게시판';
@@ -326,8 +282,6 @@ export default function UploadSection({ userId }: { userId: string }) {
             isNotice: true,
             postFileList: fileUrls,
           };
-
-          console.log('categoryCode:', userName);
 
           const response = await postBoardDataSubCategoryPosts(fileCategory, fileType, resBody, accessToken);
 
@@ -454,7 +408,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                   <Controller
                     name={`fileInputs.${input.id}.type`} // 점 표기법으로 변경
                     control={control}
-                    defaultValue={input.fileType}
+                    defaultValue={input.type}
                     render={({ field }) => (
                       <FilterDropDown
                         defaultValue="파일종류 선택"
