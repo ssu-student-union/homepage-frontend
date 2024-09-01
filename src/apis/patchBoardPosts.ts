@@ -15,7 +15,7 @@ export const patchBoardPosts = async ({
       content: posts.content,
       categoryCode: posts.categoryCode,
       thumbnailImage: posts.thumbnailImage,
-      postFileList: [posts.postFileList],
+      postFileList: posts.postFileList,
     },
   });
   return response.data;

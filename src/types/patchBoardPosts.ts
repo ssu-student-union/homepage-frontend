@@ -7,6 +7,7 @@ export interface patchBoardPostProps {
     content: string;
     categoryCode: string;
     thumbnailImage: string | null;
+    postFileList: number[];
   };
 }
 

@@ -44,27 +44,27 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
 
   return (
     <div
-      className="petition-item flex h-[252px] w-[362px] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[13px] border border-gray-300 bg-white p-5 xs:h-[184px] xs:w-[304px] xs:p-4"
+      className="petition-item flex h-[252px] w-[362px] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[13px] border border-gray-300 bg-white p-5 xs:h-[184px] xs:w-[304px] xs:p-4 sm:h-[184px] sm:w-[304px] sm:p-4"
       onClick={() => onClick(data.postId)}
     >
       <div className="flex flex-col">
         {renderStatusTag()}
-        <h3 className="mt-2 text-[1.375rem] font-bold text-gray-700 xs:text-[1rem]">
+        <h3 className="mt-2 text-[1.375rem] font-bold text-gray-700 xs:text-[1rem] sm:text-[1rem]">
           {data?.title && truncateText(data.title, 17)}
         </h3>
-        <p className="mt-3 flex-grow overflow-hidden text-ellipsis text-[1.125rem] font-medium text-gray-500 xs:mt-2 xs:text-[0.875rem]">
+        <p className="mt-3 flex-grow overflow-hidden text-ellipsis text-[1.125rem] font-medium text-gray-500 xs:mt-2 xs:text-[0.875rem] sm:mt-2 sm:text-[0.875rem]">
           {petitionPurpose && truncateText(petitionPurpose, 72)}
         </p>
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem]">
+        <span className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem] sm:text-[0.875rem]">
           {formatYYYYMMDD(data?.date)}
         </span>
         <div className="flex cursor-pointer items-center gap-1 text-[#7D7BFF]">
           <span className="pb-1">
             <ThumbsUp size={isSmallScreen ? 14 : 22} />
           </span>
-          <span className="text-[1.125rem] font-medium xs:text-[0.875rem]">{data?.likeCount}</span>
+          <span className="text-[1.125rem] font-medium xs:text-[0.875rem] sm:text-[0.875rem]">{data?.likeCount}</span>
         </div>
       </div>
     </div>

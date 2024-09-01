@@ -159,7 +159,11 @@ export function Comment({ comment, replyComment, className, isReply = false, com
                   <User size={mobile_screen ? '14px' : '24px'} />
                 </span>
                 <div className="text-[1.125rem] font-medium xs:text-[0.75rem]">
-                  {commentData!.isDeleted ? commentData!.studentId : replaceSN(commentData!.studentId, '*')}
+                  {commentData!.isDeleted
+                    ? commentData!.studentId
+                    : commentData?.studentId === null
+                      ? commentData.authorName
+                      : replaceSN(commentData!.studentId, '*')}
                 </div>
               </div>
               <div className="relative" ref={toggleRef}>

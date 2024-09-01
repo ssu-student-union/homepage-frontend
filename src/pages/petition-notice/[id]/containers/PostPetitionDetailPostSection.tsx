@@ -48,7 +48,7 @@ export function PostPetitionDetailPostSection() {
   const handleDeleteContent = async () => {
     const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
     if (deleteCheck) {
-      await delBoardPosts('청원게시판', data?.data.postDetailResDto.postId!);
+      await delBoardPosts('청원게시판', data?.data.postDetailResDto.postId!, data?.data.postDetailResDto.imageList!);
       navigate('/homepage-frontend/petition-notice');
     } else {
       return;
@@ -79,7 +79,7 @@ export function PostPetitionDetailPostSection() {
     } else {
       const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
       const post_reaction = {
-        postId: data?.data.postDetailResDto.postId as number,
+        postId: data?.data.postDetailResDto.postId!,
         userId: Number(userID),
         reaction: 'like',
       };
@@ -131,15 +131,19 @@ export function PostPetitionDetailPostSection() {
             </div>
             <div className="mt-[60px] flex-col">
               {data?.data.postDetailResDto.officialCommentList.length === 0 ? null : (
-                <div className="w-full rounded-[10px] border border-primary bg-gray-50 p-8">
-                  <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
-                    <Logo size={mobile_screen ? '15px' : '26px'} fill="#2F4BF7" />
-                    <span className="ml-2 text-[#2F4BF7]">중앙운영위원회 공식답변</span>
-                  </div>
-                  <p className="text-[1.125rem] font-medium text-[#7E7E7E] xs:text-[0.75rem]">
-                    {data?.data.postDetailResDto.officialCommentList[0].content}
-                  </p>
-                </div>
+                <>
+                  {data?.data.postDetailResDto.officialCommentList.map((official_comment) => (
+                    <div className="mb-5 w-full rounded-[10px] border border-primary bg-gray-50 p-8">
+                      <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
+                        <Logo size={mobile_screen ? '15px' : '26px'} fill="#2F4BF7" />
+                        <span className="ml-2 text-[#2F4BF7]">{official_comment.authorName} 공식답변</span>
+                      </div>
+                      <p className="text-[1.125rem] font-medium text-[#7E7E7E] xs:text-[0.75rem]">
+                        {official_comment.content}
+                      </p>
+                    </div>
+                  ))}
+                </>
               )}
               <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
                 {data?.data.postDetailResDto.isAuthor ? <DeleteButton onClick={handleDeleteContent} /> : null}
