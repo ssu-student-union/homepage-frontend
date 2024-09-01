@@ -2,6 +2,7 @@ export interface patchBoardPostProps {
   boardCode: string;
   postId: number;
   posts: {
+    postFileList: number;
     title: string;
     content: string;
     categoryCode: string;
@@ -10,6 +11,7 @@ export interface patchBoardPostProps {
 }
 
 export interface patchBoardPostsResponse {
+  status: number;
   code: string;
   message: string;
   data: number;
