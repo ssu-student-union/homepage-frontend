@@ -5,9 +5,9 @@ export function useAuditSwitch() {
 
   const handleAuditSwitchClick = (index: number) => {
     if (index === 0) {
-      navigate('/intro?category=audit&sub-category=intro');
+      navigate('/homepage-frontend/intro?category=audit&sub-category=intro');
     } else {
-      navigate('/audit?category=all');
+      navigate('/homepage-frontend/audit?category=all');
     }
   };
 

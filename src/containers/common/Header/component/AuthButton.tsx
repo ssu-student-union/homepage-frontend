@@ -22,7 +22,7 @@ export function AuthButton({ state = State.Onboarding }: AuthButtonProps) {
     return (
       <button
         className={cn(styles.headerItemStyle, 'w-[120px] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
-        onClick={() => navigate('/register')}
+        onClick={() => navigate('/homepage-frontend/register')}
       >
         로그인
       </button>

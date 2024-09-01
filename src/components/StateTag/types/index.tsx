@@ -1,7 +1,5 @@
-type State = 'ACTIVE' | 'RECEIVED' | 'ANSWERED' | 'CLOSED';
-
 export interface StateTagProps {
-  current: State;
+  current: string;
 }
 
 export interface StateTagType {

@@ -10,14 +10,14 @@ import { AuditDetailPage } from './audit/auditDetail/page';
 import { AuditEditPage } from './audit/auditEdit/page';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
-import { BoardPage } from './boardTest/page';
 import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
 import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
 import { Data } from './data/page';
-import { PartnershipEditPage } from './partnership/partnershipEdit/page';
 import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
+import { PartnershipEditPage } from './partnership/partnershipEdit/page';
+import AuditPatchPage from './audit/auditPatch/page';
 
 function Layout() {
   var headerState: State;
@@ -40,26 +40,26 @@ function Layout() {
 export function MainRouter() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/intro" element={<IntroPage />} />
-        <Route path="/board" element={<BoardPage />} />
-        <Route path="/intro/edit" element={<IntroEditPage />} />
-        <Route path="/audit" element={<AuditPage />} />
-        <Route path="/audit/:id" element={<AuditDetailPage />} />
-        <Route path="/audit/edit" element={<AuditEditPage />} />
-        <Route path="/partnership" element={<PartnershipPage />} />
-        <Route path="/partnership/edit" element={<PartnershipEditPage />} />
-        <Route path="/partnership/:id" element={<PartnershipDetailPage />} />
-        <Route path="/petition-notice" element={<PetitionNoticePage />} />
-        <Route path="/petition-notice/edit" element={<PetitionNoticeEditPage />} />
-        <Route path="/petition-notice/:id" element={<PetitionNoticeDetailPage />} />
-        <Route path="/data" element={<Data />} />
-        <Route path="/data/edit" element={<Data />} />
+      <Route path="/homepage-frontend" element={<Layout />}>
+        <Route path="/homepage-frontend" element={<MainPage />} />
+        <Route path="/homepage-frontend/intro" element={<IntroPage />} />
+        <Route path="/homepage-frontend/intro/edit" element={<IntroEditPage />} />
+        <Route path="/homepage-frontend/audit" element={<AuditPage />} />
+        <Route path="/homepage-frontend/audit/:id" element={<AuditDetailPage />} />
+        <Route path="/homepage-frontend/audit/edit" element={<AuditEditPage />} />
+        <Route path="/homepage-frontend/audit/patch" element={<AuditPatchPage />} />
+        <Route path="/homepage-frontend/partnership" element={<PartnershipPage />} />
+        <Route path="/homepage-frontend/partnership/:id" element={<PartnershipDetailPage />} />
+        <Route path="/homepage-frontend/partnership/edit" element={<PartnershipEditPage />} />
+        <Route path="/homepage-frontend/petition-notice" element={<PetitionNoticePage />} />
+        <Route path="/homepage-frontend/petition-notice/edit" element={<PetitionNoticeEditPage />} />
+        <Route path="/homepage-frontend/petition-notice/:id" element={<PetitionNoticeDetailPage />} />
+        <Route path="/homepage-frontend/data" element={<Data />} />
+        <Route path="/homepage-frontend/data/edit" element={<Data />} />
       </Route>
-      <Route path="/register" element={<KakaoRegisterPage />} />
-      <Route path="/register/:sort" element={<GeneralRegisterPage />} />
-      <Route path="/auth/callback" element={<KakaoRedirect />} />
+      <Route path="/homepage-frontend/register" element={<KakaoRegisterPage />} />
+      <Route path="/homepage-frontend/register/:sort" element={<GeneralRegisterPage />} />
+      <Route path="/homepage-frontend/auth/callback" element={<KakaoRedirect />} />
     </Routes>
   );
 }

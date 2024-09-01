@@ -3,10 +3,14 @@ import { useLocation } from 'react-router-dom';
 import { UserRound } from 'lucide-react';
 import { userNameMapping } from './index';
 
-export default function DataTitleSection({ userId }) {
+interface DataTitleSectionProps {
+  userId: string | null;
+}
+
+export default function DataTitleSection({ userId }: DataTitleSectionProps) {
   const location = useLocation();
 
-  const userName = userNameMapping[userId] || 'Unknown';
+  const userName = userId != null ? (userNameMapping as { [key: string]: string })[userId] || 'Unknown' : 'Unknown';
 
   return (
     <>
@@ -22,7 +26,7 @@ export default function DataTitleSection({ userId }) {
         </div>
       )}
 
-      {location.pathname === '/data/edit' && (
+      {location.pathname === '/homepage-frontend/data/edit' && (
         <div className="mt-[123px] flex h-auto w-full justify-between px-[25px] md:px-[100px]">
           <div className="text-[34px] font-bold text-black sm:ml-0 sm:text-2xl md:ml-0 lg:ml-[109px] xl:ml-[199px] xxl:ml-[199px]">
             <div>자료집</div>

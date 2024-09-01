@@ -23,9 +23,8 @@ export function IntroPage() {
     return null;
   }
 
-  const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<string>(categoryParam);
-  const { selectedSubcategories: selectedSubcategory, onSubcategorySelect: onSubSelect } =
-    useBoardSelect<string>(subCategoryParam);
+  const { onSubcategorySelect } = useBoardSelect<string>(categoryParam);
+  const { onSubcategorySelect: onSubSelect } = useBoardSelect<string>(subCategoryParam);
 
   const { mainCategoryName, subCategoryDisplayName, handleSelection } = useCategoryMap({
     categoryParam,

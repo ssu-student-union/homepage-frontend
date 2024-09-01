@@ -12,7 +12,7 @@ export function StateTag({ current }: StateTagProps) {
 
   useEffect(() => {
     switch (current) {
-      case 'ACTIVE':
+      case '진행중':
         setCurrentState((prevState) => {
           return {
             ...prevState,
@@ -20,7 +20,7 @@ export function StateTag({ current }: StateTagProps) {
           };
         });
         break;
-      case 'RECEIVED':
+      case '접수완료':
         setCurrentState((prevState) => {
           return {
             ...prevState,
@@ -28,7 +28,7 @@ export function StateTag({ current }: StateTagProps) {
           };
         });
         break;
-      case 'ANSWERED':
+      case '답변완료':
         setCurrentState((prevState) => {
           return {
             ...prevState,
@@ -36,7 +36,7 @@ export function StateTag({ current }: StateTagProps) {
           };
         });
         break;
-      case 'CLOSED':
+      case '종료됨':
         setCurrentState((prevState) => {
           return {
             ...prevState,

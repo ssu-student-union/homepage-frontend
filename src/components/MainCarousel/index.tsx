@@ -35,7 +35,7 @@ const MainCarousel = () => {
               <MainHeroSection />
               <div className="absolute z-10 size-full overflow-clip bg-black opacity-20" />
               <img
-                src={`/image/${index + 1}.jpeg`}
+                src={`/homepage-frontend/image/${index + 1}.jpeg`}
                 draggable={false}
                 alt="landscape"
                 className="z-0 h-full w-full object-cover"

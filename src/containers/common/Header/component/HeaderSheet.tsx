@@ -2,7 +2,7 @@ import { dataPath, menuItems } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CaretDown } from '@phosphor-icons/react';
 import { ReactNode, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { State } from '../const/state';
 
 interface HeaderSheetProps {
@@ -13,15 +13,13 @@ interface HeaderSheetProps {
 export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   const toggleCategory = (category: string) => {
     setExpandedCategory((prevCategory) => (prevCategory === category ? null : category));
   };
 
   const handleLinkClick = (path: string) => {
-    searchParams.set('path', path);
-    navigate({ search: searchParams.toString() });
+    navigate(path);
     window.location.reload();
   };
 
@@ -74,7 +72,7 @@ export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps)
             </a>
             <Link
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-              to={state === State.Login ? `/my` : `/register`}
+              to={state === State.Login ? `/homepage-frontend/my` : `/homepage-frontend/register`}
               onClick={() => window.location.reload()}
             >
               {state === State.Login ? '내정보' : '로그인'}

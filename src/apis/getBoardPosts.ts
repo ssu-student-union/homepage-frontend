@@ -12,6 +12,7 @@ export const getBoardPosts = async ({ page, take, groupCode, memberCode, categor
         category: category,
       },
     });
+
     return response.data;
   } catch (err) {
     console.log(err);

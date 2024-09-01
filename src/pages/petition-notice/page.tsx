@@ -1,11 +1,9 @@
-import { PetitionNoticeHeadSection } from './containers/PetitionNoticeHeadSection';
-import { PetitionNoticePopularSection } from './containers/PetitionNoticePopularSection';
-import { PetitionPostSection } from './containers/PetitionPostSection';
+import { PetitionNoticePopularSection } from './containers/PopularSection/PetitionNoticePopularSection';
+import { PetitionPostSection } from './containers/PostSection/PetitionPostSection';
 
 export function PetitionNoticePage() {
   return (
     <div>
-      <PetitionNoticeHeadSection />
       <PetitionNoticePopularSection />
       <PetitionPostSection />
     </div>
