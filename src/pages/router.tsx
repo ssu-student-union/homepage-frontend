@@ -18,6 +18,7 @@ import { Data } from './data/page';
 import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
 import { PartnershipEditPage } from './partnership/partnershipEdit/page';
 import AuditPatchPage from './audit/auditPatch/page';
+import PartnershipPatchPage from './partnership/partnershipPatch/page';
 
 function Layout() {
   var headerState: State;
@@ -50,7 +51,8 @@ export function MainRouter() {
         <Route path="/homepage-frontend/audit/patch" element={<AuditPatchPage />} />
         <Route path="/homepage-frontend/partnership" element={<PartnershipPage />} />
         <Route path="/homepage-frontend/partnership/:id" element={<PartnershipDetailPage />} />
-        <Route path="/homepage-frontend/partnership/edit" element={<PartnershipEditPage />} />
+        <Route path="/homepage-frontend/partnership/:id/edit" element={<PartnershipEditPage />} />
+        <Route path="/homepage-frontend/partnership/:id/patch" element={<PartnershipPatchPage />} />
         <Route path="/homepage-frontend/petition-notice" element={<PetitionNoticePage />} />
         <Route path="/homepage-frontend/petition-notice/edit" element={<PetitionNoticeEditPage />} />
         <Route path="/homepage-frontend/petition-notice/:id" element={<PetitionNoticeDetailPage />} />

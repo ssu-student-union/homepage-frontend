@@ -1,14 +1,18 @@
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import { useState } from 'react';
-import { PartnershipSubcategories } from '../../const';
 
 interface PartnershipEditTitleSectionProps {
   onTitleChange: (title: string) => void;
   onCategoryChange: (category: string) => void;
+  initialValue?: string;
 }
 
-export function PartnershipEditTitleSection({ onTitleChange, onCategoryChange }: PartnershipEditTitleSectionProps) {
-  const [title, setTitle] = useState<string>('');
+export function PartnershipEditTitleSection({
+  onTitleChange,
+  onCategoryChange,
+  initialValue = '',
+}: PartnershipEditTitleSectionProps) {
+  const [title, setTitle] = useState<string>(initialValue);
   const [category, setCategory] = useState<string>('');
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

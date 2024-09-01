@@ -25,11 +25,11 @@ export function PartnershipPage() {
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PartnershipSubcategoriesType>(
     PartnershipSubcategories[0]
   );
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [currentTake, setCurrentTake] = useState(9);
 
   const { data, isLoading } = useGetBoardPosts<GetPartnershipBoardPostsResponse>({
-    page: currentPage,
+    page: currentPage - 1,
     take: currentTake,
     category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
     boardCode: '제휴게시판',
@@ -52,6 +52,10 @@ export function PartnershipPage() {
     }
   }, [width]);
 
+  useEffect(() => {
+    console.log(currentPage);
+  }, [currentPage]);
+
   return (
     <>
       <Header state={State.Login} />
@@ -67,13 +71,13 @@ export function PartnershipPage() {
       />
       <BodyLayout
         totalPages={data?.data.pageInfo.totalPages ?? 1}
-        currentPage={currentPage + 1}
+        currentPage={currentPage}
         onPageChange={(number) => {
           setCurrentPage(number);
         }}
         onWriteClick={() => {
           window.scrollTo(0, 0);
-          navigate('/partnership/edit');
+          navigate('/homepage-frontend/partnership/edit');
         }}
       >
         <BoardSelector
@@ -93,7 +97,7 @@ export function PartnershipPage() {
                 date={item.date}
                 imgUrl={item.thumbNail}
                 onClick={() => {
-                  navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+                  navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
                 }}
                 size={Size.small}
               ></PostCardBasic>
@@ -112,7 +116,7 @@ export function PartnershipPage() {
                 imgUrl={item.thumbNail}
                 size={Size.medium}
                 onClick={() => {
-                  navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+                  navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
                 }}
               ></PostCardBasic>
             ))}
@@ -131,7 +135,7 @@ export function PartnershipPage() {
                     date={item.date}
                     imgUrl={item.thumbNail}
                     onClick={() => {
-                      navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+                      navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
                     }}
                   ></PostCardBasic>
                 ))}
@@ -152,7 +156,7 @@ export function PartnershipPage() {
                     date={item.date}
                     imgUrl={item.thumbNail}
                     onClick={() => {
-                      navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+                      navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
                     }}
                   ></PostCardBasic>
                 ))}
