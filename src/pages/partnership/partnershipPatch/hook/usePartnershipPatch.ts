@@ -1,11 +1,11 @@
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { handleCardClick } from '../utils/cardHandler';
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 
 export function usePartnershipPatch() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const postId: number = location.state?.postId;
   const boardCode: string = '제휴게시판';
@@ -17,10 +17,6 @@ export function usePartnershipPatch() {
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
   const [imageList] = useState<string[]>(postDetail?.imageList ?? []);
   const [thumbnailImage, setThumbnailImage] = useState<string>(postDetail?.imageList[0] ?? '');
-
-  useEffect(() => {
-    console.log(content);
-  }, [content]);
 
   const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
 
@@ -44,13 +40,13 @@ export function usePartnershipPatch() {
           title,
           content,
           categoryCode: category,
-          thumbNailImage: thumbnailImage,
+          thumbnailImage: thumbnailImage,
+          postFileList: [0],
         },
         postId: postId,
       });
 
-      handleCardClick(postId.toString(), postId, thumbnailImage);
-      window.location.reload();
+      navigate('/homepage-frontend/partnership');
     } catch (e) {
       console.error(e);
     }

@@ -25,7 +25,7 @@ export function PartnershipDetailPage() {
       {postDetail.fileList.length > 0
         ? postDetail.fileList.map((file) => <PartnershipDetailFileSection file={file} />)
         : null}
-      <PartnershipDetailEditSection boardCode={boardCode} postId={postId} />
+      <PartnershipDetailEditSection boardCode={boardCode} postId={postId} fileurl={postDetail?.imageList} />
     </div>
   );
 }

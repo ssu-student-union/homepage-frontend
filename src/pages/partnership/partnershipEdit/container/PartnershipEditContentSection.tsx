@@ -8,7 +8,7 @@ interface PartnershipEditContentProps {
   initialValue?: string;
 }
 
-export function PartnershipEditContentSection({ onContentChange, initialValue = '' }: PartnershipEditContentProps) {
+export function PartnershipEditContentSection({ onContentChange, initialValue = ' ' }: PartnershipEditContentProps) {
   const [editorHeight, setEditorHeight] = useState('500px');
 
   const editorRef = useRef<Editor>(null);
@@ -35,6 +35,7 @@ export function PartnershipEditContentSection({ onContentChange, initialValue = 
       <Editor
         ref={editorRef}
         initialValue={initialValue}
+        placeholder="글을 작성해주세요"
         previewStyle="vertical"
         initialEditType="wysiwyg"
         useCommandShortcut={true}
