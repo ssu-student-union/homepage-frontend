@@ -11,16 +11,50 @@ import { Size } from '@/components/PostCard/const/state';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PartnershipSubcategories } from './const';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
+import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
+import { useEffect, useMemo, useState } from 'react';
 import { PartnershipSubcategoriesType } from './type';
+import { GetPartnershipBoardPostsResponse, PartnershipPostListResDto } from '@/types/getPartnershipBoardPosts';
+import { useNavigate } from 'react-router-dom';
+import { chunkArray } from './utils';
 
 export function PartnershipPage() {
-  // 임의로
-  const partnershipCount = 40;
   const { width } = useResize();
+  const navigate = useNavigate();
 
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PartnershipSubcategoriesType>(
     PartnershipSubcategories[0]
   );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentTake, setCurrentTake] = useState(9);
+
+  const { data, isLoading } = useGetBoardPosts<GetPartnershipBoardPostsResponse>({
+    page: currentPage - 1,
+    take: currentTake,
+    category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
+    boardCode: '제휴게시판',
+  });
+
+  const partnershipCount = useMemo(() => {
+    if (isLoading) {
+      return 0; // 로딩 중일 때는 undefined를 반환하여 UI가 바뀌지 않도록 합니다.
+    }
+    return data?.data.pageInfo.totalElements; // 데이터가 로딩되면 새로운 데이터로 UI를 업데이트합니다.
+  }, [data?.data.pageInfo.totalElements, isLoading]);
+
+  useEffect(() => {
+    if (width < 1440) {
+      setCurrentTake(5);
+    } else if (width >= 1440 && width < 1920) {
+      setCurrentTake(6);
+    } else if (width >= 1920) {
+      setCurrentTake(9);
+    }
+  }, [width]);
+
+  useEffect(() => {
+    console.log(currentPage);
+  }, [currentPage]);
 
   return (
     <>
@@ -35,8 +69,17 @@ export function PartnershipPage() {
           </p>
         }
       />
-      {/* 검색바 / 카테고리 mt 제일 작은 사이즈 반응형 수정하기! */}
-      <BodyLayout totalPages={partnershipCount} currentPage={1} onPageChange={() => {}} onWriteClick={() => {}}>
+      <BodyLayout
+        totalPages={data?.data.pageInfo.totalPages ?? 1}
+        currentPage={currentPage}
+        onPageChange={(number) => {
+          setCurrentPage(number);
+        }}
+        onWriteClick={() => {
+          window.scrollTo(0, 0);
+          navigate('/homepage-frontend/partnership/edit');
+        }}
+      >
         <BoardSelector
           subcategories={PartnershipSubcategories}
           selectedSubcategory={selectedSubcategories}
@@ -46,26 +89,56 @@ export function PartnershipPage() {
         {/* xs */}
         {width < 720 ? (
           <section className="flex h-fit w-full flex-col justify-between">
-            {Array.from({ length: 5 }).map((_) => (
-              <PostCardBasic size={Size.small}></PostCardBasic>
+            {data?.data.postListResDto.map((item) => (
+              <PostCardBasic
+                key={item.postId}
+                title={item.title}
+                subtitle={item.content}
+                date={item.date}
+                imgUrl={item.thumbNail}
+                onClick={() => {
+                  navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
+                }}
+                size={Size.small}
+              ></PostCardBasic>
             ))}
           </section>
         ) : null}
         {/* sm, md, lg */}
         {width < 1440 && width >= 720 ? (
           <section className="flex h-fit w-full flex-col justify-between">
-            {Array.from({ length: 5 }).map((_) => (
-              <PostCardBasic size={Size.medium}></PostCardBasic>
+            {data?.data.postListResDto.map((item) => (
+              <PostCardBasic
+                key={item.postId}
+                title={item.title}
+                subtitle={item.content}
+                date={item.date}
+                imgUrl={item.thumbNail}
+                size={Size.medium}
+                onClick={() => {
+                  navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
+                }}
+              ></PostCardBasic>
             ))}
           </section>
         ) : null}
         {/* xl */}
         {width >= 1440 && width < 1920 ? (
           <section className="flex h-fit w-full flex-col justify-between gap-[40px]">
-            {Array.from({ length: 3 }).map((_) => (
+            {chunkArray<PartnershipPostListResDto>(data?.data.postListResDto, 2)?.map((items) => (
               <div className="flex h-fit w-full justify-between">
-                <PostCardBasic></PostCardBasic>
-                <PostCardBasic></PostCardBasic>
+                {items.map((item) => (
+                  <PostCardBasic
+                    key={item.postId}
+                    title={item.title}
+                    subtitle={item.content}
+                    date={item.date}
+                    imgUrl={item.thumbNail}
+                    onClick={() => {
+                      navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
+                    }}
+                  ></PostCardBasic>
+                ))}
               </div>
             ))}
           </section>
@@ -73,11 +146,20 @@ export function PartnershipPage() {
         {/* xxl */}
         {width >= 1920 ? (
           <section className="flex h-fit w-full flex-col justify-between gap-[40px]">
-            {Array.from({ length: 3 }).map((_) => (
+            {chunkArray<PartnershipPostListResDto>(data?.data.postListResDto, 3)?.map((items) => (
               <div className="flex h-fit w-full justify-between">
-                <PostCardBasic></PostCardBasic>
-                <PostCardBasic></PostCardBasic>
-                <PostCardBasic></PostCardBasic>
+                {items.map((item) => (
+                  <PostCardBasic
+                    key={item.postId}
+                    title={item.title}
+                    subtitle={item.content}
+                    date={item.date}
+                    imgUrl={item.thumbNail}
+                    onClick={() => {
+                      navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
+                    }}
+                  ></PostCardBasic>
+                ))}
               </div>
             ))}
           </section>
