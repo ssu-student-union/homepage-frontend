@@ -12,6 +12,7 @@ import { userNameMapping } from '../index';
 import { any } from 'zod';
 import { delBoardFiles } from '@/apis/delBoardFiles';
 import { patchBoardPosts } from '@/apis/patchBoardPosts';
+import DataDelBtn from '../dataDelBtn';
 
 interface FileItem {
   fileUrl: any;
@@ -188,12 +189,11 @@ export default function UploadSection({ userId }: { userId: string }) {
   const handleAddInput = () => {
     const fileInputsArray = getValues('fileInputs');
     const lastInput = fileInputsArray[fileInputsArray.length - 1];
-    const currentInput = fileInputsArray[fileInputsArray.length];
     const selectedType = lastInput?.type;
 
     if (fileInputRef.current && selectedType) {
-      fileInputRef.current.accept = selectedType; // 선택된 확장자로 파일 탐색기 설정
-      fileInputRef.current.click(); // 파일 탐색기 열기
+      fileInputRef.current.accept = selectedType; // Set file input to accept selected type
+      fileInputRef.current.click(); // Trigger file selection dialog
     } else {
       alert('파일 종류를 먼저 선택하세요.');
     }
@@ -208,31 +208,32 @@ export default function UploadSection({ userId }: { userId: string }) {
 
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      const category = getValues('category');
-
       const fileInputsArray = getValues('fileInputs');
       const currentFileInput = fileInputsArray[fileInputsArray.length - 1];
       const fileType = currentFileInput?.type;
       const isNew = currentFileInput && 'isNew' in currentFileInput ? currentFileInput.isNew : false;
 
       if (isNew && !fileType) {
-        alert('파일종류를 선택하세요.');
+        alert('파일 종류를 선택하세요.');
         return;
       }
 
       const newFile: FileItem = {
         file: file,
         fileName: file.name,
-        category,
+        category: getValues('category'),
         fileType: fileType || '',
-        fileData: any,
+        fileData: file,
+        postFileId: 0, // Placeholder if you're not using it initially
       };
 
       setTempFiles((prevFiles) => [...prevFiles, newFile]);
 
+      // Update fileInputs to include new file information
       setFileInputs((prevInputs) => [
-        { id: prevInputs.length + 1, type: '', fileName: file.name, isNew: false },
-        ...prevInputs,
+        ...prevInputs.slice(0, -1), // Remove the last input that was pending
+        { ...currentFileInput, fileName: file.name, isNew: false }, // Update last input
+        { id: prevInputs.length + 1, type: '', fileName: '', isNew: true }, // Add new input
       ]);
 
       trigger();
@@ -437,6 +438,64 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
+  const handleRemovePost = async (id: number) => {
+    if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
+      // fileInputs에서 해당 id와 매칭되는 파일을 찾음
+      const inputToDelete = fileInputs.find((input) => input.id - 1);
+      if (!inputToDelete) {
+        alert('삭제할 파일을 찾을 수 없습니다.');
+        return;
+      }
+
+      console.log('inputToDelete', inputToDelete);
+      console.log('post', post);
+
+      // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
+      if (post) {
+        // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
+        const fileToDelete = post.fileData.find((file) => file.postFileId);
+
+        if (!fileToDelete) {
+          alert('삭제할 파일을 찾을 수 없습니다.');
+          return;
+        }
+
+        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+        const updatedTempFiles = tempFiles.filter((file) => file.postFileId !== fileToDelete.postFileId);
+
+        setFileInputs(updatedFileInputs);
+        setTempFiles(updatedTempFiles);
+        trigger(); // 폼 검증 트리거
+
+        try {
+          console.log('fileToDelete', fileToDelete);
+          const boardCode = '자료집게시판';
+          const fileUrls = fileToDelete.fileUrl;
+          console.log(fileUrls);
+
+          const response = await delBoardFiles(boardCode, fileUrls);
+
+          if (response.status === 200) {
+            alert('파일이 성공적으로 삭제되었습니다.');
+          } else {
+            alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
+          }
+        } catch (error) {
+          console.error('Error deleting file:', error);
+          alert('파일 삭제 중 오류가 발생했습니다.');
+        }
+      } else {
+        // 새로운 파일이므로 서버 요청 없이 상태만 업데이트
+        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+        setFileInputs(updatedFileInputs);
+        trigger(); // 폼 검증 트리거
+      }
+    }
+  };
+
+  const handlePlusInput = () => {
+    setFileInputs((prevInputs) => [...prevInputs, { id: prevInputs.length + 1, type: '', fileName: '', isNew: false }]);
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-4">
       <div className="mb-4 flex flex-row">
@@ -483,49 +542,18 @@ export default function UploadSection({ userId }: { userId: string }) {
           <div key={input.id} className="mb-4">
             <div className="flex items-center">
               {input.isNew ? (
-                <>
-                  <div className="relative flex items-center">
-                    <FileText className="top-20% absolute left-3 text-gray-600" />
-                    <Input
-                      type="text"
-                      placeholder="파일을 선택해주세요"
-                      className="left-2 border-gray-300 pl-10 text-sm font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] lg:text-lg xl:h-[62px] xl:w-[727px]  xl:text-lg xxl:h-[62px] xxl:w-[1061px]"
-                    />
-                  </div>
-
-                  <Controller
-                    name={`fileInputs.${input.id}.type`} // 템플릿 리터럴 변경
-                    control={control}
-                    defaultValue={input.type}
-                    render={({ field }) => (
-                      <FilterDropDown
-                        defaultValue="파일종류 선택"
-                        optionValue={fileOptions}
-                        onValueChange={(value) => {
-                          setValue(`fileInputs.${input.id}.type`, value); // 동일한 경로로 수정
-                          field.onChange(value);
-                          trigger();
-                        }}
-                        value={field.value}
-                        className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
-                      />
-                    )}
-                  />
-
-                  <button type="button" className="ml-2" onClick={handleAddInput}>
-                    <Plus />
-                  </button>
-                </>
+                <></>
               ) : (
                 <>
                   <div className="relative flex items-center">
                     <FileText className="top-20% absolute left-3 text-gray-600" />
                     <Controller
-                      name={`fileInputs.${input.id}.fileName`} // 점 표기법으로 변경
+                      name={`fileInputs.${input.id}.fileName`}
                       control={control}
                       defaultValue={input.fileName}
                       render={({ field }) => (
                         <Input
+                          onClick={handleAddInput}
                           type="text"
                           placeholder="파일이름"
                           className="xl: left-2 border-gray-300 pl-10 font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] lg:text-lg xl:h-[62px] xl:w-[727px] xl:text-lg xxl:h-[62px] xxl:w-[1061px]"
@@ -534,13 +562,14 @@ export default function UploadSection({ userId }: { userId: string }) {
                             field.onChange(e);
                             trigger();
                           }}
+                          value={input.fileName || ''}
                         />
                       )}
                     />
                   </div>
 
                   <Controller
-                    name={`fileInputs.${input.id}.type`} // 점 표기법으로 변경
+                    name={`fileInputs.${input.id}.type`}
                     control={control}
                     defaultValue={input.fileType}
                     render={({ field }) => (
@@ -548,11 +577,11 @@ export default function UploadSection({ userId }: { userId: string }) {
                         defaultValue="파일종류 선택"
                         optionValue={fileOptions}
                         onValueChange={(value) => {
-                          setValue(`fileInputs.${input.id}.type`, value); // 동일한 경로로 수정
-                          field.onChange(value); // 필드 값도 변경
-                          trigger(); // 폼 검증 트리거
+                          setValue(`fileInputs.${input.id}.type`, value);
+                          field.onChange(value);
+                          trigger();
                         }}
-                        value={field.value} // 필드 값으로 설정
+                        value={field.value}
                         className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
@@ -566,16 +595,60 @@ export default function UploadSection({ userId }: { userId: string }) {
             </div>
           </div>
         ))}
+        <div className="flex">
+          <div className="relative flex items-center">
+            <FileText className="top-20% absolute left-3 text-gray-600" />
+            <Input
+              type="text"
+              placeholder="파일을 선택해주세요"
+              className="left-2 border-gray-300 pl-10 text-sm font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] lg:text-lg xl:h-[62px] xl:w-[727px] xl:text-lg xxl:h-[62px] xxl:w-[1061px]"
+              readOnly
+            />
+          </div>
+
+          <FilterDropDown
+            defaultValue="파일종류 선택"
+            optionValue={fileOptions}
+            onValueChange={(value) => {
+              setValue(`fileInputs.${input.id}.type`, value);
+              trigger();
+            }}
+            className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
+            value={''}
+          />
+
+          <button type="button" className="ml-2" onClick={handlePlusInput}>
+            <Plus />
+          </button>
+        </div>
         <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileChange} />
 
-        <div className="text-end xs:text-center sm:text-center md:text-center">
-          <Button
-            type="submit"
-            disabled={!isFormValid()}
-            className="mt-[60px] px-9 py-2 xs:h-[32px] xs:w-[186px] sm:h-[44px] sm:w-[315px] md:h-[55px] md:w-[580px] lg:h-[46px] lg:w-[123px] xl:h-[46px] xl:w-[123px] xxl:h-[46px] xxl:w-[123px]"
-          >
-            등록
-          </Button>
+        <div className="flex justify-end xs:flex-col sm:flex-col">
+          {post && (
+            <div className="hidden text-end xs:text-center sm:text-center md:block lg:block xl:block xxl:block ">
+              <button className="mr-3" onClick={handleRemovePost}>
+                <DataDelBtn />
+              </button>
+            </div>
+          )}
+
+          <div className="text-end xs:text-center sm:text-center">
+            <Button
+              type="submit"
+              disabled={!isFormValid()}
+              className="mt-[60px] px-9 py-2 xs:h-[32px] xs:w-[186px] sm:h-[44px] sm:w-[315px] md:h-[46px] md:w-[128px] lg:h-[46px] lg:w-[123px] xl:h-[46px] xl:w-[123px] xxl:h-[46px] xxl:w-[123px]"
+            >
+              등록
+            </Button>
+          </div>
+
+          {post && (
+            <div className="hidden text-end xs:block xs:text-center sm:block sm:text-center  ">
+              <button onClick={handleRemovePost}>
+                <DataDelBtn />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </form>

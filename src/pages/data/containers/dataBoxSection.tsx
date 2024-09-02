@@ -9,7 +9,6 @@ import Pagination from '@/components/Pagination';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
-import { getBoardPostSearch } from '@/apis/getBoardPostSearch';
 import { getBoardDataPostSearch } from '@/apis/getBoardDataPostSearch';
 
 // Define the Post interface for type safety
