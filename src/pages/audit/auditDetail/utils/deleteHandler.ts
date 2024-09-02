@@ -4,23 +4,13 @@ import { AxiosError, AxiosResponse } from 'axios';
 interface DeleteHandlerProps {
   boardCode: string;
   postId: number;
-  fileUrls: string[];
-  mutFile: UseMutationResult<AxiosResponse<void>, AxiosError, { boardCode: string; fileUrls: string[] }>;
-  mutPost: UseMutationResult<AxiosResponse<any>, AxiosError, { boardCode: string; postId: number }>;
+  fileurl: string[];
+  mutPost: UseMutationResult<AxiosResponse<any>, AxiosError, { boardCode: string; postId: number; fileurl: string[] }>;
 }
 
-export const deleteHandler = ({ boardCode, postId, fileUrls, mutFile, mutPost }: DeleteHandlerProps) => {
-  mutFile.mutate(
-    { boardCode, fileUrls },
-    {
-      onError: () => {
-        alert('삭제 권한이 없습니다.');
-      },
-    }
-  );
-
+export const deleteHandler = ({ boardCode, postId, fileurl, mutPost }: DeleteHandlerProps) => {
   mutPost.mutate(
-    { boardCode, postId },
+    { boardCode, postId, fileurl },
     {
       onError: () => {
         alert('삭제 권한이 없습니다.');

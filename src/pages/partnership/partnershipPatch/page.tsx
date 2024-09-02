@@ -22,7 +22,7 @@ export default function PartnershipPatchPage() {
 
   return (
     <>
-      <HeadLayout title="감사기구" searchHidden={true} borderOff={true} />
+      <HeadLayout title="제휴게시판" searchHidden={true} borderOff={true} />
       <PartnershipEditTitleSection
         initialValue={title}
         onTitleChange={handleTitleChange}

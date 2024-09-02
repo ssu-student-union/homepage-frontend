@@ -7,6 +7,7 @@ import { categoryMap } from '../const/data';
 import { Post } from '@/types/apis/get';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
+import { useEffect } from 'react';
 
 export function useAuditBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
@@ -17,6 +18,10 @@ export function useAuditBoard(boardCode: string) {
 
   const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
   const selectedCategory = categoryMap[categoryParam] === '전체' ? null : categoryMap[categoryParam];
+
+  useEffect(() => {
+    handlePageChange(1);
+  }, [categoryParam]);
 
   const { data, isLoading, isError } = searchQuery
     ? useGetBoardPostSearch<any>({

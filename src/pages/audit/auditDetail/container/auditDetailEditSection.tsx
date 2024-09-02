@@ -2,8 +2,6 @@ import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/Board
 import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
 import { useNavigate } from 'react-router-dom';
 import { deleteHandler } from '../utils/deleteHandler';
-import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
-import { handleLocation } from '../utils/locationHandler';
 
 interface AuditDetailEditProps {
   boardCode: string;
@@ -16,22 +14,14 @@ interface AuditDetailEditProps {
   thumbnailImage: string;
 }
 
-export function AuditDetailEditSection({
-  boardCode,
-  postId,
-  fileUrls,
-  imageUrls,
-  content,
-  title,
-  category,
-  thumbnailImage,
-}: AuditDetailEditProps) {
+export function AuditDetailEditSection({ boardCode, postId, fileUrls, imageUrls }: AuditDetailEditProps) {
   const navigate = useNavigate();
-  const mutFile = useDelBoardFiles();
   const mutPost = useDelBoardPosts();
 
+  const fileurl = [...fileUrls, ...imageUrls];
+
   const handleDelete = async () => {
-    await deleteHandler({ boardCode, postId, fileUrls, mutFile, mutPost });
+    await deleteHandler({ boardCode, postId, fileurl, mutPost });
     navigate(`/homepage-frontend/audit?category=notice`);
     window.location.reload();
   };
@@ -41,21 +31,7 @@ export function AuditDetailEditSection({
       <div className="flex w-[420px] flex-row items-end justify-between xs:h-[150px] xs:flex-col">
         <DeleteButton onClick={handleDelete} />
         <EditButton
-          onClick={() =>
-            handleLocation(
-              {
-                data: {
-                  postId,
-                  title,
-                  content,
-                  category,
-                  imageUrls,
-                  thumbnailImage,
-                },
-              },
-              navigate
-            )
-          }
+          onClick={() => navigate(`/homepage-frontend/audit/${postId}/patch`, { state: { postId: postId } })}
         />
         <ListButton onClick={() => navigate(`/homepage-frontend/audit?category=notice`)} />
       </div>

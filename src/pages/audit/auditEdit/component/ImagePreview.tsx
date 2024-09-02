@@ -14,7 +14,7 @@ export function ImagePreview({ imageItem, onRemove, onClick, isThumbnail }: Imag
 
   return (
     <div
-      className="relative flex h-[231px] w-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
+      className="relative flex h-[231px] min-w-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
       onClick={onClick}
     >
       {isThumbnail && (

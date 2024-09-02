@@ -2,51 +2,42 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { AuditEditTitleSection } from '../auditEdit/container/auditEditTitleSection';
 import { AuditEditContentSection } from '../auditEdit/container/auditEditContentSection';
 import { AuditEditSubmitButton } from '../auditEdit/container/auditEditSubmitButton';
-import { useAuditPatch } from './hook/useAuditPatch';
 import { AuditPatchImageSection } from './container/auditPatchImageSection';
-import { useLocation } from 'react-router-dom';
-import { AuditEditFilesSection } from '../auditEdit/container/auditEditFilesSection';
+import { AuditPatchFilesSection } from './container/auditPatchFileSection';
+import { useAuditPatch } from './hook/useAuditPatch';
 
-export default function AuditPatchPage() {
-  const location = useLocation();
-  const data = location.state?.data || {};
-
-  const { postId, imageUrls, title, category, content, thumbnailImage } = data;
-
+export function AuditPatchPage() {
   const {
-    setFiles,
+    title,
+    content,
     handleTitleChange,
     handleCategoryChange,
     handleContentChange,
     handleSubmit,
-    handleThumbnailImage,
     isLoading,
-    newThumbnailImage,
-  } = useAuditPatch({
-    postId,
-    imageList: imageUrls,
-    initialTitle: title,
-    initialCategory: category,
-    initialContent: content,
-    initialThumbnailImage: thumbnailImage,
-  });
+    imageList,
+    fileList,
+    thumbnailImage,
+    setThumbnailImage,
+    handleFileDelete,
+    setNewFiles,
+  } = useAuditPatch();
 
   return (
     <>
       <HeadLayout title="감사기구" searchHidden={true} borderOff={true} />
       <AuditEditTitleSection
         initialTitle={title}
-        initialCategory={category}
         onTitleChange={handleTitleChange}
         onCategoryChange={handleCategoryChange}
       />
       <AuditEditContentSection initialValue={content} onContentChange={handleContentChange} />
       <AuditPatchImageSection
-        imageList={imageUrls}
-        thumbnailImage={newThumbnailImage}
-        setThumbnailImage={handleThumbnailImage}
+        imageList={imageList}
+        thumbnailImage={thumbnailImage}
+        setThumbnailImage={setThumbnailImage}
       />
-      <AuditEditFilesSection onFilesChange={setFiles} />
+      <AuditPatchFilesSection fileUrls={fileList} onFileDelete={handleFileDelete} onFilesChange={setNewFiles} />
       <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );

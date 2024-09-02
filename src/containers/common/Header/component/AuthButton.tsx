@@ -13,8 +13,13 @@ export function AuthButton({ state = State.Onboarding }: AuthButtonProps) {
 
   if (state === State.Login) {
     return (
-      <div className={cn(styles.headerItemStyle, 'w-[120px] text-base xs:hidden sm:hidden md:hidden lg:hidden')}>
-        내정보
+      <div
+        className={cn(styles.headerItemStyle, 'w-[120px] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
+        onClick={() => {
+          localStorage.removeItem('accessToken');
+        }}
+      >
+        로그아웃
       </div>
     );
   }

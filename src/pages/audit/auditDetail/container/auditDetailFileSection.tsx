@@ -35,7 +35,7 @@ export function AuditDetailFileSection({ files }: AuditDetailFileProps) {
         >
           <DownloadSimple size="24px" className="cursor-pointer" onClick={() => downloadHandler(file)} />
           <div className="ml-[0.5rem] flex-1 overflow-hidden">
-            <p className="truncate text-base font-medium text-gray-600">{file}</p>
+            <p className="truncate text-base font-medium text-gray-600">감사공지(임시).hwp</p>
           </div>
         </div>
       ))}

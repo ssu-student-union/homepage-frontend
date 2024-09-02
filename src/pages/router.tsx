@@ -17,12 +17,17 @@ import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
 import { Data } from './data/page';
 import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
 import { PartnershipEditPage } from './partnership/partnershipEdit/page';
-import AuditPatchPage from './audit/auditPatch/page';
 import PartnershipPatchPage from './partnership/partnershipPatch/page';
+import { AuditPatchPage } from './audit/auditPatch/page';
 
 function Layout() {
   var headerState: State;
-  headerState = State.Logout;
+
+  if (localStorage.getItem('accessToken')) {
+    headerState = State.Login;
+  } else {
+    headerState = State.Logout;
+  }
 
   return (
     <>
@@ -44,7 +49,7 @@ export function MainRouter() {
         <Route path="/homepage-frontend/audit" element={<AuditPage />} />
         <Route path="/homepage-frontend/audit/:id" element={<AuditDetailPage />} />
         <Route path="/homepage-frontend/audit/edit" element={<AuditEditPage />} />
-        <Route path="/homepage-frontend/audit/patch" element={<AuditPatchPage />} />
+        <Route path="/homepage-frontend/audit/:id/patch" element={<AuditPatchPage />} />
         <Route path="/homepage-frontend/partnership" element={<PartnershipPage />} />
         <Route path="/homepage-frontend/partnership/:id" element={<PartnershipDetailPage />} />
         <Route path="/homepage-frontend/partnership/edit" element={<PartnershipEditPage />} />
