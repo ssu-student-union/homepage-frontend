@@ -7,6 +7,10 @@ import { DropdownSection } from './dropDownSecion';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
 import Pagination from '@/components/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { SearchState } from '@/recoil/atoms/atom';
+import { getBoardPostSearch } from '@/apis/getBoardPostSearch';
+import { getBoardDataPostSearch } from '@/apis/getBoardDataPostSearch';
 
 // Define the Post interface for type safety
 interface Post {
@@ -32,27 +36,100 @@ export default function DataBoxSection({ userId }: { userId: string }) {
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
   const [latestSpecialCategory, setLatestSpecialCategory] = useState<Post | null>(null); // State to store the latest "총학생회칙" entry across all pages
   const navigate = useNavigate();
+  const [totalPage, setTotalPage] = useState(0);
+  const searchInput = useRecoilValue(SearchState);
+
+  useEffect(() => {
+    fetchLatestSpecialCategory(); // Fetch the latest special category when the component mounts
+  }, []);
+
+  useEffect(() => {
+    // Fetch data whenever the currentPage or searchInput changes
+    if (searchInput) {
+      searchFetchData({}, currentPage);
+      handleFetchData();
+    }
+  }, [currentPage, searchInput]);
 
   const fetchLatestSpecialCategory = async () => {
     try {
+      // Fetch the first page of data
       const response = await getBoardDataPosts({ filters: {}, page: 1 });
+
       if (response.data && response.data.data && response.data.data.postListResDto) {
+        // Map the posts into the Post interface structure
         const allData: Post[] = response.data.data.postListResDto.map((post: any) => ({
           ...post,
           createdAt: new Date(post.date).getTime(),
           fileNames: post.content || [],
         }));
 
-        // Find the latest entry with "총학생회칙"
+        // Find the latest "총학생회칙" entry
         const specialCategoryData = allData
           .filter((data: Post) => data.fileNames.includes('총학생회칙'))
           .sort((a: Post, b: Post) => b.createdAt - a.createdAt);
 
-        const latestSpecialCategoryData = specialCategoryData[0]; // Get the most recent "총학생회칙" entry
-        setLatestSpecialCategory(latestSpecialCategoryData || null); // Store it in state
+        const latestSpecialCategoryData = specialCategoryData[0]; // Get the most recent entry
+
+        if (latestSpecialCategoryData) {
+          // Check if it's already in the current page 1 data
+          const alreadyInPage1 = allData.some((data: Post) => data.createdAt === latestSpecialCategoryData.createdAt);
+
+          // If it's not already in the page 1 data, inject it at the start
+          if (!alreadyInPage1) {
+            allData.unshift(latestSpecialCategoryData);
+          }
+
+          setLatestSpecialCategory(latestSpecialCategoryData); // Store it in state
+          setDataBoxes(allData); // Update the state with the modified data
+        }
       }
     } catch (error) {
       console.error('Error fetching latest special category:', error);
+    }
+  };
+
+  const searchFetchData = async (filters: any = {}, page: number = 0) => {
+    console.log('Fetching search data with filters:', filters);
+    try {
+      const searchResponse = await getBoardDataPostSearch({
+        page,
+        take: 5, // Adjust according to your pagination
+        groupCode: filters.majorCategory,
+        memberCode: filters.middleCategory,
+        category: filters.subCategory,
+        q: searchInput, // Include the search query here
+      });
+      console.log('API Response:', searchResponse);
+
+      // Check if searchResponse.data and searchResponse.data.postListResDto are defined
+      if (searchResponse && searchResponse.data && searchResponse.data.postListResDto) {
+        const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: any) => ({
+          ...post,
+          category: post.category || '기타',
+          createdAt: new Date(post.date).getTime(),
+          uploadName: post.title,
+          uploadDate: post.date,
+          fileData: post.files || [],
+          fileUrl: post.files.map((file: any) => file.fileUrl) || [],
+          fileNames: post.content || [],
+          fileName: post.files.map((file: any) => file.fileName) || [],
+          fileType: post.files.map((file: any) => file.fileType) || [],
+        }));
+
+        console.log('categorizedDataBoxes', categorizedDataBoxes);
+        setDataBoxes(categorizedDataBoxes); // Set the filtered data
+
+        // Update totalPage based on the response
+        const totalPages = searchResponse.data.pageInfo.totalPages;
+        setTotalPage(totalPages); // Update totalPage state
+      } else {
+        console.error('API response data structure is not as expected:', searchResponse);
+        setDataBoxes([]); // Clear data if the response is not as expected
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setDataBoxes([]); // Clear data if there's an error
     }
   };
 
@@ -78,7 +155,9 @@ export default function DataBoxSection({ userId }: { userId: string }) {
         }));
 
         setDataBoxes(categorizedDataBoxes); // Set the filtered data
-      } else {
+        // Update totalPage based on the response
+        const totalPages = response.data.data.pageInfo.totalPages;
+        setTotalPage(totalPages); // Update totalPage state      } else {
         console.error('API 응답 데이터가 예상과 다릅니다. 응답 구조:', response.data);
       }
     } catch (error) {
@@ -101,7 +180,11 @@ export default function DataBoxSection({ userId }: { userId: string }) {
     if (selectedMiddleOption) filters.middleCategory = selectedMiddleOption;
     if (selectedMinorOption) filters.subCategory = selectedMinorOption;
 
-    fetchData(filters, currentPage);
+    if (searchInput) {
+      searchFetchData(filters, currentPage); // Fetch data based on search query
+    } else {
+      fetchData(filters, currentPage); // Fetch data normally
+    }
   };
 
   const currentData = dataBoxes;
@@ -112,8 +195,6 @@ export default function DataBoxSection({ userId }: { userId: string }) {
     link.download = fileName;
     link.click();
   };
-
-  const totalPage = data?.data?.pageInfo?.totalPages;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);

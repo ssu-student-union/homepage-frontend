@@ -188,6 +188,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   const handleAddInput = () => {
     const fileInputsArray = getValues('fileInputs');
     const lastInput = fileInputsArray[fileInputsArray.length - 1];
+    const currentInput = fileInputsArray[fileInputsArray.length];
     const selectedType = lastInput?.type;
 
     if (fileInputRef.current && selectedType) {
@@ -298,10 +299,8 @@ export default function UploadSection({ userId }: { userId: string }) {
             const patchFileUrlsFallback = fileDataList.map((item) => item.postFileId);
             console.log('Default patchFileUrls:', patchFileUrlsFallback);
 
-            // 여기에서 patchFileUrls[0] 값을 확인해보세요
             console.log('patchFileUrlsFallback[0]:', patchFileUrlsFallback[0]);
 
-            // 여기서 리턴하는 대신 변수에 값을 저장
             patchFileUrls = patchFileUrlsFallback;
           }
 
@@ -310,14 +309,14 @@ export default function UploadSection({ userId }: { userId: string }) {
             content: fileCategory,
             categoryCode: userName,
             thumbnailImage: null,
-            postFileList: patchFileUrls[0], // Use the extracted postFileIds here
+            postFileList: [patchFileUrls[0]],
           };
 
           console.log('posts:', posts);
 
           const responsePatch = await patchBoardPosts({
             boardCode: boardCode,
-            postId: post.postId, // Use the existing post ID
+            postId: post.postId,
             posts: posts,
           });
 
