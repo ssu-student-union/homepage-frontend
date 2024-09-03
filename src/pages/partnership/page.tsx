@@ -58,7 +58,6 @@ export function PartnershipPage() {
 
   return (
     <>
-      <Header state={State.Login} />
       <HeadLayout
         title="제휴안내"
         subtitle={

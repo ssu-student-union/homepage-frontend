@@ -5,6 +5,7 @@ import { PartnershipEditContentSection } from '../partnershipEdit/container/Part
 import { PartnershipEditSubmitButton } from '../partnershipEdit/container/PartnershipEditSubmitButton';
 import { usePartnershipPatch } from './hook/usePartnershipPatch';
 import { PartnershipPatchImageSection } from './container/PartnershipPatchImageSection';
+import { AuditPatchFilesSection } from '@/pages/audit/auditPatch/container/auditPatchFileSection';
 
 export default function PartnershipPatchPage() {
   const {
@@ -18,6 +19,9 @@ export default function PartnershipPatchPage() {
     imageList,
     thumbnailImage,
     setThumbnailImage,
+    fileList,
+    handleFileDelete,
+    setNewFiles,
   } = usePartnershipPatch();
 
   return (
@@ -34,6 +38,7 @@ export default function PartnershipPatchPage() {
         thumbnailImage={thumbnailImage}
         setThumbnailImage={setThumbnailImage}
       />
+      <AuditPatchFilesSection fileUrls={fileList} onFileDelete={handleFileDelete} onFilesChange={setNewFiles} />
       <PartnershipEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );
