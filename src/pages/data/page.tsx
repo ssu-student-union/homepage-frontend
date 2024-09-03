@@ -3,7 +3,7 @@ import { State } from '@/containers/common/Header/const/state';
 import DataTitleSection from './containers/DataTitleSection';
 import DataNavSection from './containers/dataNavSecion';
 import DataBoxSection from './containers/dataBoxSection';
-import { useLocation } from 'react-router-dom'; // 경로를 가져오기 위한 useLocation import
+import { useLocation } from 'react-router-dom';
 import { Search } from '@/components/Search/Search';
 import UploadSection from './containers/edit/UploadSection';
 
@@ -13,7 +13,7 @@ export function Data() {
 
   return (
     <>
-      <Header state={State.Login} />
+      <Header state={State.Onboarding} />
       <DataTitleSection userId={userId} />
       {location.pathname === '/homepage-frontend/data' && (
         <>
