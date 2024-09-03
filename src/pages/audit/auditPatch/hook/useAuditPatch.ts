@@ -18,7 +18,7 @@ export function useAuditPatch() {
   const [title, setTitle] = useState<string>(postDetail?.title ?? '');
   const [category, setCategory] = useState<string>(postDetail?.categoryName ?? '');
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
-  const [imageList, setImageList] = useState<string[]>(postDetail?.imageList ?? []);
+  const [imageList] = useState<string[]>(postDetail?.imageList ?? []);
   const [fileList, setFileList] = useState<string[]>(postDetail?.fileList ?? []);
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);
@@ -48,7 +48,6 @@ export function useAuditPatch() {
   const handleSubmit = async () => {
     try {
       if (deletedFiles.length > 0) {
-        console.log('Deleting files:', deletedFiles);
         await deleteFiles({ boardCode, fileUrls: deletedFiles });
       }
 

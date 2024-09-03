@@ -1,8 +1,4 @@
-import { Header } from '@/containers/common/Header/Header';
-
-import { State } from '@/containers/common/Header/const/state';
 import { HeadLayout } from '@/template/HeadLayout';
-
 import { BodyLayout } from '@/template/BodyLayout';
 import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
 import { Spacing } from '@/components/Spacing';

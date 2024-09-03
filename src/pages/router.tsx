@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { MainPage } from './main/page';
 import { KakaoRegisterPage } from './kakao/page';
 import { GeneralRegisterPage } from './general/page';

@@ -1,5 +1,3 @@
-import { State } from '@/containers/common/Header/const/state';
-import { Header } from '@/containers/common/Header/Header';
 import { useSearchParams } from 'react-router-dom';
 import { useValidateAndRedirect } from '../container/hooks/useValidateAndRedirect';
 import { IntroEditTitleSection } from './container/IntroEditTitleSection';
@@ -19,7 +17,6 @@ export function IntroEditPage() {
 
   return (
     <>
-      <Header state={State.Login} />
       <IntroEditTitleSection category={category!} subCategory={subCategory!} />
       <IntroEditFileSection category={category!} subCategory={subCategory!} />
     </>
