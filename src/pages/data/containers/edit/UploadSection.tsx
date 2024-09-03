@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
 import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
 import { userNameMapping } from '../index';
-import { any } from 'zod';
 import { delBoardFiles } from '@/apis/delBoardFiles';
 import { patchBoardPosts } from '@/apis/patchBoardPosts';
 import DataDelBtn from '../dataDelBtn';
@@ -39,7 +38,6 @@ export default function UploadSection({ userId }: { userId: string }) {
 
   // 전달된 post 데이터의 fileData의 개수를 index에 저장
   const fileDataList = post?.fileData || [];
-  const idx = fileDataList.length;
 
   const [categories, setCategories] = useState<string[]>([]);
   // 첫 번째 파일 입력 필드는 고정된 값, 이후는 fileData를 사용하여 설정
@@ -51,14 +49,23 @@ export default function UploadSection({ userId }: { userId: string }) {
       fileName: '',
       isNew: true,
     },
-    ...fileDataList.map((fileData, idx) => ({
-      id: idx + 1, // id is starting from 1
-      type: fileData.fileType.split(',')[idx] || '', // Assign the correct fileType based on index
-      fileName: fileData.fileName,
-      fileType: fileData.fileType.split(',')[idx] || '', // Ensure fileType is assigned
-      postFileId: fileData.postFileId,
-      isNew: false,
-    })),
+    ...fileDataList.map(
+      (
+        fileData: {
+          fileType: { split: (arg0: string) => { (): any; new (): any; [x: string]: any } };
+          fileName: any;
+          postFileId: any;
+        },
+        idx: number
+      ) => ({
+        id: idx + 1, // id is starting from 1
+        type: fileData.fileType.split(',')[idx] || '', // Assign the correct fileType based on index
+        fileName: fileData.fileName,
+        fileType: fileData.fileType.split(',')[idx] || '', // Ensure fileType is assigned
+        postFileId: fileData.postFileId,
+        isNew: false,
+      })
+    ),
   ]);
 
   console.log('File Data List:', fileDataList);
@@ -224,7 +231,8 @@ export default function UploadSection({ userId }: { userId: string }) {
         category: getValues('category'),
         fileType: fileType || '',
         fileData: file,
-        postFileId: 0, // Placeholder if you're not using it initially
+        postFileId: 0,
+        fileUrl: undefined,
       };
 
       setTempFiles((prevFiles) => [...prevFiles, newFile]);
@@ -263,9 +271,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
     console.log('newFileData', newFileData);
     try {
-      const UserData = localStorage.getItem('kakaoData');
       const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
-      const fileName = newFileData.fileName.length > 0 ? newFileData.fileName : null;
       const userName = (userNameMapping as { [key: string]: string })[userId] || 'Unknown';
       const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : '중앙운영위원회'; // 'defaultCategory'를 기본값으로 설정
       const fileType = String(newFileData.fileType.length > 0 ? newFileData.fileType : null);
@@ -297,7 +303,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           console.log('patchFileUrls:', patchFileUrls);
 
           if (patchFileDataArray.length === 0) {
-            const patchFileUrlsFallback = fileDataList.map((item) => item.postFileId);
+            const patchFileUrlsFallback = fileDataList.map((item: { postFileId: any }) => item.postFileId);
             console.log('Default patchFileUrls:', patchFileUrlsFallback);
 
             console.log('patchFileUrlsFallback[0]:', patchFileUrlsFallback[0]);
@@ -398,7 +404,7 @@ export default function UploadSection({ userId }: { userId: string }) {
       // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
       if (post) {
         // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
-        const fileToDelete = post.fileData.find((file) => file.postFileId);
+        const fileToDelete = post.fileData.find((file: { postFileId: any }) => file.postFileId);
 
         if (!fileToDelete) {
           alert('삭제할 파일을 찾을 수 없습니다.');
@@ -453,7 +459,7 @@ export default function UploadSection({ userId }: { userId: string }) {
       // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
       if (post) {
         // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
-        const fileToDelete = post.fileData.find((file) => file.postFileId);
+        const fileToDelete = post.fileData.find((file: { postFileId: any }) => file.postFileId);
 
         if (!fileToDelete) {
           alert('삭제할 파일을 찾을 수 없습니다.');
@@ -609,12 +615,11 @@ export default function UploadSection({ userId }: { userId: string }) {
           <FilterDropDown
             defaultValue="파일종류 선택"
             optionValue={fileOptions}
-            onValueChange={(value) => {
-              setValue(`fileInputs.${input.id}.type`, value);
-              trigger();
-            }}
             className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
             value={''}
+            onValueChange={function (): void {
+              throw new Error('Function not implemented.');
+            }}
           />
 
           <button type="button" className="ml-2" onClick={handlePlusInput}>
@@ -626,7 +631,7 @@ export default function UploadSection({ userId }: { userId: string }) {
         <div className="flex justify-end xs:flex-col sm:flex-col">
           {post && (
             <div className="hidden text-end xs:text-center sm:text-center md:block lg:block xl:block xxl:block ">
-              <button className="mr-3" onClick={handleRemovePost}>
+              <button className="mr-3" onClick={() => handleRemovePost(post)}>
                 <DataDelBtn />
               </button>
             </div>
@@ -644,7 +649,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           {post && (
             <div className="hidden text-end xs:block xs:text-center sm:block sm:text-center  ">
-              <button onClick={handleRemovePost}>
+              <button onClick={() => handleRemovePost(post)}>
                 <DataDelBtn />
               </button>
             </div>

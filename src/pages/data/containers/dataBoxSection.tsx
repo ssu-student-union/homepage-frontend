@@ -29,7 +29,7 @@ interface Post {
 export default function DataBoxSection({ userId }: { userId: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [dataBoxes, setDataBoxes] = useState<Post[]>([]);
-  const [data, setData] = useState<any>([]); // Adjust type if `data` is more specific
+  const [, setData] = useState<any>([]); // Adjust type if `data` is more specific
   const [selectedMajorOption, setSelectedMajorOption] = useState('');
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
