@@ -8,8 +8,6 @@ import { IntroEditPage } from './intro/IntroEdit/page';
 import { AuditPage } from './audit/page';
 import { AuditDetailPage } from './audit/auditDetail/page';
 import { AuditEditPage } from './audit/auditEdit/page';
-import { Header } from '@/containers/common/Header/Header';
-import { State } from '@/containers/common/Header/const/state';
 import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
@@ -17,38 +15,21 @@ import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
 import { Data } from './data/page';
 import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
 import { PartnershipEditPage } from './partnership/partnershipEdit/page';
-import AuditPatchPage from './audit/auditPatch/page';
 import PartnershipPatchPage from './partnership/partnershipPatch/page';
-
-function Layout() {
-  var headerState: State;
-  if (!localStorage.getItem('accessToken')) {
-    headerState = State.Logout;
-  } else {
-    headerState = State.Login;
-  }
-
-  return (
-    <>
-      <Header state={headerState} />
-      <main>
-        <Outlet />
-      </main>
-    </>
-  );
-}
+import { AuditPatchPage } from './audit/auditPatch/page';
+import { HeaderLayout } from './layout/headerLayout';
 
 export function MainRouter() {
   return (
     <Routes>
-      <Route path="/homepage-frontend" element={<Layout />}>
+      <Route path="/homepage-frontend" element={<HeaderLayout />}>
         <Route path="/homepage-frontend" element={<MainPage />} />
         <Route path="/homepage-frontend/intro" element={<IntroPage />} />
         <Route path="/homepage-frontend/intro/edit" element={<IntroEditPage />} />
         <Route path="/homepage-frontend/audit" element={<AuditPage />} />
         <Route path="/homepage-frontend/audit/:id" element={<AuditDetailPage />} />
         <Route path="/homepage-frontend/audit/edit" element={<AuditEditPage />} />
-        <Route path="/homepage-frontend/audit/patch" element={<AuditPatchPage />} />
+        <Route path="/homepage-frontend/audit/:id/patch" element={<AuditPatchPage />} />
         <Route path="/homepage-frontend/partnership" element={<PartnershipPage />} />
         <Route path="/homepage-frontend/partnership/:id" element={<PartnershipDetailPage />} />
         <Route path="/homepage-frontend/partnership/edit" element={<PartnershipEditPage />} />

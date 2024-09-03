@@ -12,6 +12,7 @@ interface HeaderSheetProps {
 
 export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const toggleCategory = (category: string) => {
@@ -19,16 +20,22 @@ export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps)
   };
 
   const handleLinkClick = (path: string) => {
+    setIsOpen(false);
     navigate(path);
-    window.location.reload();
+  };
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem('accessToken');
+    setIsOpen(false);
+    navigate('/homepage-frontend');
   };
 
   return (
     <div className="xl:hidden xxl:hidden">
-      <Sheet>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>{trigger}</SheetTrigger>
         <SheetContent
-          className={`left-0 top-[60px] flex w-[260px] items-start justify-start border-0 bg-white px-0 py-0 text-lg font-semibold marker:outline-none xs:top-[50px] sm:top-[50px] md:top-[50px] `}
+          className={`left-0 top-[60px] flex w-[260px] items-start justify-start border-0 bg-white px-0 py-0 text-lg font-semibold marker:outline-none focus:outline-none xs:top-[50px] sm:top-[50px] md:top-[50px] `}
         >
           <div className="flex w-full flex-col">
             {Object.entries(menuItems).map(([category, items], index) => (
@@ -67,16 +74,26 @@ export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps)
             <a
               href={`https://ssuketch60.cafe24.com/`}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
+              onClick={() => setIsOpen(false)}
             >
               이전 홈페이지
             </a>
-            <Link
-              className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-              to={state === State.Login ? `/homepage-frontend/my` : `/homepage-frontend/register`}
-              onClick={() => window.location.reload()}
-            >
-              {state === State.Login ? '내정보' : '로그인'}
-            </Link>
+            {state === State.Login ? (
+              <div
+                className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
+                onClick={handleLogoutClick}
+              >
+                로그아웃
+              </div>
+            ) : (
+              <Link
+                className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
+                to="/homepage-frontend/register"
+                onClick={() => setIsOpen(false)}
+              >
+                로그인
+              </Link>
+            )}
           </div>
         </SheetContent>
       </Sheet>

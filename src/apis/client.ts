@@ -15,10 +15,10 @@ export const client = axios.create({
 // 헤더에 토큰 추가
 client.interceptors.request.use(
   (config: CustomInternalAxiosRequestConfig) => {
-    if (config.requireAuth && localStorage.getItem('accessToken')) {
+    if (config.requireAuth || localStorage.getItem('accessToken')) {
       const accessToken = localStorage.getItem('accessToken');
       config.headers = config.headers || {};
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers.Authorization = `Bearer eyJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzI1MjkyNjI4LCJleHAiOjE3MjUzMDM0Mjh9.TNOtQm4eTI8dtkNBeuH4jyjK57sDjyySpgv2N2gKbCg`;
     }
     return config;
   },

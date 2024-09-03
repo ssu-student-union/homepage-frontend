@@ -11,9 +11,10 @@ import { useHeaderSize } from '@/hooks/useHeaderSize';
 
 interface HeaderProps {
   state?: State;
+  onLogout: () => void;
 }
 
-export function Header({ state = State.Onboarding }: HeaderProps) {
+export function Header({ state = State.Onboarding, onLogout }: HeaderProps) {
   const styles = getStyles(state);
   const isSmall = useHeaderSize();
 
@@ -42,7 +43,7 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
       </div>
       <Navigation state={state} />
       <div className="flex pr-4">
-        <AuthButton state={state} />
+        <AuthButton state={state} onLogout={onLogout} />
       </div>
     </div>
   );

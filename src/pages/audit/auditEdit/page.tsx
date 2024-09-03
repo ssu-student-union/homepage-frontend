@@ -15,8 +15,8 @@ export function AuditEditPage() {
       <HeadLayout title="감사기구" searchHidden={true} borderOff={true} />
       <AuditEditTitleSection onTitleChange={handleTitleChange} onCategoryChange={handleCategoryChange} />
       <AuditEditContentSection onContentChange={handleContentChange} />
-      <AuditEditFilesSection onFilesChange={setFiles} />
       <AuditEditImageSection onImagesChange={setImages} />
+      <AuditEditFilesSection onFilesChange={setFiles} />
       <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );
