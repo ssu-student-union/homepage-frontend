@@ -15,7 +15,7 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
   if (state === State.Login) {
     return (
       <div
-        className={cn(styles.headerItemStyle, 'w-[120px] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
+        className={cn(styles.headerItemStyle, 'w-[9rem] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
         onClick={onLogout}
       >
         로그아웃
@@ -25,7 +25,7 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
   if (state === State.Logout) {
     return (
       <button
-        className={cn(styles.headerItemStyle, 'w-[120px] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
+        className={cn(styles.headerItemStyle, 'w-[9rem] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
         onClick={() => navigate('/homepage-frontend/register')}
       >
         로그인

@@ -18,7 +18,6 @@ export function HeaderLayout() {
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     setHeaderState(State.Logout);
-    alert('로그아웃!');
   };
 
   return (
