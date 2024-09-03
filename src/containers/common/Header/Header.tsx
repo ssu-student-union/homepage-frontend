@@ -11,10 +11,10 @@ import { useHeaderSize } from '@/hooks/useHeaderSize';
 
 interface HeaderProps {
   state?: State;
-  onLogout: () => void;
+  onLogout?: () => void;
 }
 
-export function Header({ state = State.Onboarding, onLogout }: HeaderProps) {
+export function Header({ state = State.Onboarding, onLogout = () => {} }: HeaderProps) {
   const styles = getStyles(state);
   const isSmall = useHeaderSize();
 

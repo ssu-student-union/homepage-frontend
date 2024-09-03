@@ -13,8 +13,8 @@ export function Data() {
 
   return (
     <>
+      <Header state={State.Login} />
       <DataTitleSection userId={userId} />
-
       {location.pathname === '/homepage-frontend/data' && (
         <>
           <DataNavSection />
