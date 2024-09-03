@@ -11,7 +11,7 @@ const queryClient = new QueryClient({
     onError: (error) => {
       if (error instanceof APIResponseError) {
         if (error.body.code === 'invalid_token') {
-          localStorage.removeItem('token');
+          localStorage.removeItem('accessToken');
           window.location.href = '/';
         }
       }

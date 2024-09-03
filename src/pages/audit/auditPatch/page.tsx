@@ -2,13 +2,13 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { AuditEditTitleSection } from '../auditEdit/container/auditEditTitleSection';
 import { AuditEditContentSection } from '../auditEdit/container/auditEditContentSection';
 import { AuditEditSubmitButton } from '../auditEdit/container/auditEditSubmitButton';
-import { useAuditPatch } from './hook/useAuditPatch';
 import { AuditPatchImageSection } from './container/auditPatchImageSection';
+import { AuditPatchFilesSection } from './container/auditPatchFileSection';
+import { useAuditPatch } from './hook/useAuditPatch';
 
-export default function AuditPatchPage() {
+export function AuditPatchPage() {
   const {
     title,
-    category,
     content,
     handleTitleChange,
     handleCategoryChange,
@@ -16,8 +16,11 @@ export default function AuditPatchPage() {
     handleSubmit,
     isLoading,
     imageList,
+    fileList,
     thumbnailImage,
     setThumbnailImage,
+    handleFileDelete,
+    setNewFiles,
   } = useAuditPatch();
 
   return (
@@ -25,7 +28,6 @@ export default function AuditPatchPage() {
       <HeadLayout title="감사기구" searchHidden={true} borderOff={true} />
       <AuditEditTitleSection
         initialTitle={title}
-        initialCategory={category}
         onTitleChange={handleTitleChange}
         onCategoryChange={handleCategoryChange}
       />
@@ -35,6 +37,7 @@ export default function AuditPatchPage() {
         thumbnailImage={thumbnailImage}
         setThumbnailImage={setThumbnailImage}
       />
+      <AuditPatchFilesSection fileUrls={fileList} onFileDelete={handleFileDelete} onFilesChange={setNewFiles} />
       <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );

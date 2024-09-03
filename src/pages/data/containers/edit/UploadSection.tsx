@@ -441,6 +441,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           console.log('fileToDelete', fileToDelete);
           const boardCode = '자료집게시판';
           const fileUrls = fileToDelete.fileUrl;
+
           console.log(fileUrls);
 
           const response = await delBoardFiles(boardCode, fileUrls);

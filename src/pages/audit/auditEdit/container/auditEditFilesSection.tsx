@@ -10,6 +10,7 @@ export interface FileItem {
 
 interface AuditEditFilesSectionProps {
   onFilesChange: (files: File[]) => void;
+  files?: string[];
 }
 
 export function AuditEditFilesSection({ onFilesChange }: AuditEditFilesSectionProps) {

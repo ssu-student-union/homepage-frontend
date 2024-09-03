@@ -1,21 +1,32 @@
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
+import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
+import { usePostBoardFiles } from '@/hooks/usePostBoardFiles';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { handleCardClick } from '../../utils/cardHandler';
+import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { handleFileLists } from '../../auditEdit/utils/fileHandler';
 
 export function useAuditPatch() {
   const location = useLocation();
-  const data = location.state?.data || {};
-  const postId: number = data.postId ?? 0;
-  const imageList: string[] = data.imageUrls ?? [];
-  const initialThumbNailImage: string = data.thumbNailImage ?? '';
-
   const navigate = useNavigate();
-  const [title, setTitle] = useState<string>(data.title ?? '');
-  const [category, setCategory] = useState<string>(data.category ?? '');
-  const [content, setContent] = useState<string>(data.content ?? '');
-  const [thumbnailImage, setThumbnailImage] = useState<string>(initialThumbNailImage);
+
+  const postId: number = location.state?.postId;
+  const boardCode: string = '감사기구게시판';
+  const { data: resp } = useGetBoardDetail({ boardCode, postId });
+  const postDetail = resp?.data.postDetailResDto;
+
+  const [title, setTitle] = useState<string>(postDetail?.title ?? '');
+  const [category, setCategory] = useState<string>(postDetail?.categoryName ?? '');
+  const [content, setContent] = useState<string>(postDetail?.content ?? '');
+  const [imageList, setImageList] = useState<string[]>(postDetail?.imageList ?? []);
+  const [fileList, setFileList] = useState<string[]>(postDetail?.fileList ?? []);
+  const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
+  const [newFiles, setNewFiles] = useState<File[]>([]);
+  const [thumbnailImage, setThumbnailImage] = useState<string>(postDetail?.imageList[0] ?? '');
+
   const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
+  const { mutateAsync: deleteFiles } = useDelBoardFiles();
+  const { mutateAsync: uploadFiles } = usePostBoardFiles();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -29,21 +40,45 @@ export function useAuditPatch() {
     setContent(newContent);
   };
 
+  const handleFileDelete = (fileUrl: string) => {
+    setFileList((prevList) => prevList.filter((file) => file !== fileUrl));
+    setDeletedFiles((prevDeleted) => [...prevDeleted, fileUrl]);
+  };
+
   const handleSubmit = async () => {
     try {
+      if (deletedFiles.length > 0) {
+        console.log('Deleting files:', deletedFiles);
+        await deleteFiles({ boardCode, fileUrls: deletedFiles });
+      }
+
+      let uploadedFileList: number[] = [];
+      let uploadedThumbnail = thumbnailImage;
+
+      if (newFiles.length > 0) {
+        const uploadResponse = await uploadFiles({
+          boardCode,
+          files: newFiles,
+        });
+
+        const { postFiles } = uploadResponse.data.data;
+
+        uploadedFileList = handleFileLists(postFiles);
+      }
+
       await patchPost({
-        boardCode: '감사기구게시판',
-        data: {
+        boardCode,
+        posts: {
           title,
           content,
           categoryCode: category,
-          thumbNailImage: thumbnailImage,
+          thumbnailImage: uploadedThumbnail,
+          postFileList: uploadedFileList.length > 0 ? uploadedFileList : [0],
         },
-        postId: postId,
+        postId,
       });
 
-      handleCardClick(postId.toString(), postId, category, thumbnailImage, navigate);
-      window.location.reload();
+      navigate('/homepage-frontend/audit');
     } catch (e) {
       console.error(e);
     }
@@ -56,10 +91,13 @@ export function useAuditPatch() {
     content,
     thumbnailImage,
     imageList,
+    fileList,
     handleTitleChange,
     handleCategoryChange,
     handleContentChange,
     setThumbnailImage,
+    handleFileDelete,
+    setNewFiles,
     handleSubmit,
     isLoading,
   };
