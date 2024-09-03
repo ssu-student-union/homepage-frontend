@@ -42,6 +42,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   const [categories, setCategories] = useState<string[]>([]);
   // 첫 번째 파일 입력 필드는 고정된 값, 이후는 fileData를 사용하여 설정
 
+  const [fileInputSelecType, setfileInputSelecType] = useState('');
   const [fileInputs, setFileInputs] = useState(() => [
     {
       id: 0,
@@ -194,13 +195,31 @@ export default function UploadSection({ userId }: { userId: string }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddInput = () => {
-    const fileInputsArray = getValues('fileInputs');
-    const lastInput = fileInputsArray[fileInputsArray.length - 1];
-    const selectedType = lastInput?.type;
+    const selectedType = fileInputSelecType;
 
     if (fileInputRef.current && selectedType) {
       fileInputRef.current.accept = selectedType; // Set file input to accept selected type
       fileInputRef.current.click(); // Trigger file selection dialog
+    } else {
+      alert('파일 종류를 먼저 선택하세요.');
+    }
+  };
+
+  // 파일 입력이 클릭될 때 실행되는 함수, 특정 인덱스 기반으로 처리
+  const handleChangeInput = (index) => {
+    const fileInputsArray = getValues('fileInputs');
+    console.log('fileInputsArray', fileInputsArray);
+
+    // 선택된 파일 입력의 인덱스를 기반으로 해당 항목 가져오기
+    const selectedInput = fileInputsArray[index];
+    console.log('selectedInput', selectedInput);
+
+    // type이 배열일 경우, 문자열로 변환하여 accept 속성에 적용
+    const selectedType = Array.isArray(selectedInput?.type) ? selectedInput.type.join(',') : selectedInput?.type;
+
+    if (fileInputRef.current && selectedType) {
+      fileInputRef.current.accept = selectedType; // 선택된 파일 타입 설정
+      fileInputRef.current.click(); // 파일 선택 창 열기
     } else {
       alert('파일 종류를 먼저 선택하세요.');
     }
@@ -217,7 +236,7 @@ export default function UploadSection({ userId }: { userId: string }) {
       const file = event.target.files[0];
       const fileInputsArray = getValues('fileInputs');
       const currentFileInput = fileInputsArray[fileInputsArray.length - 1];
-      const fileType = currentFileInput?.type;
+      const fileType = fileInputSelecType;
       const isNew = currentFileInput && 'isNew' in currentFileInput ? currentFileInput.isNew : false;
 
       if (isNew && !fileType) {
@@ -544,8 +563,8 @@ export default function UploadSection({ userId }: { userId: string }) {
       </div>
 
       <div>
-        {fileInputs.map((input) => (
-          <div key={input.id} className="mb-4">
+        {fileInputs.map((input, index) => (
+          <div key={input.id || index} className="mb-4">
             <div className="flex items-center">
               {input.isNew ? (
                 <></>
@@ -559,8 +578,8 @@ export default function UploadSection({ userId }: { userId: string }) {
                       defaultValue={input.fileName}
                       render={({ field }) => (
                         <Input
-                          onClick={handleAddInput}
                           type="text"
+                          onClick={() => handleChangeInput(index)}
                           placeholder="파일이름"
                           className="xl: left-2 border-gray-300 pl-10 font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] lg:text-lg xl:h-[62px] xl:w-[727px] xl:text-lg xxl:h-[62px] xxl:w-[1061px]"
                           {...field}
@@ -573,21 +592,20 @@ export default function UploadSection({ userId }: { userId: string }) {
                       )}
                     />
                   </div>
-
                   <Controller
-                    name={`fileInputs.${input.id}.type`}
+                    name={`fileInputs.${index}.type`}
                     control={control}
-                    defaultValue={input.fileType}
+                    defaultValue={input.fileType || ''}
                     render={({ field }) => (
                       <FilterDropDown
-                        defaultValue="파일종류 선택" // 이 값은 초기값으로만 설정됨
+                        defaultValue="파일종류 선택"
                         optionValue={fileOptions}
                         onValueChange={(value) => {
-                          setValue(`fileInputs.${input.id}.type`, value);
-                          field.onChange(value); // form 상태 업데이트
-                          trigger(); // form 검증 트리거
+                          setValue(`fileInputs.${index}.type`, value);
+                          field.onChange(value);
+                          trigger();
                         }}
-                        value={field.value} // field.value로 현재 선택된 값 반영
+                        value={field.value}
                         className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
@@ -606,6 +624,7 @@ export default function UploadSection({ userId }: { userId: string }) {
             <FileText className="top-20% absolute left-3 text-gray-600" />
             <Input
               type="text"
+              onClick={handleAddInput}
               placeholder="파일을 선택해주세요"
               className="left-2 border-gray-300 pl-10 text-sm font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] lg:text-lg xl:h-[62px] xl:w-[727px] xl:text-lg xxl:h-[62px] xxl:w-[1061px]"
               readOnly
@@ -614,12 +633,13 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           <FilterDropDown
             defaultValue="파일종류 선택"
-            optionValue={fileOptions}
+            optionValue={fileOptions} // fileOptions가 정의되어 있는지 확인하세요.
             className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
-            value={''}
-            onValueChange={function (): void {
-              throw new Error('Function not implemented.');
+            onValueChange={(value) => {
+              setfileInputSelecType(value); // 상태 업데이트
+              // 추가적인 상태 업데이트나 검증 트리거를 여기에 추가할 수 있습니다.
             }}
+            value={fileInputSelecType} // 현재 선택된 값 반영
           />
 
           <button type="button" className="ml-2" onClick={handlePlusInput}>
