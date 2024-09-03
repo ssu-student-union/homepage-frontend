@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 
 interface AuthButtonProps {
   state?: State;
+  onLogout: () => void;
 }
 
-export function AuthButton({ state = State.Onboarding }: AuthButtonProps) {
+export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonProps) {
   const styles = getStyles(state);
   const navigate = useNavigate();
 
@@ -15,9 +16,7 @@ export function AuthButton({ state = State.Onboarding }: AuthButtonProps) {
     return (
       <div
         className={cn(styles.headerItemStyle, 'w-[120px] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
-        onClick={() => {
-          localStorage.removeItem('accessToken');
-        }}
+        onClick={onLogout}
       >
         로그아웃
       </div>
