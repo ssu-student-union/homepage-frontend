@@ -574,14 +574,14 @@ export default function UploadSection({ userId }: { userId: string }) {
                     defaultValue={input.fileType}
                     render={({ field }) => (
                       <FilterDropDown
-                        defaultValue="파일종류 선택"
+                        defaultValue="파일종류 선택" // 이 값은 초기값으로만 설정됨
                         optionValue={fileOptions}
                         onValueChange={(value) => {
                           setValue(`fileInputs.${input.id}.type`, value);
-                          field.onChange(value);
-                          trigger();
+                          field.onChange(value); // form 상태 업데이트
+                          trigger(); // form 검증 트리거
                         }}
-                        value={field.value}
+                        value={field.value} // field.value로 현재 선택된 값 반영
                         className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
