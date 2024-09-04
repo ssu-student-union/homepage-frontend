@@ -195,6 +195,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
   const handleAddInput = () => {
     const selectedType = fileInputSelecType;
+    console.log('selectedType', selectedType);
 
     if (fileInputRef.current && selectedType) {
       fileInputRef.current.accept = selectedType; // Set file input to accept selected type
@@ -234,7 +235,9 @@ export default function UploadSection({ userId }: { userId: string }) {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       const fileInputsArray = getValues('fileInputs');
+      console.log('fileInputsArray', fileInputsArray);
       const currentFileInput = fileInputsArray[fileInputsArray.length - 1];
+      console.log('currentFileInput', currentFileInput);
       const fileType = fileInputSelecType;
       const isNew = currentFileInput && 'isNew' in currentFileInput ? currentFileInput.isNew : false;
 
@@ -409,70 +412,124 @@ export default function UploadSection({ userId }: { userId: string }) {
 
   const handleRemoveInput = async (index: number, id: number) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
-      // fileInputs에서 해당 id와 매칭되는 파일을 찾음
-      console.log(
-        'input.id',
-        fileInputs.find((input) => input.id === index)
-      );
-      console.log('index', index);
-      console.log(
-        'input.id',
-        fileInputs.find((input) => input.id[index])
-      );
-
-      const inputToDelete = fileInputs.find((input) => input.id === index);
-      if (!inputToDelete) {
-        alert('삭제할 파일을 찾을 수 없습니다.');
-        return;
-      }
-
-      console.log('inputToDelete', inputToDelete);
-      console.log('post', post);
-
-      // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
       if (post) {
-        // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
-        const fileToDelete = post.fileData.find(
-          (file: { postFileId: any }) => file.postFileId === inputToDelete.postFileId
+        // fileInputs에서 해당 id와 매칭되는 파일을 찾음
+        console.log(
+          'input.id',
+          fileInputs.find((input) => input.id === index)
         );
-        if (!fileToDelete) {
+        console.log('index', index);
+        console.log(
+          'input.id',
+          fileInputs.find((input) => input.id[index])
+        );
+
+        const inputToDelete = fileInputs.find((input) => input.id === index);
+        if (!inputToDelete) {
           alert('삭제할 파일을 찾을 수 없습니다.');
           return;
         }
 
-        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
-        const updatedTempFiles = tempFiles.filter((file) => file.postFileId !== fileToDelete.postFileId);
+        console.log('inputToDelete', inputToDelete);
+        console.log('post', post);
 
-        setFileInputs(updatedFileInputs);
-        setTempFiles(updatedTempFiles);
-        trigger(); // 폼 검증 트리거
-
-        try {
-          console.log('fileToDelete', fileToDelete);
-          const boardCode = '자료집게시판';
-          console.log('inputToDelete', inputToDelete);
-          console.log('inputToDelete fileUrl', fileToDelete?.fileUrl);
-          const fileUrls = fileToDelete.fileUrl;
-          console.log('fileUrls', fileUrls);
-
-          console.log(fileUrls);
-
-          const response = await delBoardFiles(boardCode, fileUrls);
-
-          if (response.status === 200) {
-            alert('파일이 성공적으로 삭제되었습니다.');
-          } else {
-            alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
+        // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
+        if (post) {
+          // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
+          const fileToDelete = post.fileData.find(
+            (file: { postFileId: any }) => file.postFileId === inputToDelete.postFileId
+          );
+          if (!fileToDelete) {
+            alert('삭제할 파일을 찾을 수 없습니다.');
+            return;
           }
-        } catch (error) {
-          console.error('Error deleting file:', error);
-          alert('파일 삭제 중 오류가 발생했습니다.');
+
+          const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+          const updatedTempFiles = tempFiles.filter((file) => file.postFileId !== fileToDelete.postFileId);
+
+          setFileInputs(updatedFileInputs);
+          setTempFiles(updatedTempFiles);
+          trigger(); // 폼 검증 트리거
+
+          try {
+            console.log('fileToDelete', fileToDelete);
+            const boardCode = '자료집게시판';
+            console.log('inputToDelete', inputToDelete);
+            console.log('inputToDelete fileUrl', fileToDelete?.fileUrl);
+            const fileUrls = fileToDelete.fileUrl;
+            console.log('fileUrls', fileUrls);
+
+            console.log(fileUrls);
+
+            const response = await delBoardFiles(boardCode, fileUrls);
+
+            if (response.status === 200) {
+              alert('파일이 성공적으로 삭제되었습니다.');
+            } else {
+              alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
+            }
+          } catch (error) {
+            console.error('Error deleting file:', error);
+            alert('파일 삭제 중 오류가 발생했습니다.');
+          }
+        } else {
+          // 새로운 파일이므로 서버 요청 없이 상태만 업데이트
+          const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+          setFileInputs(updatedFileInputs);
+          trigger(); // 폼 검증 트리거
         }
       } else {
-        // 새로운 파일이므로 서버 요청 없이 상태만 업데이트
-        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
-        setFileInputs(updatedFileInputs);
-        trigger(); // 폼 검증 트리거
+        // fileInputs에서 해당 id와 매칭되는 파일을 찾음
+        const inputToDelete = fileInputs.find((input) => input.id - 1);
+        if (!inputToDelete) {
+          alert('삭제할 파일을 찾을 수 없습니다.');
+          return;
+        }
+
+        console.log('inputToDelete', inputToDelete);
+        console.log('post', post);
+
+        // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
+        if (post) {
+          // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
+          const fileToDelete = post.fileData.find((file: { postFileId: any }) => file.postFileId);
+
+          if (!fileToDelete) {
+            alert('삭제할 파일을 찾을 수 없습니다.');
+            return;
+          }
+
+          const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+          const updatedTempFiles = tempFiles.filter((file) => file.postFileId !== fileToDelete.postFileId);
+
+          setFileInputs(updatedFileInputs);
+          setTempFiles(updatedTempFiles);
+          trigger(); // 폼 검증 트리거
+
+          try {
+            console.log('fileToDelete', fileToDelete);
+            const boardCode = '자료집게시판';
+            const fileUrls = fileToDelete.fileUrl;
+
+            console.log(fileUrls);
+
+            const response = await delBoardFiles(boardCode, fileUrls);
+
+            if (response.status === 200) {
+              alert('파일이 성공적으로 삭제되었습니다.');
+            } else {
+              alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
+            }
+          } catch (error) {
+            console.error('Error deleting file:', error);
+            alert('파일 삭제 중 오류가 발생했습니다.');
+          }
+        } else {
+          // 새로운 파일이므로 서버 요청 없이 상태만 업데이트
+          const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+          setFileInputs(updatedFileInputs);
+          trigger(); // 폼 검증 트리거
+        }
       }
     }
   };
@@ -491,7 +548,6 @@ export default function UploadSection({ userId }: { userId: string }) {
 
       // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
       if (post) {
-        // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
         const fileToDelete = post.fileData.find((file: { postFileId: any }) => file.postFileId);
 
         if (!fileToDelete) {
