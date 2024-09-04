@@ -17,7 +17,7 @@ export function useValidateAndRedirect({ category, subCategory }: ValidateAndRed
 
   useEffect(() => {
     if (!isValidCategory || !isValidSubCategory) {
-      navigate('/homepage-frontend/intro?category=president&sub-category=intro', { replace: true });
+      navigate('/intro?category=president&sub-category=intro', { replace: true });
     }
   }, [isValidCategory, isValidSubCategory, navigate]);
 

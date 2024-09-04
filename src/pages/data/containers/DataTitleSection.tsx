@@ -26,7 +26,7 @@ export default function DataTitleSection({ userId }: DataTitleSectionProps) {
         </div>
       )}
 
-      {location.pathname === '/homepage-frontend/data/edit' && (
+      {location.pathname === '/data/edit' && (
         <div className="mt-[123px] flex h-auto w-full justify-between px-[25px] md:px-[100px]">
           <div className="text-[34px] font-bold text-black sm:ml-0 sm:text-2xl md:ml-0 lg:ml-[109px] xl:ml-[199px] xxl:ml-[199px]">
             <div>자료집</div>

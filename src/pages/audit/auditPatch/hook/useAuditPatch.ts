@@ -77,7 +77,7 @@ export function useAuditPatch() {
         postId,
       });
 
-      navigate('/homepage-frontend/audit');
+      navigate('/audit');
     } catch (e) {
       console.error(e);
     }
