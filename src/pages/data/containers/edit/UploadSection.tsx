@@ -190,7 +190,6 @@ export default function UploadSection({ userId }: { userId: string }) {
     '.db',
     '.md',
     '.markdown',
-    // 필요시 더 많은 확장자를 추가
   ];
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -206,7 +205,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   };
 
   // 파일 입력이 클릭될 때 실행되는 함수, 특정 인덱스 기반으로 처리
-  const handleChangeInput = (index) => {
+  const handleChangeInput = (index: number) => {
     const fileInputsArray = getValues('fileInputs');
     console.log('fileInputsArray', fileInputsArray);
 
@@ -408,10 +407,20 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
-  const handleRemoveInput = async (id: number) => {
+  const handleRemoveInput = async (index: number, id: number) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
       // fileInputs에서 해당 id와 매칭되는 파일을 찾음
-      const inputToDelete = fileInputs.find((input) => input.id - 1);
+      console.log(
+        'input.id',
+        fileInputs.find((input) => input.id === index)
+      );
+      console.log('index', index);
+      console.log(
+        'input.id',
+        fileInputs.find((input) => input.id[index])
+      );
+
+      const inputToDelete = fileInputs.find((input) => input.id === index);
       if (!inputToDelete) {
         alert('삭제할 파일을 찾을 수 없습니다.');
         return;
@@ -423,8 +432,9 @@ export default function UploadSection({ userId }: { userId: string }) {
       // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
       if (post) {
         // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
-        const fileToDelete = post.fileData.find((file: { postFileId: any }) => file.postFileId);
-
+        const fileToDelete = post.fileData.find(
+          (file: { postFileId: any }) => file.postFileId === inputToDelete.postFileId
+        );
         if (!fileToDelete) {
           alert('삭제할 파일을 찾을 수 없습니다.');
           return;
@@ -440,7 +450,10 @@ export default function UploadSection({ userId }: { userId: string }) {
         try {
           console.log('fileToDelete', fileToDelete);
           const boardCode = '자료집게시판';
+          console.log('inputToDelete', inputToDelete);
+          console.log('inputToDelete fileUrl', fileToDelete?.fileUrl);
           const fileUrls = fileToDelete.fileUrl;
+          console.log('fileUrls', fileUrls);
 
           console.log(fileUrls);
 
@@ -612,7 +625,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                     )}
                   />
 
-                  <button type="button" onClick={() => handleRemoveInput(input.id)} className="ml-2">
+                  <button type="button" onClick={() => handleRemoveInput(input.id, index)} className="ml-2">
                     <Trash2 />
                   </button>
                 </>
