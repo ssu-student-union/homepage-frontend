@@ -77,7 +77,7 @@ export function usePartnershipPatch() {
         postId,
       });
 
-      navigate('/homepage-frontend/partnership');
+      navigate('/partnership');
     } catch (e) {
       console.error(e);
     }

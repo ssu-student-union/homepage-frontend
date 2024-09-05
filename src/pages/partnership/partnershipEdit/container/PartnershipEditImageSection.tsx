@@ -28,7 +28,6 @@ export function PartnershipEditImageSection({ onImagesChange }: PartnershipEditI
               key={imageItem.id}
               imageItem={imageItem}
               onRemove={() => removeImage(imageItem.id)}
-              onSelect={() => {}}
               isThumbnail={false}
             />
           ))}

@@ -18,13 +18,11 @@ export function PartnershipDetailEditSection({ boardCode, postId, fileurl = [] }
         <DeleteButton
           onClick={() => {
             mutate({ boardCode, postId, fileurl });
-            navigate('/homepage-frontend/partnership');
+            navigate('/partnership');
           }}
         />
-        <EditButton
-          onClick={() => navigate(`/homepage-frontend/partnership/${postId}/patch`, { state: { postId: postId } })}
-        />
-        <ListButton onClick={() => navigate('/homepage-frontend/partnership')} />
+        <EditButton onClick={() => navigate(`/partnership/${postId}/patch`, { state: { postId: postId } })} />
+        <ListButton onClick={() => navigate('/partnership')} />
       </div>
     </div>
   );

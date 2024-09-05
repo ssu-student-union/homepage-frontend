@@ -27,7 +27,7 @@ export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps)
   const handleLogoutClick = () => {
     localStorage.removeItem('accessToken');
     setIsOpen(false);
-    navigate('/homepage-frontend');
+    navigate('/');
   };
 
   return (
@@ -88,7 +88,7 @@ export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps)
             ) : (
               <Link
                 className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-                to="/homepage-frontend/register"
+                to="/register"
                 onClick={() => setIsOpen(false)}
               >
                 로그인

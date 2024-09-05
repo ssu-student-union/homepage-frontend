@@ -26,7 +26,7 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
     return (
       <button
         className={cn(styles.headerItemStyle, 'w-[9rem] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
-        onClick={() => navigate('/homepage-frontend/register')}
+        onClick={() => navigate('/register')}
       >
         로그인
       </button>
