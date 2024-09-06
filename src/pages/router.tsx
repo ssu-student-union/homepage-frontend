@@ -19,6 +19,10 @@ import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
 import { PartnershipEditPage } from './partnership/partnershipEdit/page';
 import AuditPatchPage from './audit/auditPatch/page';
 import PartnershipPatchPage from './partnership/partnershipPatch/page';
+import { NoticePage } from './notice/page';
+import { NoticeEditPage } from './notice/noticeEdit/page';
+import { NoticeDetailPage } from './notice/noticeDetail/page';
+import NoticePatchPage from './notice/noticePatch/page';
 
 function Layout() {
   var headerState: State;
@@ -58,6 +62,10 @@ export function MainRouter() {
         <Route path="/homepage-frontend/petition-notice/:id" element={<PetitionNoticeDetailPage />} />
         <Route path="/homepage-frontend/data" element={<Data />} />
         <Route path="/homepage-frontend/data/edit" element={<Data />} />
+        <Route path="/homepage-frontend/notice" element={<NoticePage />} />
+        <Route path="/homepage-frontend/notice/:id" element={<NoticeDetailPage />} />
+        <Route path="/homepage-frontend/notice/edit" element={<NoticeEditPage />} />
+        <Route path="/homepage-frontend/notice/patch" element={<NoticePatchPage />} />
       </Route>
       <Route path="/homepage-frontend/register" element={<KakaoRegisterPage />} />
       <Route path="/homepage-frontend/register/:sort" element={<GeneralRegisterPage />} />
