@@ -9,5 +9,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  base: '/homepage-frontend/', // Ensure this matches your actual deployment subdirectory
 });

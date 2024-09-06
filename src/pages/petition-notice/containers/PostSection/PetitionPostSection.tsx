@@ -45,15 +45,15 @@ export function PetitionPostSection() {
 
   const handleWriteBtnClick = () => {
     if (localStorage.getItem('kakaoData')) {
-      navigate('/homepage-frontend/petition-notice/edit');
+      navigate('/petition-notice/edit');
     } else {
       window.alert('청원 글 작성은 로그인 후 이용이 가능합니다!');
-      navigate('/homepage-frontend/register');
+      navigate('/register');
     }
   };
 
   const handlePostDetail = (id: number) => {
-    navigate(`/homepage-frontend/petition-notice/${id}`);
+    navigate(`/petition-notice/${id}`);
   };
 
   const handleSubcategorySelect = (category: PetitionSubcategoriesType) => {

@@ -1,8 +1,4 @@
-import { Header } from '@/containers/common/Header/Header';
-
-import { State } from '@/containers/common/Header/const/state';
 import { HeadLayout } from '@/template/HeadLayout';
-
 import { BodyLayout } from '@/template/BodyLayout';
 import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
 import { Spacing } from '@/components/Spacing';
@@ -58,7 +54,6 @@ export function PartnershipPage() {
 
   return (
     <>
-      <Header state={State.Login} />
       <HeadLayout
         title="제휴안내"
         subtitle={
@@ -77,7 +72,7 @@ export function PartnershipPage() {
         }}
         onWriteClick={() => {
           window.scrollTo(0, 0);
-          navigate('/homepage-frontend/partnership/edit');
+          navigate('/partnership/edit');
         }}
       >
         <BoardSelector
@@ -97,7 +92,7 @@ export function PartnershipPage() {
                 date={item.date}
                 imgUrl={item.thumbNail}
                 onClick={() => {
-                  navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
+                  navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
                 }}
                 size={Size.small}
               ></PostCardBasic>
@@ -116,7 +111,7 @@ export function PartnershipPage() {
                 imgUrl={item.thumbNail}
                 size={Size.medium}
                 onClick={() => {
-                  navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
+                  navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
                 }}
               ></PostCardBasic>
             ))}
@@ -135,7 +130,7 @@ export function PartnershipPage() {
                     date={item.date}
                     imgUrl={item.thumbNail}
                     onClick={() => {
-                      navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
+                      navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
                     }}
                   ></PostCardBasic>
                 ))}
@@ -156,7 +151,7 @@ export function PartnershipPage() {
                     date={item.date}
                     imgUrl={item.thumbNail}
                     onClick={() => {
-                      navigate(`/homepage-frontend/partnership/${item.postId}`, { state: { postId: item.postId } });
+                      navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
                     }}
                   ></PostCardBasic>
                 ))}

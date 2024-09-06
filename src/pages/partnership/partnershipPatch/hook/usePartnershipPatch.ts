@@ -2,6 +2,9 @@ import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
+import { usePostBoardFiles } from '@/hooks/usePostBoardFiles';
+import { handleFileLists } from '@/pages/audit/auditEdit/utils/fileHandler';
 
 export function usePartnershipPatch() {
   const location = useLocation();
@@ -16,9 +19,14 @@ export function usePartnershipPatch() {
   const [category, setCategory] = useState<string>(postDetail?.categoryName ?? '');
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
   const [imageList] = useState<string[]>(postDetail?.imageList ?? []);
+  const [fileList, setFileList] = useState<string[]>(postDetail?.fileList ?? []);
+  const [newFiles, setNewFiles] = useState<File[]>([]);
+  const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [thumbnailImage, setThumbnailImage] = useState<string>(postDetail?.imageList[0] ?? '');
 
   const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
+  const { mutateAsync: deleteFiles } = useDelBoardFiles();
+  const { mutateAsync: uploadFiles } = usePostBoardFiles();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -32,21 +40,44 @@ export function usePartnershipPatch() {
     setContent(newContent);
   };
 
+  const handleFileDelete = (fileUrl: string) => {
+    setFileList((prevList) => prevList.filter((file) => file !== fileUrl));
+    setDeletedFiles((prevDeleted) => [...prevDeleted, fileUrl]);
+  };
+
   const handleSubmit = async () => {
     try {
+      if (deletedFiles.length > 0) {
+        await deleteFiles({ boardCode, fileUrls: deletedFiles });
+      }
+
+      let uploadedFileList: number[] = [];
+      let uploadedThumbnail = thumbnailImage;
+
+      if (newFiles.length > 0) {
+        const uploadResponse = await uploadFiles({
+          boardCode,
+          files: newFiles,
+        });
+
+        const { postFiles } = uploadResponse.data.data;
+
+        uploadedFileList = handleFileLists(postFiles);
+      }
+
       await patchPost({
-        boardCode: '제휴게시판',
+        boardCode,
         posts: {
           title,
           content,
           categoryCode: category,
-          thumbnailImage: thumbnailImage,
-          postFileList: [0],
+          thumbnailImage: uploadedThumbnail,
+          postFileList: uploadedFileList.length > 0 ? uploadedFileList : [0],
         },
-        postId: postId,
+        postId,
       });
 
-      navigate('/homepage-frontend/partnership');
+      navigate('/partnership');
     } catch (e) {
       console.error(e);
     }
@@ -65,5 +96,8 @@ export function usePartnershipPatch() {
     setThumbnailImage,
     handleSubmit,
     isLoading,
+    fileList,
+    setNewFiles,
+    handleFileDelete,
   };
 }

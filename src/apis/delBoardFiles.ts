@@ -4,7 +4,7 @@ export async function delBoardFiles(boardCode: string, fileUrls: string[]) {
   const resp = await clientAuth({
     method: 'delete',
     url: `/board/${boardCode}/files`,
-    data: fileUrls,
+    data: { fileUrls },
   });
   return resp;
 }
