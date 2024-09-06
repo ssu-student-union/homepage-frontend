@@ -11,9 +11,10 @@ import { useHeaderSize } from '@/hooks/useHeaderSize';
 
 interface HeaderProps {
   state?: State;
+  onLogout?: () => void;
 }
 
-export function Header({ state = State.Onboarding }: HeaderProps) {
+export function Header({ state = State.Onboarding, onLogout = () => {} }: HeaderProps) {
   const styles = getStyles(state);
   const isSmall = useHeaderSize();
 
@@ -33,7 +34,7 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
         }
       />
       <div className={cn(styles.headerItemStyle, 'xs:px-0.5 sm:px-0.5 md:px-0.5 lg:px-0.5')}>
-        <Link to="/homepage-frontend">
+        <Link to="/">
           <div className="flex items-center gap-4">
             <Logo size={isSmall ? '23px' : '46px'} fill={styles.fillColor} />
             <span className={cn(styles.textColor, 'min-w-fit text-[20px] text-lg font-bold')}>US:SUM</span>
@@ -42,7 +43,7 @@ export function Header({ state = State.Onboarding }: HeaderProps) {
       </div>
       <Navigation state={state} />
       <div className="flex pr-4">
-        <AuthButton state={state} />
+        <AuthButton state={state} onLogout={onLogout} />
       </div>
     </div>
   );

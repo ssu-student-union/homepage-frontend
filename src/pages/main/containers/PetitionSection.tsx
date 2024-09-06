@@ -7,7 +7,7 @@ const PetitionSection = () => {
   const navigate = useNavigate();
   const { data } = useGetPetitionTopLiked({ page: 0, take: 2 });
   const handlePostDetail = (id: number) => {
-    navigate(`/homepage-frontend/petition-notice/${id}`);
+    navigate(`/petition-notice/${id}`);
   };
 
   return (

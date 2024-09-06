@@ -14,8 +14,8 @@ interface BreadcrumbProps {
 
 const Breadcrumb = ({
   items = new Map<string, string | null>([
-    ['소개', '/homepage-frontend/intro?category=president&sub-category=intro'],
-    ['총학생회', '/homepage-frontend/intro?category=president&sub-category=intro'],
+    ['소개', '/intro?category=president&sub-category=intro'],
+    ['총학생회', '/intro?category=president&sub-category=intro'],
   ]),
   className = '',
 }: BreadcrumbProps) => {
