@@ -105,7 +105,11 @@ export function PostPetitionDetailPostSection() {
             <Breadcrumb items={breadcrumbItems} />
             <PostHead
               title={`[${data?.data.postDetailResDto.categoryName}] ${data?.data.postDetailResDto.title}`}
-              writer={replaceSN(data?.data.postDetailResDto.studentId!, '*')}
+              writer={
+                data?.data.postDetailResDto.studentId === null
+                  ? data.data.postDetailResDto.authorName
+                  : replaceSN(data?.data.postDetailResDto.studentId!, '*')
+              }
               date={
                 data?.data.postDetailResDto.lastEditedAt!
                   ? data?.data.postDetailResDto.lastEditedAt!
