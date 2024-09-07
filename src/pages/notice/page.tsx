@@ -1,11 +1,11 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { NoticeContent } from './component/NoticeContent';
-import { IntroNavSection } from '../intro/container/IntroNavSection';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useNoticeBoard } from './hooks/useNoticeBoard';
 import { categoryMap } from './const/data';
 import { useNavigate } from 'react-router-dom';
+import { NoticeNavSection } from './component/NoticeNavSection';
 
 export function NoticePage() {
   const boardCode = '공지사항게시판';
@@ -21,12 +21,12 @@ export function NoticePage() {
         borderOff={true}
         className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]"
       />
-      <IntroNavSection
+      <NoticeNavSection
         categoryParam="audit"
         subCategoryParam="notice"
         handleSelection={() => {}}
         mainCategoryName="게시판"
-        subCategoryDisplayName="게시판"
+        subCategoryDisplayName="소개"
         isHidden={false}
         className="mx-[200px] xs:mx-[30px] sm:mx-[30px] md:mx-[30px] lg:mx-[30px]"
       />
