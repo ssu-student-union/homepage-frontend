@@ -2,7 +2,6 @@ import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/Board
 import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
 import { useNavigate } from 'react-router-dom';
 import { deleteHandler } from '../utils/deleteHandler';
-import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
 import { handleLocation } from '../utils/locationHandler';
 
 interface NoticeDetailEditProps {
@@ -27,12 +26,13 @@ export function NoticeDetailEditSection({
   thumbnailImage,
 }: NoticeDetailEditProps) {
   const navigate = useNavigate();
-  const mutFile = useDelBoardFiles();
   const mutPost = useDelBoardPosts();
 
+  const fileurl: string[] = [...fileUrls, ...imageUrls];
+
   const handleDelete = async () => {
-    await deleteHandler({ boardCode, postId, fileUrls, mutFile, mutPost });
-    navigate(`/homepage-frontend/notice?category=notice`);
+    await deleteHandler({ boardCode, postId, fileurl, mutPost });
+    navigate(`/notice?category=notice`);
     window.location.reload();
   };
 
