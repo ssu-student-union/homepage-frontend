@@ -1,5 +1,3 @@
-import { Header } from '@/containers/common/Header/Header';
-import { State } from '@/containers/common/Header/const/state';
 import DataTitleSection from './containers/DataTitleSection';
 import DataNavSection from './containers/dataNavSecion';
 import DataBoxSection from './containers/dataBoxSection';
@@ -13,7 +11,6 @@ export function Data() {
 
   return (
     <>
-      <Header state={State.Login} />
       <DataTitleSection userId={userId} />
 
       {location.pathname === '/homepage-frontend/data' && (

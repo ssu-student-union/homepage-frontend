@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getBoardDataPosts } from '@/apis/getBoardDataPosts';
 import DataEditBtn from './dataEditBtn';
 import { Button } from '@/components/ui/button';
 import { majorOptions, middleOptions, minorOptions } from './index';
-import { DropdownSection } from './dropDownSecion';
+import DropdownSection from './dropDownSecion';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
 import Pagination from '@/components/Pagination';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ interface Post {
 }
 
 export default function DataBoxSection({ userId }: { userId: string }) {
+  const dropdownRef = useRef<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataBoxes, setDataBoxes] = useState<Post[]>([]);
   const [, setData] = useState<any>([]); // Adjust type if `data` is more specific
@@ -174,6 +175,16 @@ export default function DataBoxSection({ userId }: { userId: string }) {
   }, [currentPage]);
 
   const handleFetchData = () => {
+    // Reset dropdowns
+    if (dropdownRef.current) {
+      dropdownRef.current.resetDropdowns(); // resetDropdowns 함수 호출
+    }
+
+    // Clear the selected options
+    setSelectedMajorOption('');
+    setSelectedMiddleOption('');
+    setSelectedMinorOption('');
+
     const filters: any = {};
     if (selectedMajorOption) filters.majorCategory = selectedMajorOption;
     if (selectedMiddleOption) filters.middleCategory = selectedMiddleOption;
@@ -206,6 +217,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
   return (
     <>
       <DropdownSection
+        ref={dropdownRef} // ref를 DropdownSection에 전달
         majorOptions={majorOptions}
         middleOptions={middleOptions}
         minorOptions={minorOptions}
