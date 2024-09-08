@@ -36,7 +36,9 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
     return <NoticeContentLoading screenWidth={screenWidth} />;
   } else {
     if (!posts || posts.length === 0) {
-      return <div>게시물이 없습니다.</div>;
+      return (
+        <div className="flex h-[32rem] w-full items-center justify-center text-gray-600">등록된 게시물이 없습니다</div>
+      );
     }
     if (screenWidth >= 1920) {
       return (

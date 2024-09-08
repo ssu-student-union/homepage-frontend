@@ -9,7 +9,7 @@ export function handleCategory(
 ) {
   const categoryIndex = categories.indexOf(selectedCategory);
   const value = categoryValues[categoryIndex];
-  navigate(`/homepage-frontend/notice?category=${value}`);
+  navigate(`/notice?category=${value}`);
 }
 
 export function findCategoryKey(selectedCategory: string): string | undefined {

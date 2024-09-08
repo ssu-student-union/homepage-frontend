@@ -11,7 +11,7 @@ export const menuItems = {
     },
   ],
   학교생활: [
-    { name: '공지사항', path: '/notice' },
+    { name: '공지사항', path: '/notice?category=central&sub-category=all' },
     // { name: '일정', path: '/menu7' },
     { name: '제휴안내', path: '/partnership' },
     { name: '분실물게시판', path: '/lost-article' },
