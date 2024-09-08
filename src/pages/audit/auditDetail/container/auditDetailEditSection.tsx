@@ -10,11 +10,16 @@ interface AuditDetailEditProps {
   imageUrls: string[];
   content: string;
   title: string;
-  category: string;
-  thumbnailImage: string;
+  noticeUrl?: string;
 }
 
-export function AuditDetailEditSection({ boardCode, postId, fileUrls, imageUrls }: AuditDetailEditProps) {
+export function AuditDetailEditSection({
+  boardCode,
+  postId,
+  fileUrls,
+  imageUrls,
+  noticeUrl = `/`,
+}: AuditDetailEditProps) {
   const navigate = useNavigate();
   const mutPost = useDelBoardPosts();
 
@@ -22,7 +27,7 @@ export function AuditDetailEditSection({ boardCode, postId, fileUrls, imageUrls 
 
   const handleDelete = async () => {
     await deleteHandler({ boardCode, postId, fileurl, mutPost });
-    navigate(`/audit?category=notice`);
+    navigate(noticeUrl);
     window.location.reload();
   };
 
@@ -31,7 +36,7 @@ export function AuditDetailEditSection({ boardCode, postId, fileUrls, imageUrls 
       <div className="flex w-[420px] flex-row items-end justify-between xs:h-[150px] xs:flex-col">
         <DeleteButton onClick={handleDelete} />
         <EditButton onClick={() => navigate(`/audit/${postId}/patch`, { state: { postId: postId } })} />
-        <ListButton onClick={() => navigate(`/audit?category=notice`)} />
+        <ListButton onClick={() => navigate(noticeUrl)} />
       </div>
     </div>
   );

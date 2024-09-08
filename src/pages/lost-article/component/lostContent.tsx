@@ -4,11 +4,10 @@ import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { Size } from '@/components/PostCard/const/state';
 import { useEffect, useState } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
-import { handleCardClick } from '../utils/cardHandler';
-import auditLogo from '@/assets/image/logo/audit_logo.png';
-import AuditContentLoading from './AuditContentLoading';
+import { handleCardClick } from '../utils/navigation';
+import AuditContentLoading from '@/pages/audit/component/AuditContentLoading';
 
-interface AuditContentProps {
+interface LostContentProps {
   initPosts?: Array<{
     postId: number;
     title: string;
@@ -22,7 +21,7 @@ interface AuditContentProps {
   isLoading: boolean;
 }
 
-export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
+export function LostContent({ initPosts, isLoading }: LostContentProps) {
   const navigate = useNavigate();
   const { size } = useResponseBoard();
   const screenWidth: number = window.innerWidth;
@@ -119,8 +118,6 @@ export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
           subtitle={post.content}
           date={formattedDate}
           badgeType={status}
-          profileImg={auditLogo}
-          profileName={'한빛'}
           className="cursor-pointer"
           onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />

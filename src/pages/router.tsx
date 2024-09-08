@@ -25,6 +25,7 @@ import { HeaderLayout } from './main/layout/headerLayout';
 import { LostArticlePage } from './lost-article/page';
 import { LostArticleEditPage } from './lost-article/edit/page';
 import CampusPage from './campus/page';
+import { LostDetailPage } from './lost-article/detail/page';
 
 export function MainRouter() {
   return (
@@ -44,6 +45,7 @@ export function MainRouter() {
         <Route path="/partnership/edit" element={<PartnershipEditPage />} />
         <Route path="/partnership/:id/patch" element={<PartnershipPatchPage />} />
         <Route path="/lost-article" element={<LostArticlePage />} />
+        <Route path="/lost-article/:id" element={<LostDetailPage />} />
         <Route path="/lost-article/edit" element={<LostArticleEditPage />} />
         <Route path="/campus" element={<CampusPage />} />
         {/*학생자치기구*/}

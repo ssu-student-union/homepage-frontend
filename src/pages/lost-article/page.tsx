@@ -3,8 +3,8 @@ import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useNavigate } from 'react-router-dom';
 import { categoryMap } from './const/data';
-import { AuditContent } from '../audit/component/AuditContent';
 import { useLostBoard } from './hook/useLostBoard';
+import { LostContent } from './component/lostContent';
 
 export function LostArticlePage() {
   const boardCode = '분실물게시판';
@@ -32,7 +32,7 @@ export function LostArticlePage() {
             }}
           />
         }
-        children={<AuditContent initPosts={posts} isLoading={isLoading} />}
+        children={<LostContent initPosts={posts} isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}

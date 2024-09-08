@@ -1,16 +1,15 @@
-import { useLocation } from 'react-router-dom';
-import { AuditDetailTopSection } from './container/auditDetailTopSection';
-import { AuditDetailContentSection } from './container/auditDetailContentSection';
-import { AuditDetailEditSection } from './container/auditDetailEditSection';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
-import { AuditDetailFileSection } from './container/auditDetailFileSection';
-import AuditDetailLoading from './container/auditDetailLoading';
-import { items } from '../const/data';
+import { AuditDetailContentSection } from '@/pages/audit/auditDetail/container/auditDetailContentSection';
+import { AuditDetailEditSection } from '@/pages/audit/auditDetail/container/auditDetailEditSection';
+import AuditDetailLoading from '@/pages/audit/auditDetail/container/auditDetailLoading';
+import { useLocation } from 'react-router-dom';
+import { items } from './const/data';
+import { LostDetailTopSection } from './container/lostDetailTopSection';
 
-export function AuditDetailPage() {
+export function LostDetailPage() {
   const location = useLocation();
   const postId: number = location.state?.postId;
-  const boardCode: string = '감사기구게시판';
+  const boardCode: string = '분실물게시판';
 
   const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
 
@@ -24,13 +23,17 @@ export function AuditDetailPage() {
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
-      <AuditDetailTopSection items={items} title={postDetail.title} date={postDetail.createdAt} />
+      <LostDetailTopSection
+        authorName={postDetail.authorName}
+        items={items}
+        title={postDetail.title}
+        date={postDetail.createdAt}
+      />
       {isLoading ? (
         <AuditDetailLoading />
       ) : (
         <>
           <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
-          <AuditDetailFileSection files={postDetail.fileList} />
           <AuditDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
@@ -38,7 +41,7 @@ export function AuditDetailPage() {
             boardCode={boardCode}
             postId={postId}
             fileUrls={fileUrls}
-            noticeUrl="/audit?category=notice"
+            noticeUrl="/lost-article?category=state"
           />
         </>
       )}
