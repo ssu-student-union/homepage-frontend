@@ -16,8 +16,12 @@ import { Data } from './data/page';
 import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
 import { PartnershipEditPage } from './partnership/partnershipEdit/page';
 import PartnershipPatchPage from './partnership/partnershipPatch/page';
+import { NoticePage } from './notice/page';
+import { NoticeEditPage } from './notice/noticeEdit/page';
+import { NoticeDetailPage } from './notice/noticeDetail/page';
+import NoticePatchPage from './notice/noticePatch/page';
 import { AuditPatchPage } from './audit/auditPatch/page';
-import { HeaderLayout } from './layout/headerLayout';
+import { HeaderLayout } from './main/layout/headerLayout';
 
 export function MainRouter() {
   return (
@@ -30,6 +34,10 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<AuditDetailPage />} />
         <Route path="/audit/edit" element={<AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<AuditPatchPage />} />
+        <Route path="/notice" element={<NoticePage />} />
+        <Route path="/notice/:id" element={<NoticeDetailPage />} />
+        <Route path="/notice/edit" element={<NoticeEditPage />} />
+        <Route path="/notice/:id/patch" element={<NoticePatchPage />} />
         <Route path="/partnership" element={<PartnershipPage />} />
         <Route path="/partnership/:id" element={<PartnershipDetailPage />} />
         <Route path="/partnership/edit" element={<PartnershipEditPage />} />
