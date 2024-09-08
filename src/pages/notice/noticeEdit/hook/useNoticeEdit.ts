@@ -11,6 +11,7 @@ export function useNoticeEdit() {
   const [title, setTitle] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [isUrgent, setIsUrgent] = useState<boolean>(false);
 
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
   const { mutateAsync: createPost, isLoading }: any = usePostBoardPosts();
@@ -27,6 +28,10 @@ export function useNoticeEdit() {
     setContent(newContent);
   };
 
+  const handleUrgentChange = (isUrgent: boolean) => {
+    setIsUrgent(isUrgent);
+  };
+
   const handleSubmit = async () => {
     try {
       const uploadResponse = await uploadFiles({
@@ -40,20 +45,22 @@ export function useNoticeEdit() {
       const thumbnailImage = thumbnailUrl;
       const postFileList = handleFileLists(postFiles);
 
+      console.log(isUrgent);
+
       await createPost({
         boardCode: '공지사항게시판',
         post: {
           title,
           content,
-          categoryCode: category,
+          boardCode: '중앙기구',
+          groupCode: '중앙운영위원회',
           thumbNailImage: thumbnailImage,
-          isNotice: false,
+          isNotice: isUrgent,
           postFileList,
         },
       });
 
-      navigate(`/homepage-frontend/audit?category=notice`);
-      window.location.reload();
+      navigate(`/notice?category=central&sub-category=all`);
     } catch (e) {
       console.error(e);
     }
@@ -70,6 +77,7 @@ export function useNoticeEdit() {
     handleTitleChange,
     handleCategoryChange,
     handleContentChange,
+    handleUrgentChange,
     handleSubmit,
     isLoading,
   };

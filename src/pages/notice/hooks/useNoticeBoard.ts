@@ -1,23 +1,41 @@
+import { useEffect } from 'react';
 import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { useCategory } from './useCategory';
-import { categoryMap } from '../const/data';
+import { useNoticeCategory } from './useNoticeCategory';
+import {
+  categoryToCode,
+  subCategoryMap,
+  subCategoryToCode,
+  collegeSubCategoryToCode,
+  collegeSubCategoryMap,
+} from '../const/data';
 import { Post } from '@/types/apis/get';
 
 export function useNoticeBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
   const { currentPage, handlePageChange } = useCurrentPage();
-  const { categoryParam } = useCategory();
+  const { urlCategory, urlSubCategory } = useNoticeCategory();
 
-  const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
-  const selectedCategory = categoryMap[categoryParam] === '전체' ? null : categoryMap[categoryParam];
+  const subcategories =
+    urlCategory === 'college'
+      ? Object.values(collegeSubCategoryMap).filter(Boolean)
+      : Object.values(subCategoryMap).filter(Boolean);
+
+  const selectedCategory = categoryToCode[urlCategory];
+  const selectedSubCategory =
+    urlCategory === 'college' ? collegeSubCategoryToCode[urlSubCategory] : subCategoryToCode[urlSubCategory];
+
+  useEffect(() => {
+    handlePageChange(1);
+  }, [urlCategory, urlSubCategory]);
 
   const { data, isLoading, isError } = useGetBoardPosts<any>({
     boardCode,
     take: itemsPerPage,
     page: currentPage - 1,
-    category: selectedCategory ?? undefined,
+    groupCode: selectedCategory,
+    memberCode: selectedSubCategory,
   });
 
   const posts: Post[] = data?.data?.postListResDto || [];
@@ -28,7 +46,6 @@ export function useNoticeBoard(boardCode: string) {
     totalPages,
     currentPage,
     handlePageChange,
-    categoryParam,
     subcategories,
     isLoading,
     isError,

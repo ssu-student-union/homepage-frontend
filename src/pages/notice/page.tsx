@@ -3,15 +3,13 @@ import { BodyLayout } from '@/template/BodyLayout';
 import { NoticeContent } from './component/NoticeContent';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useNoticeBoard } from './hooks/useNoticeBoard';
-import { subName } from './const/data';
 import { useNoticeCategory } from './hooks/useNoticeCategory';
 import { NoticeNavSection } from './component/NoticeNavSection';
 
 export function NoticePage() {
   const { category, navigate, subCategory, handleCategoryChange, handleSubCategoryChange } = useNoticeCategory();
-
   const boardCode = '공지사항게시판';
-  const { posts, totalPages, currentPage, handlePageChange, isLoading } = useNoticeBoard(boardCode);
+  const { posts, totalPages, currentPage, handlePageChange, isLoading, subcategories } = useNoticeBoard(boardCode);
 
   return (
     <>
@@ -39,7 +37,7 @@ export function NoticePage() {
       <BodyLayout
         selector={
           <BoardSelector
-            subcategories={subName}
+            subcategories={subcategories}
             selectedSubcategory={subCategory || '전체'}
             onSubcategorySelect={handleSubCategoryChange}
           />

@@ -107,7 +107,7 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
     size: Size;
   }) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
-    const status = post.status === '새로운' ? 'New' : 'Default';
+    const status = post.status === '긴급공지' ? 'Emergency' : 'Default';
     const thumbnail = post.thumbNail || undefined;
 
     return (
@@ -119,7 +119,6 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
           subtitle={post.content}
           date={formattedDate}
           badgeType={status}
-          profileImg={auditLogo}
           profileName={'중앙'}
           className="cursor-pointer"
           onClick={() => handleCardClick(post.postId.toString(), post.postId, post.category, thumbnail, navigate)}

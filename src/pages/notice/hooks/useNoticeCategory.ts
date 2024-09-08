@@ -1,36 +1,50 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { categoryMap, reverseCategoryMap, subCategoryMap, reverseSubCategoryMap } from '../const/data';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  categoryMap,
+  reverseCategoryMap,
+  subCategoryMap,
+  reverseSubCategoryMap,
+  collegeSubCategoryMap,
+  reverseCollegeSubCategoryMap,
+} from '../const/data';
 
 export function useNoticeCategory() {
-  const { category: urlCategory, subCategory: urlSubCategory } = useParams();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [category, setCategory] = useState<string>(urlCategory || 'central');
-  const [subCategory, setSubCategory] = useState<string>(urlSubCategory || 'all');
+  const urlCategory = searchParams.get('category') || 'central';
+  const urlSubCategory = searchParams.get('sub-category') || 'all';
+
+  const [category, setCategory] = useState<string>(urlCategory);
+  const [subCategory, setSubCategory] = useState<string>(urlSubCategory);
 
   useEffect(() => {
-    if (urlCategory) setCategory(urlCategory);
-    if (urlSubCategory) setSubCategory(urlSubCategory);
+    setCategory(urlCategory);
+    setSubCategory(urlSubCategory);
   }, [urlCategory, urlSubCategory]);
 
   const handleCategoryChange = (newCategory: string) => {
     const englishCategory = reverseCategoryMap[newCategory];
-    setCategory(englishCategory);
-    navigate(`/notice?category=${englishCategory}&sub-category=${subCategory}`);
+    setSearchParams({ category: englishCategory, 'sub-category': subCategory });
   };
 
   const handleSubCategoryChange = (selectedSubcategory: string) => {
-    const englishSubCategory = reverseSubCategoryMap[selectedSubcategory];
+    const englishSubCategory =
+      category === 'college'
+        ? reverseCollegeSubCategoryMap[selectedSubcategory]
+        : reverseSubCategoryMap[selectedSubcategory];
     setSubCategory(englishSubCategory);
-    navigate(`/notice?category=${category}&sub-category=${englishSubCategory}`);
+    setSearchParams({ category, 'sub-category': englishSubCategory });
   };
 
   return {
     category: categoryMap[category],
-    subCategory: subCategoryMap[subCategory],
+    subCategory: category === 'college' ? collegeSubCategoryMap[subCategory] : subCategoryMap[subCategory],
     handleCategoryChange,
     handleSubCategoryChange,
     navigate,
+    urlCategory,
+    urlSubCategory,
   };
 }
