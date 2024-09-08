@@ -14,13 +14,13 @@ export const menuItems = {
     { name: '공지사항', path: '/notice?category=central&sub-category=all' },
     // { name: '일정', path: '/menu7' },
     { name: '제휴안내', path: '/partnership' },
-    { name: '분실물게시판', path: '/lost-article' },
+    { name: '분실물게시판', path: '/lost-article?category=state' },
     { name: '캠퍼스맵', path: '/campus' },
   ],
   학생자치기구: [
     // { name: '산하기구', path: '/affiliated_organization' },
     // { name: '특별기구', path: '/special_organization' },
-    { name: '감사기구', path: '/intro?category=audit&sub-category=intro' },
+    { name: '감사기구', path: '/audit?category=all' },
   ],
   소통: [
     { name: '학생청원게시판', path: '/petition-notice' },

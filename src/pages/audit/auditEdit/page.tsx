@@ -13,7 +13,11 @@ export function AuditEditPage() {
   return (
     <>
       <HeadLayout title="감사기구" searchHidden={true} borderOff={true} />
-      <AuditEditTitleSection onTitleChange={handleTitleChange} onCategoryChange={handleCategoryChange} />
+      <AuditEditTitleSection
+        onTitleChange={handleTitleChange}
+        onCategoryChange={handleCategoryChange}
+        categoryList={['감사계획', '감사결과', '기타']}
+      />
       <AuditEditContentSection onContentChange={handleContentChange} />
       <AuditEditImageSection onImagesChange={setImages} />
       <AuditEditFilesSection onFilesChange={setFiles} />
