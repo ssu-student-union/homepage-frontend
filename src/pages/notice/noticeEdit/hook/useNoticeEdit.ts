@@ -9,7 +9,6 @@ export function useNoticeEdit() {
   const [files, setFiles] = useState<File[]>([]);
   const [images, setImages] = useState<File[]>([]);
   const [title, setTitle] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [isUrgent, setIsUrgent] = useState<boolean>(false);
 
@@ -18,10 +17,6 @@ export function useNoticeEdit() {
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
-  };
-
-  const handleCategoryChange = (newCategory: string) => {
-    setCategory(newCategory);
   };
 
   const handleContentChange = (newContent: string) => {
@@ -45,15 +40,13 @@ export function useNoticeEdit() {
       const thumbnailImage = thumbnailUrl;
       const postFileList = handleFileLists(postFiles);
 
-      console.log(isUrgent);
-
       await createPost({
         boardCode: '공지사항게시판',
         post: {
           title,
           content,
-          boardCode: '중앙기구',
           groupCode: '중앙운영위원회',
+          memberCode: localStorage.getItem('memberName'),
           thumbNailImage: thumbnailImage,
           isNotice: isUrgent,
           postFileList,
@@ -70,12 +63,10 @@ export function useNoticeEdit() {
     files,
     images,
     title,
-    category,
     content,
     setFiles,
     setImages,
     handleTitleChange,
-    handleCategoryChange,
     handleContentChange,
     handleUrgentChange,
     handleSubmit,

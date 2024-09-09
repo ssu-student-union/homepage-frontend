@@ -2,9 +2,7 @@ import { useState } from 'react';
 
 interface NoticeEditTitleSectionProps {
   initialTitle?: string;
-  initialCategory?: string;
   onTitleChange: (title: string) => void;
-  onCategoryChange: (category: string) => void;
   onUrgentChange: (isUrgent: boolean) => void;
 }
 

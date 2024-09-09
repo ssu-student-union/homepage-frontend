@@ -5,7 +5,6 @@ import { Size } from '@/components/PostCard/const/state';
 import { useEffect, useState } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { handleCardClick } from '../utils/cardHandler';
-import auditLogo from '@/assets/image/logo/audit_logo.png';
 import NoticeContentLoading from './NoticeContentLoading';
 
 interface NoticeContentProps {

@@ -1,7 +1,6 @@
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { handleCardClick } from '../../utils/cardHandler';
 
 export function useNoticePatch() {
   const location = useLocation();
@@ -12,21 +11,21 @@ export function useNoticePatch() {
 
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>(data.title ?? '');
-  const [category, setCategory] = useState<string>(data.category ?? '');
   const [content, setContent] = useState<string>(data.content ?? '');
   const [thumbnailImage, setThumbnailImage] = useState<string>(initialThumbNailImage);
+  const [isUrgent, setIsUrgent] = useState<boolean>(false);
   const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
   };
 
-  const handleCategoryChange = (newCategory: string) => {
-    setCategory(newCategory);
-  };
-
   const handleContentChange = (newContent: string) => {
     setContent(newContent);
+  };
+
+  const handleUrgentChange = (isUrgent: boolean) => {
+    setIsUrgent(isUrgent);
   };
 
   const handleSubmit = async () => {
@@ -36,13 +35,13 @@ export function useNoticePatch() {
         data: {
           title,
           content,
-          categoryCode: category,
           thumbNailImage: thumbnailImage,
+          isNotice: isUrgent,
         },
         postId: postId,
       });
 
-      handleCardClick(postId.toString(), postId, category, thumbnailImage, navigate);
+      navigate('/notice/postId');
       window.location.reload();
     } catch (e) {
       console.error(e);
@@ -52,14 +51,13 @@ export function useNoticePatch() {
   return {
     postId,
     title,
-    category,
     content,
     thumbnailImage,
     imageList,
     handleTitleChange,
-    handleCategoryChange,
     handleContentChange,
     setThumbnailImage,
+    handleUrgentChange,
     handleSubmit,
     isLoading,
   };
