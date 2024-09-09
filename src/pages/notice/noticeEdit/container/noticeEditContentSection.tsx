@@ -39,7 +39,7 @@ export function NoticeEditContentSection({ onContentChange, initialValue = '' }:
     <div className="audit-edit-content px-[200px] pt-[1rem] xs:px-[30px] xs:pt-[1rem] sm:px-[30px] sm:pt-[1rem] md:px-[30px] lg:px-[30px]">
       <Editor
         ref={editorRef}
-        initialValue={initialValue}
+        initialValue={initialValue || ' '}
         placeholder="글을 작성해주세요"
         previewStyle="vertical"
         initialEditType="wysiwyg"

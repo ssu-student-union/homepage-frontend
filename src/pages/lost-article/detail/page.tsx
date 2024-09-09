@@ -41,6 +41,7 @@ export function LostDetailPage() {
             boardCode={boardCode}
             postId={postId}
             fileUrls={fileUrls}
+            baseUrl="/lost-article"
             noticeUrl="/lost-article?category=state"
           />
         </>

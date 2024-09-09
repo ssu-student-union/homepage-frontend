@@ -18,7 +18,7 @@ client.interceptors.request.use(
     if (config.requireAuth || localStorage.getItem('accessToken')) {
       const accessToken = localStorage.getItem('accessToken');
       config.headers = config.headers || {};
-      config.headers.Authorization = `Bearer eyJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzI1ODA4OTAzLCJleHAiOjE3MjU4MTk3MDN9.gNO9j7U1xmUL8Wlr9Rhbh91Cg0JA3gzeZLjM81PxEFU`;
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },

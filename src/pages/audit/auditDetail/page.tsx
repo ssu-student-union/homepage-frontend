@@ -38,6 +38,7 @@ export function AuditDetailPage() {
             boardCode={boardCode}
             postId={postId}
             fileUrls={fileUrls}
+            baseUrl="/audit"
             noticeUrl="/audit?category=notice"
           />
         </>

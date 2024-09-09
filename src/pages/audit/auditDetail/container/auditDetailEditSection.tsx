@@ -10,6 +10,7 @@ interface AuditDetailEditProps {
   imageUrls: string[];
   content: string;
   title: string;
+  baseUrl?: string;
   noticeUrl?: string;
 }
 
@@ -18,6 +19,7 @@ export function AuditDetailEditSection({
   postId,
   fileUrls,
   imageUrls,
+  baseUrl = `/`,
   noticeUrl = `/`,
 }: AuditDetailEditProps) {
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ export function AuditDetailEditSection({
     <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
       <div className="flex w-[420px] flex-row items-end justify-between xs:h-[150px] xs:flex-col">
         <DeleteButton onClick={handleDelete} />
-        <EditButton onClick={() => navigate(`/audit/${postId}/patch`, { state: { postId: postId } })} />
+        <EditButton onClick={() => navigate(`${baseUrl}/${postId}/patch`, { state: { postId: postId } })} />
         <ListButton onClick={() => navigate(noticeUrl)} />
       </div>
     </div>

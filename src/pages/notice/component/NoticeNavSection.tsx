@@ -1,7 +1,6 @@
 import { BoardNavigator } from '@/components/Board/BoardNavigator';
 import { useNoticeSwitch } from '../utils/switchUtils';
 import { cn } from '@/libs/utils';
-import { reverseCategoryMap } from '../const/data';
 
 interface NoticeNavSectionProps {
   categoryParam: string;
