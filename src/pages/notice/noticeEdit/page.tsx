@@ -7,13 +7,13 @@ import { NoticeEditSubmitButton } from './container/noticeEditSubmitButton';
 import { useNoticeEdit } from './hook/useNoticeEdit';
 
 export function NoticeEditPage() {
-  const { handleTitleChange, handleCategoryChange, handleContentChange, handleSubmit, setFiles, setImages, isLoading } =
+  const { handleTitleChange, handleContentChange, handleUrgentChange, handleSubmit, setFiles, setImages, isLoading } =
     useNoticeEdit();
 
   return (
     <>
       <HeadLayout title="공지사항" searchHidden={true} borderOff={true} />
-      <NoticeEditTitleSection onTitleChange={handleTitleChange} onCategoryChange={handleCategoryChange} />
+      <NoticeEditTitleSection onTitleChange={handleTitleChange} onUrgentChange={handleUrgentChange} />
       <NoticeEditContentSection onContentChange={handleContentChange} />
       <NoticeEditFilesSection onFilesChange={setFiles} />
       <NoticeEditImageSection onImagesChange={setImages} />

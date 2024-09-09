@@ -109,6 +109,10 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
         localStorage.setItem('userId', formValuesScouncil.accountId);
         localStorage.setItem('councilData', response.data);
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
+        if (endpoint === '/auth/council-login') {
+          localStorage.setItem('memberName', response.data?.data?.memberName);
+          localStorage.setItem('majorName', response.data?.data?.majorName);
+        }
         navigate('/');
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');

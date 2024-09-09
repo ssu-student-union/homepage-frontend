@@ -6,6 +6,7 @@ interface AuditEditTitleSectionProps {
   initialCategory?: string;
   onTitleChange: (title: string) => void;
   onCategoryChange: (category: string) => void;
+  categoryList: string[];
 }
 
 export function AuditEditTitleSection({
@@ -13,6 +14,7 @@ export function AuditEditTitleSection({
   initialCategory = '',
   onTitleChange,
   onCategoryChange,
+  categoryList,
 }: AuditEditTitleSectionProps) {
   const [title, setTitle] = useState<string>(initialTitle);
   const [category, setCategory] = useState<string>(initialCategory);
@@ -42,7 +44,7 @@ export function AuditEditTitleSection({
           className="sm-hidden xs-hidden flex h-full w-[6rem] items-center justify-center rounded-xs border-[0.125rem] border-gray-300 px-[0.4rem] py-[0.35rem] text-sm font-bold text-gray-500"
           itemStyle="py-0 pr-0 text-base font-bold text-gray-500"
           defaultValue="카테고리"
-          optionValue={['감사계획', '감사결과', '기타']}
+          optionValue={categoryList}
           onValueChange={handleCategoryChange}
           value={category}
         />

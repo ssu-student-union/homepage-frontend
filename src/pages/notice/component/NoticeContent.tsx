@@ -5,7 +5,6 @@ import { Size } from '@/components/PostCard/const/state';
 import { useEffect, useState } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { handleCardClick } from '../utils/cardHandler';
-import auditLogo from '@/assets/image/logo/audit_logo.png';
 import NoticeContentLoading from './NoticeContentLoading';
 
 interface NoticeContentProps {
@@ -36,7 +35,9 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
     return <NoticeContentLoading screenWidth={screenWidth} />;
   } else {
     if (!posts || posts.length === 0) {
-      return <div>게시물이 없습니다.</div>;
+      return (
+        <div className="flex h-[32rem] w-full items-center justify-center text-gray-600">등록된 게시물이 없습니다</div>
+      );
     }
     if (screenWidth >= 1920) {
       return (
@@ -105,7 +106,7 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
     size: Size;
   }) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
-    const status = post.status === '새로운' ? 'New' : 'Default';
+    const status = post.status === '긴급공지' ? 'Emergency' : 'Default';
     const thumbnail = post.thumbNail || undefined;
 
     return (
@@ -117,7 +118,6 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
           subtitle={post.content}
           date={formattedDate}
           badgeType={status}
-          profileImg={auditLogo}
           profileName={'중앙'}
           className="cursor-pointer"
           onClick={() => handleCardClick(post.postId.toString(), post.postId, post.category, thumbnail, navigate)}

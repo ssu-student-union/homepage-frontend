@@ -9,8 +9,8 @@ export function useNoticeEdit() {
   const [files, setFiles] = useState<File[]>([]);
   const [images, setImages] = useState<File[]>([]);
   const [title, setTitle] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [isUrgent, setIsUrgent] = useState<boolean>(false);
 
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
   const { mutateAsync: createPost, isLoading }: any = usePostBoardPosts();
@@ -19,12 +19,12 @@ export function useNoticeEdit() {
     setTitle(newTitle);
   };
 
-  const handleCategoryChange = (newCategory: string) => {
-    setCategory(newCategory);
-  };
-
   const handleContentChange = (newContent: string) => {
     setContent(newContent);
+  };
+
+  const handleUrgentChange = (isUrgent: boolean) => {
+    setIsUrgent(isUrgent);
   };
 
   const handleSubmit = async () => {
@@ -45,15 +45,15 @@ export function useNoticeEdit() {
         post: {
           title,
           content,
-          categoryCode: category,
+          groupCode: '중앙운영위원회',
+          memberCode: localStorage.getItem('memberName'),
           thumbNailImage: thumbnailImage,
-          isNotice: false,
+          isNotice: isUrgent,
           postFileList,
         },
       });
 
-      navigate(`/homepage-frontend/audit?category=notice`);
-      window.location.reload();
+      navigate(`/notice?category=central&sub-category=all`);
     } catch (e) {
       console.error(e);
     }
@@ -63,13 +63,12 @@ export function useNoticeEdit() {
     files,
     images,
     title,
-    category,
     content,
     setFiles,
     setImages,
     handleTitleChange,
-    handleCategoryChange,
     handleContentChange,
+    handleUrgentChange,
     handleSubmit,
     isLoading,
   };

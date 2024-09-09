@@ -10,6 +10,8 @@ export interface postBoardPostsProps {
     title: string;
     content: string;
     categoryCode?: string;
+    groupCode?: string;
+    memberCode?: string;
     thumbNailImage?: string | null;
     isNotice?: boolean;
     postFileList?: number[];

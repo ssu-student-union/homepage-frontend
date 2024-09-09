@@ -122,7 +122,7 @@ export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
           profileImg={auditLogo}
           profileName={'한빛'}
           className="cursor-pointer"
-          onClick={() => handleCardClick(post.postId.toString(), post.postId, post.category, thumbnail, navigate)}
+          onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />
       </div>
     );

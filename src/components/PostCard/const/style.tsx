@@ -60,7 +60,7 @@ export function getStyles(state: Size): Styles {
     case Size.default:
     default:
       return {
-        container: 'px-5 py-[1.34rem] min-w-[30.68rem] h-[15.75rem]',
+        container: 'px-5 py-[1.34rem] min-w-[31rem] max-w-[31rem] h-[15.75rem]',
         title: 'h-[11.12rem] text-lg gap-3 leading-[1.32rem]',
         subtitle: 'text-sm leading-[1.07rem]',
         date: 'h-[1.88rem] text-sm',

@@ -8,12 +8,11 @@ import { NoticePatchImageSection } from './container/noticePatchImageSection';
 export default function NoticePatchPage() {
   const {
     title,
-    category,
     content,
     handleTitleChange,
-    handleCategoryChange,
     handleContentChange,
     handleSubmit,
+    handleUrgentChange,
     isLoading,
     imageList,
     thumbnailImage,
@@ -25,9 +24,8 @@ export default function NoticePatchPage() {
       <HeadLayout title="감사기구" searchHidden={true} borderOff={true} />
       <NoticeEditTitleSection
         initialTitle={title}
-        initialCategory={category}
         onTitleChange={handleTitleChange}
-        onCategoryChange={handleCategoryChange}
+        onUrgentChange={handleUrgentChange}
       />
       <NoticeEditContentSection initialValue={content} onContentChange={handleContentChange} />
       <NoticePatchImageSection
