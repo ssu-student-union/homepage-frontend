@@ -40,12 +40,20 @@ export function useNoticeEdit() {
       const thumbnailImage = thumbnailUrl;
       const postFileList = handleFileLists(postFiles);
 
+      // 로컬에 저장한 기구 정보 가져오기!
+      let groupCodeList: string[] | null = JSON.parse(localStorage.getItem('groupCodeList') || 'null');
+
+      // null 검사... 멍청한 컴퓨터 같으니...
+      if (groupCodeList === null) {
+        groupCodeList = ['']; // 기본값 없음으로 해서 오류 시 서버에만 쌓이게 하기(게시판엔 안 보여짐!)
+      }
+
       await createPost({
         boardCode: '공지사항게시판',
         post: {
           title,
           content,
-          groupCode: '중앙운영위원회',
+          groupCode: groupCodeList[groupCodeList.length - 1],
           memberCode: localStorage.getItem('memberName'),
           thumbNailImage: thumbnailImage,
           isNotice: isUrgent,
