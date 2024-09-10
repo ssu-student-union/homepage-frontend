@@ -7,7 +7,8 @@ interface RenderImageProps {
 }
 
 function getImagePaths(category: string, subCategory: string) {
-  const basePath = `${import.meta.env.BASE_URL}src/assets/image/intro/${category}/${subCategory}`;
+  // public 폴더의 구조에 맞게 경로 수정
+  const basePath = `/intro/${category}/${subCategory}`; // 'public/'은 생략
   return {
     xs: `${basePath}/xs.png`,
     sm: `${basePath}/sm.jpg`,
@@ -38,6 +39,7 @@ export function RenderImage({ category, subCategory }: RenderImageProps) {
       setImageSrc(imagePaths.lg);
     }
   }, [screenWidth, category, subCategory]);
+
   if (!imageSrc) {
     return <p>로딩중...</p>;
   }

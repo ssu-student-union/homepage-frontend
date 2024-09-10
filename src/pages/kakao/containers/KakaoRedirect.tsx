@@ -21,10 +21,9 @@ const KakaoRedirect = () => {
         if (res) {
           // res.data 객체에 name과 studentId가 존재하는지 확인
           if (res.data?.name && res.data?.studentId) {
-            console.log(res);
-            navigate('/homepage-frontend'); // 조건을 만족하면 홈으로 이동
+            navigate('/'); // 조건을 만족하면 홈으로 이동
           } else {
-            navigate('/homepage-frontend/register/onboarding'); // 조건을 만족하지 않으면 onboarding 페이지로 이동
+            navigate('/register/onboarding'); // 조건을 만족하지 않으면 onboarding 페이지로 이동
           }
         }
       } catch (err) {

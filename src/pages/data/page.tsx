@@ -1,7 +1,7 @@
 import DataTitleSection from './containers/DataTitleSection';
 import DataNavSection from './containers/dataNavSecion';
 import DataBoxSection from './containers/dataBoxSection';
-import { useLocation } from 'react-router-dom'; // 경로를 가져오기 위한 useLocation import
+import { useLocation } from 'react-router-dom';
 import { Search } from '@/components/Search/Search';
 import UploadSection from './containers/edit/UploadSection';
 
@@ -12,8 +12,7 @@ export function Data() {
   return (
     <>
       <DataTitleSection userId={userId} />
-
-      {location.pathname === '/homepage-frontend/data' && (
+      {location.pathname === '/data' && (
         <>
           <DataNavSection />
 
@@ -25,7 +24,7 @@ export function Data() {
         </>
       )}
 
-      {location.pathname === '/homepage-frontend/data/edit' && userId && (
+      {location.pathname === '/data/edit' && userId && (
         <>
           <div className="mt-8 grid place-items-center">
             <UploadSection userId={userId} />

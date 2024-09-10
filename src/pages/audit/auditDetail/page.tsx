@@ -5,12 +5,11 @@ import { AuditDetailEditSection } from './container/auditDetailEditSection';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 import { AuditDetailFileSection } from './container/auditDetailFileSection';
 import AuditDetailLoading from './container/auditDetailLoading';
+import { items } from '../const/data';
 
 export function AuditDetailPage() {
   const location = useLocation();
   const postId: number = location.state?.postId;
-  const category: string = location.state?.category;
-  const thumbnailImage: string = location.state?.thumbnailImage;
   const boardCode: string = '감사기구게시판';
 
   const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
@@ -25,7 +24,7 @@ export function AuditDetailPage() {
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
-      <AuditDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
+      <AuditDetailTopSection items={items} title={postDetail.title} date={postDetail.createdAt} />
       {isLoading ? (
         <AuditDetailLoading />
       ) : (
@@ -35,12 +34,12 @@ export function AuditDetailPage() {
           <AuditDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
-            category={category}
             imageUrls={postDetail.imageList}
             boardCode={boardCode}
             postId={postId}
             fileUrls={fileUrls}
-            thumbnailImage={thumbnailImage}
+            baseUrl="/audit"
+            noticeUrl="/audit?category=notice"
           />
         </>
       )}

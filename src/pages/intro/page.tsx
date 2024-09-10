@@ -3,7 +3,7 @@ import IntroContentSection from './container/IntroContentSection';
 import { HeadLayout } from '@/template/HeadLayout';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { useValidateAndRedirect } from './container/hooks/useValidateAndRedirect';
-import { useCategoryMap } from './container/hooks/useQueryMap';
+import { useCategoryMap } from './container/hooks/useCategoryMap';
 import { paramToHisNum, paramToName, paramToSubTitle, paramToTitle } from './container/utils/dataUtils';
 import { IntroNavSection } from './container/IntroNavSection';
 

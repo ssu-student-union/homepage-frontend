@@ -29,7 +29,7 @@ export function PostPetitionDetailPostSection() {
 
   const breadcrumbItems = new Map<string, string | null>([
     ['소통', null],
-    ['청원게시판', '/homepage-frontend/petition-notice'],
+    ['청원게시판', '/petition-notice'],
   ]);
   const navigate = useNavigate();
   const { width } = useResize();
@@ -49,7 +49,7 @@ export function PostPetitionDetailPostSection() {
     const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
     if (deleteCheck) {
       await delBoardPosts('청원게시판', data?.data.postDetailResDto.postId!, data?.data.postDetailResDto.imageList!);
-      navigate('/homepage-frontend/petition-notice');
+      navigate('/petition-notice');
     } else {
       return;
     }
@@ -57,11 +57,11 @@ export function PostPetitionDetailPostSection() {
 
   const handleEditContent = () => {
     localStorage.setItem('edit-post', JSON.stringify(data?.data.postDetailResDto.postId));
-    navigate('/homepage-frontend/petition-notice/edit');
+    navigate('/petition-notice/edit');
   };
 
   const handleMoveToList = () => {
-    navigate('/homepage-frontend/petition-notice');
+    navigate('/petition-notice');
   };
 
   const mutation = usePostPostReaction();
@@ -72,7 +72,7 @@ export function PostPetitionDetailPostSection() {
     if (!localStorage.getItem('kakaoData')) {
       const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
       if (check) {
-        navigate('/homepage-frontend/register');
+        navigate('/register');
       } else {
         return;
       }
@@ -105,7 +105,11 @@ export function PostPetitionDetailPostSection() {
             <Breadcrumb items={breadcrumbItems} />
             <PostHead
               title={`[${data?.data.postDetailResDto.categoryName}] ${data?.data.postDetailResDto.title}`}
-              writer={replaceSN(data?.data.postDetailResDto.studentId!, '*')}
+              writer={
+                data?.data.postDetailResDto.studentId === null
+                  ? data.data.postDetailResDto.authorName
+                  : replaceSN(data?.data.postDetailResDto.studentId!, '*')
+              }
               date={
                 data?.data.postDetailResDto.lastEditedAt!
                   ? data?.data.postDetailResDto.lastEditedAt!

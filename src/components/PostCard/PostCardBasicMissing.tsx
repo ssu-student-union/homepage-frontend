@@ -2,7 +2,6 @@ import { cn } from '@/libs/utils';
 import { Badge } from '../ui/badge';
 import { Size } from './const/state';
 import { getStyles } from './const/style';
-import profileImgDefault from '@/assets/image/profileDefault.png';
 
 interface PostCardProps {
   imgUrl?: string; // 게시글 이미지 url
@@ -12,7 +11,7 @@ interface PostCardProps {
   badgeType?: 'Emergency' | 'New' | 'Default'; // postCard 배지 종류 - 긴급, NEW!, 없음
   cardType: 'Basic' | 'Missing'; // PostCardBasic | PostCardMissing 컴포넌트 선택
   size?: Size; // 페이지마다 반응형 기준이 다름 -> 자동 반응형이 아니라 수동으로 적용하도록 제작
-  profileImg?: string; // 프로필 이미지
+  profileImg?: string | null; // 프로필 이미지
   profileName?: string; // 계정명
   onClick?: () => void;
   className?: string;
@@ -26,8 +25,8 @@ const PostCard = ({
   badgeType,
   cardType,
   size = Size.default,
-  profileImg = profileImgDefault, // default 프로필이미지 - 추후 변경 또는 삭제
-  profileName = 'US:SUM', // default 계정명 - 추후 변경 또는 삭제
+  profileImg,
+  profileName = '',
   onClick = () => {},
   className = '',
 }: PostCardProps) => {
@@ -56,9 +55,9 @@ const PostCard = ({
           <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>
             {cardType === 'Basic' && (
               <div className="flex items-center gap-1">
-                <img alt="logo" src={profileImg} className={`pr-0.5 ${styles.profileImg}`} />
-                <span>{profileName}</span>
-                <span>·</span>
+                {profileImg && <img alt="logo" src={profileImg} className={`pr-0.5 ${styles.profileImg}`} />}
+                {profileName && <span>{profileName}</span>}
+                {profileName && <span>·</span>} {/* 프로필 이름이 있으면 center dot 렌더링 */}
               </div>
             )}
             <span>{date}</span>
@@ -72,7 +71,7 @@ const PostCard = ({
 // PostCardBasic => imgUrl, title, subtitle, date, badgeType, size, profileImg, profileName 속성 기입해서 사용
 export const PostCardBasic = (props: Omit<PostCardProps, 'cardType'>) => <PostCard cardType="Basic" {...props} />;
 
-// PostCardBasic => imgUrl, title, subtitle, date, size 속성 기입해서 사용
+// PostCardMissing => imgUrl, title, subtitle, date, size 속성 기입해서 사용
 export const PostCardMissing = (
   props: Omit<PostCardProps, 'cardType' | 'badgeType' | 'profileImg' | 'profileName'>
 ) => <PostCard cardType="Missing" badgeType="Default" {...props} />;
