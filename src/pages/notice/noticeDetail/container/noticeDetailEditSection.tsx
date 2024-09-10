@@ -46,11 +46,6 @@ export function NoticeDetailEditSection({
               {
                 data: {
                   postId,
-                  title,
-                  content,
-                  category,
-                  imageUrls,
-                  thumbnailImage,
                 },
               },
               navigate
