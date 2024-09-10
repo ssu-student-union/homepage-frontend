@@ -15,16 +15,7 @@ interface NoticeDetailEditProps {
   thumbnailImage: string;
 }
 
-export function NoticeDetailEditSection({
-  boardCode,
-  postId,
-  fileUrls,
-  imageUrls,
-  content,
-  title,
-  category,
-  thumbnailImage,
-}: NoticeDetailEditProps) {
+export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls }: NoticeDetailEditProps) {
   const navigate = useNavigate();
   const mutPost = useDelBoardPosts();
 
