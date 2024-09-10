@@ -107,7 +107,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
         const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: any) => ({
           ...post,
           category: post.category || '기타',
-          createdAt: new Date(post.date).getTime(),
+          createdAt: new Date(post.date).setHours(0, 0, 0, 0),
           uploadName: post.title,
           uploadDate: post.date,
           fileData: post.files || [],
@@ -144,7 +144,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
         const categorizedDataBoxes: Post[] = response.data.data.postListResDto.map((post: any) => ({
           ...post,
           category: post.category || '기타',
-          createdAt: new Date(post.date).getTime(),
+          createdAt: new Date(post.date).setHours(0, 0, 0, 0),
           uploadName: post.title,
           uploadDate: post.date,
           fileData: post.files || [],
@@ -159,6 +159,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
         const totalPages = response.data.data.pageInfo.totalPages;
         setTotalPage(totalPages); // Update totalPage state      } else {
         console.error('API 응답 데이터가 예상과 다릅니다. 응답 구조:', response.data);
+        console.error('categorizedDataBoxes', categorizedDataBoxes);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -260,7 +261,7 @@ export default function DataBoxSection({ userId }: { userId: string }) {
                     <div className="flex justify-between">
                       <div
                         className={`flex ${
-                          isLatestSpecialCategory ? '' : 'pl-16'
+                          isLatestSpecialCategory ? '' : 'pl-16 xs:pl-8 sm:pl-2'
                         } text-lg font-medium text-black xs:text-sm sm:text-sm`}
                       >
                         {isLatestSpecialCategory && <div className="mr-5">[공지]</div>}
@@ -272,15 +273,24 @@ export default function DataBoxSection({ userId }: { userId: string }) {
                     </div>
 
                     <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
-                      {data.fileUrl.map((fileUrl: string, fileIndex: number) => (
-                        <button
-                          key={fileIndex}
-                          onClick={() => handleDownload(fileUrl, data.fileNames[fileIndex])}
-                          className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
-                        >
-                          {data.fileName[fileIndex]}
-                        </button>
-                      ))}
+                      {data.fileUrl.map((fileUrl: string, fileIndex: number) => {
+                        // Manually split the fileType string into an array of individual file types
+                        const fileTypesArray = data.fileType[0]?.split(',') || []; // Assuming fileType[0] contains "결산안,활동보고,자료"
+
+                        return (
+                          <button
+                            key={fileIndex}
+                            onClick={() => handleDownload(fileUrl, data.fileNames[fileIndex])}
+                            className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
+                          >
+                            {fileTypesArray[fileIndex] && (
+                              <span key={fileIndex} className="block">
+                                {fileTypesArray[fileIndex].trim()} {/* Display the correct fileType for this fileUrl */}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 );

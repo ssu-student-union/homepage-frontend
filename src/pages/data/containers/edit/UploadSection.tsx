@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
-import { userCategories } from './index';
+import { userCategories, UserFileCategories } from './index';
 import { Trash2, Plus, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -40,6 +40,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   const fileDataList = post?.fileData || [];
 
   const [categories, setCategories] = useState<string[]>([]);
+  const [fileCategories, setFileCategories] = useState<string[]>([]);
   // 첫 번째 파일 입력 필드는 고정된 값, 이후는 fileData를 사용하여 설정
 
   const [fileInputSelecType, setfileInputSelecType] = useState('');
@@ -99,98 +100,13 @@ export default function UploadSection({ userId }: { userId: string }) {
     return category && fileInputsArray;
   };
 
-  const fileOptions = [
-    '.pdf',
-    '.docx',
-    '.xlsx',
-    '.jpg',
-    '.jpeg',
-    '.png',
-    '.gif',
-    '.bmp',
-    '.tiff',
-    '.svg',
-    '.txt',
-    '.rtf',
-    '.html',
-    '.htm',
-    '.xml',
-    '.json',
-    '.csv',
-    '.tsv',
-    '.zip',
-    '.rar',
-    '.7z',
-    '.tar',
-    '.gz',
-    '.bz2',
-    '.iso',
-    '.exe',
-    '.dll',
-    '.bat',
-    '.sh',
-    '.ps1',
-    '.apk',
-    '.mp3',
-    '.wav',
-    '.flac',
-    '.aac',
-    '.ogg',
-    '.m4a',
-    '.mp4',
-    '.avi',
-    '.mkv',
-    '.mov',
-    '.wmv',
-    '.flv',
-    '.webm',
-    '.pptx',
-    '.ppt',
-    '.psd',
-    '.ai',
-    '.indd',
-    '.xd',
-    '.fig',
-    '.sketch',
-    '.blend',
-    '.3ds',
-    '.obj',
-    '.fbx',
-    '.dwg',
-    '.dxf',
-    '.stl',
-    '.sldprt',
-    '.java',
-    '.py',
-    '.js',
-    '.jsx',
-    '.ts',
-    '.tsx',
-    '.c',
-    '.cpp',
-    '.cs',
-    '.swift',
-    '.rb',
-    '.go',
-    '.php',
-    '.css',
-    '.scss',
-    '.less',
-    '.sass',
-    '.coffee',
-    '.dart',
-    '.kt',
-    '.rs',
-    '.r',
-    '.pl',
-    '.sh',
-    '.lua',
-    '.scala',
-    '.sql',
-    '.db',
-    '.md',
-    '.markdown',
-  ];
+  useEffect(() => {
+    if (userId) {
+      const UserFileCategoriesList = UserFileCategories[userId] || [];
+      setFileCategories(UserFileCategoriesList);
+    }
+  }, [userId]);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddInput = () => {
@@ -669,7 +585,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                     render={({ field }) => (
                       <FilterDropDown
                         defaultValue="파일종류 선택"
-                        optionValue={fileOptions}
+                        optionValue={fileCategories}
                         onValueChange={(value) => {
                           setValue(`fileInputs.${index}.type`, value);
                           field.onChange(value);
@@ -703,7 +619,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           <FilterDropDown
             defaultValue="파일종류 선택"
-            optionValue={fileOptions} // fileOptions가 정의되어 있는지 확인하세요.
+            optionValue={fileCategories} // fileOptions가 정의되어 있는지 확인하세요.
             className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
             onValueChange={(value) => {
               setfileInputSelecType(value); // 상태 업데이트
