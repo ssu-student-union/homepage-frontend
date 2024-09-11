@@ -51,7 +51,11 @@ export function PetitionNoticeEditorSection() {
   }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInitialTitle(e.target.value);
+    if (e.target.value.length <= 50) {
+      setInitialTitle(e.target.value);
+    } else {
+      alert('제목은 50자 이내로 작성 가능합니다!');
+    }
   };
 
   const postPostMutation = usePostBoardPosts();

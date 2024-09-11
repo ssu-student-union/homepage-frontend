@@ -8,7 +8,7 @@ export function PetitionNoticeHeadSection() {
         <>
           100인 이상의 동의를 받으면,{' '}
           <span className="xs:block sm:block">
-            <span className="text-primary">중앙운영위원회의 안건</span>으로 상정됩니다.
+            <span className="font-pretendard text-primary">중앙운영위원회의 안건</span>으로 상정됩니다.
           </span>
         </>
       }
