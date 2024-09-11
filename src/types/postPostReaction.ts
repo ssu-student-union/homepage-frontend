@@ -1,5 +1,5 @@
 export interface postPostReactionProps {
-  postId: number;
+  postId: number | null;
   userId: number;
   reaction: string;
 }

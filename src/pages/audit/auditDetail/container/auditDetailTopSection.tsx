@@ -1,14 +1,14 @@
 import Breadcrumb from '@/components/Breadcrumb';
-import { items } from '../../const/data';
 import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 import { User } from '@phosphor-icons/react';
 
 interface AuditDetailTopSectionProps {
   title: string;
   date: string;
+  items: Map<string, string | null>;
 }
 
-export function AuditDetailTopSection({ title, date }: AuditDetailTopSectionProps) {
+export function AuditDetailTopSection({ title, date, items }: AuditDetailTopSectionProps) {
   const formattedDate = date ? formatYYYYMMDDHHMM(date) : '';
 
   return (

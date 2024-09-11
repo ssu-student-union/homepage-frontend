@@ -18,11 +18,11 @@ export const Footer = () => {
         <p className="xs:text-[13px] sm:text-[13px]">ussum64@gmail.com</p>
       </div>
       <div className="flex items-center gap-[1px] xs:text-[13px] sm:text-[13px]">
-        <a href="#">개인정보처리방침</a>
+        <a href="/personal-data?category=personal">개인정보처리방침</a>
         <span className="w-[18px] text-center">|</span>
-        <a href="#">이용약관</a>
+        <a href="/personal-data?category=tos">이용약관</a>
         <span className="w-[18px] text-center">|</span>
-        <a href="#">이메일무단수집거부</a>
+        <a href="/personal-data?category=email">이메일무단수집거부</a>
       </div>
     </footer>
   );

@@ -1,5 +1,5 @@
 export interface StateTagProps {
-  current: string;
+  current: string | null;
 }
 
 export interface StateTagType {

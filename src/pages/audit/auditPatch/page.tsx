@@ -30,6 +30,7 @@ export function AuditPatchPage() {
         initialTitle={title}
         onTitleChange={handleTitleChange}
         onCategoryChange={handleCategoryChange}
+        categoryList={['감사계확', '감사결과', '기타']}
       />
       <AuditEditContentSection initialValue={content} onContentChange={handleContentChange} />
       <AuditPatchImageSection

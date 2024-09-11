@@ -31,7 +31,9 @@ export function PostPetitionDetailPostSection() {
     ['소통', null],
     ['청원게시판', '/petition-notice'],
   ]);
+
   const navigate = useNavigate();
+
   const { width } = useResize();
   const mobile_screen = width < 391;
 
@@ -41,14 +43,18 @@ export function PostPetitionDetailPostSection() {
     userId: userID as number,
   });
 
-  const replaceSN = (student_number: string, chracter: string) => {
-    return student_number.substring(0, 2) + chracter.repeat(4) + student_number.substring(6);
+  const replaceSN = (student_number: string | null, chracter: string) => {
+    return student_number!.substring(0, 2) + chracter.repeat(4) + student_number!.substring(6);
   };
 
   const handleDeleteContent = async () => {
     const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
     if (deleteCheck) {
-      await delBoardPosts('청원게시판', data?.data.postDetailResDto.postId!, data?.data.postDetailResDto.imageList!);
+      await delBoardPosts(
+        '청원게시판',
+        data?.data.postDetailResDto.postId || null,
+        data?.data.postDetailResDto.imageList || null
+      );
       navigate('/petition-notice');
     } else {
       return;
@@ -79,7 +85,7 @@ export function PostPetitionDetailPostSection() {
     } else {
       const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
       const post_reaction = {
-        postId: data?.data.postDetailResDto.postId!,
+        postId: data?.data.postDetailResDto.postId || null,
         userId: Number(userID),
         reaction: 'like',
       };
@@ -105,11 +111,15 @@ export function PostPetitionDetailPostSection() {
             <Breadcrumb items={breadcrumbItems} />
             <PostHead
               title={`[${data?.data.postDetailResDto.categoryName}] ${data?.data.postDetailResDto.title}`}
-              writer={replaceSN(data?.data.postDetailResDto.studentId!, '*')}
+              writer={
+                data?.data.postDetailResDto.studentId === null
+                  ? data.data.postDetailResDto.authorName
+                  : replaceSN(data?.data.postDetailResDto.studentId || null, '*')
+              }
               date={
-                data?.data.postDetailResDto.lastEditedAt!
-                  ? data?.data.postDetailResDto.lastEditedAt!
-                  : data?.data.postDetailResDto.createdAt!
+                data?.data.postDetailResDto.lastEditedAt || null
+                  ? data?.data.postDetailResDto.lastEditedAt || null
+                  : data?.data.postDetailResDto.createdAt || null
               }
             />
           </div>
@@ -126,7 +136,7 @@ export function PostPetitionDetailPostSection() {
                 </div>
               </div>
               <div className="xs:hidden sm:hidden md:hidden">
-                <StateTag current={data?.data.postDetailResDto.categoryName!} />
+                <StateTag current={data?.data.postDetailResDto.categoryName || null} />
               </div>
             </div>
             <div className="mt-[60px] flex-col">

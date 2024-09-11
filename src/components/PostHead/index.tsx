@@ -5,7 +5,7 @@ import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 interface PostHeadProps {
   title: string;
   writer: string;
-  date: string;
+  date: string | null;
 }
 
 export function PostHead({ title, writer, date }: PostHeadProps) {
@@ -20,7 +20,7 @@ export function PostHead({ title, writer, date }: PostHeadProps) {
         <Spacing direction="horizontal" size={6} />
         <span>·</span>
         <Spacing direction="horizontal" size={6} />
-        <span>{formatYYYYMMDDHHMM(date)}</span>
+        <span>{formatYYYYMMDDHHMM(date!)}</span>
       </div>
     </section>
   );

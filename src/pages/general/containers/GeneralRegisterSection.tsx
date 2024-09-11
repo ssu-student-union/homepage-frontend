@@ -107,8 +107,22 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       if (response.status === 200) {
         alert('학생 정보가 확인되었습니다');
         localStorage.setItem('userId', formValuesScouncil.accountId);
-        localStorage.setItem('councilData', response.data);
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
+        if (endpoint === '/auth/council-login') {
+          localStorage.setItem('councilData', response.data);
+          // groupCodeList는 배열이므로 로컬 저장시 JSON 형태로 변환
+          const groupCodeList = response.data?.data?.groupCodeList;
+          if (Array.isArray(groupCodeList)) {
+            localStorage.setItem('groupCodeList', JSON.stringify(groupCodeList));
+          } else {
+            console.error('groupCodeList is not an array');
+          }
+          localStorage.setItem('groupCodeList', JSON.stringify(groupCodeList));
+          localStorage.setItem('memberName', response.data?.data?.memberName);
+          localStorage.setItem('majorName', response.data?.data?.majorName);
+          localStorage.setItem('accessToken', response.data?.data?.accessToken);
+        } else {
+        }
         navigate('/');
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
