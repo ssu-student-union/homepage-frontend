@@ -1,6 +1,6 @@
 import { clientAuth } from './client';
 
-export async function delBoardPosts(boardCode: string, postId: number, fileurl: string[]) {
+export async function delBoardPosts(boardCode: string, postId: number | null, fileurl: string[] | null) {
   const resp = await clientAuth({
     method: 'delete',
     url: `/board/${boardCode}/posts/${postId}`,
