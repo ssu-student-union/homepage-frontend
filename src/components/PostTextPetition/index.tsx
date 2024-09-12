@@ -4,6 +4,7 @@ import { useResize } from '@/hooks/useResize';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { PostTextPetitionProps } from './types';
 import { useMemo } from 'react';
+import useTruncateText from '@/hooks/useTruncateText';
 
 export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
   const { width } = useResize();
@@ -24,11 +25,6 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
     }
   };
 
-  const truncateText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength).trim() + '...';
-  };
-
   const extractPetitionPurpose = (content: string) => {
     const purposeRegex = /<h3>청원취지<\/h3>.*?<p>(.*?)<\/p>/s;
     const match = content.match(purposeRegex);
@@ -42,6 +38,9 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
     return data?.content ? extractPetitionPurpose(data.content) : '';
   }, [data?.content]);
 
+  const title = useTruncateText(data.title, 18);
+  const content = useTruncateText(petitionPurpose, 80);
+
   return (
     <div
       className="petition-item flex h-[252px] w-[362px] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[13px] border border-gray-300 bg-white p-5 xs:h-[184px] xs:w-[304px] xs:p-4 sm:h-[184px] sm:w-[304px] sm:p-4"
@@ -49,11 +48,9 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
     >
       <div className="flex flex-col">
         {renderStatusTag()}
-        <h3 className="mt-2 text-[1.375rem] font-bold text-gray-700 xs:text-[1rem] sm:text-[1rem]">
-          {data?.title && truncateText(data.title, 17)}
-        </h3>
+        <h3 className="mt-2 text-[1.375rem] font-bold text-gray-700 xs:text-[1rem] sm:text-[1rem]">{title}</h3>
         <p className="mt-3 flex-grow overflow-hidden text-ellipsis text-[1.125rem] font-medium text-gray-500 xs:mt-2 xs:text-[0.875rem] sm:mt-2 sm:text-[0.875rem]">
-          {petitionPurpose && truncateText(petitionPurpose, 72)}
+          {content}
         </p>
       </div>
       <div className="flex items-center justify-between">
