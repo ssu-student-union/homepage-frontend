@@ -8,6 +8,7 @@ import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { GetNoticeBoardPostsResponse } from '@/types/getBoardPosts';
 import { useMemo } from 'react';
 import { MainNotices, MainNoticesType } from '@/types';
+import { useNavigate } from 'react-router-dom';
 
 const NoticeSection = () => {
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<MainNoticesType>(MainNotices[0]);
@@ -21,10 +22,12 @@ const NoticeSection = () => {
   });
   const noticeCount = useMemo(() => {
     if (isLoading) {
-      return 0; // 로딩 중일 때는 undefined를 반환하여 UI가 바뀌지 않도록 합니다.
+      return 0;
     }
-    return data?.data.pageInfo.totalElements; // 데이터가 로딩되면 새로운 데이터로 UI를 업데이트합니다.
+    return data?.data.pageInfo.totalElements || 0;
   }, [data?.data.pageInfo.totalElements, isLoading]);
+
+  const navigate = useNavigate();
 
   return (
     <section className="w-full whitespace-nowrap">
@@ -43,81 +46,96 @@ const NoticeSection = () => {
       />
       <Spacing size={width > 390 ? 32 : 22} direction="vertical" />
       <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
-        {/* xs */}
-        {width < 390 ? (
-          <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
-            {data?.data.postListResDto.map((notice) => (
-              <PostCardNotice
-                badgeType={notice.status}
-                key={notice.postId}
-                imgUrl={notice.thumbNail}
-                title={notice.title}
-                profileName={notice.author}
-              ></PostCardNotice>
-            ))}
-          </div>
-        ) : null}
-        {/* sm, md */}
-        {width < 1080 && width >= 390 ? (
-          <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
-            {data?.data.postListResDto.map((notice) => (
-              <PostCardNotice
-                badgeType={notice.status}
-                key={notice.postId}
-                imgUrl={notice.thumbNail}
-                title={notice.title}
-                profileName={notice.author}
-              ></PostCardNotice>
-            ))}
-          </div>
-        ) : null}
-        {/* lg */}
-        {width < 1440 && width >= 1080 ? (
-          <div className="flex h-fit w-full justify-between gap-[26px]">
-            {data?.data.postListResDto.map((notice) => (
-              <PostCardNotice
-                badgeType={notice.status}
-                key={notice.postId}
-                imgUrl={notice.thumbNail}
-                title={notice.title}
-                profileName={notice.author}
-              ></PostCardNotice>
-            ))}
-          </div>
-        ) : null}
-        {/* xl */}
-        {width >= 1440 && width < 1920 ? (
-          <div className="flex h-fit w-full justify-between">
-            {data?.data.postListResDto.map((notice) => (
-              <PostCardNotice
-                badgeType={notice.status}
-                key={notice.postId}
-                imgUrl={notice.thumbNail}
-                title={notice.title}
-                profileName={notice.author}
-              ></PostCardNotice>
-            ))}
-          </div>
-        ) : null}
-        {/* xxl */}
-        {width >= 1920 ? (
-          <div className="flex h-fit w-full justify-between">
-            {data?.data.postListResDto.map((notice) => (
-              <PostCardNotice
-                badgeType={notice.status}
-                key={notice.postId}
-                imgUrl={notice.thumbNail}
-                title={notice.title}
-                profileName={notice.author}
-                date={notice.date}
-                subtitle={notice.content}
-              ></PostCardNotice>
-            ))}
-          </div>
-        ) : null}
-        <Spacing size={68} direction="vertical"></Spacing>
+        {data?.data.pageInfo.totalElements ? (
+          <>
+            {/* xs */}
+            {width < 390 ? (
+              <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
+                {data?.data.postListResDto.map((notice) => (
+                  <PostCardNotice
+                    badgeType={notice.status}
+                    key={notice.postId}
+                    imgUrl={notice.thumbNail}
+                    title={notice.title}
+                    profileName={notice.author}
+                  />
+                ))}
+              </div>
+            ) : null}
+            {/* sm, md */}
+            {width < 1080 && width >= 390 ? (
+              <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
+                {data?.data.postListResDto.map((notice) => (
+                  <PostCardNotice
+                    badgeType={notice.status}
+                    key={notice.postId}
+                    imgUrl={notice.thumbNail}
+                    title={notice.title}
+                    profileName={notice.author}
+                  />
+                ))}
+              </div>
+            ) : null}
+            {/* lg */}
+            {width < 1440 && width >= 1080 ? (
+              <div className="flex h-fit w-full justify-between gap-[26px]">
+                {data?.data.postListResDto.map((notice) => (
+                  <PostCardNotice
+                    badgeType={notice.status}
+                    key={notice.postId}
+                    imgUrl={notice.thumbNail}
+                    title={notice.title}
+                    profileName={notice.author}
+                  />
+                ))}
+              </div>
+            ) : null}
+            {/* xl */}
+            {width >= 1440 && width < 1920 ? (
+              <div className="flex h-fit w-full justify-between">
+                {data?.data.postListResDto.map((notice) => (
+                  <PostCardNotice
+                    badgeType={notice.status}
+                    key={notice.postId}
+                    imgUrl={notice.thumbNail}
+                    title={notice.title}
+                    profileName={notice.author}
+                  />
+                ))}
+              </div>
+            ) : null}
+            {/* xxl */}
+            {width >= 1920 ? (
+              <div className="flex h-fit w-full justify-between">
+                {data?.data.postListResDto.map((notice) => (
+                  <PostCardNotice
+                    badgeType={notice.status}
+                    key={notice.postId}
+                    imgUrl={notice.thumbNail}
+                    title={notice.title}
+                    profileName={notice.author}
+                    date={notice.date}
+                    subtitle={notice.content}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">
+            등록된 게시물이 없습니다.
+          </p> // 게시물이 없을 때 이 문구를 표시
+        )}
+        <Spacing size={68} direction="vertical" />
         {width >= 720 ? (
-          <Button className="h-fit w-fit rounded-full px-[1rem] py-[0.5rem] text-[1rem]">더 알아보기</Button>
+          <Button
+            onClick={() => {
+              navigate(`/notice`);
+            }}
+            className="h-fit w-fit rounded-full px-[1rem] py-[0.5rem] text-[1rem]"
+          >
+            더 알아보기
+          </Button>
         ) : null}
       </div>
     </section>
