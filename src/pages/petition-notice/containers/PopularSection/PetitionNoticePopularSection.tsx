@@ -85,7 +85,7 @@ export function PetitionNoticePopularSection() {
       {isFetching && isLoading ? <PetitionNoticeHeadSectionSkeleton /> : <PetitionNoticeHeadSection />}
       {isFetching && isLoading ? (
         <PetitionNoticePopularSectionSkeleton />
-      ) : data?.data.postListResDto.length! > 0 ? (
+      ) : data?.data && data.data.postListResDto.length! > 0 ? (
         <div className="relative mb-[66px] mt-[70px] pl-[200px] text-[1.75rem] font-bold xs:mb-[33px] xs:pl-10 sm:pl-10 md:pl-10 lg:pl-10">
           <p className="mb-[11px]">인기청원</p>
           <div className="flex gap-6 overflow-scroll pr-5 scrollbar-hide" ref={ref}>
@@ -106,7 +106,9 @@ export function PetitionNoticePopularSection() {
           )}
         </div>
       ) : (
-        <div>인기 청원이 없습니다.</div>
+        <div className="relative mb-[66px] pb-[50px] pt-[100px] text-center text-lg font-normal text-gray-600 xs:mb-[33px] xs:text-xs">
+          <div>인기 청원이 없습니다.</div>
+        </div>
       )}
     </>
   );

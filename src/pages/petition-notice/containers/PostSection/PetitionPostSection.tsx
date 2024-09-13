@@ -78,11 +78,20 @@ export function PetitionPostSection() {
             selectedSubcategory={selectedSubcategories}
             onSubcategorySelect={handleSubcategorySelect}
           />
-          <Spacing size={40} direction="vertical"></Spacing>
-          {filteredData &&
-            filteredData.map((data) => (
-              <PetitionPostContent data={data} key={data.postId} onClick={handlePostDetail} />
-            ))}
+          {data?.data && data.data.postListResDto.length > 0 ? (
+            <>
+              {' '}
+              <Spacing size={40} direction="vertical"></Spacing>
+              {filteredData &&
+                filteredData.map((data) => (
+                  <PetitionPostContent data={data} key={data.postId} onClick={handlePostDetail} />
+                ))}
+            </>
+          ) : (
+            <div className="py-[250px] text-center text-lg font-normal text-gray-600 xs:text-xs">
+              등록된 게시물이 없습니다.
+            </div>
+          )}
         </BodyLayout>
       )}
     </>
