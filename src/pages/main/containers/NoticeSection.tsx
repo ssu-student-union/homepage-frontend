@@ -9,6 +9,7 @@ import { GetNoticeBoardPostsResponse } from '@/types/getBoardPosts';
 import { useMemo } from 'react';
 import { MainNotices, MainNoticesType } from '@/types';
 import { useNavigate } from 'react-router-dom';
+import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 
 const NoticeSection = () => {
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<MainNoticesType>(MainNotices[0]);
@@ -53,10 +54,12 @@ const NoticeSection = () => {
               <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
                 {data?.data.postListResDto.map((notice) => (
                   <PostCardNotice
+                    onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
                     badgeType={notice.status}
                     key={notice.postId}
                     imgUrl={notice.thumbNail}
                     title={notice.title}
+                    date={formatYYYYMMDD(notice.date)}
                     profileName={notice.author}
                   />
                 ))}
@@ -67,10 +70,12 @@ const NoticeSection = () => {
               <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
                 {data?.data.postListResDto.map((notice) => (
                   <PostCardNotice
+                    onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
                     badgeType={notice.status}
                     key={notice.postId}
                     imgUrl={notice.thumbNail}
                     title={notice.title}
+                    date={formatYYYYMMDD(notice.date)}
                     profileName={notice.author}
                   />
                 ))}
@@ -81,10 +86,12 @@ const NoticeSection = () => {
               <div className="flex h-fit w-full justify-between gap-[26px]">
                 {data?.data.postListResDto.map((notice) => (
                   <PostCardNotice
+                    onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
                     badgeType={notice.status}
                     key={notice.postId}
                     imgUrl={notice.thumbNail}
                     title={notice.title}
+                    date={formatYYYYMMDD(notice.date)}
                     profileName={notice.author}
                   />
                 ))}
@@ -95,10 +102,12 @@ const NoticeSection = () => {
               <div className="flex h-fit w-full justify-between">
                 {data?.data.postListResDto.map((notice) => (
                   <PostCardNotice
+                    onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
                     badgeType={notice.status}
                     key={notice.postId}
                     imgUrl={notice.thumbNail}
                     title={notice.title}
+                    date={formatYYYYMMDD(notice.date)}
                     profileName={notice.author}
                   />
                 ))}
@@ -109,12 +118,13 @@ const NoticeSection = () => {
               <div className="flex h-fit w-full justify-between">
                 {data?.data.postListResDto.map((notice) => (
                   <PostCardNotice
+                    onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
                     badgeType={notice.status}
                     key={notice.postId}
                     imgUrl={notice.thumbNail}
                     title={notice.title}
                     profileName={notice.author}
-                    date={notice.date}
+                    date={formatYYYYMMDD(notice.date)}
                     subtitle={notice.content}
                   />
                 ))}

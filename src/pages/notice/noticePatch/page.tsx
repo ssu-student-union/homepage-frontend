@@ -16,6 +16,7 @@ export default function NoticePatchPage() {
     isLoading,
     imageList,
     fileList,
+    fileNames,
     thumbnailImage,
     setThumbnailImage,
     handleFileDelete,
@@ -32,7 +33,12 @@ export default function NoticePatchPage() {
         thumbnailImage={thumbnailImage}
         setThumbnailImage={setThumbnailImage}
       />
-      <AuditPatchFilesSection fileUrls={fileList} onFileDelete={handleFileDelete} onFilesChange={setNewFiles} />
+      <AuditPatchFilesSection
+        fileUrls={fileList}
+        fileNames={fileNames}
+        onFileDelete={handleFileDelete}
+        onFilesChange={setNewFiles}
+      />
       <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );

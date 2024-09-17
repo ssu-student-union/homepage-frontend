@@ -15,6 +15,7 @@ export function AuditPatchPage() {
     handleContentChange,
     handleSubmit,
     isLoading,
+    fileNames,
     imageList,
     fileList,
     thumbnailImage,
@@ -30,7 +31,7 @@ export function AuditPatchPage() {
         initialTitle={title}
         onTitleChange={handleTitleChange}
         onCategoryChange={handleCategoryChange}
-        categoryList={['감사계확', '감사결과', '기타']}
+        categoryList={['감사계획', '감사결과', '기타']}
       />
       <AuditEditContentSection initialValue={content} onContentChange={handleContentChange} />
       <AuditPatchImageSection
@@ -38,7 +39,12 @@ export function AuditPatchPage() {
         thumbnailImage={thumbnailImage}
         setThumbnailImage={setThumbnailImage}
       />
-      <AuditPatchFilesSection fileUrls={fileList} onFileDelete={handleFileDelete} onFilesChange={setNewFiles} />
+      <AuditPatchFilesSection
+        fileUrls={fileList}
+        onFileDelete={handleFileDelete}
+        onFilesChange={setNewFiles}
+        fileNames={fileNames}
+      />
       <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );

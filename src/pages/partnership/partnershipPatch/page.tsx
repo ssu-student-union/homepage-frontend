@@ -20,6 +20,7 @@ export default function PartnershipPatchPage() {
     thumbnailImage,
     setThumbnailImage,
     fileList,
+    fileNames,
     handleFileDelete,
     setNewFiles,
   } = usePartnershipPatch();
@@ -38,7 +39,12 @@ export default function PartnershipPatchPage() {
         thumbnailImage={thumbnailImage}
         setThumbnailImage={setThumbnailImage}
       />
-      <AuditPatchFilesSection fileUrls={fileList} onFileDelete={handleFileDelete} onFilesChange={setNewFiles} />
+      <AuditPatchFilesSection
+        fileUrls={fileList}
+        onFileDelete={handleFileDelete}
+        onFilesChange={setNewFiles}
+        fileNames={fileNames}
+      />
       <PartnershipEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
     </>
   );

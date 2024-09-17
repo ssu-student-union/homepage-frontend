@@ -14,10 +14,14 @@ import { GetPartnershipBoardPostsResponse, PartnershipPostListResDto } from '@/t
 import { useNavigate } from 'react-router-dom';
 import { chunkArray } from './utils';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
+import { useRecoilValue } from 'recoil';
+import { SearchState } from '@/recoil/atoms/atom';
+import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
 
 export function PartnershipPage() {
   const { width } = useResize();
   const navigate = useNavigate();
+  const searchQuery = useRecoilValue(SearchState);
 
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PartnershipSubcategoriesType>(
     PartnershipSubcategories[0]
@@ -25,13 +29,22 @@ export function PartnershipPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTake, setCurrentTake] = useState(9);
 
-  const { data, isLoading } = useGetBoardPosts<GetPartnershipBoardPostsResponse>({
-    page: currentPage - 1,
-    take: currentTake,
-    category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
-    boardCode: '제휴게시판',
-  });
+  const { data, isLoading } = searchQuery
+    ? useGetBoardPostSearch<GetPartnershipBoardPostsResponse>({
+        page: currentPage - 1,
+        take: currentTake,
+        category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
+        boardCode: '제휴게시판',
+        q: searchQuery,
+      })
+    : useGetBoardPosts<GetPartnershipBoardPostsResponse>({
+        page: currentPage - 1,
+        take: currentTake,
+        category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
+        boardCode: '제휴게시판',
+      });
 
+  const posts = data?.data.postListResDto || []; // 게시물 리스트
   const partnershipCount = useMemo(() => {
     if (isLoading) {
       return 0;
@@ -52,9 +65,8 @@ export function PartnershipPage() {
   const renderPostCardBasic = (items: PartnershipPostListResDto[], size: Size) => (
     <section className="flex h-fit w-full flex-col justify-between">
       {items.map((item, index) => (
-        <>
+        <div key={item.postId}>
           <PostCardBasic
-            key={item.postId}
             title={`[${item.category}] ${item.title}`}
             subtitle={item.content}
             date={formatYYYYMMDD(item.date)}
@@ -65,14 +77,14 @@ export function PartnershipPage() {
             }}
           />
           {index < items.length - 1 && <Spacing size={20} direction="vertical" />}
-        </>
+        </div>
       ))}
     </section>
   );
 
   const renderChunkedPostCards = (chunkSize: number) =>
-    chunkArray<PartnershipPostListResDto>(data?.data.postListResDto, chunkSize)?.map((items) => (
-      <div className="flex h-fit w-full justify-between">
+    chunkArray<PartnershipPostListResDto>(posts, chunkSize)?.map((items, chunkIndex) => (
+      <div key={`chunk-${chunkIndex}`} className="flex h-fit w-full justify-between">
         {items.map((item) => (
           <PostCardBasic
             key={item.postId}
@@ -118,24 +130,32 @@ export function PartnershipPage() {
         />
         <Spacing size={40} direction="vertical"></Spacing>
 
-        {/* xs */}
-        {width < 720 && renderPostCardBasic(data?.data.postListResDto || [], Size.small)}
+        {posts.length === 0 ? (
+          <div className="flex h-[32rem] w-full items-center justify-center text-gray-600">
+            등록된 게시물이 없습니다
+          </div>
+        ) : (
+          <>
+            {/* xs */}
+            {width < 720 && renderPostCardBasic(posts, Size.small)}
 
-        {/* sm, md, lg */}
-        {width >= 720 && width < 1440 && renderPostCardBasic(data?.data.postListResDto || [], Size.medium)}
+            {/* sm, md, lg */}
+            {width >= 720 && width < 1440 && renderPostCardBasic(posts, Size.medium)}
 
-        {/* xl */}
-        {width >= 1440 && width < 1920 && (
-          <section className="flex h-fit w-full flex-col justify-between gap-[40px]">
-            {renderChunkedPostCards(2)}
-          </section>
-        )}
+            {/* xl */}
+            {width >= 1440 && width < 1920 && (
+              <section className="flex h-fit w-full flex-col justify-between gap-[40px]">
+                {renderChunkedPostCards(2)}
+              </section>
+            )}
 
-        {/* xxl */}
-        {width >= 1920 && (
-          <section className="flex h-fit w-full flex-col justify-between gap-[40px]">
-            {renderChunkedPostCards(3)}
-          </section>
+            {/* xxl */}
+            {width >= 1920 && (
+              <section className="flex h-fit w-full flex-col justify-between gap-[40px]">
+                {renderChunkedPostCards(3)}
+              </section>
+            )}
+          </>
         )}
       </BodyLayout>
     </>

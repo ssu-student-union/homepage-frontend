@@ -5,6 +5,7 @@ import AuditDetailLoading from '@/pages/audit/auditDetail/container/auditDetailL
 import { useLocation } from 'react-router-dom';
 import { items } from './const/data';
 import { LostDetailTopSection } from './container/lostDetailTopSection';
+import { AuditDetailFileSection } from '@/pages/audit/auditDetail/container/auditDetailFileSection';
 
 export function LostDetailPage() {
   const location = useLocation();
@@ -19,7 +20,17 @@ export function LostDetailPage() {
     return <div>에러 발생!!!</div>;
   }
 
-  const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
+  // 파일과 이미지 리스트를 타입별로 구분하여 처리
+  const fileNameList =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileName) || [];
+
+  const fileList =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileUrl) || [];
+
+  const imageList =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
+
+  const fileUrls = [...fileList, ...imageList]; // 모든 파일과 이미지 URL을 합친 리스트
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
@@ -33,11 +44,12 @@ export function LostDetailPage() {
         <AuditDetailLoading />
       ) : (
         <>
-          <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
+          <AuditDetailContentSection content={postDetail.content} images={imageList} />
+          <AuditDetailFileSection files={fileList} fileNames={fileNameList} />
           <AuditDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
-            imageUrls={postDetail.imageList}
+            imageUrls={imageList}
             boardCode={boardCode}
             postId={postId}
             fileUrls={fileUrls}

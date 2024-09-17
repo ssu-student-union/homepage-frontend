@@ -4,6 +4,8 @@ import { Spacing } from '@/components/Spacing';
 import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { useResize } from '@/hooks/useResize';
 import { GetLostArticlePostsResponse } from '@/types/getBoardPosts';
+import { ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const LostArticleSection = () => {
   const { width } = useResize();
@@ -12,9 +14,23 @@ const LostArticleSection = () => {
     page: 0,
     take: 2,
   });
+
+  const navigate = useNavigate();
+
   return (
     <section>
-      <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">분실물 현황</h1>
+      <div className="flex items-center">
+        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">분실물 현황</h1>
+        <ArrowUpRight
+          onClick={() => {
+            navigate(`/lost-article?category=state`);
+            window.scrollTo(0, 0);
+          }}
+          className="ml-2 cursor-pointer"
+          size={24}
+          strokeWidth={1.5}
+        />
+      </div>
       <Spacing size={18} direction="vertical" />
       {/* xs */}
       {width < 390 ? (

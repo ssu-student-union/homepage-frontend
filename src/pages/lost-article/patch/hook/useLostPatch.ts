@@ -15,8 +15,9 @@ export function useLostPatch() {
   const [title, setTitle] = useState<string>(postDetail?.title ?? '');
   const [category, setCategory] = useState<string>(postDetail?.categoryName ?? '');
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
-  const [imageList] = useState<string[]>(postDetail?.imageList ?? []);
-  const [thumbnailImage, setThumbnailImage] = useState<string>(postDetail?.imageList[0] ?? '');
+  const imageList =
+    postDetail?.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
+  const [thumbnailImage, setThumbnailImage] = useState<string>(imageList[0] ?? '');
 
   const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
 

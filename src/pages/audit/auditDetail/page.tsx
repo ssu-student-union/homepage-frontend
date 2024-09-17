@@ -20,7 +20,15 @@ export function AuditDetailPage() {
     return <div>에러 발생!!!</div>;
   }
 
-  const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
+  const fileNameList =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileName) || [];
+
+  const fileList =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileUrl) || [];
+  const imageList =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
+
+  const fileUrls = [...fileList, ...imageList];
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
@@ -29,12 +37,12 @@ export function AuditDetailPage() {
         <AuditDetailLoading />
       ) : (
         <>
-          <AuditDetailContentSection content={postDetail.content} images={postDetail.imageList} />
-          <AuditDetailFileSection files={postDetail.fileList} />
+          <AuditDetailContentSection content={postDetail.content} images={imageList} />
+          <AuditDetailFileSection files={fileList} fileNames={fileNameList} />
           <AuditDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
-            imageUrls={postDetail.imageList}
+            imageUrls={imageList}
             boardCode={boardCode}
             postId={postId}
             fileUrls={fileUrls}

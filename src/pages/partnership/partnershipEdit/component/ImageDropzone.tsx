@@ -8,7 +8,6 @@ interface ImageDropzoneProps {
 export function ImageDropzone({ onDrop }: ImageDropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
-      console.log('이미지 추가됨:', acceptedFiles);
       onDrop(acceptedFiles);
     },
     accept: {
