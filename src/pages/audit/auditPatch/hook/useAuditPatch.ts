@@ -77,7 +77,7 @@ export function useAuditPatch() {
         postId,
       });
 
-      navigate('/audit');
+      navigate(`/audit/${postId}`);
     } catch (e) {
       console.error(e);
     }

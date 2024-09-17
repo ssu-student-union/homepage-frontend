@@ -14,9 +14,7 @@ export function NoticePage() {
 
   const { posts, totalPages, currentPage, handlePageChange, isLoading, subcategories } = useNoticeBoard(boardCode);
 
-  const { todayPostCount, isLoading: isPostsLoading, stopFetching } = useTodayPosts(boardCode);
-
-  console.log(`Today post count: ${todayPostCount}, Is loading: ${isPostsLoading}, Stop fetching: ${stopFetching}`);
+  const { todayPostCount, isLoading: isPostsLoading } = useTodayPosts(boardCode);
 
   return (
     <>
