@@ -15,34 +15,31 @@ export function useAuditPatch() {
   const { data: resp } = useGetBoardDetail({ boardCode, postId });
   const postDetail = resp?.data.postDetailResDto;
 
+  const fileList =
+    postDetail?.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileUrl) || [];
+  const fileNames =
+    postDetail?.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileName) || [];
+
+  const imageList =
+    postDetail?.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
+  const [thumbnailImage, setThumbnailImage] = useState<string>(imageList[0] ?? '');
+
   const [title, setTitle] = useState<string>(postDetail?.title ?? '');
   const [category, setCategory] = useState<string>(postDetail?.categoryName ?? '');
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
-  const [imageList] = useState<string[]>(postDetail?.imageList ?? []);
-  const [fileList, setFileList] = useState<string[]>(postDetail?.fileList ?? []);
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);
-  const [thumbnailImage, setThumbnailImage] = useState<string>(postDetail?.imageList[0] ?? '');
 
   const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
   const { mutateAsync: deleteFiles } = useDelBoardFiles();
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
 
-  const handleTitleChange = (newTitle: string) => {
-    setTitle(newTitle);
-  };
-
-  const handleCategoryChange = (newCategory: string) => {
-    setCategory(newCategory);
-  };
-
-  const handleContentChange = (newContent: string) => {
-    setContent(newContent);
-  };
+  const handleTitleChange = (newTitle: string) => setTitle(newTitle);
+  const handleCategoryChange = (newCategory: string) => setCategory(newCategory);
+  const handleContentChange = (newContent: string) => setContent(newContent);
 
   const handleFileDelete = (fileUrl: string) => {
-    setFileList((prevList) => prevList.filter((file) => file !== fileUrl));
-    setDeletedFiles((prevDeleted) => [...prevDeleted, fileUrl]);
+    setDeletedFiles((prev) => [...prev, fileUrl]);
   };
 
   const handleSubmit = async () => {
@@ -52,34 +49,26 @@ export function useAuditPatch() {
       }
 
       let uploadedFileList: number[] = [];
-      let uploadedThumbnail = thumbnailImage;
-
       if (newFiles.length > 0) {
-        const uploadResponse = await uploadFiles({
-          boardCode,
-          files: newFiles,
-        });
-
-        const { postFiles } = uploadResponse.data.data;
-
-        uploadedFileList = handleFileLists(postFiles);
+        const uploadResponse = await uploadFiles({ boardCode, files: newFiles });
+        uploadedFileList = handleFileLists(uploadResponse.data.data.postFiles);
       }
 
       await patchPost({
         boardCode,
+        postId,
         posts: {
           title,
           content,
           categoryCode: category,
-          thumbnailImage: uploadedThumbnail,
+          thumbnailImage,
           postFileList: uploadedFileList.length > 0 ? uploadedFileList : [0],
         },
-        postId,
       });
 
-      navigate(`/audit/${postId}`);
-    } catch (e) {
-      console.error(e);
+      navigate(`/audit/${postId}`, { state: { postId } });
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -89,8 +78,9 @@ export function useAuditPatch() {
     category,
     content,
     thumbnailImage,
-    imageList,
     fileList,
+    imageList,
+    fileNames,
     handleTitleChange,
     handleCategoryChange,
     handleContentChange,

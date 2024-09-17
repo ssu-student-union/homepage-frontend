@@ -120,7 +120,7 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
           badgeType={status}
           profileName={'중앙'}
           className="cursor-pointer"
-          onClick={() => handleCardClick(post.postId.toString(), post.postId, post.category, thumbnail, navigate)}
+          onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />
       </div>
     );

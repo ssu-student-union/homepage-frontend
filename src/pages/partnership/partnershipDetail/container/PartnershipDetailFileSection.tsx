@@ -1,22 +1,29 @@
 import { DownloadSimple } from '@phosphor-icons/react';
 
 interface PartnershipDetailFileProps {
-  file: { fileName: string; fileUrl: string };
+  files: string[];
+  fileNames: string[];
 }
 
-export function PartnershipDetailFileSection({ file }: PartnershipDetailFileProps) {
-  const handleDownload = () => {
-    // 파일 다운로드
-    alert('다운로드');
+export function PartnershipDetailFileSection({ files, fileNames }: PartnershipDetailFileProps) {
+  const openInNewTab = (filePath: string) => {
+    window.open(filePath, '_blank');
   };
 
   return (
-    <div className="flex flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2">
-      <DownloadSimple size="24px" className="cursor-pointer pl-[3px]" onClick={handleDownload} />
-      <div className="w-[5px]" />
-      <div>
-        <p className="text-base font-medium text-gray-600">{file.fileName}</p>
-      </div>
-    </div>
+    <>
+      {files.map((file, index) => (
+        <div
+          onClick={() => openInNewTab(file)}
+          key={file + index}
+          className="mb-[0.75rem] flex cursor-pointer flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2"
+        >
+          <DownloadSimple size="24px" />
+          <div className="ml-[0.5rem] flex-1 overflow-hidden">
+            <p className="truncate text-base font-medium text-gray-600">{fileNames[index]}</p>
+          </div>
+        </div>
+      ))}
+    </>
   );
 }

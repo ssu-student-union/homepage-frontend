@@ -1,7 +1,7 @@
 import { dataPath, menuItems } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CaretDown } from '@phosphor-icons/react';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { State } from '../const/state';
 
@@ -10,10 +10,31 @@ interface HeaderSheetProps {
   state?: State;
 }
 
-export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps) {
+export function HeaderSheet({ trigger, state: initialState = State.Logout }: HeaderSheetProps) {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [state, setState] = useState<State>(initialState);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setState(token ? State.Login : State.Logout);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1280) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const toggleCategory = (category: string) => {
     setExpandedCategory((prevCategory) => (prevCategory === category ? null : category));
@@ -26,6 +47,7 @@ export function HeaderSheet({ trigger, state = State.Logout }: HeaderSheetProps)
 
   const handleLogoutClick = () => {
     localStorage.removeItem('accessToken');
+    setState(State.Logout);
     setIsOpen(false);
     navigate('/');
   };

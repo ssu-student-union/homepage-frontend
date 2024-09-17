@@ -11,8 +11,6 @@ interface NoticeDetailEditProps {
   imageUrls: string[];
   content: string;
   title: string;
-  category: string;
-  thumbnailImage: string;
 }
 
 export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls }: NoticeDetailEditProps) {
@@ -23,7 +21,7 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
 
   const handleDelete = async () => {
     await deleteHandler({ boardCode, postId, fileurl, mutPost });
-    navigate(`/notice?category=notice`);
+    navigate(`/notice?category=central&sub-category=all`);
     window.location.reload();
   };
 

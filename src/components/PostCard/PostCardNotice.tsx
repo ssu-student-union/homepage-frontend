@@ -10,6 +10,7 @@ interface PostCardMainProps {
   badgeType?: statusType; // postCard 배지 종류 - 긴급, NEW!, 없음
   profileImg?: string; // 프로필 이미지
   profileName?: string; // 계정명
+  onClick?: () => void;
 }
 
 const PostCardMain = ({
@@ -19,9 +20,11 @@ const PostCardMain = ({
   badgeType,
   profileImg = profileImgDefault, // default 프로필이미지 - 추후 변경 또는 삭제
   profileName = 'US:SUM', // default 계정명 - 추후 변경 또는 삭제
+  onClick,
 }: PostCardMainProps) => {
   return (
     <div
+      onClick={onClick}
       className={`relative flex h-[24.25rem] min-w-[20.6rem] cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white xs:h-[17.5rem] xs:w-[14.5rem]`}
     >
       {badgeType === '긴급' && <Badge variant="Emergency">긴급</Badge>}

@@ -30,20 +30,28 @@ export interface OfficialCommentList {
   lastEditedAt: string;
 }
 
+export interface FileResponse {
+  postFileId: number;
+  fileName: string;
+  fileUrl: string;
+  fileType: 'files' | 'images';
+}
+
 export interface PostDetailResDto {
-  fileList: never[];
   postId: number;
   categoryName: string;
   authorName: string;
   title: string;
   content: string;
   createdAt: string;
-  lastEditedAt: string;
+  lastEditedAt: string | null;
   isAuthor: boolean;
   isLiked: boolean;
   studentId: string;
   likeCount: number;
+  fileResponseList: FileResponse[];
   imageList: string[];
+  fileList: string[];
   officialCommentList: OfficialCommentList[];
 }
 

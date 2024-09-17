@@ -15,17 +15,25 @@ export function PartnershipDetailPage() {
   const postDetail = resp?.data.postDetailResDto;
 
   if (!postDetail) {
-    return <div></div>;
+    return <div>로딩 중...</div>;
   }
+  const fileNames =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileName) || [];
+  const fileList =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileUrl) || [];
+  const imageList =
+    postDetail.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
+  const fileUrls = [...fileList, ...imageList];
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <PartnershipDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
-      <PartnershipDetailContentSection content={postDetail.content} images={postDetail.imageList} />
-      {postDetail.fileList.length > 0
-        ? postDetail.fileList.map((file) => <PartnershipDetailFileSection file={file} />)
-        : null}
-      <PartnershipDetailEditSection boardCode={boardCode} postId={postId} fileurl={postDetail?.imageList} />
+
+      <PartnershipDetailContentSection content={postDetail.content} images={imageList} />
+
+      <PartnershipDetailFileSection files={fileList} fileNames={fileNames} />
+
+      <PartnershipDetailEditSection boardCode={boardCode} postId={postId} fileurl={fileUrls} />
     </div>
   );
 }

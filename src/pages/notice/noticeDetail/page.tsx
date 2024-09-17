@@ -9,8 +9,6 @@ import NoticeDetailLoading from './container/noticeDetailLoading';
 export function NoticeDetailPage() {
   const location = useLocation();
   const postId: number = location.state?.postId;
-  const category: string = location.state?.category;
-  const thumbnailImage: string = location.state?.thumbnailImage;
   const boardCode: string = '공지사항게시판';
 
   const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
@@ -21,7 +19,15 @@ export function NoticeDetailPage() {
     return <div>에러 발생!!!</div>;
   }
 
-  const fileUrls = [...(postDetail.fileList || []), ...(postDetail.imageList || [])];
+  const fileList =
+    postDetail?.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileUrl) || [];
+  const fileNames =
+    postDetail?.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileName) || [];
+
+  const imageList =
+    postDetail?.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
+
+  const fileUrls = [...fileList, ...imageList];
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
@@ -30,17 +36,15 @@ export function NoticeDetailPage() {
         <NoticeDetailLoading />
       ) : (
         <>
-          <NoticeDetailContentSection content={postDetail.content} images={postDetail.imageList} />
-          <NoticeDetailFileSection files={postDetail.fileList} />
+          <NoticeDetailContentSection content={postDetail.content} images={imageList} />
+          <NoticeDetailFileSection files={fileList} fileNames={fileNames} />
           <NoticeDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
-            category={category}
-            imageUrls={postDetail.imageList}
+            imageUrls={imageList}
             boardCode={boardCode}
             postId={postId}
             fileUrls={fileUrls}
-            thumbnailImage={thumbnailImage}
           />
         </>
       )}
