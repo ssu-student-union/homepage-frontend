@@ -13,6 +13,7 @@ import { PartnershipSubcategoriesType } from './type';
 import { GetPartnershipBoardPostsResponse, PartnershipPostListResDto } from '@/types/getPartnershipBoardPosts';
 import { useNavigate } from 'react-router-dom';
 import { chunkArray } from './utils';
+import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 
 export function PartnershipPage() {
   const { width } = useResize();
@@ -33,9 +34,9 @@ export function PartnershipPage() {
 
   const partnershipCount = useMemo(() => {
     if (isLoading) {
-      return 0; // 로딩 중일 때는 undefined를 반환하여 UI가 바뀌지 않도록 합니다.
+      return 0;
     }
-    return data?.data.pageInfo.totalElements; // 데이터가 로딩되면 새로운 데이터로 UI를 업데이트합니다.
+    return data?.data.pageInfo.totalElements;
   }, [data?.data.pageInfo.totalElements, isLoading]);
 
   useEffect(() => {
@@ -48,9 +49,44 @@ export function PartnershipPage() {
     }
   }, [width]);
 
-  useEffect(() => {
-    console.log(currentPage);
-  }, [currentPage]);
+  const renderPostCardBasic = (items: PartnershipPostListResDto[], size: Size) => (
+    <section className="flex h-fit w-full flex-col justify-between">
+      {items.map((item, index) => (
+        <>
+          <PostCardBasic
+            key={item.postId}
+            title={`[${item.category}] ${item.title}`}
+            subtitle={item.content}
+            date={formatYYYYMMDD(item.date)}
+            imgUrl={item.thumbNail}
+            size={size}
+            onClick={() => {
+              navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+            }}
+          />
+          {index < items.length - 1 && <Spacing size={20} direction="vertical" />}
+        </>
+      ))}
+    </section>
+  );
+
+  const renderChunkedPostCards = (chunkSize: number) =>
+    chunkArray<PartnershipPostListResDto>(data?.data.postListResDto, chunkSize)?.map((items) => (
+      <div className="flex h-fit w-full justify-between">
+        {items.map((item) => (
+          <PostCardBasic
+            key={item.postId}
+            title={`[${item.category}] ${item.title}`}
+            subtitle={item.content}
+            date={formatYYYYMMDD(item.date)}
+            imgUrl={item.thumbNail}
+            onClick={() => {
+              navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+            }}
+          />
+        ))}
+      </div>
+    ));
 
   return (
     <>
@@ -81,84 +117,26 @@ export function PartnershipPage() {
           onSubcategorySelect={onSubcategorySelect}
         />
         <Spacing size={40} direction="vertical"></Spacing>
+
         {/* xs */}
-        {width < 720 ? (
-          <section className="flex h-fit w-full flex-col justify-between">
-            {data?.data.postListResDto.map((item) => (
-              <PostCardBasic
-                key={item.postId}
-                title={item.title}
-                subtitle={item.content}
-                date={item.date}
-                imgUrl={item.thumbNail}
-                onClick={() => {
-                  navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
-                }}
-                size={Size.small}
-              ></PostCardBasic>
-            ))}
-          </section>
-        ) : null}
+        {width < 720 && renderPostCardBasic(data?.data.postListResDto || [], Size.small)}
+
         {/* sm, md, lg */}
-        {width < 1440 && width >= 720 ? (
-          <section className="flex h-fit w-full flex-col justify-between">
-            {data?.data.postListResDto.map((item) => (
-              <PostCardBasic
-                key={item.postId}
-                title={item.title}
-                subtitle={item.content}
-                date={item.date}
-                imgUrl={item.thumbNail}
-                size={Size.medium}
-                onClick={() => {
-                  navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
-                }}
-              ></PostCardBasic>
-            ))}
-          </section>
-        ) : null}
+        {width >= 720 && width < 1440 && renderPostCardBasic(data?.data.postListResDto || [], Size.medium)}
+
         {/* xl */}
-        {width >= 1440 && width < 1920 ? (
+        {width >= 1440 && width < 1920 && (
           <section className="flex h-fit w-full flex-col justify-between gap-[40px]">
-            {chunkArray<PartnershipPostListResDto>(data?.data.postListResDto, 2)?.map((items) => (
-              <div className="flex h-fit w-full justify-between">
-                {items.map((item) => (
-                  <PostCardBasic
-                    key={item.postId}
-                    title={item.title}
-                    subtitle={item.content}
-                    date={item.date}
-                    imgUrl={item.thumbNail}
-                    onClick={() => {
-                      navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
-                    }}
-                  ></PostCardBasic>
-                ))}
-              </div>
-            ))}
+            {renderChunkedPostCards(2)}
           </section>
-        ) : null}
+        )}
+
         {/* xxl */}
-        {width >= 1920 ? (
+        {width >= 1920 && (
           <section className="flex h-fit w-full flex-col justify-between gap-[40px]">
-            {chunkArray<PartnershipPostListResDto>(data?.data.postListResDto, 3)?.map((items) => (
-              <div className="flex h-fit w-full justify-between">
-                {items.map((item) => (
-                  <PostCardBasic
-                    key={item.postId}
-                    title={item.title}
-                    subtitle={item.content}
-                    date={item.date}
-                    imgUrl={item.thumbNail}
-                    onClick={() => {
-                      navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
-                    }}
-                  ></PostCardBasic>
-                ))}
-              </div>
-            ))}
+            {renderChunkedPostCards(3)}
           </section>
-        ) : null}
+        )}
       </BodyLayout>
     </>
   );

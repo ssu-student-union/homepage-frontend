@@ -8,6 +8,7 @@ const PetitionSection = () => {
   const { data } = useGetPetitionTopLiked({ page: 0, take: 2 });
   const handlePostDetail = (id: number) => {
     navigate(`/petition-notice/${id}`);
+    window.scrollTo(0, 0);
   };
 
   return (
