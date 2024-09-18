@@ -15,8 +15,11 @@ export function NoticeEditTitleSection({
   const [isUrgent, setIsUrgent] = useState<boolean>(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    onTitleChange(event.target.value);
+    const newTitle = event.target.value;
+    if (newTitle.length <= 50) {
+      setTitle(newTitle);
+      onTitleChange(newTitle);
+    }
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -79,11 +79,21 @@ module.exports = {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.3)' },
         },
+        slideDown: {
+          from: { height: '0', opacity: '0', transform: 'translateY(-20px)' },
+          to: { height: 'auto', opacity: '1', transform: 'translateY(0)' },
+        },
+        slideUp: {
+          from: { height: 'auto', opacity: '1', transform: 'translateY(0)' },
+          to: { height: '0', opacity: '0', transform: 'translateY(-20px)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         sparkle: 'sparkle 0.5s ease-in-out',
+        slideDown: 'slideDown 0.3s ease-out',
+        slideUp: 'slideUp 0.3s ease-out',
       },
     },
   },

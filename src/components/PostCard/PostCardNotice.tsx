@@ -1,6 +1,7 @@
 import { Badge } from '../ui/badge';
 import profileImgDefault from '@/assets/image/profileDefault.png';
 import { Pencil } from './const/style';
+import useTruncateText from '@/hooks/useTruncateText';
 
 interface PostCardMainProps {
   imgUrl?: string; // 게시글 이미지 url
@@ -22,6 +23,7 @@ const PostCardMain = ({
   profileName = 'US:SUM', // default 계정명 - 추후 변경 또는 삭제
   onClick,
 }: PostCardMainProps) => {
+  const truncatedTitle = useTruncateText(title, 24);
   return (
     <div
       onClick={onClick}
@@ -37,7 +39,7 @@ const PostCardMain = ({
           className={`mt-3 h-[18.75rem] w-[18.75rem] rounded-[0.5rem] bg-gray-200 object-cover xs:h-[13rem] xs:w-[13rem] xs:rounded-[0.35rem]`}
         />
         <div className="w-full flex-col text-lg font-semibold xs:text-xs">
-          <p className="line-clamp-1 w-[18.75rem] xs:w-[13rem]">{title}</p>
+          <p className="line-clamp-1 w-[18.75rem] xs:w-[13rem]">{truncatedTitle}</p>
           <div className={`flex items-center gap-3.5 text-sm font-normal text-gray-500 xs:text-[0.57rem]`}>
             <div className="flex items-center gap-1">
               <img alt="logo" src={profileImg} className={`h-4 w-4 pr-0.5 xs:h-3.5 xs:w-3.5`} />

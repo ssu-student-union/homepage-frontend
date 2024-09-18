@@ -105,7 +105,6 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       });
 
       if (response.status === 200) {
-        alert('학생 정보가 확인되었습니다');
         localStorage.setItem('userId', formValuesScouncil.accountId);
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
         if (endpoint === '/auth/council-login') {
@@ -125,13 +124,13 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
         }
         navigate('/');
       } else {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
+        alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');
         setScoucilError(true);
       }
     } catch (error) {
       setScoucilError(true);
       console.error('Error submitting form:', error);
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
+      alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');
     } finally {
       setIsButtonDisabled(false);
     }

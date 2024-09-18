@@ -4,6 +4,7 @@ import { Spacing } from '@/components/Spacing';
 import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { useResize } from '@/hooks/useResize';
 import { GetLostArticlePostsResponse } from '@/types/getBoardPosts';
+import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 import { ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,7 +43,8 @@ const LostArticleSection = () => {
               title={item.title}
               subtitle={item.content}
               imgUrl={item.thumbNail}
-              date={item.date}
+              date={formatYYYYMMDDHHMM(item.date)}
+              onClick={() => navigate(`/lost-article/${item.postId}`, { state: { postId: item.postId } })}
             ></PostCardMissing>
           ))}
         </div>
@@ -56,21 +58,23 @@ const LostArticleSection = () => {
               title={item.title}
               subtitle={item.content}
               imgUrl={item.thumbNail}
-              date={item.date}
+              date={formatYYYYMMDDHHMM(item.date)}
+              onClick={() => navigate(`/lost-article/${item.postId}`, { state: { postId: item.postId } })}
             ></PostCardMissing>
           ))}
         </div>
       ) : null}
       {/* xxl, xl, lg */}
       {width >= 1080 ? (
-        <div className="flex h-fit w-full justify-between">
+        <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
           {data?.data.postListResDto.map((item) => (
             <PostCardMissing
               key={item.postId}
               title={item.title}
               subtitle={item.content}
               imgUrl={item.thumbNail}
-              date={item.date}
+              date={formatYYYYMMDDHHMM(item.date)}
+              onClick={() => navigate(`/lost-article/${item.postId}`, { state: { postId: item.postId } })}
             ></PostCardMissing>
           ))}
         </div>

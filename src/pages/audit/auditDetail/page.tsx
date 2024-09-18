@@ -3,9 +3,9 @@ import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
 import { AuditDetailEditSection } from './container/auditDetailEditSection';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
-import { AuditDetailFileSection } from './container/auditDetailFileSection';
 import AuditDetailLoading from './container/auditDetailLoading';
 import { items } from '../const/data';
+import { AuditDetailFileSection } from './auditDetailFileSection';
 
 export function AuditDetailPage() {
   const location = useLocation();

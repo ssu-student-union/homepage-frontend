@@ -5,7 +5,7 @@ import AuditDetailLoading from '@/pages/audit/auditDetail/container/auditDetailL
 import { useLocation } from 'react-router-dom';
 import { items } from './const/data';
 import { LostDetailTopSection } from './container/lostDetailTopSection';
-import { AuditDetailFileSection } from '@/pages/audit/auditDetail/container/auditDetailFileSection';
+import { AuditDetailFileSection } from '@/pages/audit/auditDetail/auditDetailFileSection';
 
 export function LostDetailPage() {
   const location = useLocation();
