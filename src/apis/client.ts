@@ -15,7 +15,7 @@ export const client = axios.create({
 // 헤더에 토큰 추가
 client.interceptors.request.use(
   (config: CustomInternalAxiosRequestConfig) => {
-    if (config.requireAuth || localStorage.getItem('accessToken')) {
+    if (config.requireAuth && localStorage.getItem('accessToken')) {
       const accessToken = localStorage.getItem('accessToken');
       config.headers = config.headers || {};
       config.headers.Authorization = `Bearer ${accessToken}`;

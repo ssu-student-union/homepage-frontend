@@ -11,6 +11,7 @@ export interface patchBoardPostProps {
 }
 
 export interface patchBoardPostsResponse {
+  status: number;
   code: string;
   message: string;
   data: number;
