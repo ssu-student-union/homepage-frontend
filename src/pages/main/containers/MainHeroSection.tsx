@@ -7,7 +7,7 @@ export function MainHeroSection() {
     <div className="absolute z-40 h-full w-full text-primary-foreground">
       <div className="flex h-full flex-col items-center justify-center gap-[10px]">
         <div className="flex flex-col items-center text-center">
-          <div className="text-xl font-bold">제 64대 총학생회</div>
+          <div className="text-xl font-bold">제64대 총학생회</div>
           <h1 className="text-[80px] font-black leading-none">US:SUM</h1>
         </div>
         <button
