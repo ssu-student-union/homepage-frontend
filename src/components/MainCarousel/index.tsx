@@ -26,7 +26,7 @@ const MainCarousel = () => {
       <Carousel setApi={setApi} className="h-full w-full overflow-hidden">
         <CarouselContent>
           {Array.from({ length: IMAGE_COUNT }).map((_, index) => (
-            <CarouselItem className="h-screen w-full">
+            <CarouselItem key={index} className="h-screen w-full">
               <Counter>
                 <CounterItem isActive={1 === current} />
                 <CounterItem isActive={2 === current} />

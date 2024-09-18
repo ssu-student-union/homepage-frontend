@@ -16,8 +16,11 @@ export function PartnershipEditTitleSection({
   const [category, setCategory] = useState<string>('');
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    onTitleChange(event.target.value);
+    const newTitle = event.target.value;
+    if (newTitle.length <= 50) {
+      setTitle(newTitle);
+      onTitleChange(newTitle);
+    }
   };
 
   const handleCategoryChange = (value: string) => {

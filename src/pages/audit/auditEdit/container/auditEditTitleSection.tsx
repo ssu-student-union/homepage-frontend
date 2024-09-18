@@ -1,5 +1,6 @@
-import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import { useState } from 'react';
+import useTruncateText from '@/hooks/useTruncateText';
+import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 
 interface AuditEditTitleSectionProps {
   initialTitle?: string;
@@ -19,9 +20,14 @@ export function AuditEditTitleSection({
   const [title, setTitle] = useState<string>(initialTitle);
   const [category, setCategory] = useState<string>(initialCategory);
 
+  const truncatedTitle = useTruncateText(title, 50);
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-    onTitleChange(event.target.value);
+    const newTitle = event.target.value;
+    if (newTitle.length <= 50) {
+      setTitle(newTitle);
+      onTitleChange(newTitle);
+    }
   };
 
   const handleCategoryChange = (value: string) => {
@@ -35,7 +41,7 @@ export function AuditEditTitleSection({
         <input
           type="text"
           id="title"
-          value={title}
+          value={truncatedTitle}
           onChange={handleTitleChange}
           className="w-full flex-1 rounded-xs border-[0.125rem] border-gray-300 px-3 py-[0.4rem] shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
           placeholder="제목을 입력하세요"

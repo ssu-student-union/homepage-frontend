@@ -5,6 +5,7 @@ interface BoardSelectorProps<T> {
   subcategories: T[];
   selectedSubcategory: T;
   className?: string;
+  categoryStyle?: string;
   onSubcategorySelect: (category: T) => void;
 }
 
@@ -12,6 +13,7 @@ export function BoardSelector<T extends string>({
   subcategories,
   selectedSubcategory,
   className = '',
+  categoryStyle = '',
   onSubcategorySelect,
 }: BoardSelectorProps<T>) {
   return (

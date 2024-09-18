@@ -54,7 +54,7 @@ export function IntroPage() {
         handleSelection={handleSelection}
         mainCategoryName={mainCategoryName}
         subCategoryDisplayName={subCategoryDisplayName}
-        isHidden={categoryParam === 'audit' && false}
+        isHidden={categoryParam === 'audit' ? false : true}
         className={categoryParam === 'audit' ? 'mx-[200px] xs:mx-[30px] sm:mx-[30px] md:mx-[30px] lg:mx-[30px]' : ''}
       />
       <IntroContentSection category={categoryParam} subCategory={subCategoryParam} />

@@ -22,7 +22,13 @@ export function ImagePreview({ imageItem, onRemove, onClick, isThumbnail }: Imag
           대표
         </div>
       )}
-      {fileURL && <img src={fileURL} alt="uploaded" className="h-full w-full object-cover" />}
+      {fileURL && (
+        <img
+          src={fileURL}
+          alt="uploaded"
+          className="max-h-[231px] min-h-[231px] min-w-[231px] max-w-[231px] object-cover"
+        />
+      )}
       {onRemove && (
         <button
           className="absolute right-[-0.75rem] top-[-0.75rem]"

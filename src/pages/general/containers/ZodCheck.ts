@@ -17,7 +17,7 @@ export const LoginSchemaScoucil = z.object({
   accountId: z
     .string()
     .min(5, '아이디는 최소 5자 이상이어야 합니다.')
-    .max(15, '아이디는 최대 15자 이내여야 합니다.')
+    .max(25, '아이디는 최대 25자 이내여야 합니다.')
     .regex(/^[a-zA-Z0-9]+$/, '아이디는 알파벳과 숫자만 포함해야 합니다.'),
   password: z.string().min(4, '비밀번호는 최소 4자 이상이어야 합니다.'),
 });
