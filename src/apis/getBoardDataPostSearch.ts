@@ -2,7 +2,7 @@ import { getBoardPostsProps } from '@/types/apis/get';
 import { client } from './client';
 
 export const getBoardDataPostSearch = async ({
-  page,
+  page = 0,
   take,
   groupCode,
   memberCode,
