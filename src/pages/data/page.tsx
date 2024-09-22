@@ -11,7 +11,7 @@ export function Data() {
 
   return (
     <>
-      <DataTitleSection userId={userId} />
+      <DataTitleSection userId={userId ?? 'ssutudent1897'} />
       {location.pathname === '/data' && (
         <>
           <DataNavSection />
@@ -23,7 +23,6 @@ export function Data() {
           <div className="mb-6"></div>
         </>
       )}
-
       {location.pathname === '/data/edit' && userId && (
         <>
           <div className="mt-8 grid place-items-center">
