@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
 
@@ -15,9 +15,12 @@ export function HeaderLayout() {
     }
   }, []);
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
+    localStorage.clear();
     setHeaderState(State.Logout);
+    navigate('/');
   };
 
   return (

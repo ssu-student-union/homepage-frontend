@@ -17,19 +17,10 @@ export function PostPetitionDetailCommentSection() {
     PetitionCommentOrder[0]
   );
   const { id } = useParams() as ParamsType;
-  const userID = (() => {
-    try {
-      const kakaoData = localStorage.getItem('kakaoData');
-      return kakaoData ? (JSON.parse(kakaoData)?.data?.id ?? null) : null;
-    } catch (err) {
-      console.log(err);
-    }
-  })();
 
   const { data, isLoading, isFetching } = useGetBoardPostComment({
     postId: Number(id),
     type: selectedSubcategories,
-    userId: Number(userID),
   });
 
   if (!isFetching) {

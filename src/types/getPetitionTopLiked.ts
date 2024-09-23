@@ -5,6 +5,7 @@ export interface PostListDtoResponse {
   date: string;
   likeCount: number;
   onGoingStatus: '진행중' | '접수완료' | '답변완료' | '종료됨';
+  category?: string;
 }
 
 export interface GetPetitionPostsTopLikedProps {
@@ -17,12 +18,14 @@ export interface PetitionPostsTopLikedResponse {
   message: string;
   data: {
     postListResDto: PostListDtoResponse[];
+    allowedAuthorities?: string[];
+    deniedAuthorities?: string[];
     pageInfo: PageInforamtion;
   };
   isSuccess: boolean;
 }
 
-interface PageInforamtion {
+export interface PageInforamtion {
   pageNum: number;
   pageSize: number;
   totalElements: number;

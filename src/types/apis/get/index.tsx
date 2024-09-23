@@ -41,6 +41,7 @@ export interface PostDetailResDto {
   postId: number;
   categoryName: string;
   authorName: string;
+  canAuthority: string[];
   title: string;
   content: string;
   createdAt: string;
@@ -64,7 +65,6 @@ export interface GetBoardDetailResponse {
 export interface getBoardDetailProps {
   boardCode: string;
   postId: number;
-  userId?: number | null;
 }
 
 export interface getBoardPostsProps {

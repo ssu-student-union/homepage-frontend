@@ -1,5 +1,7 @@
 import { getBoardPostsProps } from '@/types/apis/get';
-import { client } from './client';
+import { clientAuth } from './client';
+import { PetitionPostsTopLikedResponse } from '@/types/getPetitionTopLiked';
+import { AxiosResponse } from 'axios';
 
 export const getBoardPostSearch = async ({
   page,
@@ -9,21 +11,19 @@ export const getBoardPostSearch = async ({
   category,
   boardCode,
   q,
-}: getBoardPostsProps) => {
-  try {
-    const response = await client.get(`/board/${boardCode}/posts/search`, {
-      params: {
-        page: page,
-        take: take,
-        groupCode: groupCode,
-        memberCode: memberCode,
-        category: category,
-        q: q,
-      },
-    });
-
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
+}: getBoardPostsProps): Promise<PetitionPostsTopLikedResponse> => {
+  const response: AxiosResponse<PetitionPostsTopLikedResponse> = await clientAuth({
+    url: `/board/${boardCode}/posts/search`,
+    method: 'get',
+    params: {
+      page: page,
+      take: take,
+      groupCode: groupCode,
+      memberCode: memberCode,
+      category: category,
+      q: q,
+    },
+  });
+  console.log(response.data);
+  return response.data;
 };

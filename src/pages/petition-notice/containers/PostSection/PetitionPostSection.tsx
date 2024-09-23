@@ -36,7 +36,7 @@ export function PetitionPostSection() {
     if (!queryClient.getQueryData(['get-board-boardCode-posts-search'])) {
       refetch();
     }
-  }, [searchKeyword, refetch]);
+  }, [queryClient, refetch]);
 
   const filteredData =
     selectedSubcategories === '전체'
@@ -72,6 +72,7 @@ export function PetitionPostSection() {
           currentPage={currentPage}
           onPageChange={handlePageChange}
           onWriteClick={handleWriteBtnClick}
+          authority={data?.data.allowedAuthorities}
         >
           <BoardSelector
             subcategories={PetitionSubcategories}

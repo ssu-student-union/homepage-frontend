@@ -4,7 +4,7 @@ import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { Button } from '@/components/ui/button';
 import { PostCardNotice } from '@/components/PostCard/PostCardNotice';
 import { useResize } from '@/hooks/useResize';
-import { MainNotices, MainNoticesType } from '@/types';
+import { MainNotices, MainNoticesType } from '@/types/boardSelector';
 import { useNavigate } from 'react-router-dom';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { useEffect, useState } from 'react';

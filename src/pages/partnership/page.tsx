@@ -7,7 +7,7 @@ import { Size } from '@/components/PostCard/const/state';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PartnershipSubcategories } from './const';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
+// import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { useEffect, useMemo, useState } from 'react';
 import { PartnershipSubcategoriesType } from './type';
 import { GetPartnershipBoardPostsResponse, PartnershipPostListResDto } from '@/types/getPartnershipBoardPosts';
@@ -29,20 +29,13 @@ export function PartnershipPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTake, setCurrentTake] = useState(9);
 
-  const { data, isLoading } = searchQuery
-    ? useGetBoardPostSearch<GetPartnershipBoardPostsResponse>({
-        page: currentPage - 1,
-        take: currentTake,
-        category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
-        boardCode: '제휴게시판',
-        q: searchQuery,
-      })
-    : useGetBoardPosts<GetPartnershipBoardPostsResponse>({
-        page: currentPage - 1,
-        take: currentTake,
-        category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
-        boardCode: '제휴게시판',
-      });
+  const { data, isLoading } = useGetBoardPostSearch<GetPartnershipBoardPostsResponse>({
+    page: currentPage - 1,
+    take: currentTake,
+    category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
+    boardCode: '제휴게시판',
+    q: searchQuery,
+  });
 
   const posts = data?.data.postListResDto || []; // 게시물 리스트
   const partnershipCount = useMemo(() => {
