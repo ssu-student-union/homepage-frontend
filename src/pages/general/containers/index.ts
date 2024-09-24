@@ -13,7 +13,6 @@ export const faculties = [
   '공과대학',
   'IT대학',
   '융합특성화자유전공학부',
-  '차세대반도체학과',
 ];
 
 export const departments: DepartmentMap = {
