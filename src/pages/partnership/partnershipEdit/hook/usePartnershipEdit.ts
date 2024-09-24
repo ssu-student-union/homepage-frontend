@@ -29,6 +29,14 @@ export function usePartnershipEdit() {
 
   const handleSubmit = async () => {
     try {
+      if (images.length === 0) {
+        alert('이미지 파일을 1개 이상 추가해주세요.');
+        return;
+      }
+      if (category === '') {
+        alert('카테고리를 선택해주세요.');
+        return;
+      }
       const uploadResponse = await uploadFiles({
         boardCode: '제휴게시판',
         files,
