@@ -36,7 +36,10 @@ export function ImagePreview({ imageItem, onRemove = () => {}, onClick = () => {
           onRemove();
         }}
       >
-        <XCircle size={32} color="#2F4BF7" weight="fill" />
+        <div className="relative">
+          <div className="absolute inset-0 m-auto h-[24px] w-[24px] rounded-full bg-white" />
+          <XCircle size={32} color="#2F4BF7" weight="fill" className="relative z-10" />
+        </div>
       </button>
     </div>
   );
