@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import { useBlockImageUpload } from '@/hooks/editor/useBlockImageUpload';
 
 interface NoticeEditContentProps {
   onContentChange: (content: string) => void;
@@ -26,6 +27,8 @@ export function NoticeEditContentSection({ onContentChange, initialValue = '' }:
       onContentChange(content);
     }
   };
+
+  useBlockImageUpload(editorRef);
 
   useEffect(() => {
     handleResize();
