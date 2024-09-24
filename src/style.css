@@ -183,3 +183,21 @@ body {
     font-size: 1.5rem;
   }
 }
+
+@media screen and (max-height: 838px) {
+  .register_text {
+    font-size: 450px;
+  }
+}
+
+@media screen and (max-height: 720px) {
+  .register_text {
+    font-size: 380px;
+  }
+}
+
+@media screen and (max-height: 620px) {
+  .register_text {
+    font-size: 290px;
+  }
+}
