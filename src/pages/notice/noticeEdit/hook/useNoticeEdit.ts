@@ -29,6 +29,11 @@ export function useNoticeEdit() {
 
   const handleSubmit = async () => {
     try {
+      if (images.length === 0) {
+        alert('이미지 파일을 1개 이상 추가해주세요.');
+        return;
+      }
+
       const uploadResponse = await uploadFiles({
         boardCode: '공지사항게시판',
         files,

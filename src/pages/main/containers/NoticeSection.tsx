@@ -30,7 +30,7 @@ const NoticeSection = () => {
   const { data, noticeCount } = useNoticePost({
     boardCode: '공지사항게시판',
     groupCode: '중앙기구',
-    memberCode: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
+    memberCode: selectedSubcategories === '전체' ? '' : selectedSubcategories,
     take,
   });
 
@@ -54,7 +54,7 @@ const NoticeSection = () => {
       <Spacing size={width > 390 ? 32 : 22} direction="vertical" />
       <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
         {noticeCount ? (
-          <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide xs:pl-[3.125rem] sm:pl-[3.125rem] md:pl-[3.125rem] lg:px-[12.5rem] xl:px-[12.5rem] xxl:px-[12.5rem]">
+          <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
             {data?.data.postListResDto.map((notice) => (
               <PostCardNotice
                 key={notice.postId}

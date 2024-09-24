@@ -14,8 +14,8 @@ export const useNoticePost = ({ boardCode, groupCode, memberCode, take }: UseNot
 
   const { data, isLoading } = useGetBoardPosts<GetNoticeBoardPostsResponse>({
     boardCode,
-    page,
     take,
+    page,
     groupCode,
     memberCode,
   });
