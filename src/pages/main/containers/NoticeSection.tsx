@@ -10,6 +10,7 @@ import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { useEffect, useState } from 'react';
 import { useNoticePost } from '../hook/useNoticePost';
 import { useTodayPost } from '../hook/useTodayPost';
+import { ArrowUpRight } from 'lucide-react';
 
 const NoticeSection = () => {
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<MainNoticesType>(MainNotices[0]);
@@ -38,7 +39,19 @@ const NoticeSection = () => {
 
   return (
     <section className="w-full whitespace-nowrap">
-      <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">공지사항</h1>
+      <div className="flex items-center">
+        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">공지사항</h1>
+        <ArrowUpRight
+          onClick={() => {
+            navigate(`/lost-article?category=state`);
+            window.scrollTo(0, 0);
+          }}
+          className="ml-2 cursor-pointer"
+          size={24}
+          strokeWidth={1.5}
+        />
+      </div>
+
       <Spacing size={11} direction="vertical" />
       <p className="font-bold">
         <span>오늘 </span>
@@ -54,7 +67,7 @@ const NoticeSection = () => {
       <Spacing size={width > 390 ? 32 : 22} direction="vertical" />
       <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
         {noticeCount ? (
-          <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
+          <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
             {data?.data.postListResDto.map((notice) => (
               <PostCardNotice
                 key={notice.postId}

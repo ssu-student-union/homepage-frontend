@@ -10,3 +10,8 @@ export const todayPostCountState = atomFamily<number, string>({
   key: 'todayPostCountState',
   default: 0,
 });
+
+export const loginState = atom({
+  key: 'loginState',
+  default: false,
+});
