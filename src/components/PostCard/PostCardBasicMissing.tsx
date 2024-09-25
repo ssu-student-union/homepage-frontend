@@ -33,8 +33,8 @@ const PostCard = ({
 }: PostCardProps) => {
   const styles = getStyles(size);
 
-  const maxTitleLength = size === Size.default ? 17 : 30;
-  const maxSubtitleLength = size === Size.default ? 24 : 50;
+  const maxTitleLength = size === Size.default ? 16 : 12;
+  const maxSubtitleLength = size === Size.default ? 24 : 18;
 
   const truncatedTitle = useTruncateText(title, maxTitleLength as number);
   const truncatedSubtitle = useTruncateText(subtitle, maxSubtitleLength as number);

@@ -141,7 +141,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   };
 
   const handleCertifyError = () => {
-    navigate('//register/errorapply');
+    navigate('/register/errorapply');
   };
 
   return (

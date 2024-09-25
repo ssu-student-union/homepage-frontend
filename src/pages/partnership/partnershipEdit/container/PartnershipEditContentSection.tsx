@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { useResize } from '@/hooks/useResize';
+import { useBlockImageUpload } from '@/hooks/editor/useBlockImageUpload';
 
 interface PartnershipEditContentProps {
   onContentChange: (content: string) => void;
@@ -14,6 +15,8 @@ export function PartnershipEditContentSection({ onContentChange, initialValue = 
   const editorRef = useRef<Editor>(null);
 
   const { width } = useResize();
+
+  useBlockImageUpload(editorRef);
 
   useEffect(() => {
     if (width <= 1080) {
