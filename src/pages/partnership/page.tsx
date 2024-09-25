@@ -104,6 +104,7 @@ export function PartnershipPage() {
             title={`[${item.category}] ${item.title}`}
             subtitle={item.content}
             date={formatYYYYMMDD(item.date)}
+            profileName={'US:SUM'}
             imgUrl={item.thumbNail}
             onClick={() => {
               if (data?.data.deniedAuthorities.includes('READ')) {

@@ -102,7 +102,7 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
           subtitle={post.content}
           date={formattedDate}
           badgeType={status}
-          profileName={'중앙'}
+          profileName={'US:SUM'}
           className="cursor-pointer"
           onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />

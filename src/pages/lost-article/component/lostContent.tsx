@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
+import { PostCardMissing } from '@/components/PostCard/PostCardBasicMissing';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { Size } from '@/components/PostCard/const/state';
 import { useEffect, useState } from 'react';
@@ -90,18 +90,16 @@ export function LostContent({ initPosts, isLoading }: LostContentProps) {
 
   function RenderCard({ post, size }: RenderCardProps) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
-    const status = post.status === '새로운' ? 'New' : 'Default';
     const thumbnail = post.thumbNail || undefined;
 
     return (
       <div key={post.postId} className="xs-pb[20px] sm:pb-[20px] md:pb-[20px] lg:pb-[20px]">
-        <PostCardBasic
+        <PostCardMissing
           size={size}
           imgUrl={thumbnail}
           title={post.title}
           subtitle={post.content}
           date={formattedDate}
-          badgeType={status}
           className="cursor-pointer"
           onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />

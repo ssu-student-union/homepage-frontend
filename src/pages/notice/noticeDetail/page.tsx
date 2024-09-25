@@ -12,7 +12,6 @@ export function NoticeDetailPage() {
   const boardCode: string = '공지사항게시판';
 
   const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
-  console.log(resp);
 
   const postDetail = resp?.data.postDetailResDto;
 
