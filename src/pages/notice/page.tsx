@@ -13,7 +13,6 @@ export function NoticePage() {
   const boardCode = '공지사항게시판';
 
   const { data, totalPages, currentPage, handlePageChange, isLoading, subcategories } = useNoticeBoard(boardCode);
-
   const { todayPostCount, isLoading: isPostsLoading } = useTodayPosts(boardCode);
 
   return (

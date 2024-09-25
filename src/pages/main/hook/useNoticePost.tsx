@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { GetNoticeBoardPostsResponse } from '@/types/getBoardPosts';
+import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
 
 interface UseNoticePostProps {
   boardCode: string;
@@ -12,7 +12,7 @@ interface UseNoticePostProps {
 export const useNoticePost = ({ boardCode, groupCode, memberCode, take }: UseNoticePostProps) => {
   const [page] = useState(0);
 
-  const { data, isLoading } = useGetBoardPosts<GetNoticeBoardPostsResponse>({
+  const { data, isLoading } = useGetBoardPostSearch<GetNoticeBoardPostsResponse>({
     boardCode,
     take,
     page,

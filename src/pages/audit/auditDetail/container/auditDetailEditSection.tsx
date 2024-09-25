@@ -9,7 +9,7 @@ interface AuditDetailEditProps {
   imageUrls: string[];
   content: string;
   title: string;
-  authority: string[];
+  authority?: string[];
   isAuthor: boolean;
   baseUrl?: string;
   noticeUrl?: string;
@@ -22,7 +22,6 @@ export function AuditDetailEditSection({
   imageUrls,
   baseUrl = `/`,
   noticeUrl = `/`,
-  authority,
   isAuthor,
 }: AuditDetailEditProps) {
   const navigate = useNavigate();
@@ -38,9 +37,11 @@ export function AuditDetailEditSection({
   return (
     <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
       <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
-        {authority.includes('DELETE') ? <DeleteButton onClick={handleDelete} /> : null}
         {isAuthor ? (
-          <EditButton onClick={() => navigate(`${baseUrl}/${postId}/patch`, { state: { postId: postId } })} />
+          <>
+            <DeleteButton onClick={handleDelete} />
+            <EditButton onClick={() => navigate(`${baseUrl}/${postId}/patch`, { state: { postId: postId } })} />
+          </>
         ) : null}
         <ListButton onClick={() => navigate(noticeUrl)} />
       </div>

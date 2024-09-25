@@ -19,11 +19,11 @@ const NoticeSection = () => {
 
   useEffect(() => {
     if (width >= 1440) {
-      setTake(3);
-    } else if (width >= 1080) {
-      setTake(2);
-    } else if (width >= 720 || width >= 390) {
       setTake(4);
+    } else if (width >= 1080) {
+      setTake(3);
+    } else if (width >= 720 || width >= 390) {
+      setTake(2);
     }
   }, [width]);
 
