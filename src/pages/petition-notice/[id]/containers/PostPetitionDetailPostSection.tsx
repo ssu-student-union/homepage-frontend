@@ -8,10 +8,10 @@ import { Logo } from '@/components/Logo/Logo';
 import Breadcrumb from '@/components/Breadcrumb';
 import { PostHead } from '@/components/PostHead';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
-import { delBoardPosts } from '@/apis/delBoardPosts';
 import { usePostPostReaction } from '@/hooks/usePostPostReaction';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
 
 type ParamsType = {
   id: string;
@@ -45,15 +45,15 @@ export function PostPetitionDetailPostSection() {
   const replaceSN = (student_number: string | null, chracter: string) => {
     return student_number!.substring(0, 2) + chracter.repeat(4) + student_number!.substring(6);
   };
-
+  const { mutate } = useDelBoardPosts();
   const handleDeleteContent = async () => {
     const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
     if (deleteCheck) {
-      await delBoardPosts(
-        '청원게시판',
-        data?.data.postDetailResDto.postId || null,
-        data?.data.postDetailResDto.imageList || null
-      );
+      mutate({
+        boardCode: '청원게시판',
+        postId: data?.data.postDetailResDto.postId as number,
+        fileurl: data?.data.postDetailResDto.imageList ?? [],
+      });
       navigate('/petition-notice');
     } else {
       return;
@@ -61,7 +61,7 @@ export function PostPetitionDetailPostSection() {
   };
 
   const handleEditContent = () => {
-    localStorage.setItem('edit-post', JSON.stringify(data?.data.postDetailResDto.postId));
+    localStorage.setItem('oldContent', JSON.stringify(data?.data));
     navigate('/petition-notice/edit');
   };
 

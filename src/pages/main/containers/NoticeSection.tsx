@@ -19,11 +19,11 @@ const NoticeSection = () => {
 
   useEffect(() => {
     if (width >= 1440) {
-      setTake(3);
-    } else if (width >= 1080) {
-      setTake(2);
-    } else if (width >= 720 || width >= 390) {
       setTake(4);
+    } else if (width >= 1080) {
+      setTake(3);
+    } else if (width >= 720 || width >= 390) {
+      setTake(2);
     }
   }, [width]);
 
@@ -54,7 +54,7 @@ const NoticeSection = () => {
       <Spacing size={width > 390 ? 32 : 22} direction="vertical" />
       <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
         {noticeCount ? (
-          <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
+          <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[10px] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
             {data?.data.postListResDto.map((notice) => (
               <PostCardNotice
                 key={notice.postId}

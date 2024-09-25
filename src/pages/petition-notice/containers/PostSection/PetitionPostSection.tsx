@@ -35,7 +35,7 @@ export function PetitionPostSection() {
 
   useEffect(() => {
     if (location.state?.cleanupEditPost) {
-      localStorage.removeItem('edit-post');
+      localStorage.removeItem('oldContent');
     }
   }, [location]);
 
@@ -51,7 +51,7 @@ export function PetitionPostSection() {
       : data?.data.postListResDto.filter((item) => item.onGoingStatus === selectedSubcategories);
 
   const handleWriteBtnClick = () => {
-    if (localStorage.getItem('kakaoData')) {
+    if (localStorage.getItem('accessToken')) {
       navigate('/petition-notice/edit');
     } else {
       window.alert('청원 글 작성은 로그인 후 이용이 가능합니다!');
@@ -75,7 +75,7 @@ export function PetitionPostSection() {
       ) : (
         <BodyLayout
           title={isFetching && isLoading ? '' : '청원글'}
-          totalPages={data?.data.pageInfo.totalPages as number}
+          totalPages={filteredData && filteredData?.length ? (data?.data.pageInfo.totalPages ?? 1) : 0}
           currentPage={currentPage}
           onPageChange={handlePageChange}
           onWriteClick={handleWriteBtnClick}
@@ -86,7 +86,7 @@ export function PetitionPostSection() {
             selectedSubcategory={selectedSubcategories}
             onSubcategorySelect={handleSubcategorySelect}
           />
-          {data?.data && data.data.postListResDto.length > 0 ? (
+          {filteredData && filteredData.length > 0 ? (
             <>
               {' '}
               <Spacing size={40} direction="vertical"></Spacing>

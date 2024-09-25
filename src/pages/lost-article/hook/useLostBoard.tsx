@@ -39,7 +39,7 @@ export function useLostBoard(boardCode: string) {
   }, [queryClient, refetch]);
 
   // const posts: LostArticleContentResponse[] = data?.data?.postListResDto || [];
-  const totalPages: number = data?.data?.pageInfo?.totalPages || 1;
+  const totalPages: number = data?.data?.pageInfo?.totalPages ?? 0;
 
   return {
     data,

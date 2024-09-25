@@ -9,7 +9,7 @@ export const usePatchBoardPosts = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getPetitionTopLiked'] });
       queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts'] });
-      queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts-postId'] });
+      queryClient.refetchQueries({ queryKey: ['get-board-boardCode-posts-postId'] });
     },
   });
 };
