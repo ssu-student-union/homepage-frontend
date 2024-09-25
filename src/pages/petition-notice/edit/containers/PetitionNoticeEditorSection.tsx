@@ -34,9 +34,8 @@ export function PetitionNoticeEditorSection() {
   const parsedContent = JSON.parse(oldContent);
 
   useEffect(() => {
-    if (oldContent) {
+    if (parsedContent) {
       const postDetailResDto = parsedContent.postDetailResDto;
-
       setInitialTitle(postDetailResDto.title);
       setInitialContent(JSON.parse(postDetailResDto.content));
       setInitialCategoryName(postDetailResDto.categoryName);
@@ -44,7 +43,7 @@ export function PetitionNoticeEditorSection() {
     }
 
     setLoading(false);
-  }, [oldContent, parsedContent]);
+  }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 50) {
@@ -163,12 +162,12 @@ export function PetitionNoticeEditorSection() {
       if (history.action === 'POP') {
         if (locationKeys[1] === location.location.key) {
           setLocationKeys(([_, ...keys]) => keys);
-          localStorage.removeItem('edit-post');
+          localStorage.removeItem('oldContent');
         } else {
           setLocationKeys((keys) => [location.location.key, ...keys]);
           const check = window.confirm('작성 또는 편집한 내용은 저장되지 않습니다. 페이지를 나가시겠습니까?');
           if (check) {
-            localStorage.removeItem('edit-post');
+            localStorage.removeItem('oldContent');
           }
         }
       }
