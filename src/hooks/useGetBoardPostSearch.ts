@@ -1,6 +1,7 @@
 import { getBoardPostSearch } from '@/apis/getBoardPostSearch';
 import { getBoardPostsProps } from '@/types/apis/get';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 export const useGetBoardPostSearch = <T>({
   page,
@@ -10,11 +11,12 @@ export const useGetBoardPostSearch = <T>({
   category,
   boardCode,
   q,
-}: getBoardPostsProps) => {
-  return useQuery<T>({
-    queryKey: ['get-board-boardCode-posts-search', page, take, groupCode, memberCode, category, boardCode, q],
-    queryFn: () =>
-      getBoardPostSearch({
+}: getBoardPostsProps): UseQueryResult<T, AxiosError> => {
+  return useQuery<T, AxiosError>({
+    staleTime: 0,
+    queryKey: ['get-board-boardCode-posts-search', page, take, groupCode, memberCode, category, q],
+    queryFn: async () => {
+      const response = getBoardPostSearch({
         page,
         take,
         groupCode,
@@ -22,6 +24,8 @@ export const useGetBoardPostSearch = <T>({
         category,
         boardCode,
         q,
-      }),
+      });
+      return response as T;
+    },
   });
 };

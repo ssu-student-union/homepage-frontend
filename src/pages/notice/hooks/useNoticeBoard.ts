@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { useNoticeCategory } from './useNoticeCategory';
@@ -10,7 +9,8 @@ import {
   collegeSubCategoryToCode,
   collegeSubCategoryMap,
 } from '../const/data';
-import { Post } from '@/types/apis/get';
+import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
+import { NoticeResponse } from '../types';
 
 export function useNoticeBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
@@ -28,9 +28,9 @@ export function useNoticeBoard(boardCode: string) {
 
   useEffect(() => {
     handlePageChange(1);
-  }, [urlCategory, urlSubCategory]);
+  }, [urlCategory, urlSubCategory, handlePageChange]);
 
-  const { data, isLoading, isError } = useGetBoardPosts<any>({
+  const { data, isLoading, isError } = useGetBoardPostSearch<NoticeResponse>({
     boardCode,
     take: itemsPerPage,
     page: currentPage - 1,
@@ -38,11 +38,11 @@ export function useNoticeBoard(boardCode: string) {
     memberCode: selectedSubCategory,
   });
 
-  const posts: Post[] = data?.data?.postListResDto || [];
+  // const posts: Post[] = data?.data?.postListResDto || [];
   const totalPages: number = data?.data?.pageInfo?.totalPages || 1;
 
   return {
-    posts,
+    data,
     totalPages,
     currentPage,
     handlePageChange,

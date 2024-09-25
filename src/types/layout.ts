@@ -13,6 +13,7 @@ export interface BodyLayoutProps {
   totalPages: number;
   currentPage: number;
   className?: string;
+  authority?: string[];
   onPageChange: (page: number) => void;
   onWriteClick: () => void;
 }

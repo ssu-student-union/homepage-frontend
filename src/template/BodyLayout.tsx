@@ -12,6 +12,7 @@ export function BodyLayout({
   currentPage,
   onPageChange,
   onWriteClick,
+  authority,
   className = '',
 }: BodyLayoutProps) {
   return (
@@ -28,7 +29,7 @@ export function BodyLayout({
             </div>
           </div>
           <div className="flex justify-end xs:justify-center sm:justify-center">
-            <WriteButton onClick={onWriteClick} />
+            {authority?.includes('WRITE') ? <WriteButton onClick={onWriteClick} /> : null}
           </div>
         </div>
       </div>

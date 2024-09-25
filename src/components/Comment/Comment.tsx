@@ -40,13 +40,13 @@ export function Comment({ comment, replyComment, className, isReply = false, com
     setToggleIsOpen(false);
     if (!isReply) {
       try {
-        await delCommentMutation.mutateAsync(comment?.id!);
+        await delCommentMutation.mutateAsync(comment?.id as number);
       } catch (err) {
         console.log(err);
       }
     } else {
       try {
-        await delReplyCommentMutation.mutateAsync(replyComment?.id!);
+        await delReplyCommentMutation.mutateAsync(replyComment?.id as number);
       } catch (err) {
         console.log(err);
       }
@@ -79,7 +79,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
   const postReplyCommentReactionMutation = usePostPostReplyCommentReaction();
 
   const handleLikeButton = async () => {
-    if (!localStorage.getItem('kakaoData')) {
+    if (!localStorage.getItem('accessToken')) {
       const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
       if (check) {
         navigate('/register');
@@ -87,37 +87,41 @@ export function Comment({ comment, replyComment, className, isReply = false, com
         return;
       }
     } else {
-      if (!isReply) {
-        const post_comment_reaction = {
-          commentId: comment?.id!,
-          reaction: 'like',
-        };
-        try {
-          if (!isLiked) {
-            setAnimate(true);
-            setTimeout(() => setAnimate(false), 500);
-          }
-
-          const response = await postCommentReactionMutation.mutateAsync(post_comment_reaction);
-          setLikeCount(response.data.likeCount);
-          setIsLiked((prev) => !prev);
-        } catch (err) {
-          console.log(err);
-        }
+      if (!commentData?.canAuthority.includes('REACTION')) {
+        alert('자치기구는 청원 게시물 댓글에 대한 좋아요 권한이 없습니다.');
       } else {
-        const post_reply_comment_reaction = {
-          replycommentId: replyComment?.id!,
-          reaction: 'like',
-        };
-        try {
-          if (!replyComment?.isLiked) {
-            setAnimate(true);
-            setTimeout(() => setAnimate(false), 500);
+        if (!isReply) {
+          const post_comment_reaction = {
+            commentId: comment?.id as number,
+            reaction: 'like',
+          };
+          try {
+            if (!isLiked) {
+              setAnimate(true);
+              setTimeout(() => setAnimate(false), 500);
+            }
+
+            const response = await postCommentReactionMutation.mutateAsync(post_comment_reaction);
+            setLikeCount(response.data.likeCount);
+            setIsLiked((prev) => !prev);
+          } catch (err) {
+            console.log(err);
           }
-          await postReplyCommentReactionMutation.mutateAsync(post_reply_comment_reaction);
-          setIsLiked((prev) => !prev);
-        } catch (err) {
-          console.log(err);
+        } else {
+          const post_reply_comment_reaction = {
+            replycommentId: replyComment?.id as number,
+            reaction: 'like',
+          };
+          try {
+            if (!replyComment?.isLiked) {
+              setAnimate(true);
+              setTimeout(() => setAnimate(false), 500);
+            }
+            await postReplyCommentReactionMutation.mutateAsync(post_reply_comment_reaction);
+            setIsLiked((prev) => !prev);
+          } catch (err) {
+            console.log(err);
+          }
         }
       }
     }
@@ -141,11 +145,12 @@ export function Comment({ comment, replyComment, className, isReply = false, com
       <div ref={commentRef} className={cn('mb-8 flex flex-col rounded-[10px] bg-gray-50 px-5 py-[30px]', className)}>
         {isEditing ? (
           <TextArea
-            value={editContent}
-            comment_count={editContent.length}
             className="w-full"
+            value={editContent}
             isReply={isReply}
             isEdit={true}
+            isAuthority={commentData?.canAuthority}
+            comment_count={editContent.length}
             commentId={comment?.id}
             replycommentId={replyComment?.id}
             onEditSuccess={handleEditSuccess}
@@ -167,11 +172,15 @@ export function Comment({ comment, replyComment, className, isReply = false, com
                 </div>
               </div>
               <div className="relative" ref={toggleRef}>
-                {commentData!.isAuthor && !commentData!.isDeleted ? (
-                  <span className="cursor-pointer" onClick={handleToggle}>
-                    <DotsThree size={mobile_screen ? '13px' : '20px'} weight="bold" />
-                  </span>
-                ) : null}
+                {commentData!.isDeleted ? null : (
+                  <>
+                    {commentData!.isAuthor || commentData?.canAuthority.includes('DELETE_COMMENT') ? (
+                      <span className="cursor-pointer" onClick={handleToggle}>
+                        <DotsThree size={mobile_screen ? '13px' : '20px'} weight="bold" />
+                      </span>
+                    ) : null}
+                  </>
+                )}
 
                 <div className="absolute right-0 z-10">
                   {toggleIsOpen ? (

@@ -10,7 +10,8 @@ import { PostHead } from '@/components/PostHead';
 import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 import { usePostPostReaction } from '@/hooks/usePostPostReaction';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 type ParamsType = {
   id: string;
@@ -18,14 +19,6 @@ type ParamsType = {
 
 export function PostPetitionDetailPostSection() {
   const { id } = useParams() as ParamsType;
-  const userID = (() => {
-    try {
-      const kakaoData = localStorage.getItem('kakaoData');
-      return kakaoData ? (JSON.parse(kakaoData)?.data?.id ?? null) : null;
-    } catch (err) {
-      console.log(err);
-    }
-  })();
 
   const breadcrumbItems = new Map<string, string | null>([
     ['소통', null],
@@ -37,11 +30,17 @@ export function PostPetitionDetailPostSection() {
   const { width } = useResize();
   const mobile_screen = width < 391;
 
-  const { isLoading, data } = useGetBoardDetail({
+  const queryClient = useQueryClient();
+  const { isLoading, data, refetch } = useGetBoardDetail({
     boardCode: '청원게시판',
     postId: Number(id),
-    userId: userID as number,
   });
+
+  useEffect(() => {
+    if (!queryClient.getQueryData(['get-board-boardCode-posts-postId'])) {
+      refetch();
+    }
+  }, [queryClient, refetch]);
 
   const replaceSN = (student_number: string | null, chracter: string) => {
     return student_number!.substring(0, 2) + chracter.repeat(4) + student_number!.substring(6);
@@ -75,7 +74,7 @@ export function PostPetitionDetailPostSection() {
   const [animate, setAnimate] = useState(false);
 
   const handleLikeButton = async () => {
-    if (!localStorage.getItem('kakaoData')) {
+    if (!localStorage.getItem('accessToken')) {
       const check = window.confirm('로그인 회원만 사용 가능한 기능입니다!');
       if (check) {
         navigate('/register');
@@ -83,20 +82,22 @@ export function PostPetitionDetailPostSection() {
         return;
       }
     } else {
-      const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
-      const post_reaction = {
-        postId: data?.data.postDetailResDto.postId || null,
-        userId: Number(userID),
-        reaction: 'like',
-      };
-      try {
-        if (!data?.data.postDetailResDto.isLiked) {
-          setAnimate(true);
-          setTimeout(() => setAnimate(false), 500);
+      if (!data?.data.postDetailResDto.canAuthority.includes('REACTION')) {
+        alert('자치기구는 청원 게시물에 대한 좋아요 권한이 없습니다.');
+      } else {
+        const post_reaction = {
+          postId: data?.data.postDetailResDto.postId || null,
+          reaction: 'like',
+        };
+        try {
+          if (!data?.data.postDetailResDto.isLiked) {
+            setAnimate(true);
+            setTimeout(() => setAnimate(false), 500);
+          }
+          await mutation.mutateAsync(post_reaction);
+        } catch (err) {
+          console.log(err);
         }
-        await mutation.mutateAsync(post_reaction);
-      } catch (err) {
-        console.log(err);
       }
     }
   };
@@ -143,7 +144,10 @@ export function PostPetitionDetailPostSection() {
               {data?.data.postDetailResDto.officialCommentList.length === 0 ? null : (
                 <>
                   {data?.data.postDetailResDto.officialCommentList.map((official_comment) => (
-                    <div className="mb-5 w-full rounded-[10px] border border-primary bg-gray-50 p-8">
+                    <div
+                      className="mb-5 w-full rounded-[10px] border border-primary bg-gray-50 p-8"
+                      key={official_comment.id}
+                    >
                       <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
                         <Logo size={mobile_screen ? '15px' : '26px'} fill="#2F4BF7" />
                         <span className="ml-2 text-[#2F4BF7]">{official_comment.authorName} 공식답변</span>
@@ -156,7 +160,9 @@ export function PostPetitionDetailPostSection() {
                 </>
               )}
               <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
-                {data?.data.postDetailResDto.isAuthor ? <DeleteButton onClick={handleDeleteContent} /> : null}
+                {data?.data.postDetailResDto.isAuthor || data?.data.postDetailResDto.canAuthority.includes('DELETE') ? (
+                  <DeleteButton onClick={handleDeleteContent} />
+                ) : null}
                 {data?.data.postDetailResDto.isAuthor ? <EditButton onClick={handleEditContent} /> : null}
                 <ListButton onClick={handleMoveToList} />
               </div>

@@ -120,7 +120,7 @@ export function AuditContent({ initPosts, isLoading }: AuditContentProps) {
           date={formattedDate}
           badgeType={status}
           profileImg={auditLogo}
-          profileName={'한빛'}
+          profileName={'중앙감사위원회 한빛'}
           className="cursor-pointer"
           onClick={() => handleCardClick(post.postId.toString(), post.postId, navigate)}
         />

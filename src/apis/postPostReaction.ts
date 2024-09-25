@@ -4,15 +4,12 @@ import { postPostReactionProps, postPostReactionResponse } from '@/types/postPos
 
 export const postPostReaction = async ({
   postId,
-  userId,
+
   reaction,
 }: postPostReactionProps): Promise<postPostReactionResponse> => {
   const response: AxiosResponse<postPostReactionResponse> = await clientAuth({
     url: `/toggle/posts/${postId}`,
     method: 'post',
-    params: {
-      userId: userId,
-    },
     data: {
       reaction: reaction,
     },

@@ -9,7 +9,7 @@ import { todayPostCountState } from '@/recoil/atoms/atom';
 export function useTodayPosts(boardCode: string) {
   const { urlCategory, urlSubCategory } = useNoticeCategory();
   const selectedCategory = categoryToCode[urlCategory];
-  var selectedSubCategory;
+  let selectedSubCategory;
   if (selectedCategory === '중앙기구') {
     selectedSubCategory = subCategoryToCode[urlSubCategory];
   } else {

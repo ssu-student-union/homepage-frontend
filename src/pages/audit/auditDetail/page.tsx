@@ -32,7 +32,12 @@ export function AuditDetailPage() {
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
-      <AuditDetailTopSection items={items} title={postDetail.title} date={postDetail.createdAt} />
+      <AuditDetailTopSection
+        items={items}
+        title={postDetail.title}
+        date={postDetail.createdAt}
+        authorName={postDetail.authorName}
+      />
       {isLoading ? (
         <AuditDetailLoading />
       ) : (
@@ -40,6 +45,8 @@ export function AuditDetailPage() {
           <AuditDetailContentSection content={postDetail.content} images={imageList} />
           <AuditDetailFileSection files={fileList} fileNames={fileNameList} />
           <AuditDetailEditSection
+            authority={postDetail.canAuthority}
+            isAuthor={postDetail.isAuthor}
             title={postDetail.title}
             content={postDetail.content}
             imageUrls={imageList}

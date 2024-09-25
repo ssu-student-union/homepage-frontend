@@ -13,15 +13,16 @@ type ParamsType = {
 export function TextArea({
   children,
   className,
+  value = '',
   isReply = false,
   isEdit = false,
+  isAuthority,
+  comment_count = 0,
   commentId,
   replycommentId,
   onReplySuccess,
   onEditSuccess,
   onCancel,
-  value = '',
-  comment_count = 0,
 }: TextAreaProps) {
   const { id } = useParams() as ParamsType;
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -55,29 +56,33 @@ export function TextArea({
         return;
       }
     } else {
-      try {
-        if (!isEdit) {
-          if (!isReply) {
-            await postBoardCommentMutation.mutateAsync({ postId: Number(id), content: text });
+      if (isAuthority?.includes('COMMENT')) {
+        try {
+          if (!isEdit) {
+            if (!isReply) {
+              await postBoardCommentMutation.mutateAsync({ postId: Number(id), content: text });
+            } else {
+              await postBoardReplyCommentMutation.mutateAsync({ commentId: commentId!, content: text });
+            }
+            if (onReplySuccess) onReplySuccess();
           } else {
-            await postBoardReplyCommentMutation.mutateAsync({ commentId: commentId!, content: text });
+            if (!isReply) {
+              await patchBoardCommentMutation.mutateAsync({ commentId: commentId!, content: text });
+            } else {
+              await patchBoardReplyCommentMutation.mutateAsync({
+                replycommentId: replycommentId!,
+                content: text,
+              });
+            }
+            if (onEditSuccess) onEditSuccess(text);
           }
-          if (onReplySuccess) onReplySuccess();
-        } else {
-          if (!isReply) {
-            await patchBoardCommentMutation.mutateAsync({ commentId: commentId!, content: text });
-          } else {
-            await patchBoardReplyCommentMutation.mutateAsync({
-              replycommentId: replycommentId!,
-              content: text,
-            });
-          }
-          if (onEditSuccess) onEditSuccess(text);
+          setText('');
+          setCommentCount(0);
+        } catch (err) {
+          console.error(err);
         }
-        setText('');
-        setCommentCount(0);
-      } catch (err) {
-        console.error(err);
+      } else {
+        alert('댓글 작성에 대한 권한이 없습니다.');
       }
     }
   };

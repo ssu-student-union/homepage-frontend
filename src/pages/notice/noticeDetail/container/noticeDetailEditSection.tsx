@@ -1,8 +1,7 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
-import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
 import { useNavigate } from 'react-router-dom';
-import { deleteHandler } from '../utils/deleteHandler';
 import { handleLocation } from '../utils/locationHandler';
+import { delBoardPosts } from '@/apis/delBoardPosts';
 
 interface NoticeDetailEditProps {
   boardCode: string;
@@ -11,36 +10,41 @@ interface NoticeDetailEditProps {
   imageUrls: string[];
   content: string;
   title: string;
+
+  isAuthor: boolean;
 }
 
-export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls }: NoticeDetailEditProps) {
+export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls, isAuthor }: NoticeDetailEditProps) {
   const navigate = useNavigate();
-  const mutPost = useDelBoardPosts();
 
   const fileurl: string[] = [...fileUrls, ...imageUrls];
 
   const handleDelete = async () => {
-    await deleteHandler({ boardCode, postId, fileurl, mutPost });
+    await delBoardPosts(boardCode, postId, fileurl);
     navigate(`/notice?category=central&sub-category=all`);
-    window.location.reload();
   };
 
   return (
     <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
-      <div className="flex w-[420px] flex-row items-end justify-between xs:h-[150px] xs:flex-col">
-        <DeleteButton onClick={handleDelete} />
-        <EditButton
-          onClick={() =>
-            handleLocation(
-              {
-                data: {
-                  postId,
-                },
-              },
-              navigate
-            )
-          }
-        />
+      <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
+        {isAuthor ? (
+          <>
+            <DeleteButton onClick={handleDelete} />
+            <EditButton
+              onClick={() =>
+                handleLocation(
+                  {
+                    data: {
+                      postId,
+                    },
+                  },
+                  navigate
+                )
+              }
+            />
+          </>
+        ) : null}
+
         <ListButton onClick={() => navigate(-1)} />
       </div>
     </div>
