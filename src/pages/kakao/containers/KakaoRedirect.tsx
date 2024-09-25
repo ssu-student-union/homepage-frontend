@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
+import { useSetRecoilState } from 'recoil';
+import { LoginState } from '@/recoil/atoms/atom';
 
 const KakaoRedirect = () => {
+  const setLoginState = useSetRecoilState(LoginState);
   const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
 
   const navigate = useNavigate();
@@ -22,6 +25,7 @@ const KakaoRedirect = () => {
           // res.data 객체에 name과 studentId가 존재하는지 확인
           if (res.data?.name && res.data?.studentId) {
             navigate('/'); // 조건을 만족하면 홈으로 이동
+            setLoginState(true);
           } else {
             navigate('/register/onboarding'); // 조건을 만족하지 않으면 onboarding 페이지로 이동
           }
@@ -32,7 +36,7 @@ const KakaoRedirect = () => {
     };
 
     kakaoLogin();
-  }, [AUTHORIZE_CODE, navigate]);
+  }, [AUTHORIZE_CODE, navigate, setLoginState]);
 
   return <div>Loading…</div>;
 };

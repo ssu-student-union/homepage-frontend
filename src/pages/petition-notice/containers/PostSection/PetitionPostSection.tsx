@@ -1,5 +1,5 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { BodyLayout } from '@/template/BodyLayout';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
@@ -17,6 +17,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 export function PetitionPostSection() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentPage, handlePageChange } = useCurrentPage(1);
   const searchKeyword = useRecoilValue(SearchState);
 
@@ -31,6 +32,12 @@ export function PetitionPostSection() {
     boardCode: '청원게시판',
     q: searchKeyword,
   });
+
+  useEffect(() => {
+    if (location.state?.cleanupEditPost) {
+      localStorage.removeItem('edit-post');
+    }
+  }, [location]);
 
   useEffect(() => {
     if (!queryClient.getQueryData(['get-board-boardCode-posts-search'])) {

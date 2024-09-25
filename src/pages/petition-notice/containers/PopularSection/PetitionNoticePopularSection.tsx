@@ -45,7 +45,7 @@ export function PetitionNoticePopularSection() {
         window.removeEventListener('scroll', () => handleScroll(ref));
       }
     };
-  }, []);
+  }, [ref]);
 
   const moveRight = useCallback(
     (moveRef: MutableRefObject<HTMLDivElement | null>) => {

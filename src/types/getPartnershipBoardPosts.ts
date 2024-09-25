@@ -6,6 +6,8 @@ export interface GetPartnershipBoardPostsResponse {
   data: {
     postListResDto: PartnershipPostListResDto[];
     pageInfo: PageInfo;
+    allowedAuthorities: string[];
+    deniedAuthorities: string[];
   };
   isSuccess: true;
 }

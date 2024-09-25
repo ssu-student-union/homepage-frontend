@@ -6,19 +6,17 @@ import { useEffect, useState } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { handleCardClick } from '../utils/cardHandler';
 import NoticeContentLoading from './NoticeContentLoading';
+import { NoticeContentResponse } from '../types';
 
 interface NoticeContentProps {
-  initPosts?: Array<{
-    postId: number;
-    title: string;
-    content: string;
-    category: string;
-    date: string;
-    thumbNail: string | null;
-    status: string | null;
-  }>;
+  initPosts?: NoticeContentResponse[];
   className?: string;
   isLoading: boolean;
+}
+
+interface RenderCardProps {
+  post: NoticeContentResponse;
+  size: Size;
 }
 
 export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
@@ -90,21 +88,7 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
     }
   }
 
-  function RenderCard({
-    post,
-    size,
-  }: {
-    post: {
-      postId: number;
-      title: string;
-      content: string;
-      date: string;
-      thumbNail: string | null;
-      status: string | null;
-      category: string;
-    };
-    size: Size;
-  }) {
+  function RenderCard({ post, size }: RenderCardProps) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
     const status = post.status === '긴급공지' ? 'Emergency' : 'Default';
     const thumbnail = post.thumbNail || undefined;

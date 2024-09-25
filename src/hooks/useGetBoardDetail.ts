@@ -16,7 +16,7 @@ export function useGetBoardDetail({
 
   const queryResult = useQuery<GetBoardDetailResponse, AxiosError>({
     queryKey,
-    queryFn: () => getBoardDetail({ boardCode, postId }),
+    queryFn: async () => getBoardDetail({ boardCode, postId }),
   });
 
   return queryResult;

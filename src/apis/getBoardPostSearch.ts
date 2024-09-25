@@ -24,6 +24,6 @@ export const getBoardPostSearch = async ({
       q: q,
     },
   });
-  console.log(response.data);
+
   return response.data;
 };

@@ -6,19 +6,17 @@ import { useEffect, useState } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { handleCardClick } from '../utils/navigation';
 import AuditContentLoading from '@/pages/audit/component/AuditContentLoading';
+import { LostArticleContentResponse } from '../types';
 
 interface LostContentProps {
-  initPosts?: Array<{
-    postId: number;
-    title: string;
-    content: string;
-    category: string;
-    date: string;
-    thumbNail: string | null;
-    status: string | null;
-  }>;
+  initPosts?: LostArticleContentResponse[];
   className?: string;
   isLoading: boolean;
+}
+
+interface RenderCardProps {
+  post: LostArticleContentResponse;
+  size: Size;
 }
 
 export function LostContent({ initPosts, isLoading }: LostContentProps) {
@@ -90,21 +88,7 @@ export function LostContent({ initPosts, isLoading }: LostContentProps) {
     }
   }
 
-  function RenderCard({
-    post,
-    size,
-  }: {
-    post: {
-      postId: number;
-      title: string;
-      content: string;
-      date: string;
-      thumbNail: string | null;
-      status: string | null;
-      category: string;
-    };
-    size: Size;
-  }) {
+  function RenderCard({ post, size }: RenderCardProps) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
     const status = post.status === '새로운' ? 'New' : 'Default';
     const thumbnail = post.thumbNail || undefined;

@@ -8,8 +8,9 @@ import { LostContent } from './component/lostContent';
 
 export function LostArticlePage() {
   const boardCode = '분실물게시판';
-  const { posts, totalPages, currentPage, handlePageChange, categoryParam, subcategories, isLoading } =
+  const { data, totalPages, currentPage, handlePageChange, categoryParam, subcategories, isLoading } =
     useLostBoard(boardCode);
+
   const navigate = useNavigate();
 
   return (
@@ -32,7 +33,7 @@ export function LostArticlePage() {
             }}
           />
         }
-        children={<LostContent initPosts={posts} isLoading={isLoading} />}
+        children={<LostContent initPosts={data?.data.postListResDto} isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
@@ -40,6 +41,7 @@ export function LostArticlePage() {
           navigate(`/lost-article/edit`);
         }}
         className="pt-[32px]"
+        authority={data?.data.allowedAuthorities}
       />
     </>
   );

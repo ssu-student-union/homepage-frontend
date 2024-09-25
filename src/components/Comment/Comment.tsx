@@ -172,12 +172,15 @@ export function Comment({ comment, replyComment, className, isReply = false, com
                 </div>
               </div>
               <div className="relative" ref={toggleRef}>
-                {commentData!.isAuthor ||
-                (commentData?.canAuthority.includes('DELETE_COMMENT') && !commentData!.isDeleted) ? (
-                  <span className="cursor-pointer" onClick={handleToggle}>
-                    <DotsThree size={mobile_screen ? '13px' : '20px'} weight="bold" />
-                  </span>
-                ) : null}
+                {commentData!.isDeleted ? null : (
+                  <>
+                    {commentData!.isAuthor || commentData?.canAuthority.includes('DELETE_COMMENT') ? (
+                      <span className="cursor-pointer" onClick={handleToggle}>
+                        <DotsThree size={mobile_screen ? '13px' : '20px'} weight="bold" />
+                      </span>
+                    ) : null}
+                  </>
+                )}
 
                 <div className="absolute right-0 z-10">
                   {toggleIsOpen ? (

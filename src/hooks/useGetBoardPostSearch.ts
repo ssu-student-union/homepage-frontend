@@ -13,9 +13,10 @@ export const useGetBoardPostSearch = <T>({
   q,
 }: getBoardPostsProps): UseQueryResult<T, AxiosError> => {
   return useQuery<T, AxiosError>({
-    queryKey: ['get-board-boardCode-posts-search', page, take, groupCode, memberCode, category, boardCode, q],
+    staleTime: 0,
+    queryKey: ['get-board-boardCode-posts-search', page, take, groupCode, memberCode, category, q],
     queryFn: async () => {
-      const response = await getBoardPostSearch({
+      const response = getBoardPostSearch({
         page,
         take,
         groupCode,

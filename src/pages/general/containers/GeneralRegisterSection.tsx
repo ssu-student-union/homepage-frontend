@@ -8,6 +8,8 @@ import { faculties, departments } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
 import { LoginSchemaRegister, LoginType, LoginSchemaScoucil, LoginScoucilType } from './ZodCheck';
+import { useSetRecoilState } from 'recoil';
+import { LoginState } from '@/recoil/atoms/atom';
 
 interface LoginFormProps {
   subSection1: string;
@@ -33,9 +35,11 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
     defaultValues: isScouncilPath ? ({} as LoginScoucilType) : ({} as LoginType),
   });
 
+  const setLoginState = useSetRecoilState(LoginState);
+
   const [selectedFaculty, setSelectedFaculty] = useState<string>('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [, setInputUserData] = useState<any | null>(null);
+  const [, setInputUserData] = useState(null);
   const [scoucilError, setScoucilError] = useState(false);
 
   const showSelects = !isScouncilPath;
@@ -120,9 +124,9 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           localStorage.setItem('memberName', response.data?.data?.memberName);
           localStorage.setItem('majorName', response.data?.data?.majorName);
           localStorage.setItem('accessToken', response.data?.data?.accessToken);
-        } else {
         }
         navigate('/');
+        setLoginState(true);
       } else {
         alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');
         setScoucilError(true);

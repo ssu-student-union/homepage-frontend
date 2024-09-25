@@ -7,6 +7,5 @@ export const getBoardDetail = async ({ boardCode, postId }: getBoardDetailProps)
     url: `/board/${boardCode}/posts/${postId}`,
     method: 'get',
   });
-  // console.log(response.data);
   return response.data;
 };

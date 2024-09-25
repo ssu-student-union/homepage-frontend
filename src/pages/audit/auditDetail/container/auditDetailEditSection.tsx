@@ -1,7 +1,6 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
-import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
 import { useNavigate } from 'react-router-dom';
-import { deleteHandler } from '../utils/deleteHandler';
+import { delBoardPosts } from '@/apis/delBoardPosts';
 
 interface AuditDetailEditProps {
   boardCode: string;
@@ -10,6 +9,8 @@ interface AuditDetailEditProps {
   imageUrls: string[];
   content: string;
   title: string;
+  authority: string[];
+  isAuthor: boolean;
   baseUrl?: string;
   noticeUrl?: string;
 }
@@ -21,23 +22,26 @@ export function AuditDetailEditSection({
   imageUrls,
   baseUrl = `/`,
   noticeUrl = `/`,
+  authority,
+  isAuthor,
 }: AuditDetailEditProps) {
   const navigate = useNavigate();
-  const mutPost = useDelBoardPosts();
 
   const fileurl = [...fileUrls, ...imageUrls];
 
   const handleDelete = async () => {
-    await deleteHandler({ boardCode, postId, fileurl, mutPost });
+    await delBoardPosts(boardCode, postId, fileurl);
     navigate(noticeUrl);
     window.location.reload();
   };
 
   return (
     <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
-      <div className="flex w-[420px] flex-row items-end justify-between xs:h-[150px] xs:flex-col">
-        <DeleteButton onClick={handleDelete} />
-        <EditButton onClick={() => navigate(`${baseUrl}/${postId}/patch`, { state: { postId: postId } })} />
+      <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
+        {authority.includes('DELETE') ? <DeleteButton onClick={handleDelete} /> : null}
+        {isAuthor ? (
+          <EditButton onClick={() => navigate(`${baseUrl}/${postId}/patch`, { state: { postId: postId } })} />
+        ) : null}
         <ListButton onClick={() => navigate(noticeUrl)} />
       </div>
     </div>
