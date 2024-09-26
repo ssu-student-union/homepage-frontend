@@ -10,7 +10,15 @@ import { useResize } from '@/hooks/useResize';
 import { usePostPostCommentReaction, usePostPostReplyCommentReaction } from '@/hooks/usePostPostCommentReaction';
 import { useNavigate } from 'react-router-dom';
 
-export function Comment({ comment, replyComment, className, isReply = false, commentId, type }: CommentProps) {
+export function Comment({
+  comment,
+  replyComment,
+  authority,
+  className,
+  isReply = false,
+  commentId,
+  type,
+}: CommentProps) {
   const commentData = comment || replyComment;
 
   const [toggleIsOpen, setToggleIsOpen] = useState(false);
@@ -87,7 +95,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
         return;
       }
     } else {
-      if (!commentData?.canAuthority.includes('REACTION')) {
+      if (!authority?.includes('REACTION')) {
         alert('자치기구는 청원 게시물 댓글에 대한 좋아요 권한이 없습니다.');
       } else {
         if (!isReply) {
@@ -149,7 +157,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
             value={editContent}
             isReply={isReply}
             isEdit={true}
-            isAuthority={commentData?.canAuthority}
+            isAuthority={authority}
             comment_count={editContent.length}
             commentId={comment?.id}
             replycommentId={replyComment?.id}
@@ -174,7 +182,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
               <div className="relative" ref={toggleRef}>
                 {commentData!.isDeleted ? null : (
                   <>
-                    {commentData!.isAuthor || commentData?.canAuthority.includes('DELETE_COMMENT') ? (
+                    {commentData!.isAuthor || authority?.includes('DELETE_COMMENT') ? (
                       <span className="cursor-pointer" onClick={handleToggle}>
                         <DotsThree size={mobile_screen ? '13px' : '20px'} weight="bold" />
                       </span>
@@ -192,12 +200,14 @@ export function Comment({ comment, replyComment, className, isReply = false, com
                         >
                           삭제하기
                         </li>
-                        <li
-                          className="px-[34px] py-[6px] text-center hover:bg-gray-100 xs:px-[20px]"
-                          onClick={handleEditComment}
-                        >
-                          수정하기
-                        </li>
+                        {authority?.includes('DELETE_COMMENT') ? null : (
+                          <li
+                            className="px-[34px] py-[6px] text-center hover:bg-gray-100 xs:px-[20px]"
+                            onClick={handleEditComment}
+                          >
+                            수정하기
+                          </li>
+                        )}
                       </ul>
                     </div>
                   ) : (
@@ -240,6 +250,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
         <TextArea
           className="ml-10 w-full"
           isReply={true}
+          isAuthority={authority}
           commentId={comment?.id}
           replycommentId={replyComment?.id}
           onReplySuccess={() => setReplyIsOpen(false)}
@@ -255,6 +266,7 @@ export function Comment({ comment, replyComment, className, isReply = false, com
             commentId={commentId}
             className="ml-10"
             isReply={true}
+            authority={authority}
           />
         ))}
     </>

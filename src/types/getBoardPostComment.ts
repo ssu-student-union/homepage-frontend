@@ -15,7 +15,6 @@ export interface postReplyCommentList {
   isDeleted: boolean;
   isAuthor: boolean;
   isLiked: boolean;
-  canAuthority: string[];
 }
 
 export interface postCommentList {
@@ -31,7 +30,6 @@ export interface postCommentList {
   isAuthor: boolean;
   isLiked: boolean;
   postReplyComments: postReplyCommentList[];
-  canAuthority: string[];
 }
 
 export interface getBoardPostCommentResponse {
@@ -39,6 +37,7 @@ export interface getBoardPostCommentResponse {
   message: string;
   data: {
     postComments: postCommentList[];
+    allowedAuthorities: string[];
     total: number;
   };
   isSuccess: boolean;

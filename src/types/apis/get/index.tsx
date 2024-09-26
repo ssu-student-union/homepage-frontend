@@ -41,7 +41,7 @@ export interface PostDetailResDto {
   postId: number;
   categoryName: string;
   authorName: string;
-  canAuthority: string[];
+  allowedAuthorities: string[];
   title: string;
   content: string;
   createdAt: string;

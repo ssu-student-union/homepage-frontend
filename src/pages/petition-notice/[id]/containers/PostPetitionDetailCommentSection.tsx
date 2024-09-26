@@ -43,11 +43,19 @@ export function PostPetitionDetailCommentSection() {
             onSubcategorySelect={onSubcategorySelect}
           />
         </div>
-        <TextArea className="w-full">{null}</TextArea>
+        <TextArea className="w-full" isAuthority={data?.data.allowedAuthorities}>
+          {null}
+        </TextArea>
         <div className="flex flex-col">
           {localStorage.getItem('total-comment') === '0' ? (
             data?.data.postComments.map((comment) => (
-              <Comment comment={comment} key={comment.id} className="" type={selectedSubcategories} />
+              <Comment
+                key={comment.id}
+                comment={comment}
+                authority={data.data.allowedAuthorities}
+                className=""
+                type={selectedSubcategories}
+              />
             ))
           ) : isLoading ? (
             <>
@@ -57,7 +65,13 @@ export function PostPetitionDetailCommentSection() {
             </>
           ) : (
             data?.data.postComments.map((comment) => (
-              <Comment comment={comment} key={comment.id} className="" type={selectedSubcategories} />
+              <Comment
+                key={comment.id}
+                comment={comment}
+                authority={data.data.allowedAuthorities}
+                className=""
+                type={selectedSubcategories}
+              />
             ))
           )}
         </div>

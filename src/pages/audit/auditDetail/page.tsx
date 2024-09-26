@@ -53,7 +53,7 @@ export function AuditDetailPage() {
           <AuditDetailContentSection content={postDetail.content} images={imageList} />
           <AuditDetailFileSection files={fileList} fileNames={fileNameList} />
           <AuditDetailEditSection
-            authority={postDetail.canAuthority}
+            authority={postDetail.allowedAuthorities}
             isAuthor={postDetail.isAuthor}
             title={postDetail.title}
             content={postDetail.content}
