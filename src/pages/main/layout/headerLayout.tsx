@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
 
 export function HeaderLayout() {
-  const [headerState, setHeaderState] = useState(State.Logout);
+  const loginState = useRecoilValue(LoginState);
   const setLoginState = useSetRecoilState(LoginState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -16,22 +17,17 @@ export function HeaderLayout() {
     } else {
       setLoginState(false);
     }
-  }, []);
-
-  const navigate = useNavigate();
+  }, [setLoginState]);
 
   const handleLogout = () => {
     localStorage.clear();
-
-    setHeaderState(State.Logout);
     setLoginState(false);
-
     navigate('/');
   };
 
   return (
     <>
-      <Header state={headerState ? State.Login : State.Logout} onLogout={handleLogout} />
+      <Header state={loginState ? State.Login : State.Logout} onLogout={handleLogout} />
       <main>
         <Outlet />
       </main>

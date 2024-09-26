@@ -3,13 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-<<<<<<< HEAD
-import { useRecoilState } from 'recoil';
-import { loginState } from '@/recoil/atoms/atom';
-=======
 import { useRecoilValue } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
->>>>>>> main
 
 const CounterItem = ({ isActive }: { isActive: boolean }) => (
   <span className={`block h-[7px] w-[45px] rounded-[15px] ${isActive ? 'bg-[#B8B8B8]' : 'bg-[#E4E4E4]'}`} />
@@ -27,11 +22,7 @@ const images = ['/image/1.jpeg', '/image/2.jpeg', '/image/3.jpeg'];
 
 const MainCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-<<<<<<< HEAD
-  const [isLogin] = useRecoilState(loginState);
-=======
-  const isLoggedIn = useRecoilValue(LoginState);
->>>>>>> main
+  const isLogin = useRecoilValue(LoginState);
   const navigate = useNavigate();
 
   const settings = {
@@ -50,8 +41,6 @@ const MainCarousel = () => {
     pauseOnDotsHover: false,
   };
 
-<<<<<<< HEAD
-=======
   // Monitor accessToken changes and update state accordingly
   // useEffect(() => {
   //   const handleStorageChange = () => {
@@ -65,7 +54,6 @@ const MainCarousel = () => {
   //   };
   // }, []);
 
->>>>>>> main
   return (
     <div className="relative h-screen w-full overflow-hidden">
       <Slider {...settings} className="absolute inset-0 z-0 h-full w-full">
