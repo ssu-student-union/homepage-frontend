@@ -12,6 +12,7 @@ import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
 import history from '@/hooks/useHistory';
 import { usePostBoardPosts } from '@/hooks/usePostBoardPosts';
 import { GUIDE_LINE } from '../components/GuideLine';
+import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
 
 type HookMap = {
   addImageBlobHook?: (blob: File, callback: HookCallback) => void;
@@ -26,7 +27,7 @@ export function PetitionNoticeEditorSection() {
   const [initialTitle, setInitialTitle] = useState<string>('');
   const [initialCategoryName, setInitialCategoryName] = useState<string>('');
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [imageId, setImageId] = useState<number>();
+  const [imageId, setImageId] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
@@ -53,8 +54,27 @@ export function PetitionNoticeEditorSection() {
     }
   };
 
+  const extractImgSrcs = (html: string): string[] => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const imgElements = doc.querySelectorAll('img');
+    return Array.from(imgElements)
+      .map((img) => img.getAttribute('src'))
+      .filter((src) => src !== null) as string[];
+  };
+
+  const compareImgTags = (html1: string, html2: string): string[] => {
+    const imgSrcs1 = extractImgSrcs(html1);
+    const imgSrcs2 = extractImgSrcs(html2);
+
+    const removedImages = imgSrcs1.filter((src) => !imgSrcs2.includes(src));
+
+    return removedImages;
+  };
+
   const postPostMutation = usePostBoardPosts();
   const patchPostMutation = usePatchBoardPosts();
+  const deletePostFileMutation = useDelBoardFiles();
 
   const onClickEnrollBtn = async () => {
     if (!titleRef.current) return;
@@ -65,7 +85,7 @@ export function PetitionNoticeEditorSection() {
 
     if (!isEditing) {
       const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p><h3><br><\/h3>/, '').trim());
-      const postFileList = imageId ? [imageId!] : [];
+      const postFileList = imageId ? imageId : [];
 
       const posts = {
         boardCode: '청원게시판',
@@ -83,6 +103,7 @@ export function PetitionNoticeEditorSection() {
         if (title) {
           const check = window.confirm('청원 글을 등록하시겠습니까?');
           if (check) {
+            console.log(posts);
             await postPostMutation.mutateAsync(posts);
             navigate('/petition-notice');
           } else {
@@ -95,7 +116,7 @@ export function PetitionNoticeEditorSection() {
         console.log(err);
       }
     } else {
-      const postFileList = imageId ? [imageId!] : [];
+      const postFileList = imageId ? imageId : [];
       const patch_posts = {
         boardCode: '청원게시판',
         postId: Number(parsedContent.postDetailResDto.postId),
@@ -110,6 +131,15 @@ export function PetitionNoticeEditorSection() {
       try {
         const check = window.confirm('편집하시겠습니까?');
         if (check) {
+          const old_c = parsedContent.postDetailResDto.content;
+          const new_c = patch_posts.posts.content;
+
+          const removedImg = compareImgTags(JSON.parse(old_c), JSON.parse(new_c));
+
+          removedImg.forEach(async (value) => {
+            await deletePostFileMutation.mutateAsync({ boardCode: '청원게시판', fileUrls: [value] });
+          });
+
           await patchPostMutation.mutateAsync(patch_posts);
           navigate('/petition-notice', {
             replace: true,
@@ -143,9 +173,13 @@ export function PetitionNoticeEditorSection() {
         file.append('images', blob);
         try {
           const res = await postBoardImages(file);
+          console.log(res);
           const url = res.data.data.postFiles[0].url;
           const id = res.data.data.postFiles[0].id;
-          setImageId(id);
+
+          setImageId((prevId) => {
+            return [id, ...prevId];
+          });
           callback(url, 'alt text');
         } catch (err) {
           console.log(err);
@@ -180,7 +214,7 @@ export function PetitionNoticeEditorSection() {
   }
 
   return (
-    <EditLayout title="청원글 작성">
+    <EditLayout title={isEditing ? '청원글 편집' : '청원글 작성'}>
       <section>
         <Input
           ref={titleRef}

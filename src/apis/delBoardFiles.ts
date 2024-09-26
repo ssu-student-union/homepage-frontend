@@ -1,12 +1,27 @@
 import { clientAuth } from './client';
 
-export async function delBoardFiles(boardCode: string, fileUrls: string[]) {
-  const resp = await clientAuth({
+export interface delBoardFilesResponse {
+  code: string;
+  message: string;
+  data: {
+    s3DeleteCount: number;
+    postFileDeleteCount: number;
+  };
+  isSuccess: boolean;
+}
+
+export interface delBoardFilesProps {
+  boardCode: string;
+  fileUrls: string[];
+}
+
+export async function delBoardFiles({ boardCode, fileUrls }: delBoardFilesProps): Promise<delBoardFilesResponse> {
+  const response = await clientAuth<delBoardFilesResponse>({
     method: 'delete',
     url: `/board/${boardCode}/files`,
     data: {
-      fileUrls: [fileUrls],
+      fileUrls: fileUrls,
     },
   });
-  return resp;
+  return response.data;
 }
