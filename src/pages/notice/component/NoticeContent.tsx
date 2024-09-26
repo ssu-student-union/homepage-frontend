@@ -90,10 +90,10 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
 
   function RenderCard({ post, size }: RenderCardProps) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
-    let status;
-    if (status === '긴급공지') {
+    let status: 'Emergency' | 'New' | 'Default';
+    if (post.status === '긴급공지') {
       status = 'Emergency';
-    } else if (status === '새로운') {
+    } else if (post.status === '새로운') {
       status = 'New';
     } else {
       status = 'Default';
