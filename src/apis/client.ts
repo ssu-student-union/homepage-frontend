@@ -4,7 +4,6 @@ interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
   requireAuth?: boolean;
 }
 
-// 토큰이 필요하지 않은 api 요청 시에 사용하는 함수
 export const client = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
@@ -12,7 +11,6 @@ export const client = axios.create({
   },
 });
 
-// 헤더에 토큰 추가
 client.interceptors.request.use(
   (config: CustomInternalAxiosRequestConfig) => {
     if (config.requireAuth && localStorage.getItem('accessToken')) {
@@ -27,7 +25,6 @@ client.interceptors.request.use(
   }
 );
 
-// 토큰이 필요한 api 요청 시에 사용하는 함수
 export const clientAuth = <T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
   return client({
     ...config,

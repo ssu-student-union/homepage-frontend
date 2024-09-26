@@ -7,7 +7,6 @@ import { Size } from '@/components/PostCard/const/state';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PartnershipSubcategories } from './const';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { useEffect, useMemo, useState } from 'react';
 import { PartnershipSubcategoriesType } from './type';
 import { GetPartnershipBoardPostsResponse, PartnershipPostListResDto } from '@/types/getPartnershipBoardPosts';
@@ -17,6 +16,7 @@ import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function PartnershipPage() {
   const { width } = useResize();
@@ -29,20 +29,20 @@ export function PartnershipPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTake, setCurrentTake] = useState(9);
 
-  const { data, isLoading } = searchQuery
-    ? useGetBoardPostSearch<GetPartnershipBoardPostsResponse>({
-        page: currentPage - 1,
-        take: currentTake,
-        category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
-        boardCode: '제휴게시판',
-        q: searchQuery,
-      })
-    : useGetBoardPosts<GetPartnershipBoardPostsResponse>({
-        page: currentPage - 1,
-        take: currentTake,
-        category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
-        boardCode: '제휴게시판',
-      });
+  const queryClient = useQueryClient();
+  const { data, isLoading, refetch } = useGetBoardPostSearch<GetPartnershipBoardPostsResponse>({
+    page: currentPage - 1,
+    take: currentTake,
+    category: selectedSubcategories === '전체' ? undefined : selectedSubcategories,
+    boardCode: '제휴게시판',
+    q: searchQuery,
+  });
+
+  useEffect(() => {
+    if (!queryClient.getQueryData(['get-board-boardCode-posts-search'])) {
+      refetch();
+    }
+  }, [queryClient, refetch]);
 
   const posts = data?.data.postListResDto || []; // 게시물 리스트
   const partnershipCount = useMemo(() => {
@@ -55,12 +55,16 @@ export function PartnershipPage() {
   useEffect(() => {
     if (width < 1440) {
       setCurrentTake(5);
+      refetch();
     } else if (width >= 1440 && width < 1920) {
       setCurrentTake(6);
+      refetch();
     } else if (width >= 1920) {
       setCurrentTake(9);
+      refetch();
     }
-  }, [width]);
+    refetch();
+  }, [width, refetch]);
 
   const renderPostCardBasic = (items: PartnershipPostListResDto[], size: Size) => (
     <section className="flex h-fit w-full flex-col justify-between">
@@ -73,7 +77,16 @@ export function PartnershipPage() {
             imgUrl={item.thumbNail}
             size={size}
             onClick={() => {
-              navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+              if (data?.data.deniedAuthorities.includes('READ')) {
+                const check = window.confirm('제휴 안내는 로그인된 사용자만 볼 수 있습니다. 로그인 하시겠습니까?');
+                if (check) {
+                  navigate('/register');
+                } else {
+                  return;
+                }
+              } else {
+                navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+              }
             }}
           />
           {index < items.length - 1 && <Spacing size={20} direction="vertical" />}
@@ -91,9 +104,19 @@ export function PartnershipPage() {
             title={`[${item.category}] ${item.title}`}
             subtitle={item.content}
             date={formatYYYYMMDD(item.date)}
+            profileName={'US:SUM'}
             imgUrl={item.thumbNail}
             onClick={() => {
-              navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+              if (data?.data.deniedAuthorities.includes('READ')) {
+                const check = window.confirm('제휴 안내는 로그인된 사용자만 볼 수 있습니다. 로그인 하시겠습니까?');
+                if (check) {
+                  navigate('/register');
+                } else {
+                  return;
+                }
+              } else {
+                navigate(`/partnership/${item.postId}`, { state: { postId: item.postId } });
+              }
             }}
           />
         ))}
@@ -122,6 +145,7 @@ export function PartnershipPage() {
           window.scrollTo(0, 0);
           navigate('/partnership/edit');
         }}
+        authority={data?.data.allowedAuthorities}
       >
         <BoardSelector
           subcategories={PartnershipSubcategories}

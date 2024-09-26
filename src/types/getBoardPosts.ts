@@ -1,4 +1,4 @@
-import { MainNoticesType } from '.';
+import { MainNoticesType } from './boardSelector';
 
 interface PageInfo {
   pageNum: number;

@@ -1,13 +1,13 @@
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { Post } from '@/types/apis/get';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { useEffect } from 'react';
 import { categoryMap } from '../const/data';
 import { useCategory } from './useCategory';
+import { LostArticleResponse } from '../types';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function useLostBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
@@ -21,28 +21,28 @@ export function useLostBoard(boardCode: string) {
 
   useEffect(() => {
     handlePageChange(1);
-  }, [categoryParam]);
+  }, [handlePageChange]);
 
-  const { data, isLoading, isError } = searchQuery
-    ? useGetBoardPostSearch<any>({
-        boardCode,
-        take: itemsPerPage,
-        page: currentPage - 1,
-        category: selectedCategory ?? undefined,
-        q: searchQuery,
-      })
-    : useGetBoardPosts<any>({
-        boardCode,
-        take: itemsPerPage,
-        page: currentPage - 1,
-        category: selectedCategory ?? undefined,
-      });
+  const queryClient = useQueryClient();
+  const { data, isLoading, isError, refetch } = useGetBoardPostSearch<LostArticleResponse>({
+    boardCode,
+    take: itemsPerPage,
+    page: currentPage - 1,
+    category: selectedCategory ?? undefined,
+    q: searchQuery,
+  });
 
-  const posts: Post[] = data?.data?.postListResDto || [];
-  const totalPages: number = data?.data?.pageInfo?.totalPages || 1;
+  useEffect(() => {
+    if (!queryClient.getQueryData(['get-board-boardCode-posts-search'])) {
+      refetch();
+    }
+  }, [queryClient, refetch]);
+
+  // const posts: LostArticleContentResponse[] = data?.data?.postListResDto || [];
+  const totalPages: number = data?.data?.pageInfo?.totalPages ?? 0;
 
   return {
-    posts,
+    data,
     totalPages,
     currentPage,
     handlePageChange,

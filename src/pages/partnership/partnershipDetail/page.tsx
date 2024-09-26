@@ -11,6 +11,7 @@ export function PartnershipDetailPage() {
   const boardCode: string = '제휴게시판';
 
   const { data: resp } = useGetBoardDetail({ boardCode, postId });
+  console.log(resp);
 
   const postDetail = resp?.data.postDetailResDto;
 
@@ -27,13 +28,22 @@ export function PartnershipDetailPage() {
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
-      <PartnershipDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
+      <PartnershipDetailTopSection
+        title={postDetail.title}
+        date={postDetail.createdAt}
+        writer={postDetail.authorName}
+      />
 
       <PartnershipDetailContentSection content={postDetail.content} images={imageList} />
 
       <PartnershipDetailFileSection files={fileList} fileNames={fileNames} />
 
-      <PartnershipDetailEditSection boardCode={boardCode} postId={postId} fileurl={fileUrls} />
+      <PartnershipDetailEditSection
+        boardCode={boardCode}
+        postId={postId}
+        fileurl={fileUrls}
+        authority={resp.data.postDetailResDto.isAuthor}
+      />
     </div>
   );
 }

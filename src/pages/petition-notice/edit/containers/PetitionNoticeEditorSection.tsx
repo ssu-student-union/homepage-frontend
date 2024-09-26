@@ -7,12 +7,11 @@ import { useEffect, useRef, useState } from 'react';
 import { EditLayout } from '@/template/EditLayout';
 import { postBoardImages } from '@/apis/postBoardImages';
 import { useNavigate } from 'react-router-dom';
-import { client } from '@/apis/client';
 import { GuideMessage } from '../components/GuidMessage';
 import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
 import history from '@/hooks/useHistory';
-import { GUIDE_LINE } from '../components/GuideLine';
 import { usePostBoardPosts } from '@/hooks/usePostBoardPosts';
+import { GUIDE_LINE } from '../components/GuideLine';
 
 type HookMap = {
   addImageBlobHook?: (blob: File, callback: HookCallback) => void;
@@ -23,31 +22,27 @@ type HookCallback = (url: string, text?: string) => void;
 export function PetitionNoticeEditorSection() {
   const titleRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<Editor>(null);
-  const [initialContent, setInitialContent] = useState<string | null>(GUIDE_LINE);
-  const [initialTitle, setInitialTitle] = useState('');
-  const [initialCategoryName, setInitialCategoryName] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
+  const [initialContent, setInitialContent] = useState<string>(GUIDE_LINE);
+  const [initialTitle, setInitialTitle] = useState<string>('');
+  const [initialCategoryName, setInitialCategoryName] = useState<string>('');
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [imageId, setImageId] = useState<number>();
+  const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const postID = localStorage.getItem('edit-post');
-  const userID = JSON.parse(localStorage.getItem('kakaoData') as string).data.id!;
+  const oldContent = localStorage.getItem('oldContent')!;
+  const parsedContent = JSON.parse(oldContent);
 
   useEffect(() => {
-    if (postID) {
-      const response = client.get(`/board/청원게시판/posts/${postID}`, {
-        params: {
-          userId: userID,
-        },
-      });
-      response.then((result) => {
-        const postDetailResDto = result.data.data.postDetailResDto;
-        setInitialTitle(postDetailResDto.title);
-        setInitialContent(JSON.parse(postDetailResDto.content));
-        setInitialCategoryName(postDetailResDto.categoryName);
-        setIsEditing(true);
-      });
+    if (parsedContent) {
+      const postDetailResDto = parsedContent.postDetailResDto;
+      setInitialTitle(postDetailResDto.title);
+      setInitialContent(JSON.parse(postDetailResDto.content));
+      setInitialCategoryName(postDetailResDto.categoryName);
+      setIsEditing(true);
     }
+
+    setLoading(false);
   }, []);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,6 +65,8 @@ export function PetitionNoticeEditorSection() {
 
     if (!isEditing) {
       const extractedContent = JSON.stringify(content.replace(/^<p>.*?<\/p><h3><br><\/h3>/, '').trim());
+      const postFileList = imageId ? [imageId!] : [];
+
       const posts = {
         boardCode: '청원게시판',
         post: {
@@ -78,7 +75,7 @@ export function PetitionNoticeEditorSection() {
           categoryCode: '진행중',
           thumbNailImage: null,
           isNotice: false,
-          postFileList: [imageId!],
+          postFileList: postFileList,
         },
       };
 
@@ -98,27 +95,26 @@ export function PetitionNoticeEditorSection() {
         console.log(err);
       }
     } else {
+      const postFileList = imageId ? [imageId!] : [];
       const patch_posts = {
         boardCode: '청원게시판',
-        postId: Number(postID),
+        postId: Number(parsedContent.postDetailResDto.postId),
         posts: {
           title: title,
           content: JSON.stringify(content),
           categoryCode: initialCategoryName,
           thumbnailImage: null,
-          postFileList: [imageId!],
+          postFileList: postFileList,
         },
       };
       try {
-        await patchPostMutation.mutateAsync(patch_posts);
-        localStorage.removeItem('edit-post');
         const check = window.confirm('편집하시겠습니까?');
         if (check) {
-          navigate('/petition-notice');
-
-          // 이미지 수정 시 원본 컨텐츠와 비교하여 바뀐 이미지는 삭제하는 로직 필요
-          console.log(initialContent);
-          console.log(JSON.stringify(content));
+          await patchPostMutation.mutateAsync(patch_posts);
+          navigate('/petition-notice', {
+            replace: true,
+            state: { cleanupEditPost: true },
+          });
         } else {
           return;
         }
@@ -166,17 +162,22 @@ export function PetitionNoticeEditorSection() {
       if (history.action === 'POP') {
         if (locationKeys[1] === location.location.key) {
           setLocationKeys(([_, ...keys]) => keys);
-          localStorage.removeItem('edit-post');
+          localStorage.removeItem('oldContent');
         } else {
           setLocationKeys((keys) => [location.location.key, ...keys]);
           const check = window.confirm('작성 또는 편집한 내용은 저장되지 않습니다. 페이지를 나가시겠습니까?');
           if (check) {
-            localStorage.removeItem('edit-post');
+            localStorage.removeItem('oldContent');
           }
         }
       }
     });
-  }, [locationKeys, history]);
+  }, [locationKeys]);
+
+  // 로딩 중이면 로딩 메시지 표시
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <EditLayout title="청원글 작성">

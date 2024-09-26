@@ -6,14 +6,22 @@ import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
 import AuditDetailLoading from './container/auditDetailLoading';
 import { items } from '../const/data';
 import { AuditDetailFileSection } from './auditDetailFileSection';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 export function AuditDetailPage() {
   const location = useLocation();
   const postId: number = location.state?.postId;
   const boardCode: string = '감사기구게시판';
 
-  const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
+  const queryClient = useQueryClient();
+  const { data: resp, isLoading, isError, refetch } = useGetBoardDetail({ boardCode, postId });
 
+  useEffect(() => {
+    if (!queryClient.getQueryData(['get-board-boardCode-posts-postId'])) {
+      refetch();
+    }
+  }, [queryClient, refetch]);
   const postDetail = resp?.data.postDetailResDto;
 
   if (!postDetail || isError) {
@@ -32,7 +40,12 @@ export function AuditDetailPage() {
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
-      <AuditDetailTopSection items={items} title={postDetail.title} date={postDetail.createdAt} />
+      <AuditDetailTopSection
+        items={items}
+        title={postDetail.title}
+        date={postDetail.createdAt}
+        authorName={postDetail.authorName}
+      />
       {isLoading ? (
         <AuditDetailLoading />
       ) : (
@@ -40,6 +53,8 @@ export function AuditDetailPage() {
           <AuditDetailContentSection content={postDetail.content} images={imageList} />
           <AuditDetailFileSection files={fileList} fileNames={fileNameList} />
           <AuditDetailEditSection
+            authority={postDetail.canAuthority}
+            isAuthor={postDetail.isAuthor}
             title={postDetail.title}
             content={postDetail.content}
             imageUrls={imageList}

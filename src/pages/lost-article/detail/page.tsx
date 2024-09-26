@@ -6,13 +6,22 @@ import { useLocation } from 'react-router-dom';
 import { items } from './const/data';
 import { LostDetailTopSection } from './container/lostDetailTopSection';
 import { AuditDetailFileSection } from '@/pages/audit/auditDetail/auditDetailFileSection';
+import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function LostDetailPage() {
   const location = useLocation();
   const postId: number = location.state?.postId;
   const boardCode: string = '분실물게시판';
 
-  const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
+  const queryClient = useQueryClient();
+  const { data: resp, isLoading, isError, refetch } = useGetBoardDetail({ boardCode, postId });
+
+  useEffect(() => {
+    if (!queryClient.getQueryData(['get-board-boardCode-posts-postId'])) {
+      refetch();
+    }
+  }, [queryClient, refetch]);
 
   const postDetail = resp?.data.postDetailResDto;
 
@@ -49,6 +58,8 @@ export function LostDetailPage() {
           <AuditDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
+            authority={postDetail.canAuthority}
+            isAuthor={postDetail.isAuthor}
             imageUrls={imageList}
             boardCode={boardCode}
             postId={postId}

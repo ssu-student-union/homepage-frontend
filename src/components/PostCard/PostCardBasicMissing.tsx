@@ -3,6 +3,8 @@ import { Badge } from '../ui/badge';
 import { Size } from './const/state';
 import { getStyles } from './const/style';
 import { cn } from '@/libs/utils';
+import { Logo } from '@/components/Logo/Logo';
+import { useResize } from '@/hooks/useResize';
 
 interface PostCardProps {
   imgUrl?: string;
@@ -25,49 +27,55 @@ const PostCard = ({
   date,
   badgeType,
   cardType,
+  profileName,
   size = Size.default,
-  profileImg,
-  profileName = '',
   onClick = () => {},
   className = '',
 }: PostCardProps) => {
   const styles = getStyles(size);
 
-  const maxTitleLength = size === Size.default ? 16 : 12;
+  const { width } = useResize();
+  const mobile_screen = width < 391;
+
+  const maxTitleLength = size === Size.default ? 12 : 8;
   const maxSubtitleLength = size === Size.default ? 24 : 18;
 
-  const truncatedTitle = useTruncateText(title, maxTitleLength);
-  const truncatedSubtitle = useTruncateText(subtitle, maxSubtitleLength);
+  const truncatedTitle = title.slice(0, 4) + useTruncateText(title.slice(4), maxTitleLength as number);
+  const truncatedSubtitle = useTruncateText(subtitle, maxSubtitleLength as number);
 
   return (
-    <div
-      className={cn(
-        `relative flex cursor-pointer items-center justify-center rounded-[10px] border border-gray-300 bg-white text-xs`,
-        styles.container,
-        className
-      )}
-      onClick={onClick}
-    >
-      {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
-      {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
-      {badgeType === 'Default' && <Badge variant="Default"></Badge>}
-      <div className={`flex h-full w-full ${styles.gap}`}>
-        <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
-        <div className="w-full flex-col">
-          <div className={`flex flex-col ${styles.title}`}>
-            <p className={`line-clamp-2 font-semibold`}>{truncatedTitle}</p>
-            <p className={`line-clamp-2 font-normal text-gray-500 ${styles.subtitle}`}>{truncatedSubtitle}</p>
-          </div>
-          <hr className={`w-full border border-gray-300 ${styles.hr}`} />
-          <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>
-            {cardType === 'Basic' && (
-              <div className="flex items-center gap-1">
-                {profileImg && <img alt="logo" src={profileImg} className={`pr-0.5 ${styles.profileImg}`} />}
-                {profileName && <span>{profileName}</span>}
-                {profileName && <span>·</span>}
-              </div>
-            )}
-            <span>{date}</span>
+    <div className="relative">
+      <div
+        className={cn(
+          `flex min-w-[250px] cursor-pointer items-center justify-center rounded-[10px] border border-gray-300 bg-white text-xs`,
+          styles.container,
+          className
+        )}
+        onClick={onClick}
+      >
+        {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
+        {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
+        {badgeType === 'Default' && <Badge variant="Default"></Badge>}
+        <div className={`flex h-full w-full ${styles.gap}`}>
+          <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
+          <div className="w-full flex-col">
+            <div className={`flex flex-col ${styles.title}`}>
+              <p className={`line-clamp-2 font-semibold`}>{truncatedTitle}</p>
+              <p className={`line-clamp-2 font-normal text-gray-500 ${styles.subtitle}`}>{truncatedSubtitle}</p>
+            </div>
+            <hr className={`w-full border border-gray-300 ${styles.hr}`} />
+            <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>
+              {cardType === 'Basic' && (
+                <div className="relative flex items-baseline">
+                  <span className="absolute left-0 top-[2px] flex items-baseline">
+                    <Logo size={mobile_screen ? '10px' : '12px'} fill="#9CA3AF" />
+                  </span>
+                  <span className="ml-4 xs:ml-3">{profileName} •</span>
+                  <span>{date}</span>
+                </div>
+              )}
+              {cardType === 'Missing' && <span>{date}</span>}
+            </div>
           </div>
         </div>
       </div>

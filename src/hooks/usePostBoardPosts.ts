@@ -9,7 +9,7 @@ export function usePostBoardPosts(): UseMutationResult<PostBoardPostsResponse, A
     mutationFn: postBoardPosts,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getPetitionTopLiked'] });
-      queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts'] });
+      queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts-search'] });
     },
   });
 }

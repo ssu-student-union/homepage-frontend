@@ -14,7 +14,7 @@ export interface postBoardPostsProps {
     memberCode?: string;
     thumbNailImage?: string | null;
     isNotice?: boolean;
-    postFileList?: number[];
+    postFileList?: number[] | null;
   };
 }
 

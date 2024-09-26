@@ -45,8 +45,7 @@ export function PetitionNoticePopularSection() {
         window.removeEventListener('scroll', () => handleScroll(ref));
       }
     };
-  }, []);
-
+  }, [ref]);
   const moveRight = useCallback(
     (moveRef: MutableRefObject<HTMLDivElement | null>) => {
       const { current } = moveRef;
@@ -58,6 +57,14 @@ export function PetitionNoticePopularSection() {
         );
         current.scrollTo({ left: newScrollPosition, behavior: 'smooth' });
         setScrollPosition(newScrollPosition);
+
+        setTimeout(() => {
+          if (newScrollPosition >= current.scrollWidth - current.clientWidth - 1) {
+            setScrollState('left');
+          } else {
+            setScrollState('both');
+          }
+        }, 300);
       }
     },
     [scrollPosition]
@@ -71,6 +78,14 @@ export function PetitionNoticePopularSection() {
         const newScrollPosition = Math.max(scrollPosition - petitionWidth - 25, 0);
         current.scrollTo({ left: newScrollPosition, behavior: 'smooth' });
         setScrollPosition(newScrollPosition);
+
+        setTimeout(() => {
+          if (newScrollPosition === 0) {
+            setScrollState('right');
+          } else {
+            setScrollState('both');
+          }
+        }, 300);
       }
     },
     [scrollPosition]

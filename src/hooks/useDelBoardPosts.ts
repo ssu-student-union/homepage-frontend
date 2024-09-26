@@ -3,7 +3,7 @@ import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-
 import { AxiosError, AxiosResponse } from 'axios';
 
 export function useDelBoardPosts(): UseMutationResult<
-  AxiosResponse<any>,
+  AxiosResponse,
   AxiosError,
   { boardCode: string; postId: number; fileurl: string[] }
 > {
@@ -12,7 +12,7 @@ export function useDelBoardPosts(): UseMutationResult<
     mutationFn: ({ boardCode, postId, fileurl }) => delBoardPosts(boardCode, postId, fileurl),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getPetitionTopLiked'] });
-      queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts'] });
+      queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts-search'] });
     },
   });
 }

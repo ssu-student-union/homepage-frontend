@@ -41,6 +41,7 @@ export function NoticeDetailPage() {
           <NoticeDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
+            isAuthor={postDetail.isAuthor}
             imageUrls={imageList}
             boardCode={boardCode}
             postId={postId}

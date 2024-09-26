@@ -12,6 +12,7 @@ export function BodyLayout({
   currentPage,
   onPageChange,
   onWriteClick,
+  authority,
   className = '',
 }: BodyLayoutProps) {
   return (
@@ -23,12 +24,14 @@ export function BodyLayout({
         <div className="flex xs:mt-9 xs:flex-col-reverse sm:mt-9 sm:flex-col-reverse md:mt-8 md:justify-between lg:mt-8 lg:justify-between xl:mt-8 xl:justify-between xxl:mt-8 xxl:justify-between">
           <div className="w-[94px]"></div>
           <div className="flex justify-center xs:mt-[17px] sm:mt-[17px]">
-            <div className="lg:mt-[66px] xl:mt-[66px] xxl:mt-[66px]">
-              <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
-            </div>
+            {totalPages ? (
+              <div className="lg:mt-[66px] xl:mt-[66px] xxl:mt-[66px]">
+                <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
+              </div>
+            ) : null}
           </div>
           <div className="flex justify-end xs:justify-center sm:justify-center">
-            <WriteButton onClick={onWriteClick} />
+            {authority?.includes('WRITE') ? <WriteButton onClick={onWriteClick} /> : null}
           </div>
         </div>
       </div>

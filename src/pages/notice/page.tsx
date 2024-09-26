@@ -12,8 +12,7 @@ export function NoticePage() {
   const { category, navigate, subCategory, handleCategoryChange, handleSubCategoryChange } = useNoticeCategory();
   const boardCode = '공지사항게시판';
 
-  const { posts, totalPages, currentPage, handlePageChange, isLoading, subcategories } = useNoticeBoard(boardCode);
-
+  const { data, totalPages, currentPage, handlePageChange, isLoading, subcategories } = useNoticeBoard(boardCode);
   const { todayPostCount, isLoading: isPostsLoading } = useTodayPosts(boardCode);
 
   return (
@@ -51,7 +50,7 @@ export function NoticePage() {
             onSubcategorySelect={handleSubCategoryChange}
           />
         }
-        children={<NoticeContent initPosts={posts} isLoading={isLoading} />}
+        children={<NoticeContent initPosts={data?.data.postListResDto} isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
@@ -59,6 +58,7 @@ export function NoticePage() {
           navigate(`/notice/edit`);
         }}
         className="pt-[32px]"
+        authority={data?.data.allowedAuthorities}
       />
     </>
   );
