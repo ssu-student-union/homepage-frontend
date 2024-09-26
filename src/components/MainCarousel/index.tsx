@@ -22,7 +22,7 @@ const images = ['/image/1.jpeg', '/image/2.jpeg', '/image/3.jpeg'];
 
 const MainCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const isLoggedIn = useRecoilValue(LoginState);
+  const isLogin = useRecoilValue(LoginState);
   const navigate = useNavigate();
 
   const settings = {
@@ -68,7 +68,7 @@ const MainCarousel = () => {
         <div className="pointer-events-auto text-xl font-bold">제64대 총학생회</div>
         <h1 className="pointer-events-auto text-[80px] font-black leading-none">US:SUM</h1>
 
-        {!isLoggedIn && (
+        {!isLogin && (
           <button
             onClick={(e) => {
               e.stopPropagation();

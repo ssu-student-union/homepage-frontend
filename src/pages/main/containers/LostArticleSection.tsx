@@ -81,6 +81,11 @@ const LostArticleSection = () => {
       ) : null}
     </section>
   );
+  // function EmptyPost() {
+  //   return (
+  //     <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">등록된 게시물이 없습니다.</p>
+  //   );
+  // }
 };
 
 export default LostArticleSection;

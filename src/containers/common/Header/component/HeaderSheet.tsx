@@ -4,6 +4,8 @@ import { CaretDown } from '@phosphor-icons/react';
 import { ReactNode, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { State } from '../const/state';
+import { useSetRecoilState } from 'recoil';
+import { LoginState } from '@/recoil/atoms/atom';
 
 interface HeaderSheetProps {
   trigger: ReactNode;
@@ -15,6 +17,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState<State>(initialState);
   const navigate = useNavigate();
+  const setLoginState = useSetRecoilState(LoginState);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -48,6 +51,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
   const handleLogoutClick = () => {
     localStorage.removeItem('accessToken');
     setState(State.Logout);
+    setLoginState(false);
     setIsOpen(false);
     navigate('/');
   };
