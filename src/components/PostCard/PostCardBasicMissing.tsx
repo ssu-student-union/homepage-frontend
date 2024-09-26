@@ -11,7 +11,7 @@ interface PostCardProps {
   title?: string;
   subtitle?: string;
   date?: string;
-  badgeType?: 'Emergency' | 'New' | 'Default';
+  badgeType?: string;
   cardType: 'Basic' | 'Missing';
   size?: Size;
   profileImg?: string | null;

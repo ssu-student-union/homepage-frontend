@@ -16,7 +16,7 @@ const CampusMapSection = () => {
         <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">캠퍼스맵</h1>
         <ArrowUpRight
           onClick={() => {
-            navigate(`/lost-article?category=state`);
+            navigate(`/campus`);
             window.scrollTo(0, 0);
           }}
           className="ml-2 cursor-pointer"
