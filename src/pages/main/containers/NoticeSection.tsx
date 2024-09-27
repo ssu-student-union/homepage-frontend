@@ -43,7 +43,7 @@ const NoticeSection = () => {
         <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">공지사항</h1>
         <ArrowUpRight
           onClick={() => {
-            navigate(`/lost-article?category=state`);
+            navigate(`/notice`);
             window.scrollTo(0, 0);
           }}
           className="ml-2 cursor-pointer"
