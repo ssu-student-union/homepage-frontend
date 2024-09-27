@@ -68,17 +68,23 @@ const NoticeSection = () => {
       <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
         {noticeCount ? (
           <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
-            {data?.data.postListResDto.map((notice) => (
-              <PostCardNotice
-                key={notice.postId}
-                onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
-                badgeType={notice.status}
-                imgUrl={notice.thumbNail}
-                title={notice.title}
-                date={formatYYYYMMDD(notice.date)}
-                profileName={notice.author}
-              />
-            ))}
+            {data?.data.postListResDto.map((notice) => {
+              let thumbnail = notice.thumbNail || undefined;
+              if (notice.status === '긴급공지' && thumbnail === undefined) {
+                thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
+              }
+              return (
+                <PostCardNotice
+                  key={notice.postId}
+                  onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
+                  badgeType={notice.status}
+                  imgUrl={thumbnail}
+                  title={notice.title}
+                  date={formatYYYYMMDD(notice.date)}
+                  profileName={notice.author}
+                />
+              );
+            })}
           </div>
         ) : (
           <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">

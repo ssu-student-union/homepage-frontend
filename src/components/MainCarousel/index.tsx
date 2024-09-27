@@ -18,7 +18,7 @@ const Counter = ({ slideCount, currentSlide }: { slideCount: number; currentSlid
   </div>
 );
 
-const images = ['/image/1.jpeg', '/image/2.jpeg', '/image/3.jpeg'];
+const images = ['/image/main/1.jpeg', '/image/main/2.jpeg', '/image/main/3.jpeg'];
 
 const MainCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -41,19 +41,6 @@ const MainCarousel = () => {
     pauseOnDotsHover: false,
   };
 
-  // Monitor accessToken changes and update state accordingly
-  // useEffect(() => {
-  //   const handleStorageChange = () => {
-  //     setIsLoggedIn(!!localStorage.getItem('accessToken'));
-  //   };
-
-  //   window.addEventListener('storage', handleStorageChange);
-
-  //   return () => {
-  //     window.removeEventListener('storage', handleStorageChange);
-  //   };
-  // }, []);
-
   return (
     <div className="relative h-screen w-full overflow-hidden">
       <Slider {...settings} className="absolute inset-0 z-0 h-full w-full">
@@ -74,7 +61,7 @@ const MainCarousel = () => {
               e.stopPropagation();
               navigate('/register');
             }}
-            className="pointer-events-auto mt-6 h-[46px] w-[173px] rounded-full border-[1px] border-white bg-transparent"
+            className="pointer-events-auto mt-6 h-[46px] w-[173px] rounded-full border-[1px] border-white bg-transparent transition duration-500 ease-in-out hover:bg-white hover:text-gray-700"
           >
             <p className="font-bold">로그인 하러가기</p>
           </button>
