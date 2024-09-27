@@ -24,6 +24,7 @@ export function useNoticePatch() {
     postDetail?.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
 
   const [title, setTitle] = useState<string>(postDetail?.title ?? '');
+  const [isUrgent, setIsUrgent] = useState<boolean>(false);
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);
@@ -34,6 +35,11 @@ export function useNoticePatch() {
   const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
 
   const handleTitleChange = (newTitle: string) => setTitle(newTitle);
+
+  const handleUrgentChange = (isUrgent: boolean) => {
+    setIsUrgent(isUrgent);
+  };
+
   const handleContentChange = (newContent: string) => setContent(newContent);
 
   const handleFileDelete = (fileUrl: string) => {
@@ -59,6 +65,7 @@ export function useNoticePatch() {
         posts: {
           title,
           content,
+          isNotice: isUrgent,
           thumbnailImage,
           postFileList: uploadedFileList.length > 0 ? uploadedFileList : [0],
         },
@@ -77,6 +84,7 @@ export function useNoticePatch() {
     thumbnailImage,
     imageList,
     fileList,
+    handleUrgentChange,
     fileNames,
     handleTitleChange,
     handleContentChange,

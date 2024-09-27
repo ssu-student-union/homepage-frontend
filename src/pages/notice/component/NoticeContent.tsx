@@ -98,7 +98,11 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
     } else {
       status = 'Default';
     }
-    const thumbnail = post.thumbNail || undefined;
+    let thumbnail = post.thumbNail || undefined;
+
+    if (status === 'Emergency' && thumbnail === undefined) {
+      thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
+    }
 
     return (
       <div key={post.postId} className="xs-pb[20px] sm:pb-[20px] md:pb-[20px] lg:pb-[20px]">

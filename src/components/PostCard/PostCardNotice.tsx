@@ -29,7 +29,7 @@ const PostCardMain = ({
       onClick={onClick}
       className={`relative flex h-[24.25rem] min-w-[20.6rem] cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white xs:h-[17.5rem] xs:w-[14.5rem]`}
     >
-      {badgeType === '긴급' && <Badge variant="Emergency">긴급</Badge>}
+      {badgeType === '긴급공지' && <Badge variant="Emergency">긴급</Badge>}
       {badgeType === '새로운' && <Badge variant="New">NEW!</Badge>}
       {badgeType === '일반' && <Badge variant="Default"></Badge>}
       <div className={`flex flex-col gap-2.5`}>

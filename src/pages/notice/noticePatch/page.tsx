@@ -12,6 +12,7 @@ export default function NoticePatchPage() {
     content,
     handleTitleChange,
     handleContentChange,
+    handleUrgentChange,
     handleSubmit,
     isLoading,
     imageList,
@@ -26,7 +27,11 @@ export default function NoticePatchPage() {
   return (
     <>
       <HeadLayout title="공지사항" searchHidden={true} borderOff={true} />
-      <NoticeEditTitleSection initialTitle={title} onTitleChange={handleTitleChange} />
+      <NoticeEditTitleSection
+        initialTitle={title}
+        onTitleChange={handleTitleChange}
+        onUrgentChange={handleUrgentChange}
+      />
       <NoticeEditContentSection initialValue={content} onContentChange={handleContentChange} />
       <NoticePatchImageSection
         imageList={imageList}

@@ -2,12 +2,12 @@ export const menuItems = {
   소개: [
     { name: '총학생회', path: '/intro?category=president&sub-category=intro' },
     {
-      name: '중앙집행위원회',
-      path: '/intro?category=central_executive_committee&sub-category=intro',
-    },
-    {
       name: '중앙운영위원회',
       path: '/intro?category=central_operating_committee&sub-category=intro',
+    },
+    {
+      name: '중앙집행위원회',
+      path: '/intro?category=central_executive_committee&sub-category=intro',
     },
   ],
   학교생활: [
