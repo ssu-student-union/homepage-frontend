@@ -61,11 +61,12 @@ const MainCarousel = () => {
               e.stopPropagation();
               navigate('/register');
             }}
-            className="pointer-events-auto mt-6 h-[46px] w-[173px] rounded-full border-[1px] border-white bg-transparent transition duration-500 ease-in-out hover:bg-white hover:text-gray-700"
+            className="pointer-events-auto mt-[1rem] h-[46px] w-[173px] rounded-full border-[1px] border-white bg-transparent transition duration-500 ease-in-out hover:bg-white hover:text-gray-700"
           >
             <p className="font-bold">로그인 하러가기</p>
           </button>
         )}
+        {isLogin && <div className="mt-[1rem] h-[46px]"></div>}
       </div>
 
       <Counter slideCount={images.length} currentSlide={currentSlide} />
