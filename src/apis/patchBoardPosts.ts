@@ -14,6 +14,7 @@ export const patchBoardPosts = async ({
       title: posts.title,
       content: posts.content,
       categoryCode: posts.categoryCode,
+      isNotice: posts.isNotice,
       thumbnailImage: posts.thumbnailImage,
       postFileList: posts.postFileList,
     },
