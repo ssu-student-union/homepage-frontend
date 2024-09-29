@@ -11,11 +11,15 @@ import {
 } from '../const/data';
 import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
 import { NoticeResponse } from '../types';
+import { useRecoilValue } from 'recoil';
+import { SearchState } from '@/recoil/atoms/atom';
 
 export function useNoticeBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
   const { currentPage, handlePageChange } = useCurrentPage();
   const { urlCategory, urlSubCategory } = useNoticeCategory();
+
+  const searchQuery = useRecoilValue(SearchState);
 
   const subcategories =
     urlCategory === 'college'
@@ -36,10 +40,10 @@ export function useNoticeBoard(boardCode: string) {
     page: currentPage - 1,
     groupCode: selectedCategory,
     memberCode: selectedSubCategory,
+    q: searchQuery,
   });
   console.log(data);
 
-  // const posts: Post[] = data?.data?.postListResDto || [];
   const totalPages: number = data?.data?.pageInfo?.totalPages ?? 0;
 
   return {

@@ -48,6 +48,8 @@ export function PartnershipPage() {
   const partnershipCount = useMemo(() => {
     if (isLoading) {
       return 0;
+    } else if (data?.data.pageInfo.totalElements === undefined) {
+      return 0;
     }
     return data?.data.pageInfo.totalElements;
   }, [data?.data.pageInfo.totalElements, isLoading]);

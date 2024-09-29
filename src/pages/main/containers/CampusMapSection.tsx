@@ -4,14 +4,29 @@ import xl from '@/assets/image/xl_campusMap.svg';
 import lg from '@/assets/image/lg_campusMap.svg';
 import sm from '@/assets/image/sm_campusMap.svg';
 import xs from '@/assets/image/xs_campusMap.svg';
+import { ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CampusMapSection = () => {
   const { width } = useResize();
+  const navigate = useNavigate();
   return (
-    <section className="flex w-full flex-col items-center justify-center overflow-hidden">
-      <h1 className="w-full text-[2rem] font-bold xs:text-[1.25rem]">캠퍼스맵</h1>
+    <>
+      <div className="flex items-center justify-start">
+        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">캠퍼스맵</h1>
+        <ArrowUpRight
+          onClick={() => {
+            navigate(`/campus`);
+            window.scrollTo(0, 0);
+          }}
+          className="ml-2 cursor-pointer"
+          size={24}
+          strokeWidth={1.5}
+        />
+      </div>
+
       <img
-        className="h-auto w-full"
+        className="flex h-auto w-full flex-col items-center justify-center overflow-hidden"
         src={(() => {
           switch (true) {
             case width < 390:
@@ -30,7 +45,7 @@ const CampusMapSection = () => {
         })()}
         alt="캠퍼스맵"
       />
-    </section>
+    </>
   );
 };
 

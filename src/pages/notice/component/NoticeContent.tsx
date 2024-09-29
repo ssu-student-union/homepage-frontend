@@ -90,8 +90,19 @@ export function NoticeContent({ initPosts, isLoading }: NoticeContentProps) {
 
   function RenderCard({ post, size }: RenderCardProps) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
-    const status = post.status === '긴급공지' ? 'Emergency' : 'Default';
-    const thumbnail = post.thumbNail || undefined;
+    let status: 'Emergency' | 'New' | 'Default';
+    if (post.status === '긴급공지') {
+      status = 'Emergency';
+    } else if (post.status === '새로운') {
+      status = 'New';
+    } else {
+      status = 'Default';
+    }
+    let thumbnail = post.thumbNail || undefined;
+
+    if (status === 'Emergency' && thumbnail === undefined) {
+      thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
+    }
 
     return (
       <div key={post.postId} className="xs-pb[20px] sm:pb-[20px] md:pb-[20px] lg:pb-[20px]">
