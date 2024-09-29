@@ -37,6 +37,7 @@ export function useNoticeBoard(boardCode: string) {
     groupCode: selectedCategory,
     memberCode: selectedSubCategory,
   });
+  console.log(data);
 
   // const posts: Post[] = data?.data?.postListResDto || [];
   const totalPages: number = data?.data?.pageInfo?.totalPages ?? 0;
