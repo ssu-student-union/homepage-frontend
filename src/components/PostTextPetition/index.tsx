@@ -39,7 +39,7 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
   }, [data?.content]);
 
   const title = useTruncateText(data.title, 18);
-  const content = useTruncateText(petitionPurpose, 80);
+  const content = useTruncateText(petitionPurpose, 75);
 
   return (
     <div

@@ -7,5 +7,6 @@ export interface CommentProps {
   className: string;
   isReply?: boolean;
   commentId?: number;
+  authority?: string[];
   type?: PetitionCommentOrderType;
 }

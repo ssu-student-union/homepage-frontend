@@ -377,9 +377,14 @@ export default function UploadSection({ userId }: { userId: string }) {
 
             console.log(fileUrls);
 
-            const response = await delBoardFiles(boardCode, fileUrls);
+            const delFiles = {
+              boardCode: boardCode,
+              fileUrls: fileUrls,
+            };
 
-            if (response.status === 200) {
+            const response = await delBoardFiles(delFiles);
+
+            if (response.code === '200') {
               alert('파일이 성공적으로 삭제되었습니다.');
             } else {
               alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
@@ -429,9 +434,14 @@ export default function UploadSection({ userId }: { userId: string }) {
 
             console.log(fileUrls);
 
-            const response = await delBoardFiles(boardCode, fileUrls);
+            const delFiles = {
+              boardCode: boardCode,
+              fileUrls: fileUrls,
+            };
 
-            if (response.status === 200) {
+            const response = await delBoardFiles(delFiles);
+
+            if (response.code === '200') {
               alert('파일이 성공적으로 삭제되었습니다.');
             } else {
               alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
@@ -483,10 +493,14 @@ export default function UploadSection({ userId }: { userId: string }) {
           const boardCode = '자료집게시판';
           const fileUrls = fileToDelete.fileUrl;
           console.log(fileUrls);
+          const delFiles = {
+            boardCode: boardCode,
+            fileUrls: fileUrls,
+          };
 
-          const response = await delBoardFiles(boardCode, fileUrls);
+          const response = await delBoardFiles(delFiles);
 
-          if (response.status === 200) {
+          if (response.code === '200') {
             alert('파일이 성공적으로 삭제되었습니다.');
           } else {
             alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');

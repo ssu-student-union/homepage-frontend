@@ -13,22 +13,22 @@ const KakaoRedirect = () => {
   useEffect(() => {
     const kakaoLogin = async () => {
       try {
-        console.log(AUTHORIZE_CODE);
         const response = await kakaoAuthCodeApi(AUTHORIZE_CODE);
-        console.log(response);
         const res = response.data;
         const accessToken = response.data.data.accessToken;
         localStorage.setItem('kakaoData', JSON.stringify(res));
         localStorage.setItem('accessToken', accessToken);
 
-        if (res) {
-          // res.data 객체에 name과 studentId가 존재하는지 확인
-          if (res.data?.name && res.data?.studentId) {
-            navigate('/'); // 조건을 만족하면 홈으로 이동
-            setLoginState(true);
+        if (res.code === '200') {
+          // 최초 회원가입 유저의 경우 약관 동의가 필요
+          if (res.data.isFirst) {
+            navigate('/register/tos'); // 최초 회원가입 유저는 약관 동의 화면으로 이동
           } else {
-            navigate('/register/onboarding'); // 조건을 만족하지 않으면 onboarding 페이지로 이동
+            navigate('/'); // 이미 가입된 유저는 메인 화면으로 이동
+            setLoginState(true);
           }
+        } else {
+          alert('로그인에 실패했습니다');
         }
       } catch (err) {
         console.log(err);

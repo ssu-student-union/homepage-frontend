@@ -42,6 +42,7 @@ export function useNoticeBoard(boardCode: string) {
     memberCode: selectedSubCategory,
     q: searchQuery,
   });
+  console.log(data);
 
   const totalPages: number = data?.data?.pageInfo?.totalPages ?? 0;
 

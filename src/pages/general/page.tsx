@@ -4,6 +4,7 @@ import { CertifyErrorSection } from '@/pages/general/containers/CertifyErrorSect
 import { CertifyApplySection } from './containers/CertifyApplySection';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
+import { TOSSection } from './containers/TOSSectioin';
 
 export function GeneralRegisterPage() {
   const { sort } = useParams();
@@ -17,6 +18,8 @@ export function GeneralRegisterPage() {
         <CertifyErrorSection />
       ) : sort === 'errorapply' ? (
         <CertifyApplySection />
+      ) : sort === 'tos' ? (
+        <TOSSection />
       ) : (
         <GeneralRegisterSection subSection1={'학생 정보 입력'} buttonSection={'입력 완료'} />
       )}

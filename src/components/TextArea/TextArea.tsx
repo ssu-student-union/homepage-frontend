@@ -5,6 +5,8 @@ import { usePostBoardPostComment, usePostBoardPostReplyComment } from '@/hooks/u
 import { cn } from '@/libs/utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TextAreaProps } from './types';
+import { useSetRecoilState } from 'recoil';
+import { commentLoadingState } from '@/recoil/atoms/atom';
 
 type ParamsType = {
   id: string;
@@ -35,6 +37,11 @@ export function TextArea({
   const patchBoardCommentMutation = usePatchBoardPostsComment();
   const patchBoardReplyCommentMutation = usePatchBoardPostsReplyComment();
 
+  const setIsLoading = useSetRecoilState(commentLoadingState);
+  useEffect(() => {
+    setIsLoading(postBoardCommentMutation.isPending);
+  }, [setIsLoading, postBoardCommentMutation]);
+
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -58,9 +65,14 @@ export function TextArea({
     } else {
       if (isAuthority?.includes('COMMENT')) {
         try {
+          setText('');
+          setCommentCount(0);
           if (!isEdit) {
             if (!isReply) {
-              await postBoardCommentMutation.mutateAsync({ postId: Number(id), content: text });
+              await postBoardCommentMutation.mutateAsync({
+                postId: Number(id),
+                content: text,
+              });
             } else {
               await postBoardReplyCommentMutation.mutateAsync({ commentId: commentId!, content: text });
             }
@@ -76,8 +88,6 @@ export function TextArea({
             }
             if (onEditSuccess) onEditSuccess(text);
           }
-          setText('');
-          setCommentCount(0);
         } catch (err) {
           console.error(err);
         }

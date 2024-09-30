@@ -58,7 +58,7 @@ export function LostDetailPage() {
           <AuditDetailEditSection
             title={postDetail.title}
             content={postDetail.content}
-            authority={postDetail.canAuthority}
+            authority={postDetail.allowedAuthorities}
             isAuthor={postDetail.isAuthor}
             imageUrls={imageList}
             boardCode={boardCode}

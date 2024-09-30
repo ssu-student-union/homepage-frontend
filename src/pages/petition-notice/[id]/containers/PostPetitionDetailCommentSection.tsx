@@ -7,6 +7,8 @@ import { Comment } from '@/components/Comment/Comment';
 import { useParams } from 'react-router-dom';
 import { useGetBoardPostComment } from '@/hooks/useGetBoardPostComment';
 import { SkeletonComment } from './SkeletonComment';
+import { useRecoilValue } from 'recoil';
+import { commentLoadingState } from '@/recoil/atoms/atom';
 
 type ParamsType = {
   id: string;
@@ -27,6 +29,9 @@ export function PostPetitionDetailCommentSection() {
     localStorage.setItem('total-comment', JSON.stringify(data?.data.total));
   }
 
+  // 댓글 생성 시 로딩 시간 처리
+  const isCommentLoading = useRecoilValue(commentLoadingState);
+
   return (
     <>
       <div className="mb-[512px] mt-16 px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
@@ -43,13 +48,21 @@ export function PostPetitionDetailCommentSection() {
             onSubcategorySelect={onSubcategorySelect}
           />
         </div>
-        <TextArea className="w-full">{null}</TextArea>
+        <TextArea className="w-full" isAuthority={data?.data.allowedAuthorities}>
+          {null}
+        </TextArea>
         <div className="flex flex-col">
           {localStorage.getItem('total-comment') === '0' ? (
             data?.data.postComments.map((comment) => (
-              <Comment comment={comment} key={comment.id} className="" type={selectedSubcategories} />
+              <Comment
+                key={comment.id}
+                comment={comment}
+                authority={data.data.allowedAuthorities}
+                className=""
+                type={selectedSubcategories}
+              />
             ))
-          ) : isLoading ? (
+          ) : isLoading || isCommentLoading ? (
             <>
               {[...Array(4)].map((_, index) => (
                 <SkeletonComment key={index} />
@@ -57,7 +70,13 @@ export function PostPetitionDetailCommentSection() {
             </>
           ) : (
             data?.data.postComments.map((comment) => (
-              <Comment comment={comment} key={comment.id} className="" type={selectedSubcategories} />
+              <Comment
+                key={comment.id}
+                comment={comment}
+                authority={data.data.allowedAuthorities}
+                className=""
+                type={selectedSubcategories}
+              />
             ))
           )}
         </div>

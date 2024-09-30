@@ -41,7 +41,7 @@ export interface PostDetailResDto {
   postId: number;
   categoryName: string;
   authorName: string;
-  canAuthority: string[];
+  allowedAuthorities: string[];
   title: string;
   content: string;
   createdAt: string;
@@ -51,8 +51,6 @@ export interface PostDetailResDto {
   studentId: string;
   likeCount: number;
   fileResponseList: FileResponse[];
-  imageList: string[];
-  fileList: string[];
   officialCommentList: OfficialCommentList[];
 }
 

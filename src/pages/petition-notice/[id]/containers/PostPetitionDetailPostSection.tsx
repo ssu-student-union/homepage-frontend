@@ -12,6 +12,7 @@ import { usePostPostReaction } from '@/hooks/usePostPostReaction';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
+import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
 
 type ParamsType = {
   id: string;
@@ -45,14 +46,23 @@ export function PostPetitionDetailPostSection() {
   const replaceSN = (student_number: string | null, chracter: string) => {
     return student_number!.substring(0, 2) + chracter.repeat(4) + student_number!.substring(6);
   };
+
   const { mutate } = useDelBoardPosts();
+  const deletePostFileMutation = useDelBoardFiles();
+
   const handleDeleteContent = async () => {
     const deleteCheck = window.confirm('게시글을 삭제하시겠습니까?');
     if (deleteCheck) {
+      //s3 이미지 삭제 api
+      data?.data.postDetailResDto.fileResponseList.map(async (images) => {
+        await deletePostFileMutation.mutateAsync({ boardCode: '청원게시판', fileUrls: [images.fileUrl] });
+      });
+
+      // //게시물 삭제 api
       mutate({
         boardCode: '청원게시판',
         postId: data?.data.postDetailResDto.postId as number,
-        fileurl: data?.data.postDetailResDto.imageList ?? [],
+        fileurl: [],
       });
       navigate('/petition-notice');
     } else {
@@ -82,7 +92,7 @@ export function PostPetitionDetailPostSection() {
         return;
       }
     } else {
-      if (!data?.data.postDetailResDto.canAuthority.includes('REACTION')) {
+      if (!data?.data.postDetailResDto.allowedAuthorities.includes('REACTION')) {
         alert('자치기구는 청원 게시물에 대한 좋아요 권한이 없습니다.');
       } else {
         const post_reaction = {
@@ -160,7 +170,8 @@ export function PostPetitionDetailPostSection() {
                 </>
               )}
               <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
-                {data?.data.postDetailResDto.isAuthor || data?.data.postDetailResDto.canAuthority.includes('DELETE') ? (
+                {data?.data.postDetailResDto.isAuthor ||
+                data?.data.postDetailResDto.allowedAuthorities.includes('DELETE') ? (
                   <DeleteButton onClick={handleDeleteContent} />
                 ) : null}
                 {data?.data.postDetailResDto.isAuthor ? <EditButton onClick={handleEditContent} /> : null}

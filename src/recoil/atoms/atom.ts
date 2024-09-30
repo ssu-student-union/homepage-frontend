@@ -19,3 +19,8 @@ export const LoginState = atom<boolean>({
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
+
+export const commentLoadingState = atom<boolean>({
+  key: 'commentLoadingState',
+  default: false,
+});

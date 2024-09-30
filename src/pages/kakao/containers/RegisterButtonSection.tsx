@@ -5,7 +5,7 @@ const rest_api_key = import.meta.env.VITE_REST_API_KEY;
 const redirect_uri = import.meta.env.VITE_REDIRECT_URI;
 const TAG = ['ussum_001', 'ussum_002', 'ussum_003'];
 
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${rest_api_key}&redirect_uri=${redirect_uri}&service_terms=${TAG}&prompt=login`;
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${rest_api_key}&redirect_uri=${redirect_uri}&service_terms=${TAG}`;
 
 const handleLogin = () => {
   window.location.href = KAKAO_AUTH_URL;
