@@ -1,15 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check, CheckCircle } from '@phosphor-icons/react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogPortal,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogPortal, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { PrivacyContent, ProcessContent, ThirdContent } from '../components/TOSContent';
 
 export function TOSSection() {
@@ -95,15 +87,13 @@ export function TOSSection() {
                               ? '서비스 이용 약관 동의서'
                               : '제 3자 정보제공 동의서'}
                         </DialogTitle>
-                        <DialogDescription>
-                          {selectedTOS === 'privacy' ? (
-                            <PrivacyContent />
-                          ) : selectedTOS === 'service' ? (
-                            <ProcessContent />
-                          ) : (
-                            <ThirdContent />
-                          )}
-                        </DialogDescription>
+                        {selectedTOS === 'privacy' ? (
+                          <PrivacyContent />
+                        ) : selectedTOS === 'service' ? (
+                          <ProcessContent />
+                        ) : (
+                          <ThirdContent />
+                        )}
                       </DialogHeader>
                     </DialogContent>
                   </DialogPortal>
