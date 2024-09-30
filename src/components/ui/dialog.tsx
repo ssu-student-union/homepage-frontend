@@ -29,7 +29,7 @@ const DialogOverlay = React.forwardRef<React.ElementRef<typeof DialogPrimitive.O
         className,
         {
           'bg-black': showOverlay,
-          'bg-opacity-50': showOverlay,
+          'bg-opacity-30': showOverlay,
         }
       )}
       {...props}
