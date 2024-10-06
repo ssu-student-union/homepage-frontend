@@ -11,17 +11,28 @@ import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { getBoardDataPostSearch } from '@/apis/getBoardDataPostSearch';
 
+interface File {
+  postFileId: number;
+  fileName: string;
+  fileUrl: string;
+  fileType: string;
+}
+
 interface Post {
+  postId?: number;
   category: string;
   createdAt: number;
   uploadName: string;
   uploadDate: string;
   fileData: string[];
   fileNames: string[];
+  fileUrl: string[];
+  fileType: string[];
   title?: string;
   date: string;
   content?: string[];
-  files?: string[];
+  files?: File[];
+  isNotice?: boolean;
   [key: string]: any;
 }
 
@@ -34,17 +45,17 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
   const dropdownRef = useRef<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataBoxes, setDataBoxes] = useState<Post[]>([]);
+  const [latestDataBox, setLatestDataBox] = useState<Post | null>(null);
   const [, setData] = useState<any>([]);
   const [selectedMajorOption, setSelectedMajorOption] = useState('');
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
-  const [latestSpecialCategory, setLatestSpecialCategory] = useState<Post | null>(null);
   const navigate = useNavigate();
   const [totalPage, setTotalPage] = useState(0);
   const searchInput = useRecoilValue(SearchState);
   const [isAuthor, setIsAuthor] = useState(false);
-  const [initialTotalElements, setInitialTotalElements] = useState<number | null>(null); // Store initial total elements
-  const [filters, setFilters] = useState<any>({}); // Store filters in state
+  const [initialTotalElements, setInitialTotalElements] = useState<number | null>(null);
+  const [filters, setFilters] = useState<any>({});
 
   useEffect(() => {
     if (searchInput) {
@@ -52,35 +63,35 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     }
   }, [currentPage, searchInput]);
 
-  const fetchLatestSpecialCategory = async () => {
+  const fetchLatestSpecialCategory = async (page: number = 1) => {
     try {
-      const response = await getBoardDataPosts({ filters: {}, page: 1 });
+      console.log('fetchLatestSpecialCategory called');
 
-      if (response.data && response.data.data && response.data.data.postListResDto) {
-        setInitialTotalElements(response.data.data.pageInfo.totalElements); // Set initial total elements on first load
+      const filters = {
+        majorCategory: '총학생회',
+        middleCategory: '중앙운영위원회 회의록',
+        subCategory: '총학생회칙',
+      };
+      const latestResponse = await getBoardDataPosts({ filters, page });
 
-        const allData: Post[] = response.data.data.postListResDto.map((post: any) => ({
-          ...post,
-          createdAt: new Date(post.date).getTime(),
-          fileNames: post.content || [],
-        }));
+      if (latestResponse.data?.data?.postListResDto?.length > 0) {
+        console.log('latestResponse', latestResponse);
 
-        const specialCategoryData = allData
-          .filter((data: Post) => data.fileNames.includes('총학생회칙'))
-          .sort((a: Post, b: Post) => b.createdAt - a.createdAt);
-
-        const latestSpecialCategoryData = specialCategoryData[0];
-
-        if (latestSpecialCategoryData) {
-          const alreadyInPage1 = allData.some((data: Post) => data.createdAt === latestSpecialCategoryData.createdAt);
-
-          if (!alreadyInPage1) {
-            allData.unshift(latestSpecialCategoryData);
-          }
-
-          setLatestSpecialCategory(latestSpecialCategoryData);
-          setDataBoxes(allData);
-        }
+        const latestPost = latestResponse.data.data.postListResDto[0];
+        setLatestDataBox({
+          postId: latestPost.postId,
+          category: latestPost.category || '기타',
+          createdAt: new Date(latestPost.date).setHours(0, 0, 0, 0),
+          uploadName: latestPost.title || 'Unnamed Upload',
+          uploadDate: latestPost.date || 'Unknown Date',
+          fileData: latestPost.files ? latestPost.files.map((file: File) => file.fileName) : [],
+          fileNames: latestPost.files ? latestPost.files.map((file: File) => file.fileName) : [],
+          fileUrl: latestPost.files ? latestPost.files.map((file: File) => file.fileUrl) : [],
+          fileType: latestPost.files ? latestPost.files.map((file: File) => file.fileType) : [],
+          isNotice: latestPost.isNotice || false,
+          // Add other necessary fields
+        });
+        console.log('latestDataBox', latestDataBox);
       }
     } catch (error) {
       console.error('Error fetching latest special category:', error);
@@ -92,44 +103,41 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     try {
       const searchResponse = await getBoardDataPostSearch({
         page,
-        take: 5, // Adjust according to your pagination
+        take: 5,
         groupCode: filters.majorCategory,
         memberCode: filters.middleCategory,
         category: filters.subCategory,
-        q: searchInput, // Include the search query here
+        q: searchInput,
       });
       console.log('Search API Response:', searchResponse);
 
-      if (searchResponse && searchResponse.data && searchResponse.data.postListResDto) {
-        // Check if total elements are unchanged compared to the initial load
+      if (searchResponse?.data?.postListResDto) {
         const currentTotalElements = searchResponse.data.pageInfo.totalElements;
 
         if (
           (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
-          currentTotalElements == 0
+          currentTotalElements === 0
         ) {
           alert('조회결과가 없습니다.');
-          window.location.reload(); // Refresh the page
+          window.location.reload();
           return;
         }
+
         const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: any) => ({
           ...post,
           category: post.category || '기타',
           createdAt: new Date(post.date).setHours(0, 0, 0, 0),
-          uploadName: post.title,
-          uploadDate: post.date,
-          fileData: post.files || [],
-          fileUrl: post.files.map((file: any) => file.fileUrl) || [],
-          fileNames: post.content || [],
-          fileName: post.files.map((file: any) => file.fileName) || [],
-          fileType: post.files.map((file: any) => file.fileType) || [],
+          uploadName: post.title || 'Unnamed Upload',
+          uploadDate: post.date || 'Unknown Date',
+          fileData: post.files ? post.files.map((file: File) => file.fileName) : [],
+          fileNames: post.files ? post.files.map((file: File) => file.fileName) : [],
+          fileUrl: post.files ? post.files.map((file: File) => file.fileUrl) : [],
+          fileType: post.files ? post.files.map((file: File) => file.fileType) : [],
         }));
 
         console.log('categorizedDataBoxes', categorizedDataBoxes);
         setDataBoxes(categorizedDataBoxes);
-
-        const totalPages = searchResponse.data.pageInfo.totalPages;
-        setTotalPage(totalPages);
+        setTotalPage(searchResponse.data.pageInfo.totalPages);
       } else {
         console.error('API response data structure is not as expected:', searchResponse);
         setDataBoxes([]);
@@ -147,19 +155,18 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
       console.log('API Response:', response);
       setData(response.data);
 
-      if (response.data && response.data.data && response.data.data.postListResDto) {
+      if (response.data?.data?.postListResDto?.length > 0) {
         const currentTotalElements = response.data.data.pageInfo.totalElements;
 
         console.log('currentTotalElements', currentTotalElements);
         console.log('initialTotalElements', initialTotalElements);
 
-        // Check if total elements are unchanged compared to the initial load
         if (
           (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
-          currentTotalElements == 0
+          currentTotalElements === 0
         ) {
           alert('조회결과가 없습니다.');
-          window.location.reload(); // Refresh the page
+          window.location.reload();
           return;
         }
 
@@ -167,16 +174,15 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
           ...post,
           category: post.category || '기타',
           createdAt: new Date(post.date).setHours(0, 0, 0, 0),
-          uploadName: post.title,
-          uploadDate: post.date,
-          fileData: post.files || [],
-          fileUrl: post.files.map((file: any) => file.fileUrl) || [],
-          fileNames: post.content || [],
-          fileName: post.files.map((file: any) => file.fileName) || [],
-          fileType: post.files.map((file: any) => file.fileType) || [],
+          uploadName: post.title || 'Unnamed Upload',
+          uploadDate: post.date || 'Unknown Date',
+          fileData: post.files ? post.files.map((file: File) => file.fileName) : [],
+          fileNames: post.files ? post.files.map((file: File) => file.fileName) : [],
+          fileUrl: post.files ? post.files.map((file: File) => file.fileUrl) : [],
+          fileType: post.files ? post.files.map((file: File) => file.fileType) : [],
         }));
 
-        setDataBoxes(categorizedDataBoxes); // Set the filtered data
+        setDataBoxes(categorizedDataBoxes);
         setTotalPage(response.data.data.pageInfo.totalPages);
       }
     } catch (error) {
@@ -185,12 +191,13 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
   };
 
   useEffect(() => {
-    fetchLatestSpecialCategory(); // Fetch the latest special category when the component mounts
+    console.log('fetchLatestSpecialCategory called');
+    fetchLatestSpecialCategory();
   }, []);
 
   const handleFetchData = () => {
     if (dropdownRef.current) {
-      dropdownRef.current.resetDropdowns(); // Reset dropdowns
+      dropdownRef.current.resetDropdowns();
     }
 
     const newFilters: any = {};
@@ -198,25 +205,20 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     if (selectedMiddleOption) newFilters.middleCategory = selectedMiddleOption;
     if (selectedMinorOption) newFilters.subCategory = selectedMinorOption;
 
-    setFilters(newFilters); // Update filters state
+    setFilters(newFilters);
 
     if (searchInput) {
-      searchFetchData(newFilters, currentPage); // Fetch data based on search query
-    } else {
-      ('');
+      searchFetchData(newFilters, currentPage);
     }
   };
 
-  // Keep the filters when currentPage changes
   useEffect(() => {
     if (searchInput) {
-      ('');
+      // Optionally handle search input changes
     } else {
-      fetchData(filters, currentPage); // Fetch data with stored filters
+      fetchData(filters, currentPage);
     }
   }, [currentPage, filters]);
-
-  const currentData = dataBoxes;
 
   const handleDownload = (fileUrl: string, fileName: string) => {
     const link = document.createElement('a');
@@ -241,10 +243,30 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     }
   }, [authority]);
 
+  // Transform latestDataBox into a Post object
+  const latestData: Post | null = latestDataBox
+    ? {
+        postId: latestDataBox.postId,
+        category: latestDataBox.category || '기타',
+        createdAt: latestDataBox.createdAt,
+        uploadName: latestDataBox.uploadName || 'Unnamed Upload',
+        uploadDate: latestDataBox.uploadDate || 'Unknown Date',
+        fileData: latestDataBox.fileData || [],
+        fileNames: latestDataBox.fileNames || [],
+        fileUrl: latestDataBox.fileUrl || [],
+        fileType: latestDataBox.fileType || [],
+        isNotice: latestDataBox.isNotice || false,
+        // Add any other necessary fields
+      }
+    : null;
+
+  // Combine latestData with dataBoxes
+  const displayedData = currentPage === 1 && latestData ? [latestData, ...dataBoxes.slice(0, 4)] : dataBoxes;
+
   return (
     <>
       <DropdownSection
-        ref={dropdownRef} // ref를 DropdownSection에 전달
+        ref={dropdownRef}
         majorOptions={majorOptions}
         middleOptions={middleOptions}
         minorOptions={minorOptions}
@@ -261,80 +283,60 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
 
       <div className="flex justify-center">
         <div className="mt-8 grid place-items-center border-t border-black sm:w-[364px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]">
-          {currentData.length > 0 ? (
-            currentData
-              .sort((a: Post, b: Post) => {
-                // Compare by createdAt to ensure the latest "총학생회칙" entry comes first
-                const isALatest = latestSpecialCategory?.createdAt === a.createdAt;
-                const isBLatest = latestSpecialCategory?.createdAt === b.createdAt;
-
-                if (isALatest && !isBLatest) return -1; // `a` should come before `b`
-                if (!isALatest && isBLatest) return 1; // `b` should come before `a`
-
-                // For items that are not the latest "총학생회칙", sort by createdAt descending
-                return b.createdAt - a.createdAt;
-              })
-              .map((data: Post, index: number) => {
-                // Determine if the current data entry is the latest "총학생회칙" entry across all pages
-                const isLatestSpecialCategory = latestSpecialCategory?.createdAt === data.createdAt;
-
-                return (
+          {displayedData.length > 0 ? (
+            displayedData.map((data, index) => (
+              <div
+                key={data.postId || index}
+                onClick={() => handleSendData(data)}
+                className="h-[100px] border-b border-[#C2C2C2] py-4 sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
+              >
+                <div className="flex justify-between">
                   <div
-                    key={index}
-                    onClick={() => handleSendData(data)}
-                    className="h-[100px] border-b border-[#C2C2C2] py-4 sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
+                    className={`flex ${latestData && index === 0 ? '' : 'pl-16 xs:pl-8 sm:pl-2'} text-lg font-medium text-black xs:text-sm sm:text-sm`}
                   >
-                    <div className="flex justify-between">
-                      <div
-                        className={`flex ${
-                          isLatestSpecialCategory ? '' : 'pl-16 xs:pl-8 sm:pl-2'
-                        } text-lg font-medium text-black xs:text-sm sm:text-sm`}
-                      >
-                        {isLatestSpecialCategory && <div className="mr-5">[공지]</div>}
-                        {data.uploadName || 'Unnamed Upload'}
-                      </div>
-                      <div className="text-lg font-medium text-[#888888] xs:text-sm sm:text-sm">
-                        {data.uploadDate || 'Unknown Date'}
-                      </div>
-                    </div>
-
-                    <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
-                      {data.fileUrl.map((fileUrl: string, fileIndex: number) => {
-                        // Manually split the fileType string into an array of individual file types
-                        const fileTypesArray = data.fileType[0]?.split(',') || []; // Assuming fileType[0] contains "결산안,활동보고,자료"
-
-                        return (
-                          <button
-                            key={fileIndex}
-                            onClick={() => handleDownload(fileUrl, data.fileNames[fileIndex])}
-                            className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
-                          >
-                            {fileTypesArray[fileIndex] && (
-                              <span key={fileIndex} className="block">
-                                {fileTypesArray[fileIndex].trim()} {/* Display the correct fileType for this fileUrl */}
-                              </span>
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
+                    {latestData && index === 0 && currentPage === 1 && <div className="mr-5">[공지]</div>}
+                    {latestData && index === 0 && currentPage != 1 && <div className="mr-16"></div>}
+                    {data.uploadName || 'Unnamed Upload'}
                   </div>
-                );
-              })
+                  <div className="text-lg font-medium text-[#888888] xs:text-sm sm:text-sm">
+                    {data.uploadDate || 'Unknown Date'}
+                  </div>
+                </div>
+
+                <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
+                  {Array.isArray(data.fileUrl) && data.fileUrl.length > 0 ? (
+                    data.fileUrl.map((fileUrl: string, fileIndex: number) => {
+                      const fileType = data.fileType[fileIndex] || '';
+                      const fileName = data.fileNames[fileIndex] || 'Unknown File';
+                      return (
+                        <button
+                          key={fileIndex}
+                          onClick={() => handleDownload(fileUrl, fileName)}
+                          className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
+                        >
+                          {fileType.trim()}
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <span className="text-sm text-gray-500">No Files</span>
+                  )}
+                </div>
+              </div>
+            ))
           ) : (
-            <div className="text-center text-lg font-medium text-gray-500">No data available</div>
+            <div className="text-center text-lg font-medium text-gray-500">데이터가 없습니다.</div>
           )}
 
-          <div className="mt-[34px] hidden xs:block sm:block md:block"> {isAuthor ? <DataEditBtn /> : null}</div>
+          <div className="mt-[34px] hidden xs:block sm:block md:block">{isAuthor ? <DataEditBtn /> : null}</div>
 
           <div className="mt-[109px] flex w-full justify-between sm:mt-[34px] md:mt-[34px] lg:mt-[49px] xl:mt-[49px]">
-            {userId && <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />}
-            {!userId && <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />}
-            {isAuthor ? (
+            <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
+            {isAuthor && (
               <div className="hidden lg:block xl:block xxl:block">
                 <DataEditBtn />
               </div>
-            ) : null}
+            )}
           </div>
         </div>
       </div>
