@@ -11,7 +11,6 @@ import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { getBoardDataPostSearch } from '@/apis/getBoardDataPostSearch';
 
-// Define the Post interface for type safety
 interface Post {
   category: string;
   createdAt: number;
@@ -23,28 +22,33 @@ interface Post {
   date: string;
   content?: string[];
   files?: string[];
-  [key: string]: any; // Add this line if there are additional dynamic keys
+  [key: string]: any;
 }
 
-export default function DataBoxSection({ userId }: { userId: string }) {
+interface DataBoxSectionProps {
+  userId: string;
+  authority?: string[];
+}
+
+export default function DataBoxSection({ userId, authority }: DataBoxSectionProps) {
   const dropdownRef = useRef<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataBoxes, setDataBoxes] = useState<Post[]>([]);
-  const [, setData] = useState<any>([]); // Adjust type if `data` is more specific
+  const [, setData] = useState<any>([]);
   const [selectedMajorOption, setSelectedMajorOption] = useState('');
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
-  const [latestSpecialCategory, setLatestSpecialCategory] = useState<Post | null>(null); // State to store the latest "총학생회칙" entry across all pages
+  const [latestSpecialCategory, setLatestSpecialCategory] = useState<Post | null>(null);
   const navigate = useNavigate();
   const [totalPage, setTotalPage] = useState(0);
   const searchInput = useRecoilValue(SearchState);
+  const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect(() => {
-    fetchLatestSpecialCategory(); // Fetch the latest special category when the component mounts
+    fetchLatestSpecialCategory();
   }, []);
 
   useEffect(() => {
-    // Fetch data whenever the currentPage or searchInput changes
     if (searchInput) {
       searchFetchData({}, currentPage);
       handleFetchData();
@@ -53,35 +57,30 @@ export default function DataBoxSection({ userId }: { userId: string }) {
 
   const fetchLatestSpecialCategory = async () => {
     try {
-      // Fetch the first page of data
       const response = await getBoardDataPosts({ filters: {}, page: 1 });
 
       if (response.data && response.data.data && response.data.data.postListResDto) {
-        // Map the posts into the Post interface structure
         const allData: Post[] = response.data.data.postListResDto.map((post: any) => ({
           ...post,
           createdAt: new Date(post.date).getTime(),
           fileNames: post.content || [],
         }));
 
-        // Find the latest "총학생회칙" entry
         const specialCategoryData = allData
           .filter((data: Post) => data.fileNames.includes('총학생회칙'))
           .sort((a: Post, b: Post) => b.createdAt - a.createdAt);
 
-        const latestSpecialCategoryData = specialCategoryData[0]; // Get the most recent entry
+        const latestSpecialCategoryData = specialCategoryData[0];
 
         if (latestSpecialCategoryData) {
-          // Check if it's already in the current page 1 data
           const alreadyInPage1 = allData.some((data: Post) => data.createdAt === latestSpecialCategoryData.createdAt);
 
-          // If it's not already in the page 1 data, inject it at the start
           if (!alreadyInPage1) {
             allData.unshift(latestSpecialCategoryData);
           }
 
-          setLatestSpecialCategory(latestSpecialCategoryData); // Store it in state
-          setDataBoxes(allData); // Update the state with the modified data
+          setLatestSpecialCategory(latestSpecialCategoryData);
+          setDataBoxes(allData);
         }
       }
     } catch (error) {
@@ -118,18 +117,17 @@ export default function DataBoxSection({ userId }: { userId: string }) {
         }));
 
         console.log('categorizedDataBoxes', categorizedDataBoxes);
-        setDataBoxes(categorizedDataBoxes); // Set the filtered data
+        setDataBoxes(categorizedDataBoxes);
 
-        // Update totalPage based on the response
         const totalPages = searchResponse.data.pageInfo.totalPages;
-        setTotalPage(totalPages); // Update totalPage state
+        setTotalPage(totalPages);
       } else {
         console.error('API response data structure is not as expected:', searchResponse);
-        setDataBoxes([]); // Clear data if the response is not as expected
+        setDataBoxes([]);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      setDataBoxes([]); // Clear data if there's an error
+      setDataBoxes([]);
     }
   };
 
@@ -148,10 +146,10 @@ export default function DataBoxSection({ userId }: { userId: string }) {
           uploadName: post.title,
           uploadDate: post.date,
           fileData: post.files || [],
-          fileUrl: post.files.map((file: any) => file.fileUrl) || [], // 수정된 부분
+          fileUrl: post.files.map((file: any) => file.fileUrl) || [],
           fileNames: post.content || [],
-          fileName: post.files.map((file: any) => file.fileName) || [], // 수정된 부분
-          fileType: post.files.map((file: any) => file.fileType) || [], // 수정된 부분
+          fileName: post.files.map((file: any) => file.fileName) || [],
+          fileType: post.files.map((file: any) => file.fileType) || [],
         }));
 
         setDataBoxes(categorizedDataBoxes); // Set the filtered data
@@ -212,9 +210,18 @@ export default function DataBoxSection({ userId }: { userId: string }) {
   };
 
   const handleSendData = (post: Post) => {
-    navigate('/homepage-frontend/data/edit', { state: { post } });
+    if (post.category === userId) {
+      navigate('/data/edit', { state: { post } });
+    }
   };
 
+  useEffect(() => {
+    if (authority?.includes('WRITE')) {
+      setIsAuthor(true);
+    } else {
+      setIsAuthor(false);
+    }
+  }, [authority]);
   return (
     <>
       <DropdownSection
@@ -299,16 +306,16 @@ export default function DataBoxSection({ userId }: { userId: string }) {
             <div className="text-center text-lg font-medium text-gray-500">No data available</div>
           )}
 
-          <div className="mt-[34px] hidden xs:block sm:block md:block">{userId && <DataEditBtn />}</div>
+          <div className="mt-[34px] hidden xs:block sm:block md:block"> {isAuthor ? <DataEditBtn /> : null}</div>
 
           <div className="mt-[109px] flex w-full justify-between sm:mt-[34px] md:mt-[34px] lg:mt-[49px] xl:mt-[49px]">
             {userId && <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />}
             {!userId && <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />}
-            {userId && (
+            {isAuthor ? (
               <div className="hidden lg:block xl:block xxl:block">
                 <DataEditBtn />
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

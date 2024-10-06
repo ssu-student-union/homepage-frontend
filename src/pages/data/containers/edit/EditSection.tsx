@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
 import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
-import { userNameMapping } from '../index';
 import { any } from 'zod';
 
 interface FileItem {
@@ -40,7 +39,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
   useEffect(() => {
     if (post) {
-      console.log(post);
+      console.log('post', post);
     }
   }, []);
 
@@ -153,7 +152,6 @@ export default function UploadSection({ userId }: { userId: string }) {
     '.db',
     '.md',
     '.markdown',
-    // 필요시 더 많은 확장자를 추가
   ];
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -242,7 +240,7 @@ export default function UploadSection({ userId }: { userId: string }) {
       const UserData = localStorage.getItem('kakaoData');
       const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
       const fileName = newFileData.fileName.length > 0 ? newFileData.fileName : null;
-      const userName = (userNameMapping as { [key: string]: string })[userId] || 'Unknown';
+      const userName = userId || 'Unknown';
       const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : 'defaultCategory'; // 'defaultCategory'를 기본값으로 설정
       const fileType = '결과보고서';
 
@@ -406,7 +404,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                   </div>
 
                   <Controller
-                    name={`fileInputs.${input.id}.type`} // 점 표기법으로 변경
+                    name={`fileInputs.${input.id}.type`}
                     control={control}
                     defaultValue={input.type}
                     render={({ field }) => (
@@ -414,11 +412,11 @@ export default function UploadSection({ userId }: { userId: string }) {
                         defaultValue="파일종류 선택"
                         optionValue={fileOptions}
                         onValueChange={(value) => {
-                          setValue(`fileInputs.${input.id}.type`, value); // 동일한 경로로 수정
-                          field.onChange(value); // 필드 값도 변경
-                          trigger(); // 폼 검증 트리거
+                          setValue(`fileInputs.${input.id}.type`, value);
+                          field.onChange(value);
+                          trigger();
                         }}
-                        value={field.value} // 필드 값으로 설정
+                        value={field.value}
                         className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
