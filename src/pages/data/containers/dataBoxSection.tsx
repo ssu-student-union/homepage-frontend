@@ -63,13 +63,30 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     }
   }, [currentPage, searchInput]);
 
+  useEffect(() => {
+    fetchTotalData();
+  }, []);
+
+  const fetchTotalData = async (page: number = 1) => {
+    try {
+      console.log('fetchTotalData  called');
+
+      const TotalResponse = await getBoardDataPosts({ filters, page });
+
+      if (TotalResponse.data?.data?.postListResDto?.length > 0) {
+        console.log('TotalElements', TotalResponse.data.data.pageInfo.totalElements);
+        setInitialTotalElements(TotalResponse.data.data.pageInfo.totalElements);
+      }
+    } catch (error) {
+      console.error('Error fetching latest special category:', error);
+    }
+  };
+
   const fetchLatestSpecialCategory = async (page: number = 1) => {
     try {
       console.log('fetchLatestSpecialCategory called');
 
       const filters = {
-        majorCategory: '총학생회',
-        middleCategory: '중앙운영위원회 회의록',
         subCategory: '총학생회칙',
       };
       const latestResponse = await getBoardDataPosts({ filters, page });

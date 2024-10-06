@@ -38,14 +38,12 @@ export default function UploadSection({ userId }: { userId: string }) {
   console.log('post', post);
 
   // 전달된 post 데이터의 fileData의 개수를 index에 저장
-  const fileDataList = post?.fileData || [];
+  const fileDataList = post?.files || []; // files 속성을 사용
 
   console.log('fileDataList', fileDataList);
 
   const [categories, setCategories] = useState<string[]>([]);
   const [fileCategories, setFileCategories] = useState<string[]>([]);
-  // 첫 번째 파일 입력 필드는 고정된 값, 이후는 fileData를 사용하여 설정
-
   const [fileInputSelecType, setfileInputSelecType] = useState<string>('');
   const [selectType, setSelectType] = useState<string | string[]>([]);
 
@@ -59,22 +57,23 @@ export default function UploadSection({ userId }: { userId: string }) {
     ...fileDataList.map(
       (
         fileData: {
-          fileType: { split: (arg0: string) => { (): any; new (): any; [x: string]: any } };
-          type: any;
-          fileName: any;
-          postFileId: any;
+          fileType: string;
+          fileName: string;
+          postFileId: number;
         },
         idx: number
       ) => ({
-        id: idx + 1, // id is starting from 1
-        type: fileData.fileType.split(',')[idx], // Assign the correct fileType based on index
-        fileName: fileData.fileName,
-        fileType: fileData.fileType.split(',')[idx] || '', // Ensure fileType is assigned
-        postFileId: fileData.postFileId,
+        id: idx + 1, // id는 1부터 시작
+        type: fileData.fileType.split(',')[idx], // fileType이 ','로 구분된 문자열일 경우 첫 번째 값을 사용
+        fileName: fileData.fileName || '', // 파일 이름이 없는 경우 빈 문자열로 처리
+        fileType: fileData.fileType || '', // fileType이 없는 경우 빈 문자열로 처리
+        postFileId: fileData.postFileId, // postFileId가 없는 경우 undefined로 처리
         isNew: false,
       })
     ),
   ]);
+
+  console.log('fileInputs', fileInputs);
 
   console.log('File Data List:', fileDataList);
   console.log('Generated fileInputs:', fileInputs);
@@ -560,7 +559,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           rules={{ required: '카테고리를 선택하세요.' }}
           render={({ field }) => (
             <FilterDropDown
-              defaultValue="카테고리"
+              defaultValue={post?.content || '카테고리'}
               optionValue={categories}
               onValueChange={(value) => {
                 setValue('category', value);
