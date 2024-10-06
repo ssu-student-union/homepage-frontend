@@ -43,14 +43,11 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
   const [totalPage, setTotalPage] = useState(0);
   const searchInput = useRecoilValue(SearchState);
   const [isAuthor, setIsAuthor] = useState(false);
-
-  useEffect(() => {
-    fetchLatestSpecialCategory();
-  }, []);
+  const [initialTotalElements, setInitialTotalElements] = useState<number | null>(null); // Store initial total elements
+  const [filters, setFilters] = useState<any>({}); // Store filters in state
 
   useEffect(() => {
     if (searchInput) {
-      searchFetchData({}, currentPage);
       handleFetchData();
     }
   }, [currentPage, searchInput]);
@@ -60,6 +57,8 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
       const response = await getBoardDataPosts({ filters: {}, page: 1 });
 
       if (response.data && response.data.data && response.data.data.postListResDto) {
+        setInitialTotalElements(response.data.data.pageInfo.totalElements); // Set initial total elements on first load
+
         const allData: Post[] = response.data.data.postListResDto.map((post: any) => ({
           ...post,
           createdAt: new Date(post.date).getTime(),
@@ -99,10 +98,20 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
         category: filters.subCategory,
         q: searchInput, // Include the search query here
       });
-      console.log('API Response:', searchResponse);
+      console.log('Search API Response:', searchResponse);
 
-      // Check if searchResponse.data and searchResponse.data.postListResDto are defined
       if (searchResponse && searchResponse.data && searchResponse.data.postListResDto) {
+        // Check if total elements are unchanged compared to the initial load
+        const currentTotalElements = searchResponse.data.pageInfo.totalElements;
+
+        if (
+          (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
+          currentTotalElements == 0
+        ) {
+          alert('조회결과가 없습니다.');
+          window.location.reload(); // Refresh the page
+          return;
+        }
         const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: any) => ({
           ...post,
           category: post.category || '기타',
@@ -139,6 +148,21 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
       setData(response.data);
 
       if (response.data && response.data.data && response.data.data.postListResDto) {
+        const currentTotalElements = response.data.data.pageInfo.totalElements;
+
+        console.log('currentTotalElements', currentTotalElements);
+        console.log('initialTotalElements', initialTotalElements);
+
+        // Check if total elements are unchanged compared to the initial load
+        if (
+          (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
+          currentTotalElements == 0
+        ) {
+          alert('조회결과가 없습니다.');
+          window.location.reload(); // Refresh the page
+          return;
+        }
+
         const categorizedDataBoxes: Post[] = response.data.data.postListResDto.map((post: any) => ({
           ...post,
           category: post.category || '기타',
@@ -153,11 +177,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
         }));
 
         setDataBoxes(categorizedDataBoxes); // Set the filtered data
-        // Update totalPage based on the response
-        const totalPages = response.data.data.pageInfo.totalPages;
-        setTotalPage(totalPages); // Update totalPage state      } else {
-        console.error('API 응답 데이터가 예상과 다릅니다. 응답 구조:', response.data);
-        console.error('categorizedDataBoxes', categorizedDataBoxes);
+        setTotalPage(response.data.data.pageInfo.totalPages);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -168,33 +188,33 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     fetchLatestSpecialCategory(); // Fetch the latest special category when the component mounts
   }, []);
 
-  useEffect(() => {
-    // 검색어가 변경될 때마다 데이터를 다시 불러오기
-    fetchData({}, currentPage);
-  }, [currentPage]);
-
   const handleFetchData = () => {
-    // Reset dropdowns
     if (dropdownRef.current) {
-      dropdownRef.current.resetDropdowns(); // resetDropdowns 함수 호출
+      dropdownRef.current.resetDropdowns(); // Reset dropdowns
     }
 
-    // Clear the selected options
-    setSelectedMajorOption('');
-    setSelectedMiddleOption('');
-    setSelectedMinorOption('');
+    const newFilters: any = {};
+    if (selectedMajorOption) newFilters.majorCategory = selectedMajorOption;
+    if (selectedMiddleOption) newFilters.middleCategory = selectedMiddleOption;
+    if (selectedMinorOption) newFilters.subCategory = selectedMinorOption;
 
-    const filters: any = {};
-    if (selectedMajorOption) filters.majorCategory = selectedMajorOption;
-    if (selectedMiddleOption) filters.middleCategory = selectedMiddleOption;
-    if (selectedMinorOption) filters.subCategory = selectedMinorOption;
+    setFilters(newFilters); // Update filters state
 
     if (searchInput) {
-      searchFetchData(filters, currentPage); // Fetch data based on search query
+      searchFetchData(newFilters, currentPage); // Fetch data based on search query
     } else {
-      fetchData(filters, currentPage); // Fetch data normally
+      ('');
     }
   };
+
+  // Keep the filters when currentPage changes
+  useEffect(() => {
+    if (searchInput) {
+      ('');
+    } else {
+      fetchData(filters, currentPage); // Fetch data with stored filters
+    }
+  }, [currentPage, filters]);
 
   const currentData = dataBoxes;
 
@@ -216,12 +236,11 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
   };
 
   useEffect(() => {
-    if (authority?.includes('WRITE')) {
+    if (authority && authority.includes('ROLE_ADMIN')) {
       setIsAuthor(true);
-    } else {
-      setIsAuthor(false);
     }
   }, [authority]);
+
   return (
     <>
       <DropdownSection
