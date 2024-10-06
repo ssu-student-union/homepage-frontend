@@ -7,20 +7,6 @@ import UploadSection from './containers/edit/UploadSection';
 import { getBoardDataPosts } from '@/apis/getBoardDataPosts';
 import { useEffect, useState } from 'react';
 
-interface Post {
-  category: string;
-  createdAt: number;
-  uploadName: string;
-  uploadDate: string;
-  fileData: string[];
-  fileNames: string[];
-  title?: string;
-  date: string;
-  content?: string[];
-  files?: string[];
-  [key: string]: any;
-}
-
 export function Data() {
   const location = useLocation();
   const userId = localStorage.getItem('memberName');

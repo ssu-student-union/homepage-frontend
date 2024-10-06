@@ -18,7 +18,7 @@ interface FileItem {
   file: File;
   fileName: string;
   category: string;
-  fileType: string;
+  fileType: string | string[];
   fileData: any; // 'fileData' 속성이 필요합니다.
 }
 export default function UploadSection({ userId }: { userId: string }) {
@@ -46,8 +46,8 @@ export default function UploadSection({ userId }: { userId: string }) {
   const [fileCategories, setFileCategories] = useState<string[]>([]);
   // 첫 번째 파일 입력 필드는 고정된 값, 이후는 fileData를 사용하여 설정
 
-  const [fileInputSelecType, setfileInputSelecType] = useState();
-  const [selectType, setSelectType] = useState<string[]>([]);
+  const [fileInputSelecType, setfileInputSelecType] = useState<string>('');
+  const [selectType, setSelectType] = useState<string | string[]>([]);
 
   const [fileInputs, setFileInputs] = useState(() => [
     {
@@ -119,6 +119,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     const selectedType = fileInputSelecType;
     console.log('selectedType', selectedType);
     setSelectType(selectedType);
+    setfileInputSelecType('파일종류 선택');
 
     if (fileInputRef.current && selectedType) {
       fileInputRef.current.accept = selectedType; // Set file input to accept selected type
