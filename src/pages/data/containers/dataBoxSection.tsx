@@ -29,7 +29,7 @@ interface Post {
   fileUrl: string[];
   fileType: string[];
   title?: string;
-  date: string;
+  date?: string; // Make it optional
   content?: string[];
   files?: File[];
   isNotice?: boolean;
@@ -101,6 +101,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
           createdAt: new Date(latestPost.date).setHours(0, 0, 0, 0),
           uploadName: latestPost.title || 'Unnamed Upload',
           uploadDate: latestPost.date || 'Unknown Date',
+          date: latestPost.date || new Date().toISOString(), // Include the date property
           fileData: latestPost.files ? latestPost.files.map((file: File) => file.fileName) : [],
           fileNames: latestPost.files ? latestPost.files.map((file: File) => file.fileName) : [],
           fileUrl: latestPost.files ? latestPost.files.map((file: File) => file.fileUrl) : [],
