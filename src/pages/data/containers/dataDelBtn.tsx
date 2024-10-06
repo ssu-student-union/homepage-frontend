@@ -6,7 +6,7 @@ export default function DataDelBtn({ ...props }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/homepage-frontend/data');
+    navigate('/data');
   };
 
   return (
