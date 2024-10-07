@@ -279,7 +279,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     : null;
 
   // Combine latestData with dataBoxes
-  const displayedData = currentPage === 1 && latestData ? [latestData, ...dataBoxes.slice(0, 4)] : dataBoxes;
+  const displayedData = latestData ? [latestData, ...dataBoxes.slice(0, 4)] : dataBoxes;
 
   return (
     <>
@@ -312,8 +312,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
                   <div
                     className={`flex ${latestData && index === 0 ? '' : 'pl-16 xs:pl-8 sm:pl-2'} text-lg font-medium text-black xs:text-sm sm:text-sm`}
                   >
-                    {latestData && index === 0 && currentPage === 1 && <div className="mr-5">[공지]</div>}
-                    {latestData && index === 0 && currentPage != 1 && <div className="mr-16"></div>}
+                    {latestData && index === 0 && <div className="mr-5">[공지]</div>}
                     {data.uploadName || 'Unnamed Upload'}
                   </div>
                   <div className="text-lg font-medium text-[#888888] xs:text-sm sm:text-sm">
