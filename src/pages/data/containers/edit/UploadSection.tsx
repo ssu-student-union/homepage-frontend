@@ -25,6 +25,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   const location = useLocation();
   const { state } = location;
   const { post } = state || {}; // 전달된 데이터를 받아옴
+  const [postCategory, setPostCategory] = useState<string>();
 
   const { control, handleSubmit, setValue, getValues, trigger } = useForm({
     mode: 'onChange',
@@ -36,6 +37,12 @@ export default function UploadSection({ userId }: { userId: string }) {
   });
 
   console.log('post', post);
+  console.log('post content', post.content);
+
+  useEffect(() => {
+    setPostCategory(post.content);
+    console.log('postCategory', postCategory);
+  }, []);
 
   // 전달된 post 데이터의 fileData의 개수를 index에 저장
   const fileDataList = post?.files || []; // files 속성을 사용
@@ -559,13 +566,14 @@ export default function UploadSection({ userId }: { userId: string }) {
           rules={{ required: '카테고리를 선택하세요.' }}
           render={({ field }) => (
             <FilterDropDown
-              defaultValue={post?.content || '카테고리'}
+              defaultValue="카테고리"
               optionValue={categories}
               onValueChange={(value) => {
                 setValue('category', value);
+                field.onChange(value);
                 trigger();
               }}
-              value={field.value}
+              value={postCategory}
               className="ml-[10px] py-0 pl-9 text-sm text-gray-500 xs:h-[33px] xs:w-[105px] sm:h-[43px] sm:w-[141px] md:h-[44px] md:w-[140px] lg:h-[44px] lg:w-[141px] xl:h-[44px]  xl:w-[141px] xxl:h-[44px] xxl:w-[354px]"
             />
           )}
@@ -615,7 +623,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                           field.onChange(value);
                           trigger();
                         }}
-                        value={input.type}
+                        value={field.value ? field.value : input.type}
                         className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
