@@ -562,18 +562,18 @@ export default function UploadSection({ userId }: { userId: string }) {
         <Controller
           name="category"
           control={control}
-          defaultValue=""
+          defaultValue={postCategory} // 초기값으로 postCategory 설정
           rules={{ required: '카테고리를 선택하세요.' }}
           render={({ field }) => (
             <FilterDropDown
               defaultValue="카테고리"
               optionValue={categories}
               onValueChange={(value) => {
-                setValue('category', value);
-                field.onChange(value);
-                trigger();
+                field.onChange(value); // 필드의 값을 업데이트
+                setValue('category', value); // React Hook Form의 상태도 업데이트
+                trigger('category'); // 특정 필드만 검증 트리거
               }}
-              value={postCategory ?? ''}
+              value={postCategory || field.value} // field.value가 없으면 postCategory 사용
               className="ml-[10px] py-0 pl-9 text-sm text-gray-500 xs:h-[33px] xs:w-[105px] sm:h-[43px] sm:w-[141px] md:h-[44px] md:w-[140px] lg:h-[44px] lg:w-[141px] xl:h-[44px]  xl:w-[141px] xxl:h-[44px] xxl:w-[354px]"
             />
           )}
