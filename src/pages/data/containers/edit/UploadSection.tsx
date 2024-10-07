@@ -25,7 +25,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   const location = useLocation();
   const { state } = location;
   const { post } = state || {}; // 전달된 데이터를 받아옴
-  const [postCategory, setPostCategory] = useState<string>();
+  const [postCategory, setPostCategory] = useState<string | undefined>();
 
   const { control, handleSubmit, setValue, getValues, trigger } = useForm({
     mode: 'onChange',
@@ -573,7 +573,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                 field.onChange(value);
                 trigger();
               }}
-              value={postCategory}
+              value={postCategory ?? ''}
               className="ml-[10px] py-0 pl-9 text-sm text-gray-500 xs:h-[33px] xs:w-[105px] sm:h-[43px] sm:w-[141px] md:h-[44px] md:w-[140px] lg:h-[44px] lg:w-[141px] xl:h-[44px]  xl:w-[141px] xxl:h-[44px] xxl:w-[354px]"
             />
           )}
