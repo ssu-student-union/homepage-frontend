@@ -28,6 +28,7 @@ import CampusPage from './campus/page';
 import { LostDetailPage } from './lost-article/detail/page';
 import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
+import { ServiceNoticePage } from './mypage/service-notice/page';
 
 export function MainRouter() {
   return (
@@ -67,6 +68,8 @@ export function MainRouter() {
         {/*자료집*/}
         <Route path="/data" element={<Data />} />
         <Route path="/data/edit" element={<Data />} />
+        {/*마이페이지*/}
+        <Route path='/mypage/service-notice' element={<ServiceNoticePage />} />
         {/*개인정보이용약관*/}
         <Route path="/personal-data" element={<PersonalDataPage />} />
       </Route>
