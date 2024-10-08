@@ -334,4 +334,56 @@ export const ProcessContent = () => (
   </div>
 );
 
-export const ThirdContent = () => <div className="text-md space-y-4 text-black"></div>;
+export const ThirdContent = () => (
+  <div className="text-md space-y-4 text-black">
+    <p>개인정보 제3자 제공에 대한 안내</p>
+    <p className="text-gray-600">
+      숭실대학교 IT지원위원회는 회원의 개인정보를 보호하고 안전하게 관리하기 위해 관련 법령에 따라 개인정보를 수집 ・
+      이용하고 있습니다. IT지원위원회는 회원의 동의 하에 아래와 같이 개인정보를 제3자에게 제공할 수 있습니다.
+    </p>
+    <div>
+      <h3 className="mb-2 font-bold">1. 개인정보 제공 목적</h3>
+      <ul className="list-none space-y-1 pl-5 text-gray-600">
+        <li>
+          <span className="font-semibold">제공 목적:</span> 학생회비 감사를 위해 행사 참여 정보를 숭실대학교
+          중앙감사위원회에 전달합니다.
+        </li>
+        <li>
+          <span className="font-semibold">제공 대상:</span> 숭실대학교 중앙감사위원회
+        </li>
+        <li>
+          <span className="font-semibold">제공 항목:</span> 성명, 학번, 단과대학, 학과/부
+        </li>
+        <li>
+          <span className="font-semibold">보유 및 이용기간:</span> 회원 탈퇴 시 또는 제공된 개인정보의 목적이 달성될
+          때까지
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3 className="mb-2 font-bold">2. 제공 항목</h3>
+      <ul className="list-none space-y-1 pl-5 text-gray-600">
+        <li>
+          <span className="font-semibold">제공되는 개인정보:</span> 성명, 학번, 단과대학, 학과/부
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3 className="mb-2 font-bold">3. 개인정보의 보유 및 이용기간</h3>
+      <ul className="list-none space-y-1 pl-5 text-gray-600">
+        <li>
+          수집된 개인정보는 회원님이 탈퇴하거나 해당 목적이 달성될 때까지 보유 및 이용되며, 탈퇴 후에는 즉시 삭제됩니다.
+          단, 관계 법령에서 별도로 정한 경우에는 해당 법령에 따라 보유 및 이용될 수 있습니다.
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3 className="mb-2 font-bold">4. 제3자 제공에 대한 동의</h3>
+      <ul className="list-none space-y-1 pl-5 text-gray-600">
+        <li>
+          동의를 거부하실 경우, 디지털 감사 기능을 이용한 자치기구의 감사 대상 행사 참여에 제한이 있을 수 있습니다.
+        </li>
+      </ul>
+    </div>
+  </div>
+);
