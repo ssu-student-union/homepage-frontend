@@ -37,10 +37,10 @@ export default function UploadSection({ userId }: { userId: string }) {
   });
 
   console.log('post', post);
-  console.log('post content', post.content);
+  console.log('post content', post?.content);
 
   useEffect(() => {
-    setPostCategory(post.content);
+    setPostCategory(post?.content);
     console.log('postCategory', postCategory);
   }, []);
 
