@@ -1,4 +1,3 @@
-import { Size } from '@/components/PostCard/const/state';
 import { PostCardMissing } from '@/components/PostCard/PostCardBasicMissing';
 import { Spacing } from '@/components/Spacing';
 import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
