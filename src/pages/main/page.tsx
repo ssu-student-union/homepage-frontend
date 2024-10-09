@@ -5,7 +5,6 @@ import PetitionSection from './containers/PetitionSection';
 import { Spacing } from '@/components/Spacing';
 import LostArticleSection from './containers/LostArticleSection';
 import CampusMapSection from './containers/CampusMapSection';
-import { Footer } from '@/containers/common/Footer/Footer';
 
 export function MainPage() {
   return (
