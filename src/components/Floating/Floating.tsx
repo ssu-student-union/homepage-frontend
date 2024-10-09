@@ -22,4 +22,4 @@ export const KakaoFloating = () => <FloatingIcon icon="kakao" viewBox="0 0 34 32
 
 export const InstaFloating = () => <FloatingIcon icon="insta" viewBox="0 0 34 34" path="instaLink" />;
 
-export const YoutubeFloating = () => <FloatingIcon icon="youtube" viewBox="0 0 42 42" size="42px" path="youtubeLink" />;
+export const YoutubeFloating = () => <FloatingIcon icon="youtube" viewBox="0 0 42 42" path="youtubeLink" />;
