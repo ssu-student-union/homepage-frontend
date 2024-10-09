@@ -15,7 +15,7 @@ export const menuItems = {
     // { name: '일정', path: '/menu7' },
     { name: '제휴안내', path: '/partnership' },
     { name: '분실물게시판', path: '/lost-article?category=state' },
-    { name: '캠퍼스맵', path: '/campus' },
+    { name: '캠퍼스맵', path: '/campus-map' },
   ],
   학생자치기구: [
     // { name: '산하기구', path: '/affiliated_organization' },
