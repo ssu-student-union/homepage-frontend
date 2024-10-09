@@ -21,18 +21,18 @@ import { NoticeEditPage } from './notice/noticeEdit/page';
 import { NoticeDetailPage } from './notice/noticeDetail/page';
 import NoticePatchPage from './notice/noticePatch/page';
 import { AuditPatchPage } from './audit/auditPatch/page';
-import { HeaderLayout } from './main/layout/headerLayout';
 import { LostArticlePage } from './lost-article/page';
 import { LostArticleEditPage } from './lost-article/edit/page';
 import CampusPage from './campus/page';
 import { LostDetailPage } from './lost-article/detail/page';
 import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
+import { Layout } from './layout/headerLayout';
 
 export function MainRouter() {
   return (
     <Routes>
-      <Route path="/" element={<HeaderLayout />}>
+      <Route path="/" element={<Layout />}>
         <Route path="/" element={<MainPage />} />
         {/*소개*/}
         <Route path="/intro" element={<IntroPage />} />
