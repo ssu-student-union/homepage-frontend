@@ -1,7 +1,6 @@
 import { Search } from '@/components/Search/Search';
 import { useLocation } from 'react-router-dom';
 import { UserRound } from 'lucide-react';
-import { userNameMapping } from './index';
 
 interface DataTitleSectionProps {
   userId: string | null;
@@ -10,7 +9,7 @@ interface DataTitleSectionProps {
 export default function DataTitleSection({ userId }: DataTitleSectionProps) {
   const location = useLocation();
 
-  const userName = userId != null ? (userNameMapping as { [key: string]: string })[userId] || 'Unknown' : 'Unknown';
+  const userName = userId || 'Unknown';
 
   return (
     <>

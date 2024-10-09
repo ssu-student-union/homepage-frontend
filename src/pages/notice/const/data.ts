@@ -24,7 +24,7 @@ export const categoryMap: Record<string, string> = {
 
 export const categoryToCode: Record<string, string> = {
   central: '중앙기구',
-  college: '학생자치기구',
+  college: '단과대학생회',
 };
 
 export const subCategoryMap: Record<string, string> = {
