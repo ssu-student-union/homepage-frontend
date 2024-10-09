@@ -42,7 +42,7 @@ export function Data() {
           <DataNavSection />
 
           <DataBoxSection authority={postDetail?.allowedAuthorities} userId={userId ?? ''} />
-          <div className="flex justify-center sm:mt-[16px] md:mt-[62px] lg:hidden xl:hidden xxl:hidden">
+          <div className="flex justify-center xs:mt-[16px] sm:mt-[16px] md:mt-[62px] lg:hidden xl:hidden xxl:hidden">
             <Search />
           </div>
           <div className="mb-6"></div>
