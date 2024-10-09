@@ -4,7 +4,7 @@ import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useNavigate } from 'react-router-dom';
 import { categoryMap } from './const/data';
 import { useLostBoard } from './hook/useLostBoard';
-import { LostContent } from './component/lostContent';
+import { BoardContent } from '@/template/board/BoardContent';
 
 export function LostArticlePage() {
   const boardCode = '분실물게시판';
@@ -33,7 +33,7 @@ export function LostArticlePage() {
             }}
           />
         }
-        children={<LostContent initPosts={data?.data.postListResDto} isLoading={isLoading} />}
+        children={<BoardContent data={data?.data.postListResDto} boardName="분실물게시판" isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
