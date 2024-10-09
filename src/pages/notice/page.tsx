@@ -7,12 +7,18 @@ import { NoticeNavSection } from './component/NoticeNavSection';
 import { useTodayPosts } from './hooks/useNoticeToday';
 import { BodyLayout } from '@/template/BodyLayout';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useNavigate } from 'react-router-dom';
 
 export function NoticePage() {
-  const { category, navigate, subCategory, handleCategoryChange, handleSubCategoryChange } = useNoticeCategory();
+  const { category, subCategory, subCategorys, handleCategoryChange, handleSubCategoryChange } = useNoticeCategory();
   const boardCode = '공지사항게시판';
+  const navigate = useNavigate();
 
-  const { data, totalPages, currentPage, handlePageChange, isLoading, subcategories } = useNoticeBoard(boardCode);
+  const { data, totalPages, currentPage, handlePageChange, isLoading } = useNoticeBoard(
+    boardCode,
+    category,
+    subCategory
+  );
   const { todayPostCount, isLoading: isPostsLoading } = useTodayPosts(boardCode);
 
   return (
@@ -38,14 +44,13 @@ export function NoticePage() {
         subCategoryParam={subCategory}
         handleSelection={handleCategoryChange}
         mainCategoryName="게시판"
-        subCategoryDisplayName="소개"
         isHidden={false}
         className="mx-[200px] xs:mx-[30px] sm:mx-[30px] md:mx-[30px] lg:mx-[30px]"
       />
       <BodyLayout
         selector={
           <BoardSelector
-            subcategories={subcategories}
+            subcategories={subCategorys}
             selectedSubcategory={subCategory || '전체'}
             onSubcategorySelect={handleSubCategoryChange}
           />

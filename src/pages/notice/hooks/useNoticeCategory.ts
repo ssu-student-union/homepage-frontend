@@ -1,50 +1,31 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  categoryMap,
-  reverseCategoryMap,
-  subCategoryMap,
-  reverseSubCategoryMap,
-  collegeSubCategoryMap,
-  reverseCollegeSubCategoryMap,
-} from '../const/data';
+import { useState } from 'react';
+import { subName, subName2 } from '../const/data';
 
 export function useNoticeCategory() {
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const urlCategory = searchParams.get('category') || 'central';
-  const urlSubCategory = searchParams.get('sub-category') || 'all';
-
-  const [category, setCategory] = useState<string>(urlCategory);
-  const [subCategory, setSubCategory] = useState<string>(urlSubCategory);
-
-  useEffect(() => {
-    setCategory(urlCategory);
-    setSubCategory(urlSubCategory);
-  }, [urlCategory, urlSubCategory]);
+  const [category, setCategory] = useState<string>('중앙');
+  const [subCategory, setSubCategory] = useState<string>('전체');
+  const [subCategorys, setSubCategorys] = useState<string[]>(subName);
 
   const handleCategoryChange = (newCategory: string) => {
-    const englishCategory = reverseCategoryMap[newCategory];
-    setSearchParams({ category: englishCategory, 'sub-category': subCategory });
+    setCategory(newCategory);
+    setSubCategory('전체');
+    handleSubCategorysChange(newCategory === '중앙' ? subName : subName2);
   };
 
-  const handleSubCategoryChange = (selectedSubcategory: string) => {
-    const englishSubCategory =
-      category === 'college'
-        ? reverseCollegeSubCategoryMap[selectedSubcategory]
-        : reverseSubCategoryMap[selectedSubcategory];
-    setSubCategory(englishSubCategory);
-    setSearchParams({ category, 'sub-category': englishSubCategory });
+  const handleSubCategoryChange = (newSubCategory: string) => {
+    setSubCategory(newSubCategory);
+  };
+
+  const handleSubCategorysChange = (newSubCategorys: string[]) => {
+    setSubCategorys(newSubCategorys);
   };
 
   return {
-    category: categoryMap[category],
-    subCategory: category === 'college' ? collegeSubCategoryMap[subCategory] : subCategoryMap[subCategory],
+    category,
+    subCategory,
+    subCategorys,
     handleCategoryChange,
     handleSubCategoryChange,
-    navigate,
-    urlCategory,
-    urlSubCategory,
+    handleSubCategorysChange,
   };
 }

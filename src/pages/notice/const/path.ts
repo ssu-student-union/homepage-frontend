@@ -2,7 +2,7 @@
 export const items = new Map<string, string | null>([
   ['학교생활', null],
   ['공지사항', '/notice'],
-  ['중앙', '/notice?category=central&sub-category=all'],
+  ['중앙', '/notice'],
 ]);
 
 export const categoryMap: Record<string, string | null> = {
