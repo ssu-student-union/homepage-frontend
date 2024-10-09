@@ -256,7 +256,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
   };
 
   useEffect(() => {
-    if (authority && authority.includes('ROLE_ADMIN')) {
+    if (authority && authority.includes('WRITE')) {
       setIsAuthor(true);
     }
   }, [authority]);

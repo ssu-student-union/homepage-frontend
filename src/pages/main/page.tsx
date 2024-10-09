@@ -27,7 +27,6 @@ export function MainPage() {
         </div>
       </main>
       <Spacing size={202} direction="vertical" />
-      <Footer />
     </>
   );
 }
