@@ -21,7 +21,7 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
 
   const handleDelete = async () => {
     await delBoardPosts(boardCode, postId, fileurl);
-    navigate(`/notice?category=central&sub-category=all`);
+    navigate(`/notice`);
   };
 
   return (

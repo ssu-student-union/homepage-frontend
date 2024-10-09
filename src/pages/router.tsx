@@ -54,7 +54,7 @@ export function MainRouter() {
         <Route path="/lost-article/edit" element={<LostArticleEditPage />} />
         <Route path="/lost-article/:id/patch" element={<LostPatchPage />} />
         {/*캠퍼스맵*/}
-        <Route path="/campus" element={<CampusPage />} />
+        <Route path="/campus-map" element={<CampusPage />} />
         {/*학생자치기구*/}
         <Route path="/petition-notice" element={<PetitionNoticePage />} />
         <Route path="/petition-notice/edit" element={<PetitionNoticeEditPage />} />
