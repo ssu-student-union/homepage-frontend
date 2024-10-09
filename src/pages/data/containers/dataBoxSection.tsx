@@ -194,7 +194,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
           createdAt: new Date(post.date).setHours(0, 0, 0, 0),
           uploadName: post.title || 'Unnamed Upload',
           uploadDate: post.date || 'Unknown Date',
-          fileData: post.files ? post.files.map((file: File) => file.fileName) : [],
+          fileData: post.files ? post.files.map((file: File) => file) : [],
           fileNames: post.files ? post.files.map((file: File) => file.fileName) : [],
           fileUrl: post.files ? post.files.map((file: File) => file.fileUrl) : [],
           fileType: post.files ? post.files.map((file: File) => file.fileType) : [],
@@ -237,6 +237,10 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
       fetchData(filters, currentPage);
     }
   }, [currentPage, filters]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleDownload = (fileUrl: string, fileName: string) => {
     const link = document.createElement('a');
@@ -300,15 +304,15 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
       </div>
 
       <div className="flex justify-center">
-        <div className="mt-8 grid place-items-center border-t border-black sm:w-[364px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]">
+        <div className="place-item-center mt-8 grid border-t border-black xs:w-[344px] sm:w-[364px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]">
           {displayedData.length > 0 ? (
             displayedData.map((data, index) => (
               <div
                 key={data.postId || index}
                 onClick={() => handleSendData(data)}
-                className="h-[100px] border-b border-[#C2C2C2] py-4 sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
+                className="h-[100px] border-b border-[#C2C2C2] py-4 xs:w-[341px] sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
               >
-                <div className="flex justify-between">
+                <div className="flex justify-between xs:justify-between">
                   <div
                     className={`flex ${latestData && index === 0 ? '' : 'pl-16 xs:pl-8 sm:pl-2'} text-lg font-medium text-black xs:text-sm sm:text-sm`}
                   >
@@ -345,12 +349,14 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
             <div className="text-center text-lg font-medium text-gray-500">데이터가 없습니다.</div>
           )}
 
-          <div className="mt-[34px] hidden xs:block sm:block md:block">{isAuthor ? <DataEditBtn /> : null}</div>
+          <div className="mt-[34px] xs:flex xs:justify-center sm:flex sm:justify-center md:flex md:justify-center lg:hidden xl:hidden xxl:hidden">
+            {isAuthor ? <DataEditBtn /> : null}
+          </div>
 
-          <div className="mt-[109px] flex w-full justify-between sm:mt-[34px] md:mt-[34px] lg:mt-[49px] xl:mt-[49px]">
+          <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] lg:pl-[123px] xl:mt-[49px] xl:pl-[123px]">
             <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
             {isAuthor && (
-              <div className="hidden lg:block xl:block xxl:block">
+              <div className="hidden  lg:block xl:block xxl:block">
                 <DataEditBtn />
               </div>
             )}
