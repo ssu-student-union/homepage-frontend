@@ -17,6 +17,18 @@ export interface GetNoticeBoardPostsResponse {
   isSuccess: true;
 }
 
+export interface BoardPost {
+  postId: number;
+  title: string;
+  content: string;
+  date: string;
+  category: string | null;
+  thumbNail: string | null;
+  status: statusType;
+  author: string;
+  isEmergency: boolean;
+}
+
 interface NoticePostListResDto {
   postId: number;
   title: string;
