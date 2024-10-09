@@ -32,7 +32,7 @@ export function PartnershipEditFilesSection({ onFilesChange }: PartnershipEditFi
               </button>
             ) : (
               <div className="flex items-center">
-                <button onClick={() => addEmptyField(files, setFiles)} className="mx-6">
+                <button className="mx-6">
                   <Plus size={24} />
                 </button>
               </div>

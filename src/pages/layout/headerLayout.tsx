@@ -4,8 +4,9 @@ import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
+import { Footer } from '@/containers/common/Footer/Footer';
 
-export function HeaderLayout() {
+export function Layout() {
   const loginState = useRecoilValue(LoginState);
   const setLoginState = useSetRecoilState(LoginState);
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export function HeaderLayout() {
       <main>
         <Outlet />
       </main>
+      <Footer />
     </>
   );
 }

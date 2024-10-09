@@ -96,7 +96,7 @@ export function LostContent({ initPosts, isLoading }: LostContentProps) {
       <div key={post.postId} className="xs-pb[20px] sm:pb-[20px] md:pb-[20px] lg:pb-[20px]">
         <PostCardMissing
           size={size}
-          imgUrl={thumbnail}
+          imgUrl={thumbnail ? thumbnail : `image/default/thumbnail/default_thumbnail.png`}
           title={post.title}
           subtitle={post.content}
           date={formattedDate}

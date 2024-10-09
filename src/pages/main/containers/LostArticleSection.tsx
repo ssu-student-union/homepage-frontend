@@ -1,4 +1,3 @@
-import { Size } from '@/components/PostCard/const/state';
 import { PostCardMissing } from '@/components/PostCard/PostCardBasicMissing';
 import { Spacing } from '@/components/Spacing';
 import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
@@ -18,6 +17,30 @@ const LostArticleSection = () => {
 
   const navigate = useNavigate();
 
+  // PostCard 컴포넌트화
+  const PostCardWrapper = ({
+    postId,
+    title,
+    subtitle,
+    imgUrl,
+    date,
+  }: {
+    postId: number;
+    title: string;
+    subtitle: string;
+    imgUrl: string;
+    date: string;
+  }) => (
+    <PostCardMissing
+      key={postId}
+      title={title}
+      subtitle={subtitle}
+      imgUrl={imgUrl ? imgUrl : `image/default/thumbnail/default_thumbnail.png`}
+      date={formatYYYYMMDDHHMM(date)}
+      onClick={() => navigate(`/lost-article/${postId}`, { state: { postId } })}
+    />
+  );
+
   return (
     <section>
       <div className="flex items-center">
@@ -33,59 +56,56 @@ const LostArticleSection = () => {
         />
       </div>
       <Spacing size={18} direction="vertical" />
+
       {/* xs */}
-      {width < 390 ? (
+      {width < 390 && (
         <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
           {data?.data.postListResDto.map((item) => (
-            <PostCardMissing
+            <PostCardWrapper
               key={item.postId}
-              size={Size.view}
+              postId={item.postId}
               title={item.title}
               subtitle={item.content}
               imgUrl={item.thumbNail}
-              date={formatYYYYMMDDHHMM(item.date)}
-              onClick={() => navigate(`/lost-article/${item.postId}`, { state: { postId: item.postId } })}
-            ></PostCardMissing>
+              date={item.date}
+            />
           ))}
         </div>
-      ) : null}
+      )}
+
       {/* sm, md */}
-      {width < 1080 && width >= 390 ? (
+      {width >= 390 && width < 1080 && (
         <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
           {data?.data.postListResDto.map((item) => (
-            <PostCardMissing
+            <PostCardWrapper
               key={item.postId}
+              postId={item.postId}
               title={item.title}
               subtitle={item.content}
               imgUrl={item.thumbNail}
-              date={formatYYYYMMDDHHMM(item.date)}
-              onClick={() => navigate(`/lost-article/${item.postId}`, { state: { postId: item.postId } })}
-            ></PostCardMissing>
+              date={item.date}
+            />
           ))}
         </div>
-      ) : null}
+      )}
+
       {/* xxl, xl, lg */}
-      {width >= 1080 ? (
+      {width >= 1080 && (
         <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
           {data?.data.postListResDto.map((item) => (
-            <PostCardMissing
+            <PostCardWrapper
               key={item.postId}
+              postId={item.postId}
               title={item.title}
               subtitle={item.content}
               imgUrl={item.thumbNail}
-              date={formatYYYYMMDDHHMM(item.date)}
-              onClick={() => navigate(`/lost-article/${item.postId}`, { state: { postId: item.postId } })}
-            ></PostCardMissing>
+              date={item.date}
+            />
           ))}
         </div>
-      ) : null}
+      )}
     </section>
   );
-  // function EmptyPost() {
-  //   return (
-  //     <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">등록된 게시물이 없습니다.</p>
-  //   );
-  // }
 };
 
 export default LostArticleSection;

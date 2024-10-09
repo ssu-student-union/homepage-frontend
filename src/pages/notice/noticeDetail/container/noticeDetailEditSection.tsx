@@ -45,7 +45,7 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
           </>
         ) : null}
 
-        <ListButton onClick={() => navigate(-1)} />
+        <ListButton onClick={() => navigate(`/notice`)} />
       </div>
     </div>
   );
