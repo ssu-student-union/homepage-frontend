@@ -1,5 +1,4 @@
 import { HeadLayout } from '@/template/HeadLayout';
-import { NoticeContent } from './component/NoticeContent';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useNoticeBoard } from './hooks/useNoticeBoard';
 import { useNoticeCategory } from './hooks/useNoticeCategory';
@@ -8,6 +7,7 @@ import { useTodayPosts } from './hooks/useNoticeToday';
 import { BodyLayout } from '@/template/BodyLayout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useNavigate } from 'react-router-dom';
+import { BoardContent } from '@/template/board/BoardContent';
 
 export function NoticePage() {
   const { category, subCategory, subCategorys, handleCategoryChange, handleSubCategoryChange } = useNoticeCategory();
@@ -55,7 +55,7 @@ export function NoticePage() {
             onSubcategorySelect={handleSubCategoryChange}
           />
         }
-        children={<NoticeContent initPosts={data?.data.postListResDto} isLoading={isLoading} />}
+        children={<BoardContent boardName="공지사항게시판" data={data?.data.postListResDto} isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
