@@ -1,6 +1,7 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { ServiceNoticeTab } from './component/ServiceNoticeTab';
 import { ServiceNoticePostContent } from './component/ServiceNoticePostContent';
+import Pagination from '@/components/Pagination';
 
 export function ServiceNoticePage() {
   return (
@@ -10,7 +11,9 @@ export function ServiceNoticePage() {
           <ServiceNoticeTab Title="공지사항! 공지사항! 공지사항! 공지사항! 공지사항! 공지사항!" />
         </div>
         <HeadLayout title="서비스 공지사항" subtitle="홈페이지 개발자의 공지사항을 업로드합니다" searchHidden={true} />
-        <div className="flex flex-col justify-center items-center mt-[64px]">
+        <div className="flex flex-col justify-center items-center mt-[64px] mb-[100px]">
+          <ServiceNoticePostContent />
+          <ServiceNoticePostContent />
           <ServiceNoticePostContent />
           <ServiceNoticePostContent />
           <ServiceNoticePostContent />
@@ -19,6 +22,7 @@ export function ServiceNoticePage() {
           <ServiceNoticePostContent />
           <ServiceNoticePostContent />
         </div>
+        <Pagination totalPages={1} currentPage={1} />
       </div>
     </>
   );
