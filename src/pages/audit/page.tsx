@@ -1,11 +1,11 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
-import { AuditContent } from './component/AuditContent';
 import { IntroNavSection } from '../intro/container/IntroNavSection';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useAuditBoard } from './hooks/useAuditBoard';
 import { categoryMap } from './const/data';
 import { useNavigate } from 'react-router-dom';
+import { BoardContent } from '@/template/board/BoardContent';
 
 export function AuditPage() {
   const boardCode = '감사기구게시판';
@@ -44,7 +44,7 @@ export function AuditPage() {
             }}
           />
         }
-        children={<AuditContent initPosts={data?.data.postListResDto} isLoading={isLoading} />}
+        children={<BoardContent data={data?.data.postListResDto} boardName="감사기구게시판" isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
