@@ -15,7 +15,7 @@ export const majorOptions = [
 ];
 
 export const middleOptions = {
-  총학생회: ['학생총회', '전체학생대표자회의', '확대운영위원회', '중앙운영위원회', '중앙집행위원회', '특별기구'],
+  총학생회: ['학생총회', '전체학생대표자회의', '확대운영위원회', '중앙운영위원회 회의록', '중앙집행위원회', '특별기구'],
   선거관리위원회: [
     '중앙선거관리위원회',
     '경영대학',
@@ -168,6 +168,7 @@ export const minorOptions = {
   동아리연합회: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '대표자회의 결과보고'],
 };
 
+/* 더이상 사용하지 않음
 export const userNameMapping = {
   ssutudent1897: '총학생회',
   ssuoperating1897: '중앙운영위원회',
@@ -252,3 +253,4 @@ export const userNameMapping = {
   ssumediamba: '미디어경영학과',
   ssuconvergence1897: '융합특성화자유전공학부',
 };
+*/

@@ -21,7 +21,6 @@ import { NoticeEditPage } from './notice/noticeEdit/page';
 import { NoticeDetailPage } from './notice/noticeDetail/page';
 import NoticePatchPage from './notice/noticePatch/page';
 import { AuditPatchPage } from './audit/auditPatch/page';
-import { HeaderLayout } from './main/layout/headerLayout';
 import { LostArticlePage } from './lost-article/page';
 import { LostArticleEditPage } from './lost-article/edit/page';
 import CampusPage from './campus/page';
@@ -30,11 +29,13 @@ import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
 import { ServiceNoticePage } from './mypage/service-notice/page';
 import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page';
+import { Layout } from './layout/headerLayout';
+
 
 export function MainRouter() {
   return (
     <Routes>
-      <Route path="/" element={<HeaderLayout />}>
+      <Route path="/" element={<Layout />}>
         <Route path="/" element={<MainPage />} />
         {/*소개*/}
         <Route path="/intro" element={<IntroPage />} />
@@ -56,7 +57,7 @@ export function MainRouter() {
         <Route path="/lost-article/edit" element={<LostArticleEditPage />} />
         <Route path="/lost-article/:id/patch" element={<LostPatchPage />} />
         {/*캠퍼스맵*/}
-        <Route path="/campus" element={<CampusPage />} />
+        <Route path="/campus-map" element={<CampusPage />} />
         {/*학생자치기구*/}
         <Route path="/petition-notice" element={<PetitionNoticePage />} />
         <Route path="/petition-notice/edit" element={<PetitionNoticeEditPage />} />

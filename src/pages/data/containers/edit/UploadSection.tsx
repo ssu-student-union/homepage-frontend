@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
 import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
-import { userNameMapping } from '../index';
 import { delBoardFiles } from '@/apis/delBoardFiles';
 import { patchBoardPosts } from '@/apis/patchBoardPosts';
 import DataDelBtn from '../dataDelBtn';
@@ -19,13 +18,14 @@ interface FileItem {
   file: File;
   fileName: string;
   category: string;
-  fileType: string;
+  fileType: string | string[];
   fileData: any; // 'fileData' 속성이 필요합니다.
 }
 export default function UploadSection({ userId }: { userId: string }) {
   const location = useLocation();
   const { state } = location;
   const { post } = state || {}; // 전달된 데이터를 받아옴
+  const [postCategory, setPostCategory] = useState<string | undefined>();
 
   const { control, handleSubmit, setValue, getValues, trigger } = useForm({
     mode: 'onChange',
@@ -36,14 +36,24 @@ export default function UploadSection({ userId }: { userId: string }) {
     },
   });
 
+  console.log('post', post);
+  console.log('post content', post?.content);
+
+  useEffect(() => {
+    setPostCategory(post?.content);
+    console.log('postCategory', postCategory);
+  }, []);
+
   // 전달된 post 데이터의 fileData의 개수를 index에 저장
-  const fileDataList = post?.fileData || [];
+  const fileDataList = post?.files || []; // files 속성을 사용
+
+  console.log('fileDataList', fileDataList);
 
   const [categories, setCategories] = useState<string[]>([]);
   const [fileCategories, setFileCategories] = useState<string[]>([]);
-  // 첫 번째 파일 입력 필드는 고정된 값, 이후는 fileData를 사용하여 설정
+  const [fileInputSelecType, setfileInputSelecType] = useState<string>('');
+  const [selectType, setSelectType] = useState<string>();
 
-  const [fileInputSelecType, setfileInputSelecType] = useState('');
   const [fileInputs, setFileInputs] = useState(() => [
     {
       id: 0,
@@ -54,21 +64,23 @@ export default function UploadSection({ userId }: { userId: string }) {
     ...fileDataList.map(
       (
         fileData: {
-          fileType: { split: (arg0: string) => { (): any; new (): any; [x: string]: any } };
-          fileName: any;
-          postFileId: any;
+          fileType: string;
+          fileName: string;
+          postFileId: number;
         },
         idx: number
       ) => ({
-        id: idx + 1, // id is starting from 1
-        type: fileData.fileType.split(',')[idx] || '', // Assign the correct fileType based on index
-        fileName: fileData.fileName,
-        fileType: fileData.fileType.split(',')[idx] || '', // Ensure fileType is assigned
-        postFileId: fileData.postFileId,
+        id: idx + 1, // id는 1부터 시작
+        type: fileData.fileType.split(',')[idx], // fileType이 ','로 구분된 문자열일 경우 첫 번째 값을 사용
+        fileName: fileData.fileName || '', // 파일 이름이 없는 경우 빈 문자열로 처리
+        fileType: fileData.fileType || '', // fileType이 없는 경우 빈 문자열로 처리
+        postFileId: fileData.postFileId, // postFileId가 없는 경우 undefined로 처리
         isNew: false,
       })
     ),
   ]);
+
+  console.log('fileInputs', fileInputs);
 
   console.log('File Data List:', fileDataList);
   console.log('Generated fileInputs:', fileInputs);
@@ -94,10 +106,15 @@ export default function UploadSection({ userId }: { userId: string }) {
   }, [fileInputs, categories, trigger]);
 
   const isFormValid = () => {
+    /*
     const category = getValues('category');
-    const fileInputsArray = getValues('fileInputs');
+    console.log('isFormValid category', category);
+    */
 
-    return category && fileInputsArray;
+    const fileInputsArray = getValues('fileInputs');
+    console.log('isFormValid fileInputsArray', fileInputsArray);
+
+    return /*category && */ fileInputsArray;
   };
 
   useEffect(() => {
@@ -112,6 +129,8 @@ export default function UploadSection({ userId }: { userId: string }) {
   const handleAddInput = () => {
     const selectedType = fileInputSelecType;
     console.log('selectedType', selectedType);
+    setSelectType(selectedType);
+    setfileInputSelecType('파일종류 선택');
 
     if (fileInputRef.current && selectedType) {
       fileInputRef.current.accept = selectedType; // Set file input to accept selected type
@@ -132,6 +151,8 @@ export default function UploadSection({ userId }: { userId: string }) {
 
     // type이 배열일 경우, 문자열로 변환하여 accept 속성에 적용
     const selectedType = Array.isArray(selectedInput?.type) ? selectedInput.type.join(',') : selectedInput?.type;
+    console.log('selectedType', selectedType);
+    setSelectType(selectedType);
 
     if (fileInputRef.current && selectedType) {
       fileInputRef.current.accept = selectedType; // 선택된 파일 타입 설정
@@ -150,11 +171,16 @@ export default function UploadSection({ userId }: { userId: string }) {
 
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
+      console.log('file file', file);
+      console.log('file type', selectType);
+
       const fileInputsArray = getValues('fileInputs');
       console.log('fileInputsArray', fileInputsArray);
       const currentFileInput = fileInputsArray[fileInputsArray.length - 1];
       console.log('currentFileInput', currentFileInput);
-      const fileType = fileInputSelecType;
+      console.log('selectType', selectType);
+      const fileType = selectType;
+      console.log('fileType', fileType);
       const isNew = currentFileInput && 'isNew' in currentFileInput ? currentFileInput.isNew : false;
 
       if (isNew && !fileType) {
@@ -172,12 +198,14 @@ export default function UploadSection({ userId }: { userId: string }) {
         fileUrl: undefined,
       };
 
+      console.log('newFile', newFile);
+
       setTempFiles((prevFiles) => [...prevFiles, newFile]);
 
       // Update fileInputs to include new file information
       setFileInputs((prevInputs) => [
         ...prevInputs.slice(0, -1), // Remove the last input that was pending
-        { ...currentFileInput, fileName: file.name, isNew: false }, // Update last input
+        { ...currentFileInput, fileName: file.name, type: fileType || 'hi', isNew: false }, // Update last input
         { id: prevInputs.length + 1, type: '', fileName: '', isNew: true }, // Add new input
       ]);
 
@@ -193,14 +221,15 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
 
     const existingFiles = JSON.parse(localStorage.getItem('fileData') ?? '[]');
+    console.log('tempFiles', tempFiles);
     const newFileData = {
       uploadName: formValues.uploadName,
       uploadDate: new Date().toLocaleDateString('en-GB'),
-      fileData: tempFiles.map((file) => file.fileData),
-      fileName: tempFiles.map((file) => file.fileName),
-      category: tempFiles.map((file) => file.category),
-      fileType: tempFiles.map((file) => file.fileType),
-      postFileId: tempFiles.map((file) => file.postFileId),
+      fileData: fileInputs.map((file) => file.fileData), // Assuming fileData is to be fetched from somewhere else as fileInputs doesn't have it
+      fileName: fileInputs.map((file) => file.fileName),
+      category: fileInputs.map((file) => file.fileType), // Mapping fileType to category
+      fileType: fileInputs.map((file) => file.fileType),
+      postFileId: fileInputs.map((file) => file.postFileId),
     };
 
     existingFiles.push(newFileData);
@@ -209,10 +238,10 @@ export default function UploadSection({ userId }: { userId: string }) {
     console.log('newFileData', newFileData);
     try {
       const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
-      const userName = (userNameMapping as { [key: string]: string })[userId] || 'Unknown';
-      const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : '중앙운영위원회'; // 'defaultCategory'를 기본값으로 설정
+      const userName = userId || 'Unknown';
+      const fileCategory = newFileData.category.length > 0 ? newFileData.category[1] : '중앙운영위원회'; // 'defaultCategory'를 기본값으로 설정
       const fileType = String(newFileData.fileType.length > 0 ? newFileData.fileType : null);
-      const postFileId = newFileData.postFileId.length > 0 ? newFileData.postFileId : null;
+      const postFileId = newFileData.postFileId.length > 0 ? newFileData.postFileId[0] : null;
 
       const accessToken = localStorage.getItem('accessToken');
 
@@ -227,7 +256,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           const patchFileResponse = await postBoardBoardCodeFiles(
             boardCode,
             accessToken,
-            tempFiles.map((file) => file.file),
+            fileInputs.map((file) => file.file),
             []
           );
 
@@ -253,6 +282,7 @@ export default function UploadSection({ userId }: { userId: string }) {
             content: fileCategory,
             categoryCode: userName,
             thumbnailImage: null,
+            isNotice: true,
             postFileList: [patchFileUrls[0]],
           };
 
@@ -268,7 +298,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           if (responsePatch.code === '200') {
             alert('파일 업데이트가 완료되었습니다.');
-            navigate('/homepage-frontend/data');
+            navigate('/data');
           } else {
             alert('오류가 발생했습니다. 다시 시도해주세요.');
           }
@@ -335,10 +365,13 @@ export default function UploadSection({ userId }: { userId: string }) {
           fileInputs.find((input) => input.id === index)
         );
         console.log('index', index);
+
+        /*
         console.log(
           'input.id',
           fileInputs.find((input) => input.id[index])
         );
+        */
 
         const inputToDelete = fileInputs.find((input) => input.id === index);
         if (!inputToDelete) {
@@ -352,11 +385,18 @@ export default function UploadSection({ userId }: { userId: string }) {
         // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
         if (post) {
           // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
+
+          console.log('post.fileData', post);
+          console.log('inputToDelete.postFileId', inputToDelete.postFileId);
+
           const fileToDelete = post.fileData.find(
             (file: { postFileId: any }) => file.postFileId === inputToDelete.postFileId
           );
+          // 파일을 찾지 못했을 경우
           if (!fileToDelete) {
-            alert('삭제할 파일을 찾을 수 없습니다.');
+            // fileInputs에서 해당 항목을 삭제
+            setFileInputs((prevInputs) => prevInputs.filter((input) => input.id !== inputToDelete.id));
+            console.log('삭제할 파일을 찾지 못해 fileInputs에서 해당 항목을 삭제했습니다.');
             return;
           }
 
@@ -379,7 +419,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
             const delFiles = {
               boardCode: boardCode,
-              fileUrls: fileUrls,
+              fileUrls: [fileUrls],
             };
 
             const response = await delBoardFiles(delFiles);
@@ -436,7 +476,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
             const delFiles = {
               boardCode: boardCode,
-              fileUrls: fileUrls,
+              fileUrls: [fileUrls],
             };
 
             const response = await delBoardFiles(delFiles);
@@ -486,7 +526,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
         setFileInputs(updatedFileInputs);
         setTempFiles(updatedTempFiles);
-        trigger(); // 폼 검증 트리거
+        trigger();
 
         try {
           console.log('fileToDelete', fileToDelete);
@@ -495,7 +535,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           console.log(fileUrls);
           const delFiles = {
             boardCode: boardCode,
-            fileUrls: fileUrls,
+            fileUrls: [fileUrls],
           };
 
           const response = await delBoardFiles(delFiles);
@@ -545,17 +585,18 @@ export default function UploadSection({ userId }: { userId: string }) {
         <Controller
           name="category"
           control={control}
-          defaultValue=""
+          defaultValue={postCategory} // 초기값으로 postCategory 설정
           rules={{ required: '카테고리를 선택하세요.' }}
           render={({ field }) => (
             <FilterDropDown
               defaultValue="카테고리"
               optionValue={categories}
               onValueChange={(value) => {
-                setValue('category', value);
-                trigger();
+                field.onChange(value); // 필드의 값을 업데이트
+                setValue('category', value); // React Hook Form의 상태도 업데이트
+                trigger('category'); // 특정 필드만 검증 트리거
               }}
-              value={field.value}
+              value={postCategory || field.value} // field.value가 없으면 postCategory 사용
               className="ml-[10px] py-0 pl-9 text-sm text-gray-500 xs:h-[33px] xs:w-[105px] sm:h-[43px] sm:w-[141px] md:h-[44px] md:w-[140px] lg:h-[44px] lg:w-[141px] xl:h-[44px]  xl:w-[141px] xxl:h-[44px] xxl:w-[354px]"
             />
           )}
@@ -564,13 +605,13 @@ export default function UploadSection({ userId }: { userId: string }) {
 
       <div>
         {fileInputs.map((input, index) => (
-          <div key={input.id || index} className="mb-4">
-            <div className="flex items-center">
+          <div key={input.id || index}>
+            <div className="flex items-center align-middle">
               {input.isNew ? (
                 <></>
               ) : (
                 <>
-                  <div className="relative flex items-center">
+                  <div className="relative mb-4 flex items-center">
                     <FileText className="top-20% absolute left-3 text-gray-600" />
                     <Controller
                       name={`fileInputs.${input.id}.fileName`}
@@ -593,7 +634,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                     />
                   </div>
                   <Controller
-                    name={`fileInputs.${index}.type`}
+                    name={`fileInputs.${input.id}.type`}
                     control={control}
                     defaultValue={input.fileType || ''}
                     render={({ field }) => (
@@ -605,13 +646,13 @@ export default function UploadSection({ userId }: { userId: string }) {
                           field.onChange(value);
                           trigger();
                         }}
-                        value={field.value}
-                        className="ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
+                        value={field.value ? field.value : input.type}
+                        className="mb-4  ml-[16px] border-gray-500 pl-9 text-sm text-gray-500 xs:h-[31px] xs:w-[105px] sm:h-[43px] sm:w-[141px] sm:text-xs md:h-[43px] md:w-[167px] lg:h-[62px] lg:w-[224px] lg:text-lg xl:h-[62px] xl:w-[224px] xl:text-xl xxl:h-[62px] xxl:w-[354px]"
                       />
                     )}
                   />
 
-                  <button type="button" onClick={() => handleRemoveInput(input.id, index)} className="ml-2">
+                  <button type="button" onClick={() => handleRemoveInput(input.id, index)} className="mb-4 ml-2 ">
                     <Trash2 />
                   </button>
                 </>
@@ -661,6 +702,7 @@ export default function UploadSection({ userId }: { userId: string }) {
             <Button
               type="submit"
               disabled={!isFormValid()}
+              onClick={onSubmit}
               className="mt-[60px] px-9 py-2 xs:h-[32px] xs:w-[186px] sm:h-[44px] sm:w-[315px] md:h-[46px] md:w-[128px] lg:h-[46px] lg:w-[123px] xl:h-[46px] xl:w-[123px] xxl:h-[46px] xxl:w-[123px]"
             >
               등록

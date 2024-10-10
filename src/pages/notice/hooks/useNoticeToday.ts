@@ -1,22 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { useNoticeCategory } from './useNoticeCategory';
-import { categoryToCode, collegeSubCategoryToCode, subCategoryToCode } from '../const/data';
 import { Post } from '@/types/apis/get';
 import { useRecoilState } from 'recoil';
 import { todayPostCountState } from '@/recoil/atoms/atom';
 
 export function useTodayPosts(boardCode: string) {
-  const { urlCategory, urlSubCategory } = useNoticeCategory();
-  const selectedCategory = categoryToCode[urlCategory];
-  let selectedSubCategory;
-  if (selectedCategory === '중앙기구') {
-    selectedSubCategory = subCategoryToCode[urlSubCategory];
-  } else {
-    selectedSubCategory = collegeSubCategoryToCode[urlSubCategory];
-  }
+  const { category, subCategory } = useNoticeCategory();
 
-  const [todayPostCount, setTodayPostCount] = useRecoilState(todayPostCountState(selectedCategory));
+  const [todayPostCount, setTodayPostCount] = useRecoilState(todayPostCountState(category));
   const [page, setPage] = useState<number>(0);
   const [stopFetching, setStopFetching] = useState<boolean>(false);
 
@@ -24,8 +16,8 @@ export function useTodayPosts(boardCode: string) {
     boardCode,
     take: 10,
     page,
-    groupCode: selectedCategory,
-    memberCode: selectedSubCategory,
+    groupCode: category,
+    memberCode: subCategory,
   });
 
   const posts: Post[] = data?.data?.postListResDto || [];
