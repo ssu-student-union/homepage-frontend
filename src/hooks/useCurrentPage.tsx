@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export function useCurrentPage(initialPage: number = 1) {
-  const [currentPage, setCurrentPage] = useState<number>(initialPage);
+export function useCurrentPage() {
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
