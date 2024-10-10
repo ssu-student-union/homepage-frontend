@@ -11,6 +11,7 @@ const PetitionSection = () => {
     navigate(`/petition-notice/${id}`);
     window.scrollTo(0, 0);
   };
+  console.log('청원' + data);
 
   return (
     <section className="w-full">
