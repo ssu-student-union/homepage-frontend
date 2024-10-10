@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
 import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type ParamsType = {
   id: string;
@@ -112,10 +113,54 @@ export function PostPetitionDetailPostSection() {
     }
   };
 
+  console.log(isLoading);
+
   return (
     <>
       {isLoading ? (
-        <div>로딩중</div>
+        <>
+          <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+            <Skeleton className="mb-4 h-6 w-1/3" />
+            <Skeleton className="mb-2 h-10 w-2/3" />
+            <div className="flex items-center gap-4">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-4 w-32" />
+            </div>
+          </div>
+          <Skeleton className="h-px w-full" />
+          <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+            <div className="flex justify-between gap-10">
+              <div className="w-full">
+                <Skeleton className="mb-4 h-40 w-full" />
+                <Skeleton className="mb-4 h-40 w-full" />
+                <Skeleton className="mb-4 h-40 w-full" />
+                <div className="mt-[51px] flex justify-start gap-1 text-primary">
+                  <span className="cursor-pointer">
+                    <ThumbsUp size={25} />
+                  </span>
+                  <Skeleton className="h-6 w-8" />
+                </div>
+              </div>
+              <div className="xs:hidden sm:hidden md:hidden">
+                <Skeleton className="h-10 w-24" />
+              </div>
+            </div>
+            <div className="mt-[60px] flex-col">
+              <div className="mb-5 w-full rounded-[10px] border border-primary bg-gray-50 p-8">
+                <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
+                  <Skeleton className="mr-2 h-6 w-6" />
+                  <Skeleton className="h-6 w-40" />
+                </div>
+                <Skeleton className="h-20 w-full" />
+              </div>
+              <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
+                <Skeleton className="h-10 w-24" />
+                <Skeleton className="h-10 w-24" />
+                <Skeleton className="h-10 w-24" />
+              </div>
+            </div>
+          </div>
+        </>
       ) : (
         <>
           <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
