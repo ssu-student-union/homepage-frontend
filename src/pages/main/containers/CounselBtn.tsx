@@ -4,7 +4,7 @@ import { Spacing } from '@/components/Spacing';
 
 export function CounselBtn() {
   return (
-    <div className="relative ">
+    <div className="relative z-10">
       <div className="absolute right-0 h-20 bg-transparent pr-11 xs:pr-5 sm:pr-5">
         <Spacing size={86} direction="vertical" />
         <KakaoFloating />

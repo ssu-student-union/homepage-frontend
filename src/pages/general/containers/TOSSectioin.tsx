@@ -10,7 +10,7 @@ export function TOSSection() {
   const navigate = useNavigate();
 
   const checkAll = () => {
-    if (checkList.length === 2) {
+    if (checkList.length === 3) {
       setCheckList([]);
     } else {
       setCheckList(['privacy', 'service', 'third']);
@@ -76,7 +76,7 @@ export function TOSSection() {
                   <DialogPortal>
                     <DialogContent
                       showOverlay={true}
-                      className="fixed left-[50%] top-[50%] z-50 h-[500px] max-h-[700px] w-[800px] translate-x-[-50%] translate-y-[-50%] overflow-y-scroll rounded-[8px] bg-white p-6 shadow-xl xs:w-[300px] xs:text-sm sm:w-[300px]"
+                      className="fixed left-[50%] top-[50%] z-50 h-[500px] max-h-[800px] w-[800px] translate-x-[-50%] translate-y-[-50%] overflow-y-scroll rounded-[8px] bg-white p-6 shadow-xl xs:w-[300px] xs:text-sm sm:w-[300px]"
                       onOpenAutoFocus={(e) => e.preventDefault()}
                     >
                       <DialogHeader className="mt-10 text-left">
