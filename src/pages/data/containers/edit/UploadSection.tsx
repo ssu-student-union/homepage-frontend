@@ -9,9 +9,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
 import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
 import { delBoardFiles } from '@/apis/delBoardFiles';
-import { patchBoardPosts } from '@/apis/patchBoardPosts';
+/*import { patchBoardPosts } from '@/apis/patchBoardPosts';*/
 import DataDelBtn from '../dataDelBtn';
 import { delBoardPosts } from '@/apis/delBoardPosts';
+import { patchBoardPosts } from '@/apis/patchBoardPosts';
 
 interface FileItem {
   fileUrl: any;
@@ -19,7 +20,7 @@ interface FileItem {
   file: File;
   fileName: string;
   category: string;
-  fileType: string | string[];
+  fileType: string;
   fileData: any; // 'fileData' 속성이 필요합니다.
 }
 export default function UploadSection({ userId }: { userId: string }) {
@@ -41,6 +42,8 @@ export default function UploadSection({ userId }: { userId: string }) {
     setPostCategory(post?.content);
   }, []);
 
+  const navigate = useNavigate();
+
   // 전달된 post 데이터의 fileData의 개수를 index에 저장
   const fileDataList = post?.files || []; // files 속성을 사용
 
@@ -48,7 +51,7 @@ export default function UploadSection({ userId }: { userId: string }) {
   const [fileCategories, setFileCategories] = useState<string[]>([]);
   const [fileInputSelecType, setfileInputSelecType] = useState<string>('');
   const [selectType, setSelectType] = useState<string>();
-  const [patchPosts, setPatchPosts] = useState<string>('');
+  /*const [patchPosts, setPatchPosts] = useState<string>('');*/
 
   const [fileInputs, setFileInputs] = useState(() => [
     {
@@ -77,7 +80,6 @@ export default function UploadSection({ userId }: { userId: string }) {
   ]);
 
   const [tempFiles, setTempFiles] = useState<FileItem[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (userId) {
@@ -187,6 +189,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
+  /*
   const handlePatchAddInput = (index: number) => {
     console.log('post.fileType', post.fileType);
     console.log('post.fileType index', index);
@@ -204,7 +207,7 @@ export default function UploadSection({ userId }: { userId: string }) {
       alert('파일 종류를 먼저 선택하세요.');
     }
   };
-
+*/
   const onSubmit = async () => {
     const formValues = getValues();
     if (!formValues.uploadName) {
@@ -227,14 +230,13 @@ export default function UploadSection({ userId }: { userId: string }) {
     existingFiles.push(newFileData);
     localStorage.setItem('fileData', JSON.stringify(existingFiles));
 
-    const patchData = getValues('fileInputs');
-    setPatchPosts(patchData);
+    // const patchData = getValues('fileInputs');
+    //setPatchPosts(patchData);
     try {
       const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
       const userName = userId || 'Unknown';
       const fileCategory = getValues('category');
       const fileType = tempFiles.map((file) => (file.fileType.length > 0 ? file.fileType : null));
-      const postFileId = newFileData.postFileId.length > 0 ? newFileData.postFileId[0] : null;
 
       const accessToken = localStorage.getItem('accessToken');
 
@@ -261,8 +263,6 @@ export default function UploadSection({ userId }: { userId: string }) {
 
             patchFileUrls = patchFileUrlsFallback;
           }
-
-          const fileInputsArray = getValues('fileInputs');
 
           const posts = {
             title: uploadName,
@@ -329,6 +329,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
+  /*
   const handleRemoveInput = async (index: number, id: number) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
       if (post) {
@@ -344,7 +345,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           'input.id',
           fileInputs.find((input) => input.id[index])
         );
-        */
+     
 
         const inputToDelete = fileInputs.find((input) => input.id === index);
         if (!inputToDelete) {
@@ -473,7 +474,8 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
-  const handleRemove = async (index: number, id: number) => {
+  */
+  const handleRemove = async (id: number) => {
     if (post) {
       /*
         console.log(
@@ -512,8 +514,9 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           const response = await delBoardPosts(delFiles.boardCode, delFiles.postId, delFiles.fileUrls);
 
-          if (response.code === '200') {
-            ('');
+          if (response.status === 200) {
+            alert('파일이 삭제되었습니다');
+            window.location.reload();
           } else {
             alert('파일이 삭제되었습니다');
             window.location.reload();
@@ -700,7 +703,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                     )}
                   />
 
-                  <button type="button" onClick={() => handleRemovePost(input.id, index)} className="mb-4 ml-2 ">
+                  <button type="button" onClick={() => handleRemovePost(input.id)} className="mb-4 ml-2 ">
                     <Trash2 />
                   </button>
                 </>

@@ -27,7 +27,7 @@ interface Post {
   fileData: string[];
   fileNames: string[];
   fileUrl: string[];
-  fileType: string;
+  fileType: string | never[]; // Allow empty array here
   title?: string;
   date?: string; // Make it optional
   content?: string[];
@@ -335,14 +335,20 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
             {isAuthor ? <DataEditBtn /> : null}
           </div>
 
-          <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] lg:pl-[123px] xl:mt-[49px] xl:pl-[123px] xxl:pl-[123px]">
-            <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
-            {isAuthor && (
+          {isAuthor && (
+            <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] lg:pl-[123px] xl:mt-[49px] xl:pl-[123px] xxl:pl-[123px]">
+              <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
               <div className="hidden  lg:block xl:block xxl:block">
                 <DataEditBtn />
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {!isAuthor && (
+            <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] xl:mt-[49px] ">
+              <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
+            </div>
+          )}
         </div>
       </div>
     </>
