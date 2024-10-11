@@ -27,7 +27,7 @@ interface Post {
   fileData: string[];
   fileNames: string[];
   fileUrl: string[];
-  fileType: string[];
+  fileType: string;
   title?: string;
   date?: string; // Make it optional
   content?: string[];
@@ -69,31 +69,24 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
 
   const fetchTotalData = async (page: number = 1) => {
     try {
-      console.log('fetchTotalData  called');
-
       const TotalResponse = await getBoardDataPosts({ filters, page });
 
       if (TotalResponse.data?.data?.postListResDto?.length > 0) {
-        console.log('TotalElements', TotalResponse.data.data.pageInfo.totalElements);
         setInitialTotalElements(TotalResponse.data.data.pageInfo.totalElements);
       }
     } catch (error) {
-      console.error('Error fetching latest special category:', error);
+      ('');
     }
   };
 
   const fetchLatestSpecialCategory = async (page: number = 1) => {
     try {
-      console.log('fetchLatestSpecialCategory called');
-
       const filters = {
         subCategory: '총학생회칙',
       };
       const latestResponse = await getBoardDataPosts({ filters, page });
 
       if (latestResponse.data?.data?.postListResDto?.length > 0) {
-        console.log('latestResponse', latestResponse);
-
         const latestPost = latestResponse.data.data.postListResDto[0];
         setLatestDataBox({
           postId: latestPost.postId,
@@ -109,10 +102,9 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
           isNotice: latestPost.isNotice || false,
           // Add other necessary fields
         });
-        console.log('latestDataBox', latestDataBox);
       }
     } catch (error) {
-      console.error('Error fetching latest special category:', error);
+      ('');
     }
   };
 
@@ -127,7 +119,6 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
         category: filters.subCategory,
         q: searchInput,
       });
-      console.log('Search API Response:', searchResponse);
 
       if (searchResponse?.data?.postListResDto) {
         const currentTotalElements = searchResponse.data.pageInfo.totalElements;
@@ -153,31 +144,23 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
           fileType: post.files ? post.files.map((file: File) => file.fileType) : [],
         }));
 
-        console.log('categorizedDataBoxes', categorizedDataBoxes);
         setDataBoxes(categorizedDataBoxes);
         setTotalPage(searchResponse.data.pageInfo.totalPages);
       } else {
-        console.error('API response data structure is not as expected:', searchResponse);
         setDataBoxes([]);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
       setDataBoxes([]);
     }
   };
 
   const fetchData = async (filters: any = {}, page: number = 1) => {
-    console.log('Fetching data with filters:', filters);
     try {
       const response = await getBoardDataPosts({ filters, page });
-      console.log('API Response:', response);
       setData(response.data);
 
       if (response.data?.data?.postListResDto?.length > 0) {
         const currentTotalElements = response.data.data.pageInfo.totalElements;
-
-        console.log('currentTotalElements', currentTotalElements);
-        console.log('initialTotalElements', initialTotalElements);
 
         if (
           (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
@@ -209,7 +192,6 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
   };
 
   useEffect(() => {
-    console.log('fetchLatestSpecialCategory called');
     fetchLatestSpecialCategory();
   }, []);
 
@@ -327,7 +309,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
                 <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
                   {Array.isArray(data.fileUrl) && data.fileUrl.length > 0 ? (
                     data.fileUrl.map((fileUrl: string, fileIndex: number) => {
-                      const fileType = data.fileType[fileIndex] || '';
+                      const fileType = data.fileType[fileIndex].split(',')[fileIndex] || '';
                       const fileName = data.fileNames[fileIndex] || 'Unknown File';
                       return (
                         <button
@@ -340,20 +322,20 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
                       );
                     })
                   ) : (
-                    <span className="text-sm text-gray-500">No Files</span>
+                    <span className="text-sm text-gray-500">등록된 게시물이 없습니다</span>
                   )}
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-center text-lg font-medium text-gray-500">데이터가 없습니다.</div>
+            <div className="mb-72 mt-72 text-center text-lg font-medium text-gray-500">등록된 게시물이 없습니다</div>
           )}
 
           <div className="mt-[34px] xs:flex xs:justify-center sm:flex sm:justify-center md:flex md:justify-center lg:hidden xl:hidden xxl:hidden">
             {isAuthor ? <DataEditBtn /> : null}
           </div>
 
-          <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] lg:pl-[123px] xl:mt-[49px] xl:pl-[123px]">
+          <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] lg:pl-[123px] xl:mt-[49px] xl:pl-[123px] xxl:pl-[123px]">
             <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
             {isAuthor && (
               <div className="hidden  lg:block xl:block xxl:block">
