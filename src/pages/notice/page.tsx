@@ -52,7 +52,7 @@ export function NoticePage() {
           <BoardSelector
             subcategories={subCategorys}
             selectedSubcategory={subCategory || '전체'}
-            onSubcategorySelect={handleSubCategoryChange}
+            onSubcategorySelect={(number) => handleSubCategoryChange(number)}
           />
         }
         children={<BoardContent boardName="공지사항게시판" data={data?.data.postListResDto} isLoading={isLoading} />}

@@ -19,10 +19,6 @@ export function useLostBoard(boardCode: string) {
   const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
   const selectedCategory = categoryMap[categoryParam] === '전체' ? null : categoryMap[categoryParam];
 
-  useEffect(() => {
-    handlePageChange(1);
-  }, [handlePageChange]);
-
   const queryClient = useQueryClient();
   const { data, isLoading, isError, refetch } = useGetBoardPostSearch<LostArticleResponse>({
     boardCode,

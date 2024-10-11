@@ -16,8 +16,8 @@ export function useTodayPosts(boardCode: string) {
     boardCode,
     take: 10,
     page,
-    groupCode: category,
-    memberCode: subCategory,
+    groupCode: category === '중앙' ? '중앙기구' : '단과대학생회',
+    memberCode: subCategory === '전체' ? '' : subCategory,
   });
 
   const posts: Post[] = data?.data?.postListResDto || [];
