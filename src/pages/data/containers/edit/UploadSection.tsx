@@ -9,8 +9,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
 import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
 import { delBoardFiles } from '@/apis/delBoardFiles';
-import { patchBoardPosts } from '@/apis/patchBoardPosts';
+/*import { patchBoardPosts } from '@/apis/patchBoardPosts';*/
 import DataDelBtn from '../dataDelBtn';
+import { delBoardPosts } from '@/apis/delBoardPosts';
+import { patchBoardPosts } from '@/apis/patchBoardPosts';
 
 interface FileItem {
   fileUrl: any;
@@ -18,7 +20,7 @@ interface FileItem {
   file: File;
   fileName: string;
   category: string;
-  fileType: string | string[];
+  fileType: string;
   fileData: any; // 'fileData' 속성이 필요합니다.
 }
 export default function UploadSection({ userId }: { userId: string }) {
@@ -36,23 +38,20 @@ export default function UploadSection({ userId }: { userId: string }) {
     },
   });
 
-  console.log('post', post);
-  console.log('post content', post?.content);
-
   useEffect(() => {
     setPostCategory(post?.content);
-    console.log('postCategory', postCategory);
   }, []);
+
+  const navigate = useNavigate();
 
   // 전달된 post 데이터의 fileData의 개수를 index에 저장
   const fileDataList = post?.files || []; // files 속성을 사용
-
-  console.log('fileDataList', fileDataList);
 
   const [categories, setCategories] = useState<string[]>([]);
   const [fileCategories, setFileCategories] = useState<string[]>([]);
   const [fileInputSelecType, setfileInputSelecType] = useState<string>('');
   const [selectType, setSelectType] = useState<string>();
+  /*const [patchPosts, setPatchPosts] = useState<string>('');*/
 
   const [fileInputs, setFileInputs] = useState(() => [
     {
@@ -73,26 +72,14 @@ export default function UploadSection({ userId }: { userId: string }) {
         id: idx + 1, // id는 1부터 시작
         type: fileData.fileType.split(',')[idx], // fileType이 ','로 구분된 문자열일 경우 첫 번째 값을 사용
         fileName: fileData.fileName || '', // 파일 이름이 없는 경우 빈 문자열로 처리
-        fileType: fileData.fileType || '', // fileType이 없는 경우 빈 문자열로 처리
+        fileType: fileData.fileType.split(',')[idx], // fileType이 없는 경우 빈 문자열로 처리
         postFileId: fileData.postFileId, // postFileId가 없는 경우 undefined로 처리
         isNew: false,
       })
     ),
   ]);
 
-  console.log('fileInputs', fileInputs);
-
-  console.log('File Data List:', fileDataList);
-  console.log('Generated fileInputs:', fileInputs);
-
   const [tempFiles, setTempFiles] = useState<FileItem[]>([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (post) {
-      console.log(post);
-    }
-  }, []);
 
   useEffect(() => {
     if (userId) {
@@ -112,7 +99,6 @@ export default function UploadSection({ userId }: { userId: string }) {
     */
 
     const fileInputsArray = getValues('fileInputs');
-    console.log('isFormValid fileInputsArray', fileInputsArray);
 
     return /*category && */ fileInputsArray;
   };
@@ -128,7 +114,6 @@ export default function UploadSection({ userId }: { userId: string }) {
 
   const handleAddInput = () => {
     const selectedType = fileInputSelecType;
-    console.log('selectedType', selectedType);
     setSelectType(selectedType);
     setfileInputSelecType('파일종류 선택');
 
@@ -143,15 +128,12 @@ export default function UploadSection({ userId }: { userId: string }) {
   // 파일 입력이 클릭될 때 실행되는 함수, 특정 인덱스 기반으로 처리
   const handleChangeInput = (index: number) => {
     const fileInputsArray = getValues('fileInputs');
-    console.log('fileInputsArray', fileInputsArray);
 
     // 선택된 파일 입력의 인덱스를 기반으로 해당 항목 가져오기
     const selectedInput = fileInputsArray[index];
-    console.log('selectedInput', selectedInput);
 
     // type이 배열일 경우, 문자열로 변환하여 accept 속성에 적용
     const selectedType = Array.isArray(selectedInput?.type) ? selectedInput.type.join(',') : selectedInput?.type;
-    console.log('selectedType', selectedType);
     setSelectType(selectedType);
 
     if (fileInputRef.current && selectedType) {
@@ -171,16 +153,12 @@ export default function UploadSection({ userId }: { userId: string }) {
 
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      console.log('file file', file);
-      console.log('file type', selectType);
 
       const fileInputsArray = getValues('fileInputs');
-      console.log('fileInputsArray', fileInputsArray);
+
       const currentFileInput = fileInputsArray[fileInputsArray.length - 1];
-      console.log('currentFileInput', currentFileInput);
-      console.log('selectType', selectType);
+
       const fileType = selectType;
-      console.log('fileType', fileType);
       const isNew = currentFileInput && 'isNew' in currentFileInput ? currentFileInput.isNew : false;
 
       if (isNew && !fileType) {
@@ -198,8 +176,6 @@ export default function UploadSection({ userId }: { userId: string }) {
         fileUrl: undefined,
       };
 
-      console.log('newFile', newFile);
-
       setTempFiles((prevFiles) => [...prevFiles, newFile]);
 
       // Update fileInputs to include new file information
@@ -213,6 +189,25 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
+  /*
+  const handlePatchAddInput = (index: number) => {
+    console.log('post.fileType', post.fileType);
+    console.log('post.fileType index', index);
+    console.log('post.fileType in index', post.fileType[index]);
+
+    const selectedType = post.fileType[index].split(',')[index];
+    console.log('selectedType', selectedType);
+    setSelectType(selectedType);
+    setfileInputSelecType('파일종류 선택');
+
+    if (fileInputRef.current && selectedType) {
+      fileInputRef.current.accept = selectedType; // Set file input to accept selected type
+      fileInputRef.current.click(); // Trigger file selection dialog
+    } else {
+      alert('파일 종류를 먼저 선택하세요.');
+    }
+  };
+*/
   const onSubmit = async () => {
     const formValues = getValues();
     if (!formValues.uploadName) {
@@ -221,7 +216,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
 
     const existingFiles = JSON.parse(localStorage.getItem('fileData') ?? '[]');
-    console.log('tempFiles', tempFiles);
+
     const newFileData = {
       uploadName: formValues.uploadName,
       uploadDate: new Date().toLocaleDateString('en-GB'),
@@ -235,20 +230,19 @@ export default function UploadSection({ userId }: { userId: string }) {
     existingFiles.push(newFileData);
     localStorage.setItem('fileData', JSON.stringify(existingFiles));
 
-    console.log('newFileData', newFileData);
+    // const patchData = getValues('fileInputs');
+    //setPatchPosts(patchData);
     try {
       const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
       const userName = userId || 'Unknown';
-      const fileCategory = newFileData.category.length > 0 ? newFileData.category[1] : '중앙운영위원회'; // 'defaultCategory'를 기본값으로 설정
-      const fileType = String(newFileData.fileType.length > 0 ? newFileData.fileType : null);
-      const postFileId = newFileData.postFileId.length > 0 ? newFileData.postFileId[0] : null;
+      const fileCategory = getValues('category');
+      const fileType = tempFiles.map((file) => (file.fileType.length > 0 ? file.fileType : null));
 
       const accessToken = localStorage.getItem('accessToken');
 
       if (accessToken) {
         const boardCode = '자료집게시판';
 
-        console.log(postFileId);
         // If post data exists, update the post using patch
         if (post) {
           // Extract postFileId values from the post.files array
@@ -256,23 +250,16 @@ export default function UploadSection({ userId }: { userId: string }) {
           const patchFileResponse = await postBoardBoardCodeFiles(
             boardCode,
             accessToken,
-            fileInputs.map((file) => file.file),
+            tempFiles.map((file) => file.file),
             []
           );
 
-          console.log('Complete File Response:', patchFileResponse);
-
           const patchFileDataArray = patchFileResponse.data?.data?.postFiles;
-          console.log('patchFileDataArray:', patchFileDataArray);
 
           let patchFileUrls = Array.isArray(patchFileDataArray) ? patchFileDataArray.map((item) => item.id) : [];
-          console.log('patchFileUrls:', patchFileUrls);
 
           if (patchFileDataArray.length === 0) {
             const patchFileUrlsFallback = fileDataList.map((item: { postFileId: any }) => item.postFileId);
-            console.log('Default patchFileUrls:', patchFileUrlsFallback);
-
-            console.log('patchFileUrlsFallback[0]:', patchFileUrlsFallback[0]);
 
             patchFileUrls = patchFileUrlsFallback;
           }
@@ -286,15 +273,11 @@ export default function UploadSection({ userId }: { userId: string }) {
             postFileList: [patchFileUrls[0]],
           };
 
-          console.log('posts:', posts);
-
           const responsePatch = await patchBoardPosts({
             boardCode: boardCode,
             postId: post.postId,
             posts: posts,
           });
-
-          console.log('Patch Response:', responsePatch);
 
           if (responsePatch.code === '200') {
             alert('파일 업데이트가 완료되었습니다.');
@@ -311,12 +294,8 @@ export default function UploadSection({ userId }: { userId: string }) {
             []
           );
 
-          console.log('Complete File Response:', fileResponse);
-
           const fileDataArray = fileResponse.data?.data?.postFiles;
           const fileUrls = Array.isArray(fileDataArray) ? fileDataArray.map((item) => item.id) : [];
-
-          console.log('File URLs:', fileUrls);
 
           if (fileUrls.length === 0) {
             console.error('No URLs found in the response.');
@@ -332,13 +311,7 @@ export default function UploadSection({ userId }: { userId: string }) {
             postFileList: fileUrls,
           };
 
-          console.log('categoryCode:', userName);
-
-          console.log('fileType:', fileType);
-
           const responsePost = await postBoardDataSubCategoryPosts(fileCategory, fileType, resBody, accessToken);
-
-          console.log('Post Response:', responsePost);
 
           if (responsePost.status === 200) {
             alert('파일 업로드가 완료되었습니다.');
@@ -356,6 +329,7 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
+  /*
   const handleRemoveInput = async (index: number, id: number) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
       if (post) {
@@ -371,7 +345,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           'input.id',
           fileInputs.find((input) => input.id[index])
         );
-        */
+     
 
         const inputToDelete = fileInputs.find((input) => input.id === index);
         if (!inputToDelete) {
@@ -500,6 +474,79 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
+  */
+  const handleRemove = async (id: number) => {
+    if (post) {
+      /*
+        console.log(
+          'input.id',
+          fileInputs.find((input) => input.id[index])
+        );
+        */
+
+      const inputToDelete = fileInputs[0]; // 배열의 첫 번째 값을 가져옴
+
+      // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
+      if (post) {
+        // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
+
+        const fileToDelete = post.fileData.find(
+          (file: { postFileId: any }) => file.postFileId === inputToDelete.postFileId
+        );
+
+        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+        const updatedTempFiles = tempFiles.filter((file) => file.postFileId !== fileToDelete.postFileId);
+
+        setFileInputs(updatedFileInputs);
+        setTempFiles(updatedTempFiles);
+        trigger(); // 폼 검증 트리거
+
+        try {
+          const boardCode = '자료집게시판';
+
+          const fileUrls = post?.fileUrl[0];
+
+          const delFiles = {
+            boardCode: boardCode,
+            fileUrls: [fileUrls],
+            postId: post?.postId,
+          };
+
+          const response = await delBoardPosts(delFiles.boardCode, delFiles.postId, delFiles.fileUrls);
+
+          if (response.status === 200) {
+            alert('파일이 삭제되었습니다');
+            window.location.reload();
+          } else {
+            alert('파일이 삭제되었습니다');
+            window.location.reload();
+          }
+        } catch (error) {
+          console.error('Error deleting file:', error);
+        }
+      } else {
+        // 새로운 파일이므로 서버 요청 없이 상태만 업데이트
+        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+        setFileInputs(updatedFileInputs);
+        trigger(); // 폼 검증 트리거
+      }
+    } else {
+      // fileInputs에서 해당 id와 매칭되는 파일을 찾음
+      const inputToDelete = fileInputs.find((input) => input.id - 1);
+      if (!inputToDelete) {
+        alert('삭제할 파일을 찾을 수 없습니다.');
+        return;
+      }
+
+      {
+        // 새로운 파일이므로 서버 요청 없이 상태만 업데이트
+        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
+        setFileInputs(updatedFileInputs);
+        trigger(); // 폼 검증 트리거
+      }
+    }
+  };
+
   const handleRemovePost = async (id: number) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
       // fileInputs에서 해당 id와 매칭되는 파일을 찾음
@@ -508,9 +555,6 @@ export default function UploadSection({ userId }: { userId: string }) {
         alert('삭제할 파일을 찾을 수 없습니다.');
         return;
       }
-
-      console.log('inputToDelete', inputToDelete);
-      console.log('post', post);
 
       // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
       if (post) {
@@ -529,10 +573,8 @@ export default function UploadSection({ userId }: { userId: string }) {
         trigger();
 
         try {
-          console.log('fileToDelete', fileToDelete);
           const boardCode = '자료집게시판';
           const fileUrls = fileToDelete.fileUrl;
-          console.log(fileUrls);
           const delFiles = {
             boardCode: boardCode,
             fileUrls: [fileUrls],
@@ -620,7 +662,16 @@ export default function UploadSection({ userId }: { userId: string }) {
                       render={({ field }) => (
                         <Input
                           type="text"
-                          onClick={() => handleChangeInput(index)}
+                          onClick={() => {
+                            if (post) {
+                              /* 임시로 수정 막기
+                              handleRemovePatchInput(input.id, index);
+                              handlePatchAddInput(index);
+                              */
+                            } else {
+                              handleChangeInput(index); // 첫 번째 함수 실행
+                            }
+                          }}
                           placeholder="파일이름"
                           className="xl: left-2 border-gray-300 pl-10 font-normal text-gray-600 xs:h-[31px] xs:w-[186px] sm:h-[28px] sm:w-[186px] md:h-[43px] md:w-[346px] lg:h-[62px] lg:w-[727px] lg:text-lg xl:h-[62px] xl:w-[727px] xl:text-lg xxl:h-[62px] xxl:w-[1061px]"
                           {...field}
@@ -652,7 +703,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                     )}
                   />
 
-                  <button type="button" onClick={() => handleRemoveInput(input.id, index)} className="mb-4 ml-2 ">
+                  <button type="button" onClick={() => handleRemovePost(input.id)} className="mb-4 ml-2 ">
                     <Trash2 />
                   </button>
                 </>
@@ -692,26 +743,27 @@ export default function UploadSection({ userId }: { userId: string }) {
         <div className="flex justify-end xs:flex-col sm:flex-col">
           {post && (
             <div className="hidden text-end xs:text-center sm:text-center md:block lg:block xl:block xxl:block ">
-              <button className="mr-3" onClick={() => handleRemovePost(post)}>
+              <button className="mr-3" onClick={() => handleRemove(post)}>
                 <DataDelBtn />
               </button>
             </div>
           )}
 
-          <div className="text-end xs:text-center sm:text-center">
-            <Button
-              type="submit"
-              disabled={!isFormValid()}
-              onClick={onSubmit}
-              className="mt-[60px] px-9 py-2 xs:h-[32px] xs:w-[186px] sm:h-[44px] sm:w-[315px] md:h-[46px] md:w-[128px] lg:h-[46px] lg:w-[123px] xl:h-[46px] xl:w-[123px] xxl:h-[46px] xxl:w-[123px]"
-            >
-              등록
-            </Button>
-          </div>
+          {!post && (
+            <div className="text-end xs:text-center sm:text-center">
+              <Button
+                type="submit"
+                disabled={!isFormValid()}
+                className="mt-[60px] px-9 py-2 xs:h-[32px] xs:w-[186px] sm:h-[44px] sm:w-[315px] md:h-[46px] md:w-[128px] lg:h-[46px] lg:w-[123px] xl:h-[46px] xl:w-[123px] xxl:h-[46px] xxl:w-[123px]"
+              >
+                등록
+              </Button>
+            </div>
+          )}
 
           {post && (
             <div className="hidden text-end xs:block xs:text-center sm:block sm:text-center  ">
-              <button onClick={() => handleRemovePost(post)}>
+              <button onClick={() => handleRemove(post)}>
                 <DataDelBtn />
               </button>
             </div>
