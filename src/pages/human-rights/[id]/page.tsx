@@ -12,7 +12,6 @@ import { PostHeader } from '@/pages/human-rights/[id]/containers/PostHeader.tsx'
 import { Container } from '@/pages/human-rights/[id]/containers/Container.tsx';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';
 import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
-import { Skeleton } from '@/components/ui/skeleton.tsx';
 import { PostFooter } from '@/pages/human-rights/[id]/containers/PostFooter.tsx';
 import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
 import { PostComment } from '@/pages/human-rights/[id]/components/PostComment.tsx';
@@ -44,12 +43,12 @@ function PersonFrontmatter({ title, person }: { title: string; person: MockHuman
 
 function PageSkeleton() {
   return (
-    <div className="px-10 md:px-[72px]">
-      <Skeleton className="h-[2rem] w-[20rem]" />
-      <Skeleton className="h-[2rem] w-[20rem]" />
-      <Skeleton className="h-[2rem] w-[20rem] pb-[2rem]" />
-      <Skeleton className="h-[50rem] w-[50rem]" />
-    </div>
+    <article className="mb-20 mt-[120px]">
+      <PostHeader.Skeleton />
+      <hr className="bg-[#E7E7E7]" />
+      <Container.Skeleton />
+      <PostFooter.Skeleton />
+    </article>
   );
 }
 
@@ -59,7 +58,7 @@ export function HumanRightsDetailPage() {
   const postId = parseInt(id ?? '');
   /* Load data by query */
   const queryClient = useQueryClient();
-  const { data: postData, isLoading, isError, refetch } = useMockGetHumanRightsBoardDetail({ postId });
+  const { data: postData, isLoading, isError, refetch } = useMockGetHumanRightsBoardDetail({ postId, delay: 10000 });
   const {
     data: commentsData,
     isLoading: isCommentsLoading,
@@ -79,18 +78,17 @@ export function HumanRightsDetailPage() {
     }
   }, [queryClient, commentsRefetch]);
 
+  if (isLoading) {
+    return <PageSkeleton />;
+  }
+
   if (isNaN(postId) || !postData || isError || !commentsData || isCommentsError) {
     // TODO: 오류 발생 시 세부정보 제공
     return (
-      <div className="flex items-center justify-center">
+      <div className="mt-[120px] flex items-center justify-center">
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );
-  }
-
-  // TODO: 로딩 스켈레톤 확인
-  if (isLoading) {
-    return <PageSkeleton />;
   }
 
   /* Data Preparation */
