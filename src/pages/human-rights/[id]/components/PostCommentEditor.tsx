@@ -1,6 +1,6 @@
-import { CancelButton, RegisterButton } from '@/components/Buttons/BoardActionButtons.tsx';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { cn } from '@/libs/utils.ts';
+import { Button } from '@/components/ui/button.tsx';
 
 interface PostCommentEditorProps {
   value?: string;
@@ -47,14 +47,20 @@ export function PostCommentEditor({
         onChange={(e) => setInnerValue(e.target.value)}
         maxLength={maxLength}
       ></textarea>
-      <div className="flex items-center justify-end gap-6">
+      <div className="flex items-center justify-end gap-2">
         {maxLength && (
-          <p className="text-gray-400">
+          <p className="mr-4 text-gray-400">
             {innerValue.length}/{maxLength}
           </p>
         )}
-        <RegisterButton disabled={innerValue.length < 1} onClick={() => onSubmit?.(innerValue)} />
-        {editing && <CancelButton onClick={onCancel} />}
+        {editing && (
+          <Button variant="outline" className="rounded-[7px] text-lg" onClick={onCancel}>
+            취소
+          </Button>
+        )}
+        <Button variant="Register" disabled={innerValue.length < 1} onClick={() => onSubmit?.(innerValue)}>
+          수정
+        </Button>
       </div>
     </section>
   );
