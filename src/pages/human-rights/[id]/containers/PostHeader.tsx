@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import Breadcrumb from '@/components/Breadcrumb';
 import { User } from '@phosphor-icons/react';
 import { cn } from '@/libs/utils.ts';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 interface PostHeaderProps {
   title: string;
@@ -34,3 +35,15 @@ export function PostHeader({ title, authorName: author, createdAt, breadcrumbIte
     </header>
   );
 }
+
+PostHeader.Skeleton = () => {
+  return (
+    <header className="flex justify-center px-10 md:px-[72px] lg:px-[200px] xl:px-[200px] xxl:px-[200px]">
+      <div className="mb-6 flex w-full max-w-[1040px] flex-col gap-2">
+        <Skeleton className="mb-6 h-[1.5ch] w-[10ch]" />
+        <Skeleton className="h-[2ch] w-[25ch] text-2xl" />
+        <Skeleton className="h-[1.5ch] w-[25ch]" />
+      </div>
+    </header>
+  );
+};
