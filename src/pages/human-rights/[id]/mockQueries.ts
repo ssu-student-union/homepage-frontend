@@ -195,26 +195,30 @@ const mockComments: MockHumanRightsComments = {
 
 export function useMockGetHumanRightsBoardDetail({
   postId,
+  delay = 1500,
 }: {
   postId: number;
+  delay?: number;
 }): UseQueryResult<ApiResponse<MockHumanRightsPost>, AxiosError> {
   const queryKey = ['get-board-boardCode-posts-postId', 'human_rights_report', postId];
 
   return useQuery<ApiResponse<MockHumanRightsPost>, AxiosError>({
     queryKey,
-    queryFn: async () => await waitSecondAndReturn(1500, mockPost),
+    queryFn: async () => await waitSecondAndReturn(delay, mockPost),
   });
 }
 
 export function useMockGetHumanRightsPostComments({
   postId,
+  delay = 1500,
 }: {
   postId: number;
+  delay?: number;
 }): UseQueryResult<ApiResponse<MockHumanRightsComments>, AxiosError> {
   const queryKey = ['get-board-boardCode-posts-postId-comments', 'human_rights_report', postId];
 
   return useQuery<ApiResponse<MockHumanRightsComments>, AxiosError>({
     queryKey,
-    queryFn: async () => await waitSecondAndReturn(1500, mockComments),
+    queryFn: async () => await waitSecondAndReturn(delay, mockComments),
   });
 }
