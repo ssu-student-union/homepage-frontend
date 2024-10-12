@@ -6,7 +6,7 @@ interface PostContentProps {
   children: ReactNode;
 }
 
-export function PostContainer({ className, children }: PostContentProps) {
+export function Container({ className, children }: PostContentProps) {
   return (
     <section
       className={cn('flex justify-center px-10 md:px-[72px] lg:px-[200px] xl:px-[200px] xxl:px-[200px]', className)}
