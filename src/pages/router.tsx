@@ -28,7 +28,7 @@ import { LostDetailPage } from './lost-article/detail/page';
 import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
-import { HumanRightsDetailPage } from '@/pages/human-rights/[postId]/page.tsx';
+import { HumanRightsDetailPage } from '@/pages/human-rights/[id]/page.tsx';
 
 export function MainRouter() {
   return (
@@ -66,7 +66,7 @@ export function MainRouter() {
         <Route path="/audit/edit" element={<AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<AuditPatchPage />} />
         {/* 인권신고게시판 */}
-        <Route path="/human-rights/:postId" element={<HumanRightsDetailPage />} />
+        <Route path="/human-rights/:id" element={<HumanRightsDetailPage />} />
         {/*자료집*/}
         <Route path="/data" element={<Data />} />
         <Route path="/data/edit" element={<Data />} />

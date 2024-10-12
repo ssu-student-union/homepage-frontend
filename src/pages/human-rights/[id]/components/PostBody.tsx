@@ -1,5 +1,5 @@
 import { FileResponse } from '@/types/apis/get';
-import { Attachment } from '@/pages/human-rights/[postId]/components/Attachment.tsx';
+import { Attachment } from '@/pages/human-rights/[id]/components/Attachment.tsx';
 
 interface PostBodyProps {
   content: string;
