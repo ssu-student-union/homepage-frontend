@@ -14,10 +14,8 @@ export function Data() {
   const [postDetail, setPostDetail] = useState<any>({});
 
   const fetchData = async (filters: any = {}, page: number = 1) => {
-    console.log('Fetching data with filters:', filters);
     try {
       const response = await getBoardDataPosts({ filters, page });
-      console.log('API Response:', response);
       setDatas(response); // 상태 업데이트
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -25,7 +23,6 @@ export function Data() {
   };
 
   useEffect(() => {
-    console.log('datas', datas);
     setPostDetail(datas?.data?.data);
   }, [datas]); // datas가 변경될 때마다 실행
 

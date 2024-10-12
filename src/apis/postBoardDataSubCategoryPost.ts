@@ -2,7 +2,7 @@ import { client } from '@/apis/client';
 
 export const postBoardDataSubCategoryPosts = (
   fileCategory: string,
-  fileType: string,
+  fileType: (string | null)[],
   resBody: object,
   accessToken: string
 ) => {

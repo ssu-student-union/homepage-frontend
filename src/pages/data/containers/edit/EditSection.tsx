@@ -242,7 +242,7 @@ export default function UploadSection({ userId }: { userId: string }) {
       const fileName = newFileData.fileName.length > 0 ? newFileData.fileName : null;
       const userName = userId || 'Unknown';
       const fileCategory = newFileData.category.length > 0 ? newFileData.category[0] : 'defaultCategory'; // 'defaultCategory'를 기본값으로 설정
-      const fileType = '결과보고서';
+      const fileType = newFileData.fileType.length > 0 ? newFileData.fileType[0] : 'defaultFileType'; // 'defaultCategory'를 기본값으로 설정
 
       console.log(fileName);
 
@@ -281,13 +281,13 @@ export default function UploadSection({ userId }: { userId: string }) {
             postFileList: fileUrls,
           };
 
-          const response = await postBoardDataSubCategoryPosts(fileCategory, fileType, resBody, accessToken);
+          const response = await postBoardDataSubCategoryPosts(fileCategory, [fileType], resBody, accessToken);
 
           console.log('Post Response:', response);
 
           if (response.status === 200) {
             alert('파일 업로드가 완료되었습니다.');
-            navigate('/homepage-frontend/data');
+            navigate('/data');
           } else {
             alert('오류가 발생했습니다. 다시 시도해주세요.');
           }
