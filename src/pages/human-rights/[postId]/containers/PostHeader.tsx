@@ -22,8 +22,9 @@ export function PostHeader({ title, authorName: author, createdAt, breadcrumbIte
       <div className="mb-6 flex w-full max-w-[1040px] flex-col gap-2">
         <Breadcrumb items={breadcrumbMap} className="mb-6" />
         <h1 className="text-2xl font-bold text-black">{title}</h1>
-        <div className="flex items-center">
-          <address className="flex items-center not-italic after:mx-1 after:content-['·']">
+        {/* TODO: 이후 디자인 변경시 text 색상 tailwind 토큰으로 변경 */}
+        <div className="flex items-center text-[#999999]">
+          <address className="flex items-center gap-1 not-italic after:ml-0.5 after:mr-1.5 after:content-['·']">
             <User />
             {author}
           </address>
