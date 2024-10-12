@@ -41,7 +41,7 @@ export function PostCommentEditor({
     >
       <textarea
         ref={ref}
-        className="h-auto resize-none placeholder:text-gray-500 focus:outline-none focus-visible:outline-none"
+        className="h-auto resize-none bg-transparent placeholder:text-gray-500 focus:outline-none focus-visible:outline-none"
         value={innerValue}
         placeholder={placeholder}
         onChange={(e) => setInnerValue(e.target.value)}
