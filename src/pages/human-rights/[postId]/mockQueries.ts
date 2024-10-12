@@ -86,9 +86,27 @@ const mockPost = {
   fileResponseList: [
     {
       postFileId: 1,
-      fileName: 'test',
+      fileName: 'image1.png',
       fileUrl: 'https://picsum.photos/200/300',
       fileType: 'images' as 'images' | 'files',
+    },
+    {
+      postFileId: 2,
+      fileName: 'image2.png',
+      fileUrl: 'https://picsum.photos/200/300',
+      fileType: 'images' as 'images' | 'files',
+    },
+    {
+      postFileId: 3,
+      fileName: 'image3_file.png',
+      fileUrl: 'https://picsum.photos/200/300',
+      fileType: 'files' as 'images' | 'files',
+    },
+    {
+      postFileId: 4,
+      fileName: 'image4_file.png',
+      fileUrl: 'https://picsum.photos/200/300',
+      fileType: 'files' as 'images' | 'files',
     },
   ],
   officialCommentList: [],
