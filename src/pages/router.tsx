@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { MainPage } from './main/page';
 import { KakaoRegisterPage } from './kakao/page';
 import { GeneralRegisterPage } from './general/page';
@@ -28,6 +28,7 @@ import { LostDetailPage } from './lost-article/detail/page';
 import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
+import { HumanRightsDetailPage } from '@/pages/human-rights/[postId]/page.tsx';
 
 export function MainRouter() {
   return (
@@ -64,6 +65,8 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<AuditDetailPage />} />
         <Route path="/audit/edit" element={<AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<AuditPatchPage />} />
+        {/* 인권신고게시판 */}
+        <Route path="/human-rights/:postId" element={<HumanRightsDetailPage />} />
         {/*자료집*/}
         <Route path="/data" element={<Data />} />
         <Route path="/data/edit" element={<Data />} />
