@@ -129,6 +129,7 @@ export function HumanRightsDetailPage() {
           deletable={deletable}
           editUrl={`/human-rights/edit/${postId}`}
           className="mb-20"
+          onDelete={() => console.log('TODO: deleting post')}
         />
       </article>
       <hr className="bg-[#E7E7E7]" />
@@ -144,7 +145,7 @@ export function HumanRightsDetailPage() {
                 className="mb-4"
                 placeholder="댓글을 남겨보세요"
                 maxLength={2000}
-                onSubmit={(v) => console.log('submitted', v)}
+                onSubmit={(v) => console.log('TODO: submit comment', v)}
               />
             )}
             {comments.map((comment) => (
@@ -157,6 +158,8 @@ export function HumanRightsDetailPage() {
                 editable={comment.isAuthor}
                 deletable={comment.isAuthor || comment_deletable}
                 deleted={comment.isDeleted}
+                onDelete={() => console.log('TODO: delete comment')}
+                onEdit={() => console.log('TODO: edit comment')}
               >
                 {comment.content}
               </PostComment>
