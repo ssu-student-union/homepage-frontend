@@ -3,7 +3,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FileResponse } from '@/types/apis/get';
 
-enum PostAcl {
+export enum PostAcl {
   READ = 'read',
   WRITE = 'write',
   EDIT = 'edit',
