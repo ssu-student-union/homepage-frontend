@@ -3,6 +3,13 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { FileResponse } from '@/types/apis/get';
 
+interface ApiResponse<T> {
+  code: string;
+  message: string;
+  data: T;
+  isSuccess: boolean;
+}
+
 export enum PostAcl {
   READ = 'read',
   WRITE = 'write',
@@ -43,13 +50,36 @@ interface MockHumanRightsPost {
   fileResponseList: FileResponse[];
 }
 
-async function waitSecondAndReturn<T>(ms: number, data: T) {
+interface MockHumanRightsComments {
+  postComments: MockHumanRightsComment[];
+  allowedAuthorities: PostAcl[];
+  total: number;
+}
+
+interface MockHumanRightsComment {
+  id: number;
+  authorName: string;
+  studentId: string;
+  content: string;
+  createdAt: string;
+  commentType: 'general' | 'official'; // uppercase? lowercase?
+  lastEditedAt: string | null;
+  isDeleted: boolean;
+  isAuthor: boolean;
+}
+
+async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<T>> {
   await new Promise<void>((resolve) =>
     setTimeout(() => {
       resolve();
     }, ms)
   );
-  return data;
+  return {
+    code: '200',
+    message: 'Success',
+    data: data,
+    isSuccess: true,
+  };
 }
 
 const mockPost = {
@@ -112,15 +142,79 @@ const mockPost = {
   officialCommentList: [],
 };
 
+const mockComments: MockHumanRightsComments = {
+  postComments: [
+    {
+      id: 0,
+      authorName: '오피셜',
+      studentId: '20211561',
+      content: '오피셜입니다.',
+      commentType: 'official',
+      createdAt: '2024-10-12T02:03:18.596Z',
+      lastEditedAt: null,
+      isDeleted: false,
+      isAuthor: true,
+    },
+    {
+      id: 1,
+      authorName: '일반',
+      studentId: '20211561',
+      content: '일반입니다.',
+      commentType: 'general',
+      createdAt: '2024-10-12T02:03:18.596Z',
+      lastEditedAt: null,
+      isDeleted: false,
+      isAuthor: true,
+    },
+    {
+      id: 2,
+      authorName: '삭제',
+      studentId: '20211561',
+      content: '삭제되었나요?',
+      commentType: 'general',
+      createdAt: '2024-10-12T02:03:18.596Z',
+      lastEditedAt: null,
+      isDeleted: true,
+      isAuthor: true,
+    },
+    {
+      id: 3,
+      authorName: '다른주인',
+      studentId: '20211561',
+      content: '저어는 아무 권한이 없습니다.',
+      commentType: 'general',
+      createdAt: '2024-10-12T02:03:18.596Z',
+      lastEditedAt: null,
+      isDeleted: false,
+      isAuthor: false,
+    },
+  ],
+  allowedAuthorities: [PostAcl.COMMENT, PostAcl.DELETE_COMMENT],
+  total: 0,
+};
+
 export function useMockGetHumanRightsBoardDetail({
   postId,
 }: {
   postId: number;
-}): UseQueryResult<MockHumanRightsPost, AxiosError> {
+}): UseQueryResult<ApiResponse<MockHumanRightsPost>, AxiosError> {
   const queryKey = ['get-board-boardCode-posts-postId', 'human_rights_report', postId];
 
-  return useQuery<MockHumanRightsPost, AxiosError>({
+  return useQuery<ApiResponse<MockHumanRightsPost>, AxiosError>({
     queryKey,
     queryFn: async () => await waitSecondAndReturn(1500, mockPost),
+  });
+}
+
+export function useMockGetHumanRightsPostComments({
+  postId,
+}: {
+  postId: number;
+}): UseQueryResult<ApiResponse<MockHumanRightsComments>, AxiosError> {
+  const queryKey = ['get-board-boardCode-posts-postId-comments', 'human_rights_report', postId];
+
+  return useQuery<ApiResponse<MockHumanRightsComments>, AxiosError>({
+    queryKey,
+    queryFn: async () => await waitSecondAndReturn(1500, mockComments),
   });
 }
