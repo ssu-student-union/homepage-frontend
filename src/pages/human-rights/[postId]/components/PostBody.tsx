@@ -14,12 +14,12 @@ export function PostBody({ content, files }: PostBodyProps) {
       <section className="mb-10">{content}</section>
       <section className="mb-10 flex flex-col gap-4">
         {images.map((image) => (
-          <img className="w-fit rounded-xs" src={image.fileUrl} alt={image.fileName} />
+          <img key={image.postFileId} className="w-fit rounded-xs" src={image.fileUrl} alt={image.fileName} />
         ))}
       </section>
       <section className="mb-10 flex flex-col gap-4">
         {attachments.map((attachment) => (
-          <Attachment {...attachment} />
+          <Attachment key={attachment.postFileId} {...attachment} />
         ))}
       </section>
     </>
