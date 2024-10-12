@@ -62,7 +62,7 @@ interface MockHumanRightsComment {
   studentId: string;
   content: string;
   createdAt: string;
-  commentType: 'general' | 'official'; // uppercase? lowercase?
+  commentType: 'GENERAL' | 'OFFICIAL';
   lastEditedAt: string | null;
   isDeleted: boolean;
   isAuthor: boolean;
@@ -149,7 +149,7 @@ const mockComments: MockHumanRightsComments = {
       authorName: '오피셜',
       studentId: '20211561',
       content: '오피셜입니다.',
-      commentType: 'official',
+      commentType: 'OFFICIAL',
       createdAt: '2024-10-12T02:03:18.596Z',
       lastEditedAt: null,
       isDeleted: false,
@@ -160,7 +160,7 @@ const mockComments: MockHumanRightsComments = {
       authorName: '일반',
       studentId: '20211561',
       content: '일반입니다.',
-      commentType: 'general',
+      commentType: 'GENERAL',
       createdAt: '2024-10-12T02:03:18.596Z',
       lastEditedAt: null,
       isDeleted: false,
@@ -171,7 +171,7 @@ const mockComments: MockHumanRightsComments = {
       authorName: '삭제',
       studentId: '20211561',
       content: '삭제되었나요?',
-      commentType: 'general',
+      commentType: 'GENERAL',
       createdAt: '2024-10-12T02:03:18.596Z',
       lastEditedAt: null,
       isDeleted: true,
@@ -182,7 +182,7 @@ const mockComments: MockHumanRightsComments = {
       authorName: '다른주인',
       studentId: '20211561',
       content: '저어는 아무 권한이 없습니다.',
-      commentType: 'general',
+      commentType: 'GENERAL',
       createdAt: '2024-10-12T02:03:18.596Z',
       lastEditedAt: null,
       isDeleted: false,
