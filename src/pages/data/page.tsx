@@ -23,7 +23,7 @@ export function Data() {
   };
 
   useEffect(() => {
-    setPostDetail(datas?.data?.data);
+    setPostDetail(datas?.data);
   }, [datas]); // datas가 변경될 때마다 실행
 
   useEffect(() => {

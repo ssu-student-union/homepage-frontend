@@ -1,7 +1,7 @@
 import { client } from './client';
 
 export const postBoardBoardCodeFiles = (
-  boardCode: string,
+  fileType: (string | null)[],
   accessToken: string,
   files: File[], // 첫번째 파라미터: files
   images: File[] // 두번째 파라미터: images
@@ -20,7 +20,7 @@ export const postBoardBoardCodeFiles = (
   });
 
   // API 요청
-  return client.post(`/board/${boardCode}/files`, formData, {
+  return client.post(`/board/data/files/${fileType}`, formData, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'multipart/form-data', // FormData를 보내는 경우 Content-Type은 자동으로 설정됨

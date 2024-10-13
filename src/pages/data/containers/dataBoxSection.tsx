@@ -158,9 +158,10 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     try {
       const response = await getBoardDataPosts({ filters, page });
       setData(response.data);
+      console.log('res', response);
 
-      if (response.data?.data?.postListResDto?.length > 0) {
-        const currentTotalElements = response.data.data.pageInfo.totalElements;
+      if (response.data?.postListResDto?.length > 0) {
+        const currentTotalElements = response?.data.pageInfo.totalElements;
 
         if (
           (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
@@ -171,7 +172,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
           return;
         }
 
-        const categorizedDataBoxes: Post[] = response.data.data.postListResDto.map((post: any) => ({
+        const categorizedDataBoxes: Post[] = response.data.postListResDto.map((post: any) => ({
           ...post,
           category: post.category || '기타',
           createdAt: new Date(post.date).setHours(0, 0, 0, 0),
@@ -184,6 +185,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
         }));
 
         setDataBoxes(categorizedDataBoxes);
+        console.log('categorizedDataBoxes', categorizedDataBoxes);
         setTotalPage(response.data.data.pageInfo.totalPages);
       }
     } catch (error) {
@@ -309,15 +311,19 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
                 <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
                   {Array.isArray(data.fileUrl) && data.fileUrl.length > 0 ? (
                     data.fileUrl.map((fileUrl: string, fileIndex: number) => {
-                      const fileType = data.fileType[fileIndex].split(',')[fileIndex] || '';
+                      const rawFileType = data.fileType[fileIndex] || '';
+                      const fileType = rawFileType.includes(',')
+                        ? rawFileType.split(',')[fileIndex]
+                        : rawFileType.trim();
                       const fileName = data.fileNames[fileIndex] || 'Unknown File';
+
                       return (
                         <button
                           key={fileIndex}
                           onClick={() => handleDownload(fileUrl, fileName)}
                           className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
                         >
-                          {fileType.trim()}
+                          {fileType}
                         </button>
                       );
                     })

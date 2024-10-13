@@ -1,4 +1,5 @@
-import { client } from './client';
+import { clientAuth } from './client';
+import { AxiosResponse } from 'axios';
 
 interface Filters {
   [key: string]: any;
@@ -9,22 +10,18 @@ interface GetBoardDataPostsParams {
   page: number;
 }
 
-export const getBoardDataPosts = ({ filters = {}, page }: GetBoardDataPostsParams) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const headers: { [key: string]: any } = {
-    'Content-Type': 'multipart/form-data',
-  };
-
-  if (accessToken) {
-    headers['Authorization'] = `Bearer ${accessToken}`;
-  }
-
-  return client.get('/board/data/posts', {
-    headers,
+export const getBoardDataPosts = async ({
+  filters = {},
+  page,
+}: GetBoardDataPostsParams): Promise<GetBoardDataPostsParams> => {
+  const response: AxiosResponse<GetBoardDataPostsParams> = await clientAuth({
+    url: `/board/data/posts`,
+    method: 'get',
     params: {
       take: 5,
       page: page - 1,
       ...filters,
     },
   });
+  return response.data;
 };
