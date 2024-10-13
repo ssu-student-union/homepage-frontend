@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BoardContentLoading from './BoardContentLoading';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
+import { nameToUrl } from './boardData';
 
 interface BoardContentProps {
   boardName: string;
@@ -117,7 +118,7 @@ export function BoardContent({ boardName, data, isLoading }: BoardContentProps) 
           badgeType={status}
           profileName={post.author}
           className="cursor-pointer"
-          onClick={() => navigate(`/${boardName}/${post.postId}`, { state: { postId: post.postId } })}
+          onClick={() => navigate(`/${nameToUrl.get(boardName)}/${post.postId}`, { state: { postId: post.postId } })}
         />
       </div>
     );
