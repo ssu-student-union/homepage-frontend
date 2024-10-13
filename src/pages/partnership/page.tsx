@@ -44,7 +44,7 @@ export function PartnershipPage() {
     }
   }, [queryClient, refetch]);
 
-  const posts = data?.data.postListResDto || []; // 게시물 리스트
+  const posts = data?.data.postListResDto || [];
   const partnershipCount = useMemo(() => {
     if (isLoading) {
       return 0;
