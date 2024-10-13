@@ -55,7 +55,10 @@ export function DropdownButton({ items, onItemClick, children, className, ...pro
       </button>
       <div className="relative">
         <DropdownMenu
-          className={cn('right-0 top-0', opened ? 'block' : 'hidden')}
+          className={cn(
+            'right-0 top-0 transition-all',
+            opened ? 'visible scale-100 opacity-100' : 'invisible scale-90 opacity-0'
+          )}
           items={items}
           onItemClick={(id) => {
             setOpened(false);
