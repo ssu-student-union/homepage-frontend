@@ -4,14 +4,13 @@ import { Post } from '@/types/apis/get';
 import { useRecoilState } from 'recoil';
 import { todayPostCountState } from '@/recoil/atoms/atom';
 import { useMemo } from 'react';
+import { NoticeResponse } from '../types';
 
 export function useTodayPosts(boardCode: string, category: string, subCategory: string) {
   const [todayPostCount, setTodayPostCount] = useRecoilState(todayPostCountState(category));
   const [page, setPage] = useState<number>(0);
   const [stopFetching, setStopFetching] = useState<boolean>(false);
-  console.log(category, subCategory);
-
-  const { data, isLoading, isError } = useGetBoardPosts<any>({
+  const { data, isLoading, isError } = useGetBoardPosts<NoticeResponse>({
     boardCode,
     take: 10,
     page,
