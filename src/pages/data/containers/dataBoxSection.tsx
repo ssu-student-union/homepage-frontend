@@ -21,7 +21,7 @@ interface PostFile {
 interface Post {
   postId?: number;
   category: string;
-  createdAt: number;
+  createdAt: string;
   uploadName: string;
   uploadDate: string;
   fileNames: string[];
@@ -105,6 +105,11 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     }
   };
 
+  // Helper function to format date (YYYY/MM/DD)
+  const formatDate = (dateString: string): string => {
+    return dateString.split(' ')[0]; // 'YYYY/MM/DD' 형식으로 변환
+  };
+
   // Function to fetch the latest special category
   const fetchLatestSpecialCategory = async (page: number = 1) => {
     try {
@@ -115,9 +120,9 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
         setLatestDataBox({
           postId: latestPost.postId,
           category: latestPost.category || '기타',
-          createdAt: new Date(latestPost.date).setHours(0, 0, 0, 0),
+          createdAt: new Date(latestPost.date).toDateString(),
           uploadName: latestPost.title || 'Unnamed Upload',
-          uploadDate: latestPost.date || 'Unknown Date',
+          uploadDate: formatDate(latestPost.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
           date: latestPost.date || new Date().toISOString(),
           fileNames: latestPost.files ? latestPost.files.map((file: PostFile) => file.fileName) : [],
           fileUrl: latestPost.files ? latestPost.files.map((file: PostFile) => file.fileUrl) : [],
@@ -158,9 +163,9 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
         const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: PostListResDto) => ({
           ...post,
           category: post.category || '기타',
-          createdAt: new Date(post.date).setHours(0, 0, 0, 0),
+          createdAt: new Date(post.date).toDateString(),
           uploadName: post.title || 'Unnamed Upload',
-          uploadDate: post.date || 'Unknown Date',
+          uploadDate: formatDate(post.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
           fileNames: post.files ? post.files.map((file: PostFile) => file.fileName) : [],
           fileUrl: post.files ? post.files.map((file: PostFile) => file.fileUrl) : [],
           fileType: post.files ? post.files.map((file: PostFile) => file.fileType) : [],
@@ -198,9 +203,9 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
         const categorizedDataBoxes: Post[] = response.data.postListResDto.map((post: PostListResDto) => ({
           ...post,
           category: post.category || '기타',
-          createdAt: new Date(post.date).setHours(0, 0, 0, 0),
+          createdAt: new Date(post.date).toDateString(),
           uploadName: post.title || 'Unnamed Upload',
-          uploadDate: post.date || 'Unknown Date',
+          uploadDate: formatDate(post.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
           fileNames: post.files ? post.files.map((file: PostFile) => file.fileName) : [],
           fileUrl: post.files ? post.files.map((file: PostFile) => file.fileUrl) : [],
           fileType: post.files ? post.files.map((file: PostFile) => file.fileType) : [],
