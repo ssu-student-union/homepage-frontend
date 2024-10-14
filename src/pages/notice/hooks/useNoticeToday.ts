@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
-import { useNoticeCategory } from './useNoticeCategory';
 import { Post } from '@/types/apis/get';
 import { useRecoilState } from 'recoil';
 import { todayPostCountState } from '@/recoil/atoms/atom';
 
-export function useTodayPosts(boardCode: string) {
-  const { category, subCategory } = useNoticeCategory();
-
+export function useTodayPosts(boardCode: string, category: string, subCategory: string) {
   const [todayPostCount, setTodayPostCount] = useRecoilState(todayPostCountState(category));
   const [page, setPage] = useState<number>(0);
   const [stopFetching, setStopFetching] = useState<boolean>(false);

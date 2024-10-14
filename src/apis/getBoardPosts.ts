@@ -1,5 +1,5 @@
 import { GetBoardDetailResponse, getBoardPostsProps } from '@/types/apis/get';
-import { clientAuth } from './client';
+import { client } from './client';
 import { AxiosResponse } from 'axios';
 
 export const getBoardPosts = async ({
@@ -10,7 +10,7 @@ export const getBoardPosts = async ({
   category,
   boardCode,
 }: getBoardPostsProps): Promise<GetBoardDetailResponse> => {
-  const response: AxiosResponse<GetBoardDetailResponse> = await clientAuth({
+  const response: AxiosResponse<GetBoardDetailResponse> = await client({
     url: `/board/${boardCode}/posts`,
     method: 'get',
     params: {
