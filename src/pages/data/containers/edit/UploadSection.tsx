@@ -6,12 +6,12 @@ import { userCategories, UserFileCategories } from './index';
 import { Trash2, Plus, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { postBoardBoardCodeFiles } from '@/apis/postBoardBoardCodeFiles';
 import { postBoardDataSubCategoryPosts } from '@/apis/postBoardDataSubCategoryPost';
 import { delBoardFiles } from '@/apis/delBoardFiles';
 import DataDelBtn from '../dataDelBtn';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 import { patchBoardDataPosts } from '@/apis/patchBoardDataPosts';
+import { postBoardDataFiles } from '@/apis/postBoardDataFiles';
 
 interface FileItem {
   fileUrl: any;
@@ -55,7 +55,6 @@ export default function UploadSection({ userId }: { userId: string }) {
   const [fileCategories, setFileCategories] = useState<string[]>([]);
   const [fileInputSelecType, setfileInputSelecType] = useState<string>('');
   const [selectType, setSelectType] = useState<string>();
-  const [fileType, setFileType] = useState<(string | null)[] | undefined>(undefined);
 
   /*const [patchPosts, setPatchPosts] = useState<string>('');*/
 
@@ -258,7 +257,6 @@ export default function UploadSection({ userId }: { userId: string }) {
       if (accessToken) {
         // If post data exists, update the post using patch
         if (post) {
-          const boardCode = '자료집게시판';
           // Extract postFileId values from the post.files array
           // Proceed with file upload and new post creation
 
@@ -277,7 +275,7 @@ export default function UploadSection({ userId }: { userId: string }) {
 
           console.log('fileType', fileType);
 
-          const patchFileResponse = await postBoardBoardCodeFiles(
+          const patchFileResponse = await postBoardDataFiles(
             fileType,
             accessToken,
             tempFiles.map((file) => file.file),
@@ -325,7 +323,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           }
         } else {
           // Proceed with file upload and new post creation
-          const fileResponse = await postBoardBoardCodeFiles(
+          const fileResponse = await postBoardDataFiles(
             fileType,
             accessToken,
             tempFiles.map((file) => file.file),
