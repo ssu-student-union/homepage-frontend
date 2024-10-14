@@ -19,7 +19,7 @@ export function NoticePage() {
     category,
     subCategory
   );
-  const { todayPostCount, isLoading: isPostsLoading } = useTodayPosts(boardCode, category, subCategory);
+  const { todayPostCount, isLoading: isPostsLoading } = useTodayPosts(boardCode);
 
   return (
     <>
