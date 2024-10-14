@@ -71,6 +71,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     try {
       const TotalResponse = await getBoardDataPosts({ filters, page });
 
+      console.log('TotalResponse', TotalResponse);
       if (TotalResponse.data?.postListResDto?.length > 0) {
         setInitialTotalElements(TotalResponse.data?.pageInfo.totalElements);
       }
