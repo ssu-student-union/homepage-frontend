@@ -82,8 +82,8 @@ export default function UploadSection({ userId }: { userId: string }) {
       ) => {
         const rawFileType = fileData.fileType || '';
         const fileType = rawFileType.includes(',')
-          ? rawFileType.split(',')[idx].trim() // fileType이 ','로 구분된 문자열일 경우 인덱스에 해당하는 값을 사용
-          : rawFileType.trim(); // 단일 값인 경우 그대로 사용
+          ? rawFileType.split(',')[idx] // fileType이 ','로 구분된 문자열일 경우 인덱스에 해당하는 값을 사용
+          : rawFileType; // 단일 값인 경우 그대로 사용
 
         return {
           id: idx + 1, // id는 1부터 시작
@@ -199,29 +199,22 @@ export default function UploadSection({ userId }: { userId: string }) {
 
       setTempFiles((prevFiles) => [...prevFiles, newFile]);
 
-      // Update fileInputs to include new file information
-      setFileInputs((prevInputs) => [
-        ...prevInputs.slice(0, -1), // Remove the last input that was pending
-        { ...currentFileInput, fileName: file.name, type: fileType || 'hi', isNew: false }, // Update last input
-        { id: prevInputs.length + 1, type: '', fileName: '', isNew: true }, // Add new input
-      ]);
+      if (post) {
+        // Add new file information without updating the last input
+        setFileInputs((prevInputs) => [
+          ...prevInputs, // Keep all the previous inputs unchanged
+          { id: prevInputs.length + 1, fileName: file.name, type: fileType || 'hi', isNew: false }, // Add new input with file information
+        ]);
+      } else {
+        // Update fileInputs to include new file information
+        setFileInputs((prevInputs) => [
+          ...prevInputs.slice(0, -1), // Remove the last input that was pending
+          { ...currentFileInput, fileName: file.name, type: fileType || 'hi', isNew: false }, // Update last input
+          { id: prevInputs.length + 1, type: '', fileName: '', isNew: true }, // Add new input
+        ]);
+      }
 
       trigger();
-    }
-  };
-
-  const handlePatchAddInput = (index: number) => {
-    const selectedType = fileInputSelecType;
-    setSelectType(selectedType);
-    setfileInputSelecType('파일종류 선택');
-
-    setfileInputSelecType('파일종류 선택');
-
-    if (fileInputRef.current) {
-      fileInputRef.current.accept = selectedType; // Set file input to accept selected type
-      fileInputRef.current.click(); // Trigger file selection dialog
-    } else {
-      alert('파일 종류를 먼저 선택하세요.');
     }
   };
 
@@ -376,146 +369,6 @@ export default function UploadSection({ userId }: { userId: string }) {
     }
   };
 
-  const handleRemovePatchInput = async (index: number, id: number) => {
-    if (post) {
-      // fileInputs에서 해당 id와 매칭되는 파일을 찾음
-      console.log(
-        'input.id',
-        fileInputs.find((input) => input.id === index)
-      );
-      console.log('index', index);
-
-      console.log(
-        'input.id',
-        fileInputs.find((input) => input.id[index])
-      );
-
-      const inputToDelete = fileInputs.find((input) => input.id === index);
-      if (!inputToDelete) {
-        alert('삭제할 파일을 찾을 수 없습니다.');
-        return;
-      }
-
-      console.log('inputToDelete', inputToDelete);
-      console.log('post', post);
-
-      // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
-      if (post) {
-        // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
-
-        console.log('post.fileData', post);
-        console.log('inputToDelete.postFileId', inputToDelete.postFileId);
-
-        const fileToDelete = post.fileData.find(
-          (file: { postFileId: any }) => file.postFileId === inputToDelete.postFileId
-        );
-        // 파일을 찾지 못했을 경우
-        if (!fileToDelete) {
-          // fileInputs에서 해당 항목을 삭제
-          setFileInputs((prevInputs) => prevInputs.filter((input) => input.id !== inputToDelete.id));
-          console.log('삭제할 파일을 찾지 못해 fileInputs에서 해당 항목을 삭제했습니다.');
-          return;
-        }
-
-        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
-        const updatedTempFiles = tempFiles.filter((file) => file.postFileId !== fileToDelete.postFileId);
-
-        setFileInputs(updatedFileInputs);
-        setTempFiles(updatedTempFiles);
-        trigger(); // 폼 검증 트리거
-
-        try {
-          console.log('fileToDelete', fileToDelete);
-          const boardCode = '자료집게시판';
-          console.log('inputToDelete', inputToDelete);
-          console.log('inputToDelete fileUrl', fileToDelete?.fileUrl);
-          const fileUrls = fileToDelete.fileUrl;
-          console.log('fileUrls', fileUrls);
-
-          console.log(fileUrls);
-
-          const delFiles = {
-            boardCode: boardCode,
-            fileUrls: [fileUrls],
-          };
-
-          const response = await delBoardFiles(delFiles);
-
-          if (response.code === '200') {
-            alert('파일이 성공적으로 삭제되었습니다.');
-          } else {
-            alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
-          }
-        } catch (error) {
-          console.error('Error deleting file:', error);
-          alert('파일 삭제 중 오류가 발생했습니다.');
-        }
-      } else {
-        // 새로운 파일이므로 서버 요청 없이 상태만 업데이트
-        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
-        setFileInputs(updatedFileInputs);
-        trigger(); // 폼 검증 트리거
-      }
-    } else {
-      // fileInputs에서 해당 id와 매칭되는 파일을 찾음
-      const inputToDelete = fileInputs.find((input) => input.id - 1);
-      if (!inputToDelete) {
-        alert('삭제할 파일을 찾을 수 없습니다.');
-        return;
-      }
-
-      console.log('inputToDelete', inputToDelete);
-      console.log('post', post);
-
-      // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
-      if (post) {
-        // tempFiles에서 삭제하려는 파일의 postFileId를 기준으로 일치하는 파일을 찾음
-        const fileToDelete = post.fileData.find((file: { postFileId: any }) => file.postFileId);
-
-        if (!fileToDelete) {
-          alert('삭제할 파일을 찾을 수 없습니다.');
-          return;
-        }
-
-        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
-        const updatedTempFiles = tempFiles.filter((file) => file.postFileId !== fileToDelete.postFileId);
-
-        setFileInputs(updatedFileInputs);
-        setTempFiles(updatedTempFiles);
-        trigger(); // 폼 검증 트리거
-
-        try {
-          console.log('fileToDelete', fileToDelete);
-          const boardCode = '자료집게시판';
-          const fileUrls = fileToDelete.fileUrl;
-
-          console.log(fileUrls);
-
-          const delFiles = {
-            boardCode: boardCode,
-            fileUrls: [fileUrls],
-          };
-
-          const response = await delBoardFiles(delFiles);
-
-          if (response.code === '200') {
-            alert('파일이 성공적으로 삭제되었습니다.');
-          } else {
-            alert('파일 삭제에 실패했습니다. 다시 시도해주세요.');
-          }
-        } catch (error) {
-          console.error('Error deleting file:', error);
-          alert('파일 삭제 중 오류가 발생했습니다.');
-        }
-      } else {
-        // 새로운 파일이므로 서버 요청 없이 상태만 업데이트
-        const updatedFileInputs = fileInputs.filter((input) => input.id !== id);
-        setFileInputs(updatedFileInputs);
-        trigger(); // 폼 검증 트리거
-      }
-    }
-  };
-
   const handleRemove = async (id: number) => {
     if (post) {
       const inputToDelete = fileInputs[0]; // 배열의 첫 번째 값을 가져옴
@@ -584,16 +437,21 @@ export default function UploadSection({ userId }: { userId: string }) {
   const handleRemovePost = async (id: number) => {
     if (window.confirm('해당 파일을 삭제하시겠습니까?')) {
       // fileInputs에서 해당 id와 매칭되는 파일을 찾음
-      const inputToDelete = fileInputs.find((input) => input.id - 1);
+      const inputToDelete = fileInputs.find((input) => input.id === id);
+      console.log('inputToDelete', inputToDelete);
+
       if (!inputToDelete) {
         alert('삭제할 파일을 찾을 수 없습니다.');
         return;
       }
 
       // 삭제하려는 파일이 기존 파일인지 확인 (isNew가 false인 경우에만 postFileId가 있음)
-      if (post) {
-        const fileToDelete = post.fileData.find((file: { postFileId: any }) => file.postFileId);
+      if (post && inputToDelete && !inputToDelete.isNew) {
+        const fileToDelete = post.fileData.find(
+          (file: { postFileId: any }) => file.postFileId === inputToDelete.postFileId
+        );
 
+        console.log('fileToDelete', fileToDelete);
         if (!fileToDelete) {
           alert('삭제할 파일을 찾을 수 없습니다.');
           return;
@@ -639,8 +497,9 @@ export default function UploadSection({ userId }: { userId: string }) {
   };
 
   useEffect(() => {
-    if (postCategory) {
-      setValue('category', postCategory); // postCategory 값이 있을 때만 업데이트
+    if (postCategory != null) {
+      // postCategory가 null 또는 undefined가 아니면 업데이트
+      setValue('category', postCategory ?? '카테고리');
     }
   }, [postCategory, setValue]);
 
@@ -668,7 +527,7 @@ export default function UploadSection({ userId }: { userId: string }) {
         <Controller
           name="category"
           control={control}
-          defaultValue={postCategory} // 초기값으로 postCategory 설정
+          defaultValue={postCategory || '카테고리'} // 초기값으로 postCategory 설정
           rules={{ required: '카테고리를 선택하세요.' }}
           render={({ field }) => (
             <FilterDropDown
@@ -679,7 +538,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                 setValue('category', value); // React Hook Form의 상태도 업데이트
                 trigger('category'); // 특정 필드만 검증 트리거
               }}
-              value={field.value || postCategory || '카테고리'} // field.value가 있으면 그것을 사용하고, 없으면 postCategory 사용
+              value={field.value ?? postCategory ?? '카테고리'} // Using nullish coalescing
               className="ml-[10px] py-0 pl-9 text-sm text-gray-500 xs:h-[33px] xs:w-[105px] sm:h-[43px] sm:w-[141px] md:h-[44px] md:w-[140px] lg:h-[44px] lg:w-[141px] xl:h-[44px]  xl:w-[141px] xxl:h-[44px] xxl:w-[354px]"
             />
           )}

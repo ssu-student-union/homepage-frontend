@@ -71,8 +71,8 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     try {
       const TotalResponse = await getBoardDataPosts({ filters, page });
 
-      if (TotalResponse.data?.data?.postListResDto?.length > 0) {
-        setInitialTotalElements(TotalResponse.data.data.pageInfo.totalElements);
+      if (TotalResponse.data?.postListResDto?.length > 0) {
+        setInitialTotalElements(TotalResponse.data?.pageInfo.totalElements);
       }
     } catch (error) {
       ('');
@@ -86,8 +86,8 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
       };
       const latestResponse = await getBoardDataPosts({ filters, page });
 
-      if (latestResponse.data?.data?.postListResDto?.length > 0) {
-        const latestPost = latestResponse.data.data.postListResDto[0];
+      if (latestResponse.data?.postListResDto?.length > 0) {
+        const latestPost = latestResponse.data.postListResDto[0];
         setLatestDataBox({
           postId: latestPost.postId,
           category: latestPost.category || '기타',
@@ -186,7 +186,7 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
 
         setDataBoxes(categorizedDataBoxes);
         console.log('categorizedDataBoxes', categorizedDataBoxes);
-        setTotalPage(response.data.data.pageInfo.totalPages);
+        setTotalPage(response.data.pageInfo.totalPages);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
