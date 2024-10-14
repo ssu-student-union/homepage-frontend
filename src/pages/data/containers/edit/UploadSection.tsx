@@ -251,10 +251,15 @@ export default function UploadSection({ userId }: { userId: string }) {
     // const patchData = getValues('fileInputs');
     //setPatchPosts(patchData);
     try {
+      console.log();
       const uploadName = newFileData.uploadName.length > 0 ? newFileData.uploadName : null;
       const userName = userId || 'Unknown';
       const fileCategory = getValues('category');
-      const fileTypes = tempFiles.map((file) => (file.fileType.length > 0 ? file.fileType : null));
+      // Check and update fileType array
+      const fileType =
+        tempFiles.length > 0
+          ? tempFiles.map((file) => (file.fileType.length > 0 ? file.fileType : post?.fileType[0] || null))
+          : post?.fileType[0] || null;
       const accessToken = localStorage.getItem('accessToken');
 
       if (accessToken) {
@@ -265,7 +270,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           // Proceed with file upload and new post creation
 
           console.log('tempFiles', tempFiles);
-          console.log('fileTypes', fileTypes);
+          console.log('fileType', fileType);
           console.log('post', post);
           console.log('post?.fileType[0]', post?.fileType[0]);
 
@@ -280,7 +285,7 @@ export default function UploadSection({ userId }: { userId: string }) {
           console.log('fileType', fileType);
 
           const patchFileResponse = await postBoardBoardCodeFiles(
-            fileTypes,
+            fileType,
             accessToken,
             tempFiles.map((file) => file.file),
             []
@@ -319,20 +324,22 @@ export default function UploadSection({ userId }: { userId: string }) {
           if (responsePatch.code === '200') {
             alert('파일 업데이트가 완료되었습니다.');
             navigate('/data');
+          } else if (responsePatch.status === 401) {
+            alert('파일 업데이트가 완료되었습니다.');
+            navigate('/data');
           } else {
             alert('오류가 발생했습니다. 다시 시도해주세요.');
           }
         } else {
           // Proceed with file upload and new post creation
           const fileResponse = await postBoardBoardCodeFiles(
-            fileTypes,
+            fileType,
             accessToken,
             tempFiles.map((file) => file.file),
             []
           );
 
           console.log('tempFiles', tempFiles);
-          console.log('tempfileTypesFiles', fileTypes);
 
           const fileDataArray = fileResponse.data?.data?.postFiles;
           const fileUrls = Array.isArray(fileDataArray) ? fileDataArray.map((item) => item.id) : [];
@@ -630,6 +637,13 @@ export default function UploadSection({ userId }: { userId: string }) {
   const handlePlusInput = () => {
     setFileInputs((prevInputs) => [...prevInputs, { id: prevInputs.length + 1, type: '', fileName: '', isNew: false }]);
   };
+
+  useEffect(() => {
+    if (postCategory) {
+      setValue('category', postCategory); // postCategory 값이 있을 때만 업데이트
+    }
+  }, [postCategory, setValue]);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="p-4">
       <div className="mb-4 flex flex-row">
@@ -665,7 +679,7 @@ export default function UploadSection({ userId }: { userId: string }) {
                 setValue('category', value); // React Hook Form의 상태도 업데이트
                 trigger('category'); // 특정 필드만 검증 트리거
               }}
-              value={field.value !== '' ? field.value : post?.Category}
+              value={field.value || postCategory || '카테고리'} // field.value가 있으면 그것을 사용하고, 없으면 postCategory 사용
               className="ml-[10px] py-0 pl-9 text-sm text-gray-500 xs:h-[33px] xs:w-[105px] sm:h-[43px] sm:w-[141px] md:h-[44px] md:w-[140px] lg:h-[44px] lg:w-[141px] xl:h-[44px]  xl:w-[141px] xxl:h-[44px] xxl:w-[354px]"
             />
           )}
