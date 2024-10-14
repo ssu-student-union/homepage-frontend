@@ -14,7 +14,7 @@ const LostArticleSection = () => {
     page: 0,
     take: 2,
   });
-
+  console.log('분실물' + data);
   const navigate = useNavigate();
 
   // PostCard 컴포넌트화
@@ -42,7 +42,7 @@ const LostArticleSection = () => {
   );
 
   return (
-    <section>
+    <section className="w-full">
       <div className="flex items-center">
         <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">분실물 현황</h1>
         <ArrowUpRight

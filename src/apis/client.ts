@@ -25,25 +25,6 @@ client.interceptors.request.use(
   }
 );
 
-let isAlertShown = false;
-
-client.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401 && !isAlertShown) {
-      isAlertShown = true;
-      alert('세션 시간이 만료되었습니다.');
-      localStorage.clear();
-      window.location.href = '/';
-
-      setTimeout(() => {
-        isAlertShown = false;
-      }, 1000);
-    }
-    return Promise.reject(error);
-  }
-);
-
 export const clientAuth = <T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
   return client({
     ...config,
