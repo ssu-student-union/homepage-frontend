@@ -3,18 +3,27 @@ import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { Post } from '@/types/apis/get';
 import { useRecoilState } from 'recoil';
 import { todayPostCountState } from '@/recoil/atoms/atom';
+import { GetNoticeBoardPostsResponse } from '@/types/getBoardPosts';
 
-export function useTodayPost(urlSubCategory: string) {
+interface UseNoticePostProps {
+  boardCode: string;
+  groupCode: string;
+  memberCode?: string;
+  take: number;
+  page: number;
+}
+
+export const useTodayPost = ({ boardCode, groupCode, memberCode, take, page }: UseNoticePostProps) => {
   const [todayPostCount, setTodayPostCount] = useRecoilState(todayPostCountState('중앙기구'));
-  const [page, setPage] = useState<number>(0);
+  const [_, setPageCount] = useState<number>(0);
   const [stopFetching, setStopFetching] = useState<boolean>(false);
 
-  const { data, isLoading, isError } = useGetBoardPosts<any>({
-    boardCode: '공지사항게시판',
-    take: 10,
+  const { data, isLoading, isError } = useGetBoardPosts<GetNoticeBoardPostsResponse>({
+    boardCode,
+    take,
     page,
-    groupCode: '중앙기구',
-    memberCode: urlSubCategory || '',
+    groupCode,
+    memberCode,
   });
 
   const posts: Post[] = data?.data?.postListResDto || [];
@@ -43,14 +52,15 @@ export function useTodayPost(urlSubCategory: string) {
     if (posts.length < 10) {
       setStopFetching(true);
     } else {
-      setPage((prevPage) => prevPage + 1);
+      setPageCount((prevPage) => prevPage + 1);
     }
-  }, [data, isLoading, posts]);
+  }, [data, isLoading, posts, setTodayPostCount]);
 
   return {
+    data,
     todayPostCount,
     isLoading,
     isError,
     stopFetching,
   };
-}
+};
