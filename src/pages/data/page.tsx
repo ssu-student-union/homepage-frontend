@@ -9,7 +9,19 @@ import { useEffect, useState } from 'react';
 
 export function Data() {
   const location = useLocation();
-  const userId = localStorage.getItem('memberName');
+  const [userId, setUserId] = useState<string | null>();
+  const memberName = localStorage.getItem('memberName');
+  const groupCodeList = localStorage.getItem('groupCodeList');
+  const majorName = localStorage.getItem('majorName');
+
+  useEffect(() => {
+    if (groupCodeList?.includes('학과부학생회')) {
+      setUserId(majorName);
+    } else {
+      setUserId(memberName);
+    }
+  }, []);
+
   const [datas, setDatas] = useState<any>({});
   const [postDetail, setPostDetail] = useState<any>({});
 
