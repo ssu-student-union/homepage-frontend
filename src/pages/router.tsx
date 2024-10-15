@@ -30,6 +30,8 @@ import PersonalDataPage from './personal-data/page';
 import { ServiceNoticePage } from './mypage/service-notice/page';
 import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page';
 import { Layout } from './layout/headerLayout';
+import ProfilePage from './mypage/profile/page';
+import MyPage from './mypage/page';
 
 
 export function MainRouter() {
@@ -75,6 +77,9 @@ export function MainRouter() {
         <Route path='/mypage/service-notice/edit' element={<ServiceNoticeEditPage />} />
         {/*개인정보이용약관*/}
         <Route path="/personal-data" element={<PersonalDataPage />} />
+        {/*마이페이지*/}
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/profile" element={<ProfilePage />} />
       </Route>
       {/*온보딩*/}
       <Route path="/register" element={<KakaoRegisterPage />} />
