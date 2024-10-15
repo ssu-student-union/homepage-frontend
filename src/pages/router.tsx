@@ -28,6 +28,8 @@ import CampusPage from './campus/page';
 import { LostDetailPage } from './lost-article/detail/page';
 import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
+import ProfilePage from './mypage/profile/page';
+import MyPage from './mypage/page';
 
 export function MainRouter() {
   return (
@@ -69,6 +71,9 @@ export function MainRouter() {
         <Route path="/data/edit" element={<Data />} />
         {/*개인정보이용약관*/}
         <Route path="/personal-data" element={<PersonalDataPage />} />
+        {/*마이페이지*/}
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/profile" element={<ProfilePage />} />
       </Route>
       {/*온보딩*/}
       <Route path="/register" element={<KakaoRegisterPage />} />
