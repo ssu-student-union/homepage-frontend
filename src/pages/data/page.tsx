@@ -9,15 +9,25 @@ import { useEffect, useState } from 'react';
 
 export function Data() {
   const location = useLocation();
-  const userId = localStorage.getItem('memberName');
+  const [userId, setUserId] = useState<string | null>();
+  const memberName = localStorage.getItem('memberName');
+  const groupCodeList = localStorage.getItem('groupCodeList');
+  const majorName = localStorage.getItem('majorName');
+
+  useEffect(() => {
+    if (groupCodeList?.includes('학과부학생회')) {
+      setUserId(majorName);
+    } else {
+      setUserId(memberName);
+    }
+  }, []);
+
   const [datas, setDatas] = useState<any>({});
   const [postDetail, setPostDetail] = useState<any>({});
 
   const fetchData = async (filters: any = {}, page: number = 1) => {
-    console.log('Fetching data with filters:', filters);
     try {
       const response = await getBoardDataPosts({ filters, page });
-      console.log('API Response:', response);
       setDatas(response); // 상태 업데이트
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -25,8 +35,7 @@ export function Data() {
   };
 
   useEffect(() => {
-    console.log('datas', datas);
-    setPostDetail(datas?.data?.data);
+    setPostDetail(datas?.data);
   }, [datas]); // datas가 변경될 때마다 실행
 
   useEffect(() => {
