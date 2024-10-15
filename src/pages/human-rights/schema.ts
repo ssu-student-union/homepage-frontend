@@ -5,27 +5,23 @@ export type MockHumanRightsReporter = z.infer<typeof MockHumanRightsReporterSche
 export type MockHumanRightsPostEditRequest = z.infer<typeof MockHumanRightsPostEditRequestSchema>;
 
 export const MockHumanRightsPersonSchema = z.object({
-  name: z.string(),
-  studentId: z.string().optional(),
-  department: z.string().optional(),
+  name: z.string().min(1),
+  studentId: z.string().min(1).optional(),
+  department: z.string().min(1).optional(),
 });
 
 export const MockHumanRightsReporterSchema = MockHumanRightsPersonSchema.required().extend({
-  contact: z.string(),
+  contact: z.string().min(1),
 });
 
 export const MockHumanRightsPostEditRequestSchema = z.object({
-  postId: z.number(),
-  studentId: z.string(),
-  authorName: z.string(),
-  title: z.string(),
+  postId: z.number().optional(),
+  title: z.string().min(1),
   metadata: z.object({
     reporter: MockHumanRightsReporterSchema,
-    victims: MockHumanRightsPersonSchema.array(),
-    invaders: MockHumanRightsPersonSchema.array(),
+    victims: MockHumanRightsPersonSchema.array().min(1),
+    invaders: MockHumanRightsPersonSchema.array().min(1),
   }),
-  content: z.string(),
-  createdAt: z.string().date(),
-  lastEditedAt: z.string().date().nullable(),
-  postFileList: z.number().array(),
+  content: z.string().min(1),
+  postFileList: z.number().array().default([]),
 });
