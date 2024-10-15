@@ -1,14 +1,14 @@
 import { AxiosResponse } from 'axios';
 import { clientAuth } from './client';
-import { patchBoardPostProps, patchBoardPostsResponse } from '@/types/patchBoardPosts';
+import { patchBoardDataPostProps, patchBoardDataPostsResponse } from '@/types/patchBoardDataPosts';
 
-export const patchBoardPosts = async ({
-  boardCode,
+export const patchBoardDataPosts = async ({
+  fileCategory,
   postId,
   posts,
-}: patchBoardPostProps): Promise<patchBoardPostsResponse> => {
-  const response: AxiosResponse<patchBoardPostsResponse> = await clientAuth({
-    url: `/board/${boardCode}/posts/${postId}`,
+}: patchBoardDataPostProps): Promise<patchBoardDataPostsResponse> => {
+  const response: AxiosResponse<patchBoardDataPostsResponse> = await clientAuth({
+    url: `/board/data/${fileCategory}/posts/${postId}`,
     method: 'patch',
     data: {
       title: posts.title,

@@ -29,7 +29,7 @@ export function useNoticeEdit() {
 
   const handleSubmit = async () => {
     try {
-      if (images.length === 0) {
+      if (images.length === 0 && !isUrgent) {
         alert('이미지 파일을 1개 이상 추가해주세요.');
         return;
       }
@@ -58,7 +58,7 @@ export function useNoticeEdit() {
         post: {
           title,
           content,
-          groupCode: groupCodeList[groupCodeList.length - 1],
+          groupCode: groupCodeList[0],
           memberCode: localStorage.getItem('memberName'),
           thumbNailImage: thumbnailImage,
           isNotice: isUrgent,

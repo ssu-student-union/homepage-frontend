@@ -1,205 +1,248 @@
 import { useState, useEffect, useRef } from 'react';
 import { getBoardDataPosts } from '@/apis/getBoardDataPosts';
+import { getBoardDataPostSearch } from '@/apis/getBoardDataPostSearch';
 import DataEditBtn from './dataEditBtn';
 import { Button } from '@/components/ui/button';
 import { majorOptions, middleOptions, minorOptions } from './index';
-import DropdownSection from './dropDownSecion';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
 import Pagination from '@/components/Pagination';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
-import { getBoardDataPostSearch } from '@/apis/getBoardDataPostSearch';
+import DropdownSection from './dropDownSecion';
 
-// Define the Post interface for type safety
-interface Post {
-  category: string;
-  createdAt: number;
-  uploadName: string;
-  uploadDate: string;
-  fileData: string[];
-  fileNames: string[];
-  title?: string;
-  date: string;
-  content?: string[];
-  files?: string[];
-  [key: string]: any; // Add this line if there are additional dynamic keys
+interface PostFile {
+  postFileId: number;
+  fileName: string;
+  fileUrl: string;
+  fileType: string;
 }
 
-export default function DataBoxSection({ userId }: { userId: string }) {
+interface Post {
+  postId?: number;
+  category: string;
+  createdAt: string;
+  uploadName: string;
+  uploadDate: string;
+  fileNames: string[];
+  fileUrl: string[];
+  fileType: string[];
+  title?: string;
+  date?: string;
+  content?: string[];
+  files?: PostFile[];
+  isNotice?: boolean;
+  [key: string]: any;
+}
+
+interface PostListResDto {
+  postId: number;
+  category: string;
+  date: string;
+  title: string;
+  files: PostFile[];
+  isNotice?: boolean;
+  // Add other properties as needed based on the API response
+}
+
+interface DataBoxSectionProps {
+  userId: string;
+  authority?: string[];
+}
+
+export default function DataBoxSection({ userId, authority }: DataBoxSectionProps) {
   const dropdownRef = useRef<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataBoxes, setDataBoxes] = useState<Post[]>([]);
-  const [, setData] = useState<any>([]); // Adjust type if `data` is more specific
+  const [latestDataBox, setLatestDataBox] = useState<Post | null>(null);
   const [selectedMajorOption, setSelectedMajorOption] = useState('');
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
-  const [latestSpecialCategory, setLatestSpecialCategory] = useState<Post | null>(null); // State to store the latest "총학생회칙" entry across all pages
   const navigate = useNavigate();
   const [totalPage, setTotalPage] = useState(0);
   const searchInput = useRecoilValue(SearchState);
+  const [isAuthor, setIsAuthor] = useState(false);
+  const [initialTotalElements, setInitialTotalElements] = useState<number | null>(null);
+  const [filters, setFilters] = useState<any>({});
 
+  // Fetch total data on component mount
   useEffect(() => {
-    fetchLatestSpecialCategory(); // Fetch the latest special category when the component mounts
+    fetchTotalData();
   }, []);
 
+  // Fetch latest special category on component mount
   useEffect(() => {
-    // Fetch data whenever the currentPage or searchInput changes
+    fetchLatestSpecialCategory();
+  }, []);
+
+  // Fetch data whenever currentPage or searchInput changes
+  useEffect(() => {
     if (searchInput) {
-      searchFetchData({}, currentPage);
       handleFetchData();
+    } else {
+      fetchData(filters, currentPage);
     }
-  }, [currentPage, searchInput]);
+  }, [currentPage, searchInput, filters]);
 
-  const fetchLatestSpecialCategory = async () => {
+  // Determine author status based on authority prop
+  useEffect(() => {
+    if (authority && authority.includes('WRITE')) {
+      setIsAuthor(true);
+    }
+  }, [authority]);
+
+  // Function to fetch total data (for initial totalElements)
+  const fetchTotalData = async (page: number = 1) => {
     try {
-      // Fetch the first page of data
-      const response = await getBoardDataPosts({ filters: {}, page: 1 });
+      const TotalResponse = await getBoardDataPosts({ filters, page });
 
-      if (response.data && response.data.data && response.data.data.postListResDto) {
-        // Map the posts into the Post interface structure
-        const allData: Post[] = response.data.data.postListResDto.map((post: any) => ({
-          ...post,
-          createdAt: new Date(post.date).getTime(),
-          fileNames: post.content || [],
-        }));
+      console.log('TotalResponse', TotalResponse);
+      if (TotalResponse.data.postListResDto.length > 0) {
+        setInitialTotalElements(TotalResponse.data.pageInfo.totalElements);
+      }
+    } catch (error) {
+      console.error('Error fetching total data:', error);
+    }
+  };
 
-        // Find the latest "총학생회칙" entry
-        const specialCategoryData = allData
-          .filter((data: Post) => data.fileNames.includes('총학생회칙'))
-          .sort((a: Post, b: Post) => b.createdAt - a.createdAt);
+  // Helper function to format date (YYYY/MM/DD)
+  const formatDate = (dateString: string): string => {
+    return dateString.split(' ')[0]; // 'YYYY/MM/DD' 형식으로 변환
+  };
 
-        const latestSpecialCategoryData = specialCategoryData[0]; // Get the most recent entry
+  // Function to fetch the latest special category
+  const fetchLatestSpecialCategory = async (page: number = 1) => {
+    try {
+      const latestResponse = await getBoardDataPosts({ filters: { subCategory: '총학생회칙' }, page });
 
-        if (latestSpecialCategoryData) {
-          // Check if it's already in the current page 1 data
-          const alreadyInPage1 = allData.some((data: Post) => data.createdAt === latestSpecialCategoryData.createdAt);
-
-          // If it's not already in the page 1 data, inject it at the start
-          if (!alreadyInPage1) {
-            allData.unshift(latestSpecialCategoryData);
-          }
-
-          setLatestSpecialCategory(latestSpecialCategoryData); // Store it in state
-          setDataBoxes(allData); // Update the state with the modified data
-        }
+      if (latestResponse.data.postListResDto.length > 0) {
+        const latestPost = latestResponse.data.postListResDto[0];
+        setLatestDataBox({
+          postId: latestPost.postId,
+          category: latestPost.category || '기타',
+          createdAt: new Date(latestPost.date).toDateString(),
+          uploadName: latestPost.title || 'Unnamed Upload',
+          uploadDate: formatDate(latestPost.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
+          date: latestPost.date || new Date().toISOString(),
+          fileNames: latestPost.files ? latestPost.files.map((file: PostFile) => file.fileName) : [],
+          fileUrl: latestPost.files ? latestPost.files.map((file: PostFile) => file.fileUrl) : [],
+          fileType: latestPost.files ? latestPost.files.map((file: PostFile) => file.fileType) : [],
+          isNotice: latestPost.isNotice || false,
+        });
       }
     } catch (error) {
       console.error('Error fetching latest special category:', error);
     }
   };
 
-  const searchFetchData = async (filters: any = {}, page: number = 0) => {
+  // Function to search and fetch data based on filters and search input
+  const searchFetchData = async (filters: any = {}, page: number = 1) => {
     console.log('Fetching search data with filters:', filters);
     try {
       const searchResponse = await getBoardDataPostSearch({
-        page,
-        take: 5, // Adjust according to your pagination
+        page: page - 1, // Assuming 0-based pagination
+        take: 5,
         groupCode: filters.majorCategory,
         memberCode: filters.middleCategory,
         category: filters.subCategory,
-        q: searchInput, // Include the search query here
+        q: searchInput,
       });
-      console.log('API Response:', searchResponse);
 
-      // Check if searchResponse.data and searchResponse.data.postListResDto are defined
-      if (searchResponse && searchResponse.data && searchResponse.data.postListResDto) {
-        const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: any) => ({
+      if (searchResponse.data.postListResDto) {
+        const currentTotalElements = searchResponse.data.pageInfo.totalElements;
+
+        if (
+          (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
+          currentTotalElements === 0
+        ) {
+          alert('조회결과가 없습니다.');
+          window.location.reload();
+          return;
+        }
+
+        const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: PostListResDto) => ({
           ...post,
           category: post.category || '기타',
-          createdAt: new Date(post.date).setHours(0, 0, 0, 0),
-          uploadName: post.title,
-          uploadDate: post.date,
-          fileData: post.files || [],
-          fileUrl: post.files.map((file: any) => file.fileUrl) || [],
-          fileNames: post.content || [],
-          fileName: post.files.map((file: any) => file.fileName) || [],
-          fileType: post.files.map((file: any) => file.fileType) || [],
+          createdAt: new Date(post.date).toDateString(),
+          uploadName: post.title || 'Unnamed Upload',
+          uploadDate: formatDate(post.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
+          fileNames: post.files ? post.files.map((file: PostFile) => file.fileName) : [],
+          fileUrl: post.files ? post.files.map((file: PostFile) => file.fileUrl) : [],
+          fileType: post.files ? post.files.map((file: PostFile) => file.fileType) : [],
         }));
 
-        console.log('categorizedDataBoxes', categorizedDataBoxes);
-        setDataBoxes(categorizedDataBoxes); // Set the filtered data
-
-        // Update totalPage based on the response
-        const totalPages = searchResponse.data.pageInfo.totalPages;
-        setTotalPage(totalPages); // Update totalPage state
+        setDataBoxes(categorizedDataBoxes);
+        setTotalPage(searchResponse.data.pageInfo.totalPages);
       } else {
-        console.error('API response data structure is not as expected:', searchResponse);
-        setDataBoxes([]); // Clear data if the response is not as expected
+        setDataBoxes([]);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
-      setDataBoxes([]); // Clear data if there's an error
+      console.error('Error fetching search data:', error);
+      setDataBoxes([]);
     }
   };
 
+  // Function to fetch data based on filters and page
   const fetchData = async (filters: any = {}, page: number = 1) => {
-    console.log('Fetching data with filters:', filters);
     try {
       const response = await getBoardDataPosts({ filters, page });
-      console.log('API Response:', response);
-      setData(response.data);
+      console.log('res', response);
 
-      if (response.data && response.data.data && response.data.data.postListResDto) {
-        const categorizedDataBoxes: Post[] = response.data.data.postListResDto.map((post: any) => ({
+      if (response.data.postListResDto.length > 0) {
+        const currentTotalElements = response.data.pageInfo.totalElements;
+
+        if (
+          (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
+          currentTotalElements === 0
+        ) {
+          alert('조회결과가 없습니다.');
+          window.location.reload();
+          return;
+        }
+
+        const categorizedDataBoxes: Post[] = response.data.postListResDto.map((post: PostListResDto) => ({
           ...post,
           category: post.category || '기타',
-          createdAt: new Date(post.date).setHours(0, 0, 0, 0),
-          uploadName: post.title,
-          uploadDate: post.date,
-          fileData: post.files || [],
-          fileUrl: post.files.map((file: any) => file.fileUrl) || [], // 수정된 부분
-          fileNames: post.content || [],
-          fileName: post.files.map((file: any) => file.fileName) || [], // 수정된 부분
-          fileType: post.files.map((file: any) => file.fileType) || [], // 수정된 부분
+          createdAt: new Date(post.date).toDateString(),
+          uploadName: post.title || 'Unnamed Upload',
+          uploadDate: formatDate(post.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
+          fileNames: post.files ? post.files.map((file: PostFile) => file.fileName) : [],
+          fileUrl: post.files ? post.files.map((file: PostFile) => file.fileUrl) : [],
+          fileType: post.files ? post.files.map((file: PostFile) => file.fileType) : [],
         }));
 
-        setDataBoxes(categorizedDataBoxes); // Set the filtered data
-        // Update totalPage based on the response
-        const totalPages = response.data.data.pageInfo.totalPages;
-        setTotalPage(totalPages); // Update totalPage state      } else {
-        console.error('API 응답 데이터가 예상과 다릅니다. 응답 구조:', response.data);
-        console.error('categorizedDataBoxes', categorizedDataBoxes);
+        setDataBoxes(categorizedDataBoxes);
+        console.log('categorizedDataBoxes', categorizedDataBoxes);
+        setTotalPage(response.data.pageInfo.totalPages);
+      } else {
+        setDataBoxes([]);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  useEffect(() => {
-    fetchLatestSpecialCategory(); // Fetch the latest special category when the component mounts
-  }, []);
-
-  useEffect(() => {
-    // 검색어가 변경될 때마다 데이터를 다시 불러오기
-    fetchData({}, currentPage);
-  }, [currentPage]);
-
+  // Function to handle data fetching based on dropdown selections and search input
   const handleFetchData = () => {
-    // Reset dropdowns
     if (dropdownRef.current) {
-      dropdownRef.current.resetDropdowns(); // resetDropdowns 함수 호출
+      dropdownRef.current.resetDropdowns();
     }
 
-    // Clear the selected options
-    setSelectedMajorOption('');
-    setSelectedMiddleOption('');
-    setSelectedMinorOption('');
+    const newFilters: any = {};
+    if (selectedMajorOption) newFilters.majorCategory = selectedMajorOption;
+    if (selectedMiddleOption) newFilters.middleCategory = selectedMiddleOption;
+    if (selectedMinorOption) newFilters.subCategory = selectedMinorOption;
 
-    const filters: any = {};
-    if (selectedMajorOption) filters.majorCategory = selectedMajorOption;
-    if (selectedMiddleOption) filters.middleCategory = selectedMiddleOption;
-    if (selectedMinorOption) filters.subCategory = selectedMinorOption;
+    setFilters(newFilters);
 
     if (searchInput) {
-      searchFetchData(filters, currentPage); // Fetch data based on search query
+      searchFetchData(newFilters, currentPage);
     } else {
-      fetchData(filters, currentPage); // Fetch data normally
+      fetchData(newFilters, currentPage);
     }
   };
 
-  const currentData = dataBoxes;
-
+  // Function to handle file downloads
   const handleDownload = (fileUrl: string, fileName: string) => {
     const link = document.createElement('a');
     link.href = fileUrl;
@@ -207,18 +250,41 @@ export default function DataBoxSection({ userId }: { userId: string }) {
     link.click();
   };
 
+  // Function to handle page changes
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
+  // Function to navigate to edit page
   const handleSendData = (post: Post) => {
-    navigate('/homepage-frontend/data/edit', { state: { post } });
+    if (post.category === userId) {
+      navigate('/data/edit', { state: { post } });
+    }
   };
+
+  // Transform latestDataBox into a Post object
+  const latestData: Post | null = latestDataBox
+    ? {
+        postId: latestDataBox.postId,
+        category: latestDataBox.category || '기타',
+        createdAt: latestDataBox.createdAt,
+        uploadName: latestDataBox.uploadName || 'Unnamed Upload',
+        uploadDate: latestDataBox.uploadDate || 'Unknown Date',
+        fileNames: latestDataBox.fileNames || [],
+        fileUrl: latestDataBox.fileUrl || [],
+        fileType: latestDataBox.fileType || [],
+        isNotice: latestDataBox.isNotice || false,
+        // Add any other necessary fields
+      }
+    : null;
+
+  // Combine latestData with dataBoxes
+  const displayedData = latestData ? [latestData, ...dataBoxes.slice(0, 4)] : dataBoxes;
 
   return (
     <>
       <DropdownSection
-        ref={dropdownRef} // ref를 DropdownSection에 전달
+        ref={dropdownRef}
         majorOptions={majorOptions}
         middleOptions={middleOptions}
         minorOptions={minorOptions}
@@ -234,82 +300,75 @@ export default function DataBoxSection({ userId }: { userId: string }) {
       </div>
 
       <div className="flex justify-center">
-        <div className="mt-8 grid place-items-center border-t border-black sm:w-[364px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]">
-          {currentData.length > 0 ? (
-            currentData
-              .sort((a: Post, b: Post) => {
-                // Compare by createdAt to ensure the latest "총학생회칙" entry comes first
-                const isALatest = latestSpecialCategory?.createdAt === a.createdAt;
-                const isBLatest = latestSpecialCategory?.createdAt === b.createdAt;
-
-                if (isALatest && !isBLatest) return -1; // `a` should come before `b`
-                if (!isALatest && isBLatest) return 1; // `b` should come before `a`
-
-                // For items that are not the latest "총학생회칙", sort by createdAt descending
-                return b.createdAt - a.createdAt;
-              })
-              .map((data: Post, index: number) => {
-                // Determine if the current data entry is the latest "총학생회칙" entry across all pages
-                const isLatestSpecialCategory = latestSpecialCategory?.createdAt === data.createdAt;
-
-                return (
+        <div className="place-item-center mt-8 grid border-t border-black xs:w-[344px] sm:w-[364px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]">
+          {displayedData.length > 0 ? (
+            displayedData.map((data, index) => (
+              <div
+                key={data.postId || index}
+                onClick={() => handleSendData(data)}
+                className="h-[100px] border-b border-[#C2C2C2] py-4 xs:w-[341px] sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
+              >
+                <div className="flex justify-between xs:justify-between">
                   <div
-                    key={index}
-                    onClick={() => handleSendData(data)}
-                    className="h-[100px] border-b border-[#C2C2C2] py-4 sm:w-[344px] md:w-[630px] lg:w-[963px] xl:w-[1040px] xxl:w-[1533px]"
+                    className={`flex ${
+                      latestData && index === 0 ? '' : 'pl-16 xs:pl-8 sm:pl-2'
+                    } text-lg font-medium text-black xs:text-sm sm:text-sm`}
                   >
-                    <div className="flex justify-between">
-                      <div
-                        className={`flex ${
-                          isLatestSpecialCategory ? '' : 'pl-16 xs:pl-8 sm:pl-2'
-                        } text-lg font-medium text-black xs:text-sm sm:text-sm`}
-                      >
-                        {isLatestSpecialCategory && <div className="mr-5">[공지]</div>}
-                        {data.uploadName || 'Unnamed Upload'}
-                      </div>
-                      <div className="text-lg font-medium text-[#888888] xs:text-sm sm:text-sm">
-                        {data.uploadDate || 'Unknown Date'}
-                      </div>
-                    </div>
-
-                    <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
-                      {data.fileUrl.map((fileUrl: string, fileIndex: number) => {
-                        // Manually split the fileType string into an array of individual file types
-                        const fileTypesArray = data.fileType[0]?.split(',') || []; // Assuming fileType[0] contains "결산안,활동보고,자료"
-
-                        return (
-                          <button
-                            key={fileIndex}
-                            onClick={() => handleDownload(fileUrl, data.fileNames[fileIndex])}
-                            className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
-                          >
-                            {fileTypesArray[fileIndex] && (
-                              <span key={fileIndex} className="block">
-                                {fileTypesArray[fileIndex].trim()} {/* Display the correct fileType for this fileUrl */}
-                              </span>
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
+                    {latestData && index === 0 && <div className="mr-5">[공지]</div>}
+                    {data.uploadName || 'Unnamed Upload'}
                   </div>
-                );
-              })
+                  <div className="text-lg font-medium text-[#888888] xs:text-sm sm:text-sm">
+                    {data.uploadDate || 'Unknown Date'}
+                  </div>
+                </div>
+
+                <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
+                  {Array.isArray(data.fileUrl) && data.fileUrl.length > 0 ? (
+                    data.fileUrl.map((fileUrl: string, fileIndex: number) => {
+                      const rawFileType = data.fileType[fileIndex] || '';
+                      const fileType = rawFileType.includes(',')
+                        ? rawFileType.split(',')[fileIndex]
+                        : rawFileType.trim();
+                      const fileName = data.fileNames[fileIndex] || 'Unknown File';
+
+                      return (
+                        <button
+                          key={fileIndex}
+                          onClick={() => handleDownload(fileUrl, fileName)}
+                          className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
+                        >
+                          {fileType}
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <span className="text-sm text-gray-500">등록된 게시물이 없습니다</span>
+                  )}
+                </div>
+              </div>
+            ))
           ) : (
-            <div className="text-center text-lg font-medium text-gray-500">No data available</div>
+            <div className="mb-72 mt-72 text-center text-lg font-medium text-gray-500">등록된 게시물이 없습니다</div>
           )}
 
-          <div className="mt-[34px] hidden xs:block sm:block md:block">{userId && <DataEditBtn />}</div>
+          <div className="mt-[34px] xs:flex xs:justify-center sm:flex sm:justify-center md:flex md:justify-center lg:hidden xl:hidden xxl:hidden">
+            {isAuthor ? <DataEditBtn /> : null}
+          </div>
 
-          <div className="mt-[109px] flex w-full justify-between sm:mt-[34px] md:mt-[34px] lg:mt-[49px] xl:mt-[49px]">
-            {userId && <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />}
-            {!userId && <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />}
-            {userId && (
+          {isAuthor && (
+            <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] lg:pl-[123px] xl:mt-[49px] xl:pl-[123px] xxl:pl-[123px]">
+              <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
               <div className="hidden lg:block xl:block xxl:block">
                 <DataEditBtn />
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {!isAuthor && (
+            <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] xl:mt-[49px] ">
+              <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
+            </div>
+          )}
         </div>
       </div>
     </>

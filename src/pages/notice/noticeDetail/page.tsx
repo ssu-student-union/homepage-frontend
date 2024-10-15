@@ -31,7 +31,7 @@ export function NoticeDetailPage() {
 
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
-      <NoticeDetailTopSection title={postDetail.title} date={postDetail.createdAt} />
+      <NoticeDetailTopSection title={postDetail.title} author={postDetail.authorName} date={postDetail.createdAt} />
       {isLoading ? (
         <NoticeDetailLoading />
       ) : (

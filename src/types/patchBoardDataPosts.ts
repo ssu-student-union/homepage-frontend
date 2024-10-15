@@ -1,5 +1,5 @@
-export interface patchBoardPostProps {
-  boardCode: string;
+export interface patchBoardDataPostProps {
+  fileCategory: string;
   postId: number;
   posts: {
     title: string;
@@ -11,7 +11,7 @@ export interface patchBoardPostProps {
   };
 }
 
-export interface patchBoardPostsResponse {
+export interface patchBoardDataPostsResponse {
   status: number;
   code: string;
   message: string;

@@ -59,15 +59,17 @@ export function useNoticePatch() {
         uploadedFileList = handleFileLists(postFiles);
       }
 
+      console.log(isUrgent);
       await patchPost({
         boardCode,
         postId,
         posts: {
           title,
           content,
+          categoryCode: null,
           isNotice: isUrgent,
-          thumbnailImage,
-          postFileList: uploadedFileList.length > 0 ? uploadedFileList : [0],
+          thumbnailImage: thumbnailImage ? thumbnailImage : null,
+          postFileList: uploadedFileList.length > 0 ? uploadedFileList : [],
         },
       });
 

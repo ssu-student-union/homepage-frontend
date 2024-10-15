@@ -48,7 +48,7 @@
     "react-router-dom": "^6.22.3",
     "react-slick": "0.30.2",
     "recoil": "^0.7.7",
-    "recoil-persist": "^5.1.0",
+    "recoil-persist": "5.1.0",
     "slick-carousel": "^1.8.1",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.2",
@@ -76,5 +76,6 @@
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
-  }
+  },
+  "packageManager": "yarn@4.5.0+sha512.837566d24eec14ec0f5f1411adb544e892b3454255e61fdef8fd05f3429480102806bac7446bc9daff3896b01ae4b62d00096c7e989f1596f2af10b927532f39"
 }

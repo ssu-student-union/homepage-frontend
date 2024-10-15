@@ -4,8 +4,9 @@ import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
+import { Footer } from '@/containers/common/Footer/Footer';
 
-export function HeaderLayout() {
+export function Layout() {
   const loginState = useRecoilValue(LoginState);
   const setLoginState = useSetRecoilState(LoginState);
   const navigate = useNavigate();
@@ -26,11 +27,12 @@ export function HeaderLayout() {
   };
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header state={loginState ? State.Login : State.Logout} onLogout={handleLogout} />
-      <main>
+      <main className="flex-grow">
         <Outlet />
       </main>
-    </>
+      <Footer />
+    </div>
   );
 }

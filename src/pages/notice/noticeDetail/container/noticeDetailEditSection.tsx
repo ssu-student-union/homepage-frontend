@@ -21,7 +21,7 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
 
   const handleDelete = async () => {
     await delBoardPosts(boardCode, postId, fileurl);
-    navigate(`/notice?category=central&sub-category=all`);
+    navigate(`/notice`);
   };
 
   return (
@@ -45,7 +45,7 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
           </>
         ) : null}
 
-        <ListButton onClick={() => navigate(-1)} />
+        <ListButton onClick={() => navigate(`/notice`)} />
       </div>
     </div>
   );
