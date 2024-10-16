@@ -2,6 +2,17 @@ import { DefaultValues, useFieldArray, UseFieldArrayReturn, useForm } from 'reac
 import { MockHumanRightsPostEditRequest, MockHumanRightsPostEditRequestSchema } from '@/pages/human-rights/schema.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+/**
+ * PrefixKeys 유틸리티
+ * Object의 각 key에 camelCase를 유지하며 접두사를 붙입니다.
+ *
+ * 예시:
+ * ```typescript
+ * const original: OriginalObject = { test: 'hello', world: 'vanquisher' };
+ * const prefixed: PrefixKeys<OriginalObject, 'hello'> = prefixKeys(original, 'hello');
+ * console.log(prefixed) // { helloTest: 'hello', helloWorld: 'vanquisher' }
+ * ```
+ */
 type PrefixKeys<T, P extends string> = {
   [K in keyof T as K extends string ? `${P}${Capitalize<K>}` : never]: T[K];
 };
