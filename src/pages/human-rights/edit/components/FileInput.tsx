@@ -12,10 +12,6 @@ import {
 } from 'react';
 
 interface FileItemProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'multiple' | 'value'> {
-  // Assert value is string since value is actual string if type of input is "file"
-  // See here: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#value
-  // input의 type 값이 "file"일 경우 실제로 value 값은 string 이므로 string으로 단언합니다.
-  // 정보: https://developer.mozilla.org/ko-KR/docs/Web/HTML/Element/input/file#값
   file?: File;
 }
 
