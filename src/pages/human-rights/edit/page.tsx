@@ -44,11 +44,6 @@ export function HumanRightsEditPage() {
     formState: { errors },
   } = useHumanRightsForm({
     metadata: {
-      reporter: {
-        name: 'test',
-        studentId: 'test',
-        department: 'test',
-      },
       victims: [
         {
           name: '',
