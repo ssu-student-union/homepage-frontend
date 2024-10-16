@@ -31,7 +31,7 @@ export function NoticeEditTitleSection({
 
   const handleCompositionEnd = (event: React.CompositionEvent<HTMLInputElement>) => {
     setIsComposing(false);
-    handleTitleChange(event as unknown as React.ChangeEvent<HTMLInputElement>); // composition 끝난 후 onChange 처리
+    handleTitleChange(event as unknown as React.ChangeEvent<HTMLInputElement>);
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
