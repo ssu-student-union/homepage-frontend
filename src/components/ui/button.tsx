@@ -19,7 +19,7 @@ const buttonVariants = cva(
         Register:
           'bg-[#2F4BF7] hover:bg-[#2F4BF7]/90 w-[105px] md:w-full sm:w-full xs:w-full h-10 text-white text-lg xs:text-xs text-center font-semibold rounded-[7px]',
         List_Edit:
-          'pl-2 flex gap-2 pr-6 w-32 h-10 bg-white border border-gray-400 text-lg text-center font-semibold text-gray-700 hover:border-primary hover:bg-white hover:text-primary',
+          'flex gap-2 w-32 h-10 bg-white border border-gray-400 text-lg text-center font-semibold text-gray-700 hover:border-primary hover:bg-white hover:text-primary',
         Write:
           'pl-5 flex gap-1 pr-6 w-32 h-10 bg-white border border-gray-400 text-lg text-center font-semibold text-gray-700 hover:border-primary hover:bg-white hover:text-primary',
       },
