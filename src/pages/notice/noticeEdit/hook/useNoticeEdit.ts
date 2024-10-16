@@ -58,7 +58,7 @@ export function useNoticeEdit() {
         post: {
           title,
           content,
-          groupCode: groupCodeList[groupCodeList.length - 1],
+          groupCode: groupCodeList[0],
           memberCode: localStorage.getItem('memberName'),
           thumbNailImage: thumbnailImage,
           isNotice: isUrgent,
