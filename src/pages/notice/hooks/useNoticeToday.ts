@@ -3,14 +3,13 @@ import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { Post } from '@/types/apis/get';
 import { useRecoilState } from 'recoil';
 import { todayPostCountState } from '@/recoil/atoms/atom';
-import { useMemo } from 'react';
-import { NoticeResponse } from '../types';
 
 export function useTodayPosts(boardCode: string, category: string, subCategory: string) {
   const [todayPostCount, setTodayPostCount] = useRecoilState(todayPostCountState(category));
   const [page, setPage] = useState<number>(0);
   const [stopFetching, setStopFetching] = useState<boolean>(false);
-  const { data, isLoading, isError } = useGetBoardPosts<NoticeResponse>({
+
+  const { data, isLoading, isError } = useGetBoardPosts<any>({
     boardCode,
     take: 10,
     page,
@@ -18,7 +17,7 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
     memberCode: subCategory === '전체' ? '' : subCategory,
   });
 
-  const posts: Post[] = useMemo(() => data?.data?.postListResDto || [], [data]);
+  const posts: Post[] = data?.data?.postListResDto || [];
 
   const isPostToday = (dateString: string): boolean => {
     const today = new Date();
@@ -66,7 +65,7 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
     } else {
       setStopFetching(true);
     }
-  }, [posts, category, subCategory, setTodayPostCount]);
+  }, [posts]);
 
   return {
     todayPostCount,
