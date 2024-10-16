@@ -19,15 +19,26 @@ export function AuditEditTitleSection({
 }: AuditEditTitleSectionProps) {
   const [title, setTitle] = useState<string>(initialTitle);
   const [category, setCategory] = useState<string>(initialCategory);
-
+  const [isComposing, setIsComposing] = useState<boolean>(false);
   const truncatedTitle = useTruncateText(title, 50);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = event.target.value;
-    if (newTitle.length <= 50) {
-      setTitle(newTitle);
-      onTitleChange(newTitle);
+    if (!isComposing) {
+      const newTitle = event.target.value;
+      if (newTitle.length <= 50) {
+        setTitle(newTitle);
+        onTitleChange(newTitle);
+      }
     }
+  };
+
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = (event: React.CompositionEvent<HTMLInputElement>) => {
+    setIsComposing(false);
+    handleTitleChange(event as unknown as React.ChangeEvent<HTMLInputElement>);
   };
 
   const handleCategoryChange = (value: string) => {
@@ -43,6 +54,8 @@ export function AuditEditTitleSection({
           id="title"
           value={truncatedTitle}
           onChange={handleTitleChange}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
           className="w-full flex-1 rounded-xs border-[0.125rem] border-gray-300 px-3 py-[0.4rem] shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
           placeholder="제목을 입력하세요"
         />
