@@ -6,8 +6,8 @@ export type MockHumanRightsPostEditRequest = z.infer<typeof MockHumanRightsPostE
 
 export const MockHumanRightsPersonSchema = z.object({
   name: z.string().min(1),
-  studentId: z.string().min(1).optional(),
-  department: z.string().min(1).optional(),
+  studentId: z.string().optional(),
+  department: z.string().optional(),
 });
 
 export const MockHumanRightsReporterSchema = MockHumanRightsPersonSchema.required().extend({
