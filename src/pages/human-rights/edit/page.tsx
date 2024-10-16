@@ -72,6 +72,7 @@ export function HumanRightsEditPage() {
   }
 
   function submitForm(data: MockHumanRightsPostEditRequest) {
+    // TODO: Submit post request
     console.log('submit requested', data);
   }
 
@@ -79,7 +80,6 @@ export function HumanRightsEditPage() {
     (async () => await trigger())();
   }, [trigger]);
 
-  console.log(errors);
   return (
     <article className="mt-[200px]">
       {/* TODO: EditLayout에 `className` property 추가 필요, divider 추가 필요 */}
