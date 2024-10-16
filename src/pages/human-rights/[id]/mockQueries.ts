@@ -108,7 +108,10 @@ const mockPost = {
       { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
     ],
   },
-  content: '어쩌구어쩌구',
+  content: `# 어쩌구어쩌구
+  Lorem ipsum... 그 다음이 생각이 안나요 ㅠㅠ
+  > 인용 테스트
+  `,
   createdAt: '2024-10-12T02:03:18.596Z',
   lastEditedAt: null,
   isAuthor: false,
