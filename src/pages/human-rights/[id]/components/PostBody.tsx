@@ -1,5 +1,6 @@
 import { FileResponse } from '@/types/apis/get';
 import { Attachment } from '@/pages/human-rights/[id]/components/Attachment.tsx';
+import { ContentViewer } from '@/pages/human-rights/[id]/components/ContentViewer.tsx';
 
 interface PostBodyProps {
   content: string;
@@ -7,15 +8,11 @@ interface PostBodyProps {
 }
 
 export function PostBody({ content, files }: PostBodyProps) {
-  const images = files.filter((file) => file.fileType === 'images');
   const attachments = files.filter((file) => file.fileType === 'files');
   return (
     <>
-      <section className="mb-10">{content}</section>
-      <section className="mb-10 flex flex-col gap-4">
-        {images.map((image) => (
-          <img key={image.postFileId} className="w-fit rounded-xs" src={image.fileUrl} alt={image.fileName} />
-        ))}
+      <section className="mb-10">
+        <ContentViewer content={content} />
       </section>
       <section className="mb-10 flex flex-col gap-4">
         {attachments.map((attachment) => (
