@@ -1,17 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import { getBoardDataPosts } from '@/apis/getBoardDataPosts';
+import { getBoardDataPostSearch } from '@/apis/getBoardDataPostSearch';
 import DataEditBtn from './dataEditBtn';
 import { Button } from '@/components/ui/button';
 import { majorOptions, middleOptions, minorOptions } from './index';
-import DropdownSection from './dropDownSecion';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
 import Pagination from '@/components/Pagination';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
-import { getBoardDataPostSearch } from '@/apis/getBoardDataPostSearch';
+import DropdownSection from './dropDownSecion';
 
-interface File {
+interface PostFile {
   postFileId: number;
   fileName: string;
   fileUrl: string;
@@ -21,19 +21,28 @@ interface File {
 interface Post {
   postId?: number;
   category: string;
-  createdAt: number;
+  createdAt: string;
   uploadName: string;
   uploadDate: string;
-  fileData: string[];
   fileNames: string[];
   fileUrl: string[];
   fileType: string[];
   title?: string;
-  date?: string; // Make it optional
+  date?: string;
   content?: string[];
-  files?: File[];
+  files?: PostFile[];
   isNotice?: boolean;
   [key: string]: any;
+}
+
+interface PostListResDto {
+  postId: number;
+  category: string;
+  date: string;
+  title: string;
+  files: PostFile[];
+  isNotice?: boolean;
+  // Add other properties as needed based on the API response
 }
 
 interface DataBoxSectionProps {
@@ -46,7 +55,6 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
   const [currentPage, setCurrentPage] = useState(1);
   const [dataBoxes, setDataBoxes] = useState<Post[]>([]);
   const [latestDataBox, setLatestDataBox] = useState<Post | null>(null);
-  const [, setData] = useState<any>([]);
   const [selectedMajorOption, setSelectedMajorOption] = useState('');
   const [selectedMiddleOption, setSelectedMiddleOption] = useState('');
   const [selectedMinorOption, setSelectedMinorOption] = useState('');
@@ -57,79 +65,90 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
   const [initialTotalElements, setInitialTotalElements] = useState<number | null>(null);
   const [filters, setFilters] = useState<any>({});
 
-  useEffect(() => {
-    if (searchInput) {
-      handleFetchData();
-    }
-  }, [currentPage, searchInput]);
-
+  // Fetch total data on component mount
   useEffect(() => {
     fetchTotalData();
   }, []);
 
+  // Fetch latest special category on component mount
+  useEffect(() => {
+    fetchLatestSpecialCategory();
+  }, []);
+
+  // Fetch data whenever currentPage or searchInput changes
+  useEffect(() => {
+    if (searchInput) {
+      handleFetchData();
+    } else {
+      fetchData(filters, currentPage);
+    }
+  }, [currentPage, searchInput, filters]);
+
+  // Determine author status based on authority prop
+  useEffect(() => {
+    if (authority && authority.includes('WRITE')) {
+      setIsAuthor(true);
+    }
+  }, [authority]);
+
+  // Function to fetch total data (for initial totalElements)
   const fetchTotalData = async (page: number = 1) => {
     try {
-      console.log('fetchTotalData  called');
-
       const TotalResponse = await getBoardDataPosts({ filters, page });
 
-      if (TotalResponse.data?.data?.postListResDto?.length > 0) {
-        console.log('TotalElements', TotalResponse.data.data.pageInfo.totalElements);
-        setInitialTotalElements(TotalResponse.data.data.pageInfo.totalElements);
+      console.log('TotalResponse', TotalResponse);
+      if (TotalResponse.data.postListResDto.length > 0) {
+        setInitialTotalElements(TotalResponse.data.pageInfo.totalElements);
       }
     } catch (error) {
-      console.error('Error fetching latest special category:', error);
+      console.error('Error fetching total data:', error);
     }
   };
 
+  // Helper function to format date (YYYY/MM/DD)
+  const formatDate = (dateString: string): string => {
+    return dateString.split(' ')[0]; // 'YYYY/MM/DD' 형식으로 변환
+  };
+
+  // Function to fetch the latest special category
   const fetchLatestSpecialCategory = async (page: number = 1) => {
     try {
-      console.log('fetchLatestSpecialCategory called');
+      const latestResponse = await getBoardDataPosts({ filters: { subCategory: '총학생회칙' }, page });
 
-      const filters = {
-        subCategory: '총학생회칙',
-      };
-      const latestResponse = await getBoardDataPosts({ filters, page });
-
-      if (latestResponse.data?.data?.postListResDto?.length > 0) {
-        console.log('latestResponse', latestResponse);
-
-        const latestPost = latestResponse.data.data.postListResDto[0];
+      if (latestResponse.data.postListResDto.length > 0) {
+        const latestPost = latestResponse.data.postListResDto[0];
         setLatestDataBox({
           postId: latestPost.postId,
           category: latestPost.category || '기타',
-          createdAt: new Date(latestPost.date).setHours(0, 0, 0, 0),
+          createdAt: new Date(latestPost.date).toDateString(),
           uploadName: latestPost.title || 'Unnamed Upload',
-          uploadDate: latestPost.date || 'Unknown Date',
-          date: latestPost.date || new Date().toISOString(), // Include the date property
-          fileData: latestPost.files ? latestPost.files.map((file: File) => file.fileName) : [],
-          fileNames: latestPost.files ? latestPost.files.map((file: File) => file.fileName) : [],
-          fileUrl: latestPost.files ? latestPost.files.map((file: File) => file.fileUrl) : [],
-          fileType: latestPost.files ? latestPost.files.map((file: File) => file.fileType) : [],
+          uploadDate: formatDate(latestPost.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
+          date: latestPost.date || new Date().toISOString(),
+          fileNames: latestPost.files ? latestPost.files.map((file: PostFile) => file.fileName) : [],
+          fileUrl: latestPost.files ? latestPost.files.map((file: PostFile) => file.fileUrl) : [],
+          fileType: latestPost.files ? latestPost.files.map((file: PostFile) => file.fileType) : [],
           isNotice: latestPost.isNotice || false,
-          // Add other necessary fields
         });
-        console.log('latestDataBox', latestDataBox);
       }
     } catch (error) {
       console.error('Error fetching latest special category:', error);
     }
   };
 
-  const searchFetchData = async (filters: any = {}, page: number = 0) => {
+  // Function to search and fetch data based on filters and search input
+  const searchFetchData = async (filters: any = {}, page: number = 1) => {
     console.log('Fetching search data with filters:', filters);
     try {
       const searchResponse = await getBoardDataPostSearch({
-        page,
+        page: page - 1, // Assuming 0-based pagination
         take: 5,
         groupCode: filters.majorCategory,
         memberCode: filters.middleCategory,
         category: filters.subCategory,
         q: searchInput,
       });
-      console.log('Search API Response:', searchResponse);
 
-      if (searchResponse?.data?.postListResDto) {
+      if (searchResponse.data.postListResDto) {
         const currentTotalElements = searchResponse.data.pageInfo.totalElements;
 
         if (
@@ -141,43 +160,36 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
           return;
         }
 
-        const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: any) => ({
+        const categorizedDataBoxes: Post[] = searchResponse.data.postListResDto.map((post: PostListResDto) => ({
           ...post,
           category: post.category || '기타',
-          createdAt: new Date(post.date).setHours(0, 0, 0, 0),
+          createdAt: new Date(post.date).toDateString(),
           uploadName: post.title || 'Unnamed Upload',
-          uploadDate: post.date || 'Unknown Date',
-          fileData: post.files ? post.files.map((file: File) => file.fileName) : [],
-          fileNames: post.files ? post.files.map((file: File) => file.fileName) : [],
-          fileUrl: post.files ? post.files.map((file: File) => file.fileUrl) : [],
-          fileType: post.files ? post.files.map((file: File) => file.fileType) : [],
+          uploadDate: formatDate(post.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
+          fileNames: post.files ? post.files.map((file: PostFile) => file.fileName) : [],
+          fileUrl: post.files ? post.files.map((file: PostFile) => file.fileUrl) : [],
+          fileType: post.files ? post.files.map((file: PostFile) => file.fileType) : [],
         }));
 
-        console.log('categorizedDataBoxes', categorizedDataBoxes);
         setDataBoxes(categorizedDataBoxes);
         setTotalPage(searchResponse.data.pageInfo.totalPages);
       } else {
-        console.error('API response data structure is not as expected:', searchResponse);
         setDataBoxes([]);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching search data:', error);
       setDataBoxes([]);
     }
   };
 
+  // Function to fetch data based on filters and page
   const fetchData = async (filters: any = {}, page: number = 1) => {
-    console.log('Fetching data with filters:', filters);
     try {
       const response = await getBoardDataPosts({ filters, page });
-      console.log('API Response:', response);
-      setData(response.data);
+      console.log('res', response);
 
-      if (response.data?.data?.postListResDto?.length > 0) {
-        const currentTotalElements = response.data.data.pageInfo.totalElements;
-
-        console.log('currentTotalElements', currentTotalElements);
-        console.log('initialTotalElements', initialTotalElements);
+      if (response.data.postListResDto.length > 0) {
+        const currentTotalElements = response.data.pageInfo.totalElements;
 
         if (
           (initialTotalElements !== null && currentTotalElements > initialTotalElements) ||
@@ -188,31 +200,29 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
           return;
         }
 
-        const categorizedDataBoxes: Post[] = response.data.data.postListResDto.map((post: any) => ({
+        const categorizedDataBoxes: Post[] = response.data.postListResDto.map((post: PostListResDto) => ({
           ...post,
           category: post.category || '기타',
-          createdAt: new Date(post.date).setHours(0, 0, 0, 0),
+          createdAt: new Date(post.date).toDateString(),
           uploadName: post.title || 'Unnamed Upload',
-          uploadDate: post.date || 'Unknown Date',
-          fileData: post.files ? post.files.map((file: File) => file) : [],
-          fileNames: post.files ? post.files.map((file: File) => file.fileName) : [],
-          fileUrl: post.files ? post.files.map((file: File) => file.fileUrl) : [],
-          fileType: post.files ? post.files.map((file: File) => file.fileType) : [],
+          uploadDate: formatDate(post.date) || 'Unknown Date', // Use formatted date (YYYY/MM/DD)
+          fileNames: post.files ? post.files.map((file: PostFile) => file.fileName) : [],
+          fileUrl: post.files ? post.files.map((file: PostFile) => file.fileUrl) : [],
+          fileType: post.files ? post.files.map((file: PostFile) => file.fileType) : [],
         }));
 
         setDataBoxes(categorizedDataBoxes);
-        setTotalPage(response.data.data.pageInfo.totalPages);
+        console.log('categorizedDataBoxes', categorizedDataBoxes);
+        setTotalPage(response.data.pageInfo.totalPages);
+      } else {
+        setDataBoxes([]);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  useEffect(() => {
-    console.log('fetchLatestSpecialCategory called');
-    fetchLatestSpecialCategory();
-  }, []);
-
+  // Function to handle data fetching based on dropdown selections and search input
   const handleFetchData = () => {
     if (dropdownRef.current) {
       dropdownRef.current.resetDropdowns();
@@ -227,21 +237,12 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
 
     if (searchInput) {
       searchFetchData(newFilters, currentPage);
+    } else {
+      fetchData(newFilters, currentPage);
     }
   };
 
-  useEffect(() => {
-    if (searchInput) {
-      // Optionally handle search input changes
-    } else {
-      fetchData(filters, currentPage);
-    }
-  }, [currentPage, filters]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
+  // Function to handle file downloads
   const handleDownload = (fileUrl: string, fileName: string) => {
     const link = document.createElement('a');
     link.href = fileUrl;
@@ -249,21 +250,17 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
     link.click();
   };
 
+  // Function to handle page changes
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
+  // Function to navigate to edit page
   const handleSendData = (post: Post) => {
     if (post.category === userId) {
       navigate('/data/edit', { state: { post } });
     }
   };
-
-  useEffect(() => {
-    if (authority && authority.includes('WRITE')) {
-      setIsAuthor(true);
-    }
-  }, [authority]);
 
   // Transform latestDataBox into a Post object
   const latestData: Post | null = latestDataBox
@@ -273,7 +270,6 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
         createdAt: latestDataBox.createdAt,
         uploadName: latestDataBox.uploadName || 'Unnamed Upload',
         uploadDate: latestDataBox.uploadDate || 'Unknown Date',
-        fileData: latestDataBox.fileData || [],
         fileNames: latestDataBox.fileNames || [],
         fileUrl: latestDataBox.fileUrl || [],
         fileType: latestDataBox.fileType || [],
@@ -314,7 +310,9 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
               >
                 <div className="flex justify-between xs:justify-between">
                   <div
-                    className={`flex ${latestData && index === 0 ? '' : 'pl-16 xs:pl-8 sm:pl-2'} text-lg font-medium text-black xs:text-sm sm:text-sm`}
+                    className={`flex ${
+                      latestData && index === 0 ? '' : 'pl-16 xs:pl-8 sm:pl-2'
+                    } text-lg font-medium text-black xs:text-sm sm:text-sm`}
                   >
                     {latestData && index === 0 && <div className="mr-5">[공지]</div>}
                     {data.uploadName || 'Unnamed Upload'}
@@ -327,40 +325,50 @@ export default function DataBoxSection({ userId, authority }: DataBoxSectionProp
                 <div className="mt-[5px] flex justify-end space-x-2" onClick={(e) => e.stopPropagation()}>
                   {Array.isArray(data.fileUrl) && data.fileUrl.length > 0 ? (
                     data.fileUrl.map((fileUrl: string, fileIndex: number) => {
-                      const fileType = data.fileType[fileIndex] || '';
+                      const rawFileType = data.fileType[fileIndex] || '';
+                      const fileType = rawFileType.includes(',')
+                        ? rawFileType.split(',')[fileIndex]
+                        : rawFileType.trim();
                       const fileName = data.fileNames[fileIndex] || 'Unknown File';
+
                       return (
                         <button
                           key={fileIndex}
                           onClick={() => handleDownload(fileUrl, fileName)}
                           className="h-[27px] w-[150px] cursor-pointer truncate rounded-[9px] border-none bg-[#f0f0f0] px-6 text-sm xs:text-[0.6rem] sm:text-[0.6rem] md:text-xs"
                         >
-                          {fileType.trim()}
+                          {fileType}
                         </button>
                       );
                     })
                   ) : (
-                    <span className="text-sm text-gray-500">No Files</span>
+                    <span className="text-sm text-gray-500">등록된 게시물이 없습니다</span>
                   )}
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-center text-lg font-medium text-gray-500">데이터가 없습니다.</div>
+            <div className="mb-72 mt-72 text-center text-lg font-medium text-gray-500">등록된 게시물이 없습니다</div>
           )}
 
           <div className="mt-[34px] xs:flex xs:justify-center sm:flex sm:justify-center md:flex md:justify-center lg:hidden xl:hidden xxl:hidden">
             {isAuthor ? <DataEditBtn /> : null}
           </div>
 
-          <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] lg:pl-[123px] xl:mt-[49px] xl:pl-[123px]">
-            <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
-            {isAuthor && (
-              <div className="hidden  lg:block xl:block xxl:block">
+          {isAuthor && (
+            <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] lg:pl-[123px] xl:mt-[49px] xl:pl-[123px] xxl:pl-[123px]">
+              <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
+              <div className="hidden lg:block xl:block xxl:block">
                 <DataEditBtn />
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {!isAuthor && (
+            <div className="mt-[109px] flex w-full justify-between text-lg xs:mt-[34px] sm:mt-[34px] md:mt-[34px] lg:mt-[49px] xl:mt-[49px] ">
+              <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={handlePageChange} />
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -34,7 +34,6 @@ const NoticeSection = () => {
     memberCode: selectedSubcategories === '전체' ? '' : selectedSubcategories,
     take,
   });
-
   const todayPostCount = useTodayPost(selectedSubcategories === '전체' ? '' : selectedSubcategories);
 
   return (
