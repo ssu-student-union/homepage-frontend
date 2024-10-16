@@ -174,13 +174,16 @@ export function HumanRightsEditPage() {
           <ol className="mb-6">
             {invaderFields.map((field, index) => (
               <li key={field.id}>
-                <div className="mb-6 flex items-center gap-2">
-                  <h3 className="text-lg font-semibold text-gray-700">[침해자{index + 1}]</h3>
+                <div className="relative mb-6">
                   {index > 0 && (
-                    <button onClick={() => invaderRemove(index)}>
-                      <MinusCircle />
+                    <button
+                      className="absolute top-1/2 -translate-x-[calc(100%+2px)] -translate-y-1/2 text-[#979797]"
+                      onClick={() => invaderRemove(index)}
+                    >
+                      <MinusCircle size="20" />
                     </button>
                   )}
+                  <h3 className="text-lg font-semibold text-gray-700">[침해자{index + 1}]</h3>
                 </div>
                 <FrontmatterEditor
                   id={field.id}
