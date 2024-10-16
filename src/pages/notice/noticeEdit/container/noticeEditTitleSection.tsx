@@ -13,13 +13,25 @@ export function NoticeEditTitleSection({
 }: NoticeEditTitleSectionProps) {
   const [title, setTitle] = useState<string>(initialTitle);
   const [isUrgent, setIsUrgent] = useState<boolean>(false);
+  const [isComposing, setIsComposing] = useState<boolean>(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = event.target.value;
-    if (newTitle.length <= 50) {
-      setTitle(newTitle);
-      onTitleChange(newTitle);
+    if (!isComposing) {
+      const newTitle = event.target.value;
+      if (newTitle.length <= 50) {
+        setTitle(newTitle);
+        onTitleChange(newTitle);
+      }
     }
+  };
+
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = (event: React.CompositionEvent<HTMLInputElement>) => {
+    setIsComposing(false);
+    handleTitleChange(event as unknown as React.ChangeEvent<HTMLInputElement>); // composition 끝난 후 onChange 처리
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +50,8 @@ export function NoticeEditTitleSection({
           id="title"
           value={title}
           onChange={handleTitleChange}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
           className="w-full flex-1 rounded-xs border-[0.125rem] border-gray-300 px-3 py-[0.4rem] shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
           placeholder="제목을 입력하세요"
         />
