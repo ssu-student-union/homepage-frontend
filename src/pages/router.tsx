@@ -66,8 +66,7 @@ export function MainRouter() {
         <Route path="/audit/edit" element={<AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<AuditPatchPage />} />
         {/*인권신고게시판*/}
-        <Route path="/human-rights/edit" element={<HumanRightsEditPage />} />
-        <Route path="/human-rights/:id/edit" element={<HumanRightsEditPage />} />
+        <Route path="/human-rights/:id?/edit" element={<HumanRightsEditPage />} />
         {/*자료집*/}
         <Route path="/data" element={<Data />} />
         <Route path="/data/edit" element={<Data />} />
