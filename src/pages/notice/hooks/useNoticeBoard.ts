@@ -14,7 +14,8 @@ export function useNoticeBoard(boardCode: string, category: string, subCategory:
 
   useEffect(() => {
     handlePageChange(1);
-  }, [category, subCategory, handlePageChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, subCategory]);
 
   const { data, isLoading, isError } = useGetBoardPostSearch<NoticeResponse>({
     boardCode,
