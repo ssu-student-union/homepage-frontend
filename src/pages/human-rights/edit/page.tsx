@@ -11,6 +11,7 @@ import { useHumanRightsForm } from '@/pages/human-rights/edit/form.ts';
 import { MockHumanRightsPostEditRequest } from '@/pages/human-rights/schema.ts';
 import { FileInputs } from '@/pages/human-rights/edit/components/FileInputs.tsx';
 import { useEffect, useRef, useState } from 'react';
+import { useContentEditor } from '@/hooks/useContentEditor.ts';
 
 const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
 
@@ -30,6 +31,8 @@ const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 
 
 export function HumanRightsEditPage() {
   // TODO: 수정 기능 추가
+
+  /* Register form hooks */
   const {
     register,
     handleSubmit,
@@ -56,7 +59,10 @@ export function HumanRightsEditPage() {
       ],
     },
   });
+  // 에디터 기능 훅
   const editorRef = useRef<Editor>(null);
+  // TODO: 백엔드 구현 시 processContent 추가
+  const { register: registerEditor } = useContentEditor('인권신고게시판', editorRef);
   // 파일의 재렌더링은 `FileInputs`에서 처리하고 있으므로 useRef 사용
   const filesRef = useRef<File[]>([]);
   const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
@@ -71,7 +77,7 @@ export function HumanRightsEditPage() {
     (async () => await trigger('content'))();
   }
 
-  function submitForm(data: MockHumanRightsPostEditRequest) {
+  async function submitForm(data: MockHumanRightsPostEditRequest) {
     // TODO: Submit post request
     console.log('submit requested', data);
   }
@@ -221,18 +227,13 @@ export function HumanRightsEditPage() {
           </h2>
           <Input id="title" type="text" placeholder="제목을 입력하세요." {...register('title')} />
           <Editor
-            ref={editorRef}
-            id="content"
             height="620px"
             initialValue=" "
             placeholder="글을 작성해주세요"
-            previewStyle="vertical"
-            initialEditType="wysiwyg"
             useCommandShortcut={true}
-            hideModeSwitch={true}
             onChange={contentChangeHandler}
             onBlur={contentBlurHandler}
-            language="ko-KR"
+            {...registerEditor}
           />
         </section>
         <section className="mb-16">
