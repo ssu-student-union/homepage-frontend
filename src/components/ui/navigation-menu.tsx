@@ -64,7 +64,7 @@ const NavigationMenuContent = React.forwardRef<
   <NavigationMenuPrimitive.Content
     ref={ref}
     className={cn(
-      'data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp w-full md:absolute md:w-auto',
+      'w-full data-[state=closed]:animate-slideUp data-[state=open]:animate-slideDown md:absolute md:w-auto',
       className
     )}
     {...props}
