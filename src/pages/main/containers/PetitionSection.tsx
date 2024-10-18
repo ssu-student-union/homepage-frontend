@@ -11,6 +11,7 @@ const PetitionSection = () => {
     navigate(`/petition-notice/${id}`);
     window.scrollTo(0, 0);
   };
+  // console.log('청원' + data);
 
   return (
     <section className="w-full">
@@ -28,9 +29,17 @@ const PetitionSection = () => {
       </div>
       <Spacing size={18} direction="vertical" />
       <div className="flex w-full gap-[1.5rem] overflow-x-scroll scrollbar-hide xs:pr-[1.5rem] sm:pr-[1.5rem]">
-        {data?.data.postListResDto.map((petitionData) => (
-          <PostTextPetition data={petitionData} key={petitionData.postId} onClick={handlePostDetail} />
-        ))}
+        {data?.data.pageInfo.totalElements ? (
+          <>
+            {data?.data.postListResDto.map((petitionData) => (
+              <PostTextPetition data={petitionData} key={petitionData.postId} onClick={handlePostDetail} />
+            ))}
+          </>
+        ) : (
+          <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">
+            등록된 게시물이 없습니다.
+          </p>
+        )}
       </div>
     </section>
   );

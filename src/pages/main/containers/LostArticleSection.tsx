@@ -55,54 +55,63 @@ const LostArticleSection = () => {
         />
       </div>
       <Spacing size={18} direction="vertical" />
+      <div className="flex w-full gap-[1.5rem] overflow-x-scroll scrollbar-hide xs:pr-[1.5rem] sm:pr-[1.5rem]">
+        {data?.data.pageInfo.totalElements ? (
+          <>
+            {/* xs */}
+            {width < 390 && (
+              <>
+                {data?.data.postListResDto.map((item) => (
+                  <PostCardWrapper
+                    key={item.postId}
+                    postId={item.postId}
+                    title={item.title}
+                    subtitle={item.content}
+                    imgUrl={item.thumbNail}
+                    date={item.date}
+                  />
+                ))}
+              </>
+            )}
 
-      {/* xs */}
-      {width < 390 && (
-        <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
-          {data?.data.postListResDto.map((item) => (
-            <PostCardWrapper
-              key={item.postId}
-              postId={item.postId}
-              title={item.title}
-              subtitle={item.content}
-              imgUrl={item.thumbNail}
-              date={item.date}
-            />
-          ))}
-        </div>
-      )}
+            {/* sm, md */}
+            {width >= 390 && width < 1080 && (
+              <>
+                {data?.data.postListResDto.map((item) => (
+                  <PostCardWrapper
+                    key={item.postId}
+                    postId={item.postId}
+                    title={item.title}
+                    subtitle={item.content}
+                    imgUrl={item.thumbNail}
+                    date={item.date}
+                  />
+                ))}
+              </>
+            )}
 
-      {/* sm, md */}
-      {width >= 390 && width < 1080 && (
-        <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
-          {data?.data.postListResDto.map((item) => (
-            <PostCardWrapper
-              key={item.postId}
-              postId={item.postId}
-              title={item.title}
-              subtitle={item.content}
-              imgUrl={item.thumbNail}
-              date={item.date}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* xxl, xl, lg */}
-      {width >= 1080 && (
-        <div className="flex w-[calc(100dvw-3.125rem)] gap-[1.063rem] overflow-x-scroll pr-[1.063rem] scrollbar-hide">
-          {data?.data.postListResDto.map((item) => (
-            <PostCardWrapper
-              key={item.postId}
-              postId={item.postId}
-              title={item.title}
-              subtitle={item.content}
-              imgUrl={item.thumbNail}
-              date={item.date}
-            />
-          ))}
-        </div>
-      )}
+            {/* xxl, xl, lg */}
+            {width >= 1080 && (
+              <>
+                {data?.data.postListResDto.map((item) => (
+                  <PostCardWrapper
+                    key={item.postId}
+                    postId={item.postId}
+                    title={item.title}
+                    subtitle={item.content}
+                    imgUrl={item.thumbNail}
+                    date={item.date}
+                  />
+                ))}
+              </>
+            )}
+          </>
+        ) : (
+          <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">
+            등록된 게시물이 없습니다.
+          </p>
+        )}
+      </div>
     </section>
   );
 };
