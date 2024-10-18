@@ -108,7 +108,6 @@ export function TOSSection() {
                 : 'cursor-not-allowed bg-gray-300'
             }`}
             onClick={handleNext}
-            disabled={!isAllChecked}
           >
             다음
           </button>
