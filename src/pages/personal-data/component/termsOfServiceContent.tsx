@@ -96,7 +96,7 @@ function TermsOfServiceContent() {
           아지위와 이용자는 서비스와 관련하여 발생한 분쟁을 원만하게 해결하기 위하여 필요한 모든 노력을 하여야 합니다.
           그럼에도 불구하고 분쟁이 해결되지 않으면 민사소송법상의 관할법원에 소를 제기할 수 있습니다.
         </p>
-        <p className="mt-4 text-sm text-gray-500">본 약관은 2024년 0월 00일부터 시행됩니다.</p>
+        <p className="mt-4 text-sm text-gray-500">본 약관은 2024년 10월 07일부터 시행됩니다.</p>
       </section>
     </div>
   );
