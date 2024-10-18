@@ -13,12 +13,7 @@ import history from '@/hooks/useHistory';
 import { usePostBoardPosts } from '@/hooks/usePostBoardPosts';
 import { GUIDE_LINE } from '../components/GuideLine';
 import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
-
-type HookMap = {
-  addImageBlobHook?: (blob: File, callback: HookCallback) => void;
-};
-
-type HookCallback = (url: string, text?: string) => void;
+import { HookMap } from '@toast-ui/editor';
 
 export function PetitionNoticeEditorSection() {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -167,7 +162,7 @@ export function PetitionNoticeEditorSection() {
   }, [initialContent]);
 
   const hooks: HookMap = {
-    addImageBlobHook: async (blob: File, callback: HookCallback) => {
+    addImageBlobHook: async (blob: File | Blob, callback: (url: string, text?: string) => void) => {
       if (blob !== null) {
         const file = new FormData();
         file.append('images', blob);
