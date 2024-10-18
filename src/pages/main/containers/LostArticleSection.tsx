@@ -14,7 +14,6 @@ const LostArticleSection = () => {
     page: 0,
     take: 2,
   });
-  // console.log('분실물' + data);
   const navigate = useNavigate();
 
   // PostCard 컴포넌트화
