@@ -39,7 +39,6 @@ client.interceptors.response.use(
 
       /* 액세스 토큰 만료 시 로직 처리 */
       if (error.response.data.code === 'TOKEN_003') {
-        alert('세션이 만료되었습니다.');
         localStorage.clear();
         window.location.href = '/';
       }
