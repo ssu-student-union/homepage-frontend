@@ -21,7 +21,7 @@ export default function PersonalDataPage() {
 
   return (
     <>
-      <HeadLayout title="개인정보 및 이용약관" borderOff={true} searchHidden={true} />
+      <HeadLayout title="홈페이지 이용안내" borderOff={true} searchHidden={true} />
       <NavSection onCategoryChange={handleSelection} selectedCategoryIndex={validIndex} />
       <ContentSection categoryParam={categoryParam} />
     </>
