@@ -46,12 +46,21 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
       let count = 0;
       let stopLoading = false;
 
+      // 긴급 공지 먼저 처리
       for (const post of posts) {
-        if (isPostToday(post.date)) {
+        if (post.status === '긴급공지' && isPostToday(post.date)) {
           count++;
-        } else {
+        } else if (post.status === '긴급공지' && !isPostToday(post.date)) {
+          // 오늘 날짜가 아닌 긴급 공지가 있으면 중단
           stopLoading = true;
           break;
+        }
+      }
+
+      // 일반 공지 처리
+      for (const post of posts) {
+        if (post.status !== '긴급공지' && isPostToday(post.date)) {
+          count++;
         }
       }
 
