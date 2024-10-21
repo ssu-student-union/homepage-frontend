@@ -31,7 +31,12 @@ function App() {
   /* 총학 홈페이지 접근 시 ssuketch로 리다이렉트 되도록 임시 설정 */
   useEffect(() => {
     if (window.location.pathname !== '/beta') {
-      window.location.href = 'https://ssuketch60.cafe24.com/';
+      if (window.location.pathname === '/auth/callback') {
+        console.log('카카오');
+      } else {
+        window.location.href = 'https://ssuketch60.cafe24.com/';
+        console.log('카카오 아님');
+      }
     }
   }, []);
 
