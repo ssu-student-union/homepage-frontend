@@ -33,7 +33,7 @@ export function MainRouter() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/beta" element={<MainPage />} />
         {/*소개*/}
         <Route path="/intro" element={<IntroPage />} />
         <Route path="/intro/edit" element={<IntroEditPage />} />
