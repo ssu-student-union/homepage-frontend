@@ -30,7 +30,9 @@ const queryClient = new QueryClient({
 function App() {
   /* 총학 홈페이지 접근 시 ssuketch로 리다이렉트 되도록 임시 설정 */
   useEffect(() => {
-    window.location.href = 'https://ssuketch60.cafe24.com/';
+    if (window.location.pathname !== '/beta') {
+      window.location.href = 'https://ssuketch60.cafe24.com/';
+    }
   }, []);
 
   return (

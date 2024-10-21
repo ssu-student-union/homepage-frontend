@@ -13,7 +13,6 @@ export const client = axios.create({
 
 client.interceptors.request.use(
   (config: CustomInternalAxiosRequestConfig) => {
-    // console.log(config);
     if (config.requireAuth && localStorage.getItem('accessToken')) {
       const accessToken = localStorage.getItem('accessToken');
       config.headers = config.headers || {};
@@ -40,7 +39,8 @@ client.interceptors.response.use(
       /* 액세스 토큰 만료 시 로직 처리 */
       if (error.response.data.code === 'TOKEN_003') {
         localStorage.clear();
-        window.location.href = '/';
+        // 임시로 메인 라우팅 /beta로 변경
+        window.location.href = '/beta';
       }
     } else if (error.request) {
       console.error('Request error:', error.request);
