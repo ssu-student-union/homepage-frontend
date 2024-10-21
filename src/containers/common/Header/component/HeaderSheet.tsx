@@ -49,11 +49,12 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
   };
 
   const handleLogoutClick = () => {
-    localStorage.removeItem('accessToken');
+    localStorage.clear();
     setState(State.Logout);
     setLoginState(false);
     setIsOpen(false);
-    navigate('/');
+    // 임시로 메인 라우팅 /beta로 변경
+    navigate('/beta');
   };
 
   return (
