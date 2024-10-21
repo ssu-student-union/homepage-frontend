@@ -25,7 +25,7 @@ const KakaoRedirect = () => {
             navigate('/register/tos'); // 최초 회원가입 유저는 약관 동의 화면으로 이동
           } else {
             // 임시로 메인 라우팅 /beta로 변경
-            navigate('/beta'); // 이미 가입된 유저는 메인 화면으로 이동
+            window.location.href = 'https://stu.ssu.ac.kr/beta'; // 이미 가입된 유저는 메인 화면으로 이동
             setLoginState(true);
           }
         } else {
