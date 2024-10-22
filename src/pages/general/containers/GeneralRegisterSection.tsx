@@ -8,8 +8,9 @@ import { faculties, departments } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
 import { LoginSchemaRegister, LoginType, LoginSchemaScoucil, LoginScoucilType } from './ZodCheck';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
+import { redirectState } from '@/recoil/redirect/RedirectState';
 
 interface LoginFormProps {
   subSection1: string;
@@ -45,6 +46,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const showSelects = !isScouncilPath;
   const formValues = watch();
   const formValuesScouncil = watch();
+
+  const redirectUrl = useRecoilValue(redirectState);
 
   useEffect(() => {
     if (sort !== 'scouncil') {
@@ -109,6 +112,11 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       });
 
       if (response.status === 200) {
+        if (redirectUrl != 'is-student-union') {
+          const separator = redirectUrl.includes('?') ? '&' : '?';
+          const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
+          window.location.href = newRedirectUrl;
+        }
         localStorage.setItem('userId', formValuesScouncil.accountId);
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
         if (endpoint === '/auth/council-login') {
@@ -126,7 +134,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           localStorage.setItem('accessToken', response.data?.data?.accessToken);
         }
         // 임시로 메인 라우팅 /beta로 변경
-        navigate('/beta');
+        navigate('/');
         setLoginState(true);
       } else {
         alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');

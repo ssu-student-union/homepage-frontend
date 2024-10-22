@@ -54,7 +54,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
     setLoginState(false);
     setIsOpen(false);
     // 임시로 메인 라우팅 /beta로 변경
-    navigate('/beta');
+    navigate('/');
   };
 
   return (

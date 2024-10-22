@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
+import { redirectState } from '@/recoil/redirect/RedirectState';
 
 const KakaoRedirect = () => {
   const setLoginState = useSetRecoilState(LoginState);
   const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
 
   const navigate = useNavigate();
+
+  const redirectUrl = useRecoilValue(redirectState);
 
   useEffect(() => {
     const kakaoLogin = async () => {
@@ -24,9 +27,15 @@ const KakaoRedirect = () => {
           if (res.data.isFirst) {
             navigate('/register/tos'); // 최초 회원가입 유저는 약관 동의 화면으로 이동
           } else {
-            // 임시로 메인 라우팅 /beta로 변경
-            window.location.href = 'https://stu.ssu.ac.kr/beta'; // 이미 가입된 유저는 메인 화면으로 이동
-            setLoginState(true);
+            if (redirectUrl != 'is-student-union') {
+              const separator = redirectUrl.includes('?') ? '&' : '?';
+              const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
+              window.location.href = newRedirectUrl;
+            } else {
+              // 임시로 메인 라우팅 /beta로 변경
+              window.location.href = 'https://stu.ssu.ac.kr/'; // 이미 가입된 유저는 메인 화면으로 이동
+              setLoginState(true);
+            }
           }
         } else {
           alert('로그인에 실패했습니다');
