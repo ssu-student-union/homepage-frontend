@@ -4,11 +4,12 @@ import { RegisterButtonSection } from '@/pages/kakao/containers/RegisterButtonSe
 import { RegisterTextSection } from '@/pages/kakao/containers/RegisterTextSection';
 import { redirectState } from '@/recoil/redirect/RedirectState';
 import { useSearchParams } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 export function KakaoRegisterRedirectPage() {
   const [searchParams] = useSearchParams();
   const setRedirect = useSetRecoilState(redirectState);
+  const redirect = useRecoilValue(redirectState);
   const redirectUrl = searchParams.get('redirect');
 
   if (redirectUrl) {
@@ -16,6 +17,7 @@ export function KakaoRegisterRedirectPage() {
   }
 
   console.log('redirect값 제대로 받는지 : ', redirectUrl);
+  console.log('recoil 저장', redirect);
 
   return (
     <>

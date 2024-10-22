@@ -32,8 +32,8 @@ const KakaoRedirect = () => {
             if (redirectUrl !== 'is-student-union') {
               const separator = redirectUrl.includes('?') ? '&' : '?';
               const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
-              resetRedirect();
               window.location.href = newRedirectUrl;
+              resetRedirect();
             } else {
               // 임시로 메인 라우팅 /beta로 변경
               window.location.href = 'https://stu.ssu.ac.kr/'; // 이미 가입된 유저는 메인 화면으로 이동

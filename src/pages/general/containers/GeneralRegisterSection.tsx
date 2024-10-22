@@ -117,8 +117,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
         if (redirectUrl != 'is-student-union') {
           const separator = redirectUrl.includes('?') ? '&' : '?';
           const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
-          resetRedirect();
           window.location.href = newRedirectUrl;
+          resetRedirect();
         }
         localStorage.setItem('userId', formValuesScouncil.accountId);
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
