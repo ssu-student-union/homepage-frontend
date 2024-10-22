@@ -29,7 +29,7 @@ const KakaoRedirect = () => {
             if (redirectUrl !== null) {
               const separator = redirectUrl.includes('?') ? '&' : '?';
               const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
-              localStorage.removeItem0('redirectUrl');
+              localStorage.removeItem('redirectUrl');
               window.location.href = newRedirectUrl;
             } else {
               // 임시로 메인 라우팅 /beta로 변경
