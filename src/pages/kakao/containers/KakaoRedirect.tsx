@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
-import { redirectState } from '@/recoil/redirect/RedirectState';
 
 const KakaoRedirect = () => {
   const setLoginState = useSetRecoilState(LoginState);
@@ -11,8 +10,7 @@ const KakaoRedirect = () => {
 
   const navigate = useNavigate();
 
-  const redirectUrl = useRecoilValue(redirectState);
-  const resetRedirect = useResetRecoilState(redirectState);
+  const redirectUrl = localStorage.getItem('redirectUrl');
 
   useEffect(() => {
     const kakaoLogin = async () => {
@@ -28,12 +26,11 @@ const KakaoRedirect = () => {
           if (res.data.isFirst) {
             navigate('/register/tos'); // 최초 회원가입 유저는 약관 동의 화면으로 이동
           } else {
-            console.log('리코일 잘 되는지 : ', redirectUrl);
-            if (redirectUrl !== 'is-student-union') {
+            if (redirectUrl !== null) {
               const separator = redirectUrl.includes('?') ? '&' : '?';
               const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
+              localStorage.removeItem0('redirectUrl');
               window.location.href = newRedirectUrl;
-              resetRedirect();
             } else {
               // 임시로 메인 라우팅 /beta로 변경
               window.location.href = 'https://stu.ssu.ac.kr/'; // 이미 가입된 유저는 메인 화면으로 이동

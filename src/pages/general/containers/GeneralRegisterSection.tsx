@@ -8,9 +8,8 @@ import { faculties, departments } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
 import { LoginSchemaRegister, LoginType, LoginSchemaScoucil, LoginScoucilType } from './ZodCheck';
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
-import { redirectState } from '@/recoil/redirect/RedirectState';
 
 interface LoginFormProps {
   subSection1: string;
@@ -47,8 +46,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const formValues = watch();
   const formValuesScouncil = watch();
 
-  const redirectUrl = useRecoilValue(redirectState);
-  const resetRedirect = useResetRecoilState(redirectState);
+  const redirectUrl = localStorage.getItem('redirectUrl');
 
   useEffect(() => {
     if (sort !== 'scouncil') {
@@ -114,11 +112,11 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
 
       if (response.status === 200) {
         console.log('리코일 잘 되는지 : ', redirectUrl);
-        if (redirectUrl != 'is-student-union') {
+        if (redirectUrl != null) {
           const separator = redirectUrl.includes('?') ? '&' : '?';
           const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
+          localStorage.removeItem('redirectUrl');
           window.location.href = newRedirectUrl;
-          resetRedirect();
         }
         localStorage.setItem('userId', formValuesScouncil.accountId);
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
