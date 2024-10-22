@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
 import { redirectState } from '@/recoil/redirect/RedirectState';
 
@@ -12,6 +12,7 @@ const KakaoRedirect = () => {
   const navigate = useNavigate();
 
   const redirectUrl = useRecoilValue(redirectState);
+  const resetRedirect = useResetRecoilState(redirectState);
 
   useEffect(() => {
     const kakaoLogin = async () => {
@@ -27,9 +28,11 @@ const KakaoRedirect = () => {
           if (res.data.isFirst) {
             navigate('/register/tos'); // 최초 회원가입 유저는 약관 동의 화면으로 이동
           } else {
-            if (redirectUrl != 'is-student-union') {
+            console.log('리코일 잘 되는지 : ', redirectUrl);
+            if (redirectUrl !== 'is-student-union') {
               const separator = redirectUrl.includes('?') ? '&' : '?';
               const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
+              resetRedirect();
               window.location.href = newRedirectUrl;
             } else {
               // 임시로 메인 라우팅 /beta로 변경

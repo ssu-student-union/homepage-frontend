@@ -15,6 +15,8 @@ export function KakaoRegisterRedirectPage() {
     setRedirect(redirectUrl);
   }
 
+  console.log('redirect값 제대로 받는지 : ', redirectUrl);
+
   return (
     <>
       <Header state={State.Onboarding} />
