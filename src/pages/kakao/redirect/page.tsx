@@ -4,12 +4,11 @@ import { RegisterTextSection } from '@/pages/kakao/containers/RegisterTextSectio
 import { RegisterButtonSection } from './containers/RegisterButtonSection';
 import { useParams } from 'react-router-dom';
 
-export function KakaoRegisterPassuPage() {
+export function KakaoRegisterRedirectPage() {
   let { redirect_url } = useParams();
 
   if (redirect_url === undefined) {
-    redirect_url = '';
-    return <></>;
+    redirect_url = 'https://ssuketch60.cafe24.com/';
   }
 
   return (
