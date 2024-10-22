@@ -12,6 +12,8 @@ interface type {
 export function RegisterButtonSection({ subServiceUrl }: type) {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${rest_api_key}&redirect_uri=${baseUrl}${redirect_uri}&service_terms=${TAG}&subServiceUrl=${subServiceUrl}`;
 
+  console.log(KAKAO_AUTH_URL);
+
   const handleLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };

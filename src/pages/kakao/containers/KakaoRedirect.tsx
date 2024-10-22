@@ -8,7 +8,9 @@ const KakaoRedirect = () => {
   const setLoginState = useSetRecoilState(LoginState);
   const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
 
-  const redirect_url: string | null = new URLSearchParams(window.location.search).get('subServiceUrl') || null;
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const redirect_url = urlParams.get('subServiceUrl');
   console.log(redirect_url);
 
   const navigate = useNavigate();
