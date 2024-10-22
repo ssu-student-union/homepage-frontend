@@ -8,6 +8,9 @@ const KakaoRedirect = () => {
   const setLoginState = useSetRecoilState(LoginState);
   const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
 
+  const redirect_url: string | null = new URLSearchParams(window.location.search).get('subServiceUrl') || null;
+  console.log(redirect_url);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,9 +27,18 @@ const KakaoRedirect = () => {
           if (res.data.isFirst) {
             navigate('/register/tos'); // 최초 회원가입 유저는 약관 동의 화면으로 이동
           } else {
-            // 임시로 메인 라우팅 /beta로 변경
-            window.location.href = 'https://stu.ssu.ac.kr/beta'; // 이미 가입된 유저는 메인 화면으로 이동
-            setLoginState(true);
+            // 외부 학생 서비스에서 카카오로그인 이용 시 redirection 처리
+            if (redirect_url!) {
+              // redirect_url에 accessToken 심기
+              const separator = redirect_url.includes('?') ? '&' : '?';
+              const new_redirect_url = `${redirect_url}${separator}accessToken=${accessToken}`;
+              // 토큰이 심어진 redirect_url로 이동
+              window.location.href = new_redirect_url;
+            } else {
+              // 임시로 메인 라우팅 /beta로 변경
+              window.location.href = 'https://stu.ssu.ac.kr/'; // 이미 가입된 유저는 메인 화면으로 이동
+              setLoginState(true);
+            }
           }
         } else {
           alert('로그인에 실패했습니다');

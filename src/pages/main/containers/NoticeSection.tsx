@@ -23,6 +23,30 @@ const NoticeSection = () => {
     memberCode: selectedSubcategories === '전체' ? '' : selectedSubcategories,
   });
 
+  interface NoticeListProps {
+    slice: number;
+  }
+
+  const NoticeList = ({ slice }: NoticeListProps) => {
+    return data?.data.postListResDto.slice(0, slice).map((notice) => {
+      let thumbnail = notice.thumbNail || undefined;
+      if (notice.status === '긴급공지' && thumbnail === undefined) {
+        thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
+      }
+      return (
+        <PostCardNotice
+          key={notice.postId}
+          onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
+          badgeType={notice.status}
+          imgUrl={thumbnail ? thumbnail : `image/default/thumbnail/default_thumbnail.png`}
+          title={notice.title}
+          date={formatYYYYMMDD(notice.date)}
+          profileName={notice.author}
+        />
+      );
+    });
+  };
+
   return (
     <section className="w-full whitespace-nowrap">
       <div className="flex items-center">
@@ -57,69 +81,21 @@ const NoticeSection = () => {
             {/* xs, sm, md */}
             {width < 1080 && (
               <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
-                {data?.data.postListResDto.slice(0, 2).map((notice) => {
-                  let thumbnail = notice.thumbNail || undefined;
-                  if (notice.status === '긴급공지' && thumbnail === undefined) {
-                    thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
-                  }
-                  return (
-                    <PostCardNotice
-                      key={notice.postId}
-                      onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
-                      badgeType={notice.status}
-                      imgUrl={thumbnail}
-                      title={notice.title}
-                      date={formatYYYYMMDD(notice.date)}
-                      profileName={notice.author}
-                    />
-                  );
-                })}
+                <NoticeList slice={2} />
               </div>
             )}
 
             {/* lg */}
             {width >= 1080 && width < 1440 && (
               <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
-                {data?.data.postListResDto.slice(0, 3).map((notice) => {
-                  let thumbnail = notice.thumbNail || undefined;
-                  if (notice.status === '긴급공지' && thumbnail === undefined) {
-                    thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
-                  }
-                  return (
-                    <PostCardNotice
-                      key={notice.postId}
-                      onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
-                      badgeType={notice.status}
-                      imgUrl={thumbnail}
-                      title={notice.title}
-                      date={formatYYYYMMDD(notice.date)}
-                      profileName={notice.author}
-                    />
-                  );
-                })}
+                <NoticeList slice={3} />
               </div>
             )}
 
             {/* xl, xxl */}
             {width >= 1440 && (
               <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
-                {data?.data.postListResDto.slice(0, 4).map((notice) => {
-                  let thumbnail = notice.thumbNail || undefined;
-                  if (notice.status === '긴급공지' && thumbnail === undefined) {
-                    thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
-                  }
-                  return (
-                    <PostCardNotice
-                      key={notice.postId}
-                      onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
-                      badgeType={notice.status}
-                      imgUrl={thumbnail}
-                      title={notice.title}
-                      date={formatYYYYMMDD(notice.date)}
-                      profileName={notice.author}
-                    />
-                  );
-                })}
+                <NoticeList slice={4} />
               </div>
             )}
             <Spacing size={68} direction="vertical" />

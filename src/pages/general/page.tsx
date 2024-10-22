@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { GeneralRegisterSection } from '@/pages/general/containers/GeneralRegisterSection';
-import { CertifyErrorSection } from '@/pages/general/containers/CertifyErrorSection'; // CertifyErrorSection 컴포넌트 임포트
+import { CertifyErrorSection } from '@/pages/general/containers/CertifyErrorSection';
 import { CertifyApplySection } from './containers/CertifyApplySection';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';

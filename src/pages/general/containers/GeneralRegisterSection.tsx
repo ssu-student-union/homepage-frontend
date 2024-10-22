@@ -126,7 +126,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           localStorage.setItem('accessToken', response.data?.data?.accessToken);
         }
         // 임시로 메인 라우팅 /beta로 변경
-        navigate('/beta');
+        navigate('/');
         setLoginState(true);
       } else {
         alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');
