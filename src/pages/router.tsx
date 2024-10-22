@@ -28,7 +28,6 @@ import { LostDetailPage } from './lost-article/detail/page';
 import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
-import { GeneralRegisterPassuPage } from './general/passu/page';
 import { KakaoRegisterPassuPage } from './kakao/passu/page';
 
 export function MainRouter() {
