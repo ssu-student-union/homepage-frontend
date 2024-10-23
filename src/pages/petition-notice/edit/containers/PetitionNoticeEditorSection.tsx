@@ -103,7 +103,7 @@ export function PetitionNoticeEditorSection() {
         if (title) {
           const check = window.confirm('청원 글을 등록하시겠습니까?');
           if (check) {
-            console.log(posts);
+            // console.log(posts);
             await postPostMutation.mutateAsync(posts);
             navigate('/petition-notice');
           } else {
@@ -126,6 +126,7 @@ export function PetitionNoticeEditorSection() {
           categoryCode: initialCategoryName,
           thumbnailImage: null,
           postFileList: postFileList,
+          isNotice: false,
         },
       };
       try {
