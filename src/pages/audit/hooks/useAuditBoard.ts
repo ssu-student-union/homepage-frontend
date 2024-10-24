@@ -1,26 +1,24 @@
 import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { useCategory } from './useCategory';
 import { categoryMap } from '../const/data';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { useEffect } from 'react';
 import { AuditResponse } from '../types';
 
-export function useAuditBoard(boardCode: string) {
+export function useAuditBoard(boardCode: string, category: string) {
   const { itemsPerPage } = useResponseBoard();
   const { currentPage, handlePageChange } = useCurrentPage();
-  const { categoryParam } = useCategory();
 
   const searchQuery = useRecoilValue(SearchState);
 
   const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
-  const selectedCategory = categoryMap[categoryParam] === '전체' ? null : categoryMap[categoryParam];
+  const selectedCategory = categoryMap[category] === '전체' ? null : categoryMap[category];
 
   useEffect(() => {
     handlePageChange(1);
-  }, [categoryParam, handlePageChange]);
+  }, [category]);
 
   const { data, isLoading, isError } = useGetBoardPostSearch<AuditResponse>({
     boardCode,
@@ -38,7 +36,7 @@ export function useAuditBoard(boardCode: string) {
     totalPages,
     currentPage,
     handlePageChange,
-    categoryParam,
+    category,
     subcategories,
     isLoading,
     isError,

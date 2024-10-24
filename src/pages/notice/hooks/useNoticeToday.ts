@@ -16,7 +16,6 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
   });
 
   const posts: Post[] = data?.data?.postListResDto || [];
-  console.log(posts);
 
   const isPostToday = (dateString: string): boolean => {
     const today = new Date();
