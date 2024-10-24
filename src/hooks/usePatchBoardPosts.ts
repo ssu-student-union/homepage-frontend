@@ -5,7 +5,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 export const usePatchBoardPosts = () => {
   const queryClient = useQueryClient();
   return useMutation<patchBoardPostsResponse, Error, patchBoardPostProps>({
-    mutationFn: (patchData: patchBoardPostProps) => patchBoardPosts(patchData),
+    mutationFn: (patchData: patchBoardPostProps) => {
+      if (patchData.posts.isNotice === null) {
+        patchData.posts.isNotice = false;
+      }
+      return patchBoardPosts(patchData);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getPetitionTopLiked'] });
       queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts'] });
