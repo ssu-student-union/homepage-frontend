@@ -59,7 +59,6 @@ export function useNoticePatch() {
         uploadedFileList = handleFileLists(postFiles);
       }
 
-      console.log(isUrgent);
       await patchPost({
         boardCode,
         postId,
