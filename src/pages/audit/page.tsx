@@ -6,11 +6,15 @@ import { useAuditBoard } from './hooks/useAuditBoard';
 import { categoryMap } from './const/data';
 import { useNavigate } from 'react-router-dom';
 import { BoardContent } from '@/template/board/BoardContent';
+import { useCategory } from './hooks/useCategory';
 
 export function AuditPage() {
   const boardCode = '감사기구게시판';
-  const { data, totalPages, currentPage, handlePageChange, categoryParam, subcategories, isLoading } =
-    useAuditBoard(boardCode);
+  const { category } = useCategory();
+  const { data, totalPages, currentPage, handlePageChange, subcategories, isLoading } = useAuditBoard(
+    boardCode,
+    category
+  );
 
   const navigate = useNavigate();
 
@@ -35,7 +39,7 @@ export function AuditPage() {
         selector={
           <BoardSelector
             subcategories={subcategories}
-            selectedSubcategory={categoryMap[categoryParam] || '전체'}
+            selectedSubcategory={categoryMap[category] || '전체'}
             onSubcategorySelect={(selectedCategory) => {
               const categoryKey = Object.keys(categoryMap).find((key) => categoryMap[key] === selectedCategory);
               if (categoryKey) {
