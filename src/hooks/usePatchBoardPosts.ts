@@ -6,9 +6,7 @@ export const usePatchBoardPosts = () => {
   const queryClient = useQueryClient();
   return useMutation<patchBoardPostsResponse, Error, patchBoardPostProps>({
     mutationFn: (patchData: patchBoardPostProps) => {
-      if (patchData.posts.isNotice === null) {
-        patchData.posts.isNotice = false;
-      }
+      patchData.posts.isNotice = patchData.posts.isNotice ?? false;
       return patchBoardPosts(patchData);
     },
     onSuccess: () => {
