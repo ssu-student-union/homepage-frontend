@@ -1,5 +1,4 @@
-import ReactMarkdown from 'react-markdown';
-import rehypeSanitize from 'rehype-sanitize';
+import { Viewer } from '@toast-ui/react-editor';
 
 interface AuditDetailContentProps {
   content: string;
@@ -9,9 +8,7 @@ interface AuditDetailContentProps {
 export function AuditDetailContentSection({ content, images = [] }: AuditDetailContentProps) {
   return (
     <div className="pt-[32px]">
-      <ReactMarkdown rehypePlugins={[rehypeSanitize]} className="font-sm text-[#484848]">
-        {content}
-      </ReactMarkdown>
+      <Viewer initialValue={content} />
       <div className="h-[32px]" />
       {images?.map((image, index) => (
         <div key={image + index}>
