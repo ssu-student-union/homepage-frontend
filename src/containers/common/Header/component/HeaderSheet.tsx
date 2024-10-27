@@ -1,4 +1,4 @@
-import { dataPath, menuItems } from '@/containers/common/Header/const/pathData';
+import { menuItems } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CaretDown } from '@phosphor-icons/react';
 import { ReactNode, useState, useEffect } from 'react';

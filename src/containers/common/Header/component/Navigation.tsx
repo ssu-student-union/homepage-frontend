@@ -5,12 +5,11 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
 } from '@/components/ui/navigation-menu';
-import { dataPath, menuItems } from '../const/pathData';
+import { menuItems } from '../const/pathData';
 import { getStyles } from '../const/style';
 import { State } from '../const/state';
 import { cn } from '@/libs/utils';
 import DropDownMenu from './DropDownMenu';
-import { Link } from 'react-router-dom';
 
 interface NavigationProps {
   state?: State;
