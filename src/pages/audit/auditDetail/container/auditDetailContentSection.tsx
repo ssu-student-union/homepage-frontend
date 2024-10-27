@@ -1,3 +1,5 @@
+import { Viewer } from '@toast-ui/react-editor';
+
 interface AuditDetailContentProps {
   content: string;
   images?: string[];
@@ -6,7 +8,7 @@ interface AuditDetailContentProps {
 export function AuditDetailContentSection({ content, images = [] }: AuditDetailContentProps) {
   return (
     <div className="pt-[32px]">
-      <div className="font-sm text-[#484848]">{content}</div>
+      <Viewer initialValue={content} />
       <div className="h-[32px]" />
       {images?.map((image, index) => (
         <div key={image + index}>
