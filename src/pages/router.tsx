@@ -12,7 +12,6 @@ import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
 import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
-import { Data } from './data/page';
 import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
 import { PartnershipEditPage } from './partnership/partnershipEdit/page';
 import PartnershipPatchPage from './partnership/partnershipPatch/page';
@@ -64,9 +63,9 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<AuditDetailPage />} />
         <Route path="/audit/edit" element={<AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<AuditPatchPage />} />
-        {/*자료집*/}
-        <Route path="/data" element={<Data />} />
-        <Route path="/data/edit" element={<Data />} />
+        {/*자료집 임시 제거*/}
+        {/* <Route path="/data" element={<Data />} />
+        <Route path="/data/edit" element={<Data />} /> */}
         {/*개인정보이용약관*/}
         <Route path="/personal-data" element={<PersonalDataPage />} />
       </Route>

@@ -1,4 +1,4 @@
-import { dataPath, menuItems } from '@/containers/common/Header/const/pathData';
+import { menuItems } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CaretDown } from '@phosphor-icons/react';
 import { ReactNode, useState, useEffect } from 'react';
@@ -92,12 +92,13 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
                 )}
               </div>
             ))}
-            <div
+            {/*자료집 임시 제거*/}
+            {/* <div
               onClick={() => handleLinkClick(dataPath)}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
             >
               자료집
-            </div>
+            </div> */}
             <a
               href={`https://ssuketch60.cafe24.com/`}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
