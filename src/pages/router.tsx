@@ -64,9 +64,9 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<AuditDetailPage />} />
         <Route path="/audit/edit" element={<AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<AuditPatchPage />} />
-        {/*자료집*/}
-        <Route path="/data" element={<Data />} />
-        <Route path="/data/edit" element={<Data />} />
+        {/*자료집(임시 제거)*/}
+        {/* <Route path="/data" element={<Data />} />
+        <Route path="/data/edit" element={<Data />} /> */}
         {/*개인정보이용약관*/}
         <Route path="/personal-data" element={<PersonalDataPage />} />
       </Route>
