@@ -27,6 +27,21 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+<<<<<<< HEAD
+=======
+  // /* 총학 홈페이지 접근 시 ssuketch로 리다이렉트 되도록 임시 설정. */
+  // useEffect(() => {
+  //   if (window.location.pathname !== '/beta') {
+  //     if (window.location.pathname === '/auth/callback') {
+  //       console.log('카카오');
+  //     } else {
+  //       window.location.href = 'https://ssuketch60.cafe24.com/';
+  //       console.log('카카오 아님');
+  //     }
+  //   }
+  // }, []);
+
+>>>>>>> 7a19df2b53335918fea231895b5b9880378c8ef5
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>

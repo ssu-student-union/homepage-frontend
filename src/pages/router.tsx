@@ -27,6 +27,7 @@ import { LostDetailPage } from './lost-article/detail/page';
 import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
+import { KakaoRegisterRedirectPage } from './kakao/redirect/page';
 
 export function MainRouter() {
   return (
@@ -71,6 +72,7 @@ export function MainRouter() {
       </Route>
       {/*온보딩*/}
       <Route path="/register" element={<KakaoRegisterPage />} />
+      <Route path="/register/redirect" element={<KakaoRegisterRedirectPage />} />
       <Route path="/register/:sort" element={<GeneralRegisterPage />} />
       <Route path="/auth/callback" element={<KakaoRedirect />} />
     </Routes>

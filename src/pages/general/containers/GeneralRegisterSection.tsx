@@ -46,6 +46,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const formValues = watch();
   const formValuesScouncil = watch();
 
+  const redirectUrl = localStorage.getItem('redirectUrl');
+
   useEffect(() => {
     if (sort !== 'scouncil') {
       const storedFormValues = localStorage.getItem('formValues');
@@ -109,6 +111,13 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       });
 
       if (response.status === 200) {
+        console.log('리코일 잘 되는지 : ', redirectUrl);
+        if (redirectUrl != null) {
+          const separator = redirectUrl.includes('?') ? '&' : '?';
+          const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
+          localStorage.removeItem('redirectUrl');
+          window.location.href = newRedirectUrl;
+        }
         localStorage.setItem('userId', formValuesScouncil.accountId);
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
         if (endpoint === '/auth/council-login') {

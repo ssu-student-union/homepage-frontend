@@ -21,6 +21,7 @@ export function NoticePage() {
   );
   const { todayPostCount, isLoading: isPostsLoading } = useTodayPosts(boardCode, category, subCategory);
 
+  console.log(totalPages);
   return (
     <>
       <HeadLayout
