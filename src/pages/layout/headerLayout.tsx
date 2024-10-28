@@ -23,8 +23,7 @@ export function Layout() {
   const handleLogout = () => {
     localStorage.clear();
     setLoginState(false);
-    // 임시로 메인 라우팅 /beta로 변경
-    navigate('/beta');
+    navigate('/');
   };
 
   return (
