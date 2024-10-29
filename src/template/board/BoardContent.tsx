@@ -82,7 +82,7 @@ export function BoardContent({
       );
     } else {
       return (
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col">
           {posts.map((post) => (
             <RenderCard key={post.postId} post={post} size={size} boardName={boardName} />
           ))}
@@ -116,7 +116,7 @@ export function BoardContent({
     return (
       <div
         key={post.postId}
-        className="xs-pb[20px] pr-[1.5rem] xs:pr-0 sm:pb-[20px] sm:pr-0 md:pb-[20px] md:pr-0 lg:pb-[20px] lg:pr-0"
+        className="xs-pb[20px] pr-[1.5rem] xs:pb-[20px] xs:pr-0 sm:pb-[20px] sm:pr-0 md:pb-[20px] md:pr-0 lg:pb-[20px] lg:pr-0"
       >
         <PostCardBasic
           size={size}

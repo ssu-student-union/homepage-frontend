@@ -174,7 +174,6 @@ export function PetitionNoticeEditorSection() {
         file.append('images', blob);
         try {
           const res = await postBoardImages(file);
-          console.log(res);
           const url = res.data.data.postFiles[0].url;
           const id = res.data.data.postFiles[0].id;
 

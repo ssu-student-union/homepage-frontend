@@ -111,7 +111,6 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       });
 
       if (response.status === 200) {
-        console.log('리코일 잘 되는지 : ', redirectUrl);
         if (redirectUrl != null) {
           const separator = redirectUrl.includes('?') ? '&' : '?';
           const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
