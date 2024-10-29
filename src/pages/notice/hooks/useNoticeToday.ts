@@ -38,7 +38,7 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
   };
 
   useEffect(() => {
-    if (posts.length > 0) {
+    if (posts.length >= 0) {
       let count = 0;
       let stopLoading = false;
 
@@ -74,7 +74,7 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
     } else {
       setStopFetching(true);
     }
-  }, [posts]);
+  }, [posts, category, subCategory]);
 
   return {
     todayPostCount,
