@@ -40,26 +40,33 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
   useEffect(() => {
     if (posts.length > 0) {
       let count = 0;
+      let stopLoading = false;
 
       // 긴급 공지 처리
       for (const post of posts) {
         if (post.status === '긴급공지' && isPostToday(post.date)) {
           count++;
         } else if (post.status === '긴급공지' && !isPostToday(post.date)) {
+          stopLoading = true;
           break;
         }
       }
 
       // 일반 공지 처리
-      for (const post of posts) {
-        if (post.status !== '긴급공지' && isPostToday(post.date)) {
-          count++;
+      if (!stopLoading) {
+        for (const post of posts) {
+          if (post.status !== '긴급공지' && isPostToday(post.date)) {
+            count++;
+          } else if (post.status !== '긴급공지' && !isPostToday(post.date)) {
+            stopLoading = true;
+            break;
+          }
         }
       }
 
       setTodayPostCount(count);
 
-      if (posts.length < 10) {
+      if (stopLoading || posts.length < 10) {
         setStopFetching(true);
       } else {
         setPage((prevPage) => prevPage + 1);
