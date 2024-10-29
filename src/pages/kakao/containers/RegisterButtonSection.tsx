@@ -12,7 +12,11 @@ const handleLogin = () => {
   window.location.href = KAKAO_AUTH_URL;
 };
 
-export function RegisterButtonSection() {
+interface type {
+  isRedirect?: boolean;
+}
+
+export function RegisterButtonSection({ isRedirect = false }: type) {
   return (
     <div
       style={{
@@ -29,11 +33,13 @@ export function RegisterButtonSection() {
         <div onClick={handleLogin}>
           <KakaoButton />
         </div>
-        <Link to={'scouncil'}>
-          <div className="mt-[20px] text-[12px] font-medium not-italic leading-[130%] text-[#828282] underline">
-            학생자치기구 로그인
-          </div>
-        </Link>
+        {!isRedirect && (
+          <Link to={'scouncil'}>
+            <div className="mt-[20px] text-[12px] font-medium not-italic leading-[130%] text-[#828282] underline">
+              학생자치기구 로그인
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );

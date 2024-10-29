@@ -39,8 +39,7 @@ client.interceptors.response.use(
       /* 액세스 토큰 만료 시 로직 처리 */
       if (error.response.data.code === 'TOKEN_003') {
         localStorage.clear();
-        // 임시로 메인 라우팅 /beta로 변경
-        window.location.href = '/beta';
+        window.location.href = '/';
       }
     } else if (error.request) {
       console.error('Request error:', error.request);
