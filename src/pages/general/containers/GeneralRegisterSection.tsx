@@ -116,7 +116,6 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           if (!accessToken) {
             accessToken = response.data?.data?.accessToken;
           }
-          console.log(accessToken);
           const separator = redirectUrl.includes('?') ? '&' : '?';
           const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
           localStorage.removeItem('redirectUrl');
