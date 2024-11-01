@@ -10,7 +10,6 @@ import { client } from '@/apis/client';
 import { LoginSchemaRegister, LoginType, LoginSchemaScoucil, LoginScoucilType } from './ZodCheck';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
-import { access } from 'fs';
 
 interface LoginFormProps {
   subSection1: string;
