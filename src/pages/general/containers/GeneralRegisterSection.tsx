@@ -10,6 +10,7 @@ import { client } from '@/apis/client';
 import { LoginSchemaRegister, LoginType, LoginSchemaScoucil, LoginScoucilType } from './ZodCheck';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
+import { access } from 'fs';
 
 interface LoginFormProps {
   subSection1: string;
@@ -111,7 +112,11 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
       });
 
       if (response.status === 200) {
-        if (redirectUrl != null) {
+        if (redirectUrl !== null) {
+          if (!accessToken) {
+            accessToken = response.data?.data?.accessToken;
+          }
+          console.log(accessToken);
           const separator = redirectUrl.includes('?') ? '&' : '?';
           const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
           localStorage.removeItem('redirectUrl');
