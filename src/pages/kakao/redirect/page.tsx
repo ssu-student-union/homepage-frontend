@@ -20,7 +20,7 @@ export function KakaoRegisterRedirectPage() {
           <RegisterTextSection />
         </div>
         <div className="z-99 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
-          <RegisterButtonSection isRedirect={true} />
+          <RegisterButtonSection />
         </div>
         <div className="pointer-events-none absolute left-1/2 top-full mt-[-100px] -translate-x-1/2 -translate-y-1/2 transform">
           <RegisterTextSection />
