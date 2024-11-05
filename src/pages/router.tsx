@@ -72,9 +72,6 @@ export function MainRouter() {
         {/*자료집*/}
         <Route path="/data" element={<Data />} />
         <Route path="/data/edit" element={<Data />} />
-        {/*마이페이지*/}
-        <Route path='/mypage/service-notice' element={<ServiceNoticePage />} />
-        <Route path='/mypage/service-notice/edit' element={<ServiceNoticeEditPage />} />
         {/*개인정보이용약관*/}
         <Route path="/personal-data" element={<PersonalDataPage />} />
         {/*마이페이지*/}
