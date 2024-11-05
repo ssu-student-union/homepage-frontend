@@ -17,7 +17,6 @@ interface HeaderProps {
 export function Header({ state = State.Onboarding, onLogout = () => {} }: HeaderProps) {
   const styles = getStyles(state);
   const isSmall = useHeaderSize();
-
   return (
     <div
       className={cn(

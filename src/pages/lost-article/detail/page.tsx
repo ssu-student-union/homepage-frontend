@@ -44,7 +44,8 @@ export function LostDetailPage() {
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <LostDetailTopSection
-        authorName={postDetail.authorName}
+        studentId={postDetail.studentId ? postDetail.studentId : postDetail.authorName}
+        isCouncil={postDetail.studentId === null}
         items={items}
         title={postDetail.title}
         date={postDetail.createdAt}

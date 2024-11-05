@@ -30,5 +30,6 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'tailwindcss/classnames-order': 'off',
   },
 };

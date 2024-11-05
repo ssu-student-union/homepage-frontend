@@ -1,26 +1,24 @@
 import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { categoryMap } from '../const/data';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { useEffect } from 'react';
-import { AuditResponse } from '../types';
+import { useQueryClient } from '@tanstack/react-query';
+import { GetPartnershipBoardPostsResponse } from '@/types/getPartnershipBoardPosts';
+import { PartnershipSubcategories } from '../const';
 
-export function useAuditBoard(boardCode: string, category: string) {
+export function usePartnership(boardCode: string, category: string) {
   const { itemsPerPage } = useResponseBoard();
   const { currentPage, handlePageChange } = useCurrentPage();
 
   const searchQuery = useRecoilValue(SearchState);
 
-  const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
-  const selectedCategory = categoryMap[category] === '전체' ? null : categoryMap[category];
+  const subcategories = Object.values(PartnershipSubcategories).filter(Boolean) as string[];
+  const selectedCategory = category === '전체' ? null : category;
 
-  useEffect(() => {
-    handlePageChange(1);
-  }, [category]);
-
-  const { data, isLoading, isError } = useGetBoardPostSearch<AuditResponse>({
+  const queryClient = useQueryClient();
+  const { data, isLoading, isError, refetch } = useGetBoardPostSearch<GetPartnershipBoardPostsResponse>({
     boardCode,
     take: itemsPerPage,
     page: currentPage - 1,
@@ -28,7 +26,12 @@ export function useAuditBoard(boardCode: string, category: string) {
     q: searchQuery,
   });
 
-  // const posts: Post[] = data.data?.postListResDto || [];
+  useEffect(() => {
+    if (!queryClient.getQueryData(['get-board-boardCode-posts-search'])) {
+      refetch();
+    }
+  }, [queryClient, refetch]);
+
   const totalPages: number = data?.data?.pageInfo?.totalPages ?? 0;
 
   return {
@@ -36,7 +39,6 @@ export function useAuditBoard(boardCode: string, category: string) {
     totalPages,
     currentPage,
     handlePageChange,
-    category,
     subcategories,
     isLoading,
     isError,
