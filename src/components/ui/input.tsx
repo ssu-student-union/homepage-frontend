@@ -28,7 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         type={type}
-        className={cn(InputVariants({ variant: isInvalid ? 'error' : 'default' }), className)}
+        className={cn(className, InputVariants({ variant: isInvalid ? 'error' : 'default' }))}
         ref={ref}
         disabled={isDisabled}
         {...props}

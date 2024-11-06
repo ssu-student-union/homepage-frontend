@@ -3,7 +3,7 @@ import { LeftCarouselButton, RigthCarouselButton } from '@/components/Carousel';
 import { PostTextPetition } from '@/components/PostTextPetition';
 import { useIsOverflow } from '@/hooks/useIsOverflow';
 import { useResize } from '@/hooks/useResize';
-import { useGetPetitionTopLiked } from '@/hooks/useGetPetitionPostsTopLiked';
+import { useGetPetitionTopLiked } from '@/hooks/api/get/useGetPetitionPostsTopLiked';
 import { useNavigate } from 'react-router-dom';
 import { PetitionNoticeHeadSection } from './HeadSection/PetitionNoticeHeadSection';
 import { PetitionNoticeHeadSectionSkeleton } from './HeadSection/PetitionNoticeHeadSectionSkeleton';

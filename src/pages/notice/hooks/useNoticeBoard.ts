@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
+import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 import { NoticeResponse } from '../types';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
@@ -13,7 +13,9 @@ export function useNoticeBoard(boardCode: string, category: string, subCategory:
   const searchQuery = useRecoilValue(SearchState);
 
   useEffect(() => {
-    handlePageChange(1);
+    if (currentPage !== 1) {
+      handlePageChange(1);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, subCategory]);
 

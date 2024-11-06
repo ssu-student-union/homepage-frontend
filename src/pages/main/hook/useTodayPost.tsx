@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
+import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 import { Post } from '@/types/apis/get';
 import { useRecoilState } from 'recoil';
 import { todayPostCountState } from '@/recoil/atoms/atom';

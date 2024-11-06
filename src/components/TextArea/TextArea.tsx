@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { RegisterButton, CancelButton } from '@/components/Buttons/BoardActionButtons';
-import { usePatchBoardPostsComment, usePatchBoardPostsReplyComment } from '@/hooks/usePatchBoardPostComment';
-import { usePostBoardPostComment, usePostBoardPostReplyComment } from '@/hooks/usePostBoardPostComment';
+import { usePatchBoardPostsComment, usePatchBoardPostsReplyComment } from '@/hooks/api/patch/usePatchBoardPostComment';
+import { usePostBoardPostComment, usePostBoardPostReplyComment } from '@/hooks/api/post/usePostBoardPostComment';
 import { cn } from '@/libs/utils';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TextAreaProps } from './types';

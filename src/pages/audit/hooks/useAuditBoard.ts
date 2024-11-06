@@ -1,4 +1,4 @@
-import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
+import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { categoryMap } from '../const/data';
