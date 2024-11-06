@@ -157,7 +157,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="flex w-full max-w-md flex-col items-center p-4">
+      <div className="flex w-full max-w-md flex-col items-center justify-center p-4">
         <div className="pb-4 text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)]">{subSection1}</div>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           {isScouncilPath ? (
@@ -165,7 +165,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               <Input
                 type="text"
                 placeholder="아이디"
-                className="w-[420px]"
+                className="w-[420px] xs:w-[250px] sm:w-[250px]"
                 {...register('accountId', {
                   required: '아이디는 필수 입력입니다.',
                 })}
@@ -180,7 +180,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               <Input
                 type="password"
                 placeholder="비밀번호"
-                className="mt-4"
+                className="mt-4 xs:w-[250px] sm:w-[250px]"
                 {...register('password', {
                   required: '비밀번호는 필수 입력입니다.',
                 })}
@@ -199,7 +199,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               <Input
                 type="text"
                 placeholder="이름"
-                className="w-[420px]"
+                className="w-[420px] xs:w-[250px] sm:w-[250px]"
                 {...register('name', {
                   required: '이름은 필수 입력입니다.',
                 })}
@@ -215,7 +215,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               <Input
                 type="text"
                 placeholder="학번"
-                className="mt-4"
+                className="mt-4 xs:w-[250px] sm:w-[250px]"
                 {...register('studentId', {
                   required: '학번은 필수 입력입니다.',
                 })}
@@ -296,7 +296,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
             disabled={isSubmitting || isButtonDisabled}
             variant="default"
             size="default"
-            className={`mt-4 w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
+            className={`mt-4 w-[420px] xs:w-[250px] sm:w-[250px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
           >
             {buttonSection}
           </Button>
