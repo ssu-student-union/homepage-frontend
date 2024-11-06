@@ -13,7 +13,9 @@ export function useNoticeBoard(boardCode: string, category: string, subCategory:
   const searchQuery = useRecoilValue(SearchState);
 
   useEffect(() => {
-    handlePageChange(1);
+    if (currentPage !== 1) {
+      handlePageChange(1);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, subCategory]);
 
