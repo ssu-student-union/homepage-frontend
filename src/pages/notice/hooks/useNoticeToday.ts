@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
 import { Post } from '@/types/apis/get';
-import { useRecoilState } from 'recoil';
-import { todayPostCountState } from '@/recoil/atoms/atom';
-import { useMemo } from 'react';
-import { NoticeResponse } from '../types';
+import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
 
 export function useTodayPosts(boardCode: string, category: string, subCategory: string) {
-  const [todayPostCount, setTodayPostCount] = useRecoilState(todayPostCountState(category));
+  const [todayPostCount, setTodayPostCount] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [stopFetching, setStopFetching] = useState<boolean>(false);
-  const { data, isLoading, isError } = useGetBoardPosts<NoticeResponse>({
+
+  const { data, isLoading, isError } = useGetBoardPostSearch<any>({
     boardCode,
     take: 10,
     page,
@@ -18,7 +15,7 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
     memberCode: subCategory === '전체' ? '' : subCategory,
   });
 
-  const posts: Post[] = useMemo(() => data?.data?.postListResDto || [], [data]);
+  const posts: Post[] = data?.data?.postListResDto || [];
 
   const isPostToday = (dateString: string): boolean => {
     const today = new Date();
@@ -41,18 +38,29 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
   };
 
   useEffect(() => {
-    setTodayPostCount(0);
-
-    if (posts.length > 0) {
+    if (posts.length >= 0) {
       let count = 0;
       let stopLoading = false;
 
+      // 긴급 공지 처리
       for (const post of posts) {
-        if (isPostToday(post.date)) {
+        if (post.status === '긴급공지' && isPostToday(post.date)) {
           count++;
-        } else {
+        } else if (post.status === '긴급공지' && !isPostToday(post.date)) {
           stopLoading = true;
           break;
+        }
+      }
+
+      // 일반 공지 처리
+      if (!stopLoading) {
+        for (const post of posts) {
+          if (post.status !== '긴급공지' && isPostToday(post.date)) {
+            count++;
+          } else if (post.status !== '긴급공지' && !isPostToday(post.date)) {
+            stopLoading = true;
+            break;
+          }
         }
       }
 
@@ -66,7 +74,7 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
     } else {
       setStopFetching(true);
     }
-  }, [posts, category, subCategory, setTodayPostCount]);
+  }, [posts, category, subCategory]);
 
   return {
     todayPostCount,

@@ -8,7 +8,7 @@ function EmailContent() {
         것을 거부하며, 이를 위반시 정보통신망법에 의해 형사처벌됨을 유념하시기 바랍니다.
       </p>
 
-      <p className="text-sm text-gray-500">[게시일 2024년 0월 00일]</p>
+      <p className="text-sm text-gray-500">[게시일 2024년 10월 07일]</p>
     </div>
   );
 }

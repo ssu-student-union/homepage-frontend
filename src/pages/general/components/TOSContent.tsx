@@ -329,7 +329,7 @@ export const ProcessContent = () => (
           </p>
         </li>
       </ul>
-      <strong>본 약관은 20204년 10월 07일부터 시행됩니다.</strong>
+      <strong>본 약관은 2024년 10월 07일부터 시행됩니다.</strong>
     </div>
   </div>
 );

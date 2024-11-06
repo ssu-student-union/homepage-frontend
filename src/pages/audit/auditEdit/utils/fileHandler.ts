@@ -49,5 +49,4 @@ export function onDrop(
 
 export function addEmptyField(files: FileItem[], setFiles: (files: FileItem[]) => void) {
   setFiles([...files, { id: Date.now(), file: null }]);
-  console.log(files);
 }

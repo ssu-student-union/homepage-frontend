@@ -1,17 +1,17 @@
-export interface patchBoardPostProps {
-  boardCode: string;
+export interface patchBoardDataPostProps {
+  fileCategory: string;
   postId: number;
   posts: {
     title: string;
     content: string;
     categoryCode?: string;
-    isNotice?: boolean | null;
+    isNotice?: boolean;
     thumbnailImage: string | null;
     postFileList: number[];
   };
 }
 
-export interface patchBoardPostsResponse {
+export interface patchBoardDataPostsResponse {
   status: number;
   code: string;
   message: string;

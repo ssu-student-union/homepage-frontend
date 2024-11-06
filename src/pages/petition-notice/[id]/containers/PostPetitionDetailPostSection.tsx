@@ -113,8 +113,6 @@ export function PostPetitionDetailPostSection() {
     }
   };
 
-  console.log(isLoading);
-
   return (
     <>
       {isLoading ? (

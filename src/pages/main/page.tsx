@@ -20,7 +20,7 @@ export function MainPage() {
           <NoticeSection />
           <Spacing size={37} direction="vertical" />
           <Spacing size={88} direction="vertical" />
-          <div className="flex w-full flex-col overflow-hidden xs:gap-[6.25rem] sm:gap-[8.75rem] md:gap-[8.75rem] lg:gap-[8.063rem] xl:gap-[8.063rem] xxl:flex-row xxl:gap-[9.625rem]">
+          <div className="w-full flex-col space-y-5 overflow-hidden">
             <PetitionSection />
             <LostArticleSection />
           </div>

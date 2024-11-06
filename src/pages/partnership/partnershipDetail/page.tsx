@@ -11,7 +11,6 @@ export function PartnershipDetailPage() {
   const boardCode: string = '제휴게시판';
 
   const { data: resp } = useGetBoardDetail({ boardCode, postId });
-  console.log(resp);
 
   const postDetail = resp?.data.postDetailResDto;
 
