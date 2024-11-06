@@ -1,6 +1,10 @@
+
 import { Navigate, Route, Routes } from 'react-router-dom';
 import * as i from './index.ts';
+import MyPage from './mypage/page.tsx';
+import ProfilePage from './mypage/profile/page.tsx';
 import { ServiceNoticePage } from './mypage/service-notice/page.tsx';
+import MyPostsPage from './mypage/myposts/page.tsx';
 
 export function MainRouter() {
   return (
@@ -37,8 +41,11 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<i.AuditDetailPage />} />
         <Route path="/audit/edit" element={<i.AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<i.AuditPatchPage />} />
-        {/*5. 마이페이지 */}
-        <Route path="/service-notice" element={<ServiceNoticePage />} />
+         {/*마이페이지*/}
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/profile" element={<ProfilePage />} />
+        <Route path="/service-notice" element={<ServiceNoticePage/>} />
+        <Route path="/myPosts" element={<MyPostsPage/>} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
       </Route>
