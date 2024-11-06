@@ -10,6 +10,16 @@ export const menuItems = {
       path: '/intro?category=central_executive_committee&sub-category=intro',
     },
   ],
+  공지사항: [
+    {
+      name: '중앙 공지사항',
+      path: '/notice',
+    },
+    {
+      name: '단과대 공지사항',
+      path: '/notice?category=단과대',
+    },
+  ],
   학교생활: [
     { name: '공지사항', path: '/notice' },
     // { name: '일정', path: '/menu7' },
