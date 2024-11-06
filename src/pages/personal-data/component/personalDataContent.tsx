@@ -146,7 +146,7 @@ function PersonalDataContent() {
         </p>
       </section>
 
-      <p className="mt-4 text-sm text-gray-500">이 개인정보 처리방침은 2024년 0월 00일부터 적용됩니다.</p>
+      <p className="mt-4 text-sm text-gray-500">이 개인정보 처리방침은 2024년 10월 07일부터 적용됩니다.</p>
       <p className="text-sm text-gray-500">
         문의: <a href="mailto:ssudeveloper2024@gmail.com">ssudeveloper2024@gmail.com</a>
       </p>

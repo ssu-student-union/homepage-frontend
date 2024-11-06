@@ -1,7 +1,7 @@
-import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
-import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
-import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
-import { usePostBoardFiles } from '@/hooks/usePostBoardFiles';
+import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
+import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
+import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
+import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { handleFileLists } from '@/pages/audit/auditEdit/utils/fileHandler';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -59,7 +59,6 @@ export function useNoticePatch() {
         uploadedFileList = handleFileLists(postFiles);
       }
 
-      console.log(isUrgent);
       await patchPost({
         boardCode,
         postId,

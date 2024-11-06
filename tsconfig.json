@@ -25,6 +25,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "react-slick.d.ts"],
+  "include": ["src", "react-slick.d.ts", "src/pages/mypage/component/.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

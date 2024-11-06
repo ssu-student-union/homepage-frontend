@@ -1,3 +1,5 @@
+import { Viewer } from '@toast-ui/react-editor';
+
 interface PartnershipDetailContentProps {
   content: string;
   images?: string[];
@@ -6,14 +8,14 @@ interface PartnershipDetailContentProps {
 export function PartnershipDetailContentSection({ content, images = [] }: PartnershipDetailContentProps) {
   return (
     <div className="pt-[32px]">
-      <div className="font-sm text-[#484848]">{content}</div>
-      <div className="h-[32px]" />
+      <Viewer initialValue={content} />
+      <div className="h-[32px] xs:flex xs:flex-col xs:items-center sm:flex sm:flex-col sm:items-center " />
       {images?.map((image, index) => (
-        <div key={index}>
+        <div key={image + index}>
           <img
             src={image}
             alt={`ERROR 404`}
-            className={`${index === images.length - 1 ? 'pb-[32px]' : 'pb-[24px]'} h-[375px] w-auto xs:h-[150px] sm:h-[300px]`}
+            className={`${index === images.length - 1 ? 'pb-[32px]' : 'pb-[24px]'} h-auto w-[640px] xs:w-full sm:w-full`}
           />
         </div>
       ))}

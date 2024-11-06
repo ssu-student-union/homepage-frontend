@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import ProfilePage from './profile/page';
 
+// 라우팅 수정 -> default '/mypage/profile' (탭 바뀔 때 마다 바뀌게)
+
 export default function MyPage() {
   const [selectedMenu, setSelectedMenu] = useState('내 정보');
 

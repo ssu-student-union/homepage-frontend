@@ -1,17 +1,15 @@
-import { useLocation } from 'react-router-dom';
 import { PartnershipDetailTopSection } from './container/PartnershipDetailTopSection';
 import { PartnershipDetailContentSection } from './container/PartnershipDetailContentSection';
 import { PartnershipDetailEditSection } from './container/PartnershipDetailEditSection';
-import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 import { PartnershipDetailFileSection } from './container/PartnershipDetailFileSection';
+import { usePostId } from '@/hooks/usePostId';
 
 export function PartnershipDetailPage() {
-  const location = useLocation();
-  const postId: number = location.state?.postId;
+  const postId = usePostId();
   const boardCode: string = '제휴게시판';
 
   const { data: resp } = useGetBoardDetail({ boardCode, postId });
-  console.log(resp);
 
   const postDetail = resp?.data.postDetailResDto;
 

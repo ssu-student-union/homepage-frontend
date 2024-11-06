@@ -1,17 +1,16 @@
-import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 import { AuditDetailContentSection } from '@/pages/audit/auditDetail/container/auditDetailContentSection';
 import { AuditDetailEditSection } from '@/pages/audit/auditDetail/container/auditDetailEditSection';
 import AuditDetailLoading from '@/pages/audit/auditDetail/container/auditDetailLoading';
-import { useLocation } from 'react-router-dom';
 import { items } from './const/data';
 import { LostDetailTopSection } from './container/lostDetailTopSection';
 import { AuditDetailFileSection } from '@/pages/audit/auditDetail/auditDetailFileSection';
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { usePostId } from '@/hooks/usePostId';
 
 export function LostDetailPage() {
-  const location = useLocation();
-  const postId: number = location.state?.postId;
+  const postId = usePostId();
   const boardCode: string = '분실물게시판';
 
   const queryClient = useQueryClient();
@@ -44,7 +43,8 @@ export function LostDetailPage() {
   return (
     <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
       <LostDetailTopSection
-        authorName={postDetail.authorName}
+        studentId={postDetail.studentId ? postDetail.studentId : postDetail.authorName}
+        isCouncil={postDetail.studentId === null}
         items={items}
         title={postDetail.title}
         date={postDetail.createdAt}

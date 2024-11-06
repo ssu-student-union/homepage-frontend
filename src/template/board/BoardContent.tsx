@@ -12,9 +12,17 @@ interface BoardContentProps {
   data?: any[];
   className?: string;
   isLoading: boolean;
+  isDenied?: boolean;
+  isPartnership?: boolean;
 }
 
-export function BoardContent({ boardName, data, isLoading }: BoardContentProps) {
+export function BoardContent({
+  boardName,
+  data,
+  isLoading,
+  isPartnership = false,
+  isDenied = false,
+}: BoardContentProps) {
   const navigate = useNavigate();
   const { size } = useResponseBoard();
   const screenWidth: number = window.innerWidth;
@@ -74,7 +82,7 @@ export function BoardContent({ boardName, data, isLoading }: BoardContentProps) 
       );
     } else {
       return (
-        <div className="flex flex-col justify-between">
+        <div className="flex flex-col">
           {posts.map((post) => (
             <RenderCard key={post.postId} post={post} size={size} boardName={boardName} />
           ))}
@@ -104,10 +112,11 @@ export function BoardContent({ boardName, data, isLoading }: BoardContentProps) 
     if (status === 'Emergency' && thumbnail === undefined) {
       thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
     }
+
     return (
       <div
         key={post.postId}
-        className="xs-pb[20px] pr-[1.5rem] xs:pr-0 sm:pb-[20px] sm:pr-0 md:pb-[20px] md:pr-0 lg:pb-[20px] lg:pr-0"
+        className="xs-pb[20px] pr-[1.5rem] xs:pb-[20px] xs:pr-0 sm:pb-[20px] sm:pr-0 md:pb-[20px] md:pr-0 lg:pb-[20px] lg:pr-0"
       >
         <PostCardBasic
           size={size}
@@ -118,7 +127,22 @@ export function BoardContent({ boardName, data, isLoading }: BoardContentProps) 
           badgeType={status}
           profileName={post.author}
           className="cursor-pointer"
-          onClick={() => navigate(`/${nameToUrl.get(boardName)}/${post.postId}`, { state: { postId: post.postId } })}
+          onClick={
+            isPartnership
+              ? () => {
+                  if (isDenied) {
+                    const check = window.confirm('제휴 안내는 로그인된 사용자만 볼 수 있습니다. 로그인 하시겠습니까?');
+                    if (check) {
+                      navigate('/register');
+                    } else {
+                      return;
+                    }
+                  } else {
+                    navigate(`/partnership/${post.postId}`, { state: { postId: post.postId } });
+                  }
+                }
+              : () => navigate(`/${nameToUrl.get(boardName)}/${post.postId}`, { state: { postId: post.postId } })
+          }
         />
       </div>
     );
