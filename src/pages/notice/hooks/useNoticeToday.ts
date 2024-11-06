@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Post } from '@/types/apis/get';
-import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
+import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 
 export function useTodayPosts(boardCode: string, category: string, subCategory: string) {
   const [todayPostCount, setTodayPostCount] = useState<number>(0);

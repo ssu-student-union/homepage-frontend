@@ -12,7 +12,7 @@ import { PetitionPostSectionSkeleton } from './PetitionPostSectionSkeleton';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { useEffect } from 'react';
-import { useGetBoardPostSearch } from '@/hooks/useGetBoardPostSearch';
+import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 import { useQueryClient } from '@tanstack/react-query';
 
 export function PetitionPostSection() {

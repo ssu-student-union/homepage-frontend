@@ -1,6 +1,6 @@
 import { PostTextPetition } from '@/components/PostTextPetition';
 import { Spacing } from '@/components/Spacing';
-import { useGetPetitionTopLiked } from '@/hooks/useGetPetitionPostsTopLiked';
+import { useGetPetitionTopLiked } from '@/hooks/api/get/useGetPetitionPostsTopLiked';
 import { ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

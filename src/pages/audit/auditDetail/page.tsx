@@ -1,17 +1,16 @@
-import { useLocation } from 'react-router-dom';
 import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
 import { AuditDetailEditSection } from './container/auditDetailEditSection';
-import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 import AuditDetailLoading from './container/auditDetailLoading';
 import { items } from '../const/data';
 import { AuditDetailFileSection } from './auditDetailFileSection';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { usePostId } from '@/hooks/usePostId';
 
 export function AuditDetailPage() {
-  const location = useLocation();
-  const postId: number = location.state?.postId;
+  const postId = usePostId();
   const boardCode: string = '감사기구게시판';
 
   const queryClient = useQueryClient();
