@@ -5,7 +5,7 @@ import { PetitionCommentOrderType } from '../../type';
 import { PetitionCommentOrder } from '../../const';
 import { Comment } from '@/components/Comment/Comment';
 import { useParams } from 'react-router-dom';
-import { useGetBoardPostComment } from '@/hooks/useGetBoardPostComment';
+import { useGetBoardPostComment } from '@/hooks/api/get/useGetBoardPostComment';
 import { SkeletonComment } from './SkeletonComment';
 import { useRecoilValue } from 'recoil';
 import { commentLoadingState } from '@/recoil/atoms/atom';

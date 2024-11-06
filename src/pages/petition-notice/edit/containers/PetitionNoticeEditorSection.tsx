@@ -8,11 +8,11 @@ import { EditLayout } from '@/template/EditLayout';
 import { postBoardImages } from '@/apis/postBoardImages';
 import { useNavigate } from 'react-router-dom';
 import { GuideMessage } from '../components/GuidMessage';
-import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
+import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
 import history from '@/hooks/useHistory';
-import { usePostBoardPosts } from '@/hooks/usePostBoardPosts';
+import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
 import { GUIDE_LINE } from '../components/GuideLine';
-import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
+import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
 
 type HookMap = {
   addImageBlobHook?: (blob: File, callback: HookCallback) => void;

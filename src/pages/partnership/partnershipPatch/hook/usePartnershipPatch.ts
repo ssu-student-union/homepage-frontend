@@ -1,9 +1,9 @@
-import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
-import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
-import { usePostBoardFiles } from '@/hooks/usePostBoardFiles';
+import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
+import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
+import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 import { handleFileLists } from '../../partnershipEdit/utils/fileHandler';
 
 export function usePartnershipPatch() {

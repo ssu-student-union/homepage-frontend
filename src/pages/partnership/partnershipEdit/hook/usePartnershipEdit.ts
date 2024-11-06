@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePostBoardFiles } from '@/hooks/usePostBoardFiles';
-import { usePostBoardPosts } from '@/hooks/usePostBoardPosts';
+import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
+import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
 import { handleFileLists } from '../utils/fileHandler';
 
 export function usePartnershipEdit() {
