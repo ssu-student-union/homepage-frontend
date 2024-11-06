@@ -7,12 +7,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Logo } from '@/components/Logo/Logo';
 import Breadcrumb from '@/components/Breadcrumb';
 import { PostHead } from '@/components/PostHead';
-import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
-import { usePostPostReaction } from '@/hooks/usePostPostReaction';
+import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
+import { usePostPostReaction } from '@/hooks/api/post/usePostPostReaction';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
-import { useDelBoardFiles } from '@/hooks/useDelBoardFiles';
+import { useDelBoardPosts } from '@/hooks/api/del/useDelBoardPosts';
+import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type ParamsType = {

@@ -5,9 +5,12 @@ import { CancelButton } from '@/components/Buttons/BoardActionButtons';
 import { CommentProps } from './types';
 import { cn } from '@/libs/utils';
 import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
-import { useDelBoardPostComment, useDelBoardPostReplyComment } from '@/hooks/useDelBoardPostComment';
+import { useDelBoardPostComment, useDelBoardPostReplyComment } from '@/hooks/api/del/useDelBoardPostComment';
 import { useResize } from '@/hooks/useResize';
-import { usePostPostCommentReaction, usePostPostReplyCommentReaction } from '@/hooks/usePostPostCommentReaction';
+import {
+  usePostPostCommentReaction,
+  usePostPostReplyCommentReaction,
+} from '@/hooks/api/post/usePostPostCommentReaction';
 import { useNavigate } from 'react-router-dom';
 
 export function Comment({
