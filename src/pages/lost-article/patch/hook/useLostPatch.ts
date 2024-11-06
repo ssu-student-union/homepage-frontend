@@ -1,7 +1,7 @@
-import { usePatchBoardPosts } from '@/hooks/usePatchBoardPosts';
+import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 
 export function useLostPatch() {
   const location = useLocation();

@@ -1,14 +1,14 @@
-import { useLocation } from 'react-router-dom';
 import { NoticeDetailTopSection } from './container/noticeDetailTopSection';
 import { NoticeDetailContentSection } from './container/noticeDetailContentSection';
 import { NoticeDetailEditSection } from './container/noticeDetailEditSection';
-import { useGetBoardDetail } from '@/hooks/useGetBoardDetail';
+import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 import { NoticeDetailFileSection } from './container/noticeDetailFileSection';
 import NoticeDetailLoading from './container/noticeDetailLoading';
+import { usePostId } from '@/hooks/usePostId';
 
 export function NoticeDetailPage() {
-  const location = useLocation();
-  const postId: number = location.state?.postId;
+  const postId = usePostId();
+
   const boardCode: string = '공지사항게시판';
 
   const { data: resp, isLoading, isError } = useGetBoardDetail({ boardCode, postId });

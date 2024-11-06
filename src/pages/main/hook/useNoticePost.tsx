@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { GetNoticeBoardPostsResponse } from '@/types/getBoardPosts';
-import { useGetBoardPosts } from '@/hooks/useGetBoardPosts';
+import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 
 interface UseNoticePostProps {
   boardCode: string;

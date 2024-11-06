@@ -1,5 +1,5 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
-import { useDelBoardPosts } from '@/hooks/useDelBoardPosts';
+import { useDelBoardPosts } from '@/hooks/api/del/useDelBoardPosts';
 import { useNavigate } from 'react-router-dom';
 
 interface PartnershipDetailEditProps {
