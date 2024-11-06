@@ -13,7 +13,7 @@ export const menuItems = {
   공지사항: [
     {
       name: '중앙 공지사항',
-      path: '/notice',
+      path: '/notice?category=중앙',
     },
     {
       name: '단과대 공지사항',
