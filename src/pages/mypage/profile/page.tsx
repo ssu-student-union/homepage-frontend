@@ -1,16 +1,49 @@
-// import React from 'react';
-
-import { useState } from 'react';
-
 export default function ProfilePage() {
   // 자치기구 여부 확인 -> api 완료되면 수정예정
   const [isAssociation] = useState(false);
+  // 수정상태 여부
+  const [isEditing, setIsEditing] = useState(false);
+  // 사용자 정보
+  const [userInfo, setUserInfo] = useState({
+    email: 'qwer1234@kaka.com',
+    name: '김숭실',
+    studentId: '20241234',
+    phoneNumber: '010-1234-5678',
+    college: 'IT대학',
+    department: '글로벌미디어학부',
+  });
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    try {
+      console.log(userInfo);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('fail to update profile : ', error);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const renderEditPage = () => {
+    
+  }
+
   return (
     <main>
-      {/* 유저 정보 컨테이너 (자치기구, 일반학우) */}
+      {/* 유저 정보 컨테이너 (자치기구, 일반학우) -> 컴포넌트화*/}
       {isAssociation ? (
         <>
-          <div className="border-#D9D9D9 mb-16 ml-16 mr-10 mt-16 flex flex-row items-center rounded-lg border-2 bg-white p-10">
+          <div className="my-16 ml-16 mr-10 flex flex-row items-center rounded-lg border-2 border-[#D9D9D9] bg-white p-10 ">
             <img className="mr-8 h-28 w-28" src="/image/mypage/profile_img.png" alt="profile_default_img" />
             <div>
               <div className="mb-4">
@@ -24,25 +57,22 @@ export default function ProfilePage() {
           </div>
           <div className="mb-8 pl-16">
             <h3 className="text-lg font-bold">기본정보</h3>
-            <div className="p-6 text-sm">
-              <div className="mb-4">
-                <span className="mr-14 font-semibold">아이디</span>
-                <span>it-global media</span>
-              </div>
-              <div className="mb-4">
-                <span className="mr-16 font-semibold">단위명</span>
-                <span>글로벌미디어학부 학생회</span>
-              </div>
-              <div className="mb-4">
-                <span className="mr-16 font-semibold">닉네임</span>
-                <span>제 19대 글로벌미디어학부 학생회 미리내</span>
-              </div>
+            {/* 코드리뷰 참고해서 수정하기 */}
+            <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm">
+              <span className="mr-14 font-semibold">아이디</span>
+              <span>it-global media</span>
+
+              <span className="mr-16 font-semibold">단위명</span>
+              <span>글로벌미디어학부 학생회</span>
+
+              <span className="mr-16 font-semibold">닉네임</span>
+              <span>제 19대 글로벌미디어학부 학생회 미리내</span>
             </div>
           </div>
         </>
       ) : (
         <>
-          <div className="border-#D9D9D9 mb-16 ml-16 mr-10 mt-16 flex flex-row items-center rounded-lg border-2 bg-white p-10">
+          <div className="mb-16 ml-16 mr-10 mt-16 flex flex-row items-center rounded-lg border-2 border-[#D9D9D9] bg-white p-10">
             <img className="mr-8 h-28 w-28" src="/image/mypage/profile_img.png" alt="profile_default_img" />
             <div>
               <div className="mb-4">
@@ -63,36 +93,28 @@ export default function ProfilePage() {
           </div>
           <div className="mb-8 pl-16">
             <h3 className="text-lg font-bold">기본정보</h3>
-            <div className="p-6 text-sm">
-              <div className="mb-4">
-                <span className="mr-14 font-semibold">아이디</span>
-                <span>qwer1234@kakao.com</span>
-              </div>
-              <div className="mb-4">
-                <span className="mr-16 font-semibold">이름</span>
-                <span>김숭실</span>
-              </div>
-              <div className="mb-4">
-                <span className="mr-16 font-semibold">학번</span>
-                <span>20241234</span>
-              </div>
-              <div>
-                <span className="mr-9 font-semibold">전화번호</span>
-                <span>010-1234-5678</span>
-              </div>
+            <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm">
+              <span className="font-semibold">아이디</span>
+              <span>qwer1234@kakao.com</span>
+
+              <span className="font-semibold">이름</span>
+              <span>김숭실</span>
+
+              <span className="font-semibold">학번</span>
+              <span>20241234</span>
+
+              <span className="font-semibold">전화번호</span>
+              <span>010-1234-5678</span>
             </div>
           </div>
           <div className="pl-16">
             <h3 className="text-lg font-bold">학적정보 - 주전공</h3>
-            <div className="p-6 text-sm">
-              <div className="mb-4">
-                <span className="mr-9 font-semibold">단과대학</span>
-                <span>IT대학</span>
-              </div>
-              <div className="mb-4">
-                <span className="mr-10 font-semibold">학과/부</span>
-                <span>글로벌미디어학부</span>
-              </div>
+            <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm">
+              <span className="mr-9 font-semibold">단과대학</span>
+              <span>IT대학</span>
+
+              <span className="mr-10 font-semibold">학과/부</span>
+              <span>글로벌미디어학부</span>
             </div>
           </div>
         </>
