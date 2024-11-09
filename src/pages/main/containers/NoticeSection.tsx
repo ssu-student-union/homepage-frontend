@@ -52,7 +52,7 @@ const NoticeSection = () => {
       />
       <Spacing size={width > 390 ? 32 : 22} direction="vertical" />
       <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
-        {data?.data.pageInfo.totalElements ? (
+        {data?.data?.pageInfo?.totalElements ? (
           <>
             {/* xs, sm, md */}
             {width < 1080 && (

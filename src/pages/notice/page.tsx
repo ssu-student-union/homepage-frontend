@@ -55,7 +55,7 @@ export function NoticePage() {
             onSubcategorySelect={(number) => handleSubCategoryChange(number)}
           />
         }
-        children={<BoardContent boardName="공지사항게시판" data={data?.data.postListResDto} isLoading={isLoading} />}
+        children={<BoardContent boardName="공지사항게시판" data={data?.data?.postListResDto} isLoading={isLoading} />}
         totalPages={totalPages}
         currentPage={currentPage}
         onPageChange={handlePageChange}
@@ -63,7 +63,7 @@ export function NoticePage() {
           navigate(`/notice/edit`);
         }}
         className="pt-[32px]"
-        authority={data?.data.allowedAuthorities}
+        authority={data?.data?.allowedAuthorities}
       />
     </>
   );
