@@ -7,15 +7,15 @@ export const useContentWidth = () => {
   const { width } = useResize();
 
   useEffect(() => {
-    if (width >= 1440) {
+    if (width >= 1520) {
       setContentWidth(1520);
-    } else if (width >= 1080 && width < 1440) {
+    } else if (width >= 1040 && width < 1520) {
       setContentWidth(1040);
-    } else if (width >= 720 && width < 1080) {
+    } else if (width >= 936 && width < 1040) {
       setContentWidth(936);
-    } else if (width >= 390 && width < 720) {
+    } else if (width >= 590 && width < 936) {
       setContentWidth(596);
-    } else {
+    } else if (width <= 590) {
       setContentWidth(316);
     }
   }, [width]);

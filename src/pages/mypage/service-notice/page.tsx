@@ -19,6 +19,8 @@ export function ServiceNoticePage() {
     navigate('/service-notice/edit');
   };
 
+  const MobileWriteBtn = contentWidth === 316 ? 'justify-center' : 'justify-end';
+
   return (
     <>
       <div className="mb-[310px]">
@@ -40,19 +42,23 @@ export function ServiceNoticePage() {
                   key={data.postId}
                   title={data.title}
                   date={data.date}
-                  Emergency={data.status === "긴급공지"}
+                  Emergency={data.status === '긴급공지'}
                 />
               );
             })}
           </div>
           <div
-            className="mb-[40px] flex justify-end"
+            className={`mb-[40px] flex ${MobileWriteBtn}`}
             style={{ width: `${contentWidth}px` }}
             onClick={handleWriteBtnClick}
           >
             <WriteButton />
           </div>
-          <Pagination totalPages={1} currentPage={1} onPageChange={onPageChange} />
+          <Pagination
+            totalPages={ServiceNoticeData.data.pageInfo.totalPages}
+            currentPage={1}
+            onPageChange={onPageChange}
+          />
         </div>
       </div>
     </>
