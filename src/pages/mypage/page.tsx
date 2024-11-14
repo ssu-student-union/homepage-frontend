@@ -25,23 +25,23 @@ export default function MyPage() {
         <div className="w-full border-b border-[#E7E7E7]"></div>
         <div className="flex flex-row">
           <aside className="my-10 w-64 border-r border-[#E7E7E7]">
-            <div className="p-10 font-bold">
+            <div className="ml-6 p-10 font-bold">
               {/* <h3 className="mb-4 text-lg font-bold text-blue-600">내 정보</h3> */}
               <ul>
                 <li
-                  className={`mb-2 cursor-pointer ${selectedMenu === '내 정보' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
+                  className={`mb-3 cursor-pointer ${selectedMenu === '내 정보' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
                   onClick={() => setSelectedMenu('내 정보')}
                 >
                   내 정보
                 </li>
                 <li
-                  className={`mb-2 cursor-pointer ${selectedMenu === '작성 글 보기' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
+                  className={`mb-3 cursor-pointer ${selectedMenu === '작성 글 보기' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
                   onClick={() => setSelectedMenu('작성 글 보기')}
                 >
                   작성 글 보기
                 </li>
                 <li
-                  className={`mb-2 cursor-pointer ${selectedMenu === '서비스 공지사항' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
+                  className={`mb-3 cursor-pointer ${selectedMenu === '서비스 공지사항' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
                   onClick={() => setSelectedMenu('서비스 공지사항')}
                 >
                   서비스 공지사항

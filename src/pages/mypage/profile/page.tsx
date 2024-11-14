@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import UserContainer from '../component/UserContainer';
 
 export default function ProfilePage() {
   // 자치기구 여부 확인 -> api 완료되면 수정예정
@@ -14,78 +15,138 @@ export default function ProfilePage() {
     college: 'IT대학',
     department: '글로벌미디어학부',
   });
+  // 자치기구 정보
+  const [associationInfo, setAssociationInfo] = useState({
+    id: 'it-global media',
+    name: '글로벌미디어학부 학생회',
+    nickname: '제 19대 글로벌미디어학부 학생회 미리내',
+    password: 'password',
+    college: 'IT대학',
+    department: '글로벌미디어학부',
+  });
 
-  const handleInputChange = (e: { target: { value: string } }) => {
-    const value = e.target.value;
-    setUserInfo((prev) => ({
-      ...prev,
-      phoneNumber: value,
-    }));
-    console.log(userInfo.phoneNumber);
+  // 비밀번호
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const handleInputChange = (e: { target: { name: string; value: string } }) => {
+    const { name, value } = e.target;
+    if (name === 'nickname') {
+      setAssociationInfo((prev) => ({
+        ...prev,
+        nickname: value,
+      }));
+    } else if (name === 'phoneNumber') {
+      setUserInfo((prev) => ({
+        ...prev,
+        phoneNumber: value,
+      }));
+    } else if (name === 'newPassword') {
+      setNewPassword(value);
+    } else if (name === 'confirmPassword') {
+      setConfirmPassword(value);
+    }
   };
 
   const handleSubmit = () => {
-    try {
-      console.log(userInfo);
-      setIsEditing(false);
-    } catch (error) {
-      console.error('fail to update profile : ', error);
+    if (newPassword !== confirmPassword) {
+      setPasswordError('비밀번호가 일치하지 않습니다');
+      return;
     }
+    setAssociationInfo((prev) => ({
+      ...prev,
+      password: newPassword,
+    }));
+    // 변경 후 초기화
+    setNewPassword('');
+    setConfirmPassword('');
+    setPasswordError('');
+    setIsEditing(false);
   };
 
   return (
     <main>
-      {/* 유저 정보 컨테이너 (자치기구, 일반학우) -> 컴포넌트화 */}
       {isAssociation ? (
-        <form onSubmit={handleSubmit}>
-          <div className="my-16 ml-16 mr-10 flex flex-row items-center rounded-lg border border-[#D9D9D9] bg-white p-10 ">
-            <img className="mr-8 h-28 w-28" src="/image/mypage/profile_img.png" alt="profile_default_img" />
-            <div>
-              <div className="mb-4">
-                <span className="text-xl font-extrabold">제 19대 글로벌미디어학부 학생회 미리내</span>
-              </div>
-              <div className="mb-1">
-                <span>IT대학 • </span>
-                <span>글로벌미디어학부</span>
-              </div>
-            </div>
-          </div>
+        <>
+          <UserContainer isAssociation={isAssociation} userInfo={null} associationInfo={associationInfo} />
           <div className="mb-8 pl-16">
-            <h3 className="text-lg font-bold">기본정보</h3>
-            {/* 코드리뷰 참고해서 수정하기 */}
-            <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm">
-              <span className="mr-14 font-semibold">아이디</span>
-              <span>it-global media</span>
+            {isEditing ? (
+              <>
+                <h3 className="text-lg font-bold">기본정보</h3>
+                <div className="grid grid-cols-[1fr_5fr] gap-y-2 p-6 text-sm">
+                  <span className="mr-14 font-semibold">아이디</span>
+                  <input
+                    className="w-64 rounded-sm border border-gray-300 bg-gray-200 px-3 py-0.5"
+                    value={associationInfo.id}
+                    readOnly
+                  />
 
-              <span className="mr-16 font-semibold">단위명</span>
-              <span>글로벌미디어학부 학생회</span>
+                  <span className="mr-16 font-semibold">단위명</span>
+                  <input
+                    className="w-64 rounded-sm border border-gray-300 bg-gray-200 px-3 py-0.5"
+                    value={associationInfo.name}
+                    readOnly
+                  />
 
-              <span className="mr-16 font-semibold">닉네임</span>
-              <span>제 19대 글로벌미디어학부 학생회 미리내</span>
-            </div>
+                  <span className="mr-16 font-semibold">닉네임</span>
+                  <input
+                    name="nickname"
+                    value={associationInfo.nickname}
+                    onChange={handleInputChange}
+                    className="w-64 rounded-sm border border-gray-300 px-3 py-0.5"
+                  />
+                </div>
+                <h3 className="mt-10 text-lg font-bold">비밀번호 변경</h3>
+                <div className="grid grid-cols-[1fr_5fr] gap-y-2 p-6 text-sm">
+                  <span className="mr-10 font-semibold">기존 비밀번호</span>
+                  <input
+                    type="password"
+                    value={associationInfo.password}
+                    onChange={handleInputChange}
+                    className="w-64 rounded-sm border border-gray-300 px-3 py-0.5"
+                  />
+
+                  <span className="mr-10 font-semibold">새 비밀번호</span>
+                  <input
+                    type="password"
+                    name="newPassword"
+                    onChange={handleInputChange}
+                    className="w-64 rounded-sm border border-gray-300 px-3 py-0.5"
+                  />
+
+                  <span className="mr-10 font-semibold">비밀번호 확인</span>
+                  <div>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      onChange={handleInputChange}
+                      className="w-64 rounded-sm border border-gray-300 px-3 py-0.5"
+                    />
+                    {passwordError && <span className="col-span-2 ml-4 text-red-500">{passwordError}</span>}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <h3 className="text-lg font-bold">기본정보</h3>
+                <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm">
+                  <span className="mr-14 font-semibold">아이디</span>
+                  <span>{associationInfo.id}</span>
+
+                  <span className="mr-16 font-semibold">단위명</span>
+                  <span>{associationInfo.name}</span>
+
+                  <span className="mr-16 font-semibold">닉네임</span>
+                  <span>{associationInfo.nickname}</span>
+                </div>
+              </>
+            )}
           </div>
-        </form>
+        </>
       ) : (
         <>
-          <div className="mb-16 ml-16 mr-10 mt-16 flex flex-row items-center rounded-lg border-2 border-[#D9D9D9] bg-white p-10 py-8">
-            <img className="mr-8 h-24 w-24" src="/image/mypage/profile_img.png" alt="profile_default_img" />
-            <div>
-              <div className="mb-3">
-                <span className="text-lg font-bold">김숭실</span>
-                <span className="ml-1 mr-1 text-xl font-thin"> | </span>
-                <span className="text-lg font-bold">20241234</span>
-              </div>
-              <div className="mb-1 text-sm">
-                <span>IT대학 • </span>
-                <span>글로벌미디어학부 • </span>
-                <span>재학</span>
-              </div>
-              <div className="text-sm">
-                <span>총학생회비 납부 • </span>
-                <span>글로벌미디어학부 학생회비 납부</span>
-              </div>
-            </div>
-          </div>
+          <UserContainer isAssociation={isAssociation} userInfo={userInfo} associationInfo={null} />
           <div className="mb-8 pl-16">
             <h3 className="text-lg font-bold">기본정보</h3>
             {isEditing ? (
