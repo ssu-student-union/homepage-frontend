@@ -15,11 +15,6 @@ export function NoticeDetailFileSection({ files, fileNames }: NoticeDetailFilePr
     document.body.removeChild(link);
   };
 
-  const formatFileName = (fileName: string) => {
-    const [name, ext] = fileName.split(/\s+/);
-    return `${name.replace(/\s+/g, '.')}.${ext ? ext.toLowerCase() : ''}`;
-  };
-
   return (
     <>
       {files.map((file, index) => (
@@ -30,7 +25,7 @@ export function NoticeDetailFileSection({ files, fileNames }: NoticeDetailFilePr
         >
           <DownloadSimple size="24px" />
           <div className="ml-[0.5rem] flex-1 overflow-hidden">
-            <p className="truncate text-base font-medium text-gray-600">{formatFileName(fileNames[index])}</p>
+            <p className="truncate text-base font-medium text-gray-600">{fileNames[index]}</p>
           </div>
         </div>
       ))}

@@ -56,7 +56,7 @@ const LostArticleSection = () => {
       </div>
       <Spacing size={18} direction="vertical" />
       <div className="flex w-full gap-[1.5rem] overflow-x-scroll scrollbar-hide xs:pr-[1.5rem] sm:pr-[1.5rem]">
-        {data?.data.pageInfo.totalElements ? (
+        {data?.data?.pageInfo.totalElements ? (
           <>
             {/* xs */}
             {width < 390 && (
