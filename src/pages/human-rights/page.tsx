@@ -3,8 +3,10 @@ import { BodyLayout } from '@/template/BodyLayout.tsx';
 import { BoardSelector } from '@/components/Board/BoardSelector.tsx';
 import { PostContent } from '@/components/PostContent/PostContent.tsx';
 import { HumanRightsCategory } from '@/pages/human-rights/schema.ts';
-import { useMockGetHumanRightsPosts } from '@/pages/human-rights/mockQueries.ts';
+import { useMockSearchHumanRightsPosts } from '@/pages/human-rights/mockQueries.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { SearchState } from '@/recoil/atoms/atom.ts';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -46,8 +48,21 @@ export function HumanRightsPage() {
   const page = parseInt(searchParams.get('page') ?? '0') || 0;
   const category = ensureCategory(searchParams.get('category'));
 
+  /* Search state management */
+  // TODO: Use search parameters instead of recoil state
+  const [q] = useRecoilState(SearchState);
+
   /* Load data from Query */
-  const { data: postsData, isLoading, isError } = useMockGetHumanRightsPosts({ page, category, delay: 10000 });
+  const {
+    data: postsData,
+    isLoading,
+    isError,
+  } = useMockSearchHumanRightsPosts({
+    q,
+    page,
+    category,
+    delay: 10000,
+  });
 
   if (isLoading) {
     return <PageSkeleton />;
@@ -75,6 +90,7 @@ export function HumanRightsPage() {
       } else {
         prev.set('category', category);
       }
+      prev.set('page', '0');
       return prev;
     });
   }

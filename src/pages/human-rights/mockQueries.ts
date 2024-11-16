@@ -151,18 +151,20 @@ const mockComments: HumanRightsCommentsResponse = {
   total: 0,
 };
 
-export function useMockGetHumanRightsPosts({
+export function useMockSearchHumanRightsPosts({
+  q = '',
   page,
   take = 50,
   category,
   delay = 1500,
 }: {
+  q: string;
   page?: number;
   take?: number;
   category?: string;
   delay?: number;
 }): UseQueryResult<ApiResponse<HumanRightsPostsResponse>, AxiosError> {
-  const queryKey = ['get-board-boardCode-posts', 'human_rights_report', category ?? 'ALL', take, page ?? 0];
+  const queryKey = ['search-board-boardCode-posts', 'human_rights_report', category ?? 'ALL', q, take, page ?? 0];
 
   return useQuery<ApiResponse<HumanRightsPostsResponse>, AxiosError>({
     queryKey,
