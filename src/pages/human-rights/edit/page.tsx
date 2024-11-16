@@ -166,7 +166,7 @@ export function HumanRightsEditPage() {
     if (!postId) {
       setIsPostLoaded(true);
     }
-  }, [post, postId, reset]);
+  }, [post, postId, reset, isPostLoaded]);
 
   // Form validation 실행
   useEffect(() => {

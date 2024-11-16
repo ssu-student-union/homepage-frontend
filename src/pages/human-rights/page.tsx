@@ -68,7 +68,7 @@ export function HumanRightsPage() {
         return prev;
       });
     }
-  }, [data]);
+  }, [data, page, setSearchParams]);
 
   if (isLoading) {
     return <PageSkeleton />;
