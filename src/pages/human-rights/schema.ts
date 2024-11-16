@@ -85,7 +85,7 @@ export const HumanRightsCommentSchema = z.object({
   id: z.number(),
   authorName: z.string(),
   studentId: z.string(),
-  createdAt: z.coerce.date(),
+  createdAt: z.string().transform((str) => new Date(str)),
   commentType: z.enum(['GENERAL', 'OFFICIAL']),
   lastEditedAt: z.coerce.date().nullable(),
   isDeleted: z.boolean(),
@@ -96,7 +96,7 @@ export const HumanRightsCommentSchema = z.object({
 export const HumanRightsPostSummarySchema = z.object({
   postId: z.number(),
   title: z.string().min(1),
-  date: z.coerce.date(),
+  date: z.string().transform((str) => new Date(str)),
   category: HumanRightsCategorySchema,
   reportName: z.string().min(1),
   author: z.boolean(),
@@ -117,8 +117,11 @@ export const HumanRightsPostSchema = z.object({
   categoryName: HumanRightsCategorySchema,
   authorName: z.string(),
   title: z.string(),
-  createdAt: z.coerce.date(),
-  lastEditedAt: z.coerce.date().nullable(),
+  createdAt: z.string().transform((str) => new Date(str)),
+  lastEditedAt: z
+    .string()
+    .transform((str) => new Date(str))
+    .nullable(),
   isAuthor: z.boolean(),
   allowedAuthorities: z.array(PostAclSchema),
   fileResponseList: z.array(FileResponseSchema),
