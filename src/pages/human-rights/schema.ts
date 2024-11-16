@@ -66,7 +66,7 @@ export type HumanRightsComment = z.output<typeof HumanRightsCommentSchema>;
  */
 export type PostAcl = z.infer<typeof PostAclSchema>;
 
-// TODO: Move ApiResponse to global scope
+// TODO: Move ApiResponse and ApiError to global scope
 /**
  * API의 기본 반환 응답입니다.
  * @typeParam T - 요청이 성공하였을 때 반환할 데이터
@@ -76,6 +76,16 @@ export interface ApiResponse<T> {
   message: string;
   data: T;
   isSuccess: boolean;
+}
+
+/**
+ * API 오류 시 응답입니다.
+ */
+export interface ApiError {
+  code: string;
+  message: string;
+  data: null;
+  isSuccess: false;
 }
 
 /**
