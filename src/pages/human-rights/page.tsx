@@ -1,10 +1,10 @@
 import { HeadLayout } from '@/template/HeadLayout.tsx';
 import { BodyLayout } from '@/template/BodyLayout.tsx';
 import { BoardSelector } from '@/components/Board/BoardSelector.tsx';
-import { useState } from 'react';
 import { PostContent } from '@/components/PostContent/PostContent.tsx';
 import { HumanRightsCategory } from '@/pages/human-rights/schema.ts';
 import { useMockGetHumanRightsPosts } from '@/pages/human-rights/mockQueries.ts';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -12,6 +12,11 @@ const categoryColors: { [category: string]: string } = {
   접수대기: 'text-gray-500',
   접수완료: 'text-primary',
 } as const;
+
+const ensureCategory = (str: string | null): SelectorCategory<HumanRightsCategory> => {
+  if (str === '접수대기' || str === '접수완료') return str;
+  return '전체';
+};
 
 const subtitle = (
   <p className="font-bold">
@@ -34,11 +39,15 @@ function PageSkeleton() {
 }
 
 export function HumanRightsPage() {
-  /* States of page options */
-  const [selectedCategory, setSelectedCategory] = useState<SelectorCategory<HumanRightsCategory>>('전체');
+  /* Navigation function for write operation */
+  const navigate = useNavigate();
+  /* Obtain query parameters */
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = parseInt(searchParams.get('page') ?? '0') || 0;
+  const category = ensureCategory(searchParams.get('category'));
 
   /* Load data from Query */
-  const { data: postsData, isLoading, isError } = useMockGetHumanRightsPosts({ delay: 10000 });
+  const { data: postsData, isLoading, isError } = useMockGetHumanRightsPosts({ page, category, delay: 10000 });
 
   if (isLoading) {
     return <PageSkeleton />;
@@ -56,7 +65,30 @@ export function HumanRightsPage() {
   /* Data preparation */
   const data = postsData.data;
   const { pageNum: currentPage, totalPages } = data.pageInfo;
-  const posts = data.postListResDto.filter((post) => selectedCategory == '전체' || selectedCategory == post.category);
+  const posts = data.postListResDto;
+
+  /* Handle user inputs */
+  function selectCategory(category: SelectorCategory<HumanRightsCategory>) {
+    setSearchParams((prev) => {
+      if (category === '전체') {
+        prev.delete('category');
+      } else {
+        prev.set('category', category);
+      }
+      return prev;
+    });
+  }
+
+  function navigatePage(page: number) {
+    setSearchParams((prev) => {
+      prev.set('page', `${page}`);
+      return prev;
+    });
+  }
+
+  function navigateToWrite() {
+    navigate('/human-rights/edit');
+  }
 
   return (
     <>
@@ -65,13 +97,13 @@ export function HumanRightsPage() {
         totalPages={totalPages}
         currentPage={currentPage}
         authority={data.allowedAuthorities}
-        onPageChange={() => {}}
-        onWriteClick={() => {}}
+        onPageChange={navigatePage}
+        onWriteClick={navigateToWrite}
       >
         <BoardSelector
           subcategories={['전체', '접수대기', '접수완료']}
-          selectedSubcategory={selectedCategory}
-          onSubcategorySelect={(category: SelectorCategory<HumanRightsCategory>) => setSelectedCategory(category)}
+          selectedSubcategory={category}
+          onSubcategorySelect={selectCategory}
           className="mb-4"
         />
         {posts.map((post) => (

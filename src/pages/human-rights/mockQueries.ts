@@ -33,9 +33,9 @@ const mockPosts: HumanRightsPostsResponse = {
   ],
   pageInfo: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 2,
     totalElements: 6,
-    totalPages: 1,
+    totalPages: 3,
   },
   allowedAuthorities: [],
   deniedAuthorities: [],
@@ -152,11 +152,17 @@ const mockComments: HumanRightsCommentsResponse = {
 };
 
 export function useMockGetHumanRightsPosts({
+  page,
+  take = 50,
+  category,
   delay = 1500,
 }: {
+  page?: number;
+  take?: number;
+  category?: string;
   delay?: number;
 }): UseQueryResult<ApiResponse<HumanRightsPostsResponse>, AxiosError> {
-  const queryKey = ['get-board-boardCode-posts', 'human_rights_report'];
+  const queryKey = ['get-board-boardCode-posts', 'human_rights_report', category ?? 'ALL', take, page ?? 0];
 
   return useQuery<ApiResponse<HumanRightsPostsResponse>, AxiosError>({
     queryKey,
