@@ -115,6 +115,9 @@ export function HumanRightsPage() {
             author={post.reportName}
           />
         ))}
+        {posts.length === 0 && (
+          <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
+        )}
       </BodyLayout>
     </>
   );
