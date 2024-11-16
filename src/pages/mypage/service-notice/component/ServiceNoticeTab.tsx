@@ -13,7 +13,7 @@ export function ServiceNoticeTab({ Title }: ServiceNoticeTabProps) {
   useEffect(() => {}, [width]);
 
   return (
-    <div className="fixed top-[60px] flex h-[64px] w-full animate-slideDown items-center justify-center gap-[8px] border-b-[1px] border-[#9CA3AF] bg-white z-50">
+    <div className="fixed top-[60px] md:top-[50px] sm:top-[50px] flex h-[64px] w-full animate-slideDown items-center justify-center gap-[8px] border-b-[1px] border-[#9CA3AF] bg-white z-50">
       <Badge variant="Emergency" className="relative right-0 top-0">
         긴급
       </Badge>

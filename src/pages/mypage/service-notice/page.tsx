@@ -6,11 +6,18 @@ import { WriteButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
 import { useContentWidth } from './hook/useContetnWidth';
 import { ServiceNoticeData } from './MockData';
+import { useState } from 'react';
 
 export function ServiceNoticePage() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10;
   const contentWidth = useContentWidth();
+  // const onPageChange = (page: number) => {
+  //   console.log(page);
+  // };
+
   const onPageChange = (page: number) => {
-    console.log(page);
+    setCurrentPage(page);
   };
 
   const navigate = useNavigate();
@@ -18,6 +25,11 @@ export function ServiceNoticePage() {
   const handleWriteBtnClick = () => {
     navigate('/service-notice/edit');
   };
+
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const selectedPosts = ServiceNoticeData.data.postListResDto.slice(startIndex, startIndex + postsPerPage);
+
+  const MobileWriteBtn = contentWidth === 316 ? 'justify-center' : 'justify-end';
 
   return (
     <>
@@ -34,25 +46,30 @@ export function ServiceNoticePage() {
         </div>
         <div className="jutify-center flex flex-col items-center">
           <div className="mb-[40px] mt-[64px] flex flex-col items-center justify-center">
-            {ServiceNoticeData.data.postListResDto.map((data) => {
+            {selectedPosts.map((data) => {
               return (
                 <ServiceNoticePostContent
                   key={data.postId}
+                  postId={data.postId.toString()}
                   title={data.title}
                   date={data.date}
-                  Emergency={data.status === "긴급공지"}
+                  Emergency={data.status === '긴급공지'}
                 />
               );
             })}
           </div>
           <div
-            className="mb-[40px] flex justify-end"
+            className={`mb-[40px] flex ${MobileWriteBtn}`}
             style={{ width: `${contentWidth}px` }}
             onClick={handleWriteBtnClick}
           >
             <WriteButton />
           </div>
-          <Pagination totalPages={1} currentPage={1} onPageChange={onPageChange} />
+          <Pagination
+            totalPages={ServiceNoticeData.data.pageInfo.totalPages}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
         </div>
       </div>
     </>

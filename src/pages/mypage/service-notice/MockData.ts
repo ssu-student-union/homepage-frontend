@@ -114,6 +114,16 @@ export const ServiceNoticeData = {
         "author": "총학생회"
       },
       {
+        "postId": 25,
+        "title": "[점검] 서비스 공지사항 페이지 작업",
+        "content": "10",
+        "date": "2024/10/11",
+        "category": null,
+        "thumbNail": null,
+        "status": "새로운",
+        "author": "총학생회"
+      },
+      {
         "postId": 24,
         "title": "[점검] 서비스 공지사항 페이지 작업",
         "content": "4",
@@ -124,7 +134,7 @@ export const ServiceNoticeData = {
         "author": "총학생회"
       },
       {
-        "postId": 22,
+        "postId": 23,
         "title": "[점검] 서비스 공지사항 페이지 작업",
         "content": "3",
         "date": "2024/10/12",
@@ -134,7 +144,7 @@ export const ServiceNoticeData = {
         "author": "총학생회"
       },
       {
-        "postId": 21,
+        "postId": 22,
         "title": "[점검] 서비스 공지사항 페이지 작업",
         "content": "2",
         "date": "2024/10/12",
@@ -144,7 +154,7 @@ export const ServiceNoticeData = {
         "author": "총학생회"
       },
       {
-        "postId": 20,
+        "postId": 21,
         "title": "[점검] 서비스 공지사항 페이지 작업",
         "content": "1",
         "date": "2024/10/12",
@@ -162,7 +172,7 @@ export const ServiceNoticeData = {
       "pageNum": 0,
       "pageSize": 10,
       "totalElements": 6,
-      "totalPages": 1
+      "totalPages": 2
     }
   },
   "isSuccess": true

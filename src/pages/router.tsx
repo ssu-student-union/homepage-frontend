@@ -5,6 +5,8 @@ import MyPage from './mypage/page.tsx';
 import ProfilePage from './mypage/profile/page.tsx';
 import { ServiceNoticePage } from './mypage/service-notice/page.tsx';
 import MyPostsPage from './mypage/myposts/page.tsx';
+import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page.jsx';
+import { ServiceNoticeDetailPage } from './mypage/service-notice/[id]/page.tsx';
 
 export function MainRouter() {
   return (
@@ -45,6 +47,8 @@ export function MainRouter() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/profile" element={<ProfilePage />} />
         <Route path="/service-notice" element={<ServiceNoticePage/>} />
+        <Route path="/service-notice/:id" element={<ServiceNoticeDetailPage/>} />
+        <Route path="/service-notice/edit" element={<ServiceNoticeEditPage/>} />
         <Route path="/myPosts" element={<MyPostsPage/>} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
