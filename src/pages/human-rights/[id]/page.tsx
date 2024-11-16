@@ -1,10 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
-import {
-  useMockGetHumanRightsBoardDetail,
-  useMockGetHumanRightsPostComments,
-} from '@/pages/human-rights/mockQueries.ts';
-import { useEffect } from 'react';
 import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';
 import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
@@ -13,6 +7,7 @@ import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostComm
 import { PostComment } from '@/pages/human-rights/[id]/components/PostComment.tsx';
 import { HumanRightsPerson, HumanRightsReporter } from '@/pages/human-rights/schema.ts';
 import { Container } from '@/pages/human-rights/containers/Container.tsx';
+import { useGetHumanRightsComments, useGetHumanRightsPost } from '@/pages/human-rights/queries.ts';
 
 const breadcrumbItems: [string, string | null][] = [
   ['소통', null],
@@ -55,32 +50,20 @@ export function HumanRightsDetailPage() {
   const { id } = useParams<{ id: string }>();
   const postId = parseInt(id ?? '');
   /* Load data by query */
-  const queryClient = useQueryClient();
-  const { data: postData, isLoading, isError, refetch } = useMockGetHumanRightsBoardDetail({ postId, delay: 10000 });
+  const { data: post, isLoading, error, isError } = useGetHumanRightsPost({ postId, queryOptions: { retry: true } });
   const {
-    data: commentsData,
+    data: comments,
     isLoading: isCommentsLoading,
+    error: commentsError,
     isError: isCommentsError,
-    refetch: commentsRefetch,
-  } = useMockGetHumanRightsPostComments({ postId });
-
-  useEffect(() => {
-    if (!queryClient.getQueryData(['get-board-boardCode-posts-postId'])) {
-      refetch();
-    }
-  }, [queryClient, refetch]);
-
-  useEffect(() => {
-    if (!queryClient.getQueryData(['get-board-boardCode-posts-postId'])) {
-      commentsRefetch();
-    }
-  }, [queryClient, commentsRefetch]);
+  } = useGetHumanRightsComments({ postId, type: '최신순', queryOptions: { retry: true } });
 
   if (isLoading) {
     return <PageSkeleton />;
   }
 
-  if (isNaN(postId) || !postData || isError || !commentsData || isCommentsError) {
+  if (isNaN(postId) || !post || isError || !comments || isCommentsError) {
+    console.log(error, commentsError);
     // TODO: 오류 발생 시 세부정보 제공
     return (
       <div className="mt-[120px] flex items-center justify-center">
@@ -90,16 +73,14 @@ export function HumanRightsDetailPage() {
   }
 
   /* Data Preparation */
-  const post = postData.data;
   const reporter = post.rightsDetailList.find((person) => person.personType === 'REPORTER') as
     | HumanRightsReporter
     | undefined;
   const victims = post.rightsDetailList.filter((person) => person.personType === 'VICTIM');
   const attackers = post.rightsDetailList.filter((person) => person.personType === 'ATTACKER');
 
-  const comments = commentsData.data.postComments;
-  const totalComments = commentsData.data.total;
-  const commentAcl = commentsData.data.allowedAuthorities;
+  const totalComments = comments.total;
+  const commentAcl = comments.allowedAuthorities;
 
   const editable = post.isAuthor || post.allowedAuthorities.includes('EDIT');
   const deletable = post.isAuthor || post.allowedAuthorities.includes('DELETE');
@@ -122,7 +103,7 @@ export function HumanRightsDetailPage() {
             <PersonFrontmatter key={`victims-${idx}`} title={`피침해자 ${idx + 1}`} person={victim} />
           ))}
           {attackers.map((attacker, idx) => (
-            <PersonFrontmatter key={`invaders-${idx}`} title={`침해자 ${idx + 1}`} person={attacker} />
+            <PersonFrontmatter key={`attackers-${idx}`} title={`침해자 ${idx + 1}`} person={attacker} />
           ))}
           <PostBody content={post.content} files={post.fileResponseList} />
         </Container>
@@ -151,7 +132,7 @@ export function HumanRightsDetailPage() {
                 onSubmit={(v) => console.log('TODO: submit comment', v)}
               />
             )}
-            {comments.map((comment) => (
+            {[...post.officialCommentList, ...comments.postComments].map((comment) => (
               <PostComment
                 key={comment.id}
                 author={comment.authorName}
@@ -160,7 +141,7 @@ export function HumanRightsDetailPage() {
                 lastEditedAt={comment.lastEditedAt === null ? undefined : new Date(comment.lastEditedAt)}
                 editable={comment.isAuthor}
                 deletable={comment.isAuthor || comment_deletable}
-                deleted={comment.isDeleted}
+                deleted={comment.isDeleted ?? false}
                 onDelete={() => console.log('TODO: delete comment')}
                 onEdit={() => console.log('TODO: edit comment')}
               >
