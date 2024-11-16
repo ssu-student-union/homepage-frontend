@@ -1,6 +1,7 @@
 import { AnchorHTMLAttributes } from 'react';
 import { cn } from '@/libs/utils.ts';
 import dayjs from 'dayjs';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 interface PostContentProp<C extends string> extends AnchorHTMLAttributes<HTMLAnchorElement> {
   category: {
@@ -39,3 +40,18 @@ export function PostContent<C extends string>({ category, title, author, date, .
     </a>
   );
 }
+
+PostContent.Skeleton = () => {
+  return (
+    <div className={cn('flex gap-5 border-b border-b-gray-200 p-5 font-medium')}>
+      <Skeleton className={cn('h-6 w-[6ch] text-nowrap')} />
+      <div className="flex basis-full justify-between gap-5 xs:flex-col sm:flex-col">
+        <Skeleton className="max-md:basis-full h-6 w-[20ch]" />
+        <div className="max-md:basis-full flex justify-between gap-5">
+          <Skeleton className="h-6 w-[4ch]" />
+          <Skeleton className="h-6 w-[10ch]" />
+        </div>
+      </div>
+    </div>
+  );
+};

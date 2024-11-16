@@ -82,7 +82,7 @@ export interface ApiResponse<T> {
  * 인권신고게시판의 게시글 목록 데이터입니다.
  * `pageInfo`는 현재 페이지 정보, `allowedAuthorities`와 `deniedAuthorities`는 각각 부여된 권한, 거부된 권한을 표현합니다.
  */
-export interface HumanRightsBoardPostsResponse {
+export interface HumanRightsPostsResponse {
   postListResDto: HumanRightsPostSummaryResponse[];
   pageInfo: PageInfo;
   allowedAuthorities: PostAcl[];

@@ -1,7 +1,12 @@
 /* Temporary Mock API queries -- delete after API implementation */
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { ApiResponse, HumanRightsCommentsResponse, HumanRightsPostResponse } from '@/pages/human-rights/schema.ts';
+import {
+  ApiResponse,
+  HumanRightsCommentsResponse,
+  HumanRightsPostResponse,
+  HumanRightsPostsResponse,
+} from '@/pages/human-rights/schema.ts';
 
 async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<T>> {
   await new Promise<void>((resolve) =>
@@ -16,6 +21,25 @@ async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<
     isSuccess: true,
   };
 }
+
+const mockPosts: HumanRightsPostsResponse = {
+  postListResDto: [
+    { postId: 0, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
+    { postId: 1, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
+    { postId: 2, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
+    { postId: 3, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
+    { postId: 4, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
+    { postId: 5, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
+  ],
+  pageInfo: {
+    pageNum: 1,
+    pageSize: 10,
+    totalElements: 6,
+    totalPages: 1,
+  },
+  allowedAuthorities: [],
+  deniedAuthorities: [],
+};
 
 const mockPost: HumanRightsPostResponse = {
   postId: 1,
@@ -126,6 +150,19 @@ const mockComments: HumanRightsCommentsResponse = {
   allowedAuthorities: ['COMMENT', 'DELETE_COMMENT'],
   total: 0,
 };
+
+export function useMockGetHumanRightsPosts({
+  delay = 1500,
+}: {
+  delay?: number;
+}): UseQueryResult<ApiResponse<HumanRightsPostsResponse>, AxiosError> {
+  const queryKey = ['get-board-boardCode-posts', 'human_rights_report'];
+
+  return useQuery<ApiResponse<HumanRightsPostsResponse>, AxiosError>({
+    queryKey,
+    queryFn: async () => await waitSecondAndReturn(delay, mockPosts),
+  });
+}
 
 export function useMockGetHumanRightsBoardDetail({
   postId,
