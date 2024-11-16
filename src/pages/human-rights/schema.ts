@@ -65,15 +65,6 @@ export type HumanRightsComment = z.output<typeof HumanRightsCommentSchema>;
  */
 export type PostAcl = z.infer<typeof PostAclSchema>;
 
-/**
- * 인권신고게시판의 게시글 댓글 목록 데이터입니다.
- */
-export interface HumanRightsCommentsResponse {
-  postComments: HumanRightsCommentResponse[];
-  allowedAuthorities: PostAcl[];
-  total: number;
-}
-
 export const FileResponseSchema = z.object({
   postFileId: z.number(),
   fileName: z.string().min(1),
