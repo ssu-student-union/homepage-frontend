@@ -38,6 +38,9 @@ export function useGetComments<TRaw, TData = TRaw>({
   const config: AxiosRequestConfig = {
     url: `/board/posts/${postId}/comments`,
     method: 'get',
+    params: {
+      type,
+    },
   };
   return useStuQuery<GetCommentsResponse<TRaw>, GetCommentsResponse<TData>, AxiosError | ApiError | ZodError>(
     queryKey,
