@@ -91,7 +91,7 @@ export const HumanRightsPersonSchema = z.object({
   name: z.string().min(1),
   studentId: z.string(),
   major: z.string(),
-  phoneNumber: z.string().optional(),
+  phoneNumber: z.string().nullable().optional(),
   personType: HumanRightsPersonTypeSchema,
 });
 
@@ -103,11 +103,11 @@ export const HumanRightsReporterSchema = HumanRightsPersonSchema.extend({
 export const HumanRightsCommentSchema = z.object({
   id: z.number(),
   authorName: z.string(),
-  studentId: z.string(),
+  studentId: z.string().optional(),
   createdAt: z.string().transform((str) => new Date(str)),
   commentType: z.enum(['GENERAL', 'OFFICIAL']),
   lastEditedAt: z.coerce.date().nullable(),
-  isDeleted: z.boolean(),
+  isDeleted: z.boolean().optional().default(false),
   isAuthor: z.boolean(),
   content: z.string().min(1),
 });
