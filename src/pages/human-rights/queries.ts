@@ -5,7 +5,7 @@ import {
   HumanRightsPostSummarySchema,
 } from '@/pages/human-rights/schema.ts';
 
-const BOARD_CODE = 'human_rights_report' as const;
+const BOARD_CODE = '인권신고게시판' as const;
 
 export function useSearchHumanRightsPosts({
   q,
