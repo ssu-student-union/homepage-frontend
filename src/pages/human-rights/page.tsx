@@ -3,10 +3,10 @@ import { BodyLayout } from '@/template/BodyLayout.tsx';
 import { BoardSelector } from '@/components/Board/BoardSelector.tsx';
 import { PostContent } from '@/components/PostContent/PostContent.tsx';
 import { HumanRightsCategory } from '@/pages/human-rights/schema.ts';
-import { useMockSearchHumanRightsPosts } from '@/pages/human-rights/mockQueries.ts';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom.ts';
+import { useSearchHumanRightsPosts } from '@/pages/human-rights/queries.ts';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -53,22 +53,17 @@ export function HumanRightsPage() {
   const [q] = useRecoilState(SearchState);
 
   /* Load data from Query */
-  const {
-    data: postsData,
-    isLoading,
-    isError,
-  } = useMockSearchHumanRightsPosts({
+  const { data, isLoading, isError } = useSearchHumanRightsPosts({
     q,
     page,
-    category,
-    delay: 10000,
+    category: category === '전체' ? undefined : category,
   });
 
   if (isLoading) {
     return <PageSkeleton />;
   }
 
-  if (!postsData || isError) {
+  if (!data || isError) {
     // TODO: 오류 발생 시 세부정보 제공
     return (
       <div className="mt-[120px] flex items-center justify-center">
@@ -78,7 +73,6 @@ export function HumanRightsPage() {
   }
 
   /* Data preparation */
-  const data = postsData.data;
   const { pageNum: currentPage, totalPages } = data.pageInfo;
   const posts = data.postListResDto;
 
