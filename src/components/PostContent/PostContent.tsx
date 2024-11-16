@@ -1,9 +1,10 @@
-import { AnchorHTMLAttributes } from 'react';
+import { RefAttributes } from 'react';
 import { cn } from '@/libs/utils.ts';
 import dayjs from 'dayjs';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
+import { Link, LinkProps } from 'react-router-dom';
 
-interface PostContentProp<C extends string> extends AnchorHTMLAttributes<HTMLAnchorElement> {
+interface PostContentProp<C extends string> extends LinkProps, RefAttributes<HTMLAnchorElement> {
   category: {
     name: C;
     className: string;
@@ -25,7 +26,7 @@ export function PostContent<C extends string>({ category, title, author, date, .
   const formattedDate = dayjs(date).format('YYYY/MM/DD');
 
   return (
-    <a {...props} className={cn('flex gap-5 border-b border-b-gray-400 p-5 font-medium')}>
+    <Link {...props} className={cn('flex gap-5 border-b border-b-gray-400 p-5 font-medium')}>
       <div className={cn('text-nowrap', category.className)}>[{category.name}]</div>
       {/* 잘못된 tailwind.config.js: `min-`, `max-` prefix로 range가 지원되는데 왜 이렇게 breakpoint를 짰을까요??
        * Reference: https://tailwindcss.com/docs/responsive-design#targeting-mobile-screens
@@ -37,7 +38,7 @@ export function PostContent<C extends string>({ category, title, author, date, .
           <span className="text-gray-500">{formattedDate}</span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 

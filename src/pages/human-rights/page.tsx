@@ -108,7 +108,7 @@ export function HumanRightsPage() {
         />
         {posts.map((post) => (
           <PostContent<HumanRightsCategory>
-            href={`/human-rights/${post.postId}`}
+            to={`/human-rights/${post.postId}`}
             category={{ name: post.category, className: categoryColors[post.category] }}
             date={new Date(post.date)}
             title={post.title}
