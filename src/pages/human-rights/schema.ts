@@ -38,9 +38,14 @@ export type HumanRightsPostSummaryResponse = z.input<typeof HumanRightsPostSumma
 export type HumanRightsPost = z.infer<typeof HumanRightsPostSchema>;
 
 /**
+ * 인권신고게시판 작성/수정 폼 작성 시 사용하는 게시물 정보입니다.
+ */
+export type HumanRightsPostEditForm = z.input<typeof HumanRightsPostEditFormSchema>;
+
+/**
  * 인권신고게시판 작성/수정 요청 시 사용하는 게시물 정보입니다.
  */
-export type HumanRightsPostEditRequest = z.infer<typeof HumanRightsPostEditRequestSchema>;
+export type HumanRightsPostEditRequest = z.output<typeof HumanRightsPostEditFormSchema>;
 
 /**
  * 인권신고게시판 댓글 정보입니다.
@@ -131,13 +136,19 @@ export const HumanRightsPostSummarySchema = z.object({
   author: z.boolean(),
 });
 
-export const HumanRightsPostEditRequestSchema = z.object({
+export const HumanRightsPostEditFormSchema = z.object({
   title: z.string().min(1),
   categoryCode: HumanRightsCategorySchema,
   thumbNailImage: z.literal(null).default(null),
   isNotice: z.literal(false).default(false),
   postFileList: z.array(z.number()),
-  relatedPeople: z.array(HumanRightsPersonSchema).nonempty(),
+  relatedPeople: z
+    .object({
+      reporter: HumanRightsReporterSchema,
+      victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM') })).nonempty(),
+      attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).nonempty(),
+    })
+    .transform((obj) => [obj.reporter, ...obj.victims, ...obj.attackers]),
   content: z.string().min(1),
 });
 
