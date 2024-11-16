@@ -12,10 +12,17 @@ import { FileInputs } from '@/pages/human-rights/edit/components/FileInputs.tsx'
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor.ts';
 import {
+  HumanRightsPerson,
+  HumanRightsPost,
   HumanRightsPostEditForm,
   HumanRightsPostEditRequest,
   HumanRightsPostEditRequestSchema,
+  HumanRightsReporter,
 } from '@/pages/human-rights/schema.ts';
+import { useGetHumanRightsPost } from '@/pages/human-rights/queries.ts';
+import { useParams } from 'react-router-dom';
+import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
+import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
 
 const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
 
@@ -33,12 +40,88 @@ const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 
 
 ` as const;
 
+function PageSkeleton() {
+  return (
+    <article className="mb-20 mt-[120px]">
+      <PostHeader.Skeleton />
+      <hr className="bg-[#E7E7E7]" />
+      <Container.Skeleton />
+      <PostFooter.Skeleton />
+    </article>
+  );
+}
+
+function postTransformer({
+  postId,
+  categoryName,
+  title,
+  fileResponseList,
+  rightsDetailList,
+  content,
+}: HumanRightsPost): HumanRightsPostEditForm {
+  type Victim = HumanRightsPerson & { personType: 'VICTIM' };
+  type Attacker = HumanRightsPerson & { personType: 'ATTACKER' };
+  const victims = rightsDetailList.filter((person): person is Victim => person.personType === 'VICTIM');
+  if (victims.length === 0)
+    victims.push({
+      name: '',
+      studentId: '',
+      major: '',
+      personType: 'VICTIM',
+    });
+  const attackers = rightsDetailList.filter((person): person is Attacker => person.personType !== 'ATTACKER');
+  if (attackers.length === 0)
+    attackers.push({
+      name: '',
+      studentId: '',
+      major: '',
+      personType: 'ATTACKER',
+    });
+  return {
+    postId,
+    title,
+    categoryCode: categoryName,
+    postFileList: fileResponseList.map((file) => file.postFileId),
+    thumbNailImage: null,
+    isNotice: false,
+    relatedPeople: {
+      reporter: (rightsDetailList.find(
+        (person): person is Victim => person.personType === 'REPORTER'
+      ) as HumanRightsReporter) ?? {
+        name: '',
+        studentId: '',
+        major: '',
+        phoneNumber: '',
+        personType: 'REPORTER',
+      },
+      victims: victims as [Victim, ...Victim[]],
+      attackers: attackers as [Attacker, ...Attacker[]],
+    },
+    content,
+  };
+}
+
 export function HumanRightsEditPage() {
-  // TODO: 수정 기능 추가
+  /* Router Props */
+  const { id } = useParams<{ id?: string }>();
+  const postId = id ? parseInt(id ?? '') || null : null;
+
+  /* Load data by query */
+  const {
+    data: post,
+    isLoading,
+    error,
+    isError,
+  } = useGetHumanRightsPost({
+    postId: postId ?? 0,
+    queryOptions: { enabled: postId !== null },
+  });
+  const [isPostLoaded, setIsPostLoaded] = useState(false);
 
   /* Register form hooks */
   const {
     register,
+    reset,
     handleSubmit,
     victimFields,
     victimAppend,
@@ -63,6 +146,7 @@ export function HumanRightsEditPage() {
       ],
     },
   });
+
   // 에디터 기능 훅
   const editorRef = useRef<Editor>(null);
   // TODO: 백엔드 구현 시 processContent 추가
@@ -71,8 +155,26 @@ export function HumanRightsEditPage() {
   const filesRef = useRef<File[]>([]);
   const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
 
+  // 기존 데이터 입력
+  useEffect(() => {
+    if (post && editorRef.current && !isPostLoaded) {
+      setIsPostLoaded(false);
+      reset(postTransformer(post));
+      editorRef.current!.getInstance().setMarkdown(post.content);
+      setIsPostLoaded(true);
+    }
+    if (!postId) {
+      setIsPostLoaded(true);
+    }
+  }, [post, postId, reset]);
+
+  // Form validation 실행
+  useEffect(() => {
+    (async () => await trigger())();
+  }, [trigger]);
+
   function contentChangeHandler() {
-    if (editorRef.current) {
+    if (editorRef.current && isPostLoaded) {
       setValue('content', editorRef.current.getInstance().getMarkdown());
     }
   }
@@ -87,9 +189,19 @@ export function HumanRightsEditPage() {
     console.log('submit requested', data);
   }
 
-  useEffect(() => {
-    (async () => await trigger())();
-  }, [trigger]);
+  if (isLoading) {
+    return <PageSkeleton />;
+  }
+
+  if (!post || isError) {
+    console.log(error);
+    // TODO: 오류 발생 시 세부정보 제공
+    return (
+      <div className="mt-[120px] flex items-center justify-center">
+        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
+      </div>
+    );
+  }
 
   return (
     <article className="mt-[200px]">

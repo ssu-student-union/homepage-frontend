@@ -122,6 +122,7 @@ export const HumanRightsPostSummarySchema = z.object({
 });
 
 export const HumanRightsPostEditFormSchema = z.object({
+  postId: z.number().optional(),
   title: z.string().min(1),
   categoryCode: HumanRightsCategorySchema,
   thumbNailImage: z.literal(null),
