@@ -5,8 +5,9 @@ import {
   ApiResponse,
   HumanRightsCommentsResponse,
   HumanRightsPostResponse,
-  HumanRightsPostsResponse,
+  HumanRightsPostSummaryResponse,
 } from '@/pages/human-rights/schema.ts';
+import { PostsResponse } from '@/pages/human-rights/hooks/useSearchPosts.ts';
 
 async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<T>> {
   await new Promise<void>((resolve) =>
@@ -22,7 +23,7 @@ async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<
   };
 }
 
-const mockPosts: HumanRightsPostsResponse = {
+const mockPosts: PostsResponse<HumanRightsPostSummaryResponse> = {
   postListResDto: [
     { postId: 0, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
     { postId: 1, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
@@ -163,10 +164,10 @@ export function useMockSearchHumanRightsPosts({
   take?: number;
   category?: string;
   delay?: number;
-}): UseQueryResult<ApiResponse<HumanRightsPostsResponse>, AxiosError> {
+}): UseQueryResult<ApiResponse<PostsResponse<HumanRightsPostSummaryResponse>>, AxiosError> {
   const queryKey = ['search-board-boardCode-posts', 'human_rights_report', category ?? 'ALL', q, take, page ?? 0];
 
-  return useQuery<ApiResponse<HumanRightsPostsResponse>, AxiosError>({
+  return useQuery<ApiResponse<PostsResponse<HumanRightsPostSummaryResponse>>, AxiosError>({
     queryKey,
     queryFn: async () => await waitSecondAndReturn(delay, mockPosts),
   });

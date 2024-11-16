@@ -1,5 +1,4 @@
 import z from 'zod';
-import { PageInfo } from '@/types/apis/get';
 
 /**
  * 인권조회게시판 카테고리입니다.
@@ -86,17 +85,6 @@ export interface ApiError {
   message: string;
   data: null;
   isSuccess: false;
-}
-
-/**
- * 인권신고게시판의 게시글 목록 데이터입니다.
- * `pageInfo`는 현재 페이지 정보, `allowedAuthorities`와 `deniedAuthorities`는 각각 부여된 권한, 거부된 권한을 표현합니다.
- */
-export interface HumanRightsPostsResponse {
-  postListResDto: HumanRightsPostSummaryResponse[];
-  pageInfo: PageInfo;
-  allowedAuthorities: PostAcl[];
-  deniedAuthorities: PostAcl[];
 }
 
 /**
