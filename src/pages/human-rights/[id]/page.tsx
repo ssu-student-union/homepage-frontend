@@ -111,7 +111,7 @@ export function HumanRightsDetailPage() {
           boardUrl="/human-rights"
           editable={editable}
           deletable={deletable}
-          editUrl={`/human-rights/edit/${postId}`}
+          editUrl={`/human-rights/${postId}/edit`}
           className="mb-20"
           onDelete={() => console.log('TODO: deleting post')}
         />
