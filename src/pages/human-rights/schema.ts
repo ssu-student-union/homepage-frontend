@@ -23,19 +23,23 @@ export type HumanRightsReporter = z.infer<typeof HumanRightsReporterSchema>;
 
 // Type inconsistency between Post-related types; cannot set a relation between types
 /**
- * 인권조회게시판 목록에서 사용하는 각 게시물 정보입니다.
- */
-export type HumanRightsPostSummary = z.infer<typeof HumanRightsPostSummarySchema>;
-
-/**
  * 인권조회게시판 목록에서 사용하는 각 게시물 정보의 원본 데이터입니다.
  */
 export type HumanRightsPostSummaryResponse = z.input<typeof HumanRightsPostSummarySchema>;
+/**
+ * 인권조회게시판 목록에서 사용하는 각 게시물 정보입니다.
+ */
+export type HumanRightsPostSummary = z.output<typeof HumanRightsPostSummarySchema>;
+
+/**
+ * 인권신고게시판 조회에서 사용하는 세부 정보가 포함된 게시물 원본 데이터입니다.
+ */
+export type HumanRightsPostResponse = z.input<typeof HumanRightsPostSchema>;
 
 /**
  * 인권신고게시판 조회에서 사용하는 세부 정보가 포함된 게시물 정보입니다.
  */
-export type HumanRightsPost = z.infer<typeof HumanRightsPostSchema>;
+export type HumanRightsPost = z.output<typeof HumanRightsPostSchema>;
 
 /**
  * 인권신고게시판 작성/수정 폼 작성 시 사용하는 게시물 정보입니다.
@@ -48,9 +52,13 @@ export type HumanRightsPostEditForm = z.input<typeof HumanRightsPostEditFormSche
 export type HumanRightsPostEditRequest = z.output<typeof HumanRightsPostEditFormSchema>;
 
 /**
+ * 인권신고게시판 댓글 원본 데이터입니다.
+ */
+export type HumanRightsCommentResponse = z.input<typeof HumanRightsCommentSchema>;
+/**
  * 인권신고게시판 댓글 정보입니다.
  */
-export type HumanRightsComment = z.infer<typeof HumanRightsCommentSchema>;
+export type HumanRightsComment = z.output<typeof HumanRightsCommentSchema>;
 
 // TODO: Move PostAcl Schema to global scope
 /**
@@ -166,7 +174,7 @@ export const HumanRightsPostSchema = z.object({
   allowedAuthorities: z.array(PostAclSchema),
   fileResponseList: z.array(FileResponseSchema),
   officialCommentList: z.array(HumanRightsCommentSchema),
-  rightsDetailList: z.array(HumanRightsPersonSchema),
+  rightsDetailList: z.array(HumanRightsPersonSchema.or(HumanRightsReporterSchema)),
   content: z.string(),
 });
 
