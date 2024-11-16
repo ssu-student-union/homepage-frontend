@@ -1,72 +1,7 @@
 /* Temporary Mock API queries -- delete after API implementation */
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { FileResponse } from '@/types/apis/get';
-
-interface ApiResponse<T> {
-  code: string;
-  message: string;
-  data: T;
-  isSuccess: boolean;
-}
-
-export enum PostAcl {
-  READ = 'read',
-  WRITE = 'write',
-  EDIT = 'edit',
-  DELETE = 'delete',
-  COMMENT = 'comment',
-  DELETE_COMMENT = 'delete_comment',
-  REACTION = 'reaction',
-}
-
-export interface MockHumanRightsPerson {
-  name: string;
-  studentId: string;
-  department: string;
-}
-
-export interface MockHumanRightsReporter extends MockHumanRightsPerson {
-  contact: string;
-}
-
-interface MockHumanRightsPost {
-  postId: number;
-  categoryName: string;
-  authorName: string;
-
-  title: string;
-  metadata: {
-    reporter: MockHumanRightsReporter;
-    victims: MockHumanRightsPerson[];
-    invaders: MockHumanRightsPerson[];
-  };
-  content: string;
-  createdAt: string;
-  lastEditedAt: string | null;
-  allowedAuthorities: PostAcl[];
-  isAuthor: boolean;
-  studentId: string;
-  fileResponseList: FileResponse[];
-}
-
-interface MockHumanRightsComments {
-  postComments: MockHumanRightsComment[];
-  allowedAuthorities: PostAcl[];
-  total: number;
-}
-
-interface MockHumanRightsComment {
-  id: number;
-  authorName: string;
-  studentId: string;
-  content: string;
-  createdAt: string;
-  commentType: 'GENERAL' | 'OFFICIAL';
-  lastEditedAt: string | null;
-  isDeleted: boolean;
-  isAuthor: boolean;
-}
+import { ApiResponse, HumanRightsComments, HumanRightsPostResponse } from '@/pages/human-rights/schema.ts';
 
 async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<T>> {
   await new Promise<void>((resolve) =>
@@ -82,32 +17,29 @@ async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<
   };
 }
 
-const mockPost = {
+const mockPost: HumanRightsPostResponse = {
   postId: 1,
   categoryName: '접수완료',
   authorName: '신고자',
-  allowedAuthorities: [PostAcl.READ, PostAcl.EDIT, PostAcl.DELETE],
+  allowedAuthorities: ['READ', 'EDIT', 'DELETE'],
   title: '인권신고글제목입니다인권신고글제목입니다',
-  metadata: {
-    reporter: {
+  rightsDetailList: [
+    {
       name: '구효민',
       studentId: '20211561',
-      department: '글로벌미디어학부',
-      contact: '010-1234-5678',
+      major: '글로벌미디어학부',
+      phoneNumber: '010-1234-5678',
+      personType: 'REPORTER',
     },
-    victims: [
-      { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
-      { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
-      { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
-      { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
-    ],
-    invaders: [
-      { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
-      { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
-      { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
-      { name: '김이름', studentId: '20050905', department: '글로벌미디어학부' },
-    ],
-  },
+    { name: '김이름', studentId: '20050905', major: '글로벌미디어학부', personType: 'VICTIM' },
+    { name: '김이름', studentId: '20050905', major: '글로벌미디어학부', personType: 'VICTIM' },
+    { name: '김이름', studentId: '20050905', major: '글로벌미디어학부', personType: 'VICTIM' },
+    { name: '김이름', studentId: '20050905', major: '글로벌미디어학부', personType: 'VICTIM' },
+    { name: '김이름', studentId: '20050905', major: '글로벌미디어학부', personType: 'ATTACKER' },
+    { name: '김이름', studentId: '20050905', major: '글로벌미디어학부', personType: 'ATTACKER' },
+    { name: '김이름', studentId: '20050905', major: '글로벌미디어학부', personType: 'ATTACKER' },
+    { name: '김이름', studentId: '20050905', major: '글로벌미디어학부', personType: 'ATTACKER' },
+  ],
   content: `# 어쩌구어쩌구
   Lorem ipsum... 그 다음이 생각이 안나요 ㅠㅠ
   > 인용 테스트
@@ -115,7 +47,6 @@ const mockPost = {
   createdAt: '2024-10-12T02:03:18.596Z',
   lastEditedAt: null,
   isAuthor: false,
-  studentId: '20050905',
   fileResponseList: [
     {
       postFileId: 1,
@@ -145,7 +76,7 @@ const mockPost = {
   officialCommentList: [],
 };
 
-const mockComments: MockHumanRightsComments = {
+const mockComments: HumanRightsComments = {
   postComments: [
     {
       id: 0,
@@ -192,7 +123,7 @@ const mockComments: MockHumanRightsComments = {
       isAuthor: false,
     },
   ],
-  allowedAuthorities: [PostAcl.COMMENT, PostAcl.DELETE_COMMENT],
+  allowedAuthorities: ['COMMENT', 'DELETE_COMMENT'],
   total: 0,
 };
 
@@ -202,10 +133,10 @@ export function useMockGetHumanRightsBoardDetail({
 }: {
   postId: number;
   delay?: number;
-}): UseQueryResult<ApiResponse<MockHumanRightsPost>, AxiosError> {
+}): UseQueryResult<ApiResponse<HumanRightsPostResponse>, AxiosError> {
   const queryKey = ['get-board-boardCode-posts-postId', 'human_rights_report', postId];
 
-  return useQuery<ApiResponse<MockHumanRightsPost>, AxiosError>({
+  return useQuery<ApiResponse<HumanRightsPostResponse>, AxiosError>({
     queryKey,
     queryFn: async () => await waitSecondAndReturn(delay, mockPost),
   });
@@ -217,10 +148,10 @@ export function useMockGetHumanRightsPostComments({
 }: {
   postId: number;
   delay?: number;
-}): UseQueryResult<ApiResponse<MockHumanRightsComments>, AxiosError> {
+}): UseQueryResult<ApiResponse<HumanRightsComments>, AxiosError> {
   const queryKey = ['get-board-boardCode-posts-postId-comments', 'human_rights_report', postId];
 
-  return useQuery<ApiResponse<MockHumanRightsComments>, AxiosError>({
+  return useQuery<ApiResponse<HumanRightsComments>, AxiosError>({
     queryKey,
     queryFn: async () => await waitSecondAndReturn(delay, mockComments),
   });

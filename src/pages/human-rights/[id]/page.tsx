@@ -1,9 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import {
-  MockHumanRightsPerson,
-  MockHumanRightsReporter,
-  PostAcl,
   useMockGetHumanRightsBoardDetail,
   useMockGetHumanRightsPostComments,
 } from '@/pages/human-rights/[id]/mockQueries.ts';
@@ -15,29 +12,30 @@ import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
 import { PostFooter } from '@/pages/human-rights/[id]/containers/PostFooter.tsx';
 import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
 import { PostComment } from '@/pages/human-rights/[id]/components/PostComment.tsx';
+import { HumanRightsPerson, HumanRightsReporter } from '@/pages/human-rights/schema.ts';
 
 const breadcrumbItems: [string, string | null][] = [
   ['소통', null],
   ['인권신고게시판', '/human-rights'],
 ];
 
-function personToFrontmatter(person: MockHumanRightsPerson): [string, string][] {
+function personToFrontmatter(person: HumanRightsPerson): [string, string][] {
   return [
     ['성명', person.name],
     ['학번', person.studentId],
-    ['학과/부', person.department],
+    ['학과/부', person.major],
   ];
 }
 
-function reporterToFrontmatter(reporter: MockHumanRightsReporter): [string, string][] {
-  return [...personToFrontmatter(reporter), ['연락처', reporter.contact]];
+function reporterToFrontmatter(reporter: HumanRightsReporter): [string, string][] {
+  return [...personToFrontmatter(reporter), ['연락처', reporter.phoneNumber]];
 }
 
-function ReporterFrontmatter({ reporter }: { reporter: MockHumanRightsReporter }) {
+function ReporterFrontmatter({ reporter }: { reporter: HumanRightsReporter }) {
   return <Frontmatter title="신고자 정보" pairs={reporterToFrontmatter(reporter)} />;
 }
 
-function PersonFrontmatter({ title, person }: { title: string; person: MockHumanRightsPerson }) {
+function PersonFrontmatter({ title, person }: { title: string; person: HumanRightsPerson }) {
   return <Frontmatter title={title} pairs={personToFrontmatter(person)} />;
 }
 
@@ -93,15 +91,20 @@ export function HumanRightsDetailPage() {
 
   /* Data Preparation */
   const post = postData.data;
+  const reporter = post.rightsDetailList.find((person) => person.personType === 'REPORTER') as
+    | HumanRightsReporter
+    | undefined;
+  const victims = post.rightsDetailList.filter((person) => person.personType === 'VICTIM');
+  const attackers = post.rightsDetailList.filter((person) => person.personType === 'ATTACKER');
 
   const comments = commentsData.data.postComments;
   const totalComments = commentsData.data.total;
   const commentAcl = commentsData.data.allowedAuthorities;
 
-  const editable = post.isAuthor || post.allowedAuthorities.includes(PostAcl.EDIT);
-  const deletable = post.isAuthor || post.allowedAuthorities.includes(PostAcl.DELETE);
-  const commentable = post.isAuthor || commentAcl.includes(PostAcl.COMMENT);
-  const comment_deletable = commentAcl.includes(PostAcl.DELETE_COMMENT);
+  const editable = post.isAuthor || post.allowedAuthorities.includes('EDIT');
+  const deletable = post.isAuthor || post.allowedAuthorities.includes('DELETE');
+  const commentable = post.isAuthor || commentAcl.includes('COMMENT');
+  const comment_deletable = commentAcl.includes('DELETE_COMMENT');
 
   return (
     <>
@@ -114,12 +117,12 @@ export function HumanRightsDetailPage() {
         />
         <hr className="bg-[#E7E7E7]" />
         <Container>
-          <ReporterFrontmatter reporter={post.metadata.reporter} />
-          {post.metadata.victims.map((victim, idx) => (
+          {reporter && <ReporterFrontmatter reporter={reporter} />}
+          {victims.map((victim, idx) => (
             <PersonFrontmatter key={`victims-${idx}`} title={`피침해자 ${idx + 1}`} person={victim} />
           ))}
-          {post.metadata.invaders.map((invader, idx) => (
-            <PersonFrontmatter key={`invaders-${idx}`} title={`침해자 ${idx + 1}`} person={invader} />
+          {attackers.map((attacker, idx) => (
+            <PersonFrontmatter key={`invaders-${idx}`} title={`침해자 ${idx + 1}`} person={attacker} />
           ))}
           <PostBody content={post.content} files={post.fileResponseList} />
         </Container>

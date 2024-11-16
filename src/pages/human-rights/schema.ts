@@ -44,12 +44,12 @@ export type HumanRightsPost = z.output<typeof HumanRightsPostSchema>;
 /**
  * 인권신고게시판 작성/수정 폼 작성 시 사용하는 게시물 정보입니다.
  */
-export type HumanRightsPostEditForm = z.input<typeof HumanRightsPostEditFormSchema>;
+export type HumanRightsPostEditForm = z.infer<typeof HumanRightsPostEditFormSchema>;
 
 /**
  * 인권신고게시판 작성/수정 요청 시 사용하는 게시물 정보입니다.
  */
-export type HumanRightsPostEditRequest = z.output<typeof HumanRightsPostEditFormSchema>;
+export type HumanRightsPostEditRequest = z.output<typeof HumanRightsPostEditRequestSchema>;
 
 /**
  * 인권신고게시판 댓글 원본 데이터입니다.
@@ -89,6 +89,15 @@ export interface HumanRightsBoardPosts {
   deniedAuthorities: PostAcl[];
 }
 
+/**
+ * 인권신고게시판의 게시글 댓글 목록 데이터입니다.
+ */
+export interface HumanRightsComments {
+  postComments: HumanRightsCommentResponse[];
+  allowedAuthorities: PostAcl[];
+  total: number;
+}
+
 export const FileResponseSchema = z.object({
   postFileId: z.number(),
   fileName: z.string().min(1),
@@ -113,12 +122,13 @@ export const HumanRightsPersonTypeSchema = z.enum(['REPORTER', 'VICTIM', 'ATTACK
 
 export const HumanRightsPersonSchema = z.object({
   name: z.string().min(1),
-  studentId: z.string().optional(),
-  major: z.string().optional(),
+  studentId: z.string(),
+  major: z.string(),
+  phoneNumber: z.string().optional(),
   personType: HumanRightsPersonTypeSchema,
 });
 
-export const HumanRightsReporterSchema = HumanRightsPersonSchema.required().extend({
+export const HumanRightsReporterSchema = HumanRightsPersonSchema.extend({
   phoneNumber: z.string().min(1),
   personType: z.literal('REPORTER'),
 });
@@ -147,9 +157,18 @@ export const HumanRightsPostSummarySchema = z.object({
 export const HumanRightsPostEditFormSchema = z.object({
   title: z.string().min(1),
   categoryCode: HumanRightsCategorySchema,
-  thumbNailImage: z.literal(null).default(null),
-  isNotice: z.literal(false).default(false),
+  thumbNailImage: z.literal(null),
+  isNotice: z.literal(false),
   postFileList: z.array(z.number()),
+  relatedPeople: z.object({
+    reporter: HumanRightsReporterSchema,
+    victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM') })).nonempty(),
+    attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).nonempty(),
+  }),
+  content: z.string().min(1),
+});
+
+export const HumanRightsPostEditRequestSchema = HumanRightsPostEditFormSchema.extend({
   relatedPeople: z
     .object({
       reporter: HumanRightsReporterSchema,
@@ -157,7 +176,6 @@ export const HumanRightsPostEditFormSchema = z.object({
       attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).nonempty(),
     })
     .transform((obj) => [obj.reporter, ...obj.victims, ...obj.attackers]),
-  content: z.string().min(1),
 });
 
 export const HumanRightsPostSchema = z.object({
@@ -176,31 +194,4 @@ export const HumanRightsPostSchema = z.object({
   officialCommentList: z.array(HumanRightsCommentSchema),
   rightsDetailList: z.array(HumanRightsPersonSchema.or(HumanRightsReporterSchema)),
   content: z.string(),
-});
-
-// TODO: Remove mock types
-export type MockHumanRightsPerson = z.infer<typeof MockHumanRightsPersonSchema>;
-export type MockHumanRightsReporter = z.infer<typeof MockHumanRightsReporterSchema>;
-export type MockHumanRightsPostEditRequest = z.infer<typeof MockHumanRightsPostEditRequestSchema>;
-
-export const MockHumanRightsPersonSchema = z.object({
-  name: z.string().min(1),
-  studentId: z.string().optional(),
-  department: z.string().optional(),
-});
-
-export const MockHumanRightsReporterSchema = MockHumanRightsPersonSchema.required().extend({
-  contact: z.string().min(1),
-});
-
-export const MockHumanRightsPostEditRequestSchema = z.object({
-  postId: z.number().optional(),
-  title: z.string().min(1),
-  metadata: z.object({
-    reporter: MockHumanRightsReporterSchema,
-    victims: MockHumanRightsPersonSchema.array().min(1),
-    invaders: MockHumanRightsPersonSchema.array().min(1),
-  }),
-  content: z.string().min(1),
-  postFileList: z.number().array().default([]),
 });

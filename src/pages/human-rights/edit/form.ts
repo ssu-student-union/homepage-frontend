@@ -1,6 +1,6 @@
 import { DefaultValues, useFieldArray, UseFieldArrayReturn, useForm } from 'react-hook-form';
-import { MockHumanRightsPostEditRequest, MockHumanRightsPostEditRequestSchema } from '@/pages/human-rights/schema.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { HumanRightsPostEditForm, HumanRightsPostEditFormSchema } from '@/pages/human-rights/schema.ts';
 
 /**
  * PrefixKeys 유틸리티
@@ -25,31 +25,31 @@ function prefixKeys<T extends object, P extends string>(obj: T, prefix: P): Pref
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [`${prefix}${capitalize(k)}`, v])) as PrefixKeys<T, P>;
 }
 
-export function useHumanRightsForm(defaultValues?: DefaultValues<MockHumanRightsPostEditRequest>) {
-  const form = useForm<MockHumanRightsPostEditRequest>({
-    resolver: zodResolver(MockHumanRightsPostEditRequestSchema),
+export function useHumanRightsForm(defaultValues?: DefaultValues<HumanRightsPostEditForm>) {
+  const form = useForm<HumanRightsPostEditForm>({
+    resolver: zodResolver(HumanRightsPostEditFormSchema),
     mode: 'onBlur',
     defaultValues,
   });
-  const victimFieldArray: PrefixKeys<UseFieldArrayReturn<MockHumanRightsPostEditRequest>, 'victim'> = prefixKeys(
-    useFieldArray<MockHumanRightsPostEditRequest>({
+  const victimFieldArray: PrefixKeys<UseFieldArrayReturn<HumanRightsPostEditForm>, 'victim'> = prefixKeys(
+    useFieldArray<HumanRightsPostEditForm>({
       control: form.control,
-      name: 'metadata.victims',
+      name: 'relatedPeople.victims',
       rules: { minLength: 1 },
     }),
     'victim'
   );
-  const invaderFieldArray: PrefixKeys<UseFieldArrayReturn<MockHumanRightsPostEditRequest>, 'invader'> = prefixKeys(
-    useFieldArray<MockHumanRightsPostEditRequest>({
+  const attackerFieldArray: PrefixKeys<UseFieldArrayReturn<HumanRightsPostEditForm>, 'attacker'> = prefixKeys(
+    useFieldArray<HumanRightsPostEditForm>({
       control: form.control,
-      name: 'metadata.invaders',
+      name: 'relatedPeople.attackers',
       rules: { minLength: 1 },
     }),
-    'invader'
+    'attacker'
   );
   return {
     ...form,
     ...victimFieldArray,
-    ...invaderFieldArray,
+    ...attackerFieldArray,
   };
 }

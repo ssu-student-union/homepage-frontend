@@ -8,10 +8,14 @@ import { Container } from '@/pages/human-rights/edit/containers/Container.tsx';
 import { ArticleFooter } from '@/pages/human-rights/edit/containers/ArticleFooter.tsx';
 import { MinusCircle, Plus } from '@phosphor-icons/react';
 import { useHumanRightsForm } from '@/pages/human-rights/edit/form.ts';
-import { MockHumanRightsPostEditRequest } from '@/pages/human-rights/schema.ts';
 import { FileInputs } from '@/pages/human-rights/edit/components/FileInputs.tsx';
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor.ts';
+import {
+  HumanRightsPostEditForm,
+  HumanRightsPostEditRequest,
+  HumanRightsPostEditRequestSchema,
+} from '@/pages/human-rights/schema.ts';
 
 const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
 
@@ -39,20 +43,20 @@ export function HumanRightsEditPage() {
     victimFields,
     victimAppend,
     victimRemove,
-    invaderFields,
-    invaderAppend,
-    invaderRemove,
+    attackerFields,
+    attackerAppend,
+    attackerRemove,
     setValue,
     trigger,
     formState: { errors },
   } = useHumanRightsForm({
-    metadata: {
+    relatedPeople: {
       victims: [
         {
           name: '',
         },
       ],
-      invaders: [
+      attackers: [
         {
           name: '',
         },
@@ -77,8 +81,9 @@ export function HumanRightsEditPage() {
     (async () => await trigger('content'))();
   }
 
-  async function submitForm(data: MockHumanRightsPostEditRequest) {
+  async function submitForm(formData: HumanRightsPostEditForm) {
     // TODO: Submit post request
+    const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
     console.log('submit requested', data);
   }
 
@@ -107,22 +112,22 @@ export function HumanRightsEditPage() {
             id="reporter"
             register={register}
             items={[
-              { id: 'name', term: '성명', required: true, disabled: true, registerPath: 'metadata.reporter.name' },
+              { id: 'name', term: '성명', required: true, disabled: true, registerPath: 'relatedPeople.reporter.name' },
               {
                 id: 'student_id',
                 term: '학번',
                 required: true,
                 disabled: true,
-                registerPath: 'metadata.reporter.studentId',
+                registerPath: 'relatedPeople.reporter.studentId',
               },
               {
-                id: 'department',
+                id: 'major',
                 term: '학과/부',
                 required: true,
                 disabled: true,
-                registerPath: 'metadata.reporter.department',
+                registerPath: 'relatedPeople.reporter.major',
               },
-              { id: 'contact', term: '연락처', required: true, registerPath: 'metadata.reporter.contact' },
+              { id: 'phoneNumber', term: '연락처', required: true, registerPath: 'relatedPeople.reporter.phoneNumber' },
             ]}
           />
         </section>
@@ -151,20 +156,27 @@ export function HumanRightsEditPage() {
                       id: `${field.id}_name`,
                       term: '성명',
                       required: true,
-                      registerPath: `metadata.victims.${index}.name`,
+                      registerPath: `relatedPeople.victims.${index}.name`,
                     },
-                    { id: `${field.id}_student_id`, term: '학번', registerPath: `metadata.victims.${index}.studentId` },
                     {
-                      id: `${field.id}_department`,
+                      id: `${field.id}_student_id`,
+                      term: '학번',
+                      registerPath: `relatedPeople.victims.${index}.studentId`,
+                    },
+                    {
+                      id: `${field.id}_major`,
                       term: '학과/부',
-                      registerPath: `metadata.victims.${index}.department`,
+                      registerPath: `relatedPeople.victims.${index}.major`,
                     },
                   ]}
                 />
               </li>
             ))}
           </ol>
-          <button className="flex items-center gap-2 text-[#979797]" onClick={() => victimAppend({ name: '' })}>
+          <button
+            className="flex items-center gap-2 text-[#979797]"
+            onClick={() => victimAppend({ name: '', studentId: '', major: '', personType: 'VICTIM' })}
+          >
             <Plus />
             피침해자 정보 추가하기
           </button>
@@ -173,13 +185,13 @@ export function HumanRightsEditPage() {
           <h2 className="text-2xl font-semibold">침해자(신고 대상자) 정보 입력</h2>
           <p className="mb-6 text-[#979797]">빈칸을 모두 채우지 않아도 되며,알고 있는 정보를 기입하여 주세요.</p>
           <ol className="mb-6">
-            {invaderFields.map((field, index) => (
+            {attackerFields.map((field, index) => (
               <li key={field.id}>
                 <div className="relative mb-6">
                   {index > 0 && (
                     <button
                       className="absolute top-1/2 -translate-x-[calc(100%+2px)] -translate-y-1/2 text-[#979797]"
-                      onClick={() => invaderRemove(index)}
+                      onClick={() => attackerRemove(index)}
                     >
                       <MinusCircle size="20" />
                     </button>
@@ -194,24 +206,27 @@ export function HumanRightsEditPage() {
                       id: `${field.id}_name`,
                       term: '성명',
                       required: true,
-                      registerPath: `metadata.invaders.${index}.name`,
+                      registerPath: `relatedPeople.attackers.${index}.name`,
                     },
                     {
                       id: `${field.id}_student_id`,
                       term: '학번',
-                      registerPath: `metadata.invaders.${index}.studentId`,
+                      registerPath: `relatedPeople.attackers.${index}.studentId`,
                     },
                     {
-                      id: `${field.id}_department`,
+                      id: `${field.id}_major`,
                       term: '학과/부',
-                      registerPath: `metadata.invaders.${index}.department`,
+                      registerPath: `relatedPeople.attackers.${index}.major`,
                     },
                   ]}
                 />
               </li>
             ))}
           </ol>
-          <button className="flex items-center gap-2 text-[#979797]" onClick={() => invaderAppend({ name: '' })}>
+          <button
+            className="flex items-center gap-2 text-[#979797]"
+            onClick={() => attackerAppend({ name: '', studentId: '', major: '', personType: 'ATTACKER' })}
+          >
             <Plus />
             침해자 정보 추가하기
           </button>
