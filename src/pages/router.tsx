@@ -36,6 +36,8 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<i.AuditDetailPage />} />
         <Route path="/audit/edit" element={<i.AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<i.AuditPatchPage />} />
+        {/*5. 인권신고게시판*/}
+        <Route path="/human-rights" element={<i.HumanRightsPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
       </Route>

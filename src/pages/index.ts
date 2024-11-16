@@ -7,6 +7,7 @@ import { IntroEditPage } from './intro/IntroEdit/page';
 import { AuditPage } from './audit/page';
 import { AuditDetailPage } from './audit/auditDetail/page';
 import { AuditEditPage } from './audit/auditEdit/page';
+import { HumanRightsPage } from './human-rights/page';
 import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
@@ -58,4 +59,5 @@ export {
   PersonalDataPage,
   Layout,
   KakaoRegisterRedirectPage,
+  HumanRightsPage,
 };
