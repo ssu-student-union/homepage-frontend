@@ -1,46 +1,24 @@
 import { HeadLayout } from '@/template/HeadLayout.tsx';
 import { BodyLayout } from '@/template/BodyLayout.tsx';
-import { PageInfo } from '@/types/apis/get';
 import { BoardSelector } from '@/components/Board/BoardSelector.tsx';
 import { useState } from 'react';
 import { PostContent } from '@/components/PostContent/PostContent.tsx';
+import { ApiResponse, HumanRightsBoardPosts, HumanRightsCategory } from '@/pages/human-rights/schema.ts';
 
-type SelectorCategories<T> = T extends T ? '전체' | T : never;
-
-type MockHumanRightsCategories = '접수대기' | '접수완료';
-
-// 백엔드 API 부재로 인한 임시 데이터 정의
-interface MockHumanRightsPost {
-  postId: number;
-  title: string;
-  content: string;
-  date: string;
-  category: '접수대기' | '접수완료';
-}
-
-interface MockHumanRightsBoardPostsResponse {
-  code: number;
-  message: string;
-  data: {
-    postListResDto: MockHumanRightsPost[];
-    pageInfo: PageInfo;
-    allowedAuthorities: string[];
-  };
-  isSuccess: boolean;
-}
+type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
 /* Mock Data -- delete after impl api features */
-const mockData: MockHumanRightsBoardPostsResponse = {
-  code: 200,
+const mockData: ApiResponse<HumanRightsBoardPosts> = {
+  code: '200',
   message: '성공',
   data: {
     postListResDto: [
-      { postId: 0, title: '테스트', content: '', date: '2023/10/02', category: '접수대기' },
-      { postId: 1, title: '테스트', content: '', date: '2023/10/02', category: '접수완료' },
-      { postId: 2, title: '테스트', content: '', date: '2023/10/02', category: '접수대기' },
-      { postId: 3, title: '테스트', content: '', date: '2023/10/02', category: '접수완료' },
-      { postId: 4, title: '테스트', content: '', date: '2023/10/02', category: '접수대기' },
-      { postId: 5, title: '테스트', content: '', date: '2023/10/02', category: '접수완료' },
+      { postId: 0, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
+      { postId: 1, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
+      { postId: 2, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
+      { postId: 3, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
+      { postId: 4, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
+      { postId: 5, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
     ],
     pageInfo: {
       pageNum: 1,
@@ -49,6 +27,7 @@ const mockData: MockHumanRightsBoardPostsResponse = {
       totalPages: 1,
     },
     allowedAuthorities: [],
+    deniedAuthorities: [],
   },
   isSuccess: true,
 } as const;
@@ -60,10 +39,10 @@ const categoryColors: { [category: string]: string } = {
 
 export function HumanRightsPage() {
   /* States of page options */
-  const [selectedCategory, setSelectedCategory] = useState<SelectorCategories<MockHumanRightsCategories>>('전체');
+  const [selectedCategory, setSelectedCategory] = useState<SelectorCategory<HumanRightsCategory>>('전체');
 
   /* Data preparation */
-  const data: MockHumanRightsBoardPostsResponse = mockData;
+  const data: ApiResponse<HumanRightsBoardPosts> = mockData;
   const { pageNum: currentPage, totalPages } = data.data.pageInfo;
   const posts = data.data.postListResDto.filter(
     (post) => selectedCategory == '전체' || selectedCategory == post.category
@@ -89,18 +68,16 @@ export function HumanRightsPage() {
         <BoardSelector
           subcategories={['전체', '접수대기', '접수완료']}
           selectedSubcategory={selectedCategory}
-          onSubcategorySelect={(category: SelectorCategories<MockHumanRightsCategories>) =>
-            setSelectedCategory(category)
-          }
+          onSubcategorySelect={(category: SelectorCategory<HumanRightsCategory>) => setSelectedCategory(category)}
           className="mb-4"
         />
         {posts.map((post) => (
-          <PostContent<MockHumanRightsCategories>
+          <PostContent<HumanRightsCategory>
             href={`/human-rights/${post.postId}`}
             category={{ name: post.category, className: categoryColors[post.category] }}
             date={new Date(post.date)}
             title={post.title}
-            author="신고자"
+            author={post.reportName}
           />
         ))}
       </BodyLayout>
