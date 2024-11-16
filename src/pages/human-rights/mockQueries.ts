@@ -1,7 +1,7 @@
 /* Temporary Mock API queries -- delete after API implementation */
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { ApiResponse, HumanRightsComments, HumanRightsPostResponse } from '@/pages/human-rights/schema.ts';
+import { ApiResponse, HumanRightsCommentsResponse, HumanRightsPostResponse } from '@/pages/human-rights/schema.ts';
 
 async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<T>> {
   await new Promise<void>((resolve) =>
@@ -76,7 +76,7 @@ const mockPost: HumanRightsPostResponse = {
   officialCommentList: [],
 };
 
-const mockComments: HumanRightsComments = {
+const mockComments: HumanRightsCommentsResponse = {
   postComments: [
     {
       id: 0,
@@ -148,10 +148,10 @@ export function useMockGetHumanRightsPostComments({
 }: {
   postId: number;
   delay?: number;
-}): UseQueryResult<ApiResponse<HumanRightsComments>, AxiosError> {
+}): UseQueryResult<ApiResponse<HumanRightsCommentsResponse>, AxiosError> {
   const queryKey = ['get-board-boardCode-posts-postId-comments', 'human_rights_report', postId];
 
-  return useQuery<ApiResponse<HumanRightsComments>, AxiosError>({
+  return useQuery<ApiResponse<HumanRightsCommentsResponse>, AxiosError>({
     queryKey,
     queryFn: async () => await waitSecondAndReturn(delay, mockComments),
   });

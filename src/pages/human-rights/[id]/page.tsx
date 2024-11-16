@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import {
   useMockGetHumanRightsBoardDetail,
   useMockGetHumanRightsPostComments,
-} from '@/pages/human-rights/[id]/mockQueries.ts';
+} from '@/pages/human-rights/mockQueries.ts';
 import { useEffect } from 'react';
 import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';

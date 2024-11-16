@@ -3,12 +3,12 @@ import { BodyLayout } from '@/template/BodyLayout.tsx';
 import { BoardSelector } from '@/components/Board/BoardSelector.tsx';
 import { useState } from 'react';
 import { PostContent } from '@/components/PostContent/PostContent.tsx';
-import { ApiResponse, HumanRightsBoardPosts, HumanRightsCategory } from '@/pages/human-rights/schema.ts';
+import { ApiResponse, HumanRightsBoardPostsResponse, HumanRightsCategory } from '@/pages/human-rights/schema.ts';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
 /* Mock Data -- delete after impl api features */
-const mockData: ApiResponse<HumanRightsBoardPosts> = {
+const mockData: ApiResponse<HumanRightsBoardPostsResponse> = {
   code: '200',
   message: '성공',
   data: {
@@ -42,7 +42,7 @@ export function HumanRightsPage() {
   const [selectedCategory, setSelectedCategory] = useState<SelectorCategory<HumanRightsCategory>>('전체');
 
   /* Data preparation */
-  const data: ApiResponse<HumanRightsBoardPosts> = mockData;
+  const data: ApiResponse<HumanRightsBoardPostsResponse> = mockData;
   const { pageNum: currentPage, totalPages } = data.data.pageInfo;
   const posts = data.data.postListResDto.filter(
     (post) => selectedCategory == '전체' || selectedCategory == post.category
