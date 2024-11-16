@@ -1,7 +1,7 @@
-import { useStuQuery } from '@/pages/human-rights/hooks/useStuQuery.ts';
+import { ApiError, useStuQuery } from '@/pages/human-rights/hooks/useStuQuery.ts';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { UndefinedInitialDataOptions } from '@tanstack/react-query';
-import { ApiError, PostAcl } from '@/pages/human-rights/schema.ts';
+import { PostAcl } from '@/pages/human-rights/schema.ts';
 import z, { ZodError, ZodSchema, ZodTypeDef } from 'zod';
 import { PageInfo } from '@/types/apis/get';
 

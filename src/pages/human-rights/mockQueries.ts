@@ -2,12 +2,12 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import {
-  ApiResponse,
   HumanRightsCommentsResponse,
   HumanRightsPostResponse,
   HumanRightsPostSummaryResponse,
 } from '@/pages/human-rights/schema.ts';
 import { PostsResponse } from '@/pages/human-rights/hooks/useSearchPosts.ts';
+import { ApiResponse } from '@/pages/human-rights/hooks/useStuQuery.ts';
 
 async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<T>> {
   await new Promise<void>((resolve) =>

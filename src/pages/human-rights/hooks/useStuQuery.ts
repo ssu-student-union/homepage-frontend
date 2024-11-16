@@ -1,7 +1,28 @@
 import { AxiosError, AxiosRequestConfig } from 'axios';
-import { ApiError, ApiResponse } from '@/pages/human-rights/schema.ts';
 import { QueryKey, UndefinedInitialDataOptions, useQuery } from '@tanstack/react-query';
 import { clientAuth } from '@/apis/client.ts';
+
+// TODO: Move ApiResponse and ApiError to global scope
+/**
+ * API의 기본 반환 응답입니다.
+ * @typeParam T - 요청이 성공하였을 때 반환할 데이터
+ */
+export interface ApiResponse<T> {
+  code: string;
+  message: string;
+  data: T;
+  isSuccess: boolean;
+}
+
+/**
+ * API 오류 시 응답입니다.
+ */
+export interface ApiError {
+  code: string;
+  message: string;
+  data: null;
+  isSuccess: false;
+}
 
 /**
  * 총학생회 홈페이지에서 반환하는 공통된 API 형식을 처리하는 tanstack query 훅입니다.
