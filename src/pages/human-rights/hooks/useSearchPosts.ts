@@ -1,25 +1,47 @@
-import { StuQueryOptions, useStuQuery } from '@/pages/human-rights/hooks/useStuQuery.ts';
-import { AxiosRequestConfig } from 'axios';
+import { useStuQuery } from '@/pages/human-rights/hooks/useStuQuery.ts';
+import { AxiosError, AxiosRequestConfig } from 'axios';
+import { UndefinedInitialDataOptions } from '@tanstack/react-query';
+import { ApiError, PostAcl } from '@/pages/human-rights/schema.ts';
+import z, { ZodError, ZodSchema, ZodTypeDef } from 'zod';
+import { PageInfo } from '@/types/apis/get';
 
-export interface SearchPostsOptions<TRaw, TData = TRaw> extends StuQueryOptions<TRaw, TData> {
+/**
+ * 게시글 목록 데이터입니다.
+ * `pageInfo`는 현재 페이지 정보, `allowedAuthorities`와 `deniedAuthorities`는 각각 부여된 권한, 거부된 권한을 표현합니다.
+ * @typeParam P - 반환된 게시물의 타입입니다.
+ */
+export interface PostsResponse<P> {
+  postListResDto: P[];
+  pageInfo: PageInfo;
+  allowedAuthorities: PostAcl[];
+  deniedAuthorities: PostAcl[];
+}
+
+export interface SearchPostsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
   boardCode: string;
-  q: string;
+  q?: string;
   page?: number;
-  take: number;
+  take?: number;
   category?: string;
   groupCode?: string;
   memberCode?: string;
+  zodSchema?: ZodSchema<TData, TZodTypeDef, TRaw>;
+  queryOptions?: Omit<
+    UndefinedInitialDataOptions<PostsResponse<TRaw>, AxiosError | ApiError | ZodError, PostsResponse<TData>>,
+    'queryKey' | 'queryFn' | 'select'
+  >;
 }
 
 export function useSearchPosts<TRaw, TData = TRaw>({
   boardCode,
-  q = '',
+  q,
   page,
-  take = 15,
+  take,
   category,
   groupCode,
   memberCode,
-  ...options
+  zodSchema,
+  queryOptions,
 }: SearchPostsOptions<TRaw, TData>) {
   const queryKey = ['searchPosts', boardCode, category, q, take, page];
   const config: AxiosRequestConfig = {
@@ -27,12 +49,23 @@ export function useSearchPosts<TRaw, TData = TRaw>({
     method: 'get',
     params: {
       page,
-      take,
+      take: take ?? 15,
       category,
-      q,
+      q: q ?? '',
       groupCode,
       memberCode,
     },
   };
-  return useStuQuery(queryKey, config, options);
+  return useStuQuery<PostsResponse<TRaw>, PostsResponse<TData>, AxiosError | ApiError | ZodError>(queryKey, config, {
+    select: ({ postListResDto, ...data }) => {
+      if (!zodSchema) return { postListResDto, ...data } as PostsResponse<unknown> as PostsResponse<TData>;
+      const schemaArray = z.array(zodSchema);
+      const list = schemaArray.parse(postListResDto);
+      return {
+        postListResDto: list,
+        ...data,
+      };
+    },
+    ...queryOptions,
+  });
 }
