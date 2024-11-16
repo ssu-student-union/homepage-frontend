@@ -2,12 +2,12 @@ import { ReactNode } from 'react';
 import { cn } from '@/libs/utils.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 
-interface PostContentProps {
+interface ContainerProps {
   className?: string;
   children: ReactNode;
 }
 
-export function Container({ className, children }: PostContentProps) {
+export function Container({ className, children }: ContainerProps) {
   return (
     <section
       className={cn('flex justify-center px-10 md:px-[72px] lg:px-[200px] xl:px-[200px] xxl:px-[200px]', className)}

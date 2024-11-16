@@ -5,14 +5,14 @@ import {
   useMockGetHumanRightsPostComments,
 } from '@/pages/human-rights/[id]/mockQueries.ts';
 import { useEffect } from 'react';
-import { PostHeader } from '@/pages/human-rights/[id]/containers/PostHeader.tsx';
-import { Container } from '@/pages/human-rights/[id]/containers/Container.tsx';
+import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';
 import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
-import { PostFooter } from '@/pages/human-rights/[id]/containers/PostFooter.tsx';
+import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
 import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
 import { PostComment } from '@/pages/human-rights/[id]/components/PostComment.tsx';
 import { HumanRightsPerson, HumanRightsReporter } from '@/pages/human-rights/schema.ts';
+import { Container } from '@/pages/human-rights/containers/Container.tsx';
 
 const breadcrumbItems: [string, string | null][] = [
   ['소통', null],

@@ -11,7 +11,7 @@ export function ArticleFooter({ children, className }: ArticleFooterProps) {
     <footer
       className={cn('flex justify-center px-10 md:px-[72px] lg:px-[200px] xl:px-[200px] xxl:px-[200px]', className)}
     >
-      <div className="mb-6 flex w-full max-w-[1040px] flex-col gap-2">{children}</div>
+      <div className="flex w-full max-w-[1040px] flex-col gap-2">{children}</div>
     </footer>
   );
 }

@@ -3,9 +3,9 @@ import { Editor } from '@toast-ui/react-editor';
 import { RegisterButton } from '@/components/Buttons/BoardActionButtons.tsx';
 import { FrontmatterEditor } from '@/pages/human-rights/edit/components/FrontmatterEditor.tsx';
 import { cn } from '@/libs/utils.ts';
-import { ArticleHeader } from '@/pages/human-rights/edit/containers/ArticleHeader.tsx';
-import { Container } from '@/pages/human-rights/edit/containers/Container.tsx';
-import { ArticleFooter } from '@/pages/human-rights/edit/containers/ArticleFooter.tsx';
+import { ArticleHeader } from '@/pages/human-rights/containers/ArticleHeader.tsx';
+import { Container } from '@/pages/human-rights/containers/Container.tsx';
+import { ArticleFooter } from '@/pages/human-rights/containers/ArticleFooter.tsx';
 import { MinusCircle, Plus } from '@phosphor-icons/react';
 import { useHumanRightsForm } from '@/pages/human-rights/edit/form.ts';
 import { FileInputs } from '@/pages/human-rights/edit/components/FileInputs.tsx';
@@ -274,7 +274,7 @@ export function HumanRightsEditPage() {
           </div>
         </section>
       </Container>
-      <ArticleFooter>
+      <ArticleFooter className="pb-6">
         <RegisterButton
           className="self-end"
           disabled={!disclaimerAgreed || Object.keys(errors).length > 0}
