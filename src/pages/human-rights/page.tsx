@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom.ts';
 import { useSearchHumanRightsPosts } from '@/pages/human-rights/queries.ts';
+import { useEffect } from 'react';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -45,7 +46,7 @@ export function HumanRightsPage() {
   const navigate = useNavigate();
   /* Obtain query parameters */
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = parseInt(searchParams.get('page') ?? '0') || 0;
+  const page = parseInt(searchParams.get('page') ?? '1') || 1;
   const category = ensureCategory(searchParams.get('category'));
 
   /* Search state management */
@@ -55,9 +56,19 @@ export function HumanRightsPage() {
   /* Load data from Query */
   const { data, isLoading, isError } = useSearchHumanRightsPosts({
     q,
-    page,
+    page: page - 1,
     category: category === '전체' ? undefined : category,
   });
+
+  // check wrong page params
+  useEffect(() => {
+    if (data && (page < 1 || page > data.pageInfo.totalPages)) {
+      setSearchParams((prev) => {
+        prev.delete('page');
+        return prev;
+      });
+    }
+  }, [data]);
 
   if (isLoading) {
     return <PageSkeleton />;
@@ -84,7 +95,7 @@ export function HumanRightsPage() {
       } else {
         prev.set('category', category);
       }
-      prev.set('page', '0');
+      prev.delete('page');
       return prev;
     });
   }
@@ -105,7 +116,7 @@ export function HumanRightsPage() {
       <HeadLayout title="인권신고게시판" subtitle={subtitle}></HeadLayout>
       <BodyLayout
         totalPages={totalPages}
-        currentPage={currentPage}
+        currentPage={currentPage + 1}
         authority={data.allowedAuthorities}
         onPageChange={navigatePage}
         onWriteClick={navigateToWrite}
