@@ -16,7 +16,7 @@ export interface GetPostOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeD
   postId: number;
   zodSchema?: ZodSchema<TData, TZodTypeDef, TRaw>;
   queryOptions?: Omit<
-    UndefinedInitialDataOptions<GetPostResponse<TRaw>, AxiosError | ApiError | ZodError, GetPostResponse<TData>>,
+    UndefinedInitialDataOptions<GetPostResponse<TRaw>, AxiosError | ApiError | ZodError, TData>,
     'queryKey' | 'queryFn' | 'select'
   >;
 }
@@ -32,17 +32,11 @@ export function useGetPost<TRaw, TData = TRaw>({
     url: `/board/${boardCode}/posts/${postId}`,
     method: 'get',
   };
-  return useStuQuery<GetPostResponse<TRaw>, GetPostResponse<TData>, AxiosError | ApiError | ZodError>(
-    queryKey,
-    config,
-    {
-      select: ({ postDetailResDto }) => {
-        if (!zodSchema) return { postDetailResDto } as GetPostResponse<unknown> as GetPostResponse<TData>;
-        return {
-          postDetailResDto: zodSchema.parse(postDetailResDto),
-        };
-      },
-      ...queryOptions,
-    }
-  );
+  return useStuQuery<GetPostResponse<TRaw>, TData, AxiosError | ApiError | ZodError>(queryKey, config, {
+    select: ({ postDetailResDto }) => {
+      if (!zodSchema) return postDetailResDto as unknown as TData;
+      return zodSchema.parse(postDetailResDto);
+    },
+    ...queryOptions,
+  });
 }
