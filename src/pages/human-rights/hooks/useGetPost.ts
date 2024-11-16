@@ -13,7 +13,7 @@ export interface GetPostResponse<P> {
 
 export interface GetPostOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
   boardCode: string;
-  postId: string;
+  postId: number;
   zodSchema?: ZodSchema<TData, TZodTypeDef, TRaw>;
   queryOptions?: Omit<
     UndefinedInitialDataOptions<GetPostResponse<TRaw>, AxiosError | ApiError | ZodError, GetPostResponse<TData>>,

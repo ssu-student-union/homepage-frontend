@@ -15,7 +15,7 @@ export interface GetCommentsResponse<P> {
 }
 
 export interface GetCommentsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
-  postId: string;
+  postId: number;
   type: '인기순' | '최신순';
   zodSchema?: ZodSchema<TData, TZodTypeDef, TRaw>;
   queryOptions?: Omit<
