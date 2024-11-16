@@ -1,4 +1,5 @@
 import z from 'zod';
+import { PageInfo } from '@/types/apis/get';
 
 /**
  * 인권조회게시판 카테고리입니다.
@@ -27,6 +28,11 @@ export type HumanRightsReporter = z.infer<typeof HumanRightsReporterSchema>;
 export type HumanRightsPostSummary = z.infer<typeof HumanRightsPostSummarySchema>;
 
 /**
+ * 인권조회게시판 목록에서 사용하는 각 게시물 정보의 원본 데이터입니다.
+ */
+export type HumanRightsPostSummaryResponse = z.input<typeof HumanRightsPostSummarySchema>;
+
+/**
  * 인권신고게시판 조회에서 사용하는 세부 정보가 포함된 게시물 정보입니다.
  */
 export type HumanRightsPost = z.infer<typeof HumanRightsPostSchema>;
@@ -46,6 +52,29 @@ export type HumanRightsComment = z.infer<typeof HumanRightsCommentSchema>;
  * 권한 정보입니다.
  */
 export type PostAcl = z.infer<typeof PostAclSchema>;
+
+// TODO: Move ApiResponse to global scope
+/**
+ * API의 기본 반환 응답입니다.
+ * @typeParam T - 요청이 성공하였을 때 반환할 데이터
+ */
+export interface ApiResponse<T> {
+  code: string;
+  message: string;
+  data: T;
+  isSuccess: boolean;
+}
+
+/**
+ * 인권신고게시판의 게시글 목록 데이터입니다.
+ * `pageInfo`는 현재 페이지 정보, `allowedAuthorities`와 `deniedAuthorities`는 각각 부여된 권한, 거부된 권한을 표현합니다.
+ */
+export interface HumanRightsBoardPosts {
+  postListResDto: HumanRightsPostSummaryResponse[];
+  pageInfo: PageInfo;
+  allowedAuthorities: PostAcl[];
+  deniedAuthorities: PostAcl[];
+}
 
 export const FileResponseSchema = z.object({
   postFileId: z.number(),
