@@ -7,6 +7,7 @@ import { IntroEditPage } from './intro/IntroEdit/page';
 import { AuditPage } from './audit/page';
 import { AuditDetailPage } from './audit/auditDetail/page';
 import { AuditEditPage } from './audit/auditEdit/page';
+import { HumanRightsDetailPage } from './human-rights/[id]/page';
 import { HumanRightsEditPage } from './human-rights/edit/page';
 import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
@@ -39,6 +40,7 @@ export {
   AuditPage,
   AuditDetailPage,
   AuditEditPage,
+  HumanRightsDetailPage,
   HumanRightsEditPage,
   PartnershipPage,
   PetitionNoticePage,
