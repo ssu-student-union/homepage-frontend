@@ -90,6 +90,13 @@ export interface HumanRightsBoardPosts {
 }
 
 /**
+ * 인권신고게시판의 단건 조회 데이터입니다.
+ */
+export interface HumanRightsBoardPostResponse {
+  postDetailResDto: HumanRightsPostResponse;
+}
+
+/**
  * 인권신고게시판의 게시글 댓글 목록 데이터입니다.
  */
 export interface HumanRightsComments {
