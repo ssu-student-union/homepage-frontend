@@ -6,12 +6,13 @@ export const ServiceNoticeData = {
       {
         "postId": 36,
         "title": "[점검] 총학생회 홈페이지 점검으로 인한 기능 제한",
-        "content": "15",
+        "content": "안녕하세요, IT 지원위원회 입니다. 현재 총학생회 홈페이지 점검으로 인해,\
+         일부 서비스에 제한이 있으니 양해 바랍니다.",
         "date": "2024/10/11",
         "category": null,
         "thumbNail": "https://ssuitsupport.s3.ap-northeast-2.amazonaws.com/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD%EA%B2%8C%EC%8B%9C%ED%8C%90/2/images/65abb6bf-bbbf-4170-a100-b2edfcc94d45.jpg",
         "status": "긴급공지",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 35,
@@ -21,7 +22,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "긴급공지",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 34,
@@ -31,7 +32,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "긴급공지",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 33,
@@ -41,7 +42,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "긴급공지",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 32,
@@ -51,7 +52,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "긴급공지",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 31,
@@ -61,7 +62,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "긴급공지",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 30,
@@ -71,7 +72,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "긴급공지",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 29,
@@ -81,7 +82,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 28,
@@ -91,7 +92,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 27,
@@ -101,7 +102,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 26,
@@ -111,7 +112,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 25,
@@ -121,7 +122,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 24,
@@ -131,7 +132,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 23,
@@ -141,7 +142,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": "https://ssuitsupport.s3.ap-northeast-2.amazonaws.com/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD%EA%B2%8C%EC%8B%9C%ED%8C%90/2/images/e112ab41-a573-4a54-8582-512c78ae0deb.jpeg",
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 22,
@@ -151,7 +152,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       },
       {
         "postId": 21,
@@ -161,7 +162,7 @@ export const ServiceNoticeData = {
         "category": null,
         "thumbNail": null,
         "status": "새로운",
-        "author": "총학생회"
+        "author": "IT지원위원회"
       }
     ],
     "allowedAuthorities": [

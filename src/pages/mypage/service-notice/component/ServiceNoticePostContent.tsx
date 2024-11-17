@@ -31,8 +31,8 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency }: Ser
       ) : (
         <div className="h-[23px] w-[54px]"></div>
       )}
-      <div className="flex w-full items-center justify-between gap-[8px]">
-        <div className={`ml-[20px] ${mobileText} cursor-pointer`} onClick={handleTitleClick}>
+      <div className="flex w-full items-center justify-between gap-[8px] cursor-pointer" onClick={handleTitleClick}>
+        <div className={`ml-[20px] ${mobileText} cursor-pointer`}>
           {title}
         </div>
         <div className={`${mobileText}`}>{date}</div>
