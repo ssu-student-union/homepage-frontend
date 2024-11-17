@@ -53,9 +53,9 @@ function PageSkeleton() {
 
 function postTransformer({
   postId,
-  categoryName,
+  category,
   title,
-  fileResponseList,
+  postFileList,
   rightsDetailList,
   content,
 }: HumanRightsPost): HumanRightsPostEditForm {
@@ -80,11 +80,11 @@ function postTransformer({
   return {
     postId,
     title,
-    categoryCode: categoryName,
-    postFileList: fileResponseList.map((file) => file.postFileId),
+    category,
+    postFileList: postFileList.map((file) => file.postFileId),
     thumbNailImage: null,
     isNotice: false,
-    relatedPeople: {
+    rightsDetailList: {
       reporter: (rightsDetailList.find(
         (person): person is Victim => person.personType === 'REPORTER'
       ) as HumanRightsReporter) ?? {
@@ -133,7 +133,7 @@ export function HumanRightsEditPage() {
     trigger,
     formState: { errors },
   } = useHumanRightsForm({
-    relatedPeople: {
+    rightsDetailList: {
       victims: [
         {
           name: '',
@@ -224,22 +224,33 @@ export function HumanRightsEditPage() {
             id="reporter"
             register={register}
             items={[
-              { id: 'name', term: '성명', required: true, disabled: true, registerPath: 'relatedPeople.reporter.name' },
+              {
+                id: 'name',
+                term: '성명',
+                required: true,
+                disabled: true,
+                registerPath: 'rightsDetailList.reporter.name',
+              },
               {
                 id: 'student_id',
                 term: '학번',
                 required: true,
                 disabled: true,
-                registerPath: 'relatedPeople.reporter.studentId',
+                registerPath: 'rightsDetailList.reporter.studentId',
               },
               {
                 id: 'major',
                 term: '학과/부',
                 required: true,
                 disabled: true,
-                registerPath: 'relatedPeople.reporter.major',
+                registerPath: 'rightsDetailList.reporter.major',
               },
-              { id: 'phoneNumber', term: '연락처', required: true, registerPath: 'relatedPeople.reporter.phoneNumber' },
+              {
+                id: 'phoneNumber',
+                term: '연락처',
+                required: true,
+                registerPath: 'rightsDetailList.reporter.phoneNumber',
+              },
             ]}
           />
         </section>
@@ -268,17 +279,17 @@ export function HumanRightsEditPage() {
                       id: `${field.id}_name`,
                       term: '성명',
                       required: true,
-                      registerPath: `relatedPeople.victims.${index}.name`,
+                      registerPath: `rightsDetailList.victims.${index}.name`,
                     },
                     {
                       id: `${field.id}_student_id`,
                       term: '학번',
-                      registerPath: `relatedPeople.victims.${index}.studentId`,
+                      registerPath: `rightsDetailList.victims.${index}.studentId`,
                     },
                     {
                       id: `${field.id}_major`,
                       term: '학과/부',
-                      registerPath: `relatedPeople.victims.${index}.major`,
+                      registerPath: `rightsDetailList.victims.${index}.major`,
                     },
                   ]}
                 />
@@ -318,17 +329,17 @@ export function HumanRightsEditPage() {
                       id: `${field.id}_name`,
                       term: '성명',
                       required: true,
-                      registerPath: `relatedPeople.attackers.${index}.name`,
+                      registerPath: `rightsDetailList.attackers.${index}.name`,
                     },
                     {
                       id: `${field.id}_student_id`,
                       term: '학번',
-                      registerPath: `relatedPeople.attackers.${index}.studentId`,
+                      registerPath: `rightsDetailList.attackers.${index}.studentId`,
                     },
                     {
                       id: `${field.id}_major`,
                       term: '학과/부',
-                      registerPath: `relatedPeople.attackers.${index}.major`,
+                      registerPath: `rightsDetailList.attackers.${index}.major`,
                     },
                   ]}
                 />

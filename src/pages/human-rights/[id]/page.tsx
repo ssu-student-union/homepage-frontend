@@ -105,7 +105,7 @@ export function HumanRightsDetailPage() {
           {attackers.map((attacker, idx) => (
             <PersonFrontmatter key={`attackers-${idx}`} title={`침해자 ${idx + 1}`} person={attacker} />
           ))}
-          <PostBody content={post.content} files={post.fileResponseList} />
+          <PostBody content={post.content} files={post.postFileList} />
         </Container>
         <PostFooter
           boardUrl="/human-rights"

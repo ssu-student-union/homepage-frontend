@@ -34,7 +34,7 @@ export function useHumanRightsForm(defaultValues?: DefaultValues<HumanRightsPost
   const victimFieldArray: PrefixKeys<UseFieldArrayReturn<HumanRightsPostEditForm>, 'victim'> = prefixKeys(
     useFieldArray<HumanRightsPostEditForm>({
       control: form.control,
-      name: 'relatedPeople.victims',
+      name: 'rightsDetailList.victims',
       rules: { minLength: 1 },
     }),
     'victim'
@@ -42,7 +42,7 @@ export function useHumanRightsForm(defaultValues?: DefaultValues<HumanRightsPost
   const attackerFieldArray: PrefixKeys<UseFieldArrayReturn<HumanRightsPostEditForm>, 'attacker'> = prefixKeys(
     useFieldArray<HumanRightsPostEditForm>({
       control: form.control,
-      name: 'relatedPeople.attackers',
+      name: 'rightsDetailList.attackers',
       rules: { minLength: 1 },
     }),
     'attacker'

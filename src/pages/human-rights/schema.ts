@@ -118,17 +118,17 @@ export const HumanRightsPostSummarySchema = z.object({
   date: z.string().transform((str) => new Date(str)),
   category: HumanRightsCategorySchema,
   reportName: z.string().min(1),
-  author: z.boolean(),
+  isAuthor: z.boolean(),
 });
 
 export const HumanRightsPostEditFormSchema = z.object({
   postId: z.number().optional(),
   title: z.string().min(1),
-  categoryCode: HumanRightsCategorySchema,
+  category: HumanRightsCategorySchema,
   thumbNailImage: z.literal(null),
   isNotice: z.literal(false),
   postFileList: z.array(z.number()),
-  relatedPeople: z.object({
+  rightsDetailList: z.object({
     reporter: HumanRightsReporterSchema,
     victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM') })).nonempty(),
     attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).nonempty(),
@@ -137,7 +137,7 @@ export const HumanRightsPostEditFormSchema = z.object({
 });
 
 export const HumanRightsPostEditRequestSchema = HumanRightsPostEditFormSchema.extend({
-  relatedPeople: z
+  rightsDetailList: z
     .object({
       reporter: HumanRightsReporterSchema,
       victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM') })).nonempty(),
@@ -148,7 +148,7 @@ export const HumanRightsPostEditRequestSchema = HumanRightsPostEditFormSchema.ex
 
 export const HumanRightsPostSchema = z.object({
   postId: z.number(),
-  categoryName: HumanRightsCategorySchema,
+  category: HumanRightsCategorySchema,
   authorName: z.string(),
   title: z.string(),
   createdAt: z.string().transform((str) => new Date(str)),
@@ -158,7 +158,7 @@ export const HumanRightsPostSchema = z.object({
     .nullable(),
   isAuthor: z.boolean(),
   allowedAuthorities: z.array(PostAclSchema),
-  fileResponseList: z.array(FileResponseSchema),
+  postFileList: z.array(FileResponseSchema),
   officialCommentList: z.array(HumanRightsCommentSchema),
   rightsDetailList: z.array(HumanRightsPersonSchema.or(HumanRightsReporterSchema)),
   content: z.string(),
