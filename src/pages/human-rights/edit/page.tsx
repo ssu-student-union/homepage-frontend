@@ -19,7 +19,11 @@ import {
   HumanRightsPostEditRequestSchema,
   HumanRightsReporter,
 } from '@/pages/human-rights/schema.ts';
-import { useGetHumanRightsPost } from '@/pages/human-rights/queries.ts';
+import {
+  useCreateHumanRightsPost,
+  useGetHumanRightsPost,
+  usePatchHumanRightsPost,
+} from '@/pages/human-rights/queries.ts';
 import { useParams } from 'react-router-dom';
 import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
 import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
@@ -155,6 +159,10 @@ export function HumanRightsEditPage() {
   const filesRef = useRef<File[]>([]);
   const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
 
+  /* Mutation hooks */
+  const { mutate: createPost } = useCreateHumanRightsPost();
+  const { mutate: patchPost } = usePatchHumanRightsPost();
+
   // 기존 데이터 입력
   useEffect(() => {
     if (post && editorRef.current && !isPostLoaded) {
@@ -184,9 +192,13 @@ export function HumanRightsEditPage() {
   }
 
   async function submitForm(formData: HumanRightsPostEditForm) {
-    // TODO: Submit post request
     const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
-    console.log('submit requested', data);
+    if (postId) {
+      patchPost({ post: data });
+    } else {
+      createPost({ post: data });
+    }
+    // TODO: Handle mutation results
   }
 
   if (isLoading) {

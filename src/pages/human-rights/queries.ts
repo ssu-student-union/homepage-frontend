@@ -4,6 +4,7 @@ import {
   HumanRightsCommentResponse,
   HumanRightsCommentSchema,
   HumanRightsPost,
+  HumanRightsPostEditRequest,
   HumanRightsPostResponse,
   HumanRightsPostSchema,
   HumanRightsPostSummary,
@@ -12,6 +13,9 @@ import {
 } from '@/pages/human-rights/schema.ts';
 import { GetPostOptions, useGetPost } from '@/pages/human-rights/hooks/query/useGetPost.ts';
 import { GetCommentsOptions, useGetComments } from '@/pages/human-rights/hooks/query/useGetComments.ts';
+import { useCreatePost, UseCreatePostOptions } from '@/pages/human-rights/hooks/mutations/useCreatePost.ts';
+import { useDeletePost, UseDeletePostOptions } from '@/pages/human-rights/hooks/mutations/useDeletePost.ts';
+import { usePatchPost, UsePatchPostOptions } from '@/pages/human-rights/hooks/mutations/usePatchPost.ts';
 
 const BOARD_CODE = '인권신고게시판' as const;
 
@@ -59,4 +63,20 @@ export function useGetHumanRightsComments({
     zodSchema,
     queryOptions,
   });
+}
+
+export function useCreateHumanRightsPost({
+  mutationOptions,
+}: Omit<UseCreatePostOptions<HumanRightsPostEditRequest>, 'boardCode'> = {}) {
+  return useCreatePost({ boardCode: BOARD_CODE, mutationOptions });
+}
+
+export function usePatchHumanRightsPost({
+  mutationOptions,
+}: Omit<UsePatchPostOptions<HumanRightsPostEditRequest>, 'boardCode'> = {}) {
+  return usePatchPost({ boardCode: BOARD_CODE, mutationOptions });
+}
+
+export function useDeleteHumanRightsPost({ mutationOptions }: Omit<UseDeletePostOptions, 'boardCode'> = {}) {
+  return useDeletePost({ boardCode: BOARD_CODE, mutationOptions });
 }

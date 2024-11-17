@@ -5,9 +5,16 @@ import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
 import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
 import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
 import { PostComment } from '@/pages/human-rights/[id]/components/PostComment.tsx';
-import { HumanRightsPerson, HumanRightsReporter } from '@/pages/human-rights/schema.ts';
+import { HumanRightsCommentResponse, HumanRightsPerson, HumanRightsReporter } from '@/pages/human-rights/schema.ts';
 import { Container } from '@/pages/human-rights/containers/Container.tsx';
-import { useGetHumanRightsComments, useGetHumanRightsPost } from '@/pages/human-rights/queries.ts';
+import {
+  useDeleteHumanRightsPost,
+  useGetHumanRightsComments,
+  useGetHumanRightsPost,
+} from '@/pages/human-rights/queries.ts';
+import { useCreateComment } from '@/pages/human-rights/hooks/mutations/useCreateComment.ts';
+import { usePatchComment } from '@/pages/human-rights/hooks/mutations/usePatchComment.ts';
+import { useDeleteComment } from '@/pages/human-rights/hooks/mutations/useDeleteComment.ts';
 
 const breadcrumbItems: [string, string | null][] = [
   ['소통', null],
@@ -58,6 +65,12 @@ export function HumanRightsDetailPage() {
     isError: isCommentsError,
   } = useGetHumanRightsComments({ postId, type: '최신순', queryOptions: { retry: true } });
 
+  /* Set up Mutations */
+  const { mutate: deletePost } = useDeleteHumanRightsPost();
+  const { mutate: submitComment } = useCreateComment<HumanRightsCommentResponse>({ postId });
+  const { mutate: patchComment } = usePatchComment();
+  const { mutate: deleteComment } = useDeleteComment();
+
   if (isLoading) {
     return <PageSkeleton />;
   }
@@ -87,6 +100,29 @@ export function HumanRightsDetailPage() {
   const commentable = post.isAuthor || commentAcl.includes('COMMENT');
   const comment_deletable = commentAcl.includes('DELETE_COMMENT');
 
+  /* Mutation handler */
+  function handleDeletePost() {
+    if (post) {
+      deletePost({ postId: `${postId}`, fileUrls: post.postFileList.map((file) => file.fileUrl) });
+      // TODO: Redirect after deletion
+    }
+  }
+
+  function handleSubmitComment(content: string) {
+    submitComment({ content });
+    // TODO: Query invalidation; Optimistic Updates for comments
+  }
+
+  function handleDeleteComment(commentId: number) {
+    deleteComment({ commentId });
+    // TODO: Query invalidation; Optimistic Updates for comments
+  }
+
+  function handlePatchComment(commentId: number, content: string) {
+    patchComment({ commentId, content });
+    // TODO: Query invalidation; Optimistic Updates for comments
+  }
+
   return (
     <>
       <article className="mt-[120px]">
@@ -113,7 +149,7 @@ export function HumanRightsDetailPage() {
           deletable={deletable}
           editUrl={`/human-rights/${postId}/edit`}
           className="mb-20"
-          onDelete={() => console.log('TODO: deleting post')}
+          onDelete={handleDeletePost}
         />
       </article>
       <hr className="bg-[#E7E7E7]" />
@@ -129,7 +165,7 @@ export function HumanRightsDetailPage() {
                 className="mb-4"
                 placeholder="댓글을 남겨보세요"
                 maxLength={2000}
-                onSubmit={(v) => console.log('TODO: submit comment', v)}
+                onSubmit={handleSubmitComment}
               />
             )}
             {[...post.officialCommentList, ...comments.postComments].map((comment) => (
@@ -142,8 +178,8 @@ export function HumanRightsDetailPage() {
                 editable={comment.isAuthor}
                 deletable={comment.isAuthor || comment_deletable}
                 deleted={comment.isDeleted ?? false}
-                onDelete={() => console.log('TODO: delete comment')}
-                onEdit={() => console.log('TODO: edit comment')}
+                onDelete={() => handleDeleteComment(comment.id)}
+                onEdit={(content) => handlePatchComment(comment.id, content)}
               >
                 {comment.content}
               </PostComment>
