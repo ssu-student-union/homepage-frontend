@@ -1,4 +1,4 @@
-import { SearchPostsOptions, useSearchPosts } from '@/pages/human-rights/hooks/useSearchPosts.ts';
+import { SearchPostsOptions, useSearchPosts } from '@/pages/human-rights/hooks/query/useSearchPosts.ts';
 import {
   HumanRightsComment,
   HumanRightsCommentResponse,
@@ -10,8 +10,8 @@ import {
   HumanRightsPostSummaryResponse,
   HumanRightsPostSummarySchema,
 } from '@/pages/human-rights/schema.ts';
-import { GetPostOptions, useGetPost } from '@/pages/human-rights/hooks/useGetPost.ts';
-import { GetCommentsOptions, useGetComments } from '@/pages/human-rights/hooks/useGetComments.ts';
+import { GetPostOptions, useGetPost } from '@/pages/human-rights/hooks/query/useGetPost.ts';
+import { GetCommentsOptions, useGetComments } from '@/pages/human-rights/hooks/query/useGetComments.ts';
 
 const BOARD_CODE = '인권신고게시판' as const;
 
