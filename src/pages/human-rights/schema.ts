@@ -136,7 +136,7 @@ export const HumanRightsPostEditFormSchema = z.object({
   content: z.string().min(1),
 });
 
-export const HumanRightsPostEditRequestSchema = HumanRightsPostEditFormSchema.extend({
+export const HumanRightsPostEditRequestSchema = HumanRightsPostEditFormSchema.omit({ postId: true }).extend({
   rightsDetailList: z
     .object({
       reporter: HumanRightsReporterSchema,
