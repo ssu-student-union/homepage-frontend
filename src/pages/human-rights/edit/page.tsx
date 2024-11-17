@@ -137,15 +137,24 @@ export function HumanRightsEditPage() {
     trigger,
     formState: { errors },
   } = useHumanRightsForm({
+    category: '접수대기',
+    isNotice: false,
+    thumbNailImage: null,
+    postFileList: [],
     rightsDetailList: {
+      reporter: {
+        personType: 'REPORTER',
+      },
       victims: [
         {
           name: '',
+          personType: 'VICTIM',
         },
       ],
       attackers: [
         {
           name: '',
+          personType: 'ATTACKER',
         },
       ],
     },
@@ -190,6 +199,11 @@ export function HumanRightsEditPage() {
   useEffect(() => {
     (async () => await trigger())();
   }, [trigger]);
+
+  // 디버그: 폼 검증 결과
+  // useEffect(() => {
+  //   console.log(errors);
+  // }, [errors]);
 
   function contentChangeHandler() {
     if (editorRef.current && isPostLoaded) {
