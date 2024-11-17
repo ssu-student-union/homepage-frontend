@@ -9,11 +9,11 @@ import { ApiError, ApiResponse } from '@/pages/human-rights/hooks/useStuQuery.ts
  * @param mutationFn - `TVariables`를 입력받고, `Promise<ApiResponse<TData>>`를 반환하는 함수입니다.
  * @param mutationOptions - 추가로 tanstack query mutation을 설정할 수 있습니다. `mutationFn` 값은 미리 지정되어 있어 덮어씌울 수 없습니다.
  * @typeParam TData - 이 mutation이 최종적으로 변환할 값의 타입입니다.
- * @typeParam TError - Api가 발생시킬 수 있는 오류의 타입입니다. 기본값은 `AxiosError | ApiError`입니다.
  * @typeParam TVariables - Mutation function에 넘겨줄 variables입니다.
+ * @typeParam TError - Api가 발생시킬 수 있는 오류의 타입입니다. 기본값은 `AxiosError | ApiError`입니다.
  * @typeParam TContext - Mutation 시 보존할 Context 정보의 타입입니다. 보통 `onMutate` 함수에서 사용합니다.
  */
-export function useStuMutation<TData, TError = AxiosError | ApiError, TVariables = void, TContext = unknown>(
+export function useStuMutation<TData, TVariables = void, TError = AxiosError | ApiError, TContext = unknown>(
   mutationFn: (variables: TVariables) => Promise<ApiResponse<TData>>,
   mutationOptions?: Omit<UseMutationOptions<TData, TError, TVariables, TContext>, 'mutationFn'>
 ) {
