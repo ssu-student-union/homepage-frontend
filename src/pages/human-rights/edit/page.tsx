@@ -24,7 +24,7 @@ import {
   useGetHumanRightsPost,
   usePatchHumanRightsPost,
 } from '@/pages/human-rights/queries.ts';
-import { useParams } from 'react-router-dom';
+import { redirect, useParams } from 'react-router-dom';
 import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
 import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
 
@@ -160,8 +160,18 @@ export function HumanRightsEditPage() {
   const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
 
   /* Mutation hooks */
-  const { mutate: createPost } = useCreateHumanRightsPost();
-  const { mutate: patchPost } = usePatchHumanRightsPost();
+  const {
+    mutate: createPost,
+    error: createError,
+    isError: isCreateError,
+    isPending: isCreatePending,
+  } = useCreateHumanRightsPost();
+  const {
+    mutate: patchPost,
+    error: patchError,
+    isError: isPatchError,
+    isPending: isPatchPending,
+  } = usePatchHumanRightsPost();
 
   // 기존 데이터 입력
   useEffect(() => {
@@ -194,22 +204,37 @@ export function HumanRightsEditPage() {
   async function submitForm(formData: HumanRightsPostEditForm) {
     const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
     if (postId) {
-      patchPost({ post: data });
+      patchPost(
+        { post: data },
+        {
+          onSuccess: (data) => {
+            redirect(`/human-rights/${data}`);
+          },
+        }
+      );
     } else {
-      createPost({ post: data });
+      createPost(
+        { post: data },
+        {
+          onSuccess: (data) => {
+            redirect(`/human-rights/${data.post_id}`);
+          },
+        }
+      );
     }
-    // TODO: Handle mutation results
   }
 
-  if (isLoading) {
+  if (isLoading || isCreatePending || isPatchPending) {
     return <PageSkeleton />;
   }
 
-  if (!post || isError) {
-    console.log(error);
+  if ((postId && !post) || isError || isCreateError || isPatchError) {
+    if (isError) console.log(error);
+    if (isCreateError) console.log(createError);
+    if (isPatchError) console.log(patchError);
     // TODO: 오류 발생 시 세부정보 제공
     return (
-      <div className="mt-[120px] flex items-center justify-center">
+      <div className="mt-[120px] flex items-center justify-center py-12">
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );
