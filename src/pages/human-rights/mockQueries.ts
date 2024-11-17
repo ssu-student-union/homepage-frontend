@@ -2,12 +2,13 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import {
-  HumanRightsCommentsResponse,
+  HumanRightsCommentResponse,
   HumanRightsPostResponse,
   HumanRightsPostSummaryResponse,
 } from '@/pages/human-rights/schema.ts';
 import { PostsResponse } from '@/pages/human-rights/hooks/useSearchPosts.ts';
 import { ApiResponse } from '@/pages/human-rights/hooks/useStuQuery.ts';
+import { GetCommentsResponse } from '@/pages/human-rights/hooks/useGetComments.ts';
 
 async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<T>> {
   await new Promise<void>((resolve) =>
@@ -25,12 +26,12 @@ async function waitSecondAndReturn<T>(ms: number, data: T): Promise<ApiResponse<
 
 const mockPosts: PostsResponse<HumanRightsPostSummaryResponse> = {
   postListResDto: [
-    { postId: 0, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
-    { postId: 1, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
-    { postId: 2, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
-    { postId: 3, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
-    { postId: 4, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', author: false },
-    { postId: 5, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', author: false },
+    { postId: 0, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', isAuthor: false },
+    { postId: 1, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', isAuthor: false },
+    { postId: 2, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', isAuthor: false },
+    { postId: 3, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', isAuthor: false },
+    { postId: 4, title: '테스트', date: '2023/10/02', category: '접수대기', reportName: '테스트', isAuthor: false },
+    { postId: 5, title: '테스트', date: '2023/10/02', category: '접수완료', reportName: '테스트', isAuthor: false },
   ],
   pageInfo: {
     pageNum: 1,
@@ -72,7 +73,7 @@ const mockPost: HumanRightsPostResponse = {
   createdAt: '2024-10-12T02:03:18.596Z',
   lastEditedAt: null,
   isAuthor: false,
-  fileResponseList: [
+  postFileList: [
     {
       postFileId: 1,
       fileName: 'image1.png',
@@ -101,7 +102,7 @@ const mockPost: HumanRightsPostResponse = {
   officialCommentList: [],
 };
 
-const mockComments: HumanRightsCommentsResponse = {
+const mockComments: GetCommentsResponse<HumanRightsCommentResponse> = {
   postComments: [
     {
       id: 0,
@@ -194,10 +195,10 @@ export function useMockGetHumanRightsPostComments({
 }: {
   postId: number;
   delay?: number;
-}): UseQueryResult<ApiResponse<HumanRightsCommentsResponse>, AxiosError> {
+}): UseQueryResult<ApiResponse<GetCommentsResponse<HumanRightsCommentResponse>>, AxiosError> {
   const queryKey = ['get-board-boardCode-posts-postId-comments', 'human_rights_report', postId];
 
-  return useQuery<ApiResponse<HumanRightsCommentsResponse>, AxiosError>({
+  return useQuery<ApiResponse<GetCommentsResponse<HumanRightsCommentResponse>>, AxiosError>({
     queryKey,
     queryFn: async () => await waitSecondAndReturn(delay, mockComments),
   });
