@@ -1,6 +1,5 @@
 import { Input } from '@/components/ui/input.tsx';
 import { Editor } from '@toast-ui/react-editor';
-import { RegisterButton } from '@/components/Buttons/BoardActionButtons.tsx';
 import { FrontmatterEditor } from '@/pages/human-rights/edit/components/FrontmatterEditor.tsx';
 import { cn } from '@/libs/utils.ts';
 import { ArticleHeader } from '@/pages/human-rights/containers/ArticleHeader.tsx';
@@ -28,6 +27,8 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
 import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import { Loader2 } from 'lucide-react';
 
 const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
 
@@ -230,7 +231,6 @@ export function HumanRightsEditPage() {
     }
     const { images, content } = await processImages();
     images.forEach(({ id }) => postFileList.push(id));
-
     formData.postFileList = postFileList;
     formData.content = content;
     const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
@@ -255,7 +255,7 @@ export function HumanRightsEditPage() {
     }
   }
 
-  if (isLoading || isCreatePending || isPatchPending || isImageProcessing || isFileUploadPending) {
+  if (isLoading || isCreatePending || isPatchPending) {
     return <PageSkeleton />;
   }
 
@@ -467,11 +467,17 @@ export function HumanRightsEditPage() {
         </section>
       </Container>
       <ArticleFooter className="pb-6">
-        <RegisterButton
+        <Button
+          variant={'Register'}
           className="self-end"
-          disabled={!disclaimerAgreed || Object.keys(errors).length > 0}
+          disabled={!disclaimerAgreed || Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
           onClick={handleSubmit(submitForm)}
-        />
+        >
+          <p className="flex items-center justify-center gap-1 px-2">
+            <Loader2 className={cn('animate-spin', isImageProcessing || isFileUploadPending ? 'block' : 'hidden')} />
+            {isImageProcessing || isFileUploadPending ? '등록 중...' : '등록'}
+          </p>
+        </Button>
       </ArticleFooter>
     </article>
   );
