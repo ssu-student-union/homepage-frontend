@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, RefObject, useEffect, useRef, useState } from 'react';
 import { cn } from '@/libs/utils.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
@@ -35,6 +35,16 @@ export function PostCommentEditor({
       ref.current.style.height = `${ref.current?.scrollHeight}px`;
     }
   }, [innerValue]);
+
+  function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
+    setInnerValue(e.target.value);
+  }
+
+  function handleClick() {
+    onSubmit?.(innerValue);
+    setInnerValue('');
+  }
+
   return (
     <section
       className={cn(
@@ -47,7 +57,7 @@ export function PostCommentEditor({
         className="h-auto resize-none bg-transparent placeholder:text-gray-500 focus:outline-none focus-visible:outline-none"
         value={innerValue}
         placeholder={placeholder}
-        onChange={(e) => setInnerValue(e.target.value)}
+        onChange={handleChange}
         maxLength={maxLength}
       ></textarea>
       <div className="flex items-center justify-end gap-2">
@@ -61,7 +71,7 @@ export function PostCommentEditor({
             취소
           </Button>
         )}
-        <Button variant="Register" disabled={innerValue.length < 1 || uploading} onClick={() => onSubmit?.(innerValue)}>
+        <Button variant="Register" disabled={innerValue.length < 1 || uploading} onClick={handleClick}>
           <Loader2 className={cn('animate-spin', uploading ? 'mr-2 inline' : 'hidden')} />
           {editing ? '수정' : '작성'}
         </Button>
