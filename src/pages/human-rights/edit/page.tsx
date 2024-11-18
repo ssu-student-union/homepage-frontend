@@ -24,7 +24,7 @@ import {
   useGetHumanRightsPost,
   usePatchHumanRightsPost,
 } from '@/pages/human-rights/queries.ts';
-import { redirect, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
 import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
 
@@ -73,7 +73,7 @@ function postTransformer({
       major: '',
       personType: 'VICTIM',
     });
-  const attackers = rightsDetailList.filter((person): person is Attacker => person.personType !== 'ATTACKER');
+  const attackers = rightsDetailList.filter((person): person is Attacker => person.personType === 'ATTACKER');
   if (attackers.length === 0)
     attackers.push({
       name: '',
@@ -109,6 +109,7 @@ export function HumanRightsEditPage() {
   /* Router Props */
   const { id } = useParams<{ id?: string }>();
   const postId = id ? parseInt(id ?? '') || null : null;
+  const navigate = useNavigate();
 
   /* Load data by query */
   const {
@@ -222,7 +223,7 @@ export function HumanRightsEditPage() {
         { post: data },
         {
           onSuccess: (data) => {
-            redirect(`/human-rights/${data}`);
+            navigate(`/human-rights/${data}`);
           },
         }
       );
@@ -231,7 +232,8 @@ export function HumanRightsEditPage() {
         { post: data },
         {
           onSuccess: (data) => {
-            redirect(`/human-rights/${data.post_id}`);
+            console.log('Created');
+            navigate(`/human-rights/${data.post_id}`);
           },
         }
       );
