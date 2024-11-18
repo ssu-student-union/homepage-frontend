@@ -11,11 +11,18 @@ import {
   useState,
 } from 'react';
 
-export interface PostFile {
+export type PostFile = UploadedPostFile | LocalPostFile;
+
+export interface UploadedPostFile {
   name: string;
-  isUploaded: boolean;
-  id?: number;
-  file?: File;
+  isUploaded: true;
+  id: number;
+}
+
+export interface LocalPostFile {
+  name: string;
+  isUploaded: false;
+  file: File;
 }
 
 interface FileItemProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'multiple' | 'value'> {
@@ -35,7 +42,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
     if (innerRef.current) {
       const dataTransfer = new DataTransfer();
       if (file) {
-        if (file.file) dataTransfer.items.add(file.file);
+        if (!file.isUploaded) dataTransfer.items.add(file.file);
       }
       innerRef.current.files = dataTransfer.files;
     }
