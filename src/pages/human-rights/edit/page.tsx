@@ -31,6 +31,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
 import { LocalPostFile, PostFile, UploadedPostFile } from '@/pages/human-rights/edit/components/FileInput.tsx';
 import { FileResponse } from '@/types/apis/get';
+import { useGetUserInfo } from '@/pages/human-rights/hooks/query/useGetUserInfo.ts';
 
 const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
 
@@ -116,6 +117,12 @@ export function HumanRightsEditPage() {
   const navigate = useNavigate();
 
   /* Load data by query */
+  const {
+    data: userInfo,
+    isLoading: isUserInfoLoading,
+    error: userInfoError,
+    isError: isUserInfoError,
+  } = useGetUserInfo();
   const {
     data: post,
     isLoading,
@@ -214,6 +221,15 @@ export function HumanRightsEditPage() {
     }
   }, [post, postId, reset, isPostLoaded]);
 
+  // 사용자 정보 입력
+  useEffect(() => {
+    if (userInfo) {
+      setValue('rightsDetailList.reporter.name', userInfo.name);
+      setValue('rightsDetailList.reporter.studentId', userInfo.studentId);
+      setValue('rightsDetailList.reporter.major', userInfo.major);
+    }
+  }, [userInfo]);
+
   // Form validation 실행
   useEffect(() => {
     (async () => await trigger())();
@@ -275,15 +291,16 @@ export function HumanRightsEditPage() {
     }
   }
 
-  if (isLoading || isCreatePending || isPatchPending) {
+  if (isLoading || isCreatePending || isPatchPending || isUserInfoLoading) {
     return <PageSkeleton />;
   }
 
-  if ((postId && !post) || isError || isCreateError || isPatchError || isFileUploadError) {
+  if ((postId && !post) || isError || isCreateError || isPatchError || isFileUploadError || isUserInfoError) {
     if (isError) console.log(error);
     if (isCreateError) console.log(createError);
     if (isPatchError) console.log(patchError);
     if (isFileUploadError) console.log(fileUploadError);
+    if (isUserInfoError) console.log(userInfoError);
     // TODO: 오류 발생 시 세부정보 제공
     return (
       <div className="mt-[120px] flex items-center justify-center py-12">
