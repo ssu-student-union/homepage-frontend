@@ -34,7 +34,7 @@ export function useGetComments<TRaw, TData = TRaw>({
   zodSchema,
   queryOptions,
 }: GetCommentsOptions<TRaw, TData>) {
-  const queryKey = ['getPost', postId, type];
+  const queryKey = ['getComments', postId, type];
   const config: AxiosRequestConfig = {
     url: `/board/posts/${postId}/comments`,
     method: 'get',
