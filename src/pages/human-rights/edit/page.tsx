@@ -223,12 +223,14 @@ export function HumanRightsEditPage() {
   }
 
   async function submitForm(formData: HumanRightsPostEditForm) {
-    const { images, content } = await processImages();
-    const postFileList = images.map(({ id }) => id);
+    const postFileList: number[] = [];
     if (filesRef.current) {
       const uploaded = await uploadFiles({ files: filesRef.current });
       uploaded.postFiles.forEach(({ id }) => postFileList.push(id));
     }
+    const { images, content } = await processImages();
+    images.forEach(({ id }) => postFileList.push(id));
+
     formData.postFileList = postFileList;
     formData.content = content;
     const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
