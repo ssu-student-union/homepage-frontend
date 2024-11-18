@@ -506,14 +506,17 @@ export function HumanRightsEditPage() {
       <ArticleFooter className="pb-6">
         <Button
           variant={'Register'}
-          className="self-end"
+          className="flex items-center justify-center gap-1 self-end px-2"
           disabled={!disclaimerAgreed || Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
           onClick={handleSubmit(submitForm)}
         >
-          <p className="flex items-center justify-center gap-1 px-2">
-            <Loader2 className={cn('animate-spin', isImageProcessing || isFileUploadPending ? 'block' : 'hidden')} />
-            {isImageProcessing || isFileUploadPending ? '등록 중...' : '등록'}
-          </p>
+          <Loader2
+            className={cn(
+              'animate-spin transition-all',
+              isImageProcessing || isFileUploadPending ? 'ml-0 opacity-100' : '-ml-7 opacity-0'
+            )}
+          />
+          <p>등록</p>
         </Button>
       </ArticleFooter>
     </article>
