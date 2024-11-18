@@ -23,6 +23,7 @@ import {
   useCreateHumanRightsPost,
   useGetHumanRightsPost,
   usePatchHumanRightsPost,
+  useUploadHumanRightsFiles,
 } from '@/pages/human-rights/queries.ts';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
@@ -163,8 +164,7 @@ export function HumanRightsEditPage() {
 
   // 에디터 기능 훅
   const editorRef = useRef<Editor>(null);
-  // TODO: 백엔드 구현 시 processContent 추가
-  const { register: registerEditor } = useContentEditor('인권신고게시판', editorRef);
+  const { register: registerEditor, processImages, isImageProcessing } = useContentEditor('인권신고게시판', editorRef);
   // 파일의 재렌더링은 `FileInputs`에서 처리하고 있으므로 useRef 사용
   const filesRef = useRef<File[]>([]);
   const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
@@ -182,6 +182,12 @@ export function HumanRightsEditPage() {
     isError: isPatchError,
     isPending: isPatchPending,
   } = usePatchHumanRightsPost();
+  const {
+    mutateAsync: uploadFiles,
+    error: fileUploadError,
+    isError: isFileUploadError,
+    isPending: isFileUploadPending,
+  } = useUploadHumanRightsFiles();
 
   // 기존 데이터 입력
   useEffect(() => {
@@ -217,6 +223,14 @@ export function HumanRightsEditPage() {
   }
 
   async function submitForm(formData: HumanRightsPostEditForm) {
+    const { images, content } = await processImages();
+    const postFileList = images.map(({ id }) => id);
+    if (filesRef.current) {
+      const uploaded = await uploadFiles({ files: filesRef.current });
+      uploaded.postFiles.forEach(({ id }) => postFileList.push(id));
+    }
+    formData.postFileList = postFileList;
+    formData.content = content;
     const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
     if (postId) {
       patchPost(
@@ -239,14 +253,15 @@ export function HumanRightsEditPage() {
     }
   }
 
-  if (isLoading || isCreatePending || isPatchPending) {
+  if (isLoading || isCreatePending || isPatchPending || isImageProcessing || isFileUploadPending) {
     return <PageSkeleton />;
   }
 
-  if ((postId && !post) || isError || isCreateError || isPatchError) {
+  if ((postId && !post) || isError || isCreateError || isPatchError || isFileUploadError) {
     if (isError) console.log(error);
     if (isCreateError) console.log(createError);
     if (isPatchError) console.log(patchError);
+    if (isFileUploadError) console.log(fileUploadError);
     // TODO: 오류 발생 시 세부정보 제공
     return (
       <div className="mt-[120px] flex items-center justify-center py-12">
