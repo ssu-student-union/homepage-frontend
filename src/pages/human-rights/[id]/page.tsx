@@ -16,6 +16,7 @@ import { useCreateComment } from '@/pages/human-rights/hooks/mutations/useCreate
 import { usePatchComment } from '@/pages/human-rights/hooks/mutations/usePatchComment.ts';
 import { useDeleteComment } from '@/pages/human-rights/hooks/mutations/useDeleteComment.ts';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 
 const BOARD_CODE = '인권신고게시판' as const;
 
@@ -73,11 +74,16 @@ export function HumanRightsDetailPage() {
 
   /* Set up Mutations */
   const { mutate: deletePost, isPending: isDeletePostPending } = useDeleteHumanRightsPost();
-  const { mutate: submitComment } = useCreateComment<HumanRightsCommentResponse>({ postId });
-  const { mutate: patchComment } = usePatchComment();
-  const { mutate: deleteComment } = useDeleteComment();
+  const { mutate: submitComment, isPending: isSubmitCommentPending } = useCreateComment<HumanRightsCommentResponse>({
+    postId,
+  });
+  const { mutate: patchComment, isPending: isPatchCommentPending } = usePatchComment();
+  const { mutate: deleteComment, isPending: isDeleteCommentPending } = useDeleteComment();
 
-  if (isLoading || isDeletePostPending) {
+  /* State to check updating comments */
+  const [lastUpdatedComment, setLastUpdatedComment] = useState<number | null>(null);
+
+  if (isLoading || isDeletePostPending || isCommentsLoading) {
     return <PageSkeleton />;
   }
 
@@ -113,7 +119,6 @@ export function HumanRightsDetailPage() {
         { postId: `${postId}`, fileUrls: post.postFileList.map((file) => file.fileUrl) },
         {
           onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['getPost', BOARD_CODE, postId] });
             await queryClient.invalidateQueries({ queryKey: ['searchPosts', BOARD_CODE] });
             navigate('/human-rights');
           },
@@ -123,18 +128,38 @@ export function HumanRightsDetailPage() {
   }
 
   function handleSubmitComment(content: string) {
-    submitComment({ content });
-    // TODO: Query invalidation; Optimistic Updates for comments
+    submitComment(
+      { content },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
+        },
+      }
+    );
   }
 
   function handleDeleteComment(commentId: number) {
-    deleteComment({ commentId });
-    // TODO: Query invalidation; Optimistic Updates for comments
+    setLastUpdatedComment(commentId);
+    deleteComment(
+      { commentId },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
+        },
+      }
+    );
   }
 
   function handlePatchComment(commentId: number, content: string) {
-    patchComment({ commentId, content });
-    // TODO: Query invalidation; Optimistic Updates for comments
+    setLastUpdatedComment(commentId);
+    patchComment(
+      { commentId, content },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
+        },
+      }
+    );
   }
 
   return (
@@ -180,24 +205,30 @@ export function HumanRightsDetailPage() {
                 placeholder="댓글을 남겨보세요"
                 maxLength={2000}
                 onSubmit={handleSubmitComment}
+                uploading={isSubmitCommentPending}
               />
             )}
-            {[...post.officialCommentList, ...comments.postComments].map((comment) => (
-              <PostComment
-                key={comment.id}
-                author={comment.authorName}
-                createdAt={new Date(comment.createdAt)}
-                commentType={comment.commentType}
-                lastEditedAt={comment.lastEditedAt === null ? undefined : new Date(comment.lastEditedAt)}
-                editable={comment.isAuthor}
-                deletable={comment.isAuthor || comment_deletable}
-                deleted={comment.isDeleted ?? false}
-                onDelete={() => handleDeleteComment(comment.id)}
-                onEdit={(content) => handlePatchComment(comment.id, content)}
-              >
-                {comment.content}
-              </PostComment>
-            ))}
+            {[...post.officialCommentList, ...comments.postComments].map((comment) => {
+              if ((lastUpdatedComment ?? -1) === comment.id && (isPatchCommentPending || isDeleteCommentPending)) {
+                return <PostComment.Skeleton key={comment.id} />;
+              }
+              return (
+                <PostComment
+                  key={comment.id}
+                  author={comment.authorName}
+                  createdAt={new Date(comment.createdAt)}
+                  commentType={comment.commentType}
+                  lastEditedAt={comment.lastEditedAt === null ? undefined : new Date(comment.lastEditedAt)}
+                  editable={comment.isAuthor}
+                  deletable={comment.isAuthor || comment_deletable}
+                  deleted={comment.isDeleted ?? false}
+                  onDelete={() => handleDeleteComment(comment.id)}
+                  onEdit={(content) => handlePatchComment(comment.id, content)}
+                >
+                  {comment.content}
+                </PostComment>
+              );
+            })}
           </div>
         )}
       </Container>
