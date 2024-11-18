@@ -232,7 +232,6 @@ export function HumanRightsEditPage() {
         { post: data },
         {
           onSuccess: (data) => {
-            console.log('Created');
             navigate(`/human-rights/${data.post_id}`);
           },
         }
