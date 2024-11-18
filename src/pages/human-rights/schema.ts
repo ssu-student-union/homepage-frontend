@@ -97,7 +97,7 @@ export const HumanRightsPersonSchema = z.object({
 
 export const HumanRightsReporterSchema = HumanRightsPersonSchema.extend({
   phoneNumber: z.string().min(1),
-  personType: z.literal('REPORTER'),
+  personType: z.literal('REPORTER').default('REPORTER'),
 });
 
 export const HumanRightsCommentSchema = z.object({
@@ -130,8 +130,10 @@ export const HumanRightsPostEditFormSchema = z.object({
   postFileList: z.array(z.number()),
   rightsDetailList: z.object({
     reporter: HumanRightsReporterSchema,
-    victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM') })).nonempty(),
-    attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).nonempty(),
+    victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM').default('VICTIM') })).nonempty(),
+    attackers: z
+      .array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER').default('ATTACKER') }))
+      .nonempty(),
   }),
   content: z.string().min(1),
 });
