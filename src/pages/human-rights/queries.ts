@@ -16,6 +16,7 @@ import { GetCommentsOptions, useGetComments } from '@/pages/human-rights/hooks/q
 import { useCreatePost, UseCreatePostOptions } from '@/pages/human-rights/hooks/mutations/useCreatePost.ts';
 import { useDeletePost, UseDeletePostOptions } from '@/pages/human-rights/hooks/mutations/useDeletePost.ts';
 import { usePatchPost, UsePatchPostOptions } from '@/pages/human-rights/hooks/mutations/usePatchPost.ts';
+import { useUploadFiles, UseUploadFilesOptions } from '@/pages/human-rights/hooks/mutations/useUploadFiles.ts';
 
 const BOARD_CODE = '인권신고게시판' as const;
 
@@ -79,4 +80,8 @@ export function usePatchHumanRightsPost({
 
 export function useDeleteHumanRightsPost({ mutationOptions }: Omit<UseDeletePostOptions, 'boardCode'> = {}) {
   return useDeletePost({ boardCode: BOARD_CODE, mutationOptions });
+}
+
+export function useUploadHumanRightsFiles({ mutationOptions }: Omit<UseUploadFilesOptions, 'boardCode'> = {}) {
+  return useUploadFiles({ boardCode: BOARD_CODE, mutationOptions });
 }
