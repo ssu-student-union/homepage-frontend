@@ -29,6 +29,8 @@ import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx'
 import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/pages/human-rights/edit/components/FileInput.tsx';
+import { FileResponse } from '@/types/apis/get';
 
 const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
 
@@ -166,8 +168,7 @@ export function HumanRightsEditPage() {
   // 에디터 기능 훅
   const editorRef = useRef<Editor>(null);
   const { register: registerEditor, processImages, isImageProcessing } = useContentEditor('인권신고게시판', editorRef);
-  // 파일의 재렌더링은 `FileInputs`에서 처리하고 있으므로 useRef 사용
-  const filesRef = useRef<File[]>([]);
+  const [files, setFiles] = useState<PostFile[]>([]);
   const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
 
   /* Mutation hooks */
@@ -196,6 +197,16 @@ export function HumanRightsEditPage() {
       setIsPostLoaded(false);
       reset(postTransformer(post));
       editorRef.current!.getInstance().setMarkdown(post.content);
+      const uploadedFiles = post.postFileList
+        .filter(({ fileType }) => fileType === 'files')
+        .map(
+          ({ postFileId, fileName }): UploadedPostFile => ({
+            name: fileName,
+            isUploaded: true,
+            id: postFileId,
+          })
+        );
+      setFiles(uploadedFiles);
       setIsPostLoaded(true);
     }
     if (!postId) {
@@ -213,24 +224,33 @@ export function HumanRightsEditPage() {
   //   console.log(errors);
   // }, [errors]);
 
-  function contentChangeHandler() {
+  function handleContentChange() {
     if (editorRef.current && isPostLoaded) {
       setValue('content', editorRef.current.getInstance().getMarkdown());
     }
   }
 
-  function contentBlurHandler() {
+  function handleContentBlur() {
     (async () => await trigger('content'))();
   }
 
+  function handleFilesChange(newFiles: PostFile[]) {
+    setFiles(newFiles);
+  }
+
   async function submitForm(formData: HumanRightsPostEditForm) {
-    const postFileList: number[] = [];
-    if (filesRef.current) {
-      const uploaded = await uploadFiles({ files: filesRef.current });
+    const postFileList: number[] = files
+      .filter((file): file is UploadedPostFile => file.isUploaded)
+      .map(({ id }) => id);
+    if (files) {
+      const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded).map(({ file }) => file);
+      const uploaded = await uploadFiles({ files: localFiles });
       uploaded.postFiles.forEach(({ id }) => postFileList.push(id));
     }
-    const { images, content } = await processImages();
-    images.forEach(({ id }) => postFileList.push(id));
+    const uploadedImages: FileResponse[] = post?.postFileList?.filter(({ fileType }) => fileType === 'images') ?? [];
+    const { existedImages, newImages, content } = await processImages(uploadedImages);
+    existedImages.forEach(({ postFileId }) => postFileList.push(postFileId));
+    newImages.forEach(({ id }) => postFileList.push(id));
     formData.postFileList = postFileList;
     formData.content = content;
     const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
@@ -438,14 +458,14 @@ export function HumanRightsEditPage() {
             initialValue=" "
             placeholder="글을 작성해주세요"
             useCommandShortcut={true}
-            onChange={contentChangeHandler}
-            onBlur={contentBlurHandler}
+            onChange={handleContentChange}
+            onBlur={handleContentBlur}
             {...registerEditor}
           />
         </section>
         <section className="mb-16">
           <h2 className="mb-6 text-2xl font-semibold">증거 및 자료 첨부</h2>
-          <FileInputs onChange={(files) => (filesRef.current = files)} />
+          <FileInputs files={files} onChange={handleFilesChange} />
         </section>
         <section className="flex flex-col gap-6">
           <h2 className="text-2xl font-semibold">개인정보 수집 및 이용에 관한 동의</h2>
