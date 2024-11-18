@@ -4,6 +4,7 @@ import { DotsThree, User } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
 import { DropdownButton } from '@/pages/human-rights/[id]/components/DropdownButton.tsx';
 import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 interface PostCommentProps {
   children?: ReactNode;
@@ -93,3 +94,18 @@ export function PostComment({
     </article>
   );
 }
+
+PostComment.Skeleton = () => {
+  return (
+    <article className={cn('flex flex-col gap-3 rounded-lg bg-gray-50 px-5 py-7')}>
+      <section className="flex items-center justify-between">
+        <div className={cn('flex items-center gap-2')}>
+          <User />
+          <Skeleton className="h-6 w-[5ch]" />
+        </div>
+      </section>
+      <Skeleton className="h-12 w-[70ch]" />
+      <Skeleton className="h-6 w-[16ch]" />
+    </article>
+  );
+};
