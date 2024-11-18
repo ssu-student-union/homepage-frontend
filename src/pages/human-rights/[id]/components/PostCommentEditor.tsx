@@ -1,6 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { cn } from '@/libs/utils.ts';
 import { Button } from '@/components/ui/button.tsx';
+import { Loader2 } from 'lucide-react';
 
 interface PostCommentEditorProps {
   value?: string;
@@ -8,6 +9,7 @@ interface PostCommentEditorProps {
   className?: string;
   maxLength?: number;
   editing?: boolean;
+  uploading?: boolean;
   onSubmit?: (value: string) => void;
   onCancel?: () => void;
 }
@@ -18,6 +20,7 @@ export function PostCommentEditor({
   className,
   maxLength,
   editing,
+  uploading,
   onSubmit,
   onCancel,
 }: PostCommentEditorProps) {
@@ -54,12 +57,13 @@ export function PostCommentEditor({
           </p>
         )}
         {editing && (
-          <Button variant="outline" className="rounded-[7px] text-lg" onClick={onCancel}>
+          <Button variant="outline" className="rounded-[7px] text-lg" onClick={onCancel} disabled={uploading}>
             취소
           </Button>
         )}
-        <Button variant="Register" disabled={innerValue.length < 1} onClick={() => onSubmit?.(innerValue)}>
-          수정
+        <Button variant="Register" disabled={innerValue.length < 1 || uploading} onClick={() => onSubmit?.(innerValue)}>
+          <Loader2 className={cn('animate-spin', uploading ? 'mr-2 inline' : 'hidden')} />
+          {editing ? '수정' : '작성'}
         </Button>
       </div>
     </section>
