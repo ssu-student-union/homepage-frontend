@@ -71,9 +71,14 @@ export function PostCommentEditor({
             취소
           </Button>
         )}
-        <Button variant="Register" disabled={innerValue.length < 1 || uploading} onClick={handleClick}>
-          <Loader2 className={cn('animate-spin', uploading ? 'mr-2 inline' : 'hidden')} />
-          {editing ? '수정' : '작성'}
+        <Button
+          variant="Register"
+          className={cn('flex items-center justify-center gap-1')}
+          disabled={innerValue.length < 1 || uploading}
+          onClick={handleClick}
+        >
+          <Loader2 className={cn('animate-spin transition-all', uploading ? 'ml-0 opacity-100' : '-ml-7 opacity-0')} />
+          <p>{editing ? '수정' : '작성'}</p>
         </Button>
       </div>
     </section>
