@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';
 import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
@@ -15,10 +15,13 @@ import {
 import { useCreateComment } from '@/pages/human-rights/hooks/mutations/useCreateComment.ts';
 import { usePatchComment } from '@/pages/human-rights/hooks/mutations/usePatchComment.ts';
 import { useDeleteComment } from '@/pages/human-rights/hooks/mutations/useDeleteComment.ts';
+import { useQueryClient } from '@tanstack/react-query';
+
+const BOARD_CODE = '인권신고게시판' as const;
 
 const breadcrumbItems: [string, string | null][] = [
   ['소통', null],
-  ['인권신고게시판', '/human-rights'],
+  [BOARD_CODE, '/human-rights'],
 ];
 
 function personToFrontmatter(person: HumanRightsPerson): [string, string][] {
@@ -56,7 +59,10 @@ export function HumanRightsDetailPage() {
   /* Router Props */
   const { id } = useParams<{ id: string }>();
   const postId = parseInt(id ?? '');
+  const navigate = useNavigate();
+
   /* Load data by query */
+  const queryClient = useQueryClient();
   const { data: post, isLoading, error, isError } = useGetHumanRightsPost({ postId, queryOptions: { retry: true } });
   const {
     data: comments,
@@ -66,12 +72,12 @@ export function HumanRightsDetailPage() {
   } = useGetHumanRightsComments({ postId, type: '최신순', queryOptions: { retry: true } });
 
   /* Set up Mutations */
-  const { mutate: deletePost } = useDeleteHumanRightsPost();
+  const { mutate: deletePost, isPending: isDeletePostPending } = useDeleteHumanRightsPost();
   const { mutate: submitComment } = useCreateComment<HumanRightsCommentResponse>({ postId });
   const { mutate: patchComment } = usePatchComment();
   const { mutate: deleteComment } = useDeleteComment();
 
-  if (isLoading) {
+  if (isLoading || isDeletePostPending) {
     return <PageSkeleton />;
   }
 
@@ -103,8 +109,16 @@ export function HumanRightsDetailPage() {
   /* Mutation handler */
   function handleDeletePost() {
     if (post) {
-      deletePost({ postId: `${postId}`, fileUrls: post.postFileList.map((file) => file.fileUrl) });
-      // TODO: Redirect after deletion
+      deletePost(
+        { postId: `${postId}`, fileUrls: post.postFileList.map((file) => file.fileUrl) },
+        {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['getPost', BOARD_CODE, postId] });
+            await queryClient.invalidateQueries({ queryKey: ['searchPosts', BOARD_CODE] });
+            navigate('/human-rights');
+          },
+        }
+      );
     }
   }
 
