@@ -4,6 +4,7 @@ import { Editor } from '@toast-ui/react-editor';
 import { clientAuth } from '@/apis/client.ts';
 import { PostFileResponse, UploadFilesResponse } from '@/pages/human-rights/hooks/mutations/useUploadFiles.ts';
 import { ApiResponse } from '@/pages/human-rights/hooks/useStuQuery.ts';
+import { FileResponse } from '@/types/apis/get';
 
 interface UseContentEditorReturn {
   register: {
@@ -15,7 +16,11 @@ interface UseContentEditorReturn {
     language: string;
   };
   isImageProcessing: boolean;
-  processImages: () => Promise<{ images: PostFileResponse[]; content: string }>;
+  processImages: (uploadedFiles?: FileResponse[]) => Promise<{
+    existedImages: FileResponse[];
+    newImages: PostFileResponse[];
+    content: string;
+  }>;
 }
 
 async function postBoardImages(boardCode: string, files: FormData) {
@@ -64,7 +69,7 @@ export function useContentEditor(boardCode: string, ref: RefObject<Editor>): Use
     return false;
   }
 
-  async function processImages() {
+  async function processImages(existedImages: FileResponse[] = []) {
     setIsImageProcessing(true);
     try {
       const markdownContent = ref.current!.getInstance().getMarkdown();
@@ -93,7 +98,8 @@ export function useContentEditor(boardCode: string, ref: RefObject<Editor>): Use
       imageObjectUrlsRef.current = [];
       setIsImageProcessing(false);
       return {
-        images: uploadedImages.filter(({ files }) => files).flatMap(({ files }) => files as PostFileResponse[]),
+        existedImages: existedImages.filter(({ fileUrl }) => processedContent.includes(fileUrl)),
+        newImages: uploadedImages.filter(({ files }) => files).flatMap(({ files }) => files as PostFileResponse[]),
         content: processedContent,
       };
     } catch (error) {
