@@ -11,15 +11,22 @@ import {
   useState,
 } from 'react';
 
-interface FileItemProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'multiple' | 'value'> {
+export interface PostFile {
+  name: string;
+  isUploaded: boolean;
+  id?: number;
   file?: File;
+}
+
+interface FileItemProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'multiple' | 'value'> {
+  file?: PostFile;
 }
 
 export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
   { file, className, onChange, ...props }: FileItemProps,
   ref
 ) {
-  const [innerFile, setInnerFile] = useState<File | null>(null);
+  const [innerFile, setInnerFile] = useState<PostFile | null>(null);
   const innerRef = useRef<HTMLInputElement>(null);
   const [isDragging, setDragging] = useState(false);
   useImperativeHandle(ref, () => innerRef.current!, []);
@@ -27,7 +34,9 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
   useEffect(() => {
     if (innerRef.current) {
       const dataTransfer = new DataTransfer();
-      if (file) dataTransfer.items.add(file);
+      if (file) {
+        if (file.file) dataTransfer.items.add(file.file);
+      }
       innerRef.current.files = dataTransfer.files;
     }
     setInnerFile(file ?? null);
@@ -67,7 +76,15 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
       onChange(evt);
     }
     const file = evt.currentTarget.files?.item(0);
-    setInnerFile(file ? file : null);
+    setInnerFile(
+      file
+        ? {
+            name: file.name,
+            isUploaded: false,
+            file,
+          }
+        : null
+    );
   }
 
   return (

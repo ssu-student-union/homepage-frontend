@@ -1,15 +1,15 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { FileInput } from '@/pages/human-rights/edit/components/FileInput.tsx';
+import { FileInput, PostFile } from '@/pages/human-rights/edit/components/FileInput.tsx';
 import { cn } from '@/libs/utils.ts';
 
 interface FileInputsProps {
   className?: string;
-  files?: File[];
-  onChange?: (files: File[]) => void;
+  files?: PostFile[];
+  onChange?: (files: PostFile[]) => void;
 }
 
 export function FileInputs({ className, files, onChange }: FileInputsProps) {
-  const [innerFiles, setInnerFiles] = useState<File[]>([]);
+  const [innerFiles, setInnerFiles] = useState<PostFile[]>([]);
 
   useEffect(() => {
     // Do not trigger onChange if files are controlled from outside.
@@ -21,7 +21,12 @@ export function FileInputs({ className, files, onChange }: FileInputsProps) {
   function onNewFile(evt: ChangeEvent<HTMLInputElement>) {
     const file = evt.currentTarget.files?.item(0);
     if (file) {
-      const newFiles = [...innerFiles, file];
+      const postFile: PostFile = {
+        name: file.name,
+        isUploaded: false,
+        file: file,
+      };
+      const newFiles = [...innerFiles, postFile];
       setInnerFiles(newFiles);
       if (onChange) onChange(newFiles);
       // Remove the existing file in the new file input to keep input fresh.
@@ -34,7 +39,11 @@ export function FileInputs({ className, files, onChange }: FileInputsProps) {
     const file = evt.currentTarget.files?.item(0);
     const newFiles = innerFiles;
     if (file) {
-      newFiles[idx] = file;
+      newFiles[idx] = {
+        name: file.name,
+        isUploaded: false,
+        file: file,
+      };
     } else {
       newFiles.splice(idx, 1);
     }
