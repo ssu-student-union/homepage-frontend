@@ -3,7 +3,6 @@ import { AxiosError } from 'axios';
 import { ApiError, ApiResponse } from '@/pages/human-rights/hooks/useStuQuery.ts';
 import { useStuMutation } from '@/pages/human-rights/hooks/useStuMutation.ts';
 import { clientAuth } from '@/apis/client.ts';
-import { FileResponse } from '@/types/apis/get';
 
 export interface UseUploadFilesOptions {
   boardCode: string;
@@ -18,9 +17,15 @@ interface UploadFilesVariables {
   images?: File[];
 }
 
-interface UploadFilesResponse {
+export interface UploadFilesResponse {
   thumbnailUrl: string | null;
-  postFiles: FileResponse[];
+  postFiles: PostFileResponse[];
+}
+
+export interface PostFileResponse {
+  id: number;
+  url: string;
+  originalFileName: string;
 }
 
 function appendFormData(formData: FormData, name: string, files: File[]) {
