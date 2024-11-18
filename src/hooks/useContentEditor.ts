@@ -1,8 +1,9 @@
-import { RefObject, useRef } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import { EditorType, HookMap, PreviewStyle } from '@toast-ui/editor';
-import { FileImageUrl, PostBoardImagesResponse } from '@/types/postBoardFilesImages.ts';
 import { Editor } from '@toast-ui/react-editor';
 import { clientAuth } from '@/apis/client.ts';
+import { PostFileResponse, UploadFilesResponse } from '@/pages/human-rights/hooks/mutations/useUploadFiles.ts';
+import { ApiResponse } from '@/pages/human-rights/hooks/useStuQuery.ts';
 
 interface UseContentEditorReturn {
   register: {
@@ -13,7 +14,19 @@ interface UseContentEditorReturn {
     hideModeSwitch: boolean;
     language: string;
   };
-  processContent: () => Promise<{ images: FileImageUrl[]; content: string }>;
+  isImageProcessing: boolean;
+  processImages: () => Promise<{ images: PostFileResponse[]; content: string }>;
+}
+
+async function postBoardImages(boardCode: string, files: FormData) {
+  return await clientAuth<ApiResponse<UploadFilesResponse>>({
+    url: `/board/${boardCode}/files`,
+    method: 'post',
+    data: files,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 }
 
 /**
@@ -33,21 +46,10 @@ interface UseContentEditorReturn {
  * return <Editor {...register} />;
  * ```
  */
-
-async function postBoardImages(boardCode: string, image: FormData) {
-  return await clientAuth<PostBoardImagesResponse>({
-    url: `/board/${boardCode}/files`,
-    method: 'post',
-    data: image,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-}
-
 // TODO: Define boardCode as enum
 export function useContentEditor(boardCode: string, ref: RefObject<Editor>): UseContentEditorReturn {
   const imageObjectUrlsRef = useRef<[File | Blob, string][]>([]);
+  const [isImageProcessing, setIsImageProcessing] = useState(false);
 
   function addImageBlobHook(file: File | Blob, callback: (url: string, text?: string) => void) {
     if (file) {
@@ -62,34 +64,42 @@ export function useContentEditor(boardCode: string, ref: RefObject<Editor>): Use
     return false;
   }
 
-  async function processContent() {
-    const markdownContent = ref.current!.getInstance().getMarkdown();
-    const imageUploadPromises = imageObjectUrlsRef.current.map(([image, objectUrl]) => {
-      async function uploadImage() {
-        const formData = new FormData();
-        formData.append('images', image);
-        const imageResponse = await postBoardImages(boardCode, formData);
-        return {
-          objectUrl,
-          success: imageResponse.data.isSuccess,
-          ...(imageResponse.data.isSuccess ? { files: imageResponse.data.data.postFiles } : {}),
-        };
-      }
+  async function processImages() {
+    setIsImageProcessing(true);
+    try {
+      const markdownContent = ref.current!.getInstance().getMarkdown();
+      const imageUploadPromises = imageObjectUrlsRef.current.map(([image, objectUrl]) => {
+        async function uploadImage() {
+          const formData = new FormData();
+          formData.append('images', image);
+          const imageResponse = await postBoardImages(boardCode, formData);
+          return {
+            objectUrl,
+            success: imageResponse.data.isSuccess,
+            ...(imageResponse.data.isSuccess ? { files: imageResponse.data.data.postFiles } : {}),
+          };
+        }
 
-      return uploadImage();
-    });
-    const uploadedImages = await Promise.all(imageUploadPromises);
-    const processedContent = uploadedImages.reduce((content, { objectUrl, success, files }) => {
-      if (success && files) {
-        URL.revokeObjectURL(objectUrl);
-        return content.replace(objectUrl, files[0].url);
-      }
-      return content;
-    }, markdownContent);
-    return {
-      images: uploadedImages.filter(({ files }) => files).flatMap(({ files }) => files as FileImageUrl[]),
-      content: processedContent,
-    };
+        return uploadImage();
+      });
+      const uploadedImages = await Promise.all(imageUploadPromises);
+      const processedContent = uploadedImages.reduce((content, { objectUrl, success, files }) => {
+        if (success && files) {
+          URL.revokeObjectURL(objectUrl);
+          return content.replace(objectUrl, files[0].url);
+        }
+        return content;
+      }, markdownContent);
+      imageObjectUrlsRef.current = [];
+      setIsImageProcessing(false);
+      return {
+        images: uploadedImages.filter(({ files }) => files).flatMap(({ files }) => files as PostFileResponse[]),
+        content: processedContent,
+      };
+    } catch (error) {
+      setIsImageProcessing(false);
+      throw error;
+    }
   }
 
   return {
@@ -101,6 +111,7 @@ export function useContentEditor(boardCode: string, ref: RefObject<Editor>): Use
       hideModeSwitch: true,
       language: 'ko-KR',
     },
-    processContent,
+    isImageProcessing,
+    processImages,
   };
 }
