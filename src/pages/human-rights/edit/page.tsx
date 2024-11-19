@@ -219,7 +219,8 @@ export function HumanRightsEditPage() {
     if (!postId) {
       setIsPostLoaded(true);
     }
-  }, [post, postId, reset, isPostLoaded]);
+    trigger();
+  }, [trigger, post, postId, reset, isPostLoaded]);
 
   // 사용자 정보 입력
   useEffect(() => {
@@ -227,8 +228,9 @@ export function HumanRightsEditPage() {
       setValue('rightsDetailList.reporter.name', userInfo.name);
       setValue('rightsDetailList.reporter.studentId', userInfo.studentId);
       setValue('rightsDetailList.reporter.major', userInfo.major);
+      trigger();
     }
-  }, [userInfo]);
+  }, [trigger, userInfo]);
 
   // Form validation 실행
   useEffect(() => {
@@ -236,9 +238,9 @@ export function HumanRightsEditPage() {
   }, [trigger]);
 
   // 디버그: 폼 검증 결과
-  // useEffect(() => {
-  //   console.log(errors);
-  // }, [errors]);
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   function handleContentChange() {
     if (editorRef.current && isPostLoaded) {
@@ -309,6 +311,8 @@ export function HumanRightsEditPage() {
     );
   }
 
+  const titleError = errors?.title;
+
   return (
     <article className="mt-[200px]">
       {/* TODO: EditLayout에 `className` property 추가 필요, divider 추가 필요 */}
@@ -328,6 +332,7 @@ export function HumanRightsEditPage() {
           </h2>
           <FrontmatterEditor
             id="reporter"
+            errors={errors}
             register={register}
             items={[
               {
@@ -335,6 +340,7 @@ export function HumanRightsEditPage() {
                 term: '성명',
                 required: true,
                 disabled: true,
+                errorMessage: '서버 오류입니다.',
                 registerPath: 'rightsDetailList.reporter.name',
               },
               {
@@ -342,6 +348,7 @@ export function HumanRightsEditPage() {
                 term: '학번',
                 required: true,
                 disabled: true,
+                errorMessage: '서버 오류입니다.',
                 registerPath: 'rightsDetailList.reporter.studentId',
               },
               {
@@ -349,12 +356,14 @@ export function HumanRightsEditPage() {
                 term: '학과/부',
                 required: true,
                 disabled: true,
+                errorMessage: '서버 오류입니다.',
                 registerPath: 'rightsDetailList.reporter.major',
               },
               {
                 id: 'phoneNumber',
                 term: '연락처',
                 required: true,
+                errorMessage: '이 값은 필수입니다.',
                 registerPath: 'rightsDetailList.reporter.phoneNumber',
               },
             ]}
@@ -379,12 +388,14 @@ export function HumanRightsEditPage() {
                 </div>
                 <FrontmatterEditor
                   id={field.id}
+                  errors={errors}
                   register={register}
                   items={[
                     {
                       id: `${field.id}_name`,
                       term: '성명',
                       required: true,
+                      errorMessage: '이 값은 필수입니다.',
                       registerPath: `rightsDetailList.victims.${index}.name`,
                     },
                     {
@@ -429,12 +440,14 @@ export function HumanRightsEditPage() {
                 </div>
                 <FrontmatterEditor
                   id={field.id}
+                  errors={errors}
                   register={register}
                   items={[
                     {
                       id: `${field.id}_name`,
                       term: '성명',
                       required: true,
+                      errorMessage: '이 값은 필수입니다.',
                       registerPath: `rightsDetailList.attackers.${index}.name`,
                     },
                     {
@@ -469,7 +482,17 @@ export function HumanRightsEditPage() {
           >
             피해 사실 기술
           </h2>
-          <Input id="title" type="text" placeholder="제목을 입력하세요." {...register('title')} />
+          <div>
+            <Input id="title" type="text" placeholder="제목을 입력하세요." {...register('title')} />
+            <p
+              className={cn(
+                'mt-1 text-sm text-red-700 transition-all',
+                titleError ? 'h-5 translate-y-0 opacity-100' : 'h-0 -translate-y-2 opacity-0'
+              )}
+            >
+              이 값은 필수입니다.
+            </p>
+          </div>
           <Editor
             height="620px"
             initialValue=" "
@@ -501,6 +524,14 @@ export function HumanRightsEditPage() {
               />
             </div>
           </div>
+          <p
+            className={cn(
+              'mt-1 text-end text-sm text-red-700 transition-all',
+              !disclaimerAgreed ? 'h-5 translate-y-0 opacity-100' : 'h-0 -translate-y-2 opacity-0'
+            )}
+          >
+            동의 후 등록하실 수 있습니다.
+          </p>
         </section>
       </Container>
       <ArticleFooter className="pb-6">
