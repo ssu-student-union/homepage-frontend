@@ -7,7 +7,8 @@ export const ServiceNoticeData = {
         "postId": 36,
         "title": "[점검] 총학생회 홈페이지 점검으로 인한 기능 제한",
         "content": "안녕하세요, IT 지원위원회 입니다. 현재 총학생회 홈페이지 점검으로 인해,\
-         일부 서비스에 제한이 있으니 양해 바랍니다.",
+         일부 서비스에 제한이 있으니 양해 바랍니다.\
+         (아래는 테스트 이미지입니다.)",
         "date": "2024/10/11",
         "category": null,
         "thumbNail": "https://ssuitsupport.s3.ap-northeast-2.amazonaws.com/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD%EA%B2%8C%EC%8B%9C%ED%8C%90/2/images/65abb6bf-bbbf-4170-a100-b2edfcc94d45.jpg",
@@ -174,6 +175,56 @@ export const ServiceNoticeData = {
       "pageSize": 10,
       "totalElements": 6,
       "totalPages": 2
+    }
+  },
+  "isSuccess": true
+}
+
+
+
+export const ServiceNoticeDetailData =
+{
+  "code": "200",
+  "message": "성공 입니다.",
+  "data": {
+    "postDetailResDto": {
+      "postId": 268,
+      "category": null,
+      "authorName": "총학생회",
+      "title": "[점검] 총학생회 홈페이지 점검으로 인한 기능 제한",
+      "content": "안녕하세요, IT 지원위원회 입니다. 현재 총학생회 홈페이지 점검으로 인해,\
+         일부 서비스에 제한이 있으니 양해 바랍니다.\
+         (아래는 테스트 이미지입니다.)",
+      "createdAt": "2024/11/05 23:07:44",
+      "lastEditedAt": null,
+      "isAuthor": true,
+      "allowedAuthorities": [],
+      "fileResponseList": [
+        {
+          "postFileId": 581,
+          "fileName": "슈아 키링 1 PNG",
+          "fileUrl": "https://ssuitsupport.s3.ap-northeast-2.amazonaws.com/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD%EA%B2%8C%EC%8B%9C%ED%8C%90/2/images/b5eba68e-7aed-4285-8434-dbcd76b7a089.png",
+          "fileType": "images"
+        },
+        {
+          "postFileId": 582,
+          "fileName": "슈아 키링 2 PNG",
+          "fileUrl": "https://ssuitsupport.s3.ap-northeast-2.amazonaws.com/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD%EA%B2%8C%EC%8B%9C%ED%8C%90/2/images/363f0c57-22dd-4bdd-bce1-431826972890.png",
+          "fileType": "images"
+        },
+        {
+          "postFileId": 583,
+          "fileName": "슈아 키링 3 PNG",
+          "fileUrl": "https://ssuitsupport.s3.ap-northeast-2.amazonaws.com/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD%EA%B2%8C%EC%8B%9C%ED%8C%90/2/images/b7cae204-b17b-4c63-93d3-a82249d065ed.png",
+          "fileType": "images"
+        },
+        {
+          "postFileId": 584,
+          "fileName": "슈아 키링 4 PNG",
+          "fileUrl": "https://ssuitsupport.s3.ap-northeast-2.amazonaws.com/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD%EA%B2%8C%EC%8B%9C%ED%8C%90/2/images/108c193f-2e71-44e8-bcab-be333a11c0ec.png",
+          "fileType": "images"
+        }
+      ]
     }
   },
   "isSuccess": true
