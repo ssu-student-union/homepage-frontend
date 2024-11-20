@@ -132,7 +132,7 @@ export function HumanRightsPage() {
             key={post.postId}
             to={`/human-rights/${post.postId}`}
             category={{ name: post.category, className: categoryColors[post.category] }}
-            date={new Date(post.date)}
+            date={post.date}
             title={post.title}
             author={post.reportName}
           />

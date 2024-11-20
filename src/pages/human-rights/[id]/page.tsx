@@ -168,7 +168,7 @@ export function HumanRightsDetailPage() {
         <PostHeader
           title={post.title}
           authorName={post.authorName}
-          createdAt={new Date(post.createdAt)}
+          createdAt={post.createdAt}
           breadcrumbItems={breadcrumbItems}
         />
         <hr className="bg-[#E7E7E7]" />
@@ -216,9 +216,9 @@ export function HumanRightsDetailPage() {
                 <PostComment
                   key={comment.id}
                   author={comment.authorName}
-                  createdAt={new Date(comment.createdAt)}
+                  createdAt={comment.createdAt}
                   commentType={comment.commentType}
-                  lastEditedAt={comment.lastEditedAt === null ? undefined : new Date(comment.lastEditedAt)}
+                  lastEditedAt={comment.lastEditedAt ?? undefined}
                   editable={comment.isAuthor}
                   deletable={comment.isAuthor || comment_deletable}
                   deleted={comment.isDeleted ?? false}
