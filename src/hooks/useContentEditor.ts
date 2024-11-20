@@ -40,15 +40,26 @@ async function postBoardImages(boardCode: string, files: FormData) {
  * `ContentEditor`의 동작을 정의하는 훅입니다. `Editor` 컴포넌트에 `register` 값을 분해 할당하면 됩니다.
  * 첨부 이미지의 처리는 아래의 단계를 따릅니다.
  * 1. 이미지 첨부 시 이미지의 `Blob`을 `objectUrl`로 변경하여 표시
- * 2. `processContent` 호출 시 로컬의 이미지를 업로드 시도
+ * 2. `processImages` 호출 시 로컬의 이미지를 업로드 시도
  * 3. 업로드된 이미지의 URL으로 기존 objectURL을 대체
  * 4. 업로드된 이미지 정보와 대체된 컨텐츠 문자열 반환
  *
- * **예시:**
+ * @param boardCode - 게시판 코드
+ * @param ref - `Editor` 컴포넌트의 ref
+ * @returns
+ * `register` - `Editor` 컴포넌트에 분해 할당하여 에디터를 훅에 등록합니다.
+ * `isImageProcessing` - 이미지가 업로드 중이라면 `true`를 반환합니다.
+ * `processImages` - 이미지를 업로드하고 처리하는 함수입니다. 이미 업로드된 이미지의 `FileResponse` 배열을 인자로 받아, 최종적으로 에디터에 존재하는 파일 목록을 반환합니다.
+ *   반환 값을 그대로 `postFileList`에 넣을 수 있습니다(첨부파일이 있다면 합쳐야 합니다).
+ *
+ * @example
  * ```tsx
  * const editorRef = useRef<Editor>(null);
- * const { register, processContent } = useContentEditor('청원게시판', editorRef);
- * return <Editor {...register} />;
+ * const { register, processImages, isImageProcessing } = useContentEditor('청원게시판', editorRef);
+ * return (<div>
+ *   <Editor {...register} />
+ *   <p>{isImageProcessing && '이미지 업로드 중...'}</p>
+ * </div>);
  * ```
  */
 // TODO: Define boardCode as enum
