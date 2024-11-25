@@ -219,28 +219,27 @@ export function HumanRightsEditPage() {
     if (!postId) {
       setIsPostLoaded(true);
     }
-    trigger();
-  }, [trigger, post, postId, reset, isPostLoaded]);
+  }, [post, postId, reset, isPostLoaded]);
 
   // 사용자 정보 입력
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && isPostLoaded) {
       setValue('rightsDetailList.reporter.name', userInfo.name);
       setValue('rightsDetailList.reporter.studentId', userInfo.studentId);
       setValue('rightsDetailList.reporter.major', userInfo.major);
       trigger();
     }
-  }, [trigger, userInfo]);
+  }, [trigger, userInfo, isPostLoaded]);
 
-  // Form validation 실행
+  // Form ready시 validation 실행
   useEffect(() => {
     (async () => await trigger())();
   }, [trigger]);
 
   // 디버그: 폼 검증 결과
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
+  // useEffect(() => {
+  //   console.log(errors);
+  // }, [errors]);
 
   function handleContentChange() {
     if (editorRef.current && isPostLoaded) {

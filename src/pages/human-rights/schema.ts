@@ -112,11 +112,29 @@ export const HumanRightsCommentSchema = z.object({
   content: z.string().min(1),
 });
 
+export const HumanRightsPostSchema = z.object({
+  postId: z.number(),
+  category: HumanRightsCategorySchema.nullable().transform((str) => str ?? '접수대기'),
+  authorName: z.string(),
+  title: z.string(),
+  createdAt: z.string().transform((str) => new Date(str)),
+  lastEditedAt: z
+    .string()
+    .transform((str) => new Date(str))
+    .nullable(),
+  isAuthor: z.boolean(),
+  allowedAuthorities: z.array(PostAclSchema),
+  postFileList: z.array(FileResponseSchema),
+  officialCommentList: z.array(HumanRightsCommentSchema),
+  rightsDetailList: z.array(HumanRightsPersonSchema.or(HumanRightsReporterSchema)),
+  content: z.string(),
+});
+
 export const HumanRightsPostSummarySchema = z.object({
   postId: z.number(),
   title: z.string().min(1),
   date: z.string().transform((str) => new Date(str)),
-  category: HumanRightsCategorySchema,
+  category: HumanRightsCategorySchema.nullable().transform((str) => str ?? '접수대기'),
   reportName: z.string().min(1),
   isAuthor: z.boolean(),
 });
@@ -146,22 +164,4 @@ export const HumanRightsPostEditRequestSchema = HumanRightsPostEditFormSchema.om
       attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).nonempty(),
     })
     .transform((obj) => [obj.reporter, ...obj.victims, ...obj.attackers]),
-});
-
-export const HumanRightsPostSchema = z.object({
-  postId: z.number(),
-  category: HumanRightsCategorySchema,
-  authorName: z.string(),
-  title: z.string(),
-  createdAt: z.string().transform((str) => new Date(str)),
-  lastEditedAt: z
-    .string()
-    .transform((str) => new Date(str))
-    .nullable(),
-  isAuthor: z.boolean(),
-  allowedAuthorities: z.array(PostAclSchema),
-  postFileList: z.array(FileResponseSchema),
-  officialCommentList: z.array(HumanRightsCommentSchema),
-  rightsDetailList: z.array(HumanRightsPersonSchema.or(HumanRightsReporterSchema)),
-  content: z.string(),
 });
