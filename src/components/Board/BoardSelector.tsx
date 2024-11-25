@@ -28,3 +28,12 @@ export function BoardSelector<T extends string>({
     </div>
   );
 }
+
+BoardSelector.Skeleton = () => {
+  return (
+    <div className={cn(`flex flex-wrap gap-2`)}>
+      <Category.Skeleton />
+      <Category.Skeleton />
+    </div>
+  );
+};
