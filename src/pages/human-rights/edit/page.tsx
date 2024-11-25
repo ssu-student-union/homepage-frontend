@@ -32,8 +32,11 @@ import { Loader2 } from 'lucide-react';
 import { LocalPostFile, PostFile, UploadedPostFile } from '@/pages/human-rights/edit/components/FileInput.tsx';
 import { FileResponse } from '@/types/apis/get';
 import { useGetUserInfo } from '@/pages/human-rights/hooks/query/useGetUserInfo.ts';
+import { useQueryClient } from '@tanstack/react-query';
 
-const disclaimer = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
+const BOARD_CODE = '인권신고게시판';
+
+const DISCLAIMER = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
 
 ✔수집 및 이용 대상
 학생인권위원회
@@ -117,6 +120,7 @@ export function HumanRightsEditPage() {
   const navigate = useNavigate();
 
   /* Load data by query */
+  const queryClient = useQueryClient();
   const {
     data: userInfo,
     isLoading: isUserInfoLoading,
@@ -229,7 +233,7 @@ export function HumanRightsEditPage() {
       setValue('rightsDetailList.reporter.major', userInfo.major);
       trigger();
     }
-  }, [trigger, userInfo, isPostLoaded]);
+  }, [trigger, userInfo, isPostLoaded, setValue]);
 
   // Form ready시 validation 실행
   useEffect(() => {
@@ -276,7 +280,9 @@ export function HumanRightsEditPage() {
         { post: data },
         {
           onSuccess: (data) => {
-            navigate(`/human-rights/${data}`);
+            queryClient
+              .invalidateQueries({ queryKey: ['searchPosts', BOARD_CODE] })
+              .then(() => navigate(`/human-rights/${data}`));
           },
         }
       );
@@ -285,7 +291,9 @@ export function HumanRightsEditPage() {
         { post: data },
         {
           onSuccess: (data) => {
-            navigate(`/human-rights/${data.post_id}`);
+            queryClient
+              .invalidateQueries({ queryKey: ['searchPosts', BOARD_CODE] })
+              .then(() => navigate(`/human-rights/${data.post_id}`));
           },
         }
       );
@@ -508,7 +516,7 @@ export function HumanRightsEditPage() {
         </section>
         <section className="flex flex-col gap-6">
           <h2 className="text-2xl font-semibold">개인정보 수집 및 이용에 관한 동의</h2>
-          <pre className="rounded-md border-2 border-[#CDCDCD] px-8 py-6">{disclaimer}</pre>
+          <pre className="rounded-md border-2 border-[#CDCDCD] px-8 py-6">{DISCLAIMER}</pre>
           <div className="flex justify-between">
             <p className='before:absolute before:-translate-x-full before:text-[#ff0000] before:content-["*"]'>
               위와 같이 개인정보를 수집·이용하는 데 동의하십니까?
