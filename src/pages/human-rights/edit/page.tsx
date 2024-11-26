@@ -94,7 +94,6 @@ function postTransformer({
     title,
     category,
     postFileList: postFileList.map((file) => file.postFileId),
-    thumbNailImage: null,
     isNotice: false,
     rightsDetailList: {
       reporter: (rightsDetailList.find(
@@ -155,7 +154,6 @@ export function HumanRightsEditPage() {
   } = useHumanRightsForm({
     category: '접수대기',
     isNotice: false,
-    thumbNailImage: null,
     postFileList: [],
     rightsDetailList: {
       reporter: {
