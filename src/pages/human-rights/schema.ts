@@ -137,14 +137,12 @@ export const HumanRightsPostSummarySchema = z.object({
   date: z.string().transform((str) => new Date(str)),
   category: HumanRightsCategorySchema.nullable().transform((str) => str ?? '접수대기'),
   reportName: z.string().min(1),
-  isAuthor: z.boolean(),
 });
 
 export const HumanRightsPostEditFormSchema = z.object({
   postId: z.number().optional(),
   title: z.string().min(1),
   category: HumanRightsCategorySchema,
-  thumbNailImage: z.literal(null),
   isNotice: z.literal(false),
   postFileList: z.array(z.number()),
   rightsDetailList: z.object({
