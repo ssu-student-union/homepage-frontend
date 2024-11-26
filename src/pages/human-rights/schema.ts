@@ -88,7 +88,6 @@ export const HumanRightsCategorySchema = z.enum(['접수대기', '접수완료']
 export const HumanRightsPersonTypeSchema = z.enum(['REPORTER', 'VICTIM', 'ATTACKER'] as const);
 
 export const HumanRightsPersonSchema = z.object({
-  rightsDetailId: z.number().optional(),
   name: z.string().min(1),
   studentId: z.string(),
   major: z.string(),
