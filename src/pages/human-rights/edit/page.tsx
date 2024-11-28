@@ -280,6 +280,7 @@ export function HumanRightsEditPage() {
           onSuccess: (data) => {
             queryClient
               .invalidateQueries({ queryKey: ['searchPosts', BOARD_CODE] })
+              .then(() => queryClient.invalidateQueries({ queryKey: ['getPost', BOARD_CODE, postId] }))
               .then(() => navigate(`/human-rights/${data}`));
           },
         }
