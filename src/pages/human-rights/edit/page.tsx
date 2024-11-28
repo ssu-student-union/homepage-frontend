@@ -275,7 +275,7 @@ export function HumanRightsEditPage() {
     const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
     if (postId) {
       patchPost(
-        { post: data },
+        { id: postId, post: data },
         {
           onSuccess: (data) => {
             queryClient

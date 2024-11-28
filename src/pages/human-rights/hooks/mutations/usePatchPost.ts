@@ -13,15 +13,16 @@ export interface UsePatchPostOptions<TPostRequest> {
 }
 
 interface PatchPostVariables<T> {
+  id: number;
   post: T;
 }
 
 export function usePatchPost<TPostRequest>({ boardCode, mutationOptions }: UsePatchPostOptions<TPostRequest>) {
-  return useStuMutation(async ({ post }) => {
+  return useStuMutation(async ({ id, post }) => {
     return (
       await clientAuth<ApiResponse<number>>({
         method: 'patch',
-        url: `/board/${boardCode}/posts`,
+        url: `/board/${boardCode}/posts/${id}`,
         data: post,
       })
     ).data;
