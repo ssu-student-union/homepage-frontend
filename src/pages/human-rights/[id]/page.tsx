@@ -214,7 +214,7 @@ export function HumanRightsDetailPage() {
         {!isCommentsLoading && (
           <div className="flex flex-col gap-6">
             <h1 className="mb-5 text-2xl font-bold">
-              댓글 <span className="text-primary">{totalComments + post.officialCommentList.length}</span>
+              댓글 <span className="text-primary">{totalComments}</span>
             </h1>
             {commentable && (
               <PostCommentEditor
