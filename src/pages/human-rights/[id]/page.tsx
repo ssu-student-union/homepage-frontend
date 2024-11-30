@@ -116,7 +116,7 @@ export function HumanRightsDetailPage() {
   const editable = post.isAuthor || post.allowedAuthorities.includes('EDIT');
   const deletable = post.isAuthor || post.allowedAuthorities.includes('DELETE');
   const commentable = post.isAuthor || commentAcl.includes('COMMENT');
-  const comment_deletable = commentAcl.includes('DELETE_COMMENT');
+  const commentDeletable = commentAcl.includes('DELETE_COMMENT');
 
   /* Mutation handler */
   function handleDeletePost() {
@@ -237,7 +237,7 @@ export function HumanRightsDetailPage() {
                   commentType={comment.commentType}
                   lastEditedAt={comment.lastEditedAt ?? undefined}
                   editable={comment.isAuthor}
-                  deletable={comment.isAuthor || comment_deletable}
+                  deletable={comment.commentType !== 'OFFICIAL' && (comment.isAuthor ||commentDeletable)}
                   deleted={comment.isDeleted ?? false}
                   onDelete={() => handleDeleteComment(comment.id)}
                   onEdit={(content) => handlePatchComment(comment.id, content)}
