@@ -109,7 +109,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
         )}
         onClick={() => innerRef.current?.showPicker()}
       >
-        <FileText className={cn('text-gray-600', isDragging && 'motion-safe:animate-bounce')} size="32" />
+        <FileText className={cn('select-none text-gray-600', isDragging && 'motion-safe:animate-bounce')} size="32" />
         {isDragging ? '파일을 끌어넣어 추가하기' : (innerFile?.name ?? '파일을 선택해주세요')}
       </div>
       <button

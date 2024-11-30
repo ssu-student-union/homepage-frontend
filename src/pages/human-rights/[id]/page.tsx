@@ -5,7 +5,12 @@ import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
 import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
 import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
 import { PostComment } from '@/pages/human-rights/[id]/components/PostComment.tsx';
-import { HumanRightsCommentResponse, HumanRightsPerson, HumanRightsReporter } from '@/pages/human-rights/schema.ts';
+import {
+  HumanRightsComment,
+  HumanRightsCommentResponse,
+  HumanRightsPerson,
+  HumanRightsReporter,
+} from '@/pages/human-rights/schema.ts';
 import { Container } from '@/pages/human-rights/containers/Container.tsx';
 import {
   useDeleteHumanRightsPost,
@@ -104,7 +109,8 @@ export function HumanRightsDetailPage() {
   const victims = post.rightsDetailList.filter((person) => person.personType === 'VICTIM');
   const attackers = post.rightsDetailList.filter((person) => person.personType === 'ATTACKER');
 
-  const totalComments = comments.total;
+  const fullComments: HumanRightsComment[] = [...post.officialCommentList.reverse(), ...comments.postComments];
+  const totalComments = comments.total + post.officialCommentList.length;
   const commentAcl = comments.allowedAuthorities;
 
   const editable = post.isAuthor || post.allowedAuthorities.includes('EDIT');
@@ -132,7 +138,12 @@ export function HumanRightsDetailPage() {
       { content },
       {
         onSuccess: async () => {
-          await queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
+          await queryClient.invalidateQueries({
+            queryKey: ['getComments', postId],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ['getPost', BOARD_CODE, postId],
+          });
         },
       }
     );
@@ -145,6 +156,9 @@ export function HumanRightsDetailPage() {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
+          await queryClient.invalidateQueries({
+            queryKey: ['getPost', BOARD_CODE, postId],
+          });
         },
       }
     );
@@ -157,6 +171,9 @@ export function HumanRightsDetailPage() {
       {
         onSuccess: async () => {
           await queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
+          await queryClient.invalidateQueries({
+            queryKey: ['getPost', BOARD_CODE, postId],
+          });
         },
       }
     );
@@ -197,7 +214,7 @@ export function HumanRightsDetailPage() {
         {!isCommentsLoading && (
           <div className="flex flex-col gap-6">
             <h1 className="mb-5 text-2xl font-bold">
-              댓글 <span className="text-primary">{totalComments}</span>
+              댓글 <span className="text-primary">{totalComments + post.officialCommentList.length}</span>
             </h1>
             {commentable && (
               <PostCommentEditor
@@ -208,7 +225,7 @@ export function HumanRightsDetailPage() {
                 uploading={isSubmitCommentPending}
               />
             )}
-            {[...post.officialCommentList, ...comments.postComments].map((comment) => {
+            {[...fullComments].map((comment) => {
               if ((lastUpdatedComment ?? -1) === comment.id && (isPatchCommentPending || isDeleteCommentPending)) {
                 return <PostComment.Skeleton key={comment.id} />;
               }
