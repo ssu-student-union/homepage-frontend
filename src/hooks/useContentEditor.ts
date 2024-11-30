@@ -14,6 +14,7 @@ interface UseContentEditorReturn {
     initialEditType: EditorType;
     hideModeSwitch: boolean;
     language: string;
+    autofocus: boolean;
   };
   isImageProcessing: boolean;
   processImages: (uploadedFiles?: FileResponse[]) => Promise<{
@@ -127,6 +128,7 @@ export function useContentEditor(boardCode: string, ref: RefObject<Editor>): Use
       initialEditType: 'wysiwyg',
       hideModeSwitch: true,
       language: 'ko-KR',
+      autofocus: false,
     },
     isImageProcessing,
     processImages,
