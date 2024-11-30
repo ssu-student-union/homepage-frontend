@@ -3,6 +3,7 @@ import { buttonVariants } from '@/components/ui/button.tsx';
 import { List, Pencil } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 import { ArticleFooter } from '@/pages/human-rights/containers/ArticleFooter.tsx';
+import { cn } from '@/libs/utils.ts';
 
 interface PostFooterProps {
   boardUrl: string;
@@ -19,12 +20,12 @@ export function PostFooter({ boardUrl, deletable, editable, editUrl, onDelete, c
       <div className="flex w-full max-w-[1040px] justify-end gap-4">
         {deletable && <DeleteButton onClick={onDelete} />}
         {editable && (
-          <a className={buttonVariants({ variant: 'List_Edit' })} href={editUrl}>
+          <a className={cn(buttonVariants({ variant: 'List_Edit' }), 'select-none')} href={editUrl}>
             <Pencil className="text-lg" />
             <p className="text-lg">편집</p>
           </a>
         )}
-        <a className={buttonVariants({ variant: 'List_Edit' })} href={boardUrl}>
+        <a className={cn(buttonVariants({ variant: 'List_Edit' }), 'select-none')} href={boardUrl}>
           <List className="text-lg" />
           <p className="text-lg">목록</p>
         </a>
