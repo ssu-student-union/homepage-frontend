@@ -229,14 +229,8 @@ export function HumanRightsEditPage() {
       setValue('rightsDetailList.reporter.name', userInfo.name);
       setValue('rightsDetailList.reporter.studentId', userInfo.studentId);
       setValue('rightsDetailList.reporter.major', userInfo.major);
-      trigger();
     }
-  }, [trigger, userInfo, isPostLoaded, setValue]);
-
-  // Form ready시 validation 실행
-  useEffect(() => {
-    (async () => await trigger())();
-  }, [trigger]);
+  }, [userInfo, isPostLoaded, setValue]);
 
   // 디버그: 폼 검증 결과
   // useEffect(() => {
@@ -501,7 +495,7 @@ export function HumanRightsEditPage() {
           </div>
           <Editor
             height="620px"
-            initialValue=" "
+            initialValue=""
             placeholder="글을 작성해주세요"
             useCommandShortcut={true}
             onChange={handleContentChange}
