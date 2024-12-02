@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { humanFileSize } from '@/pages/human-rights/edit/utils.ts';
 
 export type PostFile = UploadedPostFile | LocalPostFile;
 
@@ -26,16 +27,18 @@ export interface LocalPostFile {
 }
 
 interface FileItemProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'multiple' | 'value'> {
+  sizeLimit?: number;
   file?: PostFile;
 }
 
 export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
-  { file, className, onChange, ...props }: FileItemProps,
+  { file, className, onChange, sizeLimit, ...props }: FileItemProps,
   ref
 ) {
   const [innerFile, setInnerFile] = useState<PostFile | null>(null);
   const innerRef = useRef<HTMLInputElement>(null);
   const [isDragging, setDragging] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   useImperativeHandle(ref, () => innerRef.current!, []);
 
   useEffect(() => {
@@ -77,6 +80,16 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
 
   function fileChangeHandler(evt: ChangeEvent<HTMLInputElement>): void {
     evt.preventDefault();
+    const fileSize = evt.currentTarget.files?.item(0)?.size ?? -1;
+    if (fileSize >= 0 && sizeLimit !== undefined && fileSize > sizeLimit) {
+      clearFile();
+      setError(
+        `파일이 너무 큽니다. ${humanFileSize(sizeLimit)} 이하의 파일이여야 합니다. (파일 크기: ${humanFileSize(fileSize)})`
+      );
+      return;
+    } else {
+      setError(null);
+    }
     // Give priority to user's onChange -- this allows intercept files input before component process file itself.
     // 컴포넌트 사용자의 onChange를 우선 실행하여 파일 입력을 처리하기 전에 사용자가 가로챌 수 있도록 합니다.
     if (onChange) {
@@ -104,13 +117,21 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
       <div
         className={cn(
           'flex grow items-center gap-4 rounded-md border-2 border-[#CDCDCD] p-4 text-gray-400',
+          error && 'border-red-800 text-red-800',
           isDragging && 'border-dashed border-primary text-gray-600',
           innerFile && 'text-gray-600'
         )}
         onClick={() => innerRef.current?.showPicker()}
       >
-        <FileText className={cn('select-none text-gray-600', isDragging && 'motion-safe:animate-bounce')} size="32" />
-        {isDragging ? '파일을 끌어넣어 추가하기' : (innerFile?.name ?? '파일을 선택해주세요')}
+        <FileText
+          className={cn(
+            'select-none text-gray-600',
+            error && 'text-red-800',
+            isDragging && 'text-primary motion-safe:animate-bounce'
+          )}
+          size="32"
+        />
+        {isDragging ? '파일을 끌어넣어 추가하기' : (error ?? innerFile?.name ?? '파일을 선택해주세요')}
       </div>
       <button
         className="p-4"

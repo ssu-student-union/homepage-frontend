@@ -4,11 +4,12 @@ import { cn } from '@/libs/utils.ts';
 
 interface FileInputsProps {
   className?: string;
+  sizeLimit?: number;
   files?: PostFile[];
   onChange?: (files: PostFile[]) => void;
 }
 
-export function FileInputs({ className, files, onChange }: FileInputsProps) {
+export function FileInputs({ className, files, onChange, sizeLimit }: FileInputsProps) {
   const [innerFiles, setInnerFiles] = useState<PostFile[]>([]);
 
   useEffect(() => {
@@ -54,9 +55,9 @@ export function FileInputs({ className, files, onChange }: FileInputsProps) {
   return (
     <div className={cn('flex flex-col gap-6', className)}>
       {innerFiles.map((file, idx) => (
-        <FileInput key={idx} file={file} onChange={(evt) => onFileChange(idx, evt)} />
+        <FileInput key={idx} file={file} onChange={(evt) => onFileChange(idx, evt)} sizeLimit={sizeLimit} />
       ))}
-      <FileInput onChange={onNewFile} />
+      <FileInput onChange={onNewFile} sizeLimit={sizeLimit} />
     </div>
   );
 }
