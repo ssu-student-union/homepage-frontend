@@ -505,7 +505,8 @@ export function HumanRightsEditPage() {
         </section>
         <section className="mb-16">
           <h2 className="mb-6 text-2xl font-semibold">증거 및 자료 첨부</h2>
-          <FileInputs files={files} onChange={handleFilesChange} />
+          {/* Limit file size to 5MB */}
+          <FileInputs files={files} onChange={handleFilesChange} sizeLimit={1024 * 1024 * 5} />
         </section>
         <section className="flex flex-col gap-6">
           <h2 className="text-2xl font-semibold">개인정보 수집 및 이용에 관한 동의</h2>
