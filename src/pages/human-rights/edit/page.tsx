@@ -424,7 +424,7 @@ export function HumanRightsEditPage() {
         <section className="mb-16">
           <h2 className="text-2xl font-semibold">침해자(신고 대상자) 정보 입력</h2>
           <p className="mb-6 text-[#979797]">빈칸을 모두 채우지 않아도 되며,알고 있는 정보를 기입하여 주세요.</p>
-          <ol className="mb-6">
+          <ol className="mb-6 flex flex-col gap-6">
             {attackerFields.map((field, index) => (
               <li key={field.id}>
                 <div className="relative mb-6">
