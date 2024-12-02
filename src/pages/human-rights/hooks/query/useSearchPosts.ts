@@ -43,7 +43,8 @@ export function useSearchPosts<TRaw, TData = TRaw>({
   zodSchema,
   queryOptions,
 }: SearchPostsOptions<TRaw, TData>) {
-  const queryKey = ['searchPosts', boardCode, category, q, take, page];
+  const accessToken = localStorage.getItem('accessToken');
+  const queryKey = ['searchPosts', boardCode, accessToken, category, q, take, page];
   const config: AxiosRequestConfig = {
     url: `/board/${boardCode}/posts/search`,
     method: 'get',

@@ -23,7 +23,8 @@ export interface GetUserInfoOptions {
 }
 
 export function useGetUserInfo({ queryOptions }: GetUserInfoOptions = {}) {
-  const queryKey = ['getUserInfo'];
+  const accessToken = localStorage.getItem('accessToken');
+  const queryKey = ['getUserInfo', accessToken];
   const config: AxiosRequestConfig = {
     url: `/users/user-info`,
     method: 'get',
