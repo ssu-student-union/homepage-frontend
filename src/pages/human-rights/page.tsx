@@ -99,6 +99,7 @@ export function HumanRightsPage() {
       prev.delete('page');
       return prev;
     });
+    window.scrollTo(0, 0);
   }
 
   function navigatePage(page: number) {
@@ -106,6 +107,7 @@ export function HumanRightsPage() {
       prev.set('page', `${page}`);
       return prev;
     });
+    window.scrollTo(0, 0);
   }
 
   function navigateToWrite() {
