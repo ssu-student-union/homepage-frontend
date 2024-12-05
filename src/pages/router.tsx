@@ -40,6 +40,8 @@ export function MainRouter() {
         <Route path="/human-rights" element={<i.HumanRightsPage />} />
         <Route path="/human-rights/:id" element={<i.HumanRightsDetailPage />} />
         <Route path="/human-rights/:id?/edit" element={<i.HumanRightsEditPage />} />
+        {/* 4-2. 건의 게시판 */}
+        <Route path="/sug-notice" element={<i.SuggestPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
       </Route>
