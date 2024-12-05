@@ -1,7 +1,7 @@
 import { HeadLayout } from '@/template/HeadLayout';
-import { BodyLayout } from '@/template/BodyLayout.tsx';
-import { BoardSelector } from '@/components/Board/BoardSelector.tsx';
-// import { PostContent } from '@/components/PostContent/PostContent.tsx';
+import { BodyLayout } from '@/template/BodyLayout';
+import { BoardSelector } from '@/components/Board/BoardSelector';
+// import { PostContent } from '@/components/PostContent/PostContent';
 import { SuggestCategory } from './schema';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 // import { useRecoilState } from 'recoil';
