@@ -6,7 +6,7 @@ const FrontmatterInput = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLIn
   ({ className, ...props }, ref) => {
     return (
       <input
-        className={cn('w-fit rounded-md border-2 border-[#CDCDCD] disabled:bg-[#CDCDCD]', className)}
+        className={cn('max-w-96 rounded-md border-2 border-[#CDCDCD] disabled:bg-[#CDCDCD]', className)}
         ref={ref}
         {...props}
       />
