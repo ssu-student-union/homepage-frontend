@@ -510,12 +510,12 @@ export function HumanRightsEditPage() {
         </section>
         <section className="flex flex-col gap-6">
           <h2 className="text-2xl font-semibold">개인정보 수집 및 이용에 관한 동의</h2>
-          <pre className="rounded-md border-2 border-[#CDCDCD] px-8 py-6">{DISCLAIMER}</pre>
-          <div className="flex justify-between">
+          <pre className="whitespace-pre-wrap rounded-md border-2 border-[#CDCDCD] px-8 py-6">{DISCLAIMER}</pre>
+          <div className="flex flex-wrap justify-between">
             <p className='before:absolute before:-translate-x-full before:text-[#ff0000] before:content-["*"]'>
               위와 같이 개인정보를 수집·이용하는 데 동의하십니까?
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex grow items-center justify-end gap-2">
               <label htmlFor="agree_disclaimer">동의합니다</label>
               <input
                 id="agree_disclaimer"
