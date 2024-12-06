@@ -28,7 +28,6 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@tanstack/react-query": "^5.28.9",
     "@toast-ui/react-editor": "^3.2.3",
-    "@types/react-dropzone": "^5.1.0",
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -79,7 +78,9 @@
     "vite": "^5.2.0"
   },
   "resolutions": {
-    "rollup": "4.24.0"
+    "rollup": "4.24.0",
+    "react": "^18.3.0",
+    "@types/react": "^18.3.0"
   },
-  "packageManager": "yarn@4.5.3"
+  "packageManager": "yarn@4.5.3+sha512.3003a14012e2987072d244c720506549c1aab73ee728208f1b2580a9fd67b92d61ba6b08fe93f6dce68fd771e3af1e59a0afa28dd242dd0940d73b95fedd4e90"
 }
