@@ -83,9 +83,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
     const fileSize = evt.currentTarget.files?.item(0)?.size ?? -1;
     if (fileSize >= 0 && sizeLimit !== undefined && fileSize > sizeLimit) {
       clearFile();
-      setError(
-        `파일이 너무 큽니다. ${humanFileSize(sizeLimit)} 이하의 파일이여야 합니다. (파일 크기: ${humanFileSize(fileSize)})`
-      );
+      setError(`파일이 ${humanFileSize(sizeLimit)}를 초과합니다. (파일 크기: ${humanFileSize(fileSize)})`);
       return;
     } else {
       setError(null);
@@ -117,8 +115,8 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
       <div
         className={cn(
           'flex grow items-center gap-4 rounded-md border-2 border-[#CDCDCD] p-4 text-gray-400',
-          error && 'border-red-800 text-red-800',
-          isDragging && 'border-dashed border-primary text-gray-600',
+          error && 'border-red-800 bg-red-50 text-red-800',
+          isDragging && 'border-dashed border-primary bg-blue-50 text-primary',
           innerFile && 'text-gray-600'
         )}
         onClick={() => innerRef.current?.showPicker()}
@@ -131,7 +129,22 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
           )}
           size="32"
         />
-        {isDragging ? '파일을 끌어넣어 추가하기' : (error ?? innerFile?.name ?? '파일을 선택해주세요')}
+        <span>
+          {isDragging ? (
+            innerFile ? (
+              '파일을 끌어놓아 변경하기'
+            ) : (
+              '파일을 끌어놓아 추가하기'
+            )
+          ) : error ? (
+            <>
+              <span className="mr-3 font-bold">업로드 실패</span>
+              {error}
+            </>
+          ) : (
+            (innerFile?.name ?? '파일을 선택해주세요')
+          )}
+        </span>
       </div>
       <button
         className="p-4"
