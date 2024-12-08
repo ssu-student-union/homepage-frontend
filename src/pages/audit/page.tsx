@@ -10,13 +10,12 @@ import { useCategory } from './hooks/useCategory';
 
 export function AuditPage() {
   const boardCode = '감사기구게시판';
+  const navigate = useNavigate();
   const { category } = useCategory();
   const { data, totalPages, currentPage, handlePageChange, subcategories, isLoading } = useAuditBoard(
     boardCode,
     category
   );
-
-  const navigate = useNavigate();
 
   return (
     <>

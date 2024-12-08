@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
+import { baseUrl } from '@/pages/kakao/containers/const/data';
 
 const KakaoRedirect = () => {
   const setLoginState = useSetRecoilState(LoginState);
@@ -33,7 +34,7 @@ const KakaoRedirect = () => {
             } else {
               // 최초 회원가입 or 타 사이트 로그인이 아니라면 accessToken 로컬에 저장
               localStorage.setItem('accessToken', accessToken);
-              window.location.href = 'https://stu.ssu.ac.kr/'; // 이미 가입된 유저는 메인 화면으로 이동
+              window.location.href = baseUrl; // 이미 가입된 유저는 메인 화면으로 이동
               setLoginState(true);
             }
           }
