@@ -164,7 +164,7 @@ export function PostPetitionDetailPostSection() {
           <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
             <Breadcrumb items={breadcrumbItems} />
             <PostHead
-              title={`[${data?.data.postDetailResDto.categoryName}] ${data?.data.postDetailResDto.title}`}
+              title={`[${data?.data.postDetailResDto.category}] ${data?.data.postDetailResDto.title}`}
               writer={
                 data?.data.postDetailResDto.studentId === null
                   ? data.data.postDetailResDto.authorName
@@ -190,7 +190,7 @@ export function PostPetitionDetailPostSection() {
                 </div>
               </div>
               <div className="xs:hidden sm:hidden md:hidden">
-                <StateTag current={data?.data.postDetailResDto.categoryName || null} />
+                <StateTag current={data?.data.postDetailResDto.category || null} />
               </div>
             </div>
             <div className="mt-[60px] flex-col">
