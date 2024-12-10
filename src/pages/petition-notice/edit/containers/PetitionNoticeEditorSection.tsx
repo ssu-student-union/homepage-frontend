@@ -14,7 +14,7 @@ import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
 import { GUIDE_LINE } from '../components/GuideLine';
 import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
 import { HookMap } from '@toast-ui/editor';
-
+import { GetBoardDetailResponse } from '@/types/apis/get';
 
 export function PetitionNoticeEditorSection() {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -28,19 +28,19 @@ export function PetitionNoticeEditorSection() {
   const navigate = useNavigate();
 
   const oldContent = localStorage.getItem('oldContent')!;
-  const parsedContent = JSON.parse(oldContent);
+  const parsedContent = JSON.parse(oldContent) as GetBoardDetailResponse;
 
   useEffect(() => {
     if (parsedContent) {
-      const postDetailResDto = parsedContent.postDetailResDto;
+      const postDetailResDto = parsedContent.data.postDetailResDto;
       setInitialTitle(postDetailResDto.title);
       setInitialContent(JSON.parse(postDetailResDto.content));
-      setInitialCategoryName(postDetailResDto.categoryName);
+      setInitialCategoryName(postDetailResDto.category);
       setIsEditing(true);
     }
 
     setLoading(false);
-  }, []);
+  }, [parsedContent]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 50) {
@@ -115,7 +115,7 @@ export function PetitionNoticeEditorSection() {
       const postFileList = imageId ? imageId : [];
       const patch_posts = {
         boardCode: '청원게시판',
-        postId: Number(parsedContent.postDetailResDto.postId),
+        postId: Number(parsedContent.data.postDetailResDto.postId),
         posts: {
           title: title,
           content: JSON.stringify(content),
@@ -128,7 +128,7 @@ export function PetitionNoticeEditorSection() {
       try {
         const check = window.confirm('편집하시겠습니까?');
         if (check) {
-          const old_c = parsedContent.postDetailResDto.content;
+          const old_c = parsedContent.data.postDetailResDto.content;
           const new_c = patch_posts.posts.content;
 
           const removedImg = compareImgTags(JSON.parse(old_c), JSON.parse(new_c));
