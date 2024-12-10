@@ -13,7 +13,7 @@ export function useLostPatch() {
   const postDetail = resp?.data.postDetailResDto;
 
   const [title, setTitle] = useState<string>(postDetail?.title ?? '');
-  const [category, setCategory] = useState<string>(postDetail?.categoryName ?? '');
+  const [category, setCategory] = useState<string>(postDetail?.category ?? '');
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
   const imageList =
     postDetail?.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
