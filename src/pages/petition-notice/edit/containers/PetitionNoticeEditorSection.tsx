@@ -28,7 +28,7 @@ export function PetitionNoticeEditorSection() {
   const navigate = useNavigate();
 
   const oldContent = localStorage.getItem('oldContent')!;
-  const parsedContent = JSON.parse(oldContent) as GetBoardDetailResponse;
+  const parsedContent = JSON.parse(oldContent) as GetBoardDetailResponse['data'];
 
   useEffect(() => {
     if (parsedContent) {
