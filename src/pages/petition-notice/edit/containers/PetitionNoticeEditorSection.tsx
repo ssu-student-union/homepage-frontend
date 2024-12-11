@@ -32,7 +32,7 @@ export function PetitionNoticeEditorSection() {
 
   useEffect(() => {
     if (parsedContent) {
-      const postDetailResDto = parsedContent.data.postDetailResDto;
+      const postDetailResDto = parsedContent.postDetailResDto;
       setInitialTitle(postDetailResDto.title);
       setInitialContent(JSON.parse(postDetailResDto.content));
       setInitialCategoryName(postDetailResDto.category);
