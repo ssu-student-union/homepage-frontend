@@ -115,7 +115,7 @@ export function PetitionNoticeEditorSection() {
       const postFileList = imageId ? imageId : [];
       const patch_posts = {
         boardCode: '청원게시판',
-        postId: Number(parsedContent.data.postDetailResDto.postId),
+        postId: Number(parsedContent.postDetailResDto.postId),
         posts: {
           title: title,
           content: JSON.stringify(content),
