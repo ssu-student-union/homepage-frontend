@@ -140,7 +140,7 @@ export const HumanRightsPostSummarySchema = z.object({
 
 export const HumanRightsPostEditFormSchema = z.object({
   postId: z.number().optional(),
-  title: z.string().min(1),
+  title: z.string().min(1).max(50),
   category: HumanRightsCategorySchema,
   isNotice: z.literal(false),
   postFileList: z.array(z.number()),
