@@ -128,7 +128,7 @@ export function PetitionNoticeEditorSection() {
       try {
         const check = window.confirm('편집하시겠습니까?');
         if (check) {
-          const old_c = parsedContent.data.postDetailResDto.content;
+          const old_c = parsedContent.postDetailResDto.content;
           const new_c = patch_posts.posts.content;
 
           const removedImg = compareImgTags(JSON.parse(old_c), JSON.parse(new_c));
