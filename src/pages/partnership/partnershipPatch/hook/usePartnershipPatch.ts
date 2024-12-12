@@ -26,7 +26,7 @@ export function usePartnershipPatch() {
   const [thumbnailImage, setThumbnailImage] = useState<string>(imageList[0] ?? '');
 
   const [title, setTitle] = useState<string>(postDetail?.title ?? '');
-  const [category, setCategory] = useState<string>(postDetail?.categoryName ?? '');
+  const [category, setCategory] = useState<string>(postDetail?.category ?? '');
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);
