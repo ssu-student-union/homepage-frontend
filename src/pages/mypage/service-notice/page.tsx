@@ -6,15 +6,26 @@ import { WriteButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
 import { useContentWidth } from './hook/useContetnWidth';
 import { ServiceNoticeData } from './MockData';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { cn } from '@/libs/utils';
+
+type Post = {
+  postId: number;
+  title: string;
+  content: string;
+  date: string;
+  category: null;
+  thumbNail: string | null;
+  status: string;
+  author: string;
+};
 
 export function ServiceNoticePage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Post[] | null>(null);
   const postsPerPage = 10;
   const contentWidth = useContentWidth();
-  // const onPageChange = (page: number) => {
-  //   console.log(page);
-  // };
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -26,8 +37,18 @@ export function ServiceNoticePage() {
     navigate('/service-notice/edit');
   };
 
+  /*api 연동 전 MockData로 Loading 스켈레톤 처리 테스트 입니다.*/
+  useEffect(() => {
+    // Mock 데이터 로딩 시뮬레이션
+    setLoading(true); // 로딩 시작
+    setTimeout(() => {
+      setData(ServiceNoticeData?.data?.postListResDto); // 데이터 설정
+      setLoading(false); // 로딩 완료
+    }, 1000); // 1초 딜레이로 비동기 동작 흉내
+  }, []);
+
   const startIndex = (currentPage - 1) * postsPerPage;
-  const selectedPosts = ServiceNoticeData.data.postListResDto.slice(startIndex, startIndex + postsPerPage);
+  const selectedPosts = data?.slice(startIndex, startIndex + postsPerPage);
 
   const MobileWriteBtn = contentWidth === 316 ? 'justify-center' : 'justify-end';
 
@@ -44,32 +65,44 @@ export function ServiceNoticePage() {
             searchHidden={true}
           />
         </div>
+        {/* 로딩 상태에 따라 Skeleton 또는 실제 데이터를 표시 */}
         <div className="jutify-center flex flex-col items-center">
-          <div className="mb-[40px] mt-[64px] flex flex-col items-center justify-center">
-            {selectedPosts.map((data) => {
-              return (
-                <ServiceNoticePostContent
-                  key={data.postId}
-                  postId={data.postId.toString()}
-                  title={data.title}
-                  date={data.date}
-                  Emergency={data.status === '긴급공지'}
-                />
-              );
-            })}
-          </div>
-          <div
-            className={`mb-[40px] flex ${MobileWriteBtn}`}
-            style={{ width: `${contentWidth}px` }}
-            onClick={handleWriteBtnClick}
-          >
-            <WriteButton />
-          </div>
-          <Pagination
-            totalPages={ServiceNoticeData.data.pageInfo.totalPages}
-            currentPage={currentPage}
-            onPageChange={onPageChange}
-          />
+          {loading ? (
+            <div className="mb-[300px] mt-[64px] flex flex-col items-center">
+              <div className={cn(`flex flex-col flex-wrap gap-[10px]`)}>
+                {Array.from({ length: 7 }).map((_, index) => (
+                  <ServiceNoticePostContent.Skeleton key={index} />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="mb-[40px] mt-[64px] flex flex-col items-center justify-center">
+                {selectedPosts?.map((data) => (
+                  <ServiceNoticePostContent
+                    key={data.postId}
+                    postId={data.postId.toString()}
+                    title={data.title}
+                    date={data.date}
+                    Emergency={data.status === '긴급공지'}
+                  />
+                ))}
+              </div>
+              <div
+                className={`mb-[40px] flex ${MobileWriteBtn}`}
+                style={{ width: `${contentWidth}px` }}
+              >
+                <div onClick={handleWriteBtnClick}>
+                  <WriteButton />
+                </div>
+              </div>
+              <Pagination
+                totalPages={ServiceNoticeData.data.pageInfo.totalPages}
+                currentPage={currentPage}
+                onPageChange={onPageChange}
+              />
+            </>
+          )}
         </div>
       </div>
     </>

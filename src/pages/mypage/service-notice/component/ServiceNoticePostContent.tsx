@@ -1,15 +1,18 @@
 import { Badge } from '@/components/ui/badge';
 import { useContentWidth } from '../hook/useContetnWidth';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '@/libs/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface ServiceNoticePostContentProps {
-  postId: string;
-  title: string;
-  date: string;
-  Emergency: boolean;
+  postId?: string;
+  title?: string;
+  date?: string;
+  Emergency?: boolean;
+  className?: string;
 }
 
-export function ServiceNoticePostContent({ postId, title, date, Emergency }: ServiceNoticePostContentProps) {
+export function ServiceNoticePostContent({ postId, title, date, Emergency, className = '' }: ServiceNoticePostContentProps) {
   const contentWidth = useContentWidth();
   const navigate = useNavigate();
 
@@ -23,10 +26,10 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency }: Ser
   };
 
   return (
-    <div className="flex h-[64px] border-b-[1px] border-[#9CA3AF]" style={{ width: `${contentWidth}px` }}>
+    <div className={cn("flex h-[64px] border-b-[1px] border-[#9CA3AF]",className)} style={{ width: `${contentWidth}px` }}>
       {Emergency ? (
         <Badge variant="Emergency" className="relative top-[22px]">
-          긴급
+          긴급  
         </Badge>
       ) : (
         <div className="h-[23px] w-[54px]"></div>
@@ -40,3 +43,12 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency }: Ser
     </div>
   );
 }
+
+ServiceNoticePostContent.Skeleton = () => {
+  const contentWidth = useContentWidth();
+  return (
+    <Skeleton
+    className={cn("flex h-[64px]")} style={{ width: `${contentWidth}px` }}
+    />
+  );
+};
