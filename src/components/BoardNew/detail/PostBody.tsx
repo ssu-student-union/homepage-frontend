@@ -1,6 +1,6 @@
 import { FileResponse } from '@/types/apis/get';
-import { Attachment } from '@/pages/human-rights/[id]/components/Attachment.tsx';
-import { ContentViewer } from '@/pages/human-rights/[id]/components/ContentViewer.tsx';
+import { Attachment } from '@/components/BoardNew/detail/Attachment.tsx';
+import { ContentViewer } from '@/components/BoardNew/detail/ContentViewer.tsx';
 
 interface PostBodyProps {
   content: string;
