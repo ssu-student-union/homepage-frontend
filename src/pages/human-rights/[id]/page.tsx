@@ -1,17 +1,17 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
+import { PostHeader } from '@/components/BoardNew/detail/PostHeader.tsx';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';
-import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
-import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
-import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
-import { PostComment } from '@/pages/human-rights/[id]/components/PostComment.tsx';
+import { PostBody } from '@/components/BoardNew/detail/PostBody.tsx';
+import { PostFooter } from '@/components/BoardNew/detail/PostFooter.tsx';
+import { PostCommentEditor } from '@/components/BoardNew/detail/PostCommentEditor.tsx';
+import { PostComment } from '@/components/BoardNew/detail/PostComment.tsx';
 import {
   HumanRightsComment,
   HumanRightsCommentResponse,
   HumanRightsPerson,
   HumanRightsReporter,
 } from '@/pages/human-rights/schema.ts';
-import { Container } from '@/pages/human-rights/containers/Container.tsx';
+import { Container } from '@/containers/new/Container.tsx';
 import {
   useDeleteHumanRightsPost,
   useGetHumanRightsComments,
