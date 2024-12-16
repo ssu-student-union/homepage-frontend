@@ -31,7 +31,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
 import { LocalPostFile, PostFile, UploadedPostFile } from '@/pages/human-rights/edit/components/FileInput.tsx';
 import { FileResponse } from '@/types/apis/get';
-import { useGetUserInfo } from '@/pages/human-rights/hooks/query/useGetUserInfo.ts';
+import { useGetUserInfo } from '@/hooks/new/query/useGetUserInfo.ts';
 import { useQueryClient } from '@tanstack/react-query';
 
 const BOARD_CODE = '인권신고게시판';

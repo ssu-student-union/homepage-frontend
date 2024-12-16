@@ -17,9 +17,9 @@ import {
   useGetHumanRightsComments,
   useGetHumanRightsPost,
 } from '@/pages/human-rights/queries.ts';
-import { useCreateComment } from '@/pages/human-rights/hooks/mutations/useCreateComment.ts';
-import { usePatchComment } from '@/pages/human-rights/hooks/mutations/usePatchComment.ts';
-import { useDeleteComment } from '@/pages/human-rights/hooks/mutations/useDeleteComment.ts';
+import { useCreateComment } from '@/hooks/new/mutations/useCreateComment.ts';
+import { usePatchComment } from '@/hooks/new/mutations/usePatchComment.ts';
+import { useDeleteComment } from '@/hooks/new/mutations/useDeleteComment.ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -237,7 +237,7 @@ export function HumanRightsDetailPage() {
                   commentType={comment.commentType}
                   lastEditedAt={comment.lastEditedAt ?? undefined}
                   editable={comment.isAuthor}
-                  deletable={comment.commentType !== 'OFFICIAL' && (comment.isAuthor ||commentDeletable)}
+                  deletable={comment.commentType !== 'OFFICIAL' && (comment.isAuthor || commentDeletable)}
                   deleted={comment.isDeleted ?? false}
                   onDelete={() => handleDeleteComment(comment.id)}
                   onEdit={(content) => handlePatchComment(comment.id, content)}
