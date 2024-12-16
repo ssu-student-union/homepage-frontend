@@ -2,12 +2,12 @@ import { Input } from '@/components/ui/input.tsx';
 import { Editor } from '@toast-ui/react-editor';
 import { FrontmatterEditor } from '@/pages/human-rights/edit/components/FrontmatterEditor.tsx';
 import { cn } from '@/libs/utils.ts';
-import { ArticleHeader } from '@/pages/human-rights/containers/ArticleHeader.tsx';
-import { Container } from '@/pages/human-rights/containers/Container.tsx';
-import { ArticleFooter } from '@/pages/human-rights/containers/ArticleFooter.tsx';
+import { ArticleHeader } from '@/containers/new/ArticleHeader.tsx';
+import { Container } from '@/containers/new/Container.tsx';
+import { ArticleFooter } from '@/containers/new/ArticleFooter.tsx';
 import { MinusCircle, Plus } from '@phosphor-icons/react';
 import { useHumanRightsForm } from '@/pages/human-rights/edit/form.ts';
-import { FileInputs } from '@/pages/human-rights/edit/components/FileInputs.tsx';
+import { FileInputs } from '@/components/BoardNew/edit/FileInputs.tsx';
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor.ts';
 import {
@@ -25,13 +25,13 @@ import {
   useUploadHumanRightsFiles,
 } from '@/pages/human-rights/queries.ts';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
-import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
+import { PostHeader } from '@/components/BoardNew/detail/PostHeader.tsx';
+import { PostFooter } from '@/components/BoardNew/detail/PostFooter.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/pages/human-rights/edit/components/FileInput.tsx';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput.tsx';
 import { FileResponse } from '@/types/apis/get';
-import { useGetUserInfo } from '@/pages/human-rights/hooks/query/useGetUserInfo.ts';
+import { useGetUserInfo } from '@/hooks/new/query/useGetUserInfo.ts';
 import { useQueryClient } from '@tanstack/react-query';
 
 const BOARD_CODE = '인권신고게시판';
