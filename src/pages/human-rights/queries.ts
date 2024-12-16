@@ -1,4 +1,4 @@
-import { SearchPostsOptions, useSearchPosts } from '@/pages/human-rights/hooks/query/useSearchPosts.ts';
+import { SearchPostsOptions, useSearchPosts } from '@/hooks/new/query/useSearchPosts.ts';
 import {
   HumanRightsComment,
   HumanRightsCommentResponse,
@@ -11,12 +11,12 @@ import {
   HumanRightsPostSummaryResponse,
   HumanRightsPostSummarySchema,
 } from '@/pages/human-rights/schema.ts';
-import { GetPostOptions, useGetPost } from '@/pages/human-rights/hooks/query/useGetPost.ts';
-import { GetCommentsOptions, useGetComments } from '@/pages/human-rights/hooks/query/useGetComments.ts';
-import { useCreatePost, UseCreatePostOptions } from '@/pages/human-rights/hooks/mutations/useCreatePost.ts';
-import { useDeletePost, UseDeletePostOptions } from '@/pages/human-rights/hooks/mutations/useDeletePost.ts';
-import { usePatchPost, UsePatchPostOptions } from '@/pages/human-rights/hooks/mutations/usePatchPost.ts';
-import { useUploadFiles, UseUploadFilesOptions } from '@/pages/human-rights/hooks/mutations/useUploadFiles.ts';
+import { GetPostOptions, useGetPost } from '@/hooks/new/query/useGetPost.ts';
+import { GetCommentsOptions, useGetComments } from '@/hooks/new/query/useGetComments.ts';
+import { useCreatePost, UseCreatePostOptions } from '@/hooks/new/mutations/useCreatePost.ts';
+import { useDeletePost, UseDeletePostOptions } from '@/hooks/new/mutations/useDeletePost.ts';
+import { usePatchPost, UsePatchPostOptions } from '@/hooks/new/mutations/usePatchPost.ts';
+import { useUploadFiles, UseUploadFilesOptions } from '@/hooks/new/mutations/useUploadFiles.ts';
 
 const BOARD_CODE = '인권신고게시판' as const;
 
