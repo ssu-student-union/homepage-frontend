@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { ApiError, ApiResponse } from '@/pages/human-rights/hooks/useStuQuery.ts';
+import { ApiError, ApiResponse } from '@/hooks/new/useStuQuery.ts';
 
 /**
  * 총학생회 홈페이지에서 반환하는 공통된 API 형식을 처리하는 tanstack query 훅입니다.

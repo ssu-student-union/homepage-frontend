@@ -1,4 +1,4 @@
-import { ApiError, useStuQuery } from '@/pages/human-rights/hooks/useStuQuery.ts';
+import { ApiError, useStuQuery } from '@/hooks/new/useStuQuery.ts';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { UndefinedInitialDataOptions } from '@tanstack/react-query';
 import z, { ZodError } from 'zod';
