@@ -12,7 +12,6 @@ interface AssociationInfo {
   name: string;
   nickname: string;
   password: string;
-
   college: string;
   department: string;
 }
