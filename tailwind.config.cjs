@@ -17,6 +17,15 @@ module.exports = {
       padding: '2rem',
     },
     extend: {
+      scrollbar: {
+        hide: {
+          'scrollbar-width': 'none',
+          '-ms-overflow-style': 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
