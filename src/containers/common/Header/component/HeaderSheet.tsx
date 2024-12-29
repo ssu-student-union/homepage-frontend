@@ -91,13 +91,13 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
                 )}
               </div>
             ))}
-            {/*자료집 임시 제거*/}
-            {/* <div
-              onClick={() => handleLinkClick(dataPath)}
-              className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-            >
-              자료집
-            </div> */}
+            {/*임시 자료집(구글 드라이브 링크)*/}
+            <div
+  onClick={() => window.open(import.meta.env.VITE_TEMP_DATA_URL, '_blank')}
+  className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
+>
+  자료집
+</div>
             <a
               href={`https://ssuketch60.cafe24.com/`}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
