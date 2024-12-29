@@ -36,6 +36,12 @@ export function MainRouter() {
         <Route path="/audit/:id" element={<i.AuditDetailPage />} />
         <Route path="/audit/edit" element={<i.AuditEditPage />} />
         <Route path="/audit/:id/patch" element={<i.AuditPatchPage />} />
+        {/* 4-1. 인권신고게시판*/}
+        <Route path="/human-rights" element={<i.HumanRightsPage />} />
+        <Route path="/human-rights/:id" element={<i.HumanRightsDetailPage />} />
+        <Route path="/human-rights/:id?/edit" element={<i.HumanRightsEditPage />} />
+        {/* 4-2. 건의 게시판 */}
+        <Route path="/sug-notice" element={<i.SuggestPage />} />
         {/* 5. 마이페이지 */}
         <Route path="/mypage" element={<i.MyPage />} />
         {/* 개인정보이용약관 */}
