@@ -1,4 +1,5 @@
 import { cn } from '@/libs/utils';
+import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 interface CategoryProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isActive?: boolean;
@@ -22,3 +23,13 @@ export function Category({ isActive = false, children, className = '', ...props 
     </button>
   );
 }
+
+Category.Skeleton = () => {
+  return (
+    <Skeleton
+      className={cn(
+        `h-[38px] w-[6ch] rounded-[32px] text-[1.125rem] xs:h-[31px] xs:text-[0.875rem] sm:h-[31px] sm:text-[0.875rem]`
+      )}
+    />
+  );
+};

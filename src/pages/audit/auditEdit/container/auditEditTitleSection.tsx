@@ -21,7 +21,7 @@ export function AuditEditTitleSection({
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value;
-    if (newTitle.length <= 50) {
+    if (newTitle.length <= 80) {
       setTitle(newTitle);
       onTitleChange(newTitle);
     }
