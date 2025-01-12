@@ -66,7 +66,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <main>
+    <main className="sm:mx-32">
       {isAssociation ? (
         <>
           <UserContainer isAssociation={isAssociation} userInfo={null} associationInfo={associationInfo} />
@@ -129,7 +129,7 @@ export default function ProfilePage() {
               </>
             ) : (
               <>
-                <h3 className="text-lg font-bold">기본정보</h3>
+                <h3 className="text-lg font-bold sm:text-base">기본정보</h3>
                 <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm">
                   <span className="mr-14 font-semibold">아이디</span>
                   <span>{associationInfo.id}</span>
@@ -148,26 +148,26 @@ export default function ProfilePage() {
         <>
           <UserContainer isAssociation={isAssociation} userInfo={userInfo} associationInfo={null} />
           <div className="mb-8 pl-16">
-            <h3 className="text-lg font-bold">기본정보</h3>
+            <h3 className="text-lg font-bold sm:text-base">기본정보</h3>
             {isEditing ? (
-              <div className="grid grid-cols-[1fr_5fr] gap-y-2.5 p-6 text-sm">
+              <div className="grid grid-cols-[1fr_5fr] gap-y-2.5 p-6 text-sm sm:grid-cols-[2fr_5fr] sm:text-xs">
                 <span className="font-semibold">아이디</span>
                 <input
-                  className="w-56 rounded-sm border border-gray-300 bg-gray-200 px-3 py-0.5"
+                  className="w-56 rounded-sm border border-gray-300 bg-gray-200 px-3 py-0.5 sm:w-40"
                   value={userInfo.email}
                   readOnly
                 />
 
                 <span className="font-semibold">이름</span>
                 <input
-                  className="w-56 rounded-sm border border-gray-300 bg-gray-200 px-3 py-0.5"
+                  className="w-56 rounded-sm border border-gray-300 bg-gray-200 px-3 py-0.5 sm:w-40"
                   value={userInfo.name}
                   readOnly
                 />
 
                 <span className="font-semibold">학번</span>
                 <input
-                  className="w-56 rounded-sm border border-gray-300 bg-gray-200 px-3 py-0.5"
+                  className="w-56 rounded-sm border border-gray-300 bg-gray-200 px-3 py-0.5 sm:w-40"
                   value={userInfo.studentId}
                   readOnly
                 />
@@ -177,11 +177,11 @@ export default function ProfilePage() {
                   name="phoneNumber"
                   value={userInfo.phoneNumber}
                   onChange={handleInputChange}
-                  className="w-56 rounded-sm border border-gray-300 px-3 py-0.5"
+                  className="w-56 rounded-sm border border-gray-300 px-3 py-0.5 sm:w-40"
                 />
               </div>
             ) : (
-              <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm">
+              <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm sm:grid-cols-[2fr_4fr] sm:text-xs md:grid-cols-[2fr_5fr]">
                 <span className="font-semibold">아이디</span>
                 <span>{userInfo.email}</span>
 
@@ -197,8 +197,8 @@ export default function ProfilePage() {
             )}
           </div>
           <div className="pl-16">
-            <h3 className="text-lg font-bold">학적정보 - 주전공</h3>
-            <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm">
+            <h3 className="text-lg font-bold sm:text-base">학적정보 - 주전공</h3>
+            <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm sm:grid-cols-[2fr_4fr] sm:text-xs md:grid-cols-[2fr_5fr]">
               <span className="mr-9 font-semibold">단과대학</span>
               <span>{userInfo.college}</span>
 
@@ -208,7 +208,7 @@ export default function ProfilePage() {
           </div>
         </>
       )}
-      <div className="flex justify-end px-10 pb-10">
+      <div className="flex justify-end px-10 pb-10 sm:justify-center sm:pt-8 md:pt-8">
         {isEditing ? (
           <>
             <button
@@ -227,7 +227,7 @@ export default function ProfilePage() {
         ) : (
           <button
             onClick={() => setIsEditing(true)}
-            className="rounded-xs border border-gray-400 bg-white px-6 py-1 text-center text-gray-700 hover:bg-gray-100"
+            className="rounded-xs border border-gray-400 bg-white px-5 py-1.5 text-center text-gray-700 hover:bg-gray-100 sm:text-xs md:text-sm"
           >
             수정하기
           </button>
