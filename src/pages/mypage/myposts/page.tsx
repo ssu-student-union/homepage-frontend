@@ -38,12 +38,12 @@ function MyPostsPage() {
               </div>
             </div>
             <div className='mb-[40px]'>
-              <MyPostsContent />
-              <MyPostsContent />
-              <MyPostsContent />
-              <MyPostsContent />
-              <MyPostsContent />
-              <MyPostsContent />
+              <MyPostsContent BoardCode='건의게시판' PostId={12345}/>
+              <MyPostsContent BoardCode='건의게시판' PostId={13213}/>
+              <MyPostsContent BoardCode='건의게시판' PostId={125}/>
+              <MyPostsContent BoardCode='건의게시판' PostId={54321}/>
+              <MyPostsContent BoardCode='건의게시판' PostId={222}/>
+              <MyPostsContent BoardCode='건의게시판' PostId={5658}/>
             </div>
           </div>
         </div>

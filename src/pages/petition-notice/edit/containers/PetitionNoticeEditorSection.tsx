@@ -13,12 +13,8 @@ import history from '@/hooks/useHistory';
 import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
 import { GUIDE_LINE } from '../components/GuideLine';
 import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
-
-type HookMap = {
-  addImageBlobHook?: (blob: File, callback: HookCallback) => void;
-};
-
-type HookCallback = (url: string, text?: string) => void;
+import { HookMap } from '@toast-ui/editor';
+import { GetBoardDetailResponse } from '@/types/apis/get';
 
 export function PetitionNoticeEditorSection() {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -32,19 +28,19 @@ export function PetitionNoticeEditorSection() {
   const navigate = useNavigate();
 
   const oldContent = localStorage.getItem('oldContent')!;
-  const parsedContent = JSON.parse(oldContent);
+  const parsedContent = JSON.parse(oldContent) as GetBoardDetailResponse['data'];
 
   useEffect(() => {
     if (parsedContent) {
       const postDetailResDto = parsedContent.postDetailResDto;
       setInitialTitle(postDetailResDto.title);
       setInitialContent(JSON.parse(postDetailResDto.content));
-      setInitialCategoryName(postDetailResDto.categoryName);
+      setInitialCategoryName(postDetailResDto.category);
       setIsEditing(true);
     }
 
     setLoading(false);
-  }, []);
+  }, [parsedContent]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 50) {
@@ -168,7 +164,7 @@ export function PetitionNoticeEditorSection() {
   }, [initialContent]);
 
   const hooks: HookMap = {
-    addImageBlobHook: async (blob: File, callback: HookCallback) => {
+    addImageBlobHook: async (blob: File | Blob, callback: (url: string, text?: string) => void) => {
       if (blob !== null) {
         const file = new FormData();
         file.append('images', blob);

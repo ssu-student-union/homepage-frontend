@@ -39,7 +39,7 @@ export interface FileResponse {
 
 export interface PostDetailResDto {
   postId: number;
-  categoryName: string;
+  category: string;
   authorName: string;
   allowedAuthorities: string[];
   title: string;

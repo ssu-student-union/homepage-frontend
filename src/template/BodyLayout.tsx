@@ -3,6 +3,7 @@ import { WriteButton } from '@/components/Buttons/BoardActionButtons';
 import { Search } from '@/components/Search/Search';
 import { BodyLayoutProps } from '@/types/layout';
 import { cn } from '@/libs/utils';
+import { ReactNode } from 'react';
 
 export function BodyLayout({
   title,
@@ -16,7 +17,7 @@ export function BodyLayout({
   className = '',
 }: BodyLayoutProps) {
   return (
-    <div className={cn(className, 'mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10')}>
+    <div className={cn('mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10', className)}>
       <div className="text-[1.75rem] font-bold">{title}</div>
       {selector}
       <div className="mt-[24px] xs:mt-[25px] ">
@@ -41,3 +42,16 @@ export function BodyLayout({
     </div>
   );
 }
+
+BodyLayout.Skeleton = ({ children }: { children: ReactNode }) => {
+  return (
+    <div className={cn('mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10')}>
+      <div className="mt-[24px] xs:mt-[25px] ">
+        <main>{children}</main>
+        <div className="flex xs:mt-9 xs:flex-col-reverse sm:mt-9 sm:flex-col-reverse md:mt-8 md:justify-between lg:mt-8 lg:justify-between xl:mt-8 xl:justify-between xxl:mt-8 xxl:justify-between">
+          <div className="w-[94px]"></div>
+        </div>
+      </div>
+    </div>
+  );
+};

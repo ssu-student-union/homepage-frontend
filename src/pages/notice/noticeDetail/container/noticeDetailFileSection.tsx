@@ -6,8 +6,13 @@ interface NoticeDetailFileProps {
 }
 
 export function NoticeDetailFileSection({ files, fileNames }: NoticeDetailFileProps) {
-  const openInNewTab = (filePath: string) => {
-    window.open(filePath, '_blank');
+  const downloadFile = (filePath: string, fileName: string) => {
+    const link = document.createElement('a');
+    link.href = filePath;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const formatFileName = (fileName: string) => {
@@ -19,7 +24,7 @@ export function NoticeDetailFileSection({ files, fileNames }: NoticeDetailFilePr
     <>
       {files.map((file, index) => (
         <div
-          onClick={() => openInNewTab(file)}
+          onClick={() => downloadFile(file, formatFileName(fileNames[index]))}
           key={file + index}
           className="mb-[0.75rem] flex cursor-pointer flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2"
         >
