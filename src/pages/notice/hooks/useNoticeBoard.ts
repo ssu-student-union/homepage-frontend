@@ -23,8 +23,8 @@ export function useNoticeBoard(boardCode: string, category: string, subCategory:
     boardCode,
     take: itemsPerPage,
     page: currentPage - 1,
-    groupCode: category === '�߾�' ? '�߾ӱⱸ' : '�ܰ����л�ȸ',
-    memberCode: subCategory === '��ü' ? '' : subCategory,
+    groupCode: category === '중앙' ? '중앙기구' : '단과대학생회',
+    memberCode: subCategory === '전체' ? '' : subCategory,
     q: searchQuery,
   });
 

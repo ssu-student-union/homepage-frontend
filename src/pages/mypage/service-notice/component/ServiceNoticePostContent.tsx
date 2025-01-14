@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { useContentWidth } from '../hook/useContetnWidth';
+import { useContentWidth } from '../hooks/useContetnWidth';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/libs/utils';
 import { Skeleton } from '@/components/ui/skeleton';

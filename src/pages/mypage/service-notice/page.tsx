@@ -4,32 +4,42 @@ import { ServiceNoticePostContent } from './component/ServiceNoticePostContent';
 import Pagination from '@/components/Pagination';
 import { WriteButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
-import { useContentWidth } from './hook/useContetnWidth';
-import { ServiceNoticeData } from './MockData';
-import { useEffect, useState } from 'react';
+import { useContentWidth } from './hooks/useContetnWidth';
+//import { ServiceNoticeData } from './MockData';
+import { useEffect } from 'react';
 import { cn } from '@/libs/utils';
+import { useServiceNoticeBoard } from './hooks/useServiceNoticeBoard';
 
-type Post = {
-  postId: number;
-  title: string;
-  content: string;
-  date: string;
-  category: null;
-  thumbNail: string | null;
-  status: string;
-  author: string;
-};
+// type Post = {
+//   postId: number;
+//   title: string;
+//   content: string;
+//   date: string;
+//   category: null;
+//   thumbNail: string | null;
+//   status: string;
+//   author: string;
+// };
 
 export function ServiceNoticePage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<Post[] | null>(null);
-  const postsPerPage = 10;
+  //const [currentPage, setCurrentPage] = useState(1);
+  //const [loading, setLoading] = useState(true);
+  //const [data, setData] = useState<Post[] | null>(null);
+  //const postsPerPage = 10;
   const contentWidth = useContentWidth();
 
-  const onPageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const boardCode = "서비스공지사항";
+  const {idata, totalPages, currentPage, handlePageChange, isLoading } = useServiceNoticeBoard(
+    boardCode
+  );
+  const data = idata?.data.postListResDto;
+  useEffect(() => {
+    console.log(idata?.data.postListResDto);
+  }, [idata]);
+
+  // const onPageChange = (page: number) => {
+  //   setCurrentPage(page);
+  // };
 
   const navigate = useNavigate();
 
@@ -38,17 +48,17 @@ export function ServiceNoticePage() {
   };
 
   /*api 연동 전 MockData로 Loading 스켈레톤 처리 테스트 입니다.*/
-  useEffect(() => {
-    // Mock 데이터 로딩 시뮬레이션
-    setLoading(true); // 로딩 시작
-    setTimeout(() => {
-      setData(ServiceNoticeData?.data?.postListResDto); // 데이터 설정
-      setLoading(false); // 로딩 완료
-    }, 1000); // 1초 딜레이로 비동기 동작 흉내
-  }, []);
+  // useEffect(() => {
+  //   // Mock 데이터 로딩 시뮬레이션
+  //   setLoading(true); // 로딩 시작
+  //   setTimeout(() => {
+  //     setData(ServiceNoticeData?.data?.postListResDto); // 데이터 설정
+  //     setLoading(false); // 로딩 완료
+  //   }, 1000); // 1초 딜레이로 비동기 동작 흉내
+  // }, []);
 
-  const startIndex = (currentPage - 1) * postsPerPage;
-  const selectedPosts = data?.slice(startIndex, startIndex + postsPerPage);
+  // const startIndex = (currentPage - 1) * postsPerPage;
+  // const selectedPosts = data?.slice(startIndex, startIndex + postsPerPage);
 
   const MobileWriteBtn = contentWidth === 316 ? 'justify-center' : 'justify-end';
 
@@ -67,7 +77,7 @@ export function ServiceNoticePage() {
         </div>
         {/* 로딩 상태에 따라 Skeleton 또는 실제 데이터를 표시 */}
         <div className="jutify-center flex flex-col items-center">
-          {loading ? (
+          {isLoading ? (
             <div className="mb-[300px] mt-[64px] flex flex-col items-center">
               <div className={cn(`flex flex-col flex-wrap gap-[10px]`)}>
                 {Array.from({ length: 7 }).map((_, index) => (
@@ -78,7 +88,7 @@ export function ServiceNoticePage() {
           ) : (
             <>
               <div className="mb-[40px] mt-[64px] flex flex-col items-center justify-center">
-                {selectedPosts?.map((data) => (
+                {data?.map((data) => (
                   <ServiceNoticePostContent
                     key={data.postId}
                     postId={data.postId.toString()}
@@ -97,9 +107,9 @@ export function ServiceNoticePage() {
                 </div>
               </div>
               <Pagination
-                totalPages={ServiceNoticeData.data.pageInfo.totalPages}
+                totalPages={totalPages}
                 currentPage={currentPage}
-                onPageChange={onPageChange}
+                onPageChange={handlePageChange}
               />
             </>
           )}

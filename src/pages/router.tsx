@@ -1,4 +1,3 @@
-
 import { Navigate, Route, Routes } from 'react-router-dom';
 import * as i from './index.ts';
 import MyPage from './mypage/page.tsx';

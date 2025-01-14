@@ -31,6 +31,7 @@ import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
 import { KakaoRegisterRedirectPage } from './kakao/redirect/page';
+import MyPage from './mypage/page';
 
 export {
   MainPage,
@@ -66,4 +67,5 @@ export {
   PersonalDataPage,
   Layout,
   KakaoRegisterRedirectPage,
+  MyPage,
 };

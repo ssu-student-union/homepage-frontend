@@ -7,12 +7,8 @@ import { useNoticeEdit } from "@/pages/notice/noticeEdit/hook/useNoticeEdit";
 import { HeadLayout } from "@/template/HeadLayout";
 
 export function ServiceNoticeEditPage() {
-  const { handleTitleChange, handleContentChange, handleUrgentChange, setFiles, setImages, isLoading } =
+  const { handleTitleChange, handleContentChange, handleUrgentChange, setFiles, setImages, handleServiceSubmit, isLoading } =
     useNoticeEdit();
-
-  const handleSubmit = () => {
-    console.log("Api 대기");
-  }
 
   return(
     <>
@@ -21,7 +17,7 @@ export function ServiceNoticeEditPage() {
       <NoticeEditContentSection onContentChange={handleContentChange} />
       <NoticeEditFilesSection onFilesChange={setFiles} />
       <NoticeEditImageSection onImagesChange={setImages} />
-      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <NoticeEditSubmitButton onSubmit={handleServiceSubmit} isLoading={isLoading} />
     </>
   )
 }
