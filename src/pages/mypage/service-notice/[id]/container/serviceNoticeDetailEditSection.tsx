@@ -11,7 +11,7 @@ interface NoticeDetailEditProps {
   content: string;
   title: string;
 
-  isAuthor: boolean;
+  isAuthor: boolean | undefined;
 }
 
 export function ServiceNoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls, isAuthor }: NoticeDetailEditProps) {

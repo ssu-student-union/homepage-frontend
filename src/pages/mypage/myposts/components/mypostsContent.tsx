@@ -3,6 +3,7 @@ import CommentMark from "@/assets/image/comentMark.svg";
 interface MyPostsPageProps {
   BoardCode: string;
   PostId: Number;
+  
 }
 
 function MyPostsContent({BoardCode, PostId}: MyPostsPageProps) {

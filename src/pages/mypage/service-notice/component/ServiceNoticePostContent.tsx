@@ -38,7 +38,7 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency, class
         <div className={`ml-[20px] ${mobileText} cursor-pointer`}>
           {title}
         </div>
-        <div className={`${mobileText}`}>{date}</div>
+        <div className={`${mobileText} sm:min-w-[63px] xs:min-w-[63px]`}>{date}</div>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import { useContentWidth } from './hooks/useContetnWidth';
 import { useEffect } from 'react';
 import { cn } from '@/libs/utils';
 import { useServiceNoticeBoard } from './hooks/useServiceNoticeBoard';
+import dayjs from 'dayjs';
 
 // type Post = {
 //   postId: number;
@@ -36,6 +37,7 @@ export function ServiceNoticePage() {
   useEffect(() => {
     console.log(idata?.data.postListResDto);
   }, [idata]);
+
 
   // const onPageChange = (page: number) => {
   //   setCurrentPage(page);
@@ -93,7 +95,7 @@ export function ServiceNoticePage() {
                     key={data.postId}
                     postId={data.postId.toString()}
                     title={data.title}
-                    date={data.date}
+                    date={dayjs(data.date).format("YYYY-MM-DD")}
                     Emergency={data.status === '긴급공지'}
                   />
                 ))}
