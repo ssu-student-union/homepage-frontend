@@ -105,7 +105,7 @@ export function ServiceNoticePage() {
                 style={{ width: `${contentWidth}px` }}
               >
                 <div onClick={handleWriteBtnClick}>
-                  <WriteButton />
+                {idata?.data.allowedAuthorities?.includes('WRITE') ? <WriteButton onClick={handleWriteBtnClick} /> : null}
                 </div>
               </div>
               <Pagination

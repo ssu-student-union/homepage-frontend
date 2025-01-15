@@ -19,7 +19,7 @@ export function CancelButton({ ...props }) {
 
 export function ListButton({ ...props }) {
   return (
-    <Button variant={'List_Edit'} {...props}>
+    <Button variant={'List_Edit'} className='sm:w-[100px]' {...props}>
       <List />
       <p>목록</p>
     </Button>
@@ -37,7 +37,7 @@ export function WriteButton({ ...props }) {
 
 export function EditButton({ ...props }) {
   return (
-    <Button variant={'List_Edit'} {...props}>
+    <Button variant={'List_Edit'} className='sm:w-[100px]' {...props}>
       <Pencil />
       <p>편집</p>
     </Button>
@@ -46,7 +46,7 @@ export function EditButton({ ...props }) {
 
 export function DeleteButton({ ...props }) {
   return (
-    <Button variant={'List_Edit'} {...props}>
+    <Button variant={'List_Edit'} className='sm:w-[100px]'{...props}>
       <Trash />
       <p>삭제</p>
     </Button>

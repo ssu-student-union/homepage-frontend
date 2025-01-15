@@ -1,7 +1,7 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
 import { ServiceNoticeHandleLocation } from '../../../../notice/noticeDetail/utils/locationHandler';
-//import { delBoardPosts } from '@/apis/delBoardPosts';
+import { delBoardPosts } from '@/apis/delBoardPosts';
 
 interface NoticeDetailEditProps {
   boardCode: string;
@@ -17,11 +17,10 @@ interface NoticeDetailEditProps {
 export function ServiceNoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls, isAuthor }: NoticeDetailEditProps) {
   const navigate = useNavigate();
 
-  //const fileurl: string[] = [...fileUrls, ...imageUrls];
+  const fileurl: string[] = [...fileUrls, ...imageUrls];
 
   const handleDelete = async () => {
-    //await delBoardPosts(boardCode, postId, fileurl);
-    console.log("API 대기");
+    await delBoardPosts(boardCode, postId, fileurl);
     navigate(`/service-notice`);
   };
 
@@ -46,7 +45,7 @@ export function ServiceNoticeDetailEditSection({ boardCode, postId, fileUrls, im
           </>
         ) : null}
 
-        <ListButton onClick={() => navigate(`/notice`)} />
+        <ListButton onClick={() => navigate(`/service-notice`)} />
       </div>
     </div>
   );
