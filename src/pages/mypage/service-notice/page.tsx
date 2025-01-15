@@ -38,6 +38,7 @@ export function ServiceNoticePage() {
     console.log(idata?.data.postListResDto);
   }, [idata]);
 
+  const firstNotice = idata?.data.postListResDto[0];
 
   // const onPageChange = (page: number) => {
   //   setCurrentPage(page);
@@ -68,7 +69,7 @@ export function ServiceNoticePage() {
     <>
       <div className="mb-[310px]">
         <div className="">
-          <ServiceNoticeTab Title="[점검] 총학생회 홈페이지 점검으로 인한 기능 제한" />
+          <ServiceNoticeTab isEmergency={firstNotice?.status === '긴급공지'} Title={firstNotice?.title} postId={firstNotice?.postId}/>
         </div>
         <div className="mt-[160px]">
           <HeadLayout
