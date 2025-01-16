@@ -116,7 +116,7 @@ export function SuggestPage() {
   }
 
   return (
-    <div>
+    <>
       <HeadLayout title="건의게시판" subtitle={subtitle} />
       <BodyLayout
         totalPages={totalPages}
@@ -145,6 +145,6 @@ export function SuggestPage() {
           <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
         )}
       </BodyLayout>
-    </div>
+    </>
   );
 }
