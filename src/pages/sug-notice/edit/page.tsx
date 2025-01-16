@@ -195,7 +195,7 @@ export function SuggestWritePage() {
       </ArticleHeader>
       <hr className="bg-[#E7E7E7]" />
       <Container>
-        <section className="mb-16">
+        <section className="mb-16 flex flex-col gap-6">
           <div>
             <Input id="title" type="text" placeholder="제목을 입력하세요." {...register('title')} />
             <p
