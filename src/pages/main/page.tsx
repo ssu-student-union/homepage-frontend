@@ -6,11 +6,26 @@ import { Spacing } from '@/components/Spacing';
 import LostArticleSection from './containers/LostArticleSection';
 import CampusMapSection from './containers/CampusMapSection';
 import { CounselBtn } from './containers/CounselBtn';
+import { ServiceNoticeTab } from '../mypage/service-notice/component/ServiceNoticeTab';
+import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
+import { NoticeResponse } from '../notice/types';
 
 export function MainPage() {
+  const boardCode = '서비스공지사항';
+  const { data, isLoading, isError } = useGetBoardPosts<NoticeResponse>({ boardCode, take: 1 });
+  const firstNotice = data?.data.postListResDto[0];
   return (
     <>
       <main>
+        {!!firstNotice ? (
+          <ServiceNoticeTab
+            isEmergency={firstNotice?.status === '긴급공지'}
+            Title={firstNotice?.title}
+            postId={firstNotice?.postId}
+          />
+        ) : (
+          ''
+        )}
         <MainCarousel />
         <MainScheduleSection />
         <CounselBtn />
