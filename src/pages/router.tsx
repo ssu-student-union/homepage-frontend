@@ -56,6 +56,10 @@ export function MainRouter() {
         <Route path="/service-notice/:id" element={<ServiceNoticeDetailPage />} />
         <Route path="/service-notice/edit" element={<ServiceNoticeEditPage />} />
         <Route path="/myPosts" element={<MyPostsPage />} />
+        {/* 5. 자료집 */}
+        <Route path="/data" element={<i.DataPage />} />
+        {/* 마이페이지 */}
+        <Route path="/mypage" element={<i.MyPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
       </Route>
