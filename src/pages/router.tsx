@@ -48,14 +48,14 @@ export function MainRouter() {
         <Route path="/human-rights/:id?/edit" element={<i.HumanRightsEditPage />} />
         {/* 4-2. 건의 게시판 */}
         <Route path="/sug-notice" element={<i.SuggestPage />} />
-         {/*마이페이지*/}
+        {/*마이페이지*/}
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/profile" element={<ProfilePage />} />
         {/*마이페이지-서비스 공지사항*/}
-        <Route path="/service-notice" element={<ServiceNoticePage/>} />
-        <Route path="/service-notice/:id" element={<ServiceNoticeDetailPage/>} />
-        <Route path="/service-notice/edit" element={<ServiceNoticeEditPage/>} />
-        <Route path="/myPosts" element={<MyPostsPage/>} />
+        <Route path="/service-notice" element={<ServiceNoticePage />} />
+        <Route path="/service-notice/:id" element={<ServiceNoticeDetailPage />} />
+        <Route path="/service-notice/edit" element={<ServiceNoticeEditPage />} />
+        <Route path="/myPosts" element={<MyPostsPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
       </Route>
