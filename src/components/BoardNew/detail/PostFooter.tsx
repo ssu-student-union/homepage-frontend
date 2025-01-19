@@ -2,7 +2,7 @@ import { DeleteButton } from '@/components/Buttons/BoardActionButtons.tsx';
 import { buttonVariants } from '@/components/ui/button.tsx';
 import { List, Pencil } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
-import { ArticleFooter } from '@/pages/human-rights/containers/ArticleFooter.tsx';
+import { ArticleFooter } from '@/containers/new/ArticleFooter.tsx';
 import { cn } from '@/libs/utils.ts';
 
 interface PostFooterProps {

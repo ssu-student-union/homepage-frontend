@@ -2,8 +2,8 @@ import { ReactNode, useState } from 'react';
 import { cn } from '@/libs/utils.ts';
 import { DotsThree, User } from '@phosphor-icons/react';
 import dayjs from 'dayjs';
-import { DropdownButton } from '@/pages/human-rights/[id]/components/DropdownButton.tsx';
-import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
+import { DropdownButton } from '@/components/BoardNew/detail/DropdownButton.tsx';
+import { PostCommentEditor } from '@/components/BoardNew/detail/PostCommentEditor.tsx';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 
 interface PostCommentProps {
