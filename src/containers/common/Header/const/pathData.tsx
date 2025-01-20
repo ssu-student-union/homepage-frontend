@@ -19,6 +19,10 @@ export const menuItems = {
       name: '단과대 공지사항',
       path: '/notice?category=단과대',
     },
+    {
+      name: '서비스 공지사항',
+      path: '/service-notice',
+    },
   ],
   학교생활: [
     { name: '공지사항', path: '/notice' },

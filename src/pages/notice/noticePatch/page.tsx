@@ -5,8 +5,11 @@ import { NoticeEditSubmitButton } from '../noticeEdit/container/noticeEditSubmit
 import { useNoticePatch } from './hook/useNoticePatch';
 import { NoticePatchImageSection } from './container/noticePatchImageSection';
 import { AuditPatchFilesSection } from '@/pages/audit/auditPatch/container/auditPatchFileSection';
+import { useParams } from 'react-router-dom';
 
 export default function NoticePatchPage() {
+  const { id } = useParams();
+  const postId = Number(id);
   const {
     title,
     content,
@@ -22,7 +25,7 @@ export default function NoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
-  } = useNoticePatch();
+  } = useNoticePatch({boardCode : "공지사항게시판", postId : postId});
 
   return (
     <>
