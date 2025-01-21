@@ -11,7 +11,7 @@ export function ServiceNoticeDetailPage() {
   const postId = Number(id);
   const boardCode: string = "서비스공지사항";
   // id에 해당하는 게시글 데이터 찾기
-  const { data, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
+  const { data, isError } = useGetBoardDetail({ boardCode, postId });
 
   // post가 존재하는 경우 title과 date를 가져오고, 없으면 빈 값으로 처리
   const title = data ? data.data.postDetailResDto.title : '게시글을 찾을 수 없습니다.';

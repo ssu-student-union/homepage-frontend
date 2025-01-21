@@ -12,7 +12,7 @@ import { NoticeResponse } from '../notice/types';
 
 export function MainPage() {
   const boardCode = '서비스공지사항';
-  const { data, isLoading, isError } = useGetBoardPosts<NoticeResponse>({ boardCode, take: 1 });
+  const { data } = useGetBoardPosts<NoticeResponse>({ boardCode, take: 1 });
   const firstNotice = data?.data.postListResDto[0];
   return (
     <>
