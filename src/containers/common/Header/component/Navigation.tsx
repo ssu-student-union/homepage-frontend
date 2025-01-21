@@ -35,7 +35,6 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
             </NavigationMenuContent>
           </NavigationMenuItem>
         ))}
-        {/*자료집 임시 제거*/}
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => navigate(dataPath)}>
           <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
             <p>자료집</p>
