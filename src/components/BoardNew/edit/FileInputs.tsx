@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { FileInput, PostFile } from '@/pages/human-rights/edit/components/FileInput.tsx';
+import { FileInput, PostFile } from '@/components/BoardNew/edit/FileInput.tsx';
 import { cn } from '@/libs/utils.ts';
 
 interface FileInputsProps {
