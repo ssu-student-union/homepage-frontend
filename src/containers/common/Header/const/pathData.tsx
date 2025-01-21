@@ -21,7 +21,7 @@ export const menuItems = {
     },
     {
       name: '서비스 공지사항',
-      path: '/service-notice',
+      path: '/service-notice', //임시로 추가
     },
   ],
   학교생활: [
