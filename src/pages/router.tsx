@@ -44,6 +44,7 @@ export function MainRouter() {
         <Route path="/sug-notice" element={<i.SuggestPage />} />
         {/* 5. 자료집 */}
         <Route path="/data" element={<i.DataPage />} />
+        <Route path="/data/:id" element={<i.DataDetailPage />} />
         {/* 마이페이지 */}
         <Route path="/mypage" element={<i.MyPage />} />
         {/* 개인정보이용약관 */}
