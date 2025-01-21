@@ -6,6 +6,7 @@ import { ServiceNoticePage } from './mypage/service-notice/page.tsx';
 import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page.jsx';
 import { ServiceNoticeDetailPage } from './mypage/service-notice/[id]/page.tsx';
 import ServiceNoticePatchPage from './mypage/service-notice/service-noticePatch/page.tsx';
+import MyPostsPage from './mypage/myPosts/page.tsx';
 
 export function MainRouter() {
   return (
@@ -48,14 +49,15 @@ export function MainRouter() {
         <Route path="/human-rights/:id?/edit" element={<i.HumanRightsEditPage />} />
         {/* 4-2. 건의 게시판 */}
         <Route path="/sug-notice" element={<i.SuggestPage />} />
-         {/*마이페이지*/}
+        {/*마이페이지*/}
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/profile" element={<ProfilePage />} />
+        <Route path="/mypage/myposts" element={<MyPostsPage />} />
         {/*서비스 공지사항*/}
-        <Route path="/service-notice" element={<ServiceNoticePage/>} />
-        <Route path="/service-notice/:id" element={<ServiceNoticeDetailPage/>} />
-        <Route path="/service-notice/edit" element={<ServiceNoticeEditPage/>} />
-        <Route path="/service-notice/:id/patch" element={<ServiceNoticePatchPage/>} />
+        <Route path="/service-notice" element={<ServiceNoticePage />} />
+        <Route path="/service-notice/:id" element={<ServiceNoticeDetailPage />} />
+        <Route path="/service-notice/edit" element={<ServiceNoticeEditPage />} />
+        <Route path="/service-notice/:id/patch" element={<ServiceNoticePatchPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
       </Route>
