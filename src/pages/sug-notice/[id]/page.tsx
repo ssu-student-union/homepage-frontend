@@ -1,17 +1,17 @@
-import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter';
-import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader';
-import { Container } from '@/pages/human-rights/containers/Container';
+import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
+import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
+import { Container } from '@/containers/new/Container';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDeleteSuggestPost, useGetSuggestComment, useGetSuggestPost } from '../queries';
+import { useDeleteSuggestPost, useGetSuggestComments, useGetSuggestPost } from '../queries';
 import { SuggestComment, SuggestCommentResponse } from '../schema';
-import { usePatchComment } from '@/pages/human-rights/hooks/mutations/usePatchComment';
-import { useDeleteComment } from '@/pages/human-rights/hooks/mutations/useDeleteComment';
-import { useCreateComment } from '@/pages/human-rights/hooks/mutations/useCreateComment';
+import { usePatchComment } from '@/hooks/new/mutations/usePatchComment';
+import { useDeleteComment } from '@/hooks/new/mutations/useDeleteComment';
+import { useCreateComment } from '@/hooks/new/mutations/useCreateComment';
 import { useState } from 'react';
-import { PostBody } from '@/pages/human-rights/[id]/components/PostBody';
-import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor';
-import { PostComment } from '@/pages/human-rights/[id]/components/PostComment';
+import { PostBody } from '@/components/BoardNew/detail/PostBody';
+import { PostCommentEditor } from '@/components/BoardNew/detail/PostCommentEditor';
+import { PostComment } from '@/components/BoardNew/detail/PostComment';
 
 const BOARD_CODE = '건의게시판' as const;
 const breadcrumbItems: [string, string | null][] = [
@@ -42,7 +42,7 @@ export function SuggestDetailPage() {
     isLoading: isCommentLoading,
     error: commentError,
     isError: isCommentError,
-  } = useGetSuggestComment({ postId, type: '최신순', queryOptions: { retry: true } });
+  } = useGetSuggestComments({ postId, type: '최신순', queryOptions: { retry: true } });
 
   const { mutate: deletePost, isPending: isDeletePostPending } = useDeleteSuggestPost();
   const { mutate: submitComment, isPending: isSubmitCommentPending } = useCreateComment<SuggestCommentResponse>({

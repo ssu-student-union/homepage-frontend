@@ -1,10 +1,11 @@
-import { SearchPostsOptions, useSearchPosts } from '../human-rights/hooks/query/useSearchPosts';
-import { GetPostOptions, useGetPost } from '../human-rights/hooks/query/useGetPost';
-import { GetCommentsOptions, useGetComments } from '../human-rights/hooks/query/useGetComments';
-import { useCreatePost, UseCreatePostOptions } from '../human-rights/hooks/mutations/useCreatePost';
-import { useDeletePost, UseDeletePostOptions } from '../human-rights/hooks/mutations/useDeletePost';
-import { usePatchPost, UsePatchPostOptions } from '../human-rights/hooks/mutations/usePatchPost';
-import { useUploadFiles, UseUploadFilesOptions } from '../human-rights/hooks/mutations/useUploadFiles';
+import { SearchPostsOptions, useSearchPosts } from '@/hooks/new/query/useSearchPosts';
+import { GetPostOptions, useGetPost } from '@/hooks/new/query/useGetPost';
+import { GetCommentsOptions, useGetComments } from '@/hooks/new/query/useGetComments';
+import { useCreatePost, UseCreatePostOptions } from '@/hooks/new/mutations/useCreatePost';
+import { useDeletePost, UseDeletePostOptions } from '@/hooks/new/mutations/useDeletePost';
+import { usePatchPost, UsePatchPostOptions } from '@/hooks/new/mutations/usePatchPost';
+import { useUploadFiles, UseUploadFilesOptions } from '@/hooks/new/mutations/useUploadFiles';
+
 import {
   SugNoticePostSummaryResponse,
   SugNoticePostsSummary,
@@ -20,9 +21,16 @@ import {
 
 const BOARD_CODE = '건의게시판' as const;
 
-// GET
-// /board/{boardCode}/posts/search
-// 검색키워드를 활용한 게시판 별 게시물 리스트 조회 api
+/**
+ *
+ * GET
+ * 게시판 별 게시물 리스트 조회 API
+ * 백엔드 URL 설명입니다.
+ *
+ * @route GET /board/{boardCode}/posts/search
+ * @description 검색 키워드를 활용하여 특정 게시판의 게시물 리스트를 조회합니다.
+ * @returns {Promise<Object[]>}
+ */
 
 export function useSearchSugNoticePosts({
   q,
@@ -76,7 +84,7 @@ export function useUploadSuggestFiles({ mutationOptions }: Omit<UseUploadFilesOp
   return useUploadFiles({ boardCode: BOARD_CODE, mutationOptions });
 }
 
-export function useGetSuggestComment({
+export function useGetSuggestComments({
   postId,
   type,
   queryOptions,

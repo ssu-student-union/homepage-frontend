@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
-import { FileInputs } from '@/pages/human-rights/edit/components/FileInputs';
+import { FileInputs } from '@/components/BoardNew/edit/FileInputs';
 import { Editor } from '@toast-ui/react-editor';
 import { cn } from '@/libs/utils.ts';
-import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader';
-import { Container } from '@/pages/human-rights/containers/Container';
-import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter';
+import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
+import { Container } from '@/containers/new/Container';
+import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
+import { PostFile } from '@/components/BoardNew/edit/FileInput';
+import { ArticleHeader } from '@/containers/new/ArticleHeader';
+import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import { useContentEditor } from '@/hooks/useContentEditor';
-import { PostFile } from '@/pages/human-rights/edit/components/FileInput';
-import { ArticleHeader } from '@/pages/human-rights/containers/ArticleHeader';
-import { ArticleFooter } from '@/pages/human-rights/containers/ArticleFooter';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import { UploadedPostFile, LocalPostFile } from '@/pages/human-rights/edit/components/FileInput';
+import { UploadedPostFile, LocalPostFile } from '@/components/BoardNew/edit/FileInput';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSuggestForm } from './form';
 import { useCreateSuggestPost, useGetSuggestPost, usePatchSuggestPost, useUploadSuggestFiles } from '../queries';
@@ -46,8 +46,8 @@ export function SuggestWritePage() {
     error,
     isError,
   } = useGetSuggestPost({
-    postId: postId ?? 0,
-    queryOptions: { enabled: postId !== null },
+    postId: postId ?? NaN,
+    queryOptions: { enabled: Number.isFinite(postId) },
   });
 
   const {
