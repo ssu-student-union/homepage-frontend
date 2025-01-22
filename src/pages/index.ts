@@ -11,6 +11,8 @@ import { HumanRightsPage } from './human-rights/page';
 import { HumanRightsDetailPage } from './human-rights/[id]/page';
 import { HumanRightsEditPage } from './human-rights/edit/page';
 import { SuggestPage } from './sug-notice/page';
+import { SuggestDetailPage } from './sug-notice/[id]/page';
+import { SuggestWritePage } from './sug-notice/edit/page';
 import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
@@ -47,6 +49,8 @@ export {
   HumanRightsDetailPage,
   HumanRightsEditPage,
   SuggestPage,
+  SuggestDetailPage,
+  SuggestWritePage,
   PartnershipPage,
   PetitionNoticePage,
   PetitionNoticeEditPage,

@@ -42,6 +42,8 @@ export function MainRouter() {
         <Route path="/human-rights/:id?/edit" element={<i.HumanRightsEditPage />} />
         {/* 4-2. 건의 게시판 */}
         <Route path="/sug-notice" element={<i.SuggestPage />} />
+        <Route path="/sug-notice/:id" element={<i.SuggestDetailPage />} />
+        <Route path="/sug-notice/:id?/edit" element={<i.SuggestWritePage />} />
         {/* 5. 마이페이지 */}
         <Route path="/mypage" element={<i.MyPage />} />
         {/* 개인정보이용약관 */}
