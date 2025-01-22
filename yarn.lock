@@ -3195,7 +3195,6 @@ __metadata:
     slick-carousel: "npm:^1.8.1"
     sonner: "npm:^1.4.41"
     tailwind-merge: "npm:^2.2.2"
-    tailwind-scrollbar-hide: "npm:^2.0.0"
     tailwindcss: "npm:^3.4.3"
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5.2.2"
@@ -4931,15 +4930,6 @@ __metadata:
   version: 2.5.5
   resolution: "tailwind-merge@npm:2.5.5"
   checksum: 10c0/32614dd2b4ddd4fab070d5ec569e6da00e2b34269b9ac2f2ff16733cef29a076c8e2210fbfc1904d7983a8fdb6b3e63d18ca117645f21b12ca7bcf8fe3507241
-  languageName: node
-  linkType: hard
-
-"tailwind-scrollbar-hide@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "tailwind-scrollbar-hide@npm:2.0.0"
-  peerDependencies:
-    tailwindcss: ">=3.0.0 || >= 4.0.0 || >= 4.0.0-beta.8 || >= 4.0.0-alpha.20"
-  checksum: 10c0/eb320b8fbb4d558fb025420fb21f291201781599b36ef5ff7be500f44daa04e41ff161a484180a180c8a6e38ac863d4f05ecaa73c1c8a58668bcc821fc2725fe
   languageName: node
   linkType: hard
 

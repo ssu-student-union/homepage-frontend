@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import Breadcrumb from '@/components/Breadcrumb';
 import { User } from '@phosphor-icons/react';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
-import { ArticleHeader } from '@/pages/human-rights/containers/ArticleHeader.tsx';
+import { ArticleHeader } from '@/containers/new/ArticleHeader.tsx';
 
 interface PostHeaderProps {
   title: string;

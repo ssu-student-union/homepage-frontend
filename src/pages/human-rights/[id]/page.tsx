@@ -1,25 +1,25 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { PostHeader } from '@/pages/human-rights/[id]/components/PostHeader.tsx';
+import { PostHeader } from '@/components/BoardNew/detail/PostHeader.tsx';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';
-import { PostBody } from '@/pages/human-rights/[id]/components/PostBody.tsx';
-import { PostFooter } from '@/pages/human-rights/[id]/components/PostFooter.tsx';
-import { PostCommentEditor } from '@/pages/human-rights/[id]/components/PostCommentEditor.tsx';
-import { PostComment } from '@/pages/human-rights/[id]/components/PostComment.tsx';
+import { PostBody } from '@/components/BoardNew/detail/PostBody.tsx';
+import { PostFooter } from '@/components/BoardNew/detail/PostFooter.tsx';
+import { PostCommentEditor } from '@/components/BoardNew/detail/PostCommentEditor.tsx';
+import { PostComment } from '@/components/BoardNew/detail/PostComment.tsx';
 import {
   HumanRightsComment,
   HumanRightsCommentResponse,
   HumanRightsPerson,
   HumanRightsReporter,
 } from '@/pages/human-rights/schema.ts';
-import { Container } from '@/pages/human-rights/containers/Container.tsx';
+import { Container } from '@/containers/new/Container.tsx';
 import {
   useDeleteHumanRightsPost,
   useGetHumanRightsComments,
   useGetHumanRightsPost,
 } from '@/pages/human-rights/queries.ts';
-import { useCreateComment } from '@/pages/human-rights/hooks/mutations/useCreateComment.ts';
-import { usePatchComment } from '@/pages/human-rights/hooks/mutations/usePatchComment.ts';
-import { useDeleteComment } from '@/pages/human-rights/hooks/mutations/useDeleteComment.ts';
+import { useCreateComment } from '@/hooks/new/mutations/useCreateComment.ts';
+import { usePatchComment } from '@/hooks/new/mutations/usePatchComment.ts';
+import { useDeleteComment } from '@/hooks/new/mutations/useDeleteComment.ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -237,7 +237,7 @@ export function HumanRightsDetailPage() {
                   commentType={comment.commentType}
                   lastEditedAt={comment.lastEditedAt ?? undefined}
                   editable={comment.isAuthor}
-                  deletable={comment.commentType !== 'OFFICIAL' && (comment.isAuthor ||commentDeletable)}
+                  deletable={comment.commentType !== 'OFFICIAL' && (comment.isAuthor || commentDeletable)}
                   deleted={comment.isDeleted ?? false}
                   onDelete={() => handleDeleteComment(comment.id)}
                   onEdit={(content) => handlePatchComment(comment.id, content)}
