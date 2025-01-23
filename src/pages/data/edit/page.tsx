@@ -13,6 +13,7 @@ import { useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor';
 import { User } from '@phosphor-icons/react';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
+import { FileInputsWithType } from '@/components/BoardNew/edit/FileInputsWithType';
 
 export default function DataEditPage() {
   const category: string[] = ['결산안', '활동보고', '자료']; // mockup
@@ -37,7 +38,7 @@ export default function DataEditPage() {
 
   return (
     <article className="mt-[200px]">
-      <ArticleHeader>
+      <ArticleHeader className="">
         <h1 className="text-[34px] font-bold">자료집</h1>
         <div className="flex flex-row items-center gap-[5px] text-[16px] font-medium text-[#999999]">
           <User className="size-[16px]" />
@@ -45,12 +46,12 @@ export default function DataEditPage() {
         </div>
       </ArticleHeader>
       <Container>
-        <section className="mb-16 flex flex-col gap-6">
-          <div className="flex flex-row gap-[10px]">
-            <div>
+        <section className="= mb-[12px] flex flex-col gap-[10px]">
+          <div className="flex flex-row gap-[10px] xs:flex-col sm:flex-col">
+            <div className="w-full">
               <Input
                 id="title"
-                className="py-[4px]"
+                className="w-full rounded-[6px] border-[2px] border-gray-300 py-[4px] text-[18px] font-medium"
                 type="text"
                 placeholder="제목을 입력하세요."
                 {...register('title')}
@@ -65,7 +66,7 @@ export default function DataEditPage() {
               </p>
             </div>
             <FilterDropDown
-              className="flex h-[44px] w-[346px] items-center justify-center"
+              className="flex h-[44px] w-[346px] items-center justify-center border-gray-500 py-0 text-[19px] font-medium xs:w-[200px] sm:w-[200px] md:w-[200px]"
               defaultValue="카테고리"
               optionValue={category}
               onValueChange={(value) => {
@@ -85,7 +86,7 @@ export default function DataEditPage() {
           />
         </section>
         <section className="mb-16">
-          <FileInputs files={files} onChange={handleFilesChange} sizeLimit={1024 * 1024 * 5} />
+          <FileInputsWithType files={files} onChange={handleFilesChange} sizeLimit={1024 * 1024 * 5} />
         </section>
       </Container>
       <ArticleFooter className="pb-6">
