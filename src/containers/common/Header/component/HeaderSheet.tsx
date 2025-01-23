@@ -1,4 +1,4 @@
-import { menuItems } from '@/containers/common/Header/const/pathData';
+import { dataPath, menuItems } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CaretDown } from '@phosphor-icons/react';
 import { ReactNode, useState, useEffect } from 'react';
@@ -93,7 +93,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
             ))}
             {/*임시 자료집(구글 드라이브 링크)*/}
             <div
-              onClick={() => window.open(import.meta.env.VITE_TEMP_DATA_URL, '_blank')}
+              onClick={() => navigate(dataPath)}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
             >
               자료집

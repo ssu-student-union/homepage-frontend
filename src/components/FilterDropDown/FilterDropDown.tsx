@@ -11,7 +11,7 @@ interface FilterDropDownProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function FilterDropDown({
-  className,
+  className = '',
   defaultValue,
   optionValue,
   onValueChange,

@@ -34,6 +34,8 @@ import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
 import { KakaoRegisterRedirectPage } from './kakao/redirect/page';
 import MyPage from './mypage/page';
+import DataPage from './data/page';
+import DataDetailPage from './data/[id]/page';
 
 export {
   MainPage,
@@ -72,4 +74,6 @@ export {
   Layout,
   KakaoRegisterRedirectPage,
   MyPage,
+  DataPage,
+  DataDetailPage,
 };
