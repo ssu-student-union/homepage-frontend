@@ -4,7 +4,7 @@ import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { handleFileLists } from '@/pages/audit/auditEdit/utils/fileHandler';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface useNoticePatchProps {
   boardCode : string,
@@ -12,12 +12,7 @@ interface useNoticePatchProps {
 }
 
 export function useNoticePatch({boardCode, postId}: useNoticePatchProps) {
-  //const location = useLocation();
   const navigate = useNavigate();
-
-  //const postId: number = location.state?.data.postId;
- // const boardCode: string = '공지사항게시판';
-
   const { data: resp } = useGetBoardDetail({ boardCode, postId });
   const postDetail = resp?.data.postDetailResDto;
 
