@@ -36,6 +36,7 @@ import { KakaoRegisterRedirectPage } from './kakao/redirect/page';
 import MyPage from './mypage/page';
 import DataPage from './data/page';
 import DataDetailPage from './data/[id]/page';
+import DataEditPage from './data/edit/page';
 
 export {
   MainPage,
@@ -76,4 +77,5 @@ export {
   MyPage,
   DataPage,
   DataDetailPage,
+  DataEditPage,
 };

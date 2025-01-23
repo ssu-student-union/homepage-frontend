@@ -18,7 +18,7 @@ export default function SortLayout() {
   const defaultFilterStyle: string = 'w-full';
 
   return (
-    <div className="mb-[5rem] mt-[3.375rem] flex flex-row justify-center  gap-[0.75rem] px-[200px] xs:flex-col xs:px-10 sm:flex-col sm:px-10 md:px-10 lg:px-10">
+    <div className="mb-[5rem] mt-[3.375rem] flex flex-row justify-center gap-[0.75rem] px-[200px] xs:flex-col xs:px-10 sm:flex-col sm:px-10 md:px-10 lg:px-10">
       {/* 대분류 */}
       <FilterDropDown
         defaultValue="대분류"
