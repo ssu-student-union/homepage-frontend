@@ -91,12 +91,7 @@ export function useNoticeEdit() {
       const postFileList = handleFileLists(postFiles);
 
       // 로컬에 저장한 기구 정보 가져오기!
-      let groupCodeList: string[] | null = JSON.parse(localStorage.getItem('groupCodeList') || 'null');
-
-      // null 검사... 멍청한 컴퓨터 같으니...
-      if (groupCodeList === null) {
-        groupCodeList = ['']; // 기본값 없음으로 해서 오류 시 서버에만 쌓이게 하기(게시판엔 안 보여짐!)
-      }
+      let groupCodeList: string[] = JSON.parse(localStorage.getItem('groupCodeList') ?? 'null') ?? ['']; // 기본값 없음으로 해서 오류 시 서버에만 쌓이게 하기(게시판엔 안 보여짐!)
 
       await createPost({
         boardCode: '서비스공지사항',

@@ -11,7 +11,7 @@ export function ServiceNoticeDetailPage() {
   const postId = Number(id);
   const boardCode: string = "서비스공지사항";
   // id에 해당하는 게시글 데이터 찾기
-  const { data, isError } = useGetBoardDetail({ boardCode, postId });
+  const { data, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
 
   // post가 존재하는 경우 title과 date를 가져오고, 없으면 빈 값으로 처리
   const title = data ? data.data.postDetailResDto.title : '게시글을 찾을 수 없습니다.';
@@ -22,22 +22,26 @@ export function ServiceNoticeDetailPage() {
   const fileList =
     data?.data?.postDetailResDto?.fileResponseList
       ?.filter((file) => file.fileType === 'files')
-      .map((file) => file.fileUrl) || [];
+      .map((file) => file.fileUrl) ?? [];
   const fileNames =
     data?.data?.postDetailResDto?.fileResponseList
       ?.filter((file) => file.fileType === 'files')
-      .map((file) => file.fileName) || [];
+      .map((file) => file.fileName) ?? [];
 
   const imageList =
     data?.data?.postDetailResDto?.fileResponseList
       ?.filter((file) => file.fileType === 'images')
-      .map((file) => file.fileUrl) || [];
+      .map((file) => file.fileUrl) ?? [];
 
   const fileUrls = [...fileList, ...imageList];
 
   return (
     <>
-      {isError ? (
+      {isLoading ? (
+        <div className="flex justify-center items-center h-screen">
+          <NoticeDetailLoading />
+        </div>
+      ) : isError ? (
         <div>오류 발생. 관리자에게 문의하세요.</div>
       ) : (
         <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">

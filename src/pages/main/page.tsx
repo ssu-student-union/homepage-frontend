@@ -12,20 +12,28 @@ import { NoticeResponse } from '../notice/types';
 
 export function MainPage() {
   const boardCode = '서비스공지사항';
-  const { data } = useGetBoardPosts<NoticeResponse>({ boardCode, take: 1 });
+  const { data, isLoading, isError } = useGetBoardPosts<NoticeResponse>({ boardCode, take: 1 });
   const firstNotice = data?.data.postListResDto[0];
+
   return (
     <>
       <main>
-        {!!firstNotice ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center">
+            <ServiceNoticeTab.Skeleton />
+          </div>
+        ) : isError ? (
+          <div className="flex items-center justify-center">
+            <p>에러가 발생했습니다. 잠시 후 다시 시도해주세요.</p>
+          </div>
+        ) : !!firstNotice ? (
           <ServiceNoticeTab
-            isEmergency={firstNotice?.status === '긴급공지'}
-            Title={firstNotice?.title}
+            isEmergency={firstNotice.status === '긴급공지'}
+            title={firstNotice?.title}
             postId={firstNotice?.postId}
           />
-        ) : (
-          ''
-        )}
+        ) : null}
+
         <MainCarousel />
         <MainScheduleSection />
         <CounselBtn />

@@ -12,7 +12,7 @@ interface ServiceNoticePostContentProps {
   className?: string;
 }
 
-export function ServiceNoticePostContent({ postId, title, date, Emergency, className = '' }: ServiceNoticePostContentProps) {
+export function ServiceNoticePostContent({ postId, title, date, Emergency, className }: ServiceNoticePostContentProps) {
   const contentWidth = useContentWidth();
   const navigate = useNavigate();
 

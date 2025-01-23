@@ -1,6 +1,6 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
-import { ServiceNoticeHandleLocation } from '../../../../notice/noticeDetail/utils/locationHandler';
+import { serviceNoticeHandleLocation } from '../../../../notice/noticeDetail/utils/locationHandler';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 
 interface NoticeDetailEditProps {
@@ -11,7 +11,7 @@ interface NoticeDetailEditProps {
   content: string;
   title: string;
 
-  isAuthor: boolean | undefined;
+  isAuthor?: boolean;
 }
 
 export function ServiceNoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls, isAuthor }: NoticeDetailEditProps) {
@@ -29,10 +29,10 @@ export function ServiceNoticeDetailEditSection({ boardCode, postId, fileUrls, im
       <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
         {isAuthor ? (
           <>
-            <DeleteButton onClick={handleDelete} />
+            <DeleteButton onClick={handleDelete} className='sm:w-[100px]'/>
             <EditButton
               onClick={() =>
-                ServiceNoticeHandleLocation(
+                serviceNoticeHandleLocation(
                   {
                     data: {
                       postId,
@@ -41,11 +41,11 @@ export function ServiceNoticeDetailEditSection({ boardCode, postId, fileUrls, im
                   navigate
                 )
               }
-            />
+              className='sm:w-[100px]'/>
           </>
         ) : null}
 
-        <ListButton onClick={() => navigate(`/service-notice`)} />
+        <ListButton onClick={() => navigate(`/service-notice`)} className='sm:w-[100px]'/>
       </div>
     </div>
   );
