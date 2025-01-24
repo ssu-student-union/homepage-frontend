@@ -11,6 +11,8 @@ import { HumanRightsPage } from './human-rights/page';
 import { HumanRightsDetailPage } from './human-rights/[id]/page';
 import { HumanRightsEditPage } from './human-rights/edit/page';
 import { SuggestPage } from './sug-notice/page';
+import { SuggestDetailPage } from './sug-notice/[id]/page';
+import { SuggestWritePage } from './sug-notice/edit/page';
 import { PartnershipPage } from './partnership/page';
 import { PetitionNoticePage } from './petition-notice/page';
 import { PetitionNoticeEditPage } from './petition-notice/edit/page';
@@ -32,6 +34,12 @@ import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
 import { KakaoRegisterRedirectPage } from './kakao/redirect/page';
 import MyPage from './mypage/page';
+import ProfilePage from './mypage/profile/page';
+import MyPostsPage from './mypage/myPosts/page';
+import { ServiceNoticePage } from './mypage/service-notice/page';
+import { ServiceNoticeDetailPage } from './mypage/service-notice/[id]/page';
+import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page';
+import ServiceNoticePatchPage from './mypage/service-notice/service-noticePatch/page';
 
 export {
   MainPage,
@@ -47,6 +55,8 @@ export {
   HumanRightsDetailPage,
   HumanRightsEditPage,
   SuggestPage,
+  SuggestDetailPage,
+  SuggestWritePage,
   PartnershipPage,
   PetitionNoticePage,
   PetitionNoticeEditPage,
@@ -68,4 +78,10 @@ export {
   Layout,
   KakaoRegisterRedirectPage,
   MyPage,
+  ProfilePage,
+  MyPostsPage,
+  ServiceNoticePage,
+  ServiceNoticeDetailPage,
+  ServiceNoticeEditPage,
+  ServiceNoticePatchPage,
 };

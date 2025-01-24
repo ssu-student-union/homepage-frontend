@@ -1,12 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import * as i from './index.ts';
-import MyPage from './mypage/page.tsx';
-import ProfilePage from './mypage/profile/page.tsx';
-import { ServiceNoticePage } from './mypage/service-notice/page.tsx';
-import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page.jsx';
-import { ServiceNoticeDetailPage } from './mypage/service-notice/[id]/page.tsx';
-import ServiceNoticePatchPage from './mypage/service-notice/service-noticePatch/page.tsx';
-import MyPostsPage from './mypage/myPosts/page.tsx';
 
 export function MainRouter() {
   return (
@@ -49,15 +42,17 @@ export function MainRouter() {
         <Route path="/human-rights/:id?/edit" element={<i.HumanRightsEditPage />} />
         {/* 4-2. 건의 게시판 */}
         <Route path="/sug-notice" element={<i.SuggestPage />} />
+        <Route path="/sug-notice/:id" element={<i.SuggestDetailPage />} />
+        <Route path="/sug-notice/:id?/edit" element={<i.SuggestWritePage />} />
         {/*마이페이지*/}
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/mypage/profile" element={<ProfilePage />} />
-        <Route path="/mypage/myposts" element={<MyPostsPage />} />
+        <Route path="/mypage" element={<i.MyPage />} />
+        <Route path="/mypage/profile" element={<i.ProfilePage />} />
+        <Route path="/mypage/myposts" element={<i.MyPostsPage />} />
         {/*서비스 공지사항*/}
-        <Route path="/service-notice" element={<ServiceNoticePage />} />
-        <Route path="/service-notice/:id" element={<ServiceNoticeDetailPage />} />
-        <Route path="/service-notice/edit" element={<ServiceNoticeEditPage />} />
-        <Route path="/service-notice/:id/patch" element={<ServiceNoticePatchPage />} />
+        <Route path="/service-notice" element={<i.ServiceNoticePage />} />
+        <Route path="/service-notice/:id" element={<i.ServiceNoticeDetailPage />} />
+        <Route path="/service-notice/edit" element={<i.ServiceNoticeEditPage />} />
+        <Route path="/service-notice/:id/patch" element={<i.ServiceNoticePatchPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
       </Route>
