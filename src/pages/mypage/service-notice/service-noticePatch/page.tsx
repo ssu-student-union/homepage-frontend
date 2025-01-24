@@ -1,13 +1,13 @@
 import { HeadLayout } from '@/template/HeadLayout';
-import { NoticeEditTitleSection } from '../noticeEdit/container/noticeEditTitleSection';
-import { NoticeEditContentSection } from '../noticeEdit/container/noticeEditContentSection';
-import { NoticeEditSubmitButton } from '../noticeEdit/container/noticeEditSubmitButton';
-import { useNoticePatch } from './hook/useNoticePatch';
-import { NoticePatchImageSection } from './container/noticePatchImageSection';
 import { AuditPatchFilesSection } from '@/pages/audit/auditPatch/container/auditPatchFileSection';
+import { NoticeEditTitleSection } from '@/pages/notice/noticeEdit/container/noticeEditTitleSection';
+import { NoticeEditContentSection } from '@/pages/notice/noticeEdit/container/noticeEditContentSection';
+import { NoticePatchImageSection } from '@/pages/notice/noticePatch/container/noticePatchImageSection';
+import { NoticeEditSubmitButton } from '@/pages/notice/noticeEdit/container/noticeEditSubmitButton';
+import { useNoticePatch } from '@/pages/notice/noticePatch/hook/useNoticePatch';
 import { useParams } from 'react-router-dom';
 
-export default function NoticePatchPage() {
+export default function ServiceNoticePatchPage() {
   const { id } = useParams();
   const postId = Number(id);
   const {
@@ -25,11 +25,11 @@ export default function NoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
-  } = useNoticePatch({boardCode : "공지사항게시판", postId});
+  } = useNoticePatch({ boardCode: '서비스공지사항', postId : postId });
 
   return (
     <>
-      <HeadLayout title="공지사항" searchHidden={true} borderOff={true} />
+      <HeadLayout title="서비스 공지사항" searchHidden={true} borderOff={true} />
       <NoticeEditTitleSection
         initialTitle={title}
         onTitleChange={handleTitleChange}

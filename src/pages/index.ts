@@ -34,6 +34,12 @@ import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
 import { KakaoRegisterRedirectPage } from './kakao/redirect/page';
 import MyPage from './mypage/page';
+import ProfilePage from './mypage/profile/page';
+import MyPostsPage from './mypage/myPosts/page';
+import { ServiceNoticePage } from './mypage/service-notice/page';
+import { ServiceNoticeDetailPage } from './mypage/service-notice/[id]/page';
+import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page';
+import ServiceNoticePatchPage from './mypage/service-notice/service-noticePatch/page';
 
 export {
   MainPage,
@@ -72,4 +78,10 @@ export {
   Layout,
   KakaoRegisterRedirectPage,
   MyPage,
+  ProfilePage,
+  MyPostsPage,
+  ServiceNoticePage,
+  ServiceNoticeDetailPage,
+  ServiceNoticeEditPage,
+  ServiceNoticePatchPage,
 };
