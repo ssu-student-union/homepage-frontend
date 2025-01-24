@@ -1,4 +1,3 @@
-import { FileInputs } from '@/components/BoardNew/edit/FileInputs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
@@ -16,7 +15,7 @@ import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import { FileInputsWithType } from '@/components/BoardNew/edit/FileInputsWithType';
 
 export default function DataEditPage() {
-  const category: string[] = ['결산안', '활동보고', '자료']; // mockup
+  const category: string[] = ['결산안', '활동보고']; // mockup
 
   const {
     register,

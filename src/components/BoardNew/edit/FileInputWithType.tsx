@@ -1,16 +1,6 @@
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { cn } from '@/libs/utils.ts';
 import { FileText, Plus, Trash } from '@phosphor-icons/react';
-import {
-  ChangeEvent,
-  DragEvent,
-  forwardRef,
-  InputHTMLAttributes,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
-import { humanFileSize } from '@/pages/human-rights/edit/utils.ts';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 
 export type PostFile = UploadedPostFile | LocalPostFile;
@@ -19,110 +9,166 @@ export interface UploadedPostFile {
   name: string;
   isUploaded: true;
   id: number;
+  category?: string;
 }
 
 export interface LocalPostFile {
   name: string;
   isUploaded: false;
   file: File;
+  category?: string;
 }
 
-interface FileItemProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'multiple' | 'value'> {
+interface FileInputsProps {
+  className?: string;
   sizeLimit?: number;
-  file?: PostFile;
+  files?: PostFile[];
+  onChange?: (files: PostFile[]) => void;
 }
 
-export const FileInputWithType = forwardRef<HTMLInputElement, FileItemProps>(function (
-  { file, className, onChange, sizeLimit, ...props }: FileItemProps,
-  ref
-) {
-  const [innerFile, setInnerFile] = useState<PostFile | null>(null);
-  const innerRef = useRef<HTMLInputElement>(null);
-  const [isDragging, setDragging] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  useImperativeHandle(ref, () => innerRef.current!, []);
+export function FileInputsWithType({ className, files, onChange, sizeLimit }: FileInputsProps) {
+  const [innerFiles, setInnerFiles] = useState<PostFile[]>([]);
 
   useEffect(() => {
-    if (innerRef.current) {
-      const dataTransfer = new DataTransfer();
-      if (file) {
-        if (!file.isUploaded) dataTransfer.items.add(file.file);
-      }
-      innerRef.current.files = dataTransfer.files;
+    if (files) setInnerFiles(files);
+    else setInnerFiles([]);
+  }, [files]);
+
+  function onNewFile(evt: ChangeEvent<HTMLInputElement>) {
+    const file = evt.currentTarget.files?.item(0);
+    if (file) {
+      const postFile: PostFile = {
+        name: file.name,
+        isUploaded: false,
+        file,
+        category: '', // 기본 카테고리 설정
+      };
+      const newFiles = [...innerFiles, postFile];
+      setInnerFiles(newFiles);
+      if (onChange) onChange(newFiles);
+      evt.currentTarget.files = new DataTransfer().files;
     }
-    setInnerFile(file ?? null);
+  }
+
+  function onFileChange(idx: number, evt: ChangeEvent<HTMLInputElement>) {
+    const file = evt.currentTarget.files?.item(0);
+    const newFiles = [...innerFiles];
+    if (file) {
+      newFiles[idx] = {
+        ...newFiles[idx],
+        name: file.name,
+        isUploaded: false,
+        file,
+      };
+    } else {
+      newFiles.splice(idx, 1);
+    }
+    setInnerFiles(newFiles);
+    if (onChange) onChange(newFiles);
+  }
+
+  function onCategoryChange(idx: number, category: string) {
+    const newFiles = [...innerFiles];
+    newFiles[idx] = {
+      ...newFiles[idx],
+      category,
+    };
+    setInnerFiles(newFiles);
+    if (onChange) onChange(newFiles);
+  }
+
+  return (
+    <div className={cn('flex flex-col gap-6', className)}>
+      {innerFiles.map((file, idx) => (
+        <FileInputWithType
+          key={idx}
+          file={file}
+          onChange={(evt) => onFileChange(idx, evt)}
+          sizeLimit={sizeLimit}
+          onCategoryChange={(category) => onCategoryChange(idx, category)}
+        />
+      ))}
+      <FileInputWithType onChange={onNewFile} sizeLimit={sizeLimit} />
+    </div>
+  );
+}
+
+interface FileItemProps {
+  file?: PostFile;
+  sizeLimit?: number;
+  onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
+  onCategoryChange?: (category: string) => void;
+}
+
+export const FileInputWithType = ({ file, sizeLimit, onChange, onCategoryChange }: FileItemProps) => {
+  const [fileCategory, setFileCategory] = useState<string>(file?.category || '');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setDragging] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setFileCategory(file?.category || '');
   }, [file]);
 
-  function clearFile() {
-    if (innerRef.current) {
-      innerRef.current.files = new DataTransfer().files;
-      innerRef.current.dispatchEvent(new Event('change', { bubbles: true }));
-    }
+  function handleCategoryChange(category: string) {
+    setFileCategory(category);
+    if (onCategoryChange) onCategoryChange(category);
   }
 
-  function fileDropHandler(evt: DragEvent<HTMLDivElement>): void {
+  function fileChangeHandler(evt: ChangeEvent<HTMLInputElement>) {
+    const fileSize = evt.currentTarget.files?.item(0)?.size ?? -1;
+    if (fileSize >= 0 && sizeLimit && fileSize > sizeLimit) {
+      evt.currentTarget.files = new DataTransfer().files;
+      setError(`파일 크기가 ${sizeLimit}를 초과합니다.`);
+      return;
+    }
+    setError(null);
+    if (onChange) onChange(evt);
+  }
+
+  function triggerFileInput() {
+    fileInputRef.current?.click();
+  }
+
+  function fileDropHandler(evt: React.DragEvent<HTMLDivElement>) {
     evt.preventDefault();
     setDragging(false);
-    if (innerRef.current && evt.dataTransfer.files.length > 0) {
-      innerRef.current.files = evt.dataTransfer.files;
-      innerRef.current.dispatchEvent(new Event('change', { bubbles: true }));
+    const file = evt.dataTransfer.files?.item(0);
+    if (fileInputRef.current && file) {
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+      fileInputRef.current.files = dataTransfer.files;
+      fileInputRef.current.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 
-  function dragOverHandler(evt: DragEvent<HTMLDivElement>): void {
+  function dragOverHandler(evt: React.DragEvent<HTMLDivElement>) {
     evt.preventDefault();
     setDragging(true);
   }
 
-  function dragExitHandler(evt: DragEvent<HTMLDivElement>): void {
+  function dragLeaveHandler(evt: React.DragEvent<HTMLDivElement>) {
     evt.preventDefault();
     setDragging(false);
   }
 
-  function fileChangeHandler(evt: ChangeEvent<HTMLInputElement>): void {
-    evt.preventDefault();
-    const fileSize = evt.currentTarget.files?.item(0)?.size ?? -1;
-    if (fileSize >= 0 && sizeLimit !== undefined && fileSize > sizeLimit) {
-      clearFile();
-      setError(`파일이 ${humanFileSize(sizeLimit)}를 초과합니다. (파일 크기: ${humanFileSize(fileSize)})`);
-      return;
-    } else {
-      setError(null);
-    }
-    // Give priority to user's onChange -- this allows intercept files input before component process file itself.
-    // 컴포넌트 사용자의 onChange를 우선 실행하여 파일 입력을 처리하기 전에 사용자가 가로챌 수 있도록 합니다.
-    if (onChange) {
-      onChange(evt);
-    }
-    const file = evt.currentTarget.files?.item(0);
-    setInnerFile(
-      file
-        ? {
-            name: file.name,
-            isUploaded: false,
-            file,
-          }
-        : null
-    );
-  }
-
-  const category: string[] = ['.word', '.hwp'];
+  const fileCategories: string[] = ['결산안', '활동보고', '자료'];
 
   return (
     <div
-      className={cn('flex cursor-pointer items-center gap-4', className)}
+      className={cn('flex flex-row items-center gap-4 xs:items-start sm:flex-col sm:items-start')}
       onDrop={fileDropHandler}
       onDragOver={dragOverHandler}
-      onDragExit={dragExitHandler}
+      onDragLeave={dragLeaveHandler}
     >
       <div
         className={cn(
-          'flex grow items-center gap-4 rounded-md border-2 border-[#CDCDCD] p-4 text-gray-400',
+          'flex grow cursor-pointer items-center gap-4 rounded-[5px] border-2 border-[#CDCDCD] p-[8px] text-gray-400',
           error && 'border-red-800 bg-red-50 text-red-800',
           isDragging && 'border-dashed border-primary bg-blue-50 text-primary',
-          innerFile && 'text-gray-600'
+          file && 'text-gray-600'
         )}
-        onClick={() => innerRef.current?.showPicker()}
+        onClick={triggerFileInput}
       >
         <FileText
           className={cn(
@@ -132,37 +178,24 @@ export const FileInputWithType = forwardRef<HTMLInputElement, FileItemProps>(fun
           )}
           size="32"
         />
-        <span>
-          {isDragging ? (
-            innerFile ? (
-              '파일을 끌어놓아 변경하기'
-            ) : (
-              '파일을 끌어놓아 추가하기'
-            )
-          ) : error ? (
-            <>
-              <span className="mr-3 font-bold">업로드 실패</span>
-              {error}
-            </>
-          ) : (
-            (innerFile?.name ?? '파일을 선택해주세요')
-          )}
-        </span>
+        <span>{file?.name || (isDragging ? '파일을 여기에 놓으세요' : '파일을 선택해주세요')}</span>
       </div>
-      <FilterDropDown
-        className="flex h-[44px] w-[346px] items-center justify-center border-gray-500 py-0 text-[19px] font-medium xs:w-[200px] sm:w-[200px] md:w-[200px]"
-        defaultValue="파일종류 선택"
-        optionValue={category}
-        onValueChange={() => {}}
-        value={'null'}
-      />
-      <button
-        className="p-4"
-        onClick={() => (innerFile ? innerRef.current != null && clearFile() : innerRef.current?.showPicker())}
-      >
-        {innerFile ? <Trash className="text-gray-600" size="32" /> : <Plus className="text-gray-600" size="32" />}
-      </button>
-      <input ref={innerRef} type="file" className="hidden" multiple={false} onChange={fileChangeHandler} {...props} />
+      <div className="flex flex-row">
+        {' '}
+        {file && (
+          <FilterDropDown
+            className="flex h-[48px] w-[354px] justify-center rounded-[12px] border-gray-500 text-[19px] font-medium xs:w-[257px] sm:w-[187px]"
+            defaultValue="파일종류 선택"
+            optionValue={fileCategories}
+            value={fileCategory}
+            onValueChange={handleCategoryChange}
+          />
+        )}
+        <button className="p-2" onClick={triggerFileInput}>
+          {file ? <Trash className="text-gray-600" size="32" /> : <Plus className="text-gray-600" size="32" />}
+        </button>
+        <input ref={fileInputRef} type="file" className="hidden" onChange={fileChangeHandler} />
+      </div>
     </div>
   );
-});
+};
