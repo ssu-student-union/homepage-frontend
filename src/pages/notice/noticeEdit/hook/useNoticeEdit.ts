@@ -80,7 +80,7 @@ export function useNoticeEdit() {
       }
 
       const uploadResponse = await uploadFiles({
-        boardCode: '공지사항게시판',
+        boardCode: '서비스공지사항',
         files,
         images,
       });
