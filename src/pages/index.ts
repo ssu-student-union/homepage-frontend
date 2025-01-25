@@ -40,6 +40,9 @@ import { ServiceNoticePage } from './mypage/service-notice/page';
 import { ServiceNoticeDetailPage } from './mypage/service-notice/[id]/page';
 import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page';
 import ServiceNoticePatchPage from './mypage/service-notice/service-noticePatch/page';
+import DataPage from './data/page';
+import DataDetailPage from './data/[id]/page';
+import DataEditPage from './data/edit/page';
 
 export {
   MainPage,
@@ -84,4 +87,7 @@ export {
   ServiceNoticeDetailPage,
   ServiceNoticeEditPage,
   ServiceNoticePatchPage,
+  DataPage,
+  DataDetailPage,
+  DataEditPage,
 };
