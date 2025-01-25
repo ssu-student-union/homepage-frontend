@@ -5,11 +5,12 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
 } from '@/components/ui/navigation-menu';
-import { menuItems } from '../const/pathData';
+import { dataPath, menuItems } from '../const/pathData';
 import { getStyles } from '../const/style';
 import { State } from '../const/state';
 import { cn } from '@/libs/utils';
 import DropDownMenu from './DropDownMenu';
+import { useNavigate } from 'react-router-dom';
 
 interface NavigationProps {
   state?: State;
@@ -17,6 +18,7 @@ interface NavigationProps {
 
 export function Navigation({ state = State.Onboarding }: NavigationProps) {
   const styles = getStyles(state);
+  const navigate = useNavigate();
   return (
     <NavigationMenu className="h-full xs:hidden sm:hidden md:hidden lg:hidden">
       <NavigationMenuList className="h-full">
@@ -33,11 +35,7 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
             </NavigationMenuContent>
           </NavigationMenuItem>
         ))}
-        {/*자료집 임시 제거*/}
-        <NavigationMenuItem
-          className="relative h-full min-w-fit text-[20px]"
-          onClick={() => window.open(import.meta.env.VITE_TEMP_DATA_URL, '_blank')}
-        >
+        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => navigate(dataPath)}>
           <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
             <p>자료집</p>
           </NavigationMenuTrigger>
