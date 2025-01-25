@@ -1,4 +1,5 @@
 import { BodyLayout } from '@/template/BodyLayout';
+<<<<<<< HEAD
 import SortLayout from '@/pages/data/container/SortLayout';
 import { HeadLayout } from '@/template/HeadLayout';
 import { DataContent } from '@/pages/data/components/DataContent';
@@ -14,11 +15,17 @@ export default function DataPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
   console.log(page);
+=======
+import SortLayout from '@/template/data/SortLayout';
+import { HeadLayout } from '@/template/HeadLayout';
+>>>>>>> temp-branch
 
+export default function DataPage() {
   return (
     <>
       <HeadLayout title="자료집"></HeadLayout>
       <SortLayout></SortLayout>
+<<<<<<< HEAD
       <BodyLayout
         totalPages={totalPage}
         currentPage={currentPage + 1}
@@ -40,6 +47,9 @@ export default function DataPage() {
           ))}
         </div>
       </BodyLayout>
+=======
+      <BodyLayout></BodyLayout>
+>>>>>>> temp-branch
     </>
   );
   function navigatePage(page: number) {
