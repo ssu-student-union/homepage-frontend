@@ -20,7 +20,7 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency, class
   const mobileText =
     contentWidth === 316
       ? 'text-[12px] font-[500]' // Style for width 316
-      : 'text-[18px] font-[500]'; // Default style
+      : ''; // Default style
 
   const handleTitleClick = () => {
     navigate(`/service-notice/${postId}`);

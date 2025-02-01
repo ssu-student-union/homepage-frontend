@@ -4,7 +4,6 @@ import Pagination from '@/components/Pagination';
 import { WriteButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
 import { useContentWidth } from './hooks/useContetnWidth';
-import { useEffect } from 'react';
 import { cn } from '@/libs/utils';
 import { useServiceNoticeBoard } from './hooks/useServiceNoticeBoard';
 import dayjs from 'dayjs';
@@ -17,10 +16,6 @@ export function ServiceNoticePage() {
     boardCode
   );
   const data = idata?.data.postListResDto;
-  useEffect(() => {
-    console.log(idata?.data.postListResDto);
-  }, [idata]);
-
   const navigate = useNavigate();
 
   const handleWriteBtnClick = () => {
