@@ -24,6 +24,7 @@ export const menuItems = {
       path: '/service-notice',
     },
   ],
+  /* 기존 공약사업 기능 임시 제거 */
   // 학교생활: [
   //   { name: '공지사항', path: '/notice' },
   //   // { name: '일정', path: '/menu7' },
