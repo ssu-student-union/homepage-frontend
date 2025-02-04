@@ -91,6 +91,15 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
                 )}
               </div>
             ))}
+            <div
+              onClick={() => {
+                setIsOpen(false);
+                navigate('/qna');
+              }}
+              className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
+            >
+              질의응답게시판
+            </div>
             {/*임시 자료집(구글 드라이브 링크)*/}
             <div
               onClick={() => window.open(import.meta.env.VITE_TEMP_DATA_URL, '_blank')}
@@ -98,13 +107,14 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
             >
               자료집
             </div>
-            <a
+            {/* 기존 공약사업 기능 임시 제거  */}
+            {/* <a
               href={`https://ssuketch60.cafe24.com/`}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
               onClick={() => setIsOpen(false)}
             >
               이전 홈페이지
-            </a>
+            </a> */}
             {state === State.Login ? (
               <div
                 className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
