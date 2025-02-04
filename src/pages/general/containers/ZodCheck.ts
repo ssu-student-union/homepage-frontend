@@ -7,8 +7,13 @@ export const LoginSchemaRegister = z.object({
       .min(1, '이름을 입력해주세요')
       .max(10, '이름은 10자 이내여야 합니다.')
       .regex(/^[가-힣]+$/, '이름은 한글만 입력해야 합니다.') || undefined,
-  studentId:
-    z.string().length(8, '학번은 8자리여야 합니다.').regex(/^\d+$/, '학번은 숫자만 입력해야 합니다.') || undefined,
+  studentId: z
+    .string()
+    .regex(/^\d+$/, '학번과 수험번호는 숫자만 입력해야 합니다.')
+    .refine((val) => val.length === 8 || val.length === 9, {
+      message: '학번은 8자리, 수험번호는 9자리 숫자여야 합니다.',
+    }),
+  // z.string().length(8, '학번은 8자리여야 합니다.').regex(/^\d+$/, '학번은 숫자만 입력해야 합니다.') || undefined,
   memberCode: z.string(),
   majorCode: z.string(),
 });
