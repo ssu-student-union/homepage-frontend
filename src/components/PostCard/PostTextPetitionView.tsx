@@ -1,4 +1,4 @@
-import { ThumbsUp } from './const/style';
+import { ThumbsUp } from '@/components/PostCard/const/icon';
 
 interface PostCardPetitProps {
   title?: string; // 청원 제목

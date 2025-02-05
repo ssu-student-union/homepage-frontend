@@ -10,7 +10,7 @@ import { cn } from '@/libs/utils';
 interface ServiceNoticeTabProps {
   isEmergency: boolean;
   title: string | undefined;
-  postId: Number | undefined;
+  postId: number | undefined;
 }
 
 export function ServiceNoticeTab({ isEmergency, title, postId }: ServiceNoticeTabProps) {
@@ -33,14 +33,14 @@ export function ServiceNoticeTab({ isEmergency, title, postId }: ServiceNoticeTa
     if (cookies['HBB_Cookie']) {
       setHasCookie(true);
     } else setHasCookie(false);
-  }, []);
+  }, [cookies, setCookies]);
 
   useEffect(() => {
     if (!open) {
       const expires = getExpiredDate(1);
       setCookies('HBB_Cookie', true, { path: '/', expires });
     }
-  }, [open]);
+  }, [open, setCookies]);
 
   const { width } = useResize();
 

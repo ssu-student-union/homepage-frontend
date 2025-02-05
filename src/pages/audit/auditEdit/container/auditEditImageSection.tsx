@@ -1,7 +1,7 @@
 import { ImageDropzone } from '../component/ImageDropzone';
 import { ImagePreview } from '../component/ImagePreview';
 import { useImageManager } from '../hook/useImageManager';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 interface AuditEditImageSectionProps {
   onImagesChange: (images: File[]) => void;
@@ -10,9 +10,18 @@ interface AuditEditImageSectionProps {
 export function AuditEditImageSection({ onImagesChange }: AuditEditImageSectionProps): JSX.Element {
   const { images, addImage, removeImage, getValidImages } = useImageManager();
 
+  const memoizedGetValidImages = useCallback(() => getValidImages(), [getValidImages]);
+
+  const memoizedOnImagesChange = useCallback(
+    (images: File[]) => {
+      onImagesChange(images);
+    },
+    [onImagesChange]
+  );
+
   useEffect(() => {
-    onImagesChange(getValidImages());
-  }, [images]);
+    memoizedOnImagesChange(memoizedGetValidImages());
+  }, [images, memoizedGetValidImages, memoizedOnImagesChange]);
 
   const handleImageAdd = (acceptedFiles: File[]) => {
     addImage(acceptedFiles);

@@ -15,7 +15,7 @@ export default function PartnershipPatchPage() {
     handleCategoryChange,
     handleContentChange,
     handleSubmit,
-    isLoading,
+    isPending,
     imageList,
     thumbnailImage,
     setThumbnailImage,
@@ -45,7 +45,7 @@ export default function PartnershipPatchPage() {
         onFilesChange={setNewFiles}
         fileNames={fileNames}
       />
-      <PartnershipEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <PartnershipEditSubmitButton onSubmit={handleSubmit} isLoading={isPending} />
     </>
   );
 }

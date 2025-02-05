@@ -11,7 +11,7 @@ export interface postBoardPostsProps {
     content: string;
     categoryCode?: string;
     groupCode?: string;
-    memberCode?: string;
+    memberCode?: string | null;
     thumbNailImage?: string | null;
     isNotice?: boolean;
     postFileList?: number[] | null;

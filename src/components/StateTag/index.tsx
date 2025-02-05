@@ -45,7 +45,7 @@ export function StateTag({ current }: StateTagProps) {
         });
         break;
     }
-  }, []);
+  }, [current]);
 
   return (
     <div className="w-[140px] p-[10px]">

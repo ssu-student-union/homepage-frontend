@@ -35,8 +35,8 @@ export function ServiceNoticePage() {
         {/* 로딩 상태에 따라 Skeleton 또는 실제 데이터를 표시 */}
         <div className="jutify-center flex flex-col items-center">
           {isLoading ? (
-            <div className="mb-[300px] mt-[64px] flex flex-col items-center">
-              <div className={cn(`flex flex-col flex-wrap gap-[10px]`)}>
+            <div className="mb-[300px] mt-[64px] flex w-full flex-col items-center">
+              <div className={cn(`flex w-full flex-col flex-wrap gap-[10px]`)}>
                 {Array.from({ length: 7 }).map((_, index) => (
                   <ServiceNoticePostContent.Skeleton key={index} />
                 ))}
