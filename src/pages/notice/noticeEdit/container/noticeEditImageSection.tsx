@@ -1,7 +1,7 @@
 import { ImageDropzone } from '../component/ImageDropzone';
 import { ImagePreview } from '../component/ImagePreview';
 import { useImageManager } from '../hook/useImageManager';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 interface NoticeEditImageSectionProps {
   onImagesChange: (images: File[]) => void;
@@ -12,11 +12,14 @@ export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectio
 
   useEffect(() => {
     onImagesChange(getValidImages());
-  }, [images]);
+  }, [getValidImages, onImagesChange]);
 
-  const handleImageAdd = (acceptedFiles: File[]) => {
-    addImage(acceptedFiles);
-  };
+  const handleImageAdd = useCallback(
+    (acceptedFiles: File[]) => {
+      addImage(acceptedFiles);
+    },
+    [addImage]
+  );
 
   return (
     <div className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]">
@@ -28,7 +31,7 @@ export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectio
               key={imageItem.id}
               imageItem={imageItem}
               onRemove={() => removeImage(imageItem.id)}
-              isThumbnail={index == 0 ? true : false}
+              isThumbnail={index === 0}
             />
           ))}
         </div>

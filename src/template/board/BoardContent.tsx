@@ -7,22 +7,32 @@ import BoardContentLoading from './BoardContentLoading';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { nameToUrl } from './boardData';
 
-interface BoardContentProps {
+interface Post {
+  postId: string;
+  title: string;
+  content?: string;
+  date?: string;
+  author?: string;
+  thumbNail?: string;
+  status?: string;
+}
+
+interface BoardContentProps<T extends Post> {
   boardName: string;
-  data?: any[];
+  data?: T[];
   className?: string;
   isLoading: boolean;
   isDenied?: boolean;
   isPartnership?: boolean;
 }
 
-export function BoardContent({
+export function BoardContent<T extends Post>({
   boardName,
   data,
   isLoading,
   isPartnership = false,
   isDenied = false,
-}: BoardContentProps) {
+}: BoardContentProps<T>) {
   const navigate = useNavigate();
   const { size } = useResponseBoard();
   const screenWidth: number = window.innerWidth;
@@ -91,13 +101,13 @@ export function BoardContent({
     }
   }
 
-  interface RenderCardProps {
-    post: any;
+  interface RenderCardProps<T extends Post> {
+    post: T;
     size: Size;
     boardName: string;
   }
 
-  function RenderCard({ post, size, boardName }: RenderCardProps) {
+  function RenderCard<T extends Post>({ post, size, boardName }: RenderCardProps<T>) {
     const formattedDate = post.date ? formatYYYYMMDD(post.date) : '';
     let thumbnail = post.thumbNail || undefined;
 

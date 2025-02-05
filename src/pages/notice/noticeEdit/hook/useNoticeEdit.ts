@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
 import { handleFileLists } from '../utils/fileHandler';
+import { File as Data } from '@/types/apis/post';
 
 export function useNoticeEdit() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export function useNoticeEdit() {
   const [isUrgent, setIsUrgent] = useState<boolean>(false);
 
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
-  const { mutateAsync: createPost, isLoading }: any = usePostBoardPosts();
+  const { mutateAsync: createPost, isPending } = usePostBoardPosts();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -84,7 +85,7 @@ export function useNoticeEdit() {
       }
 
       let uploadResponse = null;
-      let postFiles: any[] = [];
+      let postFiles: Data[] = [];
       let thumbnailUrl: string | null = null;
 
       if (images.length > 0) {
@@ -100,7 +101,7 @@ export function useNoticeEdit() {
 
       const postFileList = handleFileLists(postFiles);
 
-      let groupCodeList: string[] = JSON.parse(localStorage.getItem('groupCodeList') ?? 'null') ?? [''];
+      const groupCodeList: string[] = JSON.parse(localStorage.getItem('groupCodeList') ?? 'null') ?? [''];
 
       const createPostResponse = await createPost({
         boardCode: '서비스공지사항',
@@ -135,6 +136,6 @@ export function useNoticeEdit() {
     handleUrgentChange,
     handleSubmit,
     handleServiceSubmit,
-    isLoading,
+    isPending,
   };
 }

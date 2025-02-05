@@ -26,7 +26,7 @@ export function MainPage() {
           <div className="flex items-center justify-center">
             <p>에러가 발생했습니다. 잠시 후 다시 시도해주세요.</p>
           </div>
-        ) : !!firstNotice ? (
+        ) : firstNotice ? (
           <ServiceNoticeTab
             isEmergency={firstNotice.status === '긴급공지'}
             title={firstNotice?.title}

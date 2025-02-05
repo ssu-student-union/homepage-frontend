@@ -12,7 +12,7 @@ export function useLostEdit() {
   const [content, setContent] = useState<string>('');
 
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
-  const { mutateAsync: createPost, isLoading }: any = usePostBoardPosts();
+  const { mutateAsync: createPost, isPending } = usePostBoardPosts();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -72,6 +72,6 @@ export function useLostEdit() {
     handleCategoryChange,
     handleContentChange,
     handleSubmit,
-    isLoading,
+    isPending,
   };
 }

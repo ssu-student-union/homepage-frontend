@@ -14,7 +14,7 @@ export function AuditPatchPage() {
     handleCategoryChange,
     handleContentChange,
     handleSubmit,
-    isLoading,
+    isPending,
     fileNames,
     imageList,
     fileList,
@@ -45,7 +45,7 @@ export function AuditPatchPage() {
         onFilesChange={setNewFiles}
         fileNames={fileNames}
       />
-      <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isPending} />
     </>
   );
 }

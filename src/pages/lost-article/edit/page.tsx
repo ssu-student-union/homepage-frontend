@@ -6,7 +6,7 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { useLostEdit } from './hook/useLostEdit';
 
 export function LostArticleEditPage() {
-  const { handleTitleChange, handleCategoryChange, handleContentChange, handleSubmit, setImages, isLoading } =
+  const { handleTitleChange, handleCategoryChange, handleContentChange, handleSubmit, setImages, isPending } =
     useLostEdit();
 
   return (
@@ -19,7 +19,7 @@ export function LostArticleEditPage() {
       />
       <AuditEditContentSection onContentChange={handleContentChange} />
       <AuditEditImageSection onImagesChange={setImages} />
-      <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isPending} />
     </>
   );
 }
