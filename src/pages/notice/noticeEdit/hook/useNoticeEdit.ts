@@ -4,6 +4,7 @@ import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
 import { handleFileLists } from '../utils/fileHandler';
 import { File as Data } from '@/types/apis/post';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function useNoticeEdit() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ export function useNoticeEdit() {
 
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
   const { mutateAsync: createPost, isPending } = usePostBoardPosts();
+
+  const queryClient = useQueryClient();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -65,6 +68,10 @@ export function useNoticeEdit() {
           isNotice: isUrgent,
           postFileList,
         },
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['get-board-boardCode-posts-search'],
       });
 
       navigate(`/notice?category=central&sub-category=all`);
