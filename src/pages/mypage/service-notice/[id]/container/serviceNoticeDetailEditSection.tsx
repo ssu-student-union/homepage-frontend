@@ -51,7 +51,7 @@ export function ServiceNoticeDetailEditSection({
             />
           </>
         ) : null}
-        <a href='/service-notice'>
+        <a href="/service-notice">
           <ListButton className="sm:w-[100px]" />
         </a>
       </div>

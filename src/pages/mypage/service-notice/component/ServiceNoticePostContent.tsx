@@ -27,19 +27,23 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency, class
   };
 
   return (
-    <div className={cn("flex h-[64px] border-b-[1px] border-[#9CA3AF]",className)} style={{ width: `${contentWidth}px` }}>
+    <div
+      className={cn('flex h-[64px] border-b-[1px] border-[#9CA3AF]', className)}
+      style={{ width: `${contentWidth}px` }}
+    >
       {Emergency ? (
         <Badge variant="Emergency" className="relative top-[22px] text-[12px]">
-          긴급  
+          긴급
         </Badge>
       ) : (
         <div className="h-[23px] w-[54px]"></div>
       )}
-      <div className="flex w-full items-center justify-between gap-[8px] cursor-pointer font-medium" onClick={handleTitleClick}>
-        <span className={`ml-[20px] ${mobileText} cursor-pointer`}>
-          {title}
-        </span>
-        <div className={`${mobileText} sm:min-w-[63px] xs:min-w-[63px] text-[#6B7280]`}>{formattedDate}</div>
+      <div
+        className="flex w-full cursor-pointer items-center justify-between gap-[8px] font-medium"
+        onClick={handleTitleClick}
+      >
+        <span className={`ml-[20px] ${mobileText} cursor-pointer`}>{title}</span>
+        <div className={`${mobileText} text-[#6B7280] xs:min-w-[63px] sm:min-w-[63px]`}>{formattedDate}</div>
       </div>
     </div>
   );
@@ -47,9 +51,5 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency, class
 
 ServiceNoticePostContent.Skeleton = () => {
   const contentWidth = useContentWidth();
-  return (
-    <Skeleton
-    className={cn("flex h-[64px]")} style={{ width: `${contentWidth}px` }}
-    />
-  );
+  return <Skeleton className={cn('flex h-[64px]')} style={{ width: `${contentWidth}px` }} />;
 };
