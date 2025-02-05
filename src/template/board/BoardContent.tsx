@@ -8,7 +8,7 @@ import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { nameToUrl } from './boardData';
 
 interface Post {
-  postId: string;
+  postId: string | number;
   title: string;
   content?: string;
   date?: string;
