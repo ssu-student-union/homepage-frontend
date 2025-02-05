@@ -1,14 +1,14 @@
-name: Deployment (Production)
+name: Deployment (Develop)
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: develop
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
