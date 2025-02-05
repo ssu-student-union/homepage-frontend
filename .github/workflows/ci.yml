@@ -1,0 +1,38 @@
+name: Lint & Build
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: develop
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+      - name: Retrive caches
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ hashFiles('yarn.lock') }}
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install project
+        run: yarn install --immutable
+      - name: Check Prettier
+        run: yarn prettier:check
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
+          VITE_REST_API_KEY: ${{ secrets.VITE_REST_API_KEY }}
