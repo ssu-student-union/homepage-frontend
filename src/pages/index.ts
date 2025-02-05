@@ -37,6 +37,12 @@ import MyPage from './mypage/page';
 import DataPage from './data/page';
 import DataDetailPage from './data/[id]/page';
 import DataEditPage from './data/edit/page';
+import ProfilePage from './mypage/profile/page';
+import MyPostsPage from './mypage/myPosts/page';
+import { ServiceNoticePage } from './mypage/service-notice/page';
+import { ServiceNoticeDetailPage } from './mypage/service-notice/[id]/page';
+import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page';
+import ServiceNoticePatchPage from './mypage/service-notice/service-noticePatch/page';
 
 export {
   MainPage,
@@ -78,4 +84,10 @@ export {
   DataPage,
   DataDetailPage,
   DataEditPage,
+  ProfilePage,
+  MyPostsPage,
+  ServiceNoticePage,
+  ServiceNoticeDetailPage,
+  ServiceNoticeEditPage,
+  ServiceNoticePatchPage,
 };

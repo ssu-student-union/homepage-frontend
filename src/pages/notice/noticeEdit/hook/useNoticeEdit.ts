@@ -72,6 +72,57 @@ export function useNoticeEdit() {
     }
   };
 
+  const handleServiceSubmit = async () => {
+    try {
+      if (!title.trim()) {
+        alert('제목을 입력해주세요.');
+        return;
+      }
+      if (!content.trim()) {
+        alert('내용을 입력해주세요.');
+        return;
+      }
+
+      let uploadResponse = null;
+      let postFiles: any[] = [];
+      let thumbnailUrl: string | null = null;
+
+      if (images.length > 0) {
+        uploadResponse = await uploadFiles({
+          boardCode: '서비스공지사항',
+          files,
+          images,
+        });
+
+        postFiles = uploadResponse.data.data.postFiles;
+        thumbnailUrl = uploadResponse.data.data.thumbnailUrl;
+      }
+
+      const postFileList = handleFileLists(postFiles);
+
+      let groupCodeList: string[] = JSON.parse(localStorage.getItem('groupCodeList') ?? 'null') ?? [''];
+
+      const createPostResponse = await createPost({
+        boardCode: '서비스공지사항',
+        post: {
+          title,
+          content,
+          groupCode: groupCodeList[0],
+          memberCode: localStorage.getItem('memberName'),
+          thumbNailImage: thumbnailUrl,
+          isNotice: isUrgent,
+          postFileList,
+        },
+      });
+
+      const postId = createPostResponse?.data.post_id;
+
+      navigate(`/service-notice/${postId}`);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return {
     files,
     images,
@@ -83,6 +134,7 @@ export function useNoticeEdit() {
     handleContentChange,
     handleUrgentChange,
     handleSubmit,
+    handleServiceSubmit,
     isLoading,
   };
 }

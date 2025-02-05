@@ -4,15 +4,15 @@ import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { handleFileLists } from '@/pages/audit/auditEdit/utils/fileHandler';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export function useNoticePatch() {
-  const location = useLocation();
+interface useNoticePatchProps {
+  boardCode : string,
+  postId : number,
+}
+
+export function useNoticePatch({boardCode, postId}: useNoticePatchProps) {
   const navigate = useNavigate();
-
-  const postId: number = location.state?.data.postId;
-  const boardCode: string = '공지사항게시판';
-
   const { data: resp } = useGetBoardDetail({ boardCode, postId });
   const postDetail = resp?.data.postDetailResDto;
 
@@ -72,7 +72,11 @@ export function useNoticePatch() {
         },
       });
 
-      navigate(`/notice/${postId}`, { state: { postId } });
+      if (boardCode === "공지사항게시판") {
+        navigate(`/notice/${postId}`, { state: { postId } });
+      } else if(boardCode === '서비스공지사항') {
+        navigate(`/service-notice/${postId}`, { state: { postId } });
+      }
     } catch (e) {
       console.error(e);
     }

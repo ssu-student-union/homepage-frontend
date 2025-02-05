@@ -1,6 +1,6 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
-import { handleLocation } from '../utils/locationHandler';
+import { serviceNoticeHandleLocation } from '../../../../notice/noticeDetail/utils/locationHandler';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 
 interface NoticeDetailEditProps {
@@ -11,17 +11,23 @@ interface NoticeDetailEditProps {
   content: string;
   title: string;
 
-  isAuthor: boolean;
+  isAuthor?: boolean;
 }
 
-export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls, isAuthor }: NoticeDetailEditProps) {
+export function ServiceNoticeDetailEditSection({
+  boardCode,
+  postId,
+  fileUrls,
+  imageUrls,
+  isAuthor,
+}: NoticeDetailEditProps) {
   const navigate = useNavigate();
 
   const fileurl: string[] = [...fileUrls, ...imageUrls];
 
   const handleDelete = async () => {
     await delBoardPosts(boardCode, postId, fileurl);
-    navigate(`/notice`);
+    navigate(`/service-notice`);
   };
 
   return (
@@ -29,10 +35,10 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
       <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
         {isAuthor ? (
           <>
-            <DeleteButton onClick={handleDelete} className='sm:w-[100px]'/>
+            <DeleteButton onClick={handleDelete} className="sm:w-[100px]" />
             <EditButton
               onClick={() =>
-                handleLocation(
+                serviceNoticeHandleLocation(
                   {
                     data: {
                       postId,
@@ -41,11 +47,13 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
                   navigate
                 )
               }
-              className='sm:w-[100px]'/>
+              className="sm:w-[100px]"
+            />
           </>
         ) : null}
-
-        <ListButton onClick={() => navigate(`/notice`)} className='sm:w-[100px]'/>
+        <a href='/service-notice'>
+          <ListButton className="sm:w-[100px]" />
+        </a>
       </div>
     </div>
   );
