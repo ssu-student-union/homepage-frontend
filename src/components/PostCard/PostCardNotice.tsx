@@ -1,8 +1,8 @@
 import { Badge } from '../ui/badge';
 import profileImgDefault from '@/assets/image/profileDefault.png';
-import { Pencil } from './const/style';
 import useTruncateText from '@/hooks/useTruncateText';
 import { statusType } from '@/components/PostCard/type';
+import { Pencil } from '@/components/PostCard/const/icon';
 
 interface PostCardMainProps {
   imgUrl?: string; // 게시글 이미지 url

@@ -62,7 +62,6 @@ export function useAuditEdit() {
       });
 
       navigate(`/audit?category=notice`);
-      window.location.reload();
     } catch (e) {
       console.error(e);
     }

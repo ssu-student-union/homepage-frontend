@@ -56,7 +56,6 @@ export function useLostEdit() {
       });
 
       navigate(`/lost-article?category=state`);
-      window.location.reload();
     } catch (e) {
       console.error(e);
     }
