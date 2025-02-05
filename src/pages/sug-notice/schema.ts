@@ -1,4 +1,4 @@
-import z, { nullable } from 'zod';
+import z from 'zod';
 import { FileResponseSchema, PostAclSchema } from '../human-rights/schema';
 
 export type SuggestCategory = z.infer<typeof SuggestCategorySchema>;
