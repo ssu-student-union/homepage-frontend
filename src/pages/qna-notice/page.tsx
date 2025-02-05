@@ -4,7 +4,7 @@ import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent/PostContent';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { getQnaList, QnaPostParams, QnaTarget } from './hooks/getQnaList';
+import { useGetQnaList, QnaPostParams, QnaTarget } from './hooks/useGetQnaList';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { QnaListData } from './types';
@@ -60,7 +60,7 @@ function qnaPostsList(page: number, qnaTarget: QnaTarget, q?: string) {
   return useQuery<QnaListData, Error>({
     queryKey: ['qnaPostsList', queryParams],
     queryFn: async () => {
-      const response = await getQnaList(queryParams);
+      const response = await useGetQnaList(queryParams);
       return response.data.data;
     },
   });

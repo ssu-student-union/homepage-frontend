@@ -10,7 +10,7 @@ export interface QnaPostParams {
   q?: string;
 }
 
-export async function getQnaList({ page = 0, take = 14, qnaTarget = 'ALL', q }: QnaPostParams) {
+export async function useGetQnaList({ page = 0, take = 14, qnaTarget = 'ALL', q }: QnaPostParams) {
   const response = await clientAuth<ApiResponse<QnaListData>>({
     url: `/board/질의응답게시판/posts/search`,
     method: 'get',
