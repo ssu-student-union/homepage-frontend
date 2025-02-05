@@ -112,7 +112,7 @@ export function SuggestPage() {
   }
 
   function navigateToWrite() {
-    navigate('/suggest/edit');
+    navigate('/sug-notice/edit');
   }
 
   return (
