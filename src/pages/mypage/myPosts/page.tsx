@@ -1,11 +1,11 @@
-import { MyPostsContent } from "./myPostsContent/myPostsContent";
+import { MyPostsContent } from './myPostsContent/myPostsContent';
 
 function MyPostsPage() {
   return (
     <div className="mt-24">
       <div>
         <h1 className="mb-5 ml-72 text-2xl font-bold">마이페이지</h1>
-        <div className="border-[#E7E7E7] w-full border-b"></div>
+        <div className="w-full border-b border-[#E7E7E7]"></div>
         <div className="flex flex-row">
           <aside className="my-10 w-64 border-r border-gray-300">
             <div className="p-10 font-bold">
@@ -18,7 +18,7 @@ function MyPostsPage() {
             </div>
           </aside>
           <div className="flex-grow">
-            <div className="border-[#D9D9D9] mb-16 ml-16 mr-10 mt-16 flex flex-row items-center rounded-lg border-2 bg-white p-10">
+            <div className="mb-16 ml-16 mr-10 mt-16 flex flex-row items-center rounded-lg border-2 border-[#D9D9D9] bg-white p-10">
               <img className="mr-8 h-28 w-28" src="/image/mypage/profile_img.png" alt="profile_default_img" />
               <div>
                 <div className="mb-4">
@@ -37,13 +37,13 @@ function MyPostsPage() {
                 </div>
               </div>
             </div>
-            <div className='mb-[40px]'>
-              <MyPostsContent boardCode='건의게시판' postId={12345}/>
-              <MyPostsContent boardCode='건의게시판' postId={13213}/>
-              <MyPostsContent boardCode='건의게시판' postId={125}/>
-              <MyPostsContent boardCode='건의게시판' postId={54321}/>
-              <MyPostsContent boardCode='건의게시판' postId={222}/>
-              <MyPostsContent boardCode='건의게시판' postId={5658}/>
+            <div className="mb-[40px]">
+              <MyPostsContent boardCode="건의게시판" postId={12345} />
+              <MyPostsContent boardCode="건의게시판" postId={13213} />
+              <MyPostsContent boardCode="건의게시판" postId={125} />
+              <MyPostsContent boardCode="건의게시판" postId={54321} />
+              <MyPostsContent boardCode="건의게시판" postId={222} />
+              <MyPostsContent boardCode="건의게시판" postId={5658} />
             </div>
           </div>
         </div>
