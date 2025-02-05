@@ -14,7 +14,7 @@ export function ServiceNoticeEditPage() {
     setFiles,
     setImages,
     handleServiceSubmit,
-    isLoading,
+    isPending,
   } = useNoticeEdit();
 
   return (
@@ -24,7 +24,7 @@ export function ServiceNoticeEditPage() {
       <NoticeEditContentSection onContentChange={handleContentChange} />
       <NoticeEditFilesSection onFilesChange={setFiles} />
       <NoticeEditImageSection onImagesChange={setImages} />
-      <NoticeEditSubmitButton onSubmit={handleServiceSubmit} isLoading={isLoading} />
+      <NoticeEditSubmitButton onSubmit={handleServiceSubmit} isLoading={isPending} />
     </>
   );
 }

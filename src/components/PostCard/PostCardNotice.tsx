@@ -1,7 +1,8 @@
 import { Badge } from '../ui/badge';
 import profileImgDefault from '@/assets/image/profileDefault.png';
-import { Pencil } from './const/style';
 import useTruncateText from '@/hooks/useTruncateText';
+import { statusType } from '@/components/PostCard/type';
+import { Pencil } from '@/components/PostCard/const/icon';
 
 interface PostCardMainProps {
   imgUrl?: string; // 게시글 이미지 url
@@ -35,7 +36,7 @@ const PostCardMain = ({
       <div className={`flex flex-col gap-2.5`}>
         <img
           alt="image"
-          src={imgUrl}
+          src={imgUrl || '/image/default/thumbnail/thumbnail.webp'}
           className={`mt-3 h-[18.75rem] w-[18.75rem] rounded-[0.5rem] bg-gray-200 object-cover xs:h-[13rem] xs:w-[13rem] xs:rounded-[0.35rem]`}
         />
         <div className="w-full flex-col text-lg font-semibold xs:text-xs">
