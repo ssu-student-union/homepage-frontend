@@ -1,7 +1,6 @@
 import { useResize } from '@/hooks/useResize';
 import { useEffect, useState } from 'react';
 
-
 export const useContentWidth = () => {
   const [contentWidth, setContentWidth] = useState(1520); // 초기값은 1520px
   const { width } = useResize();

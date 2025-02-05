@@ -4,26 +4,25 @@ import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 import { NoticeResponse } from '@/pages/notice/types';
 
-
-export function useServiceNoticeBoard(boardCode : string) {
+export function useServiceNoticeBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
-  const { currentPage , handlePageChange} = useCurrentPage();
-  
+  const { currentPage, handlePageChange } = useCurrentPage();
+
   useEffect(() => {
-    if(currentPage !== 1) {
+    if (currentPage !== 1) {
       handlePageChange(1);
     }
   }, []);
 
-  const {data, isLoading, isError } = useGetBoardPosts<NoticeResponse>({
+  const { data, isLoading, isError } = useGetBoardPosts<NoticeResponse>({
     boardCode,
     take: itemsPerPage,
-    page: currentPage -1,
+    page: currentPage - 1,
     groupCode: '',
     memberCode: '',
-  })
+  });
 
   const totalPages: number = data?.data.pageInfo.totalPages ?? 0;
   const idata = data;
-  return {idata, totalPages, currentPage, handlePageChange, isLoading, isError};
+  return { idata, totalPages, currentPage, handlePageChange, isLoading, isError };
 }

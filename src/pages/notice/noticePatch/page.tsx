@@ -25,7 +25,7 @@ export default function NoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
-  } = useNoticePatch({boardCode : "공지사항게시판", postId});
+  } = useNoticePatch({ boardCode: '공지사항게시판', postId });
 
   return (
     <>

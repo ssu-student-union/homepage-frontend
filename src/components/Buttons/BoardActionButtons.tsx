@@ -22,13 +22,9 @@ export function CancelButton({ ...props }) {
   );
 }
 
-export function ListButton({ className, ...props }:ButtonProps) {
+export function ListButton({ className, ...props }: ButtonProps) {
   return (
-    <Button
-      variant="List_Edit"
-      className={clsx(className)}
-      {...props}
-    >
+    <Button variant="List_Edit" className={clsx(className)} {...props}>
       <List />
       <p>목록</p>
     </Button>
@@ -46,11 +42,7 @@ export function WriteButton({ ...props }) {
 
 export function EditButton({ className, ...props }: ButtonProps) {
   return (
-    <Button
-      variant="List_Edit"
-      className={clsx(className)}
-      {...props}
-    >
+    <Button variant="List_Edit" className={clsx(className)} {...props}>
       <Pencil />
       <p>편집</p>
     </Button>
@@ -59,11 +51,7 @@ export function EditButton({ className, ...props }: ButtonProps) {
 
 export function DeleteButton({ className, ...props }: ButtonProps) {
   return (
-    <Button
-      variant="List_Edit"
-      className={clsx(className)}
-      {...props}
-    >
+    <Button variant="List_Edit" className={clsx(className)} {...props}>
       <Trash />
       <p>삭제</p>
     </Button>
