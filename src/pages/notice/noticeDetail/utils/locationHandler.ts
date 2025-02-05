@@ -13,5 +13,3 @@ export const handleLocation = ({ data }: dataType, navigate: NavigateFunction) =
 export const serviceNoticeHandleLocation = ({ data }: dataType, navigate: NavigateFunction) => {
   navigate(`/service-notice/${data.postId}/patch`, { state: { data } });
 };
-
-

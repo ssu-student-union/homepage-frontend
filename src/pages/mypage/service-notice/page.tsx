@@ -4,7 +4,6 @@ import Pagination from '@/components/Pagination';
 import { WriteButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
 import { useContentWidth } from './hooks/useContetnWidth';
-import { useEffect } from 'react';
 import { cn } from '@/libs/utils';
 import { useServiceNoticeBoard } from './hooks/useServiceNoticeBoard';
 import dayjs from 'dayjs';
@@ -12,15 +11,9 @@ import dayjs from 'dayjs';
 export function ServiceNoticePage() {
   const contentWidth = useContentWidth();
 
-  const boardCode = "서비스공지사항";
-  const {idata, totalPages, currentPage, handlePageChange, isLoading } = useServiceNoticeBoard(
-    boardCode
-  );
+  const boardCode = '서비스공지사항';
+  const { idata, totalPages, currentPage, handlePageChange, isLoading } = useServiceNoticeBoard(boardCode);
   const data = idata?.data.postListResDto;
-  useEffect(() => {
-    console.log(idata?.data.postListResDto);
-  }, [idata]);
-
   const navigate = useNavigate();
 
   const handleWriteBtnClick = () => {
@@ -57,24 +50,19 @@ export function ServiceNoticePage() {
                     key={data.postId}
                     postId={data.postId.toString()}
                     title={data.title}
-                    date={dayjs(data.date).format("YYYY-MM-DD")}
+                    date={dayjs(data.date).format('YYYY-MM-DD')}
                     Emergency={data.status === '긴급공지'}
                   />
                 ))}
               </div>
-              <div
-                className={`mb-[40px] flex ${MobileWriteBtn}`}
-                style={{ width: `${contentWidth}px` }}
-              >
+              <div className={`mb-[40px] flex ${MobileWriteBtn}`} style={{ width: `${contentWidth}px` }}>
                 <div onClick={handleWriteBtnClick}>
-                {idata?.data.allowedAuthorities?.includes('WRITE') ? <WriteButton onClick={handleWriteBtnClick} /> : null}
+                  {idata?.data.allowedAuthorities?.includes('WRITE') ? (
+                    <WriteButton onClick={handleWriteBtnClick} />
+                  ) : null}
                 </div>
               </div>
-              <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
+              <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
             </>
           )}
         </div>

@@ -9,7 +9,7 @@ import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 export function ServiceNoticeDetailPage() {
   const { id } = useParams();
   const postId = Number(id);
-  const boardCode: string = "서비스공지사항";
+  const boardCode: string = '서비스공지사항';
   // id에 해당하는 게시글 데이터 찾기
   const { data, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
 
@@ -38,7 +38,7 @@ export function ServiceNoticeDetailPage() {
   return (
     <>
       {isLoading ? (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex h-screen items-center justify-center">
           <NoticeDetailLoading />
         </div>
       ) : isError ? (

@@ -29,7 +29,7 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
       <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
         {isAuthor ? (
           <>
-            <DeleteButton onClick={handleDelete} className='sm:w-[100px]'/>
+            <DeleteButton onClick={handleDelete} className="sm:w-[100px]" />
             <EditButton
               onClick={() =>
                 handleLocation(
@@ -41,11 +41,12 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
                   navigate
                 )
               }
-              className='sm:w-[100px]'/>
+              className="sm:w-[100px]"
+            />
           </>
         ) : null}
 
-        <ListButton onClick={() => navigate(`/notice`)} className='sm:w-[100px]'/>
+        <ListButton onClick={() => navigate(`/notice`)} className="sm:w-[100px]" />
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ export default function ServiceNoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
-  } = useNoticePatch({ boardCode: '서비스공지사항', postId : postId });
+  } = useNoticePatch({ boardCode: '서비스공지사항', postId: postId });
 
   return (
     <>
