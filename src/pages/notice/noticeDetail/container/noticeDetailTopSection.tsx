@@ -12,7 +12,9 @@ interface NoticeDetailTopSectionProps {
 export function NoticeDetailTopSection({ title, date, author = '총학생회' }: NoticeDetailTopSectionProps) {
   const formattedDate = date ? formatYYYYMMDDHHMM(date) : '';
 
-  const isCentral = ['총학생회', '중앙운영위원회', '중앙선거관리위원회', '동아리연합회', 'IT지원위원회'].includes(author);
+  const isCentral = ['총학생회', '중앙운영위원회', '중앙선거관리위원회', '동아리연합회', 'IT지원위원회'].includes(
+    author
+  );
   const authorType = isCentral ? '중앙' : '단과대';
 
   return (

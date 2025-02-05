@@ -11,10 +11,8 @@ import dayjs from 'dayjs';
 export function ServiceNoticePage() {
   const contentWidth = useContentWidth();
 
-  const boardCode = "서비스공지사항";
-  const {idata, totalPages, currentPage, handlePageChange, isLoading } = useServiceNoticeBoard(
-    boardCode
-  );
+  const boardCode = '서비스공지사항';
+  const { idata, totalPages, currentPage, handlePageChange, isLoading } = useServiceNoticeBoard(boardCode);
   const data = idata?.data.postListResDto;
   const navigate = useNavigate();
 
@@ -52,24 +50,19 @@ export function ServiceNoticePage() {
                     key={data.postId}
                     postId={data.postId.toString()}
                     title={data.title}
-                    date={dayjs(data.date).format("YYYY-MM-DD")}
+                    date={dayjs(data.date).format('YYYY-MM-DD')}
                     Emergency={data.status === '긴급공지'}
                   />
                 ))}
               </div>
-              <div
-                className={`mb-[40px] flex ${MobileWriteBtn}`}
-                style={{ width: `${contentWidth}px` }}
-              >
+              <div className={`mb-[40px] flex ${MobileWriteBtn}`} style={{ width: `${contentWidth}px` }}>
                 <div onClick={handleWriteBtnClick}>
-                {idata?.data.allowedAuthorities?.includes('WRITE') ? <WriteButton onClick={handleWriteBtnClick} /> : null}
+                  {idata?.data.allowedAuthorities?.includes('WRITE') ? (
+                    <WriteButton onClick={handleWriteBtnClick} />
+                  ) : null}
                 </div>
               </div>
-              <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
+              <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
             </>
           )}
         </div>
