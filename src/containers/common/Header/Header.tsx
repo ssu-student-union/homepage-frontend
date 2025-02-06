@@ -36,7 +36,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
         <Link to="/">
           <div className="flex items-center gap-4">
             <Logo size={isSmall ? '23px' : '46px'} fill={styles.fillColor} />
-            <span className={cn(styles.textColor, 'min-w-fit text-[20px] text-lg font-bold')}>US:SUM</span>
+            <span className={cn(styles.textColor, 'min-w-fit text-[20px] text-lg font-bold')}>SURE</span>
           </div>
         </Link>
       </div>

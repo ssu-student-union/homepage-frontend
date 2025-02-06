@@ -13,7 +13,7 @@ export function LostPatchPage() {
     handleCategoryChange,
     handleContentChange,
     handleSubmit,
-    isLoading,
+    isPending,
     imageList,
     thumbnailImage,
     setThumbnailImage,
@@ -34,7 +34,7 @@ export function LostPatchPage() {
         thumbnailImage={thumbnailImage}
         setThumbnailImage={setThumbnailImage}
       />
-      <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <AuditEditSubmitButton onSubmit={handleSubmit} isLoading={isPending} />
     </>
   );
 }

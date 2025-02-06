@@ -32,7 +32,7 @@ export function useNoticePatch({ boardCode, postId }: useNoticePatchProps) {
 
   const { mutateAsync: deleteFiles } = useDelBoardFiles();
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
-  const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
+  const { mutateAsync: patchPost, isPending } = usePatchBoardPosts();
 
   const handleTitleChange = (newTitle: string) => setTitle(newTitle);
 
@@ -97,6 +97,6 @@ export function useNoticePatch({ boardCode, postId }: useNoticePatchProps) {
     handleFileDelete,
     setNewFiles,
     handleSubmit,
-    isLoading,
+    isPending,
   };
 }

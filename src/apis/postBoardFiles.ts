@@ -13,7 +13,7 @@ export async function postBoardFiles({
   boardCode,
   files = [],
   images = [],
-}: postBoardFilesProps): Promise<AxiosResponse<any>> {
+}: postBoardFilesProps): Promise<AxiosResponse> {
   const formData = new FormData();
 
   files.forEach((file) => {

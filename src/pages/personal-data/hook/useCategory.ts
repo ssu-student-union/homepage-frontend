@@ -2,7 +2,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { category, mainName } from '../const/data';
 
 interface UseCategoryProps {
-  setSearchParams: (params: any) => void;
+  setSearchParams: (params: Record<string, string>) => void;
   navigate: NavigateFunction;
 }
 

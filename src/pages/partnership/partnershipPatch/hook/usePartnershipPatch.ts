@@ -31,7 +31,7 @@ export function usePartnershipPatch() {
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);
 
-  const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
+  const { mutateAsync: patchPost, isPending } = usePatchBoardPosts();
   const { mutateAsync: deleteFiles } = useDelBoardFiles();
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
 
@@ -91,6 +91,6 @@ export function usePartnershipPatch() {
     handleFileDelete,
     setNewFiles,
     handleSubmit,
-    isLoading,
+    isPending,
   };
 }

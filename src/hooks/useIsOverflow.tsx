@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState, useCallback } from 'react';
 import { useResize } from './useResize';
 
 export const useIsOverflow = <T extends HTMLElement>(): [React.RefObject<T>, boolean] => {
@@ -6,17 +6,16 @@ export const useIsOverflow = <T extends HTMLElement>(): [React.RefObject<T>, boo
   const ref = useRef<T>(null);
   const { width: windowWidth } = useResize();
 
-  const checkOverflow = () => {
+  const checkOverflow = useCallback(() => {
     const element = ref.current;
     if (element) {
-      const isOverflow = element.scrollWidth > element.clientWidth || windowWidth < 1741;
-      setIsOverflow(isOverflow);
+      setIsOverflow(element.scrollWidth > element.clientWidth || windowWidth < 1741);
     }
-  };
+  }, [windowWidth]);
 
   useLayoutEffect(() => {
     checkOverflow();
-  }, [checkOverflow, windowWidth]);
+  }, [checkOverflow]);
 
   return [ref, isOverflow];
 };

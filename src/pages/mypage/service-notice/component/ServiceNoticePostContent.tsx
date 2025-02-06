@@ -50,6 +50,5 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency, class
 }
 
 ServiceNoticePostContent.Skeleton = () => {
-  const contentWidth = useContentWidth();
-  return <Skeleton className={cn('flex h-[64px]')} style={{ width: `${contentWidth}px` }} />;
+  return <Skeleton className={cn('flex h-[64px] w-full')} />;
 };

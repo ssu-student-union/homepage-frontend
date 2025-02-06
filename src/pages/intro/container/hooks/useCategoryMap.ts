@@ -6,7 +6,7 @@ interface UseCategoryMapProps {
   subCategoryParam: string;
   onSubcategorySelect: (category: string) => void;
   onSubSelect: (subcategory: string) => void;
-  setSearchParams: (params: any) => void;
+  setSearchParams: (params: Record<string, string>) => void;
   navigate: NavigateFunction;
 }
 

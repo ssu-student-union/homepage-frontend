@@ -44,6 +44,12 @@ export function MainRouter() {
         <Route path="/sug-notice" element={<i.SuggestPage />} />
         <Route path="/sug-notice/:id" element={<i.SuggestDetailPage />} />
         <Route path="/sug-notice/:id?/edit" element={<i.SuggestWritePage />} />
+        {/* 5. 마이페이지 */}
+        {/* 5. 자료집 */}
+        <Route path="/data" element={<i.DataPage />} />
+        <Route path="/data/:id" element={<i.DataDetailPage />} />
+        <Route path="/data/edit" element={<i.DataEditPage />} />
+        {/* 마이페이지 */}
         {/*마이페이지*/}
         <Route path="/mypage" element={<i.MyPage />} />
         <Route path="/mypage/profile" element={<i.ProfilePage />} />
@@ -55,6 +61,8 @@ export function MainRouter() {
         <Route path="/service-notice/:id/patch" element={<i.ServiceNoticePatchPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
+        {/* 질의응답게시판 */}
+        <Route path="/qna" element={<i.QnApage />} />
       </Route>
       {/* 온보딩 */}
       <Route path="/register" element={<i.KakaoRegisterPage />} />

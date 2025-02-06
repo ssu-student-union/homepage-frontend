@@ -4,7 +4,7 @@ import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { categoryMap } from '../const/data';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { AuditResponse } from '../types';
 
 export function useAuditBoard(boardCode: string, category: string) {
@@ -16,9 +16,14 @@ export function useAuditBoard(boardCode: string, category: string) {
   const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
   const selectedCategory = categoryMap[category] === '전체' ? null : categoryMap[category];
 
+  const prevCategoryRef = useRef<string | null>(null);
+
   useEffect(() => {
-    handlePageChange(1);
-  }, [category]);
+    if (prevCategoryRef.current !== category) {
+      handlePageChange(1);
+    }
+    prevCategoryRef.current = category;
+  }, [category, handlePageChange]);
 
   const { data, isLoading, isError } = useGetBoardPostSearch<AuditResponse>({
     boardCode,

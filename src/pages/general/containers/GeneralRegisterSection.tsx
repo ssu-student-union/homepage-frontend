@@ -216,10 +216,10 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               )}
               <Input
                 type="text"
-                placeholder="학번"
+                placeholder="학번 또는 수험번호"
                 className="mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]"
                 {...register('studentId', {
-                  required: '학번은 필수 입력입니다.',
+                  required: '학번/수험번호는 필수 입력입니다.',
                 })}
                 aria-invalid={isSubmitted ? (errors.studentId ? 'true' : 'false') : undefined}
               />

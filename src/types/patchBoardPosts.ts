@@ -4,7 +4,7 @@ export interface patchBoardPostProps {
   posts: {
     title: string;
     content: string;
-    categoryCode?: string;
+    categoryCode?: string | null;
     isNotice?: boolean | null;
     thumbnailImage: string | null;
     postFileList: number[];

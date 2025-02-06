@@ -2,7 +2,7 @@ import CommentMark from '@/assets/image/comentMark.svg';
 
 interface MyPostsPageProps {
   boardCode: string;
-  postId: Number;
+  postId: number;
 }
 export function MyPostsContent({ boardCode, postId }: MyPostsPageProps) {
   return (

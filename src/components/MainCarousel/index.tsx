@@ -52,8 +52,8 @@ const MainCarousel = () => {
       </Slider>
 
       <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white">
-        <div className="pointer-events-auto text-xl font-bold">제64대 총학생회</div>
-        <h1 className="pointer-events-auto text-[80px] font-black leading-none">US:SUM</h1>
+        <div className="pointer-events-auto text-xl font-bold">제65대 총학생회</div>
+        <h1 className="pointer-events-auto text-[80px] font-black leading-none">SURE</h1>
 
         {!isLogin && (
           <button

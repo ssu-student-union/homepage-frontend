@@ -1,3 +1,4 @@
+import { cva } from 'class-variance-authority';
 import { State } from './state';
 
 interface Styles {
@@ -10,6 +11,10 @@ interface Styles {
   sheetItemsColor: string;
   headerItemStyle: string;
 }
+
+export const navigationMenuTriggerStyle = cva(
+  'group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm text-background font-medium transition-colors hover:brightness-95 hover:text-background focus:brightness-95 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:brightness-95 data-[state=open]:brightness-95'
+);
 
 export function getStyles(state: State): Styles {
   const bgColor = state === State.Onboarding ? 'bg-background' : 'bg-primary';
