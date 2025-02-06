@@ -44,6 +44,12 @@ export function MainRouter() {
         <Route path="/sug-notice" element={<i.SuggestPage />} />
         <Route path="/sug-notice/:id" element={<i.SuggestDetailPage />} />
         <Route path="/sug-notice/:id?/edit" element={<i.SuggestWritePage />} />
+        {/* 5. 마이페이지 */}
+        {/* 5. 자료집 */}
+        <Route path="/data" element={<i.DataPage />} />
+        <Route path="/data/:id" element={<i.DataDetailPage />} />
+        <Route path="/data/edit" element={<i.DataEditPage />} />
+        {/* 마이페이지 */}
         {/*마이페이지*/}
         <Route path="/mypage" element={<i.MyPage />} />
         <Route path="/mypage/profile" element={<i.ProfilePage />} />

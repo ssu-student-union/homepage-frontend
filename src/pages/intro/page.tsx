@@ -19,10 +19,6 @@ export function IntroPage() {
     subCategory: subCategoryParam,
   });
 
-  if (!isValidCategory || !isValidSubCategory) {
-    return null;
-  }
-
   const { onSubcategorySelect } = useBoardSelect<string>(categoryParam);
   const { onSubcategorySelect: onSubSelect } = useBoardSelect<string>(subCategoryParam);
 
@@ -34,6 +30,10 @@ export function IntroPage() {
     setSearchParams,
     navigate,
   });
+
+  if (!isValidCategory || !isValidSubCategory) {
+    return null;
+  }
 
   return (
     <>

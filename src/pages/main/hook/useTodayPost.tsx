@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 import { Post } from '@/types/apis/get';
 import { useRecoilState } from 'recoil';
@@ -26,7 +26,8 @@ export const useTodayPost = ({ boardCode, groupCode, memberCode, take, page }: U
     memberCode,
   });
 
-  const posts: Post[] = data?.data?.postListResDto || [];
+  // ✅ useMemo를 사용하여 posts를 고정 (불필요한 재계산 방지)
+  const posts: Post[] = useMemo(() => data?.data?.postListResDto || [], [data]);
 
   const isPostToday = (dateString: string): boolean => {
     const todayKST = new Date().toLocaleDateString('ko-KR', {
@@ -54,8 +55,9 @@ export const useTodayPost = ({ boardCode, groupCode, memberCode, take, page }: U
     } else {
       setPageCount((prevPage) => prevPage + 1);
     }
-  }, [data, isLoading, posts, setTodayPostCount]);
+  }, [data, isLoading, posts, setTodayPostCount]); // ✅ posts 추가하여 ESLint 경고 해결
 
+  console.log(todayPostCount);
   return {
     data,
     todayPostCount,

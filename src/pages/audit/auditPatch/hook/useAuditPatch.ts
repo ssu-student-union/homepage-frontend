@@ -30,7 +30,7 @@ export function useAuditPatch() {
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);
 
-  const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
+  const { mutateAsync: patchPost, isPending } = usePatchBoardPosts();
   const { mutateAsync: deleteFiles } = useDelBoardFiles();
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
 
@@ -88,6 +88,6 @@ export function useAuditPatch() {
     handleFileDelete,
     setNewFiles,
     handleSubmit,
-    isLoading,
+    isPending,
   };
 }
