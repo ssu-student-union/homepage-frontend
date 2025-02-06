@@ -10,7 +10,7 @@ interface AuditEditImageSectionProps {
 export function AuditEditImageSection({ onImagesChange }: AuditEditImageSectionProps): JSX.Element {
   const { images, addImage, removeImage, getValidImages } = useImageManager();
 
-  const memoizedGetValidImages = useCallback(() => getValidImages(), [getValidImages]);
+  const GetValidImages = useCallback(() => getValidImages(), [getValidImages]);
 
   const memoizedOnImagesChange = useCallback(
     (images: File[]) => {
@@ -20,8 +20,8 @@ export function AuditEditImageSection({ onImagesChange }: AuditEditImageSectionP
   );
 
   useEffect(() => {
-    memoizedOnImagesChange(memoizedGetValidImages());
-  }, [images, memoizedGetValidImages, memoizedOnImagesChange]);
+    memoizedOnImagesChange(GetValidImages());
+  }, [images, GetValidImages, memoizedOnImagesChange]);
 
   const handleImageAdd = (acceptedFiles: File[]) => {
     addImage(acceptedFiles);

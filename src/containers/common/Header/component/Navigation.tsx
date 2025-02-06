@@ -5,12 +5,12 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
 } from '@/components/ui/navigation-menu';
-import { dataPath, menuItems } from '../const/pathData';
+import { beforeUrl, dataPath, menuItems } from '../const/pathData';
 import { getStyles } from '../const/style';
 import { State } from '../const/state';
 import { cn } from '@/libs/utils';
 import DropDownMenu from './DropDownMenu';
-import { useNavigate } from 'react-router-dom';
+import { Link, NavigationMenuLink } from '@radix-ui/react-navigation-menu';
 
 interface NavigationProps {
   state?: State;
@@ -18,7 +18,6 @@ interface NavigationProps {
 
 export function Navigation({ state = State.Onboarding }: NavigationProps) {
   const styles = getStyles(state);
-  const navigate = useNavigate();
   return (
     <NavigationMenu className="h-full xs:hidden sm:hidden md:hidden lg:hidden">
       <NavigationMenuList className="h-full">
@@ -35,15 +34,15 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
             </NavigationMenuContent>
           </NavigationMenuItem>
         ))}
-        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => navigate(dataPath)}>
-          <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
-            <p>자료집</p>
-          </NavigationMenuTrigger>
+        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
+          <Link href={`${dataPath}`}>
+            <NavigationMenuLink className={cn(styles.headerItemStyle)}>자료집</NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
-          <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
-            <a href={`https://ssuketch60.cafe24.com/`}>이전 홈페이지</a>
-          </NavigationMenuTrigger>
+          <Link href={`${beforeUrl}`}>
+            <NavigationMenuLink className={cn(styles.headerItemStyle)}>이전 홈페이지</NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
