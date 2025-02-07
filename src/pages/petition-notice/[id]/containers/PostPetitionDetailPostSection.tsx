@@ -4,7 +4,7 @@ import { useResize } from '@/hooks/useResize';
 import { Viewer } from '@toast-ui/react-editor';
 import { ThumbsUp } from '@phosphor-icons/react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Logo } from '@/components/Logo/Logo';
+import { UssumLogo } from '@/components/Logo/UssumLogo';
 import Breadcrumb from '@/components/Breadcrumb';
 import { PostHead } from '@/components/PostHead';
 import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
@@ -202,7 +202,7 @@ export function PostPetitionDetailPostSection() {
                       key={official_comment.id}
                     >
                       <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
-                        <Logo size={mobile_screen ? '15px' : '26px'} fill="#2F4BF7" />
+                        <UssumLogo size={mobile_screen ? '15px' : '26px'} fill="#2F4BF7" />
                         <span className="ml-2 text-[#2F4BF7]">{official_comment.authorName} 공식답변</span>
                       </div>
                       <p className="text-[1.125rem] font-medium text-[#7E7E7E] xs:text-[0.75rem]">

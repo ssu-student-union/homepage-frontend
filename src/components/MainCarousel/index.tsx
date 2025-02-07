@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useRecoilValue } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
-import { Logo } from '../Logo/Logo';
+import { Logo } from '../Logo/SsureLogo';
 
 const CounterItem = ({ isActive }: { isActive: boolean }) => (
   <span className={`block h-[7px] w-[45px] rounded-[15px] ${isActive ? 'bg-[#B8B8B8]' : 'bg-[#E4E4E4]'}`} />

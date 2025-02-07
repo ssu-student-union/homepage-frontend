@@ -1,13 +1,12 @@
 import { cn } from '@/libs/utils';
 import { List } from '@phosphor-icons/react';
-import { Logo } from '@/components/Logo/Logo';
+import { Logo } from '@/components/Logo/SsureLogo';
 import { getStyles } from './const/style';
 import { HeaderSheet } from './component/HeaderSheet';
 import { AuthButton } from './component/AuthButton';
 import { State } from './const/state';
 import { Navigation } from './component/Navigation';
 import { Link } from 'react-router-dom';
-import { useHeaderSize } from '@/hooks/useHeaderSize';
 
 interface HeaderProps {
   state?: State;

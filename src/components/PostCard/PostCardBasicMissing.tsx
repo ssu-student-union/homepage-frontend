@@ -3,8 +3,6 @@ import { Badge } from '../ui/badge';
 import { Size } from './const/state';
 import { getStyles } from './const/style';
 import { cn } from '@/libs/utils';
-import { Logo } from '@/components/Logo/Logo';
-import { useResize } from '@/hooks/useResize';
 
 interface PostCardProps {
   imgUrl?: string;
@@ -33,9 +31,6 @@ const PostCard = ({
   className = '',
 }: PostCardProps) => {
   const styles = getStyles(size);
-
-  const { width } = useResize();
-  const mobile_screen = width < 391;
 
   const maxTitleLength = size === Size.default ? 12 : 8;
   const maxSubtitleLength = size === Size.default ? 24 : 18;
