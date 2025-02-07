@@ -67,10 +67,9 @@ const PostCard = ({
             <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>
               {cardType === 'Basic' && (
                 <div className="relative flex items-baseline">
-                  <span className="absolute left-0 top-[2px] flex items-baseline">
-                    <Logo size={mobile_screen ? '10px' : '12px'} fill="#9CA3AF" />
+                  <span>
+                    {profileName} {profileName && '•'}
                   </span>
-                  <span className="ml-4 xs:ml-3">{profileName} •</span>
                   <span>{date}</span>
                 </div>
               )}
