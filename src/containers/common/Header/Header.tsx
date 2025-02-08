@@ -1,13 +1,12 @@
 import { cn } from '@/libs/utils';
 import { List } from '@phosphor-icons/react';
-import { Logo } from '@/components/Logo/Logo';
+import { Logo } from '@/components/Logo/SsureLogo';
 import { getStyles } from './const/style';
 import { HeaderSheet } from './component/HeaderSheet';
 import { AuthButton } from './component/AuthButton';
 import { State } from './const/state';
 import { Navigation } from './component/Navigation';
 import { Link } from 'react-router-dom';
-import { useHeaderSize } from '@/hooks/useHeaderSize';
 
 interface HeaderProps {
   state?: State;
@@ -16,7 +15,6 @@ interface HeaderProps {
 
 export function Header({ state = State.Onboarding, onLogout = () => {} }: HeaderProps) {
   const styles = getStyles(state);
-  const isSmall = useHeaderSize();
   return (
     <div
       className={cn(
@@ -35,8 +33,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
       <div className={cn(styles.headerItemStyle, 'xs:px-0.5 sm:px-0.5 md:px-0.5 lg:px-0.5')}>
         <Link to="/">
           <div className="flex items-center gap-4">
-            <Logo size={isSmall ? '23px' : '46px'} fill={styles.fillColor} />
-            <span className={cn(styles.textColor, 'min-w-fit text-[20px] text-lg font-bold')}>US:SUM</span>
+            <Logo className="h-[26px]" />
           </div>
         </Link>
       </div>
