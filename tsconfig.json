@@ -2,14 +2,12 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "esModuleInterop": true,
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
+    "types": ["vite-plugin-svgr/client"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -23,18 +21,11 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@toast-ui/editor": [
-        "./node_modules/@toast-ui/editor/types"
-      ]
+      "@/*": ["./src/*"],
+      "@toast-ui/editor": ["./node_modules/@toast-ui/editor/types"]
     }
   },
-  "include": [
-    "src",
-    "react-slick.d.ts"
-  ],
+  "include": ["src", "react-slick.d.ts", "svg.d.ts"],
   "references": [
     {
       "path": "./tsconfig.node.json"
