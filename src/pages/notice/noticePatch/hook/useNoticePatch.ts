@@ -7,11 +7,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface useNoticePatchProps {
-  boardCode : string,
-  postId : number,
+  boardCode: string;
+  postId: number;
 }
 
-export function useNoticePatch({boardCode, postId}: useNoticePatchProps) {
+export function useNoticePatch({ boardCode, postId }: useNoticePatchProps) {
   const navigate = useNavigate();
   const { data: resp } = useGetBoardDetail({ boardCode, postId });
   const postDetail = resp?.data.postDetailResDto;
@@ -32,7 +32,7 @@ export function useNoticePatch({boardCode, postId}: useNoticePatchProps) {
 
   const { mutateAsync: deleteFiles } = useDelBoardFiles();
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
-  const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
+  const { mutateAsync: patchPost, isPending } = usePatchBoardPosts();
 
   const handleTitleChange = (newTitle: string) => setTitle(newTitle);
 
@@ -72,9 +72,9 @@ export function useNoticePatch({boardCode, postId}: useNoticePatchProps) {
         },
       });
 
-      if (boardCode === "공지사항게시판") {
+      if (boardCode === '공지사항게시판') {
         navigate(`/notice/${postId}`, { state: { postId } });
-      } else if(boardCode === '서비스공지사항') {
+      } else if (boardCode === '서비스공지사항') {
         navigate(`/service-notice/${postId}`, { state: { postId } });
       }
     } catch (e) {
@@ -97,6 +97,6 @@ export function useNoticePatch({boardCode, postId}: useNoticePatchProps) {
     handleFileDelete,
     setNewFiles,
     handleSubmit,
-    isLoading,
+    isPending,
   };
 }

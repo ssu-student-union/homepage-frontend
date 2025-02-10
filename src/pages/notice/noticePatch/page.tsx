@@ -17,7 +17,7 @@ export default function NoticePatchPage() {
     handleContentChange,
     handleUrgentChange,
     handleSubmit,
-    isLoading,
+    isPending,
     imageList,
     fileList,
     fileNames,
@@ -25,7 +25,7 @@ export default function NoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
-  } = useNoticePatch({boardCode : "공지사항게시판", postId});
+  } = useNoticePatch({ boardCode: '공지사항게시판', postId });
 
   return (
     <>
@@ -47,7 +47,7 @@ export default function NoticePatchPage() {
         onFileDelete={handleFileDelete}
         onFilesChange={setNewFiles}
       />
-      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isPending} />
     </>
   );
 }

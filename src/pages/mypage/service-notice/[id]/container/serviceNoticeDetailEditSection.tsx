@@ -35,7 +35,9 @@ export function ServiceNoticeDetailEditSection({
       <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
         {isAuthor ? (
           <>
-            <DeleteButton onClick={handleDelete} className="sm:w-[100px]" />
+            <a href="/service-notice">
+              <DeleteButton onClick={handleDelete} className="sm:w-[100px]" />
+            </a>
             <EditButton
               onClick={() =>
                 serviceNoticeHandleLocation(
@@ -51,7 +53,7 @@ export function ServiceNoticeDetailEditSection({
             />
           </>
         ) : null}
-        <a href='/service-notice'>
+        <a href="/service-notice">
           <ListButton className="sm:w-[100px]" />
         </a>
       </div>

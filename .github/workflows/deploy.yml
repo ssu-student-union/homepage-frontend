@@ -1,48 +1,55 @@
-name: Deploy
+name: Deployment (Production)
 
 on:
   push:
-    branches: ['main']
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    container: pandoc/latex
-
+    environment: prod
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Install mustache (to update the date)
-
-        run: apk add ruby && gem install mustache
-
-      - name: creates output
-
-        run: sh ./build.sh
-
-      - name: Pushes to another repository
-
-        id: push_directory
-
-        uses: cpina/github-action-push-to-another-repository@main
-
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.AUTO_ACTIONS }}
-
+      - name: Repository checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          source-directory: 'output'
-
-          destination-github-username: ssu-it-support
-
-          destination-repository-name: homepage-frontend
-
-          user-email: ${{ secrets.EMAIL }}
-
-          commit-message: ${{ github.event.commits[0].message }}
-
-          target-branch: main
-
-      - name: Test get variable exported by push-to-another-repository
-
-        run: echo $DESTINATION_CLONED_DIRECTORY
+          node-version-file: 'package.json'
+      - name: Retrive caches
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ hashFiles('yarn.lock') }}
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install project
+        run: yarn install --immutable
+      - name: Build
+        run: yarn build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
+          VITE_REST_API_KEY: ${{ secrets.VITE_REST_API_KEY }}
+      - name: Compress build artifacts
+        run: tar -cvf ./dist.tar ./dist
+      - name: Upload with SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          username: ubuntu
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'dist.tar'
+          target: '/home/ubuntu/'
+      - name: Extract artifact with SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          username: ubuntu
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            tar -xvf ./dist.tar ./dist
+            sudo rm -rf /var/www/homepage-frontend
+            sudo mv ./dist /var/www/homepage-frontend
+            rm -rf ./dist
+            rm -f ./dist.tar

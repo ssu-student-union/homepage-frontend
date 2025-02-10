@@ -7,7 +7,7 @@ import { NoticeEditSubmitButton } from './container/noticeEditSubmitButton';
 import { useNoticeEdit } from './hook/useNoticeEdit';
 
 export function NoticeEditPage() {
-  const { handleTitleChange, handleContentChange, handleUrgentChange, handleSubmit, setFiles, setImages, isLoading } =
+  const { handleTitleChange, handleContentChange, handleUrgentChange, handleSubmit, setFiles, setImages, isPending } =
     useNoticeEdit();
 
   return (
@@ -17,7 +17,7 @@ export function NoticeEditPage() {
       <NoticeEditContentSection onContentChange={handleContentChange} />
       <NoticeEditFilesSection onFilesChange={setFiles} />
       <NoticeEditImageSection onImagesChange={setImages} />
-      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isPending} />
     </>
   );
 }

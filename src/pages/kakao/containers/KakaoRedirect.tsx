@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 import { useSetRecoilState } from 'recoil';
@@ -8,10 +8,10 @@ import { baseUrl } from '@/pages/kakao/containers/const/data';
 const KakaoRedirect = () => {
   const setLoginState = useSetRecoilState(LoginState);
   const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
-
   const navigate = useNavigate();
 
-  const redirectUrl = localStorage.getItem('redirectUrl');
+  // ✅ useMemo를 사용하여 redirectUrl을 고정 (렌더링마다 값이 변하는 문제 방지)
+  const redirectUrl = useMemo(() => localStorage.getItem('redirectUrl'), []);
 
   useEffect(() => {
     const kakaoLogin = async () => {
@@ -47,7 +47,7 @@ const KakaoRedirect = () => {
     };
 
     kakaoLogin();
-  }, [AUTHORIZE_CODE, navigate, setLoginState]);
+  }, [AUTHORIZE_CODE, navigate, setLoginState, redirectUrl]);
 
   return <div>Loading…</div>;
 };

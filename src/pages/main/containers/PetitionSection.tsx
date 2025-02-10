@@ -28,7 +28,7 @@ const PetitionSection = () => {
         />
       </div>
       <Spacing size={18} direction="vertical" />
-      <div className="flex w-full gap-[1.5rem] overflow-x-scroll scrollbar-hide xs:pr-[1.5rem] sm:pr-[1.5rem]">
+      <div className="scrollbar-hide flex w-full gap-[1.5rem] overflow-x-scroll xs:pr-[1.5rem] sm:pr-[1.5rem]">
         {data?.data.pageInfo.totalElements ? (
           <>
             {data?.data.postListResDto.map((petitionData) => (

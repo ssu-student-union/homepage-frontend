@@ -12,6 +12,7 @@ export function Container({ className, children }: ContainerProps) {
     <section
       className={cn('flex justify-center px-10 md:px-[72px] lg:px-[200px] xl:px-[200px] xxl:px-[200px]', className)}
     >
+      {/*px값은 section, py값은 div에 설정해야하는 이유가 있나요??*/}
       <div className="w-full max-w-[1040px] py-20">{children}</div>
     </section>
   );

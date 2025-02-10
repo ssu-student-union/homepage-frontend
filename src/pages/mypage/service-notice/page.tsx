@@ -11,16 +11,16 @@ import dayjs from 'dayjs';
 export function ServiceNoticePage() {
   const contentWidth = useContentWidth();
 
-  const boardCode = "서비스공지사항";
-  const {idata, totalPages, currentPage, handlePageChange, isLoading } = useServiceNoticeBoard(
-    boardCode
-  );
+  const boardCode = '서비스공지사항';
+  const { idata, totalPages, currentPage, handlePageChange, isLoading } = useServiceNoticeBoard(boardCode);
   const data = idata?.data.postListResDto;
   const navigate = useNavigate();
 
   const handleWriteBtnClick = () => {
     navigate('/service-notice/edit');
   };
+
+  console.log(idata?.data);
 
   const MobileWriteBtn = contentWidth === 316 ? 'justify-center' : 'justify-end';
 
@@ -37,8 +37,8 @@ export function ServiceNoticePage() {
         {/* 로딩 상태에 따라 Skeleton 또는 실제 데이터를 표시 */}
         <div className="jutify-center flex flex-col items-center">
           {isLoading ? (
-            <div className="mb-[300px] mt-[64px] flex flex-col items-center">
-              <div className={cn(`flex flex-col flex-wrap gap-[10px]`)}>
+            <div className="mb-[300px] mt-[64px] flex w-full flex-col items-center">
+              <div className={cn(`flex w-full flex-col flex-wrap gap-[10px]`)}>
                 {Array.from({ length: 7 }).map((_, index) => (
                   <ServiceNoticePostContent.Skeleton key={index} />
                 ))}
@@ -52,24 +52,19 @@ export function ServiceNoticePage() {
                     key={data.postId}
                     postId={data.postId.toString()}
                     title={data.title}
-                    date={dayjs(data.date).format("YYYY-MM-DD")}
+                    date={dayjs(data.date).format('YYYY-MM-DD')}
                     Emergency={data.status === '긴급공지'}
                   />
                 ))}
               </div>
-              <div
-                className={`mb-[40px] flex ${MobileWriteBtn}`}
-                style={{ width: `${contentWidth}px` }}
-              >
+              <div className={`mb-[40px] flex ${MobileWriteBtn}`} style={{ width: `${contentWidth}px` }}>
                 <div onClick={handleWriteBtnClick}>
-                {idata?.data.allowedAuthorities?.includes('WRITE') ? <WriteButton onClick={handleWriteBtnClick} /> : null}
+                  {idata?.data.allowedAuthorities?.includes('WRITE') ? (
+                    <WriteButton onClick={handleWriteBtnClick} />
+                  ) : null}
                 </div>
               </div>
-              <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
+              <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
             </>
           )}
         </div>
