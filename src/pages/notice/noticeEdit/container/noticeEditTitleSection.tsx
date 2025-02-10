@@ -2,17 +2,19 @@ import { useState } from 'react';
 
 interface NoticeEditTitleSectionProps {
   initialTitle?: string;
+  state?: boolean;
   onTitleChange: (title: string) => void;
   onUrgentChange?: (isUrgent: boolean) => void;
 }
 
 export function NoticeEditTitleSection({
   initialTitle = '',
+  state,
   onTitleChange,
   onUrgentChange,
 }: NoticeEditTitleSectionProps) {
   const [title, setTitle] = useState<string>(initialTitle);
-  const [isUrgent, setIsUrgent] = useState<boolean>(false);
+  const [isUrgent, setIsUrgent] = useState<boolean>(state ?? false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value;
