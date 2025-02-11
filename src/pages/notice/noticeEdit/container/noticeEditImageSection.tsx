@@ -12,7 +12,7 @@ export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectio
 
   useEffect(() => {
     onImagesChange(getValidImages());
-  }, [images, onImagesChange]);
+  }, [getValidImages, onImagesChange]);
 
   const handleImageAdd = useCallback(
     (acceptedFiles: File[]) => {

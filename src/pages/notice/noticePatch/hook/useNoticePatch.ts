@@ -24,7 +24,7 @@ export function useNoticePatch({ boardCode, postId }: useNoticePatchProps) {
     postDetail?.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
 
   const [title, setTitle] = useState<string>(postDetail?.title ?? '');
-  const [isUrgent, setIsUrgent] = useState<boolean>(postDetail?.status ==='긴급공지');
+  const [isUrgent, setIsUrgent] = useState<boolean>(postDetail?.status === '긴급공지');
   const [content, setContent] = useState<string>(postDetail?.content ?? '');
   const [deletedFiles, setDeletedFiles] = useState<string[]>([]);
   const [newFiles, setNewFiles] = useState<File[]>([]);

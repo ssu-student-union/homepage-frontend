@@ -25,9 +25,7 @@ export function useImageManager() {
   };
 
   const getValidImages = useCallback(() => {
-    return images
-      .filter((item) => item.image !== null)
-      .map((item) => item.image as File);
+    return images.filter((item) => item.image !== null).map((item) => item.image as File);
   }, [images]);
 
   return {
