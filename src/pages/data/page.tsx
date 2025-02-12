@@ -68,8 +68,6 @@ export default function DataPage() {
   const { pageNum: currentPage, totalPages } = data.pageInfo;
   const posts = data.postListResDto;
 
-  console.log(posts);
-
   return (
     <>
       <HeadLayout title="자료집"></HeadLayout>

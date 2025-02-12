@@ -41,7 +41,7 @@ export default function DataDetailPage() {
 
   const editable = post.isAuthor || (post.allowedAuthorities ?? []).includes('EDIT');
   const deletable = post.isAuthor || (post.allowedAuthorities ?? []).includes('DELETE');
-  console.log(post.fileResponseList);
+
   return (
     <>
       <article className="mt-[120px]">

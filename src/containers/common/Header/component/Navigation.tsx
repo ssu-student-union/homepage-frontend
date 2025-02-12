@@ -35,13 +35,17 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
           </NavigationMenuItem>
         ))}
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
-          <Link href={`${dataPath}`}>
-            <NavigationMenuLink className={cn(styles.headerItemStyle)}>자료집</NavigationMenuLink>
+          <Link asChild>
+            <NavigationMenuLink href={`${dataPath}`} className={cn(styles.headerItemStyle)}>
+              자료집
+            </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
-          <Link href={`${beforeUrl}`}>
-            <NavigationMenuLink className={cn(styles.headerItemStyle)}>이전 홈페이지</NavigationMenuLink>
+          <Link asChild>
+            <NavigationMenuLink href={`${beforeUrl}`} className={cn(styles.headerItemStyle)}>
+              이전 홈페이지
+            </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
