@@ -1,3 +1,4 @@
+import { PostAclSchema } from '@/pages/human-rights/schema';
 import { z } from 'zod';
 
 /**
@@ -16,7 +17,17 @@ export type DataPostSummary = z.output<typeof DataPostSummarySchema>;
 export type DataPostEditForm = z.infer<ReturnType<typeof DataPostEditFormSchema>>;
 
 // 자료집 파일 타입입니다.
-export type DataFileType = z.infer<typeof DataFileSchema>;
+export type DataFileType = z.infer<typeof FileResponseSchema>;
+
+/**
+ * 인권신고게시판 조회에서 사용하는 세부 정보가 포함된 게시물 원본 데이터입니다.
+ */
+export type DataPostResponse = z.input<typeof DataPostSchema>;
+
+/**
+ * 인권신고게시판 조회에서 사용하는 세부 정보가 포함된 게시물 정보입니다.
+ */
+export type DataPost = z.output<typeof DataPostSchema>;
 
 /**
  * 동적으로 폼 스키마 생성
@@ -46,7 +57,7 @@ export const createDataCategorySchema = (categoryKey: string[]) => {
   return z.enum(categories as [string, ...string[]]);
 };
 
-export const DataFileSchema = z.object({
+export const FileResponseSchema = z.object({
   fileName: z.string(),
   fileType: z.string(),
   fileUrl: z.string(),
@@ -57,8 +68,24 @@ export const DataPostSummarySchema = z.object({
   category: z.string(),
   content: z.string().min(1),
   date: z.string().transform((str) => new Date(str)),
-  files: z.array(DataFileSchema).default([]),
+  files: z.array(FileResponseSchema).default([]),
   isNotice: z.boolean(),
   postId: z.number().int(),
   title: z.string().min(1),
+});
+
+export const DataPostSchema = z.object({
+  allowedAuthorities: z.array(PostAclSchema).nullable().default([]),
+  authorName: z.string(),
+  category: z.string(),
+  content: z.string(),
+  createdAt: z.string().transform((str) => new Date(str)),
+  fileResponseList: z.array(FileResponseSchema),
+  isAuthor: z.boolean(),
+  lastEditedAt: z
+    .string()
+    .transform((str) => new Date(str))
+    .nullable(),
+  postId: z.number(),
+  title: z.string(),
 });

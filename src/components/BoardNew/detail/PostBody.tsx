@@ -1,6 +1,7 @@
 import { FileResponse } from '@/types/apis/get';
 import { Attachment } from '@/components/BoardNew/detail/Attachment.tsx';
 import { ContentViewer } from '@/components/BoardNew/detail/ContentViewer.tsx';
+import { DataFileType } from '@/pages/data/schema';
 
 interface PostBodyProps {
   content: string;
@@ -15,10 +16,30 @@ export function PostBody({ content, files }: PostBodyProps) {
         <ContentViewer content={content} />
       </section>
       <section className="mb-10 flex flex-col gap-4">
-        {attachments.map((attachment) => (
-          <Attachment key={attachment.postFileId} {...attachment} />
+        {attachments.map((file) => (
+          <Attachment key={file.postFileId} {...file} />
         ))}
       </section>
     </>
   );
 }
+
+interface PostBodyDataProps {
+  content: string;
+  files: DataFileType[];
+}
+
+PostBody.Data = ({ content, files }: PostBodyDataProps) => {
+  return (
+    <>
+      <section className="mb-10">
+        <ContentViewer content={content} />
+      </section>
+      <section className="mb-10 flex flex-col gap-4">
+        {files.map((file) => (
+          <Attachment.Data key={file.postFileId} {...file} />
+        ))}
+      </section>
+    </>
+  );
+};

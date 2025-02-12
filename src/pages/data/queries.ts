@@ -1,5 +1,15 @@
+import { GetPostOptions, useGetPost } from '@/hooks/new/query/useGetPost';
 import { SearchDataPostsOptions, useSearchDataPosts } from '@/hooks/new/query/useSearchDataPosts';
-import { DataPostSummary, DataPostSummaryResponse, DataPostSummarySchema } from '@/pages/data/schema';
+import {
+  DataPost,
+  DataPostResponse,
+  DataPostSchema,
+  DataPostSummary,
+  DataPostSummaryResponse,
+  DataPostSummarySchema,
+} from '@/pages/data/schema';
+
+const BOARD_CODE = 'data' as const;
 
 export function useSearchDataPost({
   q,
@@ -18,6 +28,19 @@ export function useSearchDataPost({
     majorCategory,
     middleCategory,
     subCategory,
+    zodSchema,
+    queryOptions,
+  });
+}
+
+export function useGetDataPost({
+  postId,
+  queryOptions,
+}: Omit<GetPostOptions<DataPostResponse, DataPost>, 'boardCode' | 'zodSchema'>) {
+  const zodSchema = DataPostSchema;
+  return useGetPost({
+    boardCode: BOARD_CODE,
+    postId,
     zodSchema,
     queryOptions,
   });

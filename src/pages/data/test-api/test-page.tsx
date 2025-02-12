@@ -1,7 +1,7 @@
-import useGetDataSearch from '@/pages/data/test-api/useGetDataSearch';
+import useGetDataDetail from '@/pages/data/test-api/useGetDataDetail';
 
 export default function TestPage() {
-  const { data, error, isLoading } = useGetDataSearch({ take: 15 });
+  const { data, error, isLoading } = useGetDataDetail({ postId: 134 });
   if (isLoading) {
     return <></>;
   }
