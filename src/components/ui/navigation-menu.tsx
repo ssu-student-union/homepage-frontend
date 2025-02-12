@@ -99,6 +99,6 @@ export {
   NavigationMenuContent,
   NavigationMenuTrigger,
   NavigationMenuIndicator,
-  //eslint-disable-next-line
+  // eslint-disable-next-line react-refresh/only-export-components
   navigationMenuTriggerStyle,
 };
