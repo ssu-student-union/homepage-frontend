@@ -3,14 +3,17 @@ import { cn } from '@/libs/utils.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 import { Link, LinkProps } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { DataFileType } from '@/pages/data/schema';
+import FileDownButton from '@/components/File/FileDownButton';
 
 interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
   title: string;
   content: string;
-  date: string;
+  date: Date;
   category: string;
   isNotice: boolean;
   className?: string;
+  files: DataFileType[];
 }
 
 /**
@@ -18,22 +21,28 @@ interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
  *
  * 자료집에 쓰이는 자료 목록에서 사용할 수 있는 자료 항목 컴포넌트입니다.
  * 일반적으로 `BodyLayout` 아래에 리스트 형태 아이템으로 표시할 수 있습니다.
- * C는 literal union이길 권장합니다만, 상황에 따라 다양한 타입을 넣을 수 있습니다. - 효민's 주석에서 발췌
  */
-export function DataContent({ title, content, date, category, isNotice, ...props }: DataContentProp) {
+export function DataContent({ title, content, date, category, isNotice, files, ...props }: DataContentProp) {
   const formattedDate = dayjs(date).format('(YYYY.MM.DD)');
   return (
     <Link
       {...props}
       className={cn(
-        'flex flex-row items-center justify-start border-b border-b-gray-200 p-5 text-[1.125rem] font-medium'
+        'flex flex-row items-center justify-between border-b border-b-gray-200 p-5 text-[1.125rem] font-medium'
       )}
     >
-      <div className={cn('mr-[1.125rem] ', isNotice ? 'text-primary' : 'text-muted-foreground')}>
-        [{isNotice ? '공지' : category}]
+      <div className="flex flex-row items-start justify-start">
+        <div className={cn('mr-[1.125rem] ', isNotice ? 'text-primary' : 'text-muted-foreground')}>
+          [{isNotice ? '공지' : category}]
+        </div>
+        <div className="">
+          {title} - {formattedDate}
+        </div>
       </div>
-      <div className="">
-        {title} - {formattedDate}
+      <div className="flex flex-row gap-[8px]">
+        {files.map((file, index) => (
+          <FileDownButton key={`${index} + ${file}`} file={file} />
+        ))}
       </div>
     </Link>
   );

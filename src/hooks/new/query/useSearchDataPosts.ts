@@ -1,23 +1,14 @@
 import { ApiError, useStuQuery } from '@/hooks/new/useStuQuery.ts';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { UndefinedInitialDataOptions } from '@tanstack/react-query';
-import { PostAcl } from '@/pages/human-rights/schema.ts';
 import z, { ZodError, ZodSchema, ZodTypeDef } from 'zod';
-import { PageInfo } from '@/types/apis/get';
+import { PostsResponse } from '@/hooks/new/query/useSearchPosts';
 
 /**
  * 자료집 목록 데이터입니다.
- * `pageInfo`는 현재 페이지 정보, `allowedAuthorities`와 `deniedAuthorities`는 각각 부여된 권한, 거부된 권한을 표현합니다.
- * @typeParam P - 반환된 게시물의 타입입니다.
  */
-export interface PostsResponse<P> {
-  postListResDto: P[];
-  pageInfo: PageInfo;
-  allowedAuthorities: PostAcl[];
-  deniedAuthorities: PostAcl[];
-}
 
-export interface SearchPostsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
+export interface SearchDataPostsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
   page?: number;
   take?: number;
   q?: string;
@@ -31,13 +22,13 @@ export interface SearchPostsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodT
   >;
 }
 
-export function useSearchDataPost<TRaw, TData = TRaw>({
+export function useSearchDataPosts<TRaw, TData = TRaw>({
   q,
   page,
   take,
   zodSchema,
   queryOptions,
-}: SearchPostsOptions<TRaw, TData>) {
+}: SearchDataPostsOptions<TRaw, TData>) {
   const accessToken = localStorage.getItem('accessToken');
   const queryKey = ['searchPosts', accessToken, q, take, page];
   const config: AxiosRequestConfig = {
@@ -45,7 +36,7 @@ export function useSearchDataPost<TRaw, TData = TRaw>({
     method: 'get',
     params: {
       page,
-      take: take ?? 15,
+      take: take ?? 11,
       q: q ?? '',
     },
   };
