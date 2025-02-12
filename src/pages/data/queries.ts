@@ -45,3 +45,19 @@ export function useGetDataPost({
     queryOptions,
   });
 }
+
+// export function useCreateHumanRightsPost({
+//   mutationOptions,
+// }: Omit<UseCreatePostOptions<HumanRightsPostEditRequest>, 'boardCode'> = {}) {
+//   return useCreatePost({ boardCode: BOARD_CODE, mutationOptions });
+// }
+
+// export function usePatchHumanRightsPost({
+//   mutationOptions,
+// }: Omit<UsePatchPostOptions<HumanRightsPostEditRequest>, 'boardCode'> = {}) {
+//   return usePatchPost({ boardCode: BOARD_CODE, mutationOptions });
+// }
+
+// export function useDeleteHumanRightsPost({ mutationOptions }: Omit<UseDeletePostOptions, 'boardCode'> = {}) {
+//   return useDeletePost({ boardCode: BOARD_CODE, mutationOptions });
+// }

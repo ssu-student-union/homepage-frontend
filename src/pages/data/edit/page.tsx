@@ -14,7 +14,27 @@ import { User } from '@phosphor-icons/react';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import { FileInputsWithType } from '@/components/BoardNew/edit/FileInputsWithType';
 
+// function PageSkeleton() {
+//   return (
+//     <article className="mb-20 mt-[120px]">
+//       <PostHeader.Skeleton />
+//       <hr className="bg-[#E7E7E7]" />
+//       <Container.Skeleton />
+//       <PostFooter.Skeleton />
+//     </article>
+//   );
+// }
+
 export default function DataEditPage() {
+  /* Router Props */
+  // const { id } = useParams<{ id?: string }>();
+  // const postId = id ? parseInt(id ?? '') || null : null;
+  // const navigate = useNavigate();
+
+  // /* Load data by query */
+  // const queryClient = useQueryClient();
+  // const [isPostLoaded, setIsPostLoaded] = useState(false);
+
   const category: string[] = ['결산안', '활동보고']; // mockup
 
   const {
@@ -28,15 +48,24 @@ export default function DataEditPage() {
     postFileList: [],
   });
 
+  // 에디터 기능 훅
   const editorRef = useRef<Editor>(null);
-  const { register: registerEditor, isImageProcessing } = useContentEditor('자료집', editorRef);
+  // const { register: registerEditor, processImages, isImageProcessing } = useContentEditor('자료집', editorRef);
+  // const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
   const [files, setFiles] = useState<PostFile[]>([]);
+
+  /* Mutation hooks */
+
+  // 기존 데이터 입력
+
+  const { register: registerEditor, isImageProcessing } = useContentEditor('자료집', editorRef);
+
   const titleError = errors?.title;
 
   const [selectedCategory, setSelectedCategory] = useState<string>(''); // 카테고리 선택 상태
 
   return (
-    <article className="mt-[200px]">
+    <article className="mt-[123px]">
       <ArticleHeader className="">
         <h1 className="text-[34px] font-bold">자료집</h1>
         <div className="flex flex-row items-center gap-[5px] text-[16px] font-medium text-[#999999]">
@@ -44,8 +73,8 @@ export default function DataEditPage() {
           <p>총학생회</p>
         </div>
       </ArticleHeader>
-      <Container>
-        <section className="= mb-[12px] flex flex-col gap-[10px]">
+      <Container className="py-[58px]">
+        <section className="mb-[12px] flex flex-col gap-[10px]">
           <div className="flex flex-row gap-[10px] xs:flex-col sm:flex-col">
             <div className="w-full">
               <Input
