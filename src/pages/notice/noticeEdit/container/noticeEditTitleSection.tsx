@@ -1,20 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface NoticeEditTitleSectionProps {
   initialTitle?: string;
-  state?: boolean;
+  isUrgent?: boolean;
+  setIsUrgent?: React.Dispatch<React.SetStateAction<boolean>>;
   onTitleChange: (title: string) => void;
   onUrgentChange?: (isUrgent: boolean) => void;
 }
 
 export function NoticeEditTitleSection({
   initialTitle = '',
-  state,
+  isUrgent,
+  setIsUrgent,
   onTitleChange,
   onUrgentChange,
 }: NoticeEditTitleSectionProps) {
   const [title, setTitle] = useState<string>(initialTitle);
-  const [isUrgent, setIsUrgent] = useState<boolean>(state ?? false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTitle = event.target.value;
@@ -26,7 +27,7 @@ export function NoticeEditTitleSection({
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.checked;
-    setIsUrgent(newValue);
+    setIsUrgent?.(newValue);
     if (onUrgentChange) {
       onUrgentChange(newValue);
     }

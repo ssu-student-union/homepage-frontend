@@ -20,8 +20,6 @@ export function ServiceNoticePage() {
     navigate('/service-notice/edit');
   };
 
-  console.log(idata?.data);
-
   const MobileWriteBtn = contentWidth === 316 ? 'justify-center' : 'justify-end';
 
   return (

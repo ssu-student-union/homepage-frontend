@@ -99,5 +99,6 @@ export function useNoticePatch({ boardCode, postId }: useNoticePatchProps) {
     handleSubmit,
     isPending,
     isUrgent,
+    setIsUrgent,
   };
 }

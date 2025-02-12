@@ -19,8 +19,6 @@ export function ServiceNoticeDetailPage() {
   const content = data ? data.data.postDetailResDto.content : '';
   const author = data ? data.data.postDetailResDto.authorName : 'IT지원위원회';
 
-  console.log(data);
-
   const fileList =
     data?.data?.postDetailResDto?.fileResponseList
       ?.filter((file) => file.fileType === 'files')
