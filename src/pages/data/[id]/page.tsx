@@ -2,8 +2,9 @@ import { PostBody } from '@/components/BoardNew/detail/PostBody';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
-import { breadcrumbItems } from '@/pages/data/[id]/const/mockupData';
-import { useGetDataPost } from '@/pages/data/queries';
+import { breadcrumbItems } from '@/pages/data/const/data';
+import { useDeleteDataPost, useGetDataPost } from '@/pages/data/queries';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function PageSkeleton() {
@@ -23,9 +24,14 @@ export default function DataDetailPage() {
   const postId = parseInt(id ?? '');
   const navigate = useNavigate();
 
+  /* Load data by query */
+  const queryClient = useQueryClient();
   const { data: post, isLoading, error, isError } = useGetDataPost({ postId, queryOptions: { retry: true } });
 
-  if (isLoading) {
+  /* Set up Mutations */
+  const { mutate: deletePost, isPending: isDeletePostPending } = useDeleteDataPost();
+
+  if (isLoading || isDeletePostPending) {
     return <PageSkeleton />;
   }
 
@@ -41,6 +47,21 @@ export default function DataDetailPage() {
 
   const editable = post.isAuthor || (post.allowedAuthorities ?? []).includes('EDIT');
   const deletable = post.isAuthor || (post.allowedAuthorities ?? []).includes('DELETE');
+
+  /* Mutation handler */
+  function handleDeletePost() {
+    if (post) {
+      deletePost(
+        { postId: `${postId}`, fileUrls: post.fileResponseList.map((file) => file.fileUrl) },
+        {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['searchPosts', 'data'] });
+            navigate('/data');
+          },
+        }
+      );
+    }
+  }
 
   return (
     <>
@@ -62,7 +83,7 @@ export default function DataDetailPage() {
           editUrl={`/data/${postId}/edit`}
           className="mb-20"
           onDelete={() => {
-            navigate('/data');
+            handleDeletePost();
           }}
         />
       </article>
