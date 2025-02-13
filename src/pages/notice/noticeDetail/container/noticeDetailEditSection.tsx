@@ -2,6 +2,7 @@ import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/Board
 import { useNavigate } from 'react-router-dom';
 import { handleLocation } from '../utils/locationHandler';
 import { delBoardPosts } from '@/apis/delBoardPosts';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface NoticeDetailEditProps {
   boardCode: string;
@@ -19,8 +20,13 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
 
   const fileurl: string[] = [...fileUrls, ...imageUrls];
 
+  const queryClient = useQueryClient();
+
   const handleDelete = async () => {
     await delBoardPosts(boardCode, postId, fileurl);
+    queryClient.invalidateQueries({
+      queryKey: ['get-board-boardCode-posts', boardCode],
+    });
     navigate(`/notice`);
   };
 
