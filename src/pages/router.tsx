@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import * as i from './index.ts';
-import TestPage from '@/pages/data/test-api/test-page.tsx';
 
 export function MainRouter() {
   return (
@@ -50,7 +49,6 @@ export function MainRouter() {
         <Route path="/data" element={<i.DataPage />} />
         <Route path="/data/:id" element={<i.DataDetailPage />} />
         <Route path="/data/:id?/edit" element={<i.DataEditPage />} />
-        <Route path="/test" element={<TestPage />} />
         {/* 마이페이지 */}
         {/*마이페이지*/}
         <Route path="/mypage" element={<i.MyPage />} />

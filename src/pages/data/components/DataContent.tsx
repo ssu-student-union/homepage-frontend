@@ -28,7 +28,7 @@ export function DataContent({ title, content, date, category, isNotice, files, .
     <Link
       {...props}
       className={cn(
-        'flex flex-row items-center justify-between border-b border-b-gray-200 p-5 text-[1.125rem] font-medium'
+        'flex flex-row items-center justify-between border-b border-b-gray-200 p-5 text-[1.125rem] font-medium xs:flex-col xs:items-start xs:gap-[12px] sm:flex-col sm:items-start sm:gap-[12px] md:flex-col md:items-start md:gap-[12px]'
       )}
     >
       <div className="flex flex-row items-start justify-start">
@@ -39,7 +39,10 @@ export function DataContent({ title, content, date, category, isNotice, files, .
           {title} - {formattedDate}
         </div>
       </div>
-      <div className="flex flex-row gap-[8px]">
+      <div
+        className="flex flex-row gap-[8px] xs:self-end sm:self-end md:self-end
+"
+      >
         {files.map((file, index) => (
           <FileDownButton key={`${index} + ${file}`} file={file} />
         ))}
