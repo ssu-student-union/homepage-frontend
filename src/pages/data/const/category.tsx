@@ -213,7 +213,7 @@ export const userCategories: UserCategories = {
 // 파일종류
 interface UserFileCategories extends UserCategories {}
 
-export const UserFileCategories: UserFileCategories = {
+export const userFileCategories: UserFileCategories = {
   중앙운영위원회: ['결과보고서', '회의록', '총학생회칙', '운영세칙', '자료'],
   총학생회: ['결산안', '활동보고', '자료'],
   학생복지위원회: ['특별기구 자료'],

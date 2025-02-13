@@ -6,7 +6,6 @@ import { Container } from '@/containers/new/Container';
 import { cn } from '@/libs/utils';
 import { Editor } from '@toast-ui/react-editor';
 import { Loader2 } from 'lucide-react';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor';
 import { User } from '@phosphor-icons/react';
@@ -16,10 +15,14 @@ import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCreateDataPost, useGetDataPost, usePatchDataPost, useUploadDataFiles } from '@/pages/data/queries';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
-import { userCategories } from '@/pages/data/const/category';
+import { userCategories, userFileCategories } from '@/pages/data/const/category';
+import { useGetDataPost } from '@/pages/data/queries';
+import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
+import { useUploadDataFiles } from '@/pages/data/hook/mutation/useUploadDataFiles';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInputWithType';
+import { useCreateDataPost } from '@/pages/data/hook/mutation/usePostDataPost';
 
 function PageSkeleton() {
   return (
@@ -53,6 +56,7 @@ export default function DataEditPage() {
   const memberName: string = localStorage.getItem('memberName') || '';
   const categories: string[] = userCategories[memberName];
   const [category, setCategory] = useState<string>('');
+  const fileCategories: string[] = userFileCategories[memberName];
 
   /* Load data by query */
   const queryClient = useQueryClient();
@@ -76,14 +80,14 @@ export default function DataEditPage() {
     trigger,
     formState: { errors },
   } = useDataForm({
-    category: '접수대기',
+    category: '',
     notice: false,
     postFileList: [],
   });
 
   // 에디터 기능 훅
   const editorRef = useRef<Editor>(null);
-  const { register: registerEditor, isImageProcessing } = useContentEditor('인권신고게시판', editorRef);
+  const { register: registerEditor, isImageProcessing } = useContentEditor('자료집', editorRef);
   const [files, setFiles] = useState<PostFile[]>([]);
 
   /* Mutation hooks */
@@ -104,26 +108,35 @@ export default function DataEditPage() {
     error: fileUploadError,
     isError: isFileUploadError,
     isPending: isFileUploadPending,
-  } = useUploadDataFiles({ fileType: [] });
+  } = useUploadDataFiles();
 
   // 기존 데이터 입력
   useEffect(() => {
     if (post && editorRef.current && !isPostLoaded) {
       setIsPostLoaded(false);
+
       reset(postTransformer(post));
       editorRef.current!.getInstance().setMarkdown(post.content);
-      const uploadedFiles = post.fileResponseList
-        .filter(({ fileType }) => fileType === 'files')
-        .map(
-          ({ postFileId, fileName }): UploadedPostFile => ({
+      setCategory(post.category || '');
+
+      if (post.fileResponseList && post.fileResponseList.length > 0) {
+        const uploadedFiles = post.fileResponseList.map(
+          ({ postFileId, fileName, fileType }): UploadedPostFile => ({
             name: fileName,
             isUploaded: true,
             id: postFileId,
+            category: fileType,
           })
         );
-      setFiles(uploadedFiles);
+
+        setFiles(uploadedFiles);
+      } else {
+        setFiles([]);
+      }
+
       setIsPostLoaded(true);
     }
+
     if (!postId) {
       setIsPostLoaded(true);
     }
@@ -144,16 +157,42 @@ export default function DataEditPage() {
   }
 
   async function submitForm(formData: DataPostEditForm) {
+    if (category === '') {
+      alert('카테고리를 지정해야 합니다.');
+    }
+
+    if (files.length === 0) {
+      alert('파일을 하나 이상 업로드해야 합니다.');
+      return;
+    }
+
+    const hasInvalidCategory = files.some((file) => !file.category || file.category.trim() === '');
+    if (hasInvalidCategory) {
+      alert('모든 파일의 파일종류를 선택해야 합니다.');
+      return;
+    }
+
     const postFileList: number[] = files
       .filter((file): file is UploadedPostFile => file.isUploaded)
       .map(({ id }) => id);
-    if (files) {
-      const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded).map(({ file }) => file);
-      const uploaded = await uploadFiles({ files: localFiles });
-      uploaded.postFiles.forEach(({ id }) => postFileList.push(id));
+
+    if (files.length > 0) {
+      const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded);
+
+      const uploadedFiles = await Promise.all(
+        localFiles.map(async (file) => {
+          const { postFiles } = await uploadFiles({ fileType: file.category!, files: [file.file] });
+          return postFiles.map(({ id }) => id);
+        })
+      );
+
+      uploadedFiles.flat().forEach((id) => postFileList.push(id));
     }
+
     formData.postFileList = postFileList;
+
     const data: DataPostEditRequest = DataPostEditFormSchema.parse(formData);
+
     if (postId) {
       patchPost(
         { id: postId, post: data },
@@ -205,7 +244,7 @@ export default function DataEditPage() {
         <h1 className="text-[34px] font-bold">자료집</h1>
         <div className="flex flex-row items-center gap-[5px] text-[16px] font-medium text-[#999999]">
           <User className="size-[16px]" />
-          <p>총학생회</p>
+          <p>{memberName}</p>
         </div>
       </ArticleHeader>
       <Container className="py-[58px]">
@@ -234,6 +273,7 @@ export default function DataEditPage() {
               optionValue={categories}
               onValueChange={(value) => {
                 setCategory(value);
+                setValue('category', value);
               }}
               value={category}
             />
@@ -249,7 +289,12 @@ export default function DataEditPage() {
           />
         </section>
         <section className="mb-16">
-          <FileInputsWithType files={files} onChange={handleFilesChange} sizeLimit={1024 * 1024 * 5} />
+          <FileInputsWithType
+            fileCategories={fileCategories}
+            files={files}
+            onChange={handleFilesChange}
+            sizeLimit={1024 * 1024 * 5}
+          />
         </section>
       </Container>
       <ArticleFooter className="pb-6">

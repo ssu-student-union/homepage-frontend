@@ -33,10 +33,10 @@ export type DataPostEditForm = z.infer<typeof DataPostEditFormSchema>;
 export const DataPostEditFormSchema = z.object({
   postId: z.number().optional(),
   title: z.string().min(1).max(50),
-  category: z.string(),
-  notice: z.boolean(),
-  postFileList: z.array(z.number()),
   content: z.string().min(1),
+  category: z.string().min(1),
+  postFileList: z.array(z.number()),
+  notice: z.boolean(),
 });
 
 export const FileResponseSchema = z.object({

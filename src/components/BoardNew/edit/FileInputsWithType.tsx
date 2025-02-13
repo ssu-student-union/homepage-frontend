@@ -7,14 +7,14 @@ interface FileInputsProps {
   className?: string;
   sizeLimit?: number;
   files?: PostFile[];
+  fileCategories: string[];
   onChange?: (files: PostFile[]) => void;
 }
 
-export function FileInputsWithType({ className, files, onChange, sizeLimit }: FileInputsProps) {
+export function FileInputsWithType({ className, files, fileCategories, onChange, sizeLimit }: FileInputsProps) {
   const [innerFiles, setInnerFiles] = useState<PostFile[]>([]);
 
   useEffect(() => {
-    // 외부에서 전달된 files가 있으면 상태 초기화
     if (files) setInnerFiles(files);
     else setInnerFiles([]);
   }, [files]);
@@ -25,29 +25,21 @@ export function FileInputsWithType({ className, files, onChange, sizeLimit }: Fi
       const postFile: PostFile = {
         name: file.name,
         isUploaded: false,
-        file: file,
-        category: '', // 기본 카테고리 설정
+        file,
+        category: '',
       };
       const newFiles = [...innerFiles, postFile];
       setInnerFiles(newFiles);
       if (onChange) onChange(newFiles);
-      evt.currentTarget.files = new DataTransfer().files; // 파일 초기화
+      evt.currentTarget.files = new DataTransfer().files;
     }
   }
 
-  function onFileChange(idx: number, evt: ChangeEvent<HTMLInputElement>) {
-    const file = evt.currentTarget.files?.item(0);
+  function onFileRemove(event: React.MouseEvent, idx: number) {
+    event.stopPropagation();
+    event.preventDefault();
     const newFiles = [...innerFiles];
-    if (file) {
-      newFiles[idx] = {
-        ...newFiles[idx],
-        name: file.name,
-        isUploaded: false,
-        file: file,
-      };
-    } else {
-      newFiles.splice(idx, 1); // 파일 삭제
-    }
+    newFiles.splice(idx, 1);
     setInnerFiles(newFiles);
     if (onChange) onChange(newFiles);
   }
@@ -56,7 +48,7 @@ export function FileInputsWithType({ className, files, onChange, sizeLimit }: Fi
     const newFiles = [...innerFiles];
     newFiles[idx] = {
       ...newFiles[idx],
-      category: category, // 카테고리 업데이트
+      category,
     };
     setInnerFiles(newFiles);
     if (onChange) onChange(newFiles);
@@ -68,12 +60,13 @@ export function FileInputsWithType({ className, files, onChange, sizeLimit }: Fi
         <FileInputWithType
           key={idx}
           file={file}
-          onChange={(evt) => onFileChange(idx, evt)}
           sizeLimit={sizeLimit}
-          onCategoryChange={(category) => onCategoryChange(idx, category)} // 카테고리 변경 핸들러 추가
+          onCategoryChange={(category) => onCategoryChange(idx, category)}
+          onRemove={(e) => onFileRemove(e, idx)}
+          fileCategories={fileCategories}
         />
       ))}
-      <FileInputWithType onChange={onNewFile} sizeLimit={sizeLimit} />
+      <FileInputWithType fileCategories={fileCategories} onChange={onNewFile} sizeLimit={sizeLimit} />
     </div>
   );
 }

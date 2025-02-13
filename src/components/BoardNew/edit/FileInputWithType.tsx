@@ -19,88 +19,23 @@ export interface LocalPostFile {
   category?: string;
 }
 
-interface FileInputsProps {
-  className?: string;
-  sizeLimit?: number;
-  files?: PostFile[];
-  onChange?: (files: PostFile[]) => void;
-}
-
-export function FileInputsWithType({ className, files, onChange, sizeLimit }: FileInputsProps) {
-  const [innerFiles, setInnerFiles] = useState<PostFile[]>([]);
-
-  useEffect(() => {
-    if (files) setInnerFiles(files);
-    else setInnerFiles([]);
-  }, [files]);
-
-  function onNewFile(evt: ChangeEvent<HTMLInputElement>) {
-    const file = evt.currentTarget.files?.item(0);
-    if (file) {
-      const postFile: PostFile = {
-        name: file.name,
-        isUploaded: false,
-        file,
-        category: '', // 기본 카테고리 설정
-      };
-      const newFiles = [...innerFiles, postFile];
-      setInnerFiles(newFiles);
-      if (onChange) onChange(newFiles);
-      evt.currentTarget.files = new DataTransfer().files;
-    }
-  }
-
-  function onFileChange(idx: number, evt: ChangeEvent<HTMLInputElement>) {
-    const file = evt.currentTarget.files?.item(0);
-    const newFiles = [...innerFiles];
-    if (file) {
-      newFiles[idx] = {
-        ...newFiles[idx],
-        name: file.name,
-        isUploaded: false,
-        file,
-      };
-    } else {
-      newFiles.splice(idx, 1);
-    }
-    setInnerFiles(newFiles);
-    if (onChange) onChange(newFiles);
-  }
-
-  function onCategoryChange(idx: number, category: string) {
-    const newFiles = [...innerFiles];
-    newFiles[idx] = {
-      ...newFiles[idx],
-      category,
-    };
-    setInnerFiles(newFiles);
-    if (onChange) onChange(newFiles);
-  }
-
-  return (
-    <div className={cn('flex flex-col gap-6', className)}>
-      {innerFiles.map((file, idx) => (
-        <FileInputWithType
-          key={idx}
-          file={file}
-          onChange={(evt) => onFileChange(idx, evt)}
-          sizeLimit={sizeLimit}
-          onCategoryChange={(category) => onCategoryChange(idx, category)}
-        />
-      ))}
-      <FileInputWithType onChange={onNewFile} sizeLimit={sizeLimit} />
-    </div>
-  );
-}
-
 interface FileItemProps {
   file?: PostFile;
+  fileCategories?: string[];
   sizeLimit?: number;
   onChange?: (evt: ChangeEvent<HTMLInputElement>) => void;
   onCategoryChange?: (category: string) => void;
+  onRemove?: (event: React.MouseEvent) => void;
 }
 
-export const FileInputWithType = ({ file, sizeLimit, onChange, onCategoryChange }: FileItemProps) => {
+export const FileInputWithType = ({
+  file,
+  sizeLimit,
+  fileCategories,
+  onChange,
+  onCategoryChange,
+  onRemove,
+}: FileItemProps) => {
   const [fileCategory, setFileCategory] = useState<string>(file?.category || '');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setDragging] = useState(false);
@@ -112,7 +47,9 @@ export const FileInputWithType = ({ file, sizeLimit, onChange, onCategoryChange 
 
   function handleCategoryChange(category: string) {
     setFileCategory(category);
-    if (onCategoryChange) onCategoryChange(category);
+    if (onCategoryChange) {
+      onCategoryChange(category);
+    }
   }
 
   function fileChangeHandler(evt: ChangeEvent<HTMLInputElement>) {
@@ -152,8 +89,6 @@ export const FileInputWithType = ({ file, sizeLimit, onChange, onCategoryChange 
     setDragging(false);
   }
 
-  const fileCategories: string[] = ['결산안', '활동보고', '자료'];
-
   return (
     <div
       className={cn('flex flex-row items-center gap-4 xs:items-start sm:flex-col sm:items-start')}
@@ -181,19 +116,24 @@ export const FileInputWithType = ({ file, sizeLimit, onChange, onCategoryChange 
         <span>{file?.name || (isDragging ? '파일을 여기에 놓으세요' : '파일을 선택해주세요')}</span>
       </div>
       <div className="flex flex-row">
-        {' '}
         {file && (
           <FilterDropDown
             className="flex h-[48px] w-[354px] justify-center rounded-[12px] border-gray-500 text-[19px] font-medium xs:w-[257px] sm:w-[187px]"
             defaultValue="파일종류 선택"
-            optionValue={fileCategories}
+            optionValue={fileCategories || []}
             value={fileCategory}
             onValueChange={handleCategoryChange}
           />
         )}
-        <button className="p-2" onClick={triggerFileInput}>
-          {file ? <Trash className="text-gray-600" size="32" /> : <Plus className="text-gray-600" size="32" />}
-        </button>
+        {file ? (
+          <button className="p-2" onClick={onRemove}>
+            <Trash className="text-gray-600" size="32" />
+          </button>
+        ) : (
+          <button className="p-2" onClick={triggerFileInput}>
+            <Plus className="text-gray-600" size="32" />
+          </button>
+        )}
         <input ref={fileInputRef} type="file" className="hidden" onChange={fileChangeHandler} />
       </div>
     </div>
