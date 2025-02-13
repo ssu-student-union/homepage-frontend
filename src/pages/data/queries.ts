@@ -2,44 +2,13 @@ import { clientAuth } from '@/apis/client';
 import { CreatePostResponse } from '@/hooks/new/mutations/useCreatePost';
 import { useDeletePost, UseDeletePostOptions } from '@/hooks/new/mutations/useDeletePost';
 import { GetPostOptions, useGetPost } from '@/hooks/new/query/useGetPost';
-import { SearchDataPostsOptions, useSearchDataPosts } from '@/hooks/new/query/useSearchDataPosts';
 import { useStuMutation } from '@/hooks/new/useStuMutation';
 import { ApiError, ApiResponse } from '@/hooks/new/useStuQuery';
-import {
-  DataPost,
-  DataPostResponse,
-  DataPostSchema,
-  DataPostSummary,
-  DataPostSummaryResponse,
-  DataPostSummarySchema,
-} from '@/pages/data/schema';
+import { DataPost, DataPostResponse, DataPostSchema } from '@/pages/data/schema';
 import { UseMutationOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 const BOARD_CODE = '자료집게시판판' as const;
-
-// 자료집 게시물 목록 조회
-export function useSearchDataPost({
-  q,
-  page,
-  take,
-  majorCategory,
-  middleCategory,
-  subCategory,
-  queryOptions,
-}: Omit<SearchDataPostsOptions<DataPostSummaryResponse, DataPostSummary>, 'zodSchema'>) {
-  const zodSchema = DataPostSummarySchema;
-  return useSearchDataPosts({
-    q,
-    page,
-    take,
-    majorCategory,
-    middleCategory,
-    subCategory,
-    zodSchema,
-    queryOptions,
-  });
-}
 
 // 자료집 게시물 상세 조회
 export function useGetDataPost({

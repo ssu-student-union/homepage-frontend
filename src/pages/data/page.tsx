@@ -4,11 +4,11 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { DataContent } from '@/pages/data/components/DataContent';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useSearchDataPost } from '@/pages/data/queries';
 import { useRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { BoardSelector } from '@/components/Board/BoardSelector';
-import { useDataCategory } from '@/pages/data/hook/useDataCategory';
+import { useDataCategory } from './hook/utils/useDataCategory';
+import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
 
 function PageSkeleton() {
   return (
@@ -39,12 +39,12 @@ export default function DataPage() {
   const { majorCategory, middleCategory, subCategory, setMajor, setMiddle, setSub } = useDataCategory();
 
   /* Load data from Query */
-  const { data, isLoading, isError, error } = useSearchDataPost({
+  const { data, isLoading, isError, error } = useSearchDataPosts({
     q,
     page: page - 1,
-    majorCategory: majorCategory,
-    middleCategory: middleCategory,
-    subCategory: subCategory,
+    majorCategory: majorCategory ?? '',
+    middleCategory: middleCategory ?? '',
+    subCategory: subCategory ?? '',
   });
 
   // check wrong page params
