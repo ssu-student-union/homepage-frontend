@@ -1,5 +1,5 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { serviceNoticeHandleLocation } from '../../../../notice/noticeDetail/utils/locationHandler';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 import { useQueryClient } from '@tanstack/react-query';
@@ -27,7 +27,7 @@ export function ServiceNoticeDetailEditSection({
   const fileurl: string[] = [...fileUrls, ...imageUrls];
 
   const queryClient = useQueryClient();
-  
+
   const handleDelete = async () => {
     await delBoardPosts(boardCode, postId, fileurl);
     queryClient.invalidateQueries({

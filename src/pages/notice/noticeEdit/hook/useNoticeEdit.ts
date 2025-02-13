@@ -71,7 +71,7 @@ export function useNoticeEdit() {
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['get-board-boardCode-posts-search'],
+        queryKey: ['get-board-boardCode-posts-search', '공지사항게시판'],
       });
 
       navigate(`/notice?category=central&sub-category=all`);
@@ -124,6 +124,10 @@ export function useNoticeEdit() {
       });
 
       const postId = createPostResponse?.data.post_id;
+
+      queryClient.invalidateQueries({
+        queryKey: ['get-board-boardCode-posts', '서비스공지사항'],
+      });
 
       navigate(`/service-notice/${postId}`);
     } catch (e) {
