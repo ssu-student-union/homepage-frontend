@@ -1,20 +1,24 @@
-import { useState } from 'react';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import * as C from '@/pages/data/const/category';
 import { cn } from '@/libs/utils';
 
-export default function SortLayout() {
-  const {
-    selectedMajor,
-    selectedMiddle,
-    selectedMinor,
-    middleOptions,
-    minorOptions,
-    setSelectedMajor,
-    setSelectedMiddle,
-    setSelectedMinor,
-  } = useDataCategory();
+interface SortLayoutProps {
+  majorCategory: string;
+  middleCategory: string;
+  subCategory: string;
+  setMajor: (value: string) => void;
+  setMiddle: (value: string) => void;
+  setMinor: (value: string) => void;
+}
 
+export default function SortLayout({
+  majorCategory,
+  middleCategory,
+  subCategory,
+  setMajor,
+  setMiddle,
+  setMinor,
+}: SortLayoutProps) {
   const defaultFilterStyle: string = 'w-full';
 
   return (
@@ -25,57 +29,33 @@ export default function SortLayout() {
         className={defaultFilterStyle}
         optionValue={C.majorOptions}
         onValueChange={(value) => {
-          setSelectedMajor(value);
-          setSelectedMiddle('');
-          setSelectedMinor('');
+          setMajor(value);
+          setMiddle('');
+          setMinor('');
         }}
-        value={selectedMajor}
+        value={majorCategory}
       />
       {/* 중분류 */}
       <FilterDropDown
         defaultValue="중분류"
-        optionValue={middleOptions}
+        optionValue={C.middleOptions[majorCategory] || []}
         onValueChange={(value) => {
-          setSelectedMiddle(value);
-          setSelectedMinor('');
+          setMiddle(value);
+          setMinor('');
         }}
-        value={selectedMiddle}
-        className={cn(defaultFilterStyle, !selectedMajor ? 'pointer-events-none' : '')}
-        mainTextStyle={!selectedMajor ? 'text-gray-400' : ''}
+        value={middleCategory}
+        className={cn(defaultFilterStyle, !majorCategory ? 'pointer-events-none' : '')}
+        mainTextStyle={!majorCategory ? 'text-gray-400' : ''}
       />
       {/* 소분류 */}
       <FilterDropDown
         defaultValue="소분류"
-        optionValue={minorOptions}
-        onValueChange={setSelectedMinor}
-        value={selectedMinor}
-        className={cn(defaultFilterStyle, !selectedMajor ? 'pointer-events-none' : '')}
-        mainTextStyle={!selectedMiddle ? 'text-gray-400' : ''}
+        optionValue={C.minorOptions[middleCategory] || []}
+        onValueChange={setMinor}
+        value={subCategory}
+        className={cn(defaultFilterStyle, !majorCategory ? 'pointer-events-none' : '')}
+        mainTextStyle={!middleCategory ? 'text-gray-400' : ''}
       />
     </div>
   );
-}
-
-// 대분류, 중분류, 소분류 상태 훅
-function useDataCategory() {
-  const [selectedMajor, setSelectedMajor] = useState(''); // 대분류 선택 상태
-  const [selectedMiddle, setSelectedMiddle] = useState(''); // 중분류 선택 상태
-  const [selectedMinor, setSelectedMinor] = useState(''); // 소분류 선택 상태
-
-  // 선택된 대분류에 따라 중분류 목록 가져오기
-  const middleOptions = selectedMajor ? C.middleOptions[selectedMajor] || [] : [];
-
-  // 선택된 중분류에 따라 소분류 목록 가져오기
-  const minorOptions = selectedMiddle ? C.minorOptions[selectedMiddle] || [] : [];
-
-  return {
-    selectedMajor,
-    selectedMiddle,
-    selectedMinor,
-    middleOptions,
-    minorOptions,
-    setSelectedMajor,
-    setSelectedMiddle,
-    setSelectedMinor,
-  };
 }

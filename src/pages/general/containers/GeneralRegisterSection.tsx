@@ -135,6 +135,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           localStorage.setItem('memberName', response.data?.data?.memberName);
           localStorage.setItem('majorName', response.data?.data?.majorName);
           localStorage.setItem('accessToken', response.data?.data?.accessToken);
+          console.log('memberName', response.data?.data?.memberName);
+          console.log('majorName', response.data?.data?.majorName);
         }
         navigate('/');
         setLoginState(true);

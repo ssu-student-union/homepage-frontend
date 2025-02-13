@@ -6,63 +6,198 @@ import { Container } from '@/containers/new/Container';
 import { cn } from '@/libs/utils';
 import { Editor } from '@toast-ui/react-editor';
 import { Loader2 } from 'lucide-react';
-import { useDataForm } from './hooks/useDataform';
-import { PostFile } from '@/components/BoardNew/edit/FileInput';
-import { useRef, useState } from 'react';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
+import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor';
 import { User } from '@phosphor-icons/react';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import { FileInputsWithType } from '@/components/BoardNew/edit/FileInputsWithType';
+import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
+import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCreateDataPost, useGetDataPost, usePatchDataPost, useUploadDataFiles } from '@/pages/data/queries';
+import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
+import { useDataForm } from '@/pages/data/edit/form';
+import { userCategories } from '@/pages/data/const/category';
 
-// function PageSkeleton() {
-//   return (
-//     <article className="mb-20 mt-[120px]">
-//       <PostHeader.Skeleton />
-//       <hr className="bg-[#E7E7E7]" />
-//       <Container.Skeleton />
-//       <PostFooter.Skeleton />
-//     </article>
-//   );
-// }
+function PageSkeleton() {
+  return (
+    <article className="mb-20 mt-[120px]">
+      <PostHeader.Skeleton />
+      <hr className="bg-[#E7E7E7]" />
+      <Container.Skeleton />
+      <PostFooter.Skeleton />
+    </article>
+  );
+}
+
+function postTransformer({ postId, category, title, fileResponseList, content }: DataPost): DataPostEditForm {
+  return {
+    postId,
+    title,
+    category,
+    postFileList: fileResponseList.map((file) => file.postFileId),
+    notice: false,
+    content,
+  };
+}
 
 export default function DataEditPage() {
   /* Router Props */
-  // const { id } = useParams<{ id?: string }>();
-  // const postId = id ? parseInt(id ?? '') || null : null;
-  // const navigate = useNavigate();
+  const { id } = useParams<{ id?: string }>();
+  const postId = id ? parseInt(id ?? '') || null : null;
+  const navigate = useNavigate();
 
-  // /* Load data by query */
-  // const queryClient = useQueryClient();
-  // const [isPostLoaded, setIsPostLoaded] = useState(false);
+  /* 카테고리 지정 */
+  const memberName: string = localStorage.getItem('memberName') || '';
+  const categories: string[] = userCategories[memberName];
+  const [category, setCategory] = useState<string>('');
 
-  const category: string[] = ['결산안', '활동보고']; // mockup
+  /* Load data by query */
+  const queryClient = useQueryClient();
+  const {
+    data: post,
+    isLoading,
+    error,
+    isError,
+  } = useGetDataPost({
+    postId: postId ?? 0,
+    queryOptions: { enabled: postId !== null },
+  });
+  const [isPostLoaded, setIsPostLoaded] = useState(false);
 
+  /* Register form hooks */
   const {
     register,
+    reset,
+    handleSubmit,
     setValue,
     trigger,
     formState: { errors },
-  } = useDataForm(category, {
-    category: '결산안',
-    isNotice: false,
+  } = useDataForm({
+    category: '접수대기',
+    notice: false,
     postFileList: [],
   });
 
   // 에디터 기능 훅
   const editorRef = useRef<Editor>(null);
-  // const { register: registerEditor, processImages, isImageProcessing } = useContentEditor('자료집', editorRef);
-  // const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
+  const { register: registerEditor, isImageProcessing } = useContentEditor('인권신고게시판', editorRef);
   const [files, setFiles] = useState<PostFile[]>([]);
 
   /* Mutation hooks */
+  const {
+    mutate: createPost,
+    error: createError,
+    isError: isCreateError,
+    isPending: isCreatePending,
+  } = useCreateDataPost({ fileCategory: category });
+  const {
+    mutate: patchPost,
+    error: patchError,
+    isError: isPatchError,
+    isPending: isPatchPending,
+  } = usePatchDataPost({ fileCategory: category });
+  const {
+    mutateAsync: uploadFiles,
+    error: fileUploadError,
+    isError: isFileUploadError,
+    isPending: isFileUploadPending,
+  } = useUploadDataFiles({ fileType: [] });
 
   // 기존 데이터 입력
+  useEffect(() => {
+    if (post && editorRef.current && !isPostLoaded) {
+      setIsPostLoaded(false);
+      reset(postTransformer(post));
+      editorRef.current!.getInstance().setMarkdown(post.content);
+      const uploadedFiles = post.fileResponseList
+        .filter(({ fileType }) => fileType === 'files')
+        .map(
+          ({ postFileId, fileName }): UploadedPostFile => ({
+            name: fileName,
+            isUploaded: true,
+            id: postFileId,
+          })
+        );
+      setFiles(uploadedFiles);
+      setIsPostLoaded(true);
+    }
+    if (!postId) {
+      setIsPostLoaded(true);
+    }
+  }, [post, postId, reset, isPostLoaded]);
 
-  const { register: registerEditor, isImageProcessing } = useContentEditor('자료집', editorRef);
+  function handleContentChange() {
+    if (editorRef.current && isPostLoaded) {
+      setValue('content', editorRef.current.getInstance().getMarkdown());
+    }
+  }
+
+  function handleContentBlur() {
+    (async () => await trigger('content'))();
+  }
+
+  function handleFilesChange(newFiles: PostFile[]) {
+    setFiles(newFiles);
+  }
+
+  async function submitForm(formData: DataPostEditForm) {
+    const postFileList: number[] = files
+      .filter((file): file is UploadedPostFile => file.isUploaded)
+      .map(({ id }) => id);
+    if (files) {
+      const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded).map(({ file }) => file);
+      const uploaded = await uploadFiles({ files: localFiles });
+      uploaded.postFiles.forEach(({ id }) => postFileList.push(id));
+    }
+    formData.postFileList = postFileList;
+    const data: DataPostEditRequest = DataPostEditFormSchema.parse(formData);
+    if (postId) {
+      patchPost(
+        { id: postId, post: data },
+        {
+          onSuccess: (data) => {
+            queryClient
+              .invalidateQueries({ queryKey: ['searchPosts', 'data'] })
+              .then(() => queryClient.invalidateQueries({ queryKey: ['getPost', 'data', postId] }))
+              .then(() => navigate(`/data/${data}`));
+          },
+        }
+      );
+    } else {
+      createPost(
+        { post: data },
+        {
+          onSuccess: (data) => {
+            queryClient
+              .invalidateQueries({ queryKey: ['searchPosts', 'data'] })
+              .then(() => navigate(`/data/${data.post_id}`));
+          },
+        }
+      );
+    }
+  }
+
+  if (isLoading || isCreatePending || isPatchPending) {
+    return <PageSkeleton />;
+  }
+
+  if ((postId && !post) || isError || isCreateError || isPatchError || isFileUploadError) {
+    if (isError) console.log(error);
+    if (isCreateError) console.log(createError);
+    if (isPatchError) console.log(patchError);
+    if (isFileUploadError) console.log(fileUploadError);
+    // TODO: 오류 발생 시 세부정보 제공
+    return (
+      <div className="mt-[120px] flex items-center justify-center py-12">
+        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
+      </div>
+    );
+  }
 
   const titleError = errors?.title;
-
-  const [selectedCategory, setSelectedCategory] = useState<string>(''); // 카테고리 선택 상태
 
   return (
     <article className="mt-[123px]">
@@ -96,11 +231,11 @@ export default function DataEditPage() {
             <FilterDropDown
               className="flex h-[44px] w-[346px] items-center justify-center border-gray-500 py-0 text-[19px] font-medium xs:w-[200px] sm:w-[200px] md:w-[200px]"
               defaultValue="카테고리"
-              optionValue={category}
+              optionValue={categories}
               onValueChange={(value) => {
-                setSelectedCategory(value);
+                setCategory(value);
               }}
-              value={selectedCategory}
+              value={category}
             />
           </div>
           <Editor
@@ -121,7 +256,8 @@ export default function DataEditPage() {
         <Button
           variant={'Register'}
           className="flex items-center justify-center gap-1 self-end px-2"
-          onClick={() => {}}
+          disabled={Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
+          onClick={handleSubmit(submitForm)}
         >
           <Loader2
             className={cn('animate-spin transition-all', isImageProcessing ? 'ml-0 opacity-100' : '-ml-7 opacity-0')}
@@ -131,17 +267,4 @@ export default function DataEditPage() {
       </ArticleFooter>
     </article>
   );
-  function handleContentBlur() {
-    (async () => await trigger('content'))();
-  }
-
-  function handleContentChange() {
-    if (editorRef.current) {
-      setValue('content', editorRef.current.getInstance().getMarkdown());
-    }
-  }
-
-  function handleFilesChange(newFiles: PostFile[]) {
-    setFiles(newFiles);
-  }
 }

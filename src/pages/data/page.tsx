@@ -8,11 +8,12 @@ import { useSearchDataPost } from '@/pages/data/queries';
 import { useRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 import { BoardSelector } from '@/components/Board/BoardSelector';
+import { useDataCategory } from '@/pages/data/hook/useDataCategory';
 
 function PageSkeleton() {
   return (
     <>
-      <HeadLayout title="자료집집" />
+      <HeadLayout title="자료집" />
       <BodyLayout.Skeleton>
         <BoardSelector.Skeleton />
         {Array.from(Array(10).keys()).map((_, i) => (
@@ -34,10 +35,16 @@ export default function DataPage() {
   // TODO: Use search parameters instead of recoil state
   const [q] = useRecoilState(SearchState);
 
+  /* 카테고리 분류 */
+  const { majorCategory, middleCategory, subCategory, setMajor, setMiddle, setSub } = useDataCategory();
+
   /* Load data from Query */
   const { data, isLoading, isError, error } = useSearchDataPost({
     q,
     page: page - 1,
+    majorCategory: majorCategory,
+    middleCategory: middleCategory,
+    subCategory: subCategory,
   });
 
   // check wrong page params
@@ -48,7 +55,7 @@ export default function DataPage() {
         return prev;
       });
     }
-  }, [data, page, setSearchParams]);
+  }, [data, page, majorCategory, middleCategory, subCategory, setSearchParams]);
 
   if (isLoading) {
     return <PageSkeleton />;
@@ -71,7 +78,14 @@ export default function DataPage() {
   return (
     <>
       <HeadLayout title="자료집"></HeadLayout>
-      <SortLayout></SortLayout>
+      <SortLayout
+        majorCategory={majorCategory || ''}
+        middleCategory={middleCategory || ''}
+        subCategory={subCategory || ''}
+        setMajor={setMajor}
+        setMiddle={setMiddle}
+        setMinor={setSub}
+      ></SortLayout>
       <BodyLayout
         totalPages={totalPages}
         currentPage={currentPage + 1}

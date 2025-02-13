@@ -12,9 +12,9 @@ export interface SearchDataPostsOptions<TRaw, TData = TRaw, TZodTypeDef extends 
   page?: number;
   take?: number;
   q?: string;
-  majorCategory?: string;
-  middleCategory?: string;
-  subCategory?: string;
+  majorCategory?: string | null;
+  middleCategory?: string | null;
+  subCategory?: string | null;
   zodSchema?: ZodSchema<TData, TZodTypeDef, TRaw>;
   queryOptions?: Omit<
     UndefinedInitialDataOptions<PostsResponse<TRaw>, AxiosError | ApiError | ZodError, PostsResponse<TData>>,
@@ -26,11 +26,14 @@ export function useSearchDataPosts<TRaw, TData = TRaw>({
   q,
   page,
   take,
+  majorCategory = null,
+  middleCategory = null,
+  subCategory = null,
   zodSchema,
   queryOptions,
 }: SearchDataPostsOptions<TRaw, TData>) {
   const accessToken = localStorage.getItem('accessToken');
-  const queryKey = ['searchPosts', accessToken, q, take, page];
+  const queryKey = ['searchPosts', 'data', accessToken, q, take, page, majorCategory, middleCategory, subCategory];
   const config: AxiosRequestConfig = {
     url: `/board/data/posts/search`,
     method: 'get',
@@ -38,6 +41,9 @@ export function useSearchDataPosts<TRaw, TData = TRaw>({
       page,
       take: take ?? 11,
       q: q ?? '',
+      majorCategory,
+      middleCategory,
+      subCategory,
     },
   };
   return useStuQuery<PostsResponse<TRaw>, PostsResponse<TData>, AxiosError | ApiError | ZodError>(queryKey, config, {

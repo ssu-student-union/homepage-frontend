@@ -164,7 +164,7 @@ interface UserCategories {
   [key: string]: string[];
 }
 
-export const UserCategories: UserCategories = {
+export const userCategories: UserCategories = {
   중앙운영위원회: [
     '학생총회 결과보고',
     '전체학생대표자회의 결과보고',
