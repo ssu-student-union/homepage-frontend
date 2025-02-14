@@ -71,6 +71,8 @@ const NavigationMenuContent = React.forwardRef<
 
 NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName;
 
+const NavigationMenuLink = NavigationMenuPrimitive.Link;
+
 const NavigationMenuIndicator = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Indicator>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>
@@ -99,6 +101,7 @@ export {
   NavigationMenuContent,
   NavigationMenuTrigger,
   NavigationMenuIndicator,
+  NavigationMenuLink,
   // eslint-disable-next-line react-refresh/only-export-components
   navigationMenuTriggerStyle,
 };
