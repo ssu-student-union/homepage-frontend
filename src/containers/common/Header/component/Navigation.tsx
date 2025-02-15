@@ -4,13 +4,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuContent,
+  NavigationMenuLink,
 } from '@/components/ui/navigation-menu';
 import { beforeUrl, dataPath, menuItems } from '../const/pathData';
 import { getStyles } from '../const/style';
 import { State } from '../const/state';
 import { cn } from '@/libs/utils';
 import DropDownMenu from './DropDownMenu';
-import { Link, NavigationMenuLink } from '@radix-ui/react-navigation-menu';
+import { Link } from 'react-router-dom';
 
 interface NavigationProps {
   state?: State;
@@ -35,18 +36,18 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
           </NavigationMenuItem>
         ))}
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
-          <Link asChild>
-            <NavigationMenuLink href={`${dataPath}`} className={cn(styles.headerItemStyle)}>
+          <NavigationMenuLink asChild>
+            <Link to={`${dataPath}`} className={cn(styles.headerItemStyle)}>
               자료집
-            </NavigationMenuLink>
-          </Link>
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
-          <Link asChild>
-            <NavigationMenuLink href={`${beforeUrl}`} className={cn(styles.headerItemStyle)}>
+          <NavigationMenuLink asChild>
+            <Link to={`${beforeUrl}`} className={cn(styles.headerItemStyle)}>
               이전 홈페이지
-            </NavigationMenuLink>
-          </Link>
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

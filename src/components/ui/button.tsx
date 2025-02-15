@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/libs/utils';
 
-const ButtonVariants = cva(
+const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 disabled:bg-gray-400',
 
   {
@@ -39,7 +39,7 @@ const ButtonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof ButtonVariants> {
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isDisabled?: boolean;
 }
@@ -48,10 +48,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, isDisabled = false, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
-      <Comp className={cn(ButtonVariants({ className, variant, size }))} ref={ref} disabled={isDisabled} {...props} />
+      <Comp className={cn(buttonVariants({ className, variant, size }))} ref={ref} disabled={isDisabled} {...props} />
     );
   }
 );
 Button.displayName = 'Button';
 
-export { Button, ButtonVariants };
+// eslint-disable-next-line react-refresh/only-export-components
+export { Button, buttonVariants };
