@@ -1,27 +1,12 @@
 import { clientAuth } from '@/apis/client';
 import { useStuMutation } from '@/hooks/new/useStuMutation';
-import { ApiError, ApiResponse } from '@/hooks/new/useStuQuery';
-import { UseMutationOptions } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { ApiResponse } from '@/hooks/new/useStuQuery';
+import { DataPostEditRequest } from '../../schema';
+import { UsePatchPostOptions } from '@/hooks/new/mutations/usePatchPost';
 
-// 자료집 PATCH
-export interface UsePatchPostOptions<TPostRequest> {
-  fileCategory: string;
-  mutationOptions?: Omit<
-    UseMutationOptions<number, AxiosError | ApiError, PatchPostVariables<TPostRequest>>,
-    'mutationFn'
-  >;
-}
+type UsePatchDataPostOptions = Omit<UsePatchPostOptions<DataPostEditRequest>, 'boardCode'> & { fileCategory: string };
 
-interface PatchPostVariables<T> {
-  id: number;
-  post: T;
-}
-
-export function usePatchDataPost<DataPostEditRequest>({
-  fileCategory,
-  mutationOptions,
-}: UsePatchPostOptions<DataPostEditRequest>) {
+export function usePatchDataPost({ fileCategory, mutationOptions }: UsePatchDataPostOptions) {
   return useStuMutation(async ({ id, post }) => {
     return (
       await clientAuth<ApiResponse<number>>({

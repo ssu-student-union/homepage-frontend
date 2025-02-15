@@ -17,10 +17,9 @@ import { useQueryClient } from '@tanstack/react-query';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
 import { userCategories, userFileCategories } from '@/pages/data/const/category';
-import { useGetDataPost } from '@/pages/data/queries';
+import { useGetDataPost, useUploadDataFiles } from '@/pages/data/queries';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
-import { useUploadDataFiles } from '@/pages/data/hook/mutation/useUploadDataFiles';
-import { useCreateDataPost } from '@/pages/data/hook/mutation/usePostDataPost';
+import { useCreateDataPost } from '@/pages/data/hook/mutation/useCreateDataPost';
 import { FileInputs } from '@/components/BoardNew/edit/FileInputs.tsx';
 import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
 

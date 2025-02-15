@@ -9,16 +9,20 @@ import { DataPostSummary, DataPostSummaryResponse, DataPostSummarySchema } from 
  * 자료집 목록 데이터 검색 API 훅훅입니다.
  */
 
-export interface SearchDataPostsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
+export interface SearchDataPostsOptions<TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
   page?: number;
   take?: number;
   q?: string;
   majorCategory?: string;
   middleCategory?: string;
   subCategory?: string;
-  zodSchema?: ZodSchema<TData, TZodTypeDef, TRaw>;
+  zodSchema?: ZodSchema<DataPostSummary, TZodTypeDef, DataPostSummaryResponse>;
   queryOptions?: Omit<
-    UndefinedInitialDataOptions<PostsResponse<TRaw>, AxiosError | ApiError | ZodError, PostsResponse<TData>>,
+    UndefinedInitialDataOptions<
+      PostsResponse<DataPostSummaryResponse>,
+      AxiosError | ApiError | ZodError,
+      PostsResponse<DataPostSummary>
+    >,
     'queryKey' | 'queryFn' | 'select'
   >;
 }
@@ -31,7 +35,7 @@ export function useSearchDataPosts({
   middleCategory,
   subCategory,
   queryOptions,
-}: SearchDataPostsOptions<DataPostSummaryResponse, DataPostSummary>) {
+}: SearchDataPostsOptions) {
   const accessToken = localStorage.getItem('accessToken');
   const queryKey = ['searchPosts', 'data', accessToken, q, take, page, majorCategory, middleCategory, subCategory];
 
