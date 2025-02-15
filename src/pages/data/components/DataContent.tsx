@@ -3,8 +3,8 @@ import { cn } from '@/libs/utils.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 import { Link, LinkProps } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { DataFileType } from '@/pages/data/schema';
 import FileDownButton from '@/components/File/FileDownButton';
+import { FileResponse } from '@/schemas/post';
 
 interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
   title: string;
@@ -13,7 +13,7 @@ interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
   category: string;
   isNotice: boolean;
   className?: string;
-  files: DataFileType[];
+  files: FileResponse[];
 }
 
 /**

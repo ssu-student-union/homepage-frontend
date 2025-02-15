@@ -1,5 +1,6 @@
 import { PostAclSchema } from '@/pages/human-rights/schema';
 import { z } from 'zod';
+import { FileResponseSchema } from '@/schemas/post.ts';
 
 /**
  * 자료집 목록에서 사용하는 각 게시물 정보의 원본 데이터입니다.
@@ -10,9 +11,6 @@ export type DataPostSummaryResponse = z.input<typeof DataPostSummarySchema>;
  * 자료집 목록에서 사용하는 각 게시물 정보입니다.
  */
 export type DataPostSummary = z.output<typeof DataPostSummarySchema>;
-
-// 자료집 파일 타입입니다.
-export type DataFileType = z.infer<typeof FileResponseSchema>;
 
 /**
  * 인권신고게시판 조회에서 사용하는 세부 정보가 포함된 게시물 원본 데이터입니다.
@@ -37,13 +35,6 @@ export const DataPostEditFormSchema = z.object({
   category: z.string().min(1),
   postFileList: z.array(z.number()),
   notice: z.boolean(),
-});
-
-export const FileResponseSchema = z.object({
-  fileName: z.string(),
-  fileType: z.string(),
-  fileUrl: z.string(),
-  postFileId: z.number().int(),
 });
 
 export const DataPostSummarySchema = z.object({

@@ -74,7 +74,7 @@ export default function DataDetailPage() {
         />
         <hr className="bg-[#E7E7E7]" />
         <Container>
-          <PostBody.Data content={post.content} files={post.fileResponseList} />
+          <PostBody content={post.content} files={post.fileResponseList} />
         </Container>
         <PostFooter
           boardUrl="/data"

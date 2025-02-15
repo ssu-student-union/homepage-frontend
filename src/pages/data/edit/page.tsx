@@ -10,7 +10,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor';
 import { User } from '@phosphor-icons/react';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
-import { FileInputsWithType } from '@/components/BoardNew/edit/FileInputsWithType';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -21,8 +20,9 @@ import { userCategories, userFileCategories } from '@/pages/data/const/category'
 import { useGetDataPost } from '@/pages/data/queries';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
 import { useUploadDataFiles } from '@/pages/data/hook/mutation/useUploadDataFiles';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInputWithType';
 import { useCreateDataPost } from '@/pages/data/hook/mutation/usePostDataPost';
+import { FileInputs } from '@/components/BoardNew/edit/FileInputs.tsx';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
 
 function PageSkeleton() {
   return (
@@ -289,8 +289,8 @@ export default function DataEditPage() {
           />
         </section>
         <section className="mb-16">
-          <FileInputsWithType
-            fileCategories={fileCategories}
+          <FileInputs
+            categories={fileCategories}
             files={files}
             onChange={handleFilesChange}
             sizeLimit={1024 * 1024 * 5}

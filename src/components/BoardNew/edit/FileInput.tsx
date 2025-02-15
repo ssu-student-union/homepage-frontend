@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react';
 import { humanFileSize } from '@/pages/human-rights/edit/utils.ts';
+import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown.tsx';
 
 export type PostFile = UploadedPostFile | LocalPostFile;
 
@@ -18,21 +19,25 @@ export interface UploadedPostFile {
   name: string;
   isUploaded: true;
   id: number;
+  category?: string;
 }
 
 export interface LocalPostFile {
   name: string;
   isUploaded: false;
   file: File;
+  category?: string;
 }
 
 interface FileItemProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'multiple' | 'value'> {
   sizeLimit?: number;
   file?: PostFile;
+  categories?: string[];
+  onCategoryChange?: (category: string) => void;
 }
 
 export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
-  { file, className, onChange, sizeLimit, ...props }: FileItemProps,
+  { file, className, onChange, sizeLimit, categories, onCategoryChange, ...props }: FileItemProps,
   ref
 ) {
   const [innerFile, setInnerFile] = useState<PostFile | null>(null);
@@ -105,6 +110,15 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
     );
   }
 
+  function categoryChangeHandler(category: string) {
+    onCategoryChange?.(category);
+    if (file)
+      setInnerFile({
+        ...file,
+        category,
+      });
+  }
+
   return (
     <div
       className={cn('flex cursor-pointer items-center gap-4', className)}
@@ -145,6 +159,14 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
             (innerFile?.name ?? '파일을 선택해주세요')
           )}
         </span>
+        {innerFile && categories && (
+          <FilterDropDown
+            className="flex h-[48px] w-[354px] justify-center rounded-[12px] border-gray-500 text-[19px] font-medium xs:w-[257px] sm:w-[187px]"
+            defaultValue="파일종류 선택"
+            optionValue={categories || []}
+            onValueChange={categoryChangeHandler}
+          />
+        )}
       </div>
       <button
         className="p-4"

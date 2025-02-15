@@ -1,9 +1,9 @@
 import { cn } from '@/libs/utils';
-import { DataFileType } from '@/pages/data/schema';
+import { FileResponse } from '@/schemas/post.ts';
 
 // 자료집 '/data'에 쓰이는 FileDownButton입니다.
 
-export default function FileDownButton({ file, className = '' }: { file: DataFileType; className?: string }) {
+export default function FileDownButton({ file, className = '' }: { file: FileResponse; className?: string }) {
   const handleDownload = (event: React.MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
