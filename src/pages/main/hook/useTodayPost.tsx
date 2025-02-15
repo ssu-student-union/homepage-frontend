@@ -56,7 +56,6 @@ export const useTodayPost = ({ boardCode, groupCode, memberCode, take, page }: U
       setPageCount((prevPage) => prevPage + 1);
     }
   }, [data, isLoading, posts, setTodayPostCount]); // ✅ posts 추가하여 ESLint 경고 해결
-
   return {
     data,
     todayPostCount,

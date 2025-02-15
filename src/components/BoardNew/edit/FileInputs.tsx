@@ -6,10 +6,11 @@ interface FileInputsProps {
   className?: string;
   sizeLimit?: number;
   files?: PostFile[];
+  categories?: string[];
   onChange?: (files: PostFile[]) => void;
 }
 
-export function FileInputs({ className, files, onChange, sizeLimit }: FileInputsProps) {
+export function FileInputs({ className, categories, files, onChange, sizeLimit }: FileInputsProps) {
   const [innerFiles, setInnerFiles] = useState<PostFile[]>([]);
 
   useEffect(() => {
@@ -52,10 +53,25 @@ export function FileInputs({ className, files, onChange, sizeLimit }: FileInputs
     setInnerFiles([...newFiles]);
   }
 
+  function onCategoryChange(idx: number, category: string) {
+    const newFiles = innerFiles;
+    if (newFiles[idx]) {
+      newFiles[idx].category = category;
+    }
+    setInnerFiles([...newFiles]);
+  }
+
   return (
     <div className={cn('flex flex-col gap-6', className)}>
       {innerFiles.map((file, idx) => (
-        <FileInput key={idx} file={file} onChange={(evt) => onFileChange(idx, evt)} sizeLimit={sizeLimit} />
+        <FileInput
+          key={idx}
+          file={file}
+          onChange={(evt) => onFileChange(idx, evt)}
+          onCategoryChange={(cat) => onCategoryChange(idx, cat)}
+          sizeLimit={sizeLimit}
+          categories={categories}
+        />
       ))}
       <FileInput onChange={onNewFile} sizeLimit={sizeLimit} />
     </div>

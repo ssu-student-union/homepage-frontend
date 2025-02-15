@@ -2,7 +2,7 @@ import { ApiError, useStuQuery } from '@/hooks/new/useStuQuery.ts';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { UndefinedInitialDataOptions } from '@tanstack/react-query';
 import z, { ZodError, ZodSchema, ZodTypeDef } from 'zod';
-import { PostAcl } from '@/pages/human-rights/schema.ts';
+import { PostAcl } from '@/schemas/common';
 
 /**
  * 게시글 댓글 목록 데이터입니다.

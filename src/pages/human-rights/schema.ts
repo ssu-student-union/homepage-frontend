@@ -1,4 +1,6 @@
 import z from 'zod';
+import { FileResponseSchema } from '@/schemas/post';
+import { PostAclSchema } from '@/schemas/common';
 
 /**
  * 인권조회게시판 카테고리입니다.
@@ -58,30 +60,6 @@ export type HumanRightsCommentResponse = z.input<typeof HumanRightsCommentSchema
  * 인권신고게시판 댓글 정보입니다.
  */
 export type HumanRightsComment = z.output<typeof HumanRightsCommentSchema>;
-
-// TODO: Move PostAcl Schema to global scope
-/**
- * 권한 정보입니다.
- */
-export type PostAcl = z.infer<typeof PostAclSchema>;
-
-export const FileResponseSchema = z.object({
-  postFileId: z.number(),
-  fileName: z.string().min(1),
-  fileUrl: z.string(),
-  fileType: z.enum(['files', 'images']),
-});
-
-export const PostAclSchema = z.enum([
-  'ALL_READ',
-  'READ',
-  'WRITE',
-  'EDIT',
-  'DELETE',
-  'COMMENT',
-  'DELETE_COMMENT',
-  'REACTION',
-]);
 
 export const HumanRightsCategorySchema = z.enum(['접수대기', '접수완료'] as const);
 

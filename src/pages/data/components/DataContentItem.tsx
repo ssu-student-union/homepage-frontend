@@ -3,14 +3,17 @@ import { cn } from '@/libs/utils.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
 import { Link, LinkProps } from 'react-router-dom';
 import dayjs from 'dayjs';
+import FileDownButton from '@/components/File/FileDownButton';
+import { FileResponse } from '@/schemas/post';
 
 interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
   title: string;
   content: string;
-  date: string;
+  date: Date;
   category: string;
   isNotice: boolean;
   className?: string;
+  files: FileResponse[];
 }
 
 /**
@@ -18,28 +21,36 @@ interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
  *
  * 자료집에 쓰이는 자료 목록에서 사용할 수 있는 자료 항목 컴포넌트입니다.
  * 일반적으로 `BodyLayout` 아래에 리스트 형태 아이템으로 표시할 수 있습니다.
- * C는 literal union이길 권장합니다만, 상황에 따라 다양한 타입을 넣을 수 있습니다. - 효민's 주석에서 발췌
  */
-export function DataContent({ title, content, date, category, isNotice, ...props }: DataContentProp) {
+export function DataContentItem({ title, content, date, category, isNotice, files, ...props }: DataContentProp) {
   const formattedDate = dayjs(date).format('(YYYY.MM.DD)');
   return (
-    <Link
-      {...props}
+    <div
       className={cn(
-        'flex flex-row items-center justify-start border-b border-b-gray-200 p-5 text-[1.125rem] font-medium'
+        'flex flex-row items-center justify-between border-b border-b-gray-200 p-5 text-[1.125rem] font-medium xs:flex-col xs:items-start xs:gap-[12px] sm:flex-col sm:items-start sm:gap-[12px] md:flex-col md:items-start md:gap-[12px]'
       )}
     >
-      <div className={cn('mr-[1.125rem] ', isNotice ? 'text-primary' : 'text-muted-foreground')}>
-        [{isNotice ? '공지' : category}]
+      <Link {...props} className="flex grow flex-row items-start justify-start">
+        <div className={cn('mr-[1.125rem]', isNotice ? 'text-primary' : 'text-muted-foreground')}>
+          [{isNotice ? '공지' : category}]
+        </div>
+        <p>
+          {title} - {formattedDate}
+        </p>
+      </Link>
+      <div
+        className="flex flex-row gap-[8px] xs:self-end sm:self-end md:self-end
+"
+      >
+        {files.map((file, index) => (
+          <FileDownButton key={`${index} + ${file}`} file={file} />
+        ))}
       </div>
-      <div className="">
-        {title} - {formattedDate}
-      </div>
-    </Link>
+    </div>
   );
 }
 
-DataContent.Skeleton = () => {
+DataContentItem.Skeleton = () => {
   return (
     <div className={cn('flex gap-5 border-b border-b-gray-200 p-5 font-medium')}>
       <Skeleton className={cn('h-6 w-[6ch] text-nowrap')} />

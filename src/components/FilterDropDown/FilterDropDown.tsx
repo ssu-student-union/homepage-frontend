@@ -1,22 +1,23 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/libs/utils';
+import { HTMLAttributes } from 'react';
 
-interface FilterDropDownProps extends React.HTMLAttributes<HTMLDivElement> {
-  defaultValue: string;
+interface FilterDropDownProps extends HTMLAttributes<HTMLDivElement> {
+  defaultValue?: string;
   optionValue: string[];
   onValueChange: (value: string) => void;
-  value: string;
+  value?: string;
   mainTextStyle?: string;
   itemStyle?: string;
 }
 
 export function FilterDropDown({
-  className = '',
+  className,
   defaultValue,
   optionValue,
   onValueChange,
   value,
-  itemStyle = '',
+  itemStyle,
 }: FilterDropDownProps) {
   const isSelected = !!value;
 

@@ -1,5 +1,6 @@
 import z from 'zod';
-import { FileResponseSchema, PostAclSchema } from '../human-rights/schema';
+import { FileResponseSchema } from '@/schemas/post';
+import { PostAclSchema } from '@/schemas/common';
 
 export type SuggestCategory = z.infer<typeof SuggestCategorySchema>;
 

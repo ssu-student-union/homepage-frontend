@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { FileInputs } from '@/components/BoardNew/edit/FileInputs';
 import { Editor } from '@toast-ui/react-editor';
@@ -7,18 +7,17 @@ import { cn } from '@/libs/utils.ts';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
-import { PostFile } from '@/components/BoardNew/edit/FileInput';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
 import { ArticleHeader } from '@/containers/new/ArticleHeader';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import { useContentEditor } from '@/hooks/useContentEditor';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import { UploadedPostFile, LocalPostFile } from '@/components/BoardNew/edit/FileInput';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSuggestForm } from './form';
 import { useCreateSuggestPost, useGetSuggestPost, usePatchSuggestPost, useUploadSuggestFiles } from '../queries';
 import { SuggestPostEditRequest, SuggestPostEditRequestSchema, SuggestPostWriteForm } from '../schema';
-import { FileResponse } from '@/types/apis/get';
+import { FileResponse } from '@/schemas/post';
 
 const BOARD_CODE = '건의게시판';
 
