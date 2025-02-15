@@ -1,4 +1,4 @@
-import { FileResponse } from '@/types/apis/get';
+import { FileResponse } from '@/schemas/post';
 import { Attachment } from '@/components/BoardNew/detail/Attachment.tsx';
 import { ContentViewer } from '@/components/BoardNew/detail/ContentViewer.tsx';
 import { DataFileType } from '@/pages/data/schema';

@@ -18,7 +18,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSuggestForm } from './form';
 import { useCreateSuggestPost, useGetSuggestPost, usePatchSuggestPost, useUploadSuggestFiles } from '../queries';
 import { SuggestPostEditRequest, SuggestPostEditRequestSchema, SuggestPostWriteForm } from '../schema';
-import { FileResponse } from '@/types/apis/get';
+import { FileResponse } from '@/schemas/post';
 
 const BOARD_CODE = '건의게시판';
 

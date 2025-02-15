@@ -1,5 +1,4 @@
-import { DataFileType } from '@/pages/data/schema';
-import { FileResponse } from '@/types/apis/get';
+import { FileResponse } from '@/schemas/post';
 import { DownloadSimple } from '@phosphor-icons/react';
 
 type AttachmentProps = FileResponse;
