@@ -159,15 +159,15 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
             (innerFile?.name ?? '파일을 선택해주세요')
           )}
         </span>
-        {innerFile && categories && (
+      </div>
+      {innerFile && categories && (
           <FilterDropDown
-            className="flex h-[48px] w-[354px] justify-center rounded-[12px] border-gray-500 text-[19px] font-medium xs:w-[257px] sm:w-[187px]"
+            className="flex h-[64px] w-[354px] justify-center rounded-[12px] border-gray-500 text-[19px] font-medium xs:w-[257px] sm:w-[187px]"
             defaultValue="파일종류 선택"
             optionValue={categories || []}
             onValueChange={categoryChangeHandler}
           />
         )}
-      </div>
       <button
         className="p-4"
         onClick={() => (innerFile ? innerRef.current != null && clearFile() : innerRef.current?.showPicker())}
