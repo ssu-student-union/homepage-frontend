@@ -1,6 +1,6 @@
-import { PostAclSchema } from '@/pages/human-rights/schema';
 import { z } from 'zod';
-import { FileResponseSchema } from '@/schemas/post.ts';
+import { FileResponseSchema } from '@/schemas/post';
+import { PostAclSchema } from '@/schemas/common';
 
 /**
  * 자료집 목록에서 사용하는 각 게시물 정보의 원본 데이터입니다.
