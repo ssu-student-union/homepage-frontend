@@ -38,10 +38,11 @@ export function useUploadFiles({ boardCode, mutationOptions }: UseUploadFilesOpt
     const formData = new FormData();
     files && appendFormData(formData, 'files', files);
     images && appendFormData(formData, 'images', images);
+
     return (
       await clientAuth<ApiResponse<UploadFilesResponse>>({
         method: 'post',
-        url: `/board/${boardCode}/files${fileType ? `/${fileType}` : ''}`,
+        url: `/board/${boardCode === '자료집게시판' ? 'data' : boardCode}/files${fileType ? `/${fileType}` : ''}`,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
