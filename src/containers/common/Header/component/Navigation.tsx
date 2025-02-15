@@ -4,13 +4,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuContent,
+  NavigationMenuLink,
 } from '@/components/ui/navigation-menu';
-import { dataPath, menuItems } from '../const/pathData';
+import { beforeUrl, dataPath, menuItems } from '../const/pathData';
 import { getStyles } from '../const/style';
 import { State } from '../const/state';
 import { cn } from '@/libs/utils';
 import DropDownMenu from './DropDownMenu';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface NavigationProps {
   state?: State;
@@ -18,7 +19,6 @@ interface NavigationProps {
 
 export function Navigation({ state = State.Onboarding }: NavigationProps) {
   const styles = getStyles(state);
-  const navigate = useNavigate();
   return (
     <NavigationMenu className="h-full xs:hidden sm:hidden md:hidden lg:hidden">
       <NavigationMenuList className="h-full">
@@ -35,15 +35,19 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
             </NavigationMenuContent>
           </NavigationMenuItem>
         ))}
-        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => navigate(dataPath)}>
-          <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
-            <p>자료집</p>
-          </NavigationMenuTrigger>
+        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
+          <NavigationMenuLink asChild>
+            <Link to={`${dataPath}`} className={cn(styles.headerItemStyle)}>
+              자료집
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
-          <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
-            <a href={`https://ssuketch60.cafe24.com/`}>이전 홈페이지</a>
-          </NavigationMenuTrigger>
+          <NavigationMenuLink asChild>
+            <Link to={`${beforeUrl}`} className={cn(styles.headerItemStyle)}>
+              이전 홈페이지
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
