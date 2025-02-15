@@ -22,7 +22,7 @@ interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
  * 자료집에 쓰이는 자료 목록에서 사용할 수 있는 자료 항목 컴포넌트입니다.
  * 일반적으로 `BodyLayout` 아래에 리스트 형태 아이템으로 표시할 수 있습니다.
  */
-export function DataContent({ title, content, date, category, isNotice, files, ...props }: DataContentProp) {
+export function DataContentItem({ title, content, date, category, isNotice, files, ...props }: DataContentProp) {
   const formattedDate = dayjs(date).format('(YYYY.MM.DD)');
   return (
     <div
@@ -50,7 +50,7 @@ export function DataContent({ title, content, date, category, isNotice, files, .
   );
 }
 
-DataContent.Skeleton = () => {
+DataContentItem.Skeleton = () => {
   return (
     <div className={cn('flex gap-5 border-b border-b-gray-200 p-5 font-medium')}>
       <Skeleton className={cn('h-6 w-[6ch] text-nowrap')} />

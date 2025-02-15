@@ -1,7 +1,7 @@
 import { BodyLayout } from '@/template/BodyLayout';
 import SortLayout from '@/pages/data/container/SortLayout';
 import { HeadLayout } from '@/template/HeadLayout';
-import { DataContent } from '@/pages/data/components/DataContent';
+import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
@@ -17,7 +17,7 @@ function PageSkeleton() {
       <BodyLayout.Skeleton>
         <BoardSelector.Skeleton />
         {Array.from(Array(10).keys()).map((_, i) => (
-          <DataContent.Skeleton key={i} />
+          <DataContentItem.Skeleton key={i} />
         ))}
       </BodyLayout.Skeleton>
     </>
@@ -95,7 +95,7 @@ export default function DataPage() {
       >
         <div className="border-t-[0.063rem] border-t-black">
           {posts.map((post) => (
-            <DataContent
+            <DataContentItem
               key={post.postId}
               to={`/data/${post.postId}`}
               category={post.category}
