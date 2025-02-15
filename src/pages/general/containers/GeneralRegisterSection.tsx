@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
-import { faculties, departments } from './index';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { departments, faculties } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
-import { LoginSchemaRegister, LoginType, LoginSchemaScoucil, LoginScoucilType } from './ZodCheck';
+import { LoginSchemaRegister, LoginSchemaScoucil, LoginScoucilType, LoginType } from './ZodCheck';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
 
@@ -135,8 +135,6 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
           localStorage.setItem('memberName', response.data?.data?.memberName);
           localStorage.setItem('majorName', response.data?.data?.majorName);
           localStorage.setItem('accessToken', response.data?.data?.accessToken);
-          console.log('memberName', response.data?.data?.memberName);
-          console.log('majorName', response.data?.data?.majorName);
         }
         navigate('/');
         setLoginState(true);

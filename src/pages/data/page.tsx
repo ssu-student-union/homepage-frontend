@@ -1,5 +1,5 @@
 import { BodyLayout } from '@/template/BodyLayout';
-import SortLayout from '@/pages/data/container/SortLayout';
+import SortOptions from '@/pages/data/container/SortOptions.tsx';
 import { HeadLayout } from '@/template/HeadLayout';
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -78,14 +78,14 @@ export default function DataPage() {
   return (
     <>
       <HeadLayout title="자료집"></HeadLayout>
-      <SortLayout
+      <SortOptions
         majorCategory={majorCategory || ''}
         middleCategory={middleCategory || ''}
         subCategory={subCategory || ''}
-        setMajor={setMajor}
-        setMiddle={setMiddle}
-        setMinor={setSub}
-      ></SortLayout>
+        onMajorChange={setMajor}
+        onMiddleChange={setMiddle}
+        onMinorChange={setSub}
+      ></SortOptions>
       <BodyLayout
         totalPages={totalPages}
         currentPage={currentPage + 1}

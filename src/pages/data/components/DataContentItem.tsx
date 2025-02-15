@@ -31,12 +31,12 @@ export function DataContentItem({ title, content, date, category, isNotice, file
       )}
     >
       <Link {...props} className="flex grow flex-row items-start justify-start">
-        <div className={cn('mr-[1.125rem] ', isNotice ? 'text-primary' : 'text-muted-foreground')}>
+        <div className={cn('mr-[1.125rem]', isNotice ? 'text-primary' : 'text-muted-foreground')}>
           [{isNotice ? '공지' : category}]
         </div>
-        <div className="">
+        <p>
           {title} - {formattedDate}
-        </div>
+        </p>
       </Link>
       <div
         className="flex flex-row gap-[8px] xs:self-end sm:self-end md:self-end

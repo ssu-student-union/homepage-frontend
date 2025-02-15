@@ -1,23 +1,23 @@
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
-import * as C from '@/pages/data/const/category';
+import * as CATEGORIES from '@/pages/data/const/category';
 import { cn } from '@/libs/utils';
 
 interface SortLayoutProps {
   majorCategory: string;
   middleCategory: string;
   subCategory: string;
-  setMajor: (value: string) => void;
-  setMiddle: (value: string) => void;
-  setMinor: (value: string) => void;
+  onMajorChange: (value: string) => void;
+  onMiddleChange: (value: string) => void;
+  onMinorChange: (value: string) => void;
 }
 
-export default function SortLayout({
+export default function SortOptions({
   majorCategory,
   middleCategory,
   subCategory,
-  setMajor,
-  setMiddle,
-  setMinor,
+  onMajorChange,
+  onMiddleChange,
+  onMinorChange,
 }: SortLayoutProps) {
   const defaultFilterStyle: string = 'w-full';
 
@@ -27,33 +27,33 @@ export default function SortLayout({
       <FilterDropDown
         defaultValue="대분류"
         className={defaultFilterStyle}
-        optionValue={C.majorOptions}
+        optionValue={CATEGORIES.majorOptions}
         onValueChange={(value) => {
-          setMajor(value);
-          setMiddle('');
-          setMinor('');
+          onMajorChange(value);
+          onMiddleChange('');
+          onMinorChange('');
         }}
         value={majorCategory}
       />
       {/* 중분류 */}
       <FilterDropDown
         defaultValue="중분류"
-        optionValue={C.middleOptions[majorCategory] || []}
+        optionValue={CATEGORIES.middleOptions[majorCategory] || []}
         onValueChange={(value) => {
-          setMiddle(value);
-          setMinor('');
+          onMiddleChange(value);
+          onMinorChange('');
         }}
         value={middleCategory}
-        className={cn(defaultFilterStyle, !majorCategory ? 'pointer-events-none' : '')}
+        className={cn(defaultFilterStyle, majorCategory || 'pointer-events-none')}
         mainTextStyle={!majorCategory ? 'text-gray-400' : ''}
       />
       {/* 소분류 */}
       <FilterDropDown
         defaultValue="소분류"
-        optionValue={C.minorOptions[middleCategory] || []}
-        onValueChange={setMinor}
+        optionValue={CATEGORIES.minorOptions[middleCategory] || []}
+        onValueChange={onMinorChange}
         value={subCategory}
-        className={cn(defaultFilterStyle, !majorCategory ? 'pointer-events-none' : '')}
+        className={cn(defaultFilterStyle, majorCategory || 'pointer-events-none')}
         mainTextStyle={!middleCategory ? 'text-gray-400' : ''}
       />
     </div>
