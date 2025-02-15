@@ -50,9 +50,9 @@ export default function DataDetailPage() {
 
   /* Mutation handler */
   function handleDeletePost() {
-    if (post) {
+    if (id && post) {
       deletePost(
-        { postId: `${postId}`, fileUrls: post.fileResponseList.map((file) => file.fileUrl) },
+        { postId: id, fileUrls: post.fileResponseList.map((file) => file.fileUrl) },
         {
           onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['searchPosts', 'data'] });
