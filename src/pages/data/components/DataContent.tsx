@@ -25,20 +25,19 @@ interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
 export function DataContent({ title, content, date, category, isNotice, files, ...props }: DataContentProp) {
   const formattedDate = dayjs(date).format('(YYYY.MM.DD)');
   return (
-    <Link
-      {...props}
+    <div
       className={cn(
         'flex flex-row items-center justify-between border-b border-b-gray-200 p-5 text-[1.125rem] font-medium xs:flex-col xs:items-start xs:gap-[12px] sm:flex-col sm:items-start sm:gap-[12px] md:flex-col md:items-start md:gap-[12px]'
       )}
     >
-      <div className="flex flex-row items-start justify-start">
+      <Link {...props} className="flex grow flex-row items-start justify-start">
         <div className={cn('mr-[1.125rem] ', isNotice ? 'text-primary' : 'text-muted-foreground')}>
           [{isNotice ? '공지' : category}]
         </div>
         <div className="">
           {title} - {formattedDate}
         </div>
-      </div>
+      </Link>
       <div
         className="flex flex-row gap-[8px] xs:self-end sm:self-end md:self-end
 "
@@ -47,7 +46,7 @@ export function DataContent({ title, content, date, category, isNotice, files, .
           <FileDownButton key={`${index} + ${file}`} file={file} />
         ))}
       </div>
-    </Link>
+    </div>
   );
 }
 
