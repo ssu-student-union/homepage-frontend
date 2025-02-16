@@ -1,7 +1,7 @@
-import { dataPath, menuItems } from '@/containers/common/Header/const/pathData';
+import { DATA_PATH, MENU_ITEMS } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CaretDown } from '@phosphor-icons/react';
-import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { State } from '../const/state';
 import { useSetRecoilState } from 'recoil';
@@ -64,7 +64,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
           className={`left-0 top-[60px] flex w-[260px] items-start justify-start border-0 bg-white px-0 py-0 text-lg font-semibold marker:outline-none focus:outline-none xs:top-[50px] sm:top-[50px] md:top-[50px] `}
         >
           <div className="flex w-full flex-col">
-            {Object.entries(menuItems).map(([category, items], index) => (
+            {Object.entries(MENU_ITEMS).map(([category, items], index) => (
               <div key={index} className="w-full">
                 <div
                   className={`flex h-[64px] w-full cursor-pointer flex-row items-center justify-between border-b 
@@ -93,7 +93,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
             ))}
             {/*임시 자료집(구글 드라이브 링크)*/}
             <div
-              onClick={() => navigate(dataPath)}
+              onClick={() => navigate(DATA_PATH)}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
             >
               자료집

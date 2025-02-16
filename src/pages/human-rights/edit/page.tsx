@@ -30,9 +30,9 @@ import { PostFooter } from '@/components/BoardNew/detail/PostFooter.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
 import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput.tsx';
-import { FileResponse } from '@/types/apis/get';
 import { useGetUserInfo } from '@/hooks/new/query/useGetUserInfo.ts';
 import { useQueryClient } from '@tanstack/react-query';
+import { FileResponse } from '@/schemas/post';
 
 const BOARD_CODE = '인권신고게시판';
 

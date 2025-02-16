@@ -1,3 +1,5 @@
+import { FileResponse } from '@/schemas/post';
+
 export interface Post {
   postId: number;
   title: string;
@@ -28,13 +30,6 @@ export interface OfficialCommentList {
   id: number;
   isAuthor: boolean;
   lastEditedAt: string;
-}
-
-export interface FileResponse {
-  postFileId: number;
-  fileName: string;
-  fileUrl: string;
-  fileType: 'files' | 'images';
 }
 
 export interface PostDetailResDto {
