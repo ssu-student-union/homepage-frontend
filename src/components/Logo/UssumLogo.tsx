@@ -1,4 +1,6 @@
-export function Logo({ fill = '#ffffff', size = '32px' }: { fill?: string; size?: string }) {
+// 제64대 학생회 USSUM의 로고 컴포넌트입니다.
+
+export function UssumLogo({ fill = '#ffffff', size = '32px' }: { fill?: string; size?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
