@@ -1,4 +1,4 @@
-import { Logo } from '@/components/Logo/Logo';
+import { Logo } from '@/components/Logo/UssumLogo';
 import { EnvelopeSimple } from '@phosphor-icons/react';
 
 export const Footer = () => {

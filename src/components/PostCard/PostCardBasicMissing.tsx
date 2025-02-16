@@ -3,7 +3,7 @@ import { Badge } from '../ui/badge';
 import { Size } from './const/state';
 import { getStyles } from './const/style';
 import { cn } from '@/libs/utils';
-import { Logo } from '@/components/Logo/Logo';
+import { Logo } from '@/components/Logo/UssumLogo';
 import { useResize } from '@/hooks/useResize';
 
 interface PostCardProps {

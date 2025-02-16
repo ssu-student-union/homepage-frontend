@@ -4,7 +4,7 @@ import { useResize } from '@/hooks/useResize';
 import { Viewer } from '@toast-ui/react-editor';
 import { ThumbsUp } from '@phosphor-icons/react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Logo } from '@/components/Logo/Logo';
+import { Logo } from '@/components/Logo/UssumLogo';
 import Breadcrumb from '@/components/Breadcrumb';
 import { PostHead } from '@/components/PostHead';
 import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';

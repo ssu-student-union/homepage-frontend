@@ -1,6 +1,6 @@
 import { cn } from '@/libs/utils';
 import { List } from '@phosphor-icons/react';
-import { Logo } from '@/components/Logo/Logo';
+import { Logo } from '@/components/Logo/UssumLogo';
 import { getStyles } from './const/style';
 import { HeaderSheet } from './component/HeaderSheet';
 import { AuthButton } from './component/AuthButton';
