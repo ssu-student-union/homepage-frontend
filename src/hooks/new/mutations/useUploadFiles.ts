@@ -38,6 +38,7 @@ export function useUploadFiles({ boardCode, mutationOptions }: UseUploadFilesOpt
     const formData = new FormData();
     files && appendFormData(formData, 'files', files);
     images && appendFormData(formData, 'images', images);
+
     return (
       await clientAuth<ApiResponse<UploadFilesResponse>>({
         method: 'post',
