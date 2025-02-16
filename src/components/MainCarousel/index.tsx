@@ -21,7 +21,7 @@ const Counter = ({ slideCount, currentSlide }: { slideCount: number; currentSlid
 
 const images = ['/image/main/1.jpeg', '/image/main/2.jpeg', '/image/main/3.jpeg'];
 
-const MainCarousel = () => {
+const MainCarousel = ({ id }: { id: string }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLogin = useRecoilValue(LoginState);
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const MainCarousel = () => {
   };
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div id={id} className="relative h-screen w-full overflow-hidden">
       <Slider {...settings} className="absolute inset-0 z-0 h-full w-full">
         {images.map((src, i) => (
           <div key={i} className="h-screen w-full overflow-hidden">
