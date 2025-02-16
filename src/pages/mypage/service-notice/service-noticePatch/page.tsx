@@ -25,6 +25,8 @@ export default function ServiceNoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
+    isUrgent,
+    setIsUrgent,
   } = useNoticePatch({ boardCode: '서비스공지사항', postId: postId });
 
   return (
@@ -32,6 +34,8 @@ export default function ServiceNoticePatchPage() {
       <HeadLayout title="서비스 공지사항" searchHidden={true} borderOff={true} />
       <NoticeEditTitleSection
         initialTitle={title}
+        isUrgent={isUrgent}
+        setIsUrgent={setIsUrgent}
         onTitleChange={handleTitleChange}
         onUrgentChange={handleUrgentChange}
       />

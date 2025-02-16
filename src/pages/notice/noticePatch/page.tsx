@@ -25,6 +25,8 @@ export default function NoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
+    isUrgent,
+    setIsUrgent,
   } = useNoticePatch({ boardCode: '공지사항게시판', postId });
 
   return (
@@ -32,6 +34,8 @@ export default function NoticePatchPage() {
       <HeadLayout title="공지사항" searchHidden={true} borderOff={true} />
       <NoticeEditTitleSection
         initialTitle={title}
+        isUrgent={isUrgent}
+        setIsUrgent={setIsUrgent}
         onTitleChange={handleTitleChange}
         onUrgentChange={handleUrgentChange}
       />

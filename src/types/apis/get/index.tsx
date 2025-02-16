@@ -45,6 +45,7 @@ export interface PostDetailResDto {
   isLiked: boolean;
   studentId: string;
   likeCount: number;
+  status: string;
   fileResponseList: FileResponse[];
   officialCommentList: OfficialCommentList[];
 }
