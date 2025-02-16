@@ -19,6 +19,9 @@ export function useNoticeEdit() {
 
   const queryClient = useQueryClient();
 
+  const NOTICE_BOARD_CODE = '공지사항게시판';
+  const SERVICE_NOTICE_BOARD_CODE = '서비스공지사항';
+
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
   };
@@ -71,7 +74,7 @@ export function useNoticeEdit() {
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['get-board-boardCode-posts-search', '공지사항게시판'],
+        queryKey: ['get-board-boardCode-posts-search', NOTICE_BOARD_CODE],
       });
 
       navigate(`/notice?category=central&sub-category=all`);
@@ -126,7 +129,7 @@ export function useNoticeEdit() {
       const postId = createPostResponse?.data.post_id;
 
       queryClient.invalidateQueries({
-        queryKey: ['get-board-boardCode-posts', '서비스공지사항'],
+        queryKey: ['get-board-boardCode-posts', SERVICE_NOTICE_BOARD_CODE],
       });
 
       navigate(`/service-notice/${postId}`);
