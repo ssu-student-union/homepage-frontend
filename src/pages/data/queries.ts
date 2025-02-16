@@ -27,5 +27,5 @@ export function useDeleteDataPost({ mutationOptions }: Omit<UseDeletePostOptions
 
 // 자료집 파일 업로드
 export function useUploadDataFiles({ mutationOptions }: Omit<UseUploadFilesOptions, 'boardCode'> = {}) {
-  return useUploadFiles({ boardCode: BOARD_CODE, mutationOptions });
+  return useUploadFiles({ boardCode: 'data', mutationOptions });
 }

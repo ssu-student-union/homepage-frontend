@@ -42,7 +42,7 @@ export function useUploadFiles({ boardCode, mutationOptions }: UseUploadFilesOpt
     return (
       await clientAuth<ApiResponse<UploadFilesResponse>>({
         method: 'post',
-        url: `/board/${boardCode === '자료집게시판' ? 'data' : boardCode}/files${fileType ? `/${fileType}` : ''}`,
+        url: `/board/${boardCode}/files${fileType ? `/${fileType}` : ''}`,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
