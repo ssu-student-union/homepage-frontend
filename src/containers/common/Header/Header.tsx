@@ -34,9 +34,8 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
       />
       <div className={cn(styles.headerItemStyle, 'xs:px-0.5 sm:px-0.5 md:px-0.5 lg:px-0.5')}>
         <Link to="/">
-          <div className="flex items-center gap-4">
-            <SsureLogo className={isSmall ? 'size-[23px]' : 'size-[46px]'} fill={styles.fillColor} />
-            <span className={cn(styles.textColor, 'min-w-fit text-[20px] text-lg font-bold')}>US:SUM</span>
+          <div className="flex items-center">
+            <SsureLogo className={isSmall ? 'size-[64px]' : 'size-[72px]'} fill={styles.fillColor} />
           </div>
         </Link>
       </div>

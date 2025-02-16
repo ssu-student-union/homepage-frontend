@@ -62,7 +62,9 @@ const PostCard = ({
             <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>
               {cardType === 'Basic' && (
                 <div className="relative flex items-baseline">
-                  <span className="ml-4 xs:ml-3">{profileName} •</span>
+                  <span>
+                    {profileName} {profileName && '•'}
+                  </span>
                   <span>{date}</span>
                 </div>
               )}
