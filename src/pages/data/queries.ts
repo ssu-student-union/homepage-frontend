@@ -25,7 +25,7 @@ export function useDeleteDataPost({ mutationOptions }: Omit<UseDeletePostOptions
   return useDeletePost({ boardCode: BOARD_CODE, mutationOptions });
 }
 
-// 자료집 파일 업로드
+// 자료집 파일 업로드 (자료집의 경우에만 boardCode에 게시판명이 아닌 'data'가 boardCode에 대응됨)
 export function useUploadDataFiles({ mutationOptions }: Omit<UseUploadFilesOptions, 'boardCode'> = {}) {
   return useUploadFiles({ boardCode: 'data', mutationOptions });
 }
