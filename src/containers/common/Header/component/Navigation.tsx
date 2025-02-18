@@ -12,12 +12,17 @@ import { State } from '../const/state';
 import { cn } from '@/libs/utils';
 import DropDownMenu from './DropDownMenu';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface NavigationProps {
   state?: State;
 }
 
 export function Navigation({ state = State.Onboarding }: NavigationProps) {
+  // 번역 훅
+  const { t } = useTranslation();
+
+  // 스타일 불러오기
   const styles = getStyles(state);
   return (
     <NavigationMenu className="h-full xs:hidden sm:hidden md:hidden lg:hidden">
@@ -38,7 +43,7 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
           <NavigationMenuLink asChild>
             <Link to={`${DATA_PATH}`} className={cn(styles.headerItemStyle)}>
-              자료집
+              {t('header.자료집')}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

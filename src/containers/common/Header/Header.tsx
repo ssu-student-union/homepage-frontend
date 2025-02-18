@@ -8,6 +8,8 @@ import { State } from './const/state';
 import { Navigation } from './component/Navigation';
 import { Link } from 'react-router-dom';
 import { useHeaderSize } from '@/hooks/useHeaderSize';
+import i18n from '@/translate/i18n';
+import { TranslateButton } from '@/components/Buttons/TranslateButton';
 
 interface HeaderProps {
   state?: State;
@@ -17,6 +19,13 @@ interface HeaderProps {
 export function Header({ state = State.Onboarding, onLogout = () => {} }: HeaderProps) {
   const styles = getStyles(state);
   const isSmall = useHeaderSize();
+
+  // 언어 변경 함수
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'ko' ? 'en' : 'ko';
+    i18n.changeLanguage(newLang);
+    localStorage.setItem('lang', newLang);
+  };
   return (
     <div
       className={cn(
@@ -41,6 +50,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
         </Link>
       </div>
       <Navigation state={state} />
+      <TranslateButton toggleLanguage={toggleLanguage} />
       <div className="flex pr-4">
         <AuthButton state={state} onLogout={onLogout} />
       </div>
