@@ -5,6 +5,7 @@ import { useResize } from '@/hooks/useResize';
 import { GetLostArticlePostsResponse } from '@/types/getBoardPosts';
 import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 import { ArrowUpRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 const LostArticleSection = () => {
@@ -40,10 +41,12 @@ const LostArticleSection = () => {
     />
   );
 
+  const { t } = useTranslation();
+
   return (
     <section>
       <div className="flex items-center">
-        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">분실물 현황</h1>
+        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">{t('introduction.분실물 현황')}</h1>
         <ArrowUpRight
           onClick={() => {
             navigate(`/lost-article?category=state`);
