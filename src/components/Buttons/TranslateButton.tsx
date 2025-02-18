@@ -14,7 +14,7 @@ export function TranslateButton({ toggleLanguage, ...props }: ButtonProps) {
   const buttonText = i18n.language === 'ko' ? 'English' : '한국어';
 
   return (
-    <Button className="h-full" variant={'Register'} disabled={false} onClick={toggleLanguage} {...props}>
+    <Button variant={'translate'} disabled={false} onClick={toggleLanguage} {...props}>
       <p>{buttonText}</p>
     </Button>
   );

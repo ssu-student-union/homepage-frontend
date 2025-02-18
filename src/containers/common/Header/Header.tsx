@@ -50,8 +50,14 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
         </Link>
       </div>
       <Navigation state={state} />
-      <TranslateButton toggleLanguage={toggleLanguage} />
-      <div className="flex pr-4">
+
+      <div
+        className="md:w-fullmd:justify-end flex h-full items-center justify-center 
+  pr-4 xs:w-full
+  xs:justify-end
+  sm:w-full sm:justify-end md:w-full md:justify-end lg:w-full lg:justify-end"
+      >
+        <TranslateButton toggleLanguage={toggleLanguage} />
         <AuthButton state={state} onLogout={onLogout} />
       </div>
     </div>
