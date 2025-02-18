@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { ArrowUpRight } from 'lucide-react';
 import { useTodayPost } from '../hook/useTodayPost';
+import { useTranslation } from 'react-i18next';
 
 const NoticeSection = () => {
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<MainNoticesType>(MainNotices[0]);
@@ -23,10 +24,12 @@ const NoticeSection = () => {
     memberCode: selectedSubcategories === '전체' ? '' : selectedSubcategories,
   });
 
+  const { t } = useTranslation();
+
   return (
     <section className="w-full whitespace-nowrap">
       <div className="flex items-center">
-        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">공지사항</h1>
+        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">{t('introduction.공지사항')}</h1>
         <ArrowUpRight
           onClick={() => {
             navigate(`/notice`);

@@ -2,6 +2,7 @@ import { cn } from '@/libs/utils';
 import { State } from '../const/state';
 import { getStyles } from '../const/style';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface AuthButtonProps {
   state?: State;
@@ -11,6 +12,7 @@ interface AuthButtonProps {
 export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonProps) {
   const styles = getStyles(state);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   if (state === State.Login) {
     return (
@@ -18,7 +20,7 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
         className={cn(styles.headerItemStyle, 'w-[9rem] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
         onClick={onLogout}
       >
-        로그아웃
+        {t('header.로그아웃')}
       </div>
     );
   }
@@ -28,7 +30,7 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
         className={cn(styles.headerItemStyle, 'w-[9rem] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
         onClick={() => navigate('/register')}
       >
-        로그인
+        {t('header.로그인')}
       </button>
     );
   }

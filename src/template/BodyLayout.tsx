@@ -4,6 +4,7 @@ import { Search } from '@/components/Search/Search';
 import { BodyLayoutProps } from '@/types/layout';
 import { cn } from '@/libs/utils';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export function BodyLayout({
   title,
@@ -16,9 +17,10 @@ export function BodyLayout({
   authority,
   className = '',
 }: BodyLayoutProps) {
+  const { t } = useTranslation();
   return (
     <div className={cn('mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10', className)}>
-      <div className="text-[1.75rem] font-bold">{title}</div>
+      <div className="text-[1.75rem] font-bold">{title && t(`introduction.${title}`)}</div>
       {selector}
       <div className="mt-[24px] xs:mt-[25px] ">
         <main>{children}</main>

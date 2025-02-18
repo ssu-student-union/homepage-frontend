@@ -6,14 +6,16 @@ import sm from '@/assets/image/sm_campusMap.svg';
 import xs from '@/assets/image/xs_campusMap.svg';
 import { ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const CampusMapSection = () => {
   const { width } = useResize();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <>
       <div className="flex items-center justify-start">
-        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">캠퍼스맵</h1>
+        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">{t('introduction.캠퍼스맵')}</h1>
         <ArrowUpRight
           onClick={() => {
             navigate(`/campus`);

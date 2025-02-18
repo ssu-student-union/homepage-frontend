@@ -22,6 +22,7 @@ const buttonVariants = cva(
           'flex gap-2 w-32 h-10 bg-white border border-gray-400 text-lg text-center font-semibold text-gray-700 hover:border-primary hover:bg-white hover:text-primary',
         Write:
           'pl-5 flex gap-1 pr-6 w-32 h-10 bg-white border border-gray-400 text-lg text-center font-semibold text-gray-700 hover:border-primary hover:bg-white hover:text-primary',
+        translate: 'w-[64px] bg-primary text-primary-foreground hover:bg-primary/90',
       },
       size: {
         default: 'h-10 px-4 py-2',
