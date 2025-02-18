@@ -20,16 +20,20 @@ interface NavigationProps {
 
 export function Navigation({ state = State.Onboarding }: NavigationProps) {
   // 번역 훅
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // 스타일 불러오기
   const styles = getStyles(state);
+  const textSize = i18n.language === 'en' ? 'text-xs' : 'text-lg';
+
   return (
     <NavigationMenu className="h-full xs:hidden sm:hidden md:hidden lg:hidden">
       <NavigationMenuList className="h-full">
         {Object.entries(MENU_ITEMS).map(([category, items]) => (
           <NavigationMenuItem key={category} className="relative h-full min-w-fit text-[20px]">
-            <NavigationMenuTrigger className={cn(styles.headerItemStyle)}>{category}</NavigationMenuTrigger>
+            <NavigationMenuTrigger className={cn(styles.headerItemStyle, textSize)}>
+              {t(`header.${category}`)}
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <DropDownMenu
                 items={items}
@@ -42,15 +46,15 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
         ))}
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
           <NavigationMenuLink asChild>
-            <Link to={`${DATA_PATH}`} className={cn(styles.headerItemStyle)}>
+            <Link to={`${DATA_PATH}`} className={cn(styles.headerItemStyle, textSize)}>
               {t('header.자료집')}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
           <NavigationMenuLink asChild>
-            <Link to={`${OLD_URL}`} className={cn(styles.headerItemStyle)}>
-              이전 홈페이지
+            <Link to={`${OLD_URL}`} className={cn(styles.headerItemStyle, textSize)}>
+              {t('header.이전 홈페이지')}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

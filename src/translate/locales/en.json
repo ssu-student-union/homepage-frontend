@@ -1,10 +1,29 @@
 {
   "header": {
     "소개": "About",
+    "공지사항": "Notice",
     "학교생활": "School Life",
     "학생자치기구": "Student Organization",
     "소통": "Communication",
     "자료집": "Data Archive",
-    "이전 홈페이지": "Previous Website"
+    "이전 홈페이지": "Previous Website",
+    "로그인": "Sign in",
+    "로그아웃": "Sign out"
+  },
+  "header-items": {
+    "총학생회": "Student Council",
+    "중앙운영위원회": "Central Operating Committee",
+    "중앙집행위원회": "Central Executive Committee",
+    "중앙 공지사항": "Central Notices",
+    "단과대 공지사항": "College Notices",
+    "서비스 공지사항": "Service Notices",
+    "공지사항": "Notices",
+    "제휴안내": "Partnership Guide",
+    "분실물게시판": "Lost & Found",
+    "캠퍼스맵": "Campus Map",
+    "감사기구": "Audit Organization",
+    "학생청원게시판": "Student Petition Board",
+    "건의게시판": "Suggestion Board",
+    "인권신고게시판": "Human Rights Report Board"
   }
 }
