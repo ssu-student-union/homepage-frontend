@@ -9,6 +9,7 @@ import { CounselBtn } from './containers/CounselBtn';
 import { ServiceNoticeTab } from '../mypage/service-notice/component/ServiceNoticeTab';
 import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 import { NoticeResponse } from '../notice/types';
+import { MAIN_PENDING } from './const';
 
 export function MainPage() {
   const boardCode = '서비스공지사항';
@@ -34,8 +35,8 @@ export function MainPage() {
           />
         ) : null}
 
-        <MainCarousel />
-        <MainScheduleSection />
+        <MainCarousel id={MAIN_PENDING} />
+        <MainScheduleSection id={MAIN_PENDING} />
         <CounselBtn />
 
         <div className="xs:pl-[3.125rem] sm:pl-[3.125rem] md:pl-[3.125rem] lg:px-[12.5rem] xl:px-[12.5rem] xxl:px-[12.5rem]">
