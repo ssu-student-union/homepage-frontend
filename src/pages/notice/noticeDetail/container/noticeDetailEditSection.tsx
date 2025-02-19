@@ -2,6 +2,7 @@ import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/Board
 import { useNavigate } from 'react-router-dom';
 import { handleLocation } from '../utils/locationHandler';
 import { delBoardPosts } from '@/apis/delBoardPosts';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface NoticeDetailEditProps {
   boardCode: string;
@@ -19,8 +20,13 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
 
   const fileurl: string[] = [...fileUrls, ...imageUrls];
 
+  const queryClient = useQueryClient();
+
   const handleDelete = async () => {
     await delBoardPosts(boardCode, postId, fileurl);
+    queryClient.invalidateQueries({
+      queryKey: ['get-board-boardCode-posts', boardCode],
+    });
     navigate(`/notice`);
   };
 
@@ -29,7 +35,7 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
       <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
         {isAuthor ? (
           <>
-            <DeleteButton onClick={handleDelete} className='sm:w-[100px]'/>
+            <DeleteButton onClick={handleDelete} className="sm:w-[100px]" />
             <EditButton
               onClick={() =>
                 handleLocation(
@@ -41,11 +47,12 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
                   navigate
                 )
               }
-              className='sm:w-[100px]'/>
+              className="sm:w-[100px]"
+            />
           </>
         ) : null}
 
-        <ListButton onClick={() => navigate(`/notice`)} className='sm:w-[100px]'/>
+        <ListButton onClick={() => navigate(`/notice`)} className="sm:w-[100px]" />
       </div>
     </div>
   );

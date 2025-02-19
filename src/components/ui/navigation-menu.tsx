@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
-import { cva } from 'class-variance-authority';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/libs/utils';
+import { cva } from 'class-variance-authority';
 
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
@@ -31,10 +31,6 @@ const NavigationMenuList = React.forwardRef<
 NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName;
 
 const NavigationMenuItem = NavigationMenuPrimitive.Item;
-
-const navigationMenuTriggerStyle = cva(
-  'group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm text-background font-medium transition-colors hover:brightness-95 hover:text-background focus:brightness-95 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:brightness-95 data-[state=open]:brightness-95'
-);
 
 interface NavigationMenuTriggerProps extends React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger> {
   isData?: boolean;
@@ -75,6 +71,8 @@ const NavigationMenuContent = React.forwardRef<
 
 NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName;
 
+const NavigationMenuLink = NavigationMenuPrimitive.Link;
+
 const NavigationMenuIndicator = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Indicator>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>
@@ -92,12 +90,18 @@ const NavigationMenuIndicator = React.forwardRef<
 ));
 NavigationMenuIndicator.displayName = NavigationMenuPrimitive.Indicator.displayName;
 
+const navigationMenuTriggerStyle = cva(
+  'group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm text-background font-medium transition-colors hover:brightness-95 hover:text-background focus:brightness-95 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:brightness-95 data-[state=open]:brightness-95'
+);
+
 export {
-  navigationMenuTriggerStyle,
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
   NavigationMenuContent,
   NavigationMenuTrigger,
   NavigationMenuIndicator,
+  NavigationMenuLink,
+  // eslint-disable-next-line react-refresh/only-export-components
+  navigationMenuTriggerStyle,
 };

@@ -56,7 +56,7 @@ const NoticeSection = () => {
           <>
             {/* xs, sm, md */}
             {width < 1080 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
+              <div className="scrollbar-hide flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pb-[16px] pl-0 pr-[1.063rem] pt-[0.625rem] lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
                 {data?.data.postListResDto.slice(0, 2).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -79,7 +79,7 @@ const NoticeSection = () => {
 
             {/* lg */}
             {width >= 1080 && width < 1440 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
+              <div className="scrollbar-hide flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pb-[16px] pl-0 pr-[1.063rem] pt-[0.625rem] lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
                 {data?.data.postListResDto.slice(0, 3).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -102,7 +102,7 @@ const NoticeSection = () => {
 
             {/* xl, xxl */}
             {width >= 1440 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] scrollbar-hide lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
+              <div className="scrollbar-hide flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pb-[16px] pl-0 pr-[1.063rem] pt-[0.625rem] lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
                 {data?.data.postListResDto.slice(0, 4).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {

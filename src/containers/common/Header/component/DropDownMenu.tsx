@@ -1,10 +1,5 @@
 import { Link } from 'react-router-dom';
-
-// MenuItem에 들어갈 값은 "/Header/const/pathData"에서 관리합니다.
-interface MenuItem {
-  name: string;
-  path: string;
-}
+import { MenuItem } from '@/containers/common/Header/const/pathData.tsx';
 
 interface DropDownMenuProps {
   items: MenuItem[];

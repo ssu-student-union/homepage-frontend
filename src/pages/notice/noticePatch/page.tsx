@@ -17,7 +17,7 @@ export default function NoticePatchPage() {
     handleContentChange,
     handleUrgentChange,
     handleSubmit,
-    isLoading,
+    isPending,
     imageList,
     fileList,
     fileNames,
@@ -25,13 +25,17 @@ export default function NoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
-  } = useNoticePatch({boardCode : "공지사항게시판", postId});
+    isUrgent,
+    setIsUrgent,
+  } = useNoticePatch({ boardCode: '공지사항게시판', postId });
 
   return (
     <>
       <HeadLayout title="공지사항" searchHidden={true} borderOff={true} />
       <NoticeEditTitleSection
         initialTitle={title}
+        isUrgent={isUrgent}
+        setIsUrgent={setIsUrgent}
         onTitleChange={handleTitleChange}
         onUrgentChange={handleUrgentChange}
       />
@@ -47,7 +51,7 @@ export default function NoticePatchPage() {
         onFileDelete={handleFileDelete}
         onFilesChange={setNewFiles}
       />
-      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isPending} />
     </>
   );
 }

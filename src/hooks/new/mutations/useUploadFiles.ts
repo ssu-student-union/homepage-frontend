@@ -15,6 +15,7 @@ export interface UseUploadFilesOptions {
 interface UploadFilesVariables {
   files?: File[];
   images?: File[];
+  fileType?: string;
 }
 
 export interface UploadFilesResponse {
@@ -33,14 +34,15 @@ function appendFormData(formData: FormData, name: string, files: File[]) {
 }
 
 export function useUploadFiles({ boardCode, mutationOptions }: UseUploadFilesOptions) {
-  return useStuMutation(async ({ files, images }) => {
+  return useStuMutation(async ({ files, images, fileType }) => {
     const formData = new FormData();
     files && appendFormData(formData, 'files', files);
     images && appendFormData(formData, 'images', images);
+
     return (
       await clientAuth<ApiResponse<UploadFilesResponse>>({
         method: 'post',
-        url: `/board/${boardCode}/files`,
+        url: `/board/${boardCode}/files${fileType ? `/${fileType}` : ''}`,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',

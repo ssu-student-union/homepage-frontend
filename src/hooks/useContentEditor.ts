@@ -4,7 +4,7 @@ import { Editor } from '@toast-ui/react-editor';
 import { clientAuth } from '@/apis/client.ts';
 import { PostFileResponse, UploadFilesResponse } from '@/hooks/new/mutations/useUploadFiles.ts';
 import { ApiResponse } from '@/hooks/new/useStuQuery.ts';
-import { FileResponse } from '@/types/apis/get';
+import { FileResponse } from '@/schemas/post';
 
 interface UseContentEditorReturn {
   register: {

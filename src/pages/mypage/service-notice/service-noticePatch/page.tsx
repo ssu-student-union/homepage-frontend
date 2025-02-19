@@ -17,7 +17,7 @@ export default function ServiceNoticePatchPage() {
     handleContentChange,
     handleUrgentChange,
     handleSubmit,
-    isLoading,
+    isPending,
     imageList,
     fileList,
     fileNames,
@@ -25,13 +25,17 @@ export default function ServiceNoticePatchPage() {
     setThumbnailImage,
     handleFileDelete,
     setNewFiles,
-  } = useNoticePatch({ boardCode: '서비스공지사항', postId : postId });
+    isUrgent,
+    setIsUrgent,
+  } = useNoticePatch({ boardCode: '서비스공지사항', postId: postId });
 
   return (
     <>
       <HeadLayout title="서비스 공지사항" searchHidden={true} borderOff={true} />
       <NoticeEditTitleSection
         initialTitle={title}
+        isUrgent={isUrgent}
+        setIsUrgent={setIsUrgent}
         onTitleChange={handleTitleChange}
         onUrgentChange={handleUrgentChange}
       />
@@ -47,7 +51,7 @@ export default function ServiceNoticePatchPage() {
         onFileDelete={handleFileDelete}
         onFilesChange={setNewFiles}
       />
-      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isLoading} />
+      <NoticeEditSubmitButton onSubmit={handleSubmit} isLoading={isPending} />
     </>
   );
 }

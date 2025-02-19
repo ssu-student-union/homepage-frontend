@@ -1,5 +1,6 @@
 import z from 'zod';
-import { FileResponseSchema, PostAclSchema } from '../human-rights/schema';
+import { FileResponseSchema } from '@/schemas/post';
+import { PostAclSchema } from '@/schemas/common';
 
 export type SuggestCategory = z.infer<typeof SuggestCategorySchema>;
 
@@ -69,7 +70,7 @@ export const SuggestPostSchema = z.object({
   allowedAuthorities: z.array(PostAclSchema),
   fileResponseList: z.array(FileResponseSchema),
   officialCommentList: z.array(SuggestCommentSchema),
-  studentId: z.number(),
+  studentId: z.number().nullable(),
 });
 
 export const SugNoticePostSummarySchema = z.object({
@@ -94,7 +95,6 @@ export const SuggestPostEditRequestSchema = z.object({
   title: z.string().min(1).max(50),
   content: z.string(),
   category: SuggestCategorySchema.nullable().transform((str) => str ?? '답변대기'),
-  thumbNailImage: z.string(),
-  isNotice: z.literal(false),
+  isNotice: z.literal(false).default(false),
   postFileList: z.array(z.number()),
 });

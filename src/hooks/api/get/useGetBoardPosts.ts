@@ -12,7 +12,7 @@ export const useGetBoardPosts = <T>({
   boardCode,
 }: getBoardPostsProps): UseQueryResult<T, AxiosError> => {
   return useQuery<T, AxiosError>({
-    queryKey: ['get-board-boardCode-posts', page, take, groupCode, memberCode, category, boardCode],
+    queryKey: ['get-board-boardCode-posts', boardCode, page, take, groupCode, memberCode, category],
     queryFn: async () => {
       const response = getBoardPosts({
         page,

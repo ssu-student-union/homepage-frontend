@@ -4,7 +4,6 @@ import Pagination from '@/components/Pagination';
 import { WriteButton } from '@/components/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router-dom';
 import { useContentWidth } from './hooks/useContetnWidth';
-import { useEffect } from 'react';
 import { cn } from '@/libs/utils';
 import { useServiceNoticeBoard } from './hooks/useServiceNoticeBoard';
 import dayjs from 'dayjs';
@@ -15,10 +14,6 @@ export function ServiceNoticePage() {
   const boardCode = '서비스공지사항';
   const { idata, totalPages, currentPage, handlePageChange, isLoading } = useServiceNoticeBoard(boardCode);
   const data = idata?.data.postListResDto;
-  useEffect(() => {
-    console.log(idata?.data.postListResDto);
-  }, [idata]);
-
   const navigate = useNavigate();
 
   const handleWriteBtnClick = () => {
@@ -40,8 +35,8 @@ export function ServiceNoticePage() {
         {/* 로딩 상태에 따라 Skeleton 또는 실제 데이터를 표시 */}
         <div className="jutify-center flex flex-col items-center">
           {isLoading ? (
-            <div className="mb-[300px] mt-[64px] flex flex-col items-center">
-              <div className={cn(`flex flex-col flex-wrap gap-[10px]`)}>
+            <div className="mb-[300px] mt-[64px] flex w-full flex-col items-center">
+              <div className={cn(`flex w-full flex-col flex-wrap gap-[10px]`)}>
                 {Array.from({ length: 7 }).map((_, index) => (
                   <ServiceNoticePostContent.Skeleton key={index} />
                 ))}

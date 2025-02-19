@@ -16,7 +16,7 @@ interface CreatePostVariables<T> {
   post: T;
 }
 
-interface CreatePostResponse {
+export interface CreatePostResponse {
   post_id: number;
   boardCode: string;
 }
