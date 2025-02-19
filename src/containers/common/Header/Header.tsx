@@ -51,10 +51,10 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
       <Navigation state={state} />
 
       <div
-        className="md:w-fullmd:justify-end flex h-full items-center justify-center 
-  pr-4 xs:w-full
-  xs:justify-end
-  sm:w-full sm:justify-end md:w-full md:justify-end lg:w-full lg:justify-end"
+        className="flex h-full items-center justify-center pr-4 xs:w-full 
+  xs:justify-end sm:w-full
+  sm:justify-end
+  md:w-full md:justify-end lg:w-full lg:justify-end"
       >
         <TranslateButton onToggleLanguage={handleToggleLanguage} />
         <AuthButton state={state} onLogout={onLogout} />
