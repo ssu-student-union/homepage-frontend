@@ -5,16 +5,16 @@ import { useTranslation } from 'react-i18next';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  toggleLanguage?: () => void;
+  onToggleLanguage?: () => void;
 }
 
-export function TranslateButton({ toggleLanguage, ...props }: ButtonProps) {
+export function TranslateButton({ onToggleLanguage, ...props }: ButtonProps) {
   const { i18n } = useTranslation();
 
   const buttonText = i18n.language === 'ko' ? 'English' : '한국어';
 
   return (
-    <Button variant={'translate'} disabled={false} onClick={toggleLanguage} {...props}>
+    <Button variant={'translate'} disabled={false} onClick={onToggleLanguage} {...props}>
       <p>{buttonText}</p>
     </Button>
   );

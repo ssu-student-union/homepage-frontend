@@ -21,7 +21,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
   const isSmall = useHeaderSize();
 
   // 언어 변경 함수
-  const toggleLanguage = () => {
+  const handleToggleLanguage = () => {
     const newLang = i18n.language === 'ko' ? 'en' : 'ko';
     i18n.changeLanguage(newLang);
     localStorage.setItem('lang', newLang);
@@ -56,7 +56,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
   xs:justify-end
   sm:w-full sm:justify-end md:w-full md:justify-end lg:w-full lg:justify-end"
       >
-        <TranslateButton toggleLanguage={toggleLanguage} />
+        <TranslateButton onToggleLanguage={handleToggleLanguage} />
         <AuthButton state={state} onLogout={onLogout} />
       </div>
     </div>
