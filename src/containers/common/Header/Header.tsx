@@ -8,6 +8,8 @@ import { Navigation } from './component/Navigation';
 import { Link } from 'react-router-dom';
 import { useHeaderSize } from '@/hooks/useHeaderSize';
 import SsureLogo from '@/components/Logo/SsureLogo';
+import i18n from '@/translate/i18n';
+import { TranslateButton } from '@/components/Buttons/TranslateButton';
 
 interface HeaderProps {
   state?: State;
@@ -17,6 +19,13 @@ interface HeaderProps {
 export function Header({ state = State.Onboarding, onLogout = () => {} }: HeaderProps) {
   const styles = getStyles(state);
   const isSmall = useHeaderSize();
+
+  // 언어 변경 함수
+  const handleToggleLanguage = () => {
+    const newLang = i18n.language === 'ko' ? 'en' : 'ko';
+    i18n.changeLanguage(newLang);
+    localStorage.setItem('lang', newLang);
+  };
   return (
     <div
       className={cn(
@@ -40,7 +49,17 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
         </Link>
       </div>
       <Navigation state={state} />
-      <div className="flex pr-4">
+
+      <div
+        className="flex h-full items-center justify-center pr-4 xs:w-full 
+  xs:justify-end sm:w-full
+  sm:justify-end
+  md:w-full md:justify-end lg:w-full lg:justify-end"
+      >
+        <TranslateButton
+          className={state === State.Logout ? '' : 'bg-white text-black hover:bg-gray-50'}
+          onToggleLanguage={handleToggleLanguage}
+        />
         <AuthButton state={state} onLogout={onLogout} />
       </div>
     </div>
