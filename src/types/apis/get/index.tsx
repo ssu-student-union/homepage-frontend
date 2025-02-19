@@ -74,3 +74,32 @@ export interface getBoardPostsProps {
   boardCode?: string;
   q?: string;
 }
+
+export interface getUserProfileResponse {
+  data: {
+    name: string;
+    nickname?: string;
+    account?: string;
+    studentId?: string;
+    majorCode?: string;
+    memberCode: string;
+    isUnion: boolean;
+  };
+}
+
+export interface patchUserProfileRequest {
+  nickname: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+export interface patchUserProfileResponse {
+  name: string;
+  nickname: string;
+  account: string;
+  studentId: string | null;
+  majorCode: string | null;
+  memberCode: string;
+  isUnion: boolean;
+}
