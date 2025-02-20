@@ -170,7 +170,9 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 <Input
                   type="text"
                   placeholder="아이디"
-                  className="w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]"
+                  className={cn(
+                    'w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
+                  )}
                   {...register('accountId', {
                     required: '아이디는 필수 입력입니다.',
                   })}
@@ -185,7 +187,9 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 <Input
                   type="password"
                   placeholder="비밀번호"
-                  className="mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]"
+                  className={cn(
+                    'mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
+                  )}
                   {...register('password', {
                     required: '비밀번호는 필수 입력입니다.',
                   })}
@@ -260,7 +264,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                   </SelectTrigger>
                   <SelectContent>
                     {faculties.map((faculty) => (
-                      <SelectItem key={faculty} value={faculty}>
+                      <SelectItem className={cn('py-3')} key={faculty} value={faculty}>
                         {faculty}
                       </SelectItem>
                     ))}
