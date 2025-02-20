@@ -41,8 +41,8 @@ export function TOSSection() {
         <div className="flex w-full max-w-md flex-col items-center p-4">
           <div className="pb-4 text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)]">약관 동의</div>
           <div className="mt-10 min-w-[336px] flex-col text-gray-500">
-            <div className="flex items-center justify-start gap-6">
-              <span className="cursor-pointer" onClick={checkAll}>
+            <div className="flex items-center justify-start gap-6" onClick={checkAll}>
+              <span className="cursor-pointer">
                 {isAllChecked ? <CheckCircle size={26} fill="#2F4BF7" weight="fill" /> : <CheckCircle size={26} />}
               </span>
               <div>전체동의하기</div>
