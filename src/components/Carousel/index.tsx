@@ -4,10 +4,7 @@ interface CarouselProps {
 
 export function RigthCarouselButton({ onClick }: CarouselProps) {
   return (
-    <div
-      className="absolute right-0 top-1/2 h-[52px] w-[52px] cursor-pointer xs:h-[26px] xs:w-[26px] sm:h-[26px] sm:w-[26px]"
-      onClick={onClick}
-    >
+    <div className="absolute right-0 top-1/2 size-[26px] cursor-pointer md:size-[52px]" onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 256 256"
@@ -29,10 +26,7 @@ export function RigthCarouselButton({ onClick }: CarouselProps) {
 
 export function LeftCarouselButton({ onClick }: CarouselProps) {
   return (
-    <div
-      className="absolute top-1/2 h-[52px] w-[52px] cursor-pointer xs:h-[26px] xs:w-[26px]  sm:h-[26px] sm:w-[26px]"
-      onClick={onClick}
-    >
+    <div className="absolute top-1/2 size-[26px] cursor-pointer md:size-[52px]" onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 256 256"

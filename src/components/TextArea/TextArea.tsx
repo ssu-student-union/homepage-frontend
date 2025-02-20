@@ -106,12 +106,12 @@ export function TextArea({
         onChange={commentLengthHandler}
         maxLength={2000}
         className={cn(
-          'resize-none overflow-hidden rounded-md border border-gray-500 px-8 py-12 text-[1.125rem] placeholder:text-[1.125rem] placeholder:font-medium placeholder:text-gray-400 placeholder:xs:text-[0.75rem]',
+          'resize-none overflow-hidden rounded-md border border-gray-500 px-8 py-12 text-[1.125rem] placeholder:text-[0.75rem] placeholder:font-medium placeholder:text-gray-400 placeholder:sm:text-[1.125rem]',
           className
         )}
       />
       <div className="absolute bottom-4 right-3 flex justify-center gap-1">
-        <p className="mr-[15px] pt-[10px] text-[1.125rem] text-gray-400 xs:text-[0.75rem]">{commentCount}/2000</p>
+        <p className="mr-[15px] pt-[10px] text-[0.75rem] text-gray-400 sm:text-[1.125rem]">{commentCount}/2000</p>
         {children}
         <RegisterButton disabled={commentCount === 0} onClick={registerComment} />
         {isEdit && <CancelButton onClick={onCancel} />}

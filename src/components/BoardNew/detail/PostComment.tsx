@@ -67,9 +67,8 @@ export function PostComment({
             ]}
             onItemClick={onItemClick}
           >
-            {/* TODO: Breakpoint 수정 후 변경 */}
-            <DotsThree className="hidden sm:block md:block lg:block xl:block xxl:block" size="24px" />
-            <DotsThree className="hidden xs:block" size="14px" />
+            <DotsThree className="hidden sm:block" size="24px" />
+            <DotsThree className="block sm:hidden" size="14px" />
           </DropdownButton>
         )}
       </section>

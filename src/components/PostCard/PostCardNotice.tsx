@@ -28,7 +28,7 @@ const PostCardMain = ({
   return (
     <div
       onClick={onClick}
-      className={`relative flex h-[24.25rem] min-w-[20.6rem] cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white xs:h-[17.5rem] xs:w-[14.5rem]`}
+      className={`relative flex h-[17.5rem] w-[14.5rem] min-w-[20.6rem] cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white md:h-[24.25rem]`}
     >
       {badgeType === '긴급공지' && <Badge variant="Emergency">긴급</Badge>}
       {badgeType === '새로운' && <Badge variant="New">NEW!</Badge>}
@@ -37,17 +37,17 @@ const PostCardMain = ({
         <img
           alt="image"
           src={imgUrl || '/image/default/thumbnail/thumbnail.webp'}
-          className={`mt-3 h-[18.75rem] w-[18.75rem] rounded-[0.5rem] bg-gray-200 object-cover xs:h-[13rem] xs:w-[13rem] xs:rounded-[0.35rem]`}
+          className={`mt-3 h-[13rem] w-[13rem] rounded-[0.35rem] bg-gray-200 object-cover sm:h-[18.75rem] sm:w-[18.75rem] sm:rounded-[0.5rem]`}
         />
-        <div className="w-full flex-col text-lg font-semibold xs:text-xs">
-          <p className="line-clamp-1 w-[18.75rem] xs:w-[13rem]">{truncatedTitle}</p>
-          <div className={`flex items-center gap-3.5 text-sm font-normal text-gray-500 xs:text-[0.57rem]`}>
+        <div className="w-full flex-col text-xs font-semibold sm:text-lg">
+          <p className="line-clamp-1 w-[13rem] sm:w-[18.75rem]">{truncatedTitle}</p>
+          <div className={`flex items-center gap-3.5 text-[0.57rem] font-normal text-gray-500 sm:text-sm`}>
             <div className="flex items-center gap-1">
-              <img alt="logo" src={profileImg} className={`h-4 w-4 pr-0.5 xs:h-3.5 xs:w-3.5`} />
+              <img alt="logo" src={profileImg} className={`h-3.5 w-3.5 pr-0.5 sm:h-4 sm:w-4`} />
               <span>{profileName}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Pencil className="h-3.5 w-3.5 xs:h-3 xs:w-3" />
+              <Pencil className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               <span>{date}</span>
             </div>
           </div>
