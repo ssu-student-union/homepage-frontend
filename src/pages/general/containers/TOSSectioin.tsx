@@ -57,7 +57,7 @@ export function TOSSection() {
                 { id: 'third', label: '제 3자 정보제공 동의' },
               ].map((item) => (
                 <div key={item.id} className="flex justify-between">
-                  <div className="flex gap-6">
+                  <div className="flex gap-[16px] xs:gap-[8px] sm:gap-[8px] md:gap-[8px]">
                     <span className="cursor-pointer" onClick={() => check(item.id)}>
                       {checkList.includes(item.id) ? (
                         <Check size={25} fill="#2F4BF7" weight="bold" />
