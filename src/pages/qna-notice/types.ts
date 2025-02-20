@@ -107,3 +107,17 @@ export interface ApiResponse<T> {
   data: T;
   isSuccess: boolean;
 }
+
+export interface UserInfoForQna {
+  name: string;
+  nickname: string | null;
+  account: string | null;
+  studentId: string | null;
+  majorCode: QnaMajorCode | null;
+  memberCode: QnaMemberCode;
+  isUnion: boolean;
+}
+
+export interface LoginCheckObject {
+  loginState: boolean;
+}

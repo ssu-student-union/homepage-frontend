@@ -28,7 +28,7 @@ export function useCreateQna() {
       queryClient.invalidateQueries({
         queryKey: ['qnaPostsList'],
       });
-      navigate(`qna/${data.post_id}`);
+      navigate(`/qna/${data.post_id}`);
     },
   });
 }

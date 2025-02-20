@@ -15,7 +15,7 @@ export function useCreateQnaReply(postId: number) {
       const response = await clientAuth<ApiResponse<null>>({
         method: 'post',
         url: `/board/posts/comments/${commentId}/reply-comments`,
-        data: content,
+        data: { content },
       });
       return response.data.data;
     },

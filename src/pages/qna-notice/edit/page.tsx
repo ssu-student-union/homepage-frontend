@@ -151,7 +151,7 @@ export default function QnaEditPage() {
             onChange={(e: ChangeEvent<HTMLSelectElement>) =>
               setSelectedMember(e.target.value as keyof typeof qnaMemberMajor)
             }
-            disabled={!isEdit}
+            disabled={isEdit}
           >
             <option value="">질문 대상 선택</option>
             {user.memberCode && <option value={user.memberCode}>{user.memberCode}</option>}
@@ -165,7 +165,7 @@ export default function QnaEditPage() {
           </select>
 
           {/* 세부 대상 선택 드롭다운 */}
-          <select {...register('qnaMajorCode')} disabled={selectedMember === undefined || !isEdit}>
+          <select {...register('qnaMajorCode')} disabled={selectedMember === undefined || isEdit}>
             <option value="">세부 대상 선택</option>
             {selectedMember === user.memberCode && user.majorCode && (
               <option value={user.majorCode}>{user.majorCode}</option>

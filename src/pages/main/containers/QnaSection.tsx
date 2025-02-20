@@ -50,7 +50,11 @@ export default function QnaSection() {
                     navigate(`/qna/${qna.postId}`);
                   }}
                 >
-                  <p className="mb-[2px] text-[10px] font-bold text-gray-400">{qna.category}</p>
+                  <p
+                    className={`mb-[2px] text-[10px] font-bold ${qna.category === '답변완료' ? 'text-indigo-500' : 'text-gray-400'} `}
+                  >
+                    {qna.category}
+                  </p>
                   <p className="mb-[3px] line-clamp-1 text-[12px] font-semibold text-gray-700">{qna.title}</p>
                   <p className="mb-[3px] line-clamp-2 h-[24px] text-[12px] font-medium text-gray-600">{qna.content}</p>
                   <p className="text-[10px] font-medium text-gray-500">{formatYYYYMMDD(qna.date)}</p>
@@ -72,7 +76,11 @@ export default function QnaSection() {
                     navigate(`/qna/${qna.postId}`);
                   }}
                 >
-                  <p className="mb-[2px] text-[14px] font-bold text-gray-400">{qna.category}</p>
+                  <p
+                    className={`mb-[2px] text-[14px] font-bold ${qna.category === '답변완료' ? 'text-indigo-500' : 'text-gray-400'}`}
+                  >
+                    {qna.category}
+                  </p>
                   <p className="mb-[3px] line-clamp-1 text-[16px] font-bold text-gray-700">{qna.title}</p>
                   <p className="mb-[3px] line-clamp-4 h-[75px] text-[14px] font-medium text-gray-600">{qna.content}</p>
                   <p className="text-[12px] font-medium text-gray-500">{formatYYYYMMDD(qna.date)}</p>
@@ -94,7 +102,11 @@ export default function QnaSection() {
                     navigate(`/qna/${qna.postId}`);
                   }}
                 >
-                  <p className="mb-[2px] text-[14px] font-bold text-gray-400">{qna.category}</p>
+                  <p
+                    className={`mb-[2px] text-[14px] font-bold ${qna.category === '답변완료' ? 'text-indigo-500' : 'text-gray-400'}`}
+                  >
+                    {qna.category}
+                  </p>
                   <p className="mb-[3px] line-clamp-1 text-[16px] font-bold text-gray-700">{qna.title}</p>
                   <p className="mb-[3px] line-clamp-4 h-[75px] text-[14px] font-medium text-gray-600">{qna.content}</p>
                   <p className="text-[12px] font-medium text-gray-500">{formatYYYYMMDD(qna.date)}</p>
@@ -116,7 +128,11 @@ export default function QnaSection() {
                     navigate(`/qna/${qna.postId}`);
                   }}
                 >
-                  <p className="mb-[2px] text-[14px] font-bold text-gray-400">{qna.category}</p>
+                  <p
+                    className={`mb-[2px] text-[14px] font-bold ${qna.category === '답변완료' ? 'text-indigo-500' : 'text-gray-400'}`}
+                  >
+                    {qna.category}
+                  </p>
                   <p className="mb-[3px] line-clamp-1 text-[22px] font-bold text-gray-700">{qna.title}</p>
                   <p className="mb-[3px] line-clamp-4 h-[84px] text-[16px] font-medium text-gray-600">{qna.content}</p>
                   <p className="text-[16px] font-medium text-gray-500">{formatYYYYMMDD(qna.date)}</p>

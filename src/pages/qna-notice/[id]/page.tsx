@@ -15,8 +15,9 @@ import { usePatchQnaComment } from '../hooks/usePatchQnaComment';
 import { useDeleteQnaComment } from '../hooks/useDeleteQnaComment';
 import { useDeleteQnaDetail } from '../hooks/useDeleteQnaDetail';
 import { qnaPostDetail } from '../queries';
-import { CreateReplyCommentRequest, useCreateQnaReply } from '../hooks/useCreateQnaReplyComment';
+import { useCreateQnaReply } from '../hooks/useCreateQnaReplyComment';
 import { useDeleteQnaReply } from '../hooks/useDeleteQnaReplyComment';
+import { PostReplyCommentEditor } from '@/components/BoardNew/detail/PostReplyCommentEditor';
 
 function PageSkeleton() {
   return (
@@ -81,7 +82,7 @@ export default function QnaDetailPage() {
 
   // 대댓글 작성
   const { mutate: submitReply, isPending: isSubmitReplyPending } = useCreateQnaReply(postId);
-  function handleSubmitReply({ commentId, content }: CreateReplyCommentRequest) {
+  function handleSubmitReply(commentId: number, content: string) {
     submitReply({ commentId, content });
     setReplyEditorOpenFor(null);
   }
@@ -122,6 +123,7 @@ export default function QnaDetailPage() {
   const editable = posts.isAuthor || posts.allowedAuthorities.includes('EDIT');
   const deletable = posts.isAuthor || posts.allowedAuthorities.includes('DELETE');
   const commentable = posts.isAuthor || comments.allowedAuthorities.includes('COMMENT');
+  const replyCommentable = comments.allowedAuthorities.includes('COMMENT');
   const commentDeletable = comments.allowedAuthorities.includes('DELETE_COMMENT');
 
   // 댓글 표시에 사용할 데이터
@@ -167,6 +169,7 @@ export default function QnaDetailPage() {
                 uploading={isSubmitCommentPending}
               />
             )}
+            {/* 자치기구 댓글 */}
             {posts.officialCommentList.map((comment) => {
               if ((lastUpdatedComment ?? -1) === comment.id && (isPatchCommentPending || isDeleteCommentPending)) {
                 return <PostComment.Skeleton key={comment.id} />;
@@ -187,12 +190,13 @@ export default function QnaDetailPage() {
                 </PostComment>
               );
             })}
+            {/* 일반 댓글 */}
             {comments.postComments.map((comment) => {
               if ((lastUpdatedComment ?? -1) === comment.id && (isPatchCommentPending || isDeleteCommentPending)) {
                 return <PostComment.Skeleton key={comment.id} />;
               }
               return (
-                <div key={comment.id} className="mb-2">
+                <div key={comment.id} className="relative mb-2">
                   <PostComment
                     key={comment.id}
                     author={comment.authorName}
@@ -208,7 +212,7 @@ export default function QnaDetailPage() {
                     {comment.content}
                   </PostComment>
 
-                  {comment.postReplyComments && comment.postReplyComments.length > 0 && (
+                  {!comment.isDeleted && comment.postReplyComments && comment.postReplyComments.length > 0 && (
                     <div className="ml-8 mt-2 flex flex-col gap-2">
                       {comment.postReplyComments.map((reply) => {
                         if ((lastUpdatedReply ?? -1) === reply.id && isDeleteReplyPending) {
@@ -228,26 +232,27 @@ export default function QnaDetailPage() {
                           </PostComment>
                         );
                       })}
+                    </div>
+                  )}
 
-                      {commentable && (
-                        <div className="mt-2">
-                          {replyEditorOpenFor === comment.id ? (
-                            <PostCommentEditor
-                              placeholder="대댓글 달기"
-                              maxLength={2000}
-                              onSubmit={(content) => handleSubmitReply({ commentId: comment.id, content: content })}
-                              uploading={isSubmitReplyPending}
-                              onCancel={() => setReplyEditorOpenFor(null)}
-                            />
-                          ) : (
-                            <button
-                              className="text-sm text-gray-500 hover:underline"
-                              onClick={() => openReplyEditor(comment.id)}
-                            >
-                              대댓글 달기
-                            </button>
-                          )}
-                        </div>
+                  {!comment.isDeleted && replyCommentable && (
+                    <div className="ml-8 mt-2">
+                      {replyEditorOpenFor === comment.id ? (
+                        <PostReplyCommentEditor
+                          placeholder="대댓글 달기"
+                          maxLength={2000}
+                          commentId={comment.id}
+                          onSubmit={handleSubmitReply}
+                          uploading={isSubmitReplyPending}
+                          onCancel={() => setReplyEditorOpenFor(null)}
+                        />
+                      ) : (
+                        <button
+                          className="absolute bottom-6 right-4 text-sm text-gray-400"
+                          onClick={() => openReplyEditor(comment.id)}
+                        >
+                          대댓글 달기
+                        </button>
                       )}
                     </div>
                   )}
