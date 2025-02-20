@@ -256,9 +256,11 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                   value={formValues.memberCode || ''}
                 >
                   <SelectTrigger
-                    className={`min-h-[46px] w-full border-gray-500 px-[20px] py-[26px] text-sm font-medium ${
-                      formValues.memberCode ? 'font-semibold text-black' : 'text-[#9CA3AF]'
-                    }`}
+                    className={cn(
+                      `min-h-[46px] w-full rounded-xs border-gray-500 px-[20px] py-[26px] text-sm font-medium ${
+                        formValues.memberCode ? 'font-semibold text-black' : 'text-[#9CA3AF]'
+                      }`
+                    )}
                   >
                     <SelectValue placeholder="단과대 선택" />
                   </SelectTrigger>
@@ -282,7 +284,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                   disabled={!selectedFaculty}
                 >
                   <SelectTrigger
-                    className={`min-h-[46px] w-full border-gray-500 px-[20px] py-[26px] text-sm font-medium`}
+                    className={`min-h-[46px] w-full rounded-xs border-gray-500 px-[20px] py-[26px] text-sm font-medium`}
                   >
                     <SelectValue placeholder="학과/부 선택" />
                   </SelectTrigger>
