@@ -3,14 +3,14 @@ import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent/PostContent';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { QnaPostParams } from './hooks/useGetQnaList';
+import { QnaPostParams, useGetQnaList } from './hooks/useGetQnaList';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { LoginCheckObject, QnaMajorCode, QnaMemberCode } from './types';
 import { SearchState } from '@/recoil/atoms/atom';
 import { convertToDateOnly } from './utils/convertToDateOnly';
 import { qnaMajorCodesData, qnaMemberCodeData } from './collegesData';
-import { qnaPostsList, qnaPostsUserInfo } from './queries';
+import { useGetUserInfoQna } from './hooks/useGetUserInfoQna';
 
 /* 빠르게 질의응답게시판 구현을 위해 해당 페이지에서 직접 데이터 페칭을 합니다. 이후에 리팩토링 예정이니 이해 부탁드려요ㅠ */
 
@@ -88,7 +88,7 @@ export function QnApage() {
   const isLoginObj: LoginCheckObject = isLoginStr ? JSON.parse(isLoginStr) : { loginState: false };
   const isLogin = isLoginObj.loginState;
 
-  const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = qnaPostsUserInfo(isLogin);
+  const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
   // 유저 데이터가 있다면 qnaMemberCode와 qnaMajorCode에 그 값을 추가해 준다.
   const qnaMemberCode: QnaMemberCode = isLogin && user && user.memberCode !== '총학생회' ? user.memberCode : '';
@@ -101,7 +101,7 @@ export function QnApage() {
     target: target,
   });
 
-  const { data, isLoading, isError, error } = qnaPostsList(queryParamsForList);
+  const { data, isLoading, isError, error } = useGetQnaList(queryParamsForList);
 
   useEffect(() => {
     if (data && (page < 1 || page > data.pageInfo.totalPages)) {

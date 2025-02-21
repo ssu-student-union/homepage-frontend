@@ -3,21 +3,20 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
-import { useQuery } from '@tanstack/react-query';
 import { ContentViewer } from '@/components/BoardNew/detail/ContentViewer';
 import { PostComment } from '@/components/BoardNew/detail/PostComment';
-import { QnaCommentListData, QnaDetail } from './types';
+import { QnaDetail } from './types';
 import { PostCommentEditor } from '@/components/BoardNew/detail/PostCommentEditor';
 import { convertToDate } from '../utils/convertToDateOnly';
-import { useGetQnaComments } from '../hooks/useGetQnaComments';
 import { useCreateQnaComment } from '../hooks/useCreateQnaComment';
 import { usePatchQnaComment } from '../hooks/usePatchQnaComment';
 import { useDeleteQnaComment } from '../hooks/useDeleteQnaComment';
 import { useDeleteQnaDetail } from '../hooks/useDeleteQnaDetail';
-import { qnaPostDetail } from '../queries';
+import { useGetQnaDetail } from '../hooks/useGetQnaDetail';
 import { useCreateQnaReply } from '../hooks/useCreateQnaReplyComment';
 import { useDeleteQnaReply } from '../hooks/useDeleteQnaReplyComment';
 import { PostReplyCommentEditor } from '@/components/BoardNew/detail/PostReplyCommentEditor';
+import { useGetQnaComments } from '../hooks/useGetQnaComments';
 
 function PageSkeleton() {
   return (
@@ -30,16 +29,6 @@ function PageSkeleton() {
   );
 }
 
-function qnaPostComments(postId: number) {
-  return useQuery<QnaCommentListData, Error>({
-    queryKey: ['qnaComments', postId],
-    queryFn: async () => {
-      const response = await useGetQnaComments(postId);
-      return response.data;
-    },
-  });
-}
-
 export default function QnaDetailPage() {
   const { id } = useParams<{ id: string }>();
   const postId = parseInt(id ?? '');
@@ -49,16 +38,22 @@ export default function QnaDetailPage() {
   const [replyEditorOpenFor, setReplyEditorOpenFor] = useState<number | null>(null);
 
   // 상세 게시글 조화 & 댓글 조회
-  const { data, isLoading, isError, error } = qnaPostDetail(postId);
+  const { data, isLoading, isError, error } = useGetQnaDetail(postId);
   const {
     data: comments,
     isLoading: isCommentsLoading,
     isError: isCommentsError,
     error: commentsError,
-  } = qnaPostComments(postId);
+  } = useGetQnaComments(postId);
 
   // 게시글 삭제
   const { mutate: deleteDetail, isPending: isDeleteDetailPending } = useDeleteQnaDetail();
+  function handleDeleteDetail() {
+    if (posts) {
+      deleteDetail({ postId });
+      navigate('/qna');
+    }
+  }
 
   // 댓글 작성
   const { mutate: submitComment, isPending: isSubmitCommentPending } = useCreateQnaComment(postId);
@@ -109,13 +104,6 @@ export default function QnaDetailPage() {
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );
-  }
-
-  function handleDeleteDetail() {
-    if (posts) {
-      deleteDetail({ postId });
-      navigate('/qna');
-    }
   }
 
   const posts: QnaDetail = data.postDetailResDto;

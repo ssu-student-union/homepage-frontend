@@ -1,7 +1,7 @@
 import { Spacing } from '@/components/Spacing';
 import { Button } from '@/components/ui/button';
 import { useResize } from '@/hooks/useResize';
-import { qnaPostsList } from '@/pages/qna-notice/queries';
+import { useGetQnaList } from '@/pages/qna-notice/hooks/useGetQnaList';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ export default function QnaSection() {
     data: qnaData,
     isError: isQnaError,
     error: qnaError,
-  } = qnaPostsList({
+  } = useGetQnaList({
     page: 0,
     take: 4,
     qnaMajorCode: '',

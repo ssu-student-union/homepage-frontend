@@ -12,12 +12,13 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { QnaPostForm } from './types';
 import { useQnaForm } from './form';
-import { LoginCheckObject } from '../types';
-import { qnaPostDetail, qnaPostsUserInfo } from '../queries';
 import { useCreateQna } from '../hooks/useCreateQna';
 import { usePatchQna } from '../hooks/usePatchQna';
+import { useGetQnaDetail } from '../hooks/useGetQnaDetail';
+import { useGetUserInfoQna } from '../hooks/useGetUserInfoQna';
 import { qnaMemberCodeData } from '../collegesData';
 import { qnaMemberMajor } from '../collegesData';
+import { LoginCheckObject } from '../types';
 
 function PageSkeleton() {
   return (
@@ -34,19 +35,11 @@ export default function QnaEditPage() {
   const { id } = useParams<{ id?: string }>();
   const postId = id ? parseInt(id ?? '') || undefined : undefined;
 
-  // 사용자의 단과대 학과를 가져오기 위해 유저 데이터 페칭
+  // 사용자의 단과대 학과를 가져오기 위해 로그인 확인 후 유저 데이터 페칭
   const isLoginStr = localStorage.getItem('recoil-persist');
   const isLoginObj: LoginCheckObject = isLoginStr ? JSON.parse(isLoginStr) : { loginState: false };
   const isLogin = isLoginObj.loginState;
-  if (!isLogin) {
-    return (
-      <div className="mt-[120px] flex items-center justify-center">
-        <p>로그인 후 이용해 주세요.</p>
-      </div>
-    );
-  }
-
-  const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = qnaPostsUserInfo(isLogin);
+  const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
   // form과 Editor 사용
   const editorRef = useRef<Editor>(null);
@@ -61,7 +54,7 @@ export default function QnaEditPage() {
   // 수정의 경우 질문 대상 선택 불가 판정을 위해 state 사용
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const { data: detail, isError: isDetailError, error: detailError } = qnaPostDetail(postId);
+  const { data: detail, isError: isDetailError, error: detailError } = useGetQnaDetail(postId);
 
   useEffect(() => {
     if (postId) {
@@ -89,7 +82,30 @@ export default function QnaEditPage() {
         editorRef.current!.getInstance().setMarkdown(data.content);
       }
     }
-  }, [postId, reset, detail]);
+  }, [postId, reset, detail, isDetailError, detailError]);
+
+  if (!isLogin) {
+    return (
+      <div className="mt-[120px] flex items-center justify-center">
+        <p>로그인 후 이용해 주세요.</p>
+      </div>
+    );
+  }
+
+  if (isUserLoading || isCreatePending || isPatchPending) {
+    return <PageSkeleton />;
+  }
+
+  if (!user || isUserError || isCreateError || isPatchError) {
+    if (isUserError) console.log('user error', userError);
+    if (isCreateError) console.log('create error', createError);
+    if (isPatchError) console.log('patch error', patchError);
+    return (
+      <div className="mt-[120px] flex items-center justify-center">
+        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
+      </div>
+    );
+  }
 
   function handleEditorChange() {
     const instance = editorRef.current?.getInstance();
@@ -120,21 +136,6 @@ export default function QnaEditPage() {
 
       createQna(formData);
     }
-  }
-
-  if (isUserLoading || isCreatePending || isPatchPending) {
-    return <PageSkeleton />;
-  }
-
-  if (!user || isUserError || isCreateError || isPatchError) {
-    if (isUserError) console.log('user error', userError);
-    if (isCreateError) console.log('create error', createError);
-    if (isPatchError) console.log('patch error', patchError);
-    return (
-      <div className="mt-[120px] flex items-center justify-center">
-        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
-      </div>
-    );
   }
 
   return (

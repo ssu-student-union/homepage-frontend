@@ -1,4 +1,5 @@
 import { clientAuth } from '@/apis/client';
+import { useQuery } from '@tanstack/react-query';
 import { ApiResponse, QnaListData, QnaMajorCode, QnaMemberCode } from '../types';
 
 export interface QnaPostParams {
@@ -9,7 +10,7 @@ export interface QnaPostParams {
   q?: string;
 }
 
-export async function useGetQnaList({ page = 0, take = 14, qnaMajorCode, qnaMemberCode, q }: QnaPostParams) {
+export async function getQnaList({ page = 0, take = 14, qnaMajorCode, qnaMemberCode, q }: QnaPostParams) {
   const response = await clientAuth<ApiResponse<QnaListData>>({
     url: `/board/질의응답게시판/posts/search`,
     method: 'get',
@@ -17,4 +18,14 @@ export async function useGetQnaList({ page = 0, take = 14, qnaMajorCode, qnaMemb
   });
 
   return response.data;
+}
+
+export function useGetQnaList(params: QnaPostParams) {
+  return useQuery<QnaListData, Error>({
+    queryKey: ['qnaPostsList', params],
+    queryFn: async () => {
+      const response = await getQnaList(params);
+      return response.data;
+    },
+  });
 }
