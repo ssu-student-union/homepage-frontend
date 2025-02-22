@@ -8,14 +8,10 @@ export const patchUserProfile = async (data: {
   newPassword: string;
   confirmNewPassword: string;
 }) => {
-  const accessToken = localStorage.getItem('accessToken');
   const response: AxiosResponse<patchUserProfileResponse> = await clientAuth({
     baseURL: 'http://13.125.101.7:8080',
     url: '/users/mypage',
     method: 'PATCH',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
     data,
   });
   return response.data;
