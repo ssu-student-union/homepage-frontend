@@ -5,6 +5,7 @@ import Sidebar from './component/Sidebar';
 import DropdownUserMenu from './component/DropdownUserMenu';
 import { ServiceNoticePage } from './service-notice/page';
 import MyPostsPage from './myPosts/page';
+import { ChevronDown } from 'lucide-react';
 
 export default function MyPage() {
   const [selectedMenu, setSelectedMenu] = useState('내 정보');
@@ -30,11 +31,7 @@ export default function MyPage() {
             className="mb-5 ml-3 hidden items-center xs:block sm:block"
             onClick={() => setIsDropdown(!isDropdown)}
           >
-            <img
-              src="/image/mypage/arrow_down.png"
-              alt="arrow down"
-              className={`h-2 w-3 transform transition-transform duration-200 ${isDropdown ? 'rotate-180' : ''}`}
-            />
+            <ChevronDown className="h-4 w-6" color="#9CA3AF" />
           </button>
           {isDropdown && (
             <div className="absolute top-10">
@@ -47,7 +44,7 @@ export default function MyPage() {
           )}
         </div>
         <div className="w-full border-b border-[#E7E7E7]"></div>
-        <div className="flex md:flex-row lg:flex-row xl:flex-row xxl:flex-row">
+        <div className="flex">
           <Sidebar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
           <div className="flex-grow">{renderMenu()}</div>
         </div>
