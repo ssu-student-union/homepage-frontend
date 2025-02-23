@@ -177,5 +177,41 @@
     "자유전공학부(인문)": "School of Liberal Studies (Humanities unit)",
     "자유전공학부(자연)": "School of Liberal Studies (Natural Science Unit)",
     "문예창작전공": "Major in Creative Writing"
+  },
+  "onboarding": {
+    "제65대 총학생회": "65th Student Council",
+    "카카오 로그인": "Kakao Login",
+    "학생자치기구 로그인": "Student Council Login",
+    "아이디": "ID",
+    "비밀번호": "Password",
+    "입력 완료": "Submit",
+    "학생 정보 입력": "Enter Student Information",
+    "이름": "Name",
+    "학번": "Student Number",
+    "단과대 선택": "Select College",
+    "학과/부 선택": "Select Department/Division",
+    "학생인증이 안 되시나요?": "Having trouble with student verification?",
+    "약관 동의": "Agree to Terms",
+    "전체동의하기": "Agree to All",
+    "[필수] 개인정보 수집 • 이용 동의": "[Required] Consent to Collection & Use of Personal Information",
+    "[필수] 서비스 이용 약관 동의": "[Required] Consent to Terms of Service",
+    "제 3자 정보제공 동의": "Consent to Third-Party Information Sharing",
+    "보기": "View",
+    "다음": "Next",
+    "입력하신 정보가 올바르지 않습니다": "The information you entered is incorrect"
+  },
+  "onboarding_validation": {
+    "name_required": "Please enter your name.",
+    "name_max": "The name must be within 10 characters.",
+    "name_regex": "The name must be in Korean characters only.",
+    "studentId_length": "The student ID must be 8 digits.",
+    "studentId_regex": "The student ID must contain only numbers.",
+    "accountId_min": "The username must be at least 5 characters.",
+    "accountId_max": "The username must be at most 25 characters.",
+    "accountId_regex": "The username must contain only letters and numbers.",
+    "password_min": "The password must be at least 4 characters.",
+    "email_format": "Invalid email format.",
+    "email_required": "Please enter your email.",
+    "inquiry_required": "Please enter your inquiry."
   }
 }

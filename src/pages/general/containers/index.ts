@@ -14,6 +14,7 @@ export const faculties = [
   '융합특성화자유전공학부',
   '인문대학',
   '자연과학대학',
+  '차세대반도체학과',
 ];
 
 export const departments: DepartmentMap = {
@@ -68,6 +69,7 @@ export const departments: DepartmentMap = {
     '철학과',
   ],
   자연과학대학: ['자연과학대학', '물리학과', '수학과', '의생명시스템학부', '정보통계보험수리학과', '화학과'],
+  차세대반도체학과: ['차세대반도체학과'],
 };
 
 interface UserCategories {

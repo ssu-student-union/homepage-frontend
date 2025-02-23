@@ -16,10 +16,9 @@ import { useTranslation } from 'react-i18next';
 
 interface LoginFormProps {
   subSection1: string;
-  buttonSection: string;
 }
 
-export function GeneralRegisterSection({ subSection1, buttonSection }: LoginFormProps) {
+export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { sort } = useParams();
@@ -171,7 +170,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               <>
                 <Input
                   type="text"
-                  placeholder="아이디"
+                  placeholder={t('onboarding.아이디')}
                   className={cn(
                     'w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
                   )}
@@ -188,7 +187,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 )}
                 <Input
                   type="password"
-                  placeholder="비밀번호"
+                  placeholder={t('onboarding.비밀번호')}
                   className={cn(
                     'mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
                   )}
@@ -209,7 +208,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               <>
                 <Input
                   type="text"
-                  placeholder="이름"
+                  placeholder={t('onboarding.이름')}
                   className={cn(
                     'h-[54px] xs:w-full xs:rounded-xs xs:px-[1rem] xs:py-[0.1rem] sm:w-full sm:px-[1rem] sm:py-[0.1rem]'
                   )}
@@ -227,7 +226,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                 )}
                 <Input
                   type="text"
-                  placeholder="학번"
+                  placeholder={t('onboarding.학번')}
                   className={cn('mt-4 h-[54px] xs:w-full xs:rounded-xs sm:w-full sm:py-[0.1rem]')}
                   {...register('studentId', {
                     required: '학번은 필수 입력입니다.',
@@ -264,7 +263,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                       }`
                     )}
                   >
-                    <SelectValue placeholder="단과대 선택" />
+                    <SelectValue placeholder={t('onboarding.단과대 선택')} />
                   </SelectTrigger>
                   <SelectContent>
                     {faculties.map((faculty) => (
@@ -288,7 +287,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                   <SelectTrigger
                     className={`min-h-[46px] w-full rounded-xs border-gray-500 px-[20px] py-[26px] text-sm font-medium`}
                   >
-                    <SelectValue placeholder="학과/부 선택" />
+                    <SelectValue placeholder={t('onboarding.학과/부 선택')} />
                   </SelectTrigger>
                   <SelectContent>
                     {(departments[selectedFaculty] || []).map((department) => (
@@ -313,13 +312,13 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
               size="default"
               className={`mt-4 w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
             >
-              {buttonSection}
+              {t('onboarding.입력 완료')}
             </Button>
           </form>
 
           {!isScouncilPath && (
             <button onClick={handleCertifyError} className="mt-[117px] text-lg font-normal text-gray-500">
-              학생인증이 안 되시나요?
+              {t('onboarding.학생인증이 안 되시나요?')}
             </button>
           )}
         </div>
