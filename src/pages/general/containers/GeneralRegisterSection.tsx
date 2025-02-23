@@ -12,6 +12,7 @@ import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
 import ChannelTalkFloating from '@/components/Floating/ChannelTalkFloating';
 import { cn } from '@/libs/utils';
+import { useTranslation } from 'react-i18next';
 
 interface LoginFormProps {
   subSection1: string;
@@ -22,6 +23,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   const navigate = useNavigate();
   const location = useLocation();
   const { sort } = useParams();
+  const { t } = useTranslation();
 
   const isScouncilPath = location.pathname === '/register/scouncil';
 
@@ -267,7 +269,7 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                   <SelectContent>
                     {faculties.map((faculty) => (
                       <SelectItem className={cn('py-3')} key={faculty} value={faculty}>
-                        {faculty}
+                        {t(`faculties.${faculty}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -290,8 +292,8 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
                   </SelectTrigger>
                   <SelectContent>
                     {(departments[selectedFaculty] || []).map((department) => (
-                      <SelectItem key={department} value={department}>
-                        {department}
+                      <SelectItem className={cn('py-3')} key={department} value={department}>
+                        {t(`departments.${department}`)}
                       </SelectItem>
                     ))}
                   </SelectContent>

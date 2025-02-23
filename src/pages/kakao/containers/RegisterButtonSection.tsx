@@ -24,8 +24,8 @@ export function RegisterButtonSection() {
       }}
     >
       <div className="flex flex-col items-center text-center">
-        <h1 className="mb-[-10px] text-xs font-normal">제64대 총학생회</h1>
-        <h1 className="text-[56px] font-bold">US:SUM</h1>
+        <h1 className="mb-[-10px] text-xs font-normal">제65대 총학생회</h1>
+        <h1 className="text-[56px] font-bold">SS:URE</h1>
         <div onClick={handleLogin}>
           <KakaoButton />
         </div>
