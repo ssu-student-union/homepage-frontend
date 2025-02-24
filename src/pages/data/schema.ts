@@ -39,7 +39,7 @@ export const DataPostEditFormSchema = z.object({
 
 export const DataPostSummarySchema = z.object({
   category: z.string(),
-  content: z.string().nullable(),
+  content: z.string().transform((val) => val ?? ''),
   date: z.string().transform((str) => new Date(str)),
   files: z.array(FileResponseSchema).default([]),
   isNotice: z.boolean(),
@@ -51,7 +51,7 @@ export const DataPostSchema = z.object({
   allowedAuthorities: z.array(PostAclSchema).nullable().default([]),
   authorName: z.string(),
   category: z.string(),
-  content: z.string().nullable(),
+  content: z.string().transform((val) => val ?? ''),
   createdAt: z.string().transform((str) => new Date(str)),
   fileResponseList: z.array(FileResponseSchema),
   isAuthor: z.boolean(),
