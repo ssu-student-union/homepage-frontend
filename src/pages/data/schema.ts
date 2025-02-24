@@ -34,7 +34,7 @@ export const DataPostEditFormSchema = z.object({
   content: z.string().min(1),
   category: z.string().min(1),
   postFileList: z.array(z.number()),
-  notice: z.boolean(),
+  isNotice: z.boolean(),
 });
 
 export const DataPostSummarySchema = z.object({
