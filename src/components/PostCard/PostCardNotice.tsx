@@ -29,7 +29,7 @@ const PostCardMain = ({
   return (
     <div
       onClick={onClick}
-      className={`
+      className="
         relative flex
         h-[387px] w-[330px] 
         cursor-pointer items-center justify-center rounded-[0.62rem] border border-gray-300 bg-white
@@ -37,7 +37,7 @@ const PostCardMain = ({
         sm:h-[98px] sm:w-full sm:justify-start sm:px-[12px]
         md:h-[277px] md:w-[232px]
         lg:h-[277px] lg:w-[232px]
-        `}
+        "
     >
       {badgeType === '긴급공지' && <Badge variant="Emergency">긴급</Badge>}
       {badgeType === '새로운' && <Badge variant="New">NEW!</Badge>}
@@ -46,14 +46,14 @@ const PostCardMain = ({
         <img
           alt="image"
           src={imgUrl || '/image/default/thumbnail/thumbnail.webp'}
-          className={`
+          className="
             h-[18.75rem] w-[18.75rem] 
             rounded-[0.5rem] bg-gray-200 object-cover 
             xs:h-[64px] xs:w-[64px] xs:rounded-[4px]
             sm:h-[64px] sm:w-[64px] sm:rounded-[4px]
             md:mt-1 md:h-[206px] md:w-[208px]
             lg:mt-1 lg:h-[206px] lg:w-[208px]
-          `}
+          "
         />
         <div
           className="
@@ -76,10 +76,10 @@ const PostCardMain = ({
             </p>
           )}
           <div
-            className={`
+            className="
               flex items-center gap-3.5 text-sm font-normal text-gray-500 
               xs:justify-between xs:text-[10px] sm:justify-between sm:text-[10px] md:text-[9px] lg:text-[9px]
-            `}
+            "
           >
             <div className="flex items-center gap-1">
               <img alt="logo" src={profileImg} className={`h-4 w-4 pr-0.5 xs:h-3.5 xs:w-3.5`} />

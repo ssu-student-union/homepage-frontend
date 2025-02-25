@@ -54,3 +54,5 @@ export const DATA_PATH = '/data' as const; // 자료집 라우트 경로
 export const MYPAGE_PATH = `/my` as const; // 내정보 라우트 경로
 
 export const OLD_URL = `https://ssuketch60.cafe24.com/` as const; // 이전 홈페이지
+
+export const QNA_PATH = '/qna' as const; //

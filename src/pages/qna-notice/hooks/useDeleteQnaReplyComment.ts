@@ -19,9 +19,9 @@ export function useDeleteQnaReply(postId: number) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['qnaComments', postId],
+        queryKey: ['getComments', postId],
       });
-      queryClient.invalidateQueries({ queryKey: ['qnaPostDetail', postId] });
+      queryClient.invalidateQueries({ queryKey: ['getPost', postId] });
     },
   });
 }

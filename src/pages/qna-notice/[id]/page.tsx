@@ -5,18 +5,18 @@ import { Container } from '@/containers/new/Container';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
 import { ContentViewer } from '@/components/BoardNew/detail/ContentViewer';
 import { PostComment } from '@/components/BoardNew/detail/PostComment';
-import { QnaDetail } from './types';
+import { useQueryClient } from '@tanstack/react-query';
+import { useDeleteComment } from '@/hooks/new/mutations/useDeleteComment';
+import { QnaComment } from './types';
 import { PostCommentEditor } from '@/components/BoardNew/detail/PostCommentEditor';
+import { useCreateComment } from '@/hooks/new/mutations/useCreateComment';
 import { convertToDate } from '../utils/convertToDateOnly';
-import { useCreateQnaComment } from '../hooks/useCreateQnaComment';
-import { usePatchQnaComment } from '../hooks/usePatchQnaComment';
-import { useDeleteQnaComment } from '../hooks/useDeleteQnaComment';
 import { useDeleteQnaDetail } from '../hooks/useDeleteQnaDetail';
 import { useGetQnaDetail } from '../hooks/useGetQnaDetail';
 import { useCreateQnaReply } from '../hooks/useCreateQnaReplyComment';
 import { useDeleteQnaReply } from '../hooks/useDeleteQnaReplyComment';
-import { PostReplyCommentEditor } from '@/components/BoardNew/detail/PostReplyCommentEditor';
-import { useGetQnaComments } from '../hooks/useGetQnaComments';
+import { usePatchComment } from '@/hooks/new/mutations/usePatchComment';
+import { useGetComments } from '@/hooks/new/query/useGetComments';
 
 function PageSkeleton() {
   return (
@@ -32,47 +32,93 @@ function PageSkeleton() {
 export default function QnaDetailPage() {
   const { id } = useParams<{ id: string }>();
   const postId = parseInt(id ?? '');
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [lastUpdatedComment, setLastUpdatedComment] = useState<number | null>(null);
   const [lastUpdatedReply, setLastUpdatedReply] = useState<number | null>(null);
   const [replyEditorOpenFor, setReplyEditorOpenFor] = useState<number | null>(null);
 
+  if (!postId) {
+    alert('잘못된 경로입니다. (게시글에 대한 id가 없습니다.)');
+    navigate('/');
+  }
+
   // 상세 게시글 조화 & 댓글 조회
-  const { data, isLoading, isError, error } = useGetQnaDetail(postId);
+  const { data, isLoading, isError, error } = useGetQnaDetail({ postId });
+
   const {
     data: comments,
     isLoading: isCommentsLoading,
     isError: isCommentsError,
     error: commentsError,
-  } = useGetQnaComments(postId);
+  } = useGetComments<QnaComment>({ postId, type: '최신순' });
 
   // 게시글 삭제
   const { mutate: deleteDetail, isPending: isDeleteDetailPending } = useDeleteQnaDetail();
   function handleDeleteDetail() {
-    if (posts) {
-      deleteDetail({ postId });
-      navigate('/qna');
+    if (data) {
+      deleteDetail(
+        { postId: `${postId}`, fileUrls: [] },
+        {
+          onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['qnaPostsList'] });
+            navigate('/qna');
+          },
+        }
+      );
     }
   }
 
   // 댓글 작성
-  const { mutate: submitComment, isPending: isSubmitCommentPending } = useCreateQnaComment(postId);
+  const { mutate: submitComment, isPending: isSubmitCommentPending } = useCreateComment<QnaComment>({ postId });
   function handleSubmitComment(content: string) {
-    submitComment({ content });
+    submitComment(
+      { content },
+      {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ['getComments', postId],
+          });
+          await queryClient.invalidateQueries({
+            queryKey: ['getPost', postId],
+          });
+        },
+      }
+    );
   }
 
   // 댓글 수정
-  const { mutate: patchComment, isPending: isPatchCommentPending } = usePatchQnaComment(postId);
+  const { mutate: patchComment, isPending: isPatchCommentPending } = usePatchComment();
   function handlePatchComment(commentId: number, content: string) {
     setLastUpdatedComment(commentId);
-    patchComment({ commentId, content });
+    patchComment(
+      { commentId, content },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['getComments', postId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['getPost', postId],
+          });
+        },
+      }
+    );
   }
 
   // 댓글 삭제
-  const { mutate: deleteComment, isPending: isDeleteCommentPending } = useDeleteQnaComment(postId);
+  const { mutate: deleteComment, isPending: isDeleteCommentPending } = useDeleteComment();
   function handleDeleteComment(commentId: number) {
     setLastUpdatedComment(commentId);
-    deleteComment({ commentId });
+    deleteComment(
+      { commentId },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
+          queryClient.invalidateQueries({ queryKey: ['getPost', postId] });
+        },
+      }
+    );
   }
 
   // 대댓글 작성
@@ -106,30 +152,28 @@ export default function QnaDetailPage() {
     );
   }
 
-  const posts: QnaDetail = data.postDetailResDto;
-
-  const editable = posts.isAuthor || posts.allowedAuthorities.includes('EDIT');
-  const deletable = posts.isAuthor || posts.allowedAuthorities.includes('DELETE');
-  const commentable = posts.isAuthor || comments.allowedAuthorities.includes('COMMENT');
+  const editable = data.isAuthor || data.allowedAuthorities.includes('EDIT');
+  const deletable = data.isAuthor || data.allowedAuthorities.includes('DELETE');
+  const commentable = data.isAuthor || comments.allowedAuthorities.includes('COMMENT');
   const replyCommentable = comments.allowedAuthorities.includes('COMMENT');
   const commentDeletable = comments.allowedAuthorities.includes('DELETE_COMMENT');
 
   // 댓글 표시에 사용할 데이터
-  const totalComments = posts.officialCommentList.length + comments.total;
+  const totalComments = data.officialCommentList.length + comments.total;
 
   return (
     <>
       <article className="mt-[120px]">
         <PostHeader
-          questionSubject={posts.qnaTargetCode}
-          title={posts.title}
-          authorName={`${posts.college} ${posts.department}`}
-          createdAt={convertToDate(posts.createdAt)}
+          subject={`${data.qnaTargetCode} 질문`}
+          title={data.title}
+          authorName={`${data.college} ${data.department}`}
+          createdAt={convertToDate(data.createdAt)}
         />
         <hr className="bg-[#E7E7E7]" />
         <Container>
           <section className="mb-10">
-            <ContentViewer content={posts.content} />
+            <ContentViewer content={data.content} />
           </section>
         </Container>
         <PostFooter
@@ -158,7 +202,7 @@ export default function QnaDetailPage() {
               />
             )}
             {/* 자치기구 댓글 */}
-            {posts.officialCommentList.map((comment) => {
+            {data.officialCommentList.map((comment) => {
               if ((lastUpdatedComment ?? -1) === comment.id && (isPatchCommentPending || isDeleteCommentPending)) {
                 return <PostComment.Skeleton key={comment.id} />;
               }
@@ -226,11 +270,10 @@ export default function QnaDetailPage() {
                   {!comment.isDeleted && replyCommentable && (
                     <div className="ml-8 mt-2">
                       {replyEditorOpenFor === comment.id ? (
-                        <PostReplyCommentEditor
+                        <PostCommentEditor
                           placeholder="대댓글 달기"
                           maxLength={2000}
-                          commentId={comment.id}
-                          onSubmit={handleSubmitReply}
+                          onSubmit={(content) => handleSubmitReply(comment.id, content)}
                           uploading={isSubmitReplyPending}
                           onCancel={() => setReplyEditorOpenFor(null)}
                         />

@@ -48,7 +48,7 @@ export function MainRouter() {
         {/* 5. 자료집 */}
         <Route path="/data" element={<i.DataPage />} />
         <Route path="/data/:id" element={<i.DataDetailPage />} />
-        <Route path="/data/edit" element={<i.DataEditPage />} />
+        <Route path="/data/:id?/edit" element={<i.DataEditPage />} />
         {/* 마이페이지 */}
         {/*마이페이지*/}
         <Route path="/mypage" element={<i.MyPage />} />

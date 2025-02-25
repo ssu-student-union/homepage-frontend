@@ -5,7 +5,7 @@ import { ApiResponse, QnaListData, QnaMajorCode, QnaMemberCode } from '../types'
 export interface QnaPostParams {
   page?: number;
   take?: number;
-  qnaMajorCode?: QnaMajorCode;
+  qnaMajorCode?: QnaMajorCode | '';
   qnaMemberCode?: QnaMemberCode;
   q?: string;
 }

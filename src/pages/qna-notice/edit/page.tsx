@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { Editor } from '@toast-ui/react-editor';
 import { cn } from '@/libs/utils.ts';
 import { ArticleHeader } from '@/containers/new/ArticleHeader';
@@ -12,13 +13,14 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { QnaPostForm } from './types';
 import { useQnaForm } from './form';
-import { useCreateQna } from '../hooks/useCreateQna';
+import { useCreateQnaPost } from '../hooks/useCreateQna';
 import { usePatchQna } from '../hooks/usePatchQna';
 import { useGetQnaDetail } from '../hooks/useGetQnaDetail';
 import { useGetUserInfoQna } from '../hooks/useGetUserInfoQna';
 import { qnaMemberCodeData } from '../collegesData';
 import { qnaMemberMajor } from '../collegesData';
-import { LoginCheckObject } from '../types';
+import { useRecoilValue } from 'recoil';
+import { LoginState } from '@/recoil/atoms/atom';
 
 function PageSkeleton() {
   return (
@@ -36,16 +38,28 @@ export default function QnaEditPage() {
   const postId = id ? parseInt(id ?? '') || undefined : undefined;
 
   // 사용자의 단과대 학과를 가져오기 위해 로그인 확인 후 유저 데이터 페칭
-  const isLoginStr = localStorage.getItem('recoil-persist');
-  const isLoginObj: LoginCheckObject = isLoginStr ? JSON.parse(isLoginStr) : { loginState: false };
-  const isLogin = isLoginObj.loginState;
+  const isLogin = useRecoilValue(LoginState);
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
   // form과 Editor 사용
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit, reset, setValue } = useQnaForm();
 
-  const { mutate: createQna, error: createError, isError: isCreateError, isPending: isCreatePending } = useCreateQna();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const {
+    mutate: createQna,
+    error: createError,
+    isError: isCreateError,
+    isPending: isCreatePending,
+  } = useCreateQnaPost({
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['qnaPostsList'] });
+      navigate(`/qna/${data.post_id}`);
+    },
+  });
+
   const { mutate: patchQna, error: patchError, isError: isPatchError, isPending: isPatchPending } = usePatchQna();
 
   // 단과대 선택에 따른 학과 선택 드롭다운 관리를 위해 단과대 선택 값 감시
@@ -54,7 +68,14 @@ export default function QnaEditPage() {
   // 수정의 경우 질문 대상 선택 불가 판정을 위해 state 사용
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const { data: detail, isError: isDetailError, error: detailError } = useGetQnaDetail(postId);
+  const {
+    data: detail,
+    isError: isDetailError,
+    error: detailError,
+  } = useGetQnaDetail({
+    postId: postId ?? 0,
+    queryOptions: { enabled: postId !== null },
+  });
 
   useEffect(() => {
     if (postId) {
@@ -63,23 +84,21 @@ export default function QnaEditPage() {
         return;
       }
 
-      const data = detail.postDetailResDto;
-
       reset({
-        title: data.title,
-        content: data.content,
-        category: data.category,
+        title: detail.title,
+        content: detail.content,
+        category: detail.category,
         isNotice: false,
         postFileList: [],
-        qnaMemberCode: data.college,
-        qnaMajorCode: data.department,
+        qnaMemberCode: detail.college,
+        qnaMajorCode: detail.department,
       });
 
-      setSelectedMember(data.college as keyof typeof qnaMemberMajor);
+      setSelectedMember(detail.college as keyof typeof qnaMemberMajor);
       setIsEdit(true);
 
       if (editorRef.current) {
-        editorRef.current!.getInstance().setMarkdown(data.content);
+        editorRef.current!.getInstance().setMarkdown(detail.content);
       }
     }
   }, [postId, reset, detail, isDetailError, detailError]);
@@ -128,13 +147,23 @@ export default function QnaEditPage() {
         postFileList: [],
       };
 
-      patchQna({ postId: postId, formData: patchData });
+      patchQna(
+        { id: postId, post: patchData },
+        {
+          onSuccess: (data) => {
+            queryClient
+              .invalidateQueries({ queryKey: ['qnaPostsList'] })
+              .then(() => queryClient.invalidateQueries({ queryKey: ['getPost', '질의응답게시판', data] }))
+              .then(() => navigate(`/qna/${data}`));
+          },
+        }
+      );
     } else {
       if (formData.qnaMajorCode === '총학생회') {
         formData.qnaMajorCode = '';
       }
 
-      createQna(formData);
+      createQna({ post: formData });
     }
   }
 
@@ -145,43 +174,61 @@ export default function QnaEditPage() {
       </ArticleHeader>
       <hr className="bg-[#E7E7E7]" />
       <Container>
-        <section className="mb-[17px]">
-          {/* 질문 대상 선택 드롭다운 */}
-          <select
-            {...register('qnaMemberCode')}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              setSelectedMember(e.target.value as keyof typeof qnaMemberMajor)
-            }
-            disabled={isEdit}
-          >
-            <option value="">질문 대상 선택</option>
-            {user.memberCode && <option value={user.memberCode}>{user.memberCode}</option>}
-            {qnaMemberCodeData
-              .filter((opt) => opt !== user.memberCode)
-              .map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-          </select>
-
-          {/* 세부 대상 선택 드롭다운 */}
-          <select {...register('qnaMajorCode')} disabled={selectedMember === undefined || isEdit}>
-            <option value="">세부 대상 선택</option>
-            {selectedMember === user.memberCode && user.majorCode && (
-              <option value={user.majorCode}>{user.majorCode}</option>
-            )}
-            {selectedMember &&
-              qnaMemberMajor[selectedMember]
-                .filter((opt) => opt !== user.majorCode)
+        {!isEdit && (
+          <section className="mb-[17px] flex justify-between">
+            {/* 질문 대상 선택 드롭다운 */}
+            <select
+              {...register('qnaMemberCode')}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                setSelectedMember(e.target.value as keyof typeof qnaMemberMajor)
+              }
+              className="
+              h-11 w-[49.5%] appearance-none
+              rounded-[0.5rem]
+              border border-gray-600  
+              bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat
+              text-center text-gray-800
+            "
+              disabled={isEdit}
+            >
+              <option value="">질문 대상 선택</option>
+              {user.memberCode && <option value={user.memberCode}>{user.memberCode}</option>}
+              {qnaMemberCodeData
+                .filter((opt) => opt !== user.memberCode)
                 .map((opt) => (
                   <option key={opt} value={opt}>
                     {opt}
                   </option>
                 ))}
-          </select>
-        </section>
+            </select>
 
+            {/* 세부 대상 선택 드롭다운 */}
+            <select
+              {...register('qnaMajorCode')}
+              className="
+            h-11 w-[49.5%] appearance-none
+            rounded-[0.5rem]
+            border border-gray-600  
+            bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat
+            text-center text-gray-800
+            "
+              disabled={selectedMember === undefined || isEdit}
+            >
+              <option value="">세부 대상 선택</option>
+              {selectedMember === user.memberCode && user.majorCode && (
+                <option value={user.majorCode}>{user.majorCode}</option>
+              )}
+              {selectedMember &&
+                qnaMemberMajor[selectedMember]
+                  .filter((opt) => opt !== user.majorCode)
+                  .map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+            </select>
+          </section>
+        )}
         <section className="mb-3">
           <Input id="title" type="text" placeholder="제목을 입력하세요." {...register('title')} className="mb-[17px]" />
 

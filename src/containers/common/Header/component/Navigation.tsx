@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { DATA_PATH, MENU_ITEMS } from '../const/pathData';
+import { DATA_PATH, MENU_ITEMS, QNA_PATH } from '../const/pathData';
 import { getStyles } from '../const/style';
 import { State } from '../const/state';
 import { cn } from '@/libs/utils';
@@ -47,9 +47,11 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
           </NavigationMenuItem>
         ))}
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => navigate('/qna')}>
-          <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
-            <p>질의응답게시판</p>
-          </NavigationMenuTrigger>
+          <NavigationMenuLink asChild>
+            <Link to={`${QNA_PATH}`} className={cn(styles.headerItemStyle)}>
+              질의응답게시판
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">

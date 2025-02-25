@@ -5,8 +5,9 @@ import { PostContent } from '@/components/PostContent/PostContent';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { QnaPostParams, useGetQnaList } from './hooks/useGetQnaList';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { LoginCheckObject, QnaMajorCode, QnaMemberCode } from './types';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { LoginState } from '@/recoil/atoms/atom';
+import { QnaMajorCode, QnaMemberCode } from './types';
 import { SearchState } from '@/recoil/atoms/atom';
 import { convertToDateOnly } from './utils/convertToDateOnly';
 import { qnaMajorCodesData, qnaMemberCodeData } from './collegesData';
@@ -84,15 +85,13 @@ export function QnApage() {
   const [q] = useRecoilState(SearchState);
 
   // 페이지를 렌더링할 때 로그인을 했는지 확인하고 했을 경우 유저 데이터를 불러온다.
-  const isLoginStr = localStorage.getItem('recoil-persist');
-  const isLoginObj: LoginCheckObject = isLoginStr ? JSON.parse(isLoginStr) : { loginState: false };
-  const isLogin = isLoginObj.loginState;
+  const isLogin = useRecoilValue(LoginState);
 
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
   // 유저 데이터가 있다면 qnaMemberCode와 qnaMajorCode에 그 값을 추가해 준다.
   const qnaMemberCode: QnaMemberCode = isLogin && user && user.memberCode !== '총학생회' ? user.memberCode : '';
-  const qnaMajorCode: QnaMajorCode = isLogin && user && user.majorCode ? user.majorCode : '';
+  const qnaMajorCode: QnaMajorCode | '' = isLogin && user && user.majorCode ? user.majorCode : '';
 
   const queryParamsForList = buildQnaPostParams({
     page: page - 1,

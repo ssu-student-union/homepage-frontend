@@ -21,10 +21,10 @@ export function useCreateQnaReply(postId: number) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['qnaComments', postId],
+        queryKey: ['getComments', postId],
       });
       queryClient.invalidateQueries({
-        queryKey: ['qnaPostDetail', postId],
+        queryKey: ['getPost', postId],
       });
     },
   });
