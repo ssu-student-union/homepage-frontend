@@ -40,7 +40,7 @@ function postTransformer({ postId, category, title, fileResponseList, content }:
     title,
     category,
     postFileList: fileResponseList.map((file) => file.postFileId),
-    notice: false,
+    isNotice: false,
     content,
   };
 }
@@ -80,7 +80,7 @@ export default function DataEditPage() {
     formState: { errors },
   } = useDataForm({
     category: '',
-    notice: false,
+    isNotice: category === '총학생회칙',
     postFileList: [],
   });
 
