@@ -57,7 +57,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
   md:w-full md:justify-end lg:w-full lg:justify-end"
       >
         <TranslateButton
-          className={state === State.Logout ? '' : 'bg-white text-black hover:bg-gray-50'}
+          className={cn(state === State.Onboarding && 'bg-white text-black hover:bg-gray-50')}
           onToggleLanguage={handleToggleLanguage}
         />
         <AuthButton state={state} onLogout={onLogout} />

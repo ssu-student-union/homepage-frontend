@@ -7,19 +7,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { departments, faculties } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
-import { LoginSchemaRegister, LoginSchemaScoucil, LoginScoucilType, LoginType } from './ZodCheck';
+import { LoginSchemaRegister, LoginSchemaScoucil, LoginScoucilType, LoginType } from '../types/onboardingZodCheck';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
+import ChannelTalkFloating from '@/components/Floating/ChannelTalkFloating';
+import { cn } from '@/libs/utils';
+import { useTranslation } from 'react-i18next';
 
 interface LoginFormProps {
   subSection1: string;
-  buttonSection: string;
 }
 
-export function GeneralRegisterSection({ subSection1, buttonSection }: LoginFormProps) {
+export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { sort } = useParams();
+  const { t, i18n } = useTranslation();
+  const isEn = i18n.language === 'en';
 
   const isScouncilPath = location.pathname === '/register/scouncil';
 
@@ -139,13 +143,21 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
         navigate('/');
         setLoginState(true);
       } else {
-        alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');
+        alert(
+          isEn
+            ? 'Login information does not match. Please try again.'
+            : '로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'
+        );
         setScoucilError(true);
       }
     } catch (error) {
       setScoucilError(true);
       console.error('Error submitting form:', error);
-      alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');
+      alert(
+        isEn
+          ? 'Login information does not match. Please try again.'
+          : '로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'
+      );
     } finally {
       setIsButtonDisabled(false);
     }
@@ -156,160 +168,173 @@ export function GeneralRegisterSection({ subSection1, buttonSection }: LoginForm
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="flex w-full max-w-md flex-col items-center justify-center p-4">
-        <div className="pb-8 text-[1.4rem] font-bold not-italic leading-[normal] text-[rgb(0,0,0)] xs:text-[1.25rem]">
-          {subSection1}
+    <>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="flex w-full max-w-md flex-col items-center justify-center p-4">
+          <div className="pb-8 text-[1.4rem] font-bold not-italic leading-[normal] text-[rgb(0,0,0)] xs:text-[1.25rem]">
+            {subSection1}
+          </div>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            {isScouncilPath ? (
+              <>
+                <Input
+                  type="text"
+                  placeholder={t('onboarding.아이디')}
+                  className={cn(
+                    'w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
+                  )}
+                  {...register('accountId', {
+                    required: t('onboarding.아이디는 필수 입력입니다'),
+                  })}
+                  aria-invalid={isSubmitted ? (errors.accountId ? 'true' : 'false') : undefined}
+                />
+                <div className="mt-3"></div>
+                {errors.accountId && (
+                  <small className="text-[13px] text-red-600">
+                    {(errors.accountId as { message?: string }).message || 'Error occurred'}
+                  </small>
+                )}
+                <Input
+                  type="password"
+                  placeholder={t('onboarding.비밀번호')}
+                  className={cn(
+                    'mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
+                  )}
+                  {...register('password', {
+                    required: t('onboarding.비밀번호는 필수 입력입니다'),
+                  })}
+                  aria-invalid={isSubmitted ? (errors.password ? 'true' : 'false') : undefined}
+                />
+                <div className="mt-3"></div>
+                {errors.password && (
+                  <small className=" text-[13px] text-red-600">
+                    {' '}
+                    {(errors.password as { message?: string }).message || 'Error occurred'}
+                  </small>
+                )}
+              </>
+            ) : (
+              <>
+                <Input
+                  type="text"
+                  placeholder={t('onboarding.이름')}
+                  className={cn(
+                    'h-[54px] xs:w-full xs:rounded-xs xs:px-[1rem] xs:py-[0.1rem] sm:w-full sm:px-[1rem] sm:py-[0.1rem]'
+                  )}
+                  {...register('name', {
+                    required: t('onboarding.이름은 필수 입력입니다'),
+                  })}
+                  aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
+                />
+                <div className="mt-3"></div>
+                {errors.name?.message && (
+                  <small className=" text-[13px] text-red-600">
+                    {' '}
+                    {(errors.name as { message?: string }).message || 'Error occurred'}
+                  </small>
+                )}
+                <Input
+                  type="text"
+                  placeholder={t('onboarding.학번')}
+                  className={cn('mt-4 h-[54px] xs:w-full xs:rounded-xs sm:w-full sm:py-[0.1rem]')}
+                  {...register('studentId', {
+                    required: t('onboarding.학번은 필수 입력입니다'),
+                  })}
+                  aria-invalid={isSubmitted ? (errors.studentId ? 'true' : 'false') : undefined}
+                />
+                <div className="mt-3"></div>
+                {errors.studentId?.message && (
+                  <small className=" text-[13px] text-red-600">
+                    {' '}
+                    {(errors.studentId as { message?: string }).message || 'Error occurred'}
+                  </small>
+                )}
+              </>
+            )}
+
+            {showSelects && (
+              <>
+                <div className="mt-4"></div>
+                <Select
+                  {...register('memberCode', {
+                    required: t('onboarding.옵션을 선택해 주세요'),
+                  })}
+                  onValueChange={(value) => {
+                    setValue('memberCode', value);
+                    setSelectedFaculty(value);
+                  }}
+                  value={formValues.memberCode || ''}
+                >
+                  <SelectTrigger
+                    className={cn(
+                      `min-h-[46px] w-full rounded-xs border-gray-500 px-[20px] py-[26px] text-sm font-medium ${
+                        formValues.memberCode ? 'font-semibold text-black' : 'text-[#9CA3AF]'
+                      }`
+                    )}
+                  >
+                    <SelectValue placeholder={t('onboarding.단과대 선택')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {faculties.map((faculty) => (
+                      <SelectItem className={cn('py-3')} key={faculty} value={faculty}>
+                        {t(`faculties.${faculty}`)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <div className="mt-4"></div>
+                <Select
+                  {...register('majorCode', {
+                    required: t('onboarding.학과/부를 선택해 주세요'),
+                  })}
+                  onValueChange={(value) => {
+                    setValue('majorCode', value);
+                  }}
+                  value={formValues.majorCode || ''}
+                  disabled={!selectedFaculty}
+                >
+                  <SelectTrigger
+                    className={`min-h-[46px] w-full rounded-xs border-gray-500 px-[20px] py-[26px] text-sm font-medium`}
+                  >
+                    <SelectValue placeholder={t('onboarding.학과/부 선택')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(departments[selectedFaculty] || []).map((department) => (
+                      <SelectItem className={cn('py-3')} key={department} value={department}>
+                        {t(`departments.${department}`)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </>
+            )}
+
+            {scoucilError && (
+              <>
+                <div className="mt-[10px] text-xs font-medium text-red-600">
+                  {t('onboarding.입력하신 정보가 올바르지 않습니다')}
+                </div>
+              </>
+            )}
+            <Button
+              type="submit"
+              disabled={isSubmitting || isButtonDisabled}
+              variant="default"
+              size="default"
+              className={`mt-4 w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
+            >
+              {t('onboarding.입력 완료')}
+            </Button>
+          </form>
+
+          {!isScouncilPath && (
+            <button onClick={handleCertifyError} className="mt-[117px] text-lg font-normal text-gray-500">
+              {t('onboarding.학생인증이 안 되시나요?')}
+            </button>
+          )}
         </div>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          {isScouncilPath ? (
-            <>
-              <Input
-                type="text"
-                placeholder="아이디"
-                className="w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]"
-                {...register('accountId', {
-                  required: '아이디는 필수 입력입니다.',
-                })}
-                aria-invalid={isSubmitted ? (errors.accountId ? 'true' : 'false') : undefined}
-              />
-              <div className="mt-3"></div>
-              {errors.accountId && (
-                <small className="text-[13px] text-red-600">
-                  {(errors.accountId as { message?: string }).message || 'Error occurred'}
-                </small>
-              )}
-              <Input
-                type="password"
-                placeholder="비밀번호"
-                className="mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]"
-                {...register('password', {
-                  required: '비밀번호는 필수 입력입니다.',
-                })}
-                aria-invalid={isSubmitted ? (errors.password ? 'true' : 'false') : undefined}
-              />
-              <div className="mt-3"></div>
-              {errors.password && (
-                <small className=" text-[13px] text-red-600">
-                  {' '}
-                  {(errors.password as { message?: string }).message || 'Error occurred'}
-                </small>
-              )}
-            </>
-          ) : (
-            <>
-              <Input
-                type="text"
-                placeholder="이름"
-                className="w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]"
-                {...register('name', {
-                  required: '이름은 필수 입력입니다.',
-                })}
-                aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
-              />
-              <div className="mt-3"></div>
-              {errors.name?.message && (
-                <small className=" text-[13px] text-red-600">
-                  {' '}
-                  {(errors.name as { message?: string }).message || 'Error occurred'}
-                </small>
-              )}
-              <Input
-                type="text"
-                placeholder="학번"
-                className="mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]"
-                {...register('studentId', {
-                  required: '학번은 필수 입력입니다.',
-                })}
-                aria-invalid={isSubmitted ? (errors.studentId ? 'true' : 'false') : undefined}
-              />
-              <div className="mt-3"></div>
-              {errors.studentId?.message && (
-                <small className=" text-[13px] text-red-600">
-                  {' '}
-                  {(errors.studentId as { message?: string }).message || 'Error occurred'}
-                </small>
-              )}
-            </>
-          )}
-
-          {showSelects && (
-            <>
-              <div className="mt-4"></div>
-              <Select
-                {...register('memberCode', {
-                  required: '옵션을 선택해 주세요.',
-                })}
-                onValueChange={(value) => {
-                  setValue('memberCode', value);
-                  setSelectedFaculty(value);
-                }}
-                value={formValues.memberCode || ''}
-              >
-                <SelectTrigger
-                  className={`min-h-[46px] w-full border-gray-500 px-[20px] py-[26px] text-sm font-medium ${
-                    formValues.memberCode ? 'font-semibold text-black' : 'text-[#9CA3AF]'
-                  }`}
-                >
-                  <SelectValue placeholder="단과대 선택" />
-                </SelectTrigger>
-                <SelectContent>
-                  {faculties.map((faculty) => (
-                    <SelectItem key={faculty} value={faculty}>
-                      {faculty}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <div className="mt-4"></div>
-              <Select
-                {...register('majorCode', {
-                  required: '학과/부를 선택해 주세요.',
-                })}
-                onValueChange={(value) => {
-                  setValue('majorCode', value);
-                }}
-                value={formValues.majorCode || ''}
-                disabled={!selectedFaculty}
-              >
-                <SelectTrigger
-                  className={`min-h-[46px] w-full border-gray-500 px-[20px] py-[26px] text-sm font-medium`}
-                >
-                  <SelectValue placeholder="학과/부 선택" />
-                </SelectTrigger>
-                <SelectContent>
-                  {(departments[selectedFaculty] || []).map((department) => (
-                    <SelectItem key={department} value={department}>
-                      {department}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </>
-          )}
-
-          {scoucilError && (
-            <>
-              <div className="mt-[10px] text-xs font-medium text-red-600">입력하신 정보가 올바르지 않습니다</div>
-            </>
-          )}
-          <Button
-            type="submit"
-            disabled={isSubmitting || isButtonDisabled}
-            variant="default"
-            size="default"
-            className={`mt-4 w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
-          >
-            {buttonSection}
-          </Button>
-        </form>
-
-        {!isScouncilPath && (
-          <button onClick={handleCertifyError} className="mt-[117px] text-lg font-normal text-gray-500">
-            학생인증이 안 되시나요?
-          </button>
-        )}
       </div>
-    </div>
+      <ChannelTalkFloating className="fixed bottom-10 right-10 z-50" />
+    </>
   );
 }
