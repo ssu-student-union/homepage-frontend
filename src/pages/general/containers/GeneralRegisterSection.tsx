@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { departments, faculties } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
-import { LoginSchemaRegister, LoginSchemaScoucil, LoginScoucilType, LoginType } from './ZodCheck';
+import { LoginSchemaRegister, LoginSchemaScoucil, LoginScoucilType, LoginType } from '../types/onboardingZodCheck';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
 import ChannelTalkFloating from '@/components/Floating/ChannelTalkFloating';
