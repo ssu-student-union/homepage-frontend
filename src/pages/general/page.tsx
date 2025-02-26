@@ -4,7 +4,7 @@ import { CertifyErrorSection } from '@/pages/general/containers/CertifyErrorSect
 import { CertifyApplySection } from './containers/CertifyApplySection';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
-import { TOSSection } from './containers/TOSSectioin';
+import { TOSSection } from './containers/TOSSection';
 import { useTranslation } from 'react-i18next';
 
 export function GeneralRegisterPage() {
