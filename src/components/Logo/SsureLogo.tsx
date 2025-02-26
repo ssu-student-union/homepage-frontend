@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import SsureLogo from '@/assets/image/logo/ssure_white_logo.svg?react';
-
-export function Logo({ className }: { className?: string }) {
-  return <SsureLogo className={`h-full w-full ${className}`} />;
-}
-=======
 import LogoSvg from '@/assets/image/logo/ssure_logo.svg?react';
 import DarkLogoSvg from '@/assets/image/logo/ssure_logo_dark.svg?react';
 import { cn } from '@/libs/utils';
@@ -18,4 +11,3 @@ export default function SsureLogo({ className }: React.SVGProps<SVGSVGElement>) 
 SsureLogo.Dark = ({ className }: React.SVGProps<SVGSVGElement>) => {
   return <DarkLogoSvg className={cn(className)} />;
 };
->>>>>>> develop

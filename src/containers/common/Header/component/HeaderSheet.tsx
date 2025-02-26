@@ -96,15 +96,6 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
               </div>
             ))}
             <div
-<<<<<<< HEAD
-              onClick={() => window.open(import.meta.env.VITE_TEMP_DATA_URL, '_blank')}
-              className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-            >
-              자료집
-            </div>
-            <a
-              href={`https://ssuketch60.cafe24.com/`}
-=======
               onClick={() => {
                 setIsOpen(false);
                 navigate('/qna');
@@ -121,7 +112,6 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
             </div>
             {/* <a
               href={OLD_URL}
->>>>>>> develop
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
               onClick={() => setIsOpen(false)}
             >

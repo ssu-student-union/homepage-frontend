@@ -46,23 +46,12 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
             </NavigationMenuContent>
           </NavigationMenuItem>
         ))}
-<<<<<<< HEAD
-        {/*자료집 임시 제거*/}
-        <NavigationMenuItem
-          className="relative h-full min-w-fit text-[20px]"
-          onClick={() => window.open(import.meta.env.VITE_TEMP_DATA_URL, '_blank')}
-        >
-          <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
-            <p>자료집</p>
-          </NavigationMenuTrigger>
-=======
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => navigate('/qna')}>
           <NavigationMenuLink asChild>
             <Link to={`${QNA_PATH}`} className={cn(styles.headerItemStyle, textSize)}>
               {t('header.질의응답게시판')}
             </Link>
           </NavigationMenuLink>
->>>>>>> develop
         </NavigationMenuItem>
 
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">

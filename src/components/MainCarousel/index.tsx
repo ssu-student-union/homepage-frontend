@@ -5,12 +5,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useRecoilValue } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
-<<<<<<< HEAD
-import { Logo } from '../Logo/SsureLogo';
-=======
 import SsureLogo from '../Logo/SsureLogo';
 import { useTranslation } from 'react-i18next';
->>>>>>> develop
 
 const CounterItem = ({ isActive }: { isActive: boolean }) => (
   <span className={`block h-[7px] w-[45px] rounded-[15px] ${isActive ? 'bg-[#B8B8B8]' : 'bg-[#E4E4E4]'}`} />
@@ -59,14 +55,8 @@ const MainCarousel = ({ id }: { id: string }) => {
       </Slider>
 
       <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white">
-<<<<<<< HEAD
-        <div className="pointer-events-auto text-xl font-bold">제65대 총학생회</div>
-        <h1 className="pointer-events-auto text-[80px] font-black leading-none"></h1>
-        <Logo className="pointer-events-auto h-[97.92px] w-[310.62px] xs:h-[57.8px] xs:w-[165.65px] sm:h-[57.8px] sm:w-[165.65px]" />
-=======
         <div className="pointer-events-auto text-xl font-bold">{t('main.제65대 총학생회')}</div>
         <SsureLogo className="h-[97.92px] w-[310.62px]" />
->>>>>>> develop
         {!isLogin && (
           <button
             onClick={(e) => {

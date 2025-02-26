@@ -48,11 +48,6 @@ const NoticeSection = () => {
       <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
         {data?.data.pageInfo.totalElements ? (
           <>
-<<<<<<< HEAD
-            {/* xs, sm, md */}
-            {width < 1080 && (
-              <div className="scrollbar-hide flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
-=======
             {/* xs, sm */}
             {width >= 360 && width < 720 && (
               <div className="mx-auto flex w-[90vw] flex-col justify-center gap-[16px] pb-[16px] pt-[0.625rem]">
@@ -80,7 +75,6 @@ const NoticeSection = () => {
             {/*  md */}
             {width >= 720 && width < 1080 && (
               <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[16px] pb-[16px] pt-[0.625rem]">
->>>>>>> develop
                 {data?.data.postListResDto.slice(0, 2).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -103,11 +97,7 @@ const NoticeSection = () => {
 
             {/* lg */}
             {width >= 1080 && width < 1440 && (
-<<<<<<< HEAD
-              <div className="scrollbar-hide flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
-=======
               <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[18px] pb-[16px] pt-[0.625rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
->>>>>>> develop
                 {data?.data.postListResDto.slice(0, 3).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -130,13 +120,8 @@ const NoticeSection = () => {
 
             {/* xl, xxl */}
             {width >= 1440 && (
-<<<<<<< HEAD
-              <div className="scrollbar-hide flex w-[calc(100dvw-3.125rem)] items-start justify-start gap-[1.063rem] overflow-x-scroll pl-0 pr-[1.063rem] pt-[0.625rem] lg:px-[11.0rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
-                {data?.data.postListResDto.slice(0, 4).map((notice) => {
-=======
               <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[26px] pb-[16px] pt-[0.625rem] ">
                 {data?.data.postListResDto.slice(0, 3).map((notice) => {
->>>>>>> develop
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
                     thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
