@@ -48,8 +48,8 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
         ))}
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => navigate('/qna')}>
           <NavigationMenuLink asChild>
-            <Link to={`${QNA_PATH}`} className={cn(styles.headerItemStyle)}>
-              질의응답게시판
+            <Link to={`${QNA_PATH}`} className={cn(styles.headerItemStyle, textSize)}>
+              {t('header.질의응답게시판')}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

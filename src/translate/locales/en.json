@@ -8,11 +8,13 @@
     "자료집": "Data Archive",
     "이전 홈페이지": "Previous Website",
     "로그인": "Sign in",
-    "로그아웃": "Sign out"
+    "로그아웃": "Sign out",
+    "질의응답게시판": "Q&A Board"
   },
   "main": {
     "제65대 총학생회": "65th Student Council",
-    "로그인하러 가기": "Sign in"
+    "로그인하러 가기": "Sign in",
+    "더 알아보기": "Learn More"
   },
   "header-items": {
     "총학생회": "Student Council",
@@ -49,7 +51,8 @@
     "건의게시판": "Suggestion Board",
     "인권신고게시판": "Human Rights Report Board",
     "마이페이지": "My Page",
-    "인기청원": "Trending Petitions"
+    "인기청원": "Trending Petitions",
+    "질의응답게시판": "Q&A Board"
   },
   "board-navigator": {
     "총학생회": "Student Council",

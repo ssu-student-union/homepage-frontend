@@ -3,11 +3,13 @@ import { Button } from '@/components/ui/button';
 import { useResize } from '@/hooks/useResize';
 import { useGetQnaList } from '@/pages/qna-notice/hooks/useGetQnaList';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 export default function QnaSection() {
   const { width } = useResize();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     data: qnaData,
@@ -30,7 +32,7 @@ export default function QnaSection() {
   return (
     <section className="w-full whitespace-nowrap">
       <div className="flex items-center">
-        <h1 className="text-[2rem] font-bold xs:text-lg sm:text-lg">질의응답게시판</h1>
+        <h1 className="text-[2rem] font-bold xs:text-lg sm:text-lg">{t('introduction.질의응답게시판')}</h1>
       </div>
       <Spacing size={8} direction="vertical" />
       <p className="text-[20px] font-medium text-gray-500 xs:text-[14px] sm:text-[14px]">
@@ -151,7 +153,7 @@ export default function QnaSection() {
               xs:h-[30px] xs:w-[87px] xs:text-[12px] 
               sm:h-[30px] sm:w-[87px] sm:text-[12px]"
         >
-          더 알아보기
+          {t('main.더 알아보기')}
         </Button>
       </div>
     </section>
