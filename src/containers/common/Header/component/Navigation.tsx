@@ -34,13 +34,12 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
           </NavigationMenuItem>
         ))}
         {/*자료집 임시 제거*/}
-        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => window.open(import.meta.env.VITE_TEMP_DATA_URL, '_blank')}>
+        <NavigationMenuItem
+          className="relative h-full min-w-fit text-[20px]"
+          onClick={() => window.open(import.meta.env.VITE_TEMP_DATA_URL, '_blank')}
+        >
           <NavigationMenuTrigger isData={true} className={cn(styles.headerItemStyle)}>
-          <p
-  
->
-  자료집
-</p>
+            <p>자료집</p>
           </NavigationMenuTrigger>
         </NavigationMenuItem>
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
