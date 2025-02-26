@@ -15,7 +15,7 @@ export const majorOptions: string[] = [
   '융합특성화자유전공학부',
   '차세대반도체학과',
   '동아리연합회',
-] as const;
+];
 // 중분류
 export const middleOptions: Record<string, string[]> = {
   총학생회: ['학생총회', '전체학생대표자회의', '확대운영위원회', '중앙운영위원회', '중앙집행위원회', '특별기구'],
@@ -163,7 +163,7 @@ export const minorOptions: Record<string, string[]> = {
   융합특성화자유전공학부: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '선거시행세칙'],
   차세대반도체학과: ['회칙·세칙', '회의록', '예·결산안', '활동보고'],
   동아리연합회: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '대표자회의 결과보고'],
-} as const;
+};
 
 // 카테고리
 interface UserCategories {
@@ -215,7 +215,7 @@ export const userCategories: UserCategories = {
   융합특성화자유전공학부: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '대표자회의 결과보고'],
   동아리연합회: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '대표자회의 결과보고'],
   이외학과부: ['회칙·세칙', '회의록', '예·결산안', '활동보고'],
-} as const;
+};
 
 // 파일종류
 interface UserFileCategories extends UserCategories {}
@@ -303,4 +303,4 @@ export const userFileCategories: UserFileCategories = {
   미디어경영학과: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '자료'],
   자율전공학부: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '자료'],
   차세대반도체학과: ['회칙·세칙', '회의록', '예·결산안', '활동보고', '자료'],
-} as const;
+};
