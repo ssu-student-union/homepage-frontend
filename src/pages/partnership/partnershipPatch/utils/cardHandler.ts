@@ -1,7 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction } from 'react-router-dom';
 
-export const handleCardClick = (id: string, postId: number, thumbnailImage: string | undefined) => {
-  const navigate = useNavigate();
-
+export const handleCardClick = (navigate: NavigateFunction, id: string, postId: number, thumbnailImage?: string) => {
   navigate(`/partnership/${id}`, { state: { postId, thumbnailImage } });
 };

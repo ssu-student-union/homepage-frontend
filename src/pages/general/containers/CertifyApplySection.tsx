@@ -4,8 +4,9 @@ import { Input } from '@/components/ui/input';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchemaCertify, LoginCertifyType } from './ZodCheck';
+import { LoginSchemaCertify, LoginCertifyType } from '../types/onboardingZodCheck';
 import { postOnboardingMail } from '@/apis/postOnboardingMail'; // Import the postOnboardingMail function
+import { AxiosError } from 'axios';
 
 export function CertifyApplySection() {
   const {
@@ -52,16 +53,18 @@ export function CertifyApplySection() {
 
       alert('문의내용이 확인되었습니다.');
       navigate('/register/errorcheck');
-    } catch (error: any) {
-      // Added type `any` to handle any error shape
-      if (error.response) {
-        console.error('Server error response:', error.response.status, error.response.data);
-        alert(`서버 오류 발생: ${error.response.data.message || '문의 내용을 전송하는데 실패했습니다.'}`);
-      } else if (error.request) {
-        console.error('No response received:', error.request);
-        alert('서버로부터 응답을 받을 수 없습니다.');
+    } catch (error: unknown) {
+      // ✅ `unknown` 타입으로 설정 후, `instanceof`로 `AxiosError` 확인
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.error('Server error response:', error.response.status, error.response.data);
+          alert(`서버 오류 발생: ${error.response.data.message || '문의 내용을 전송하는데 실패했습니다.'}`);
+        } else if (error.request) {
+          console.error('No response received:', error.request);
+          alert('서버로부터 응답을 받을 수 없습니다.');
+        }
       } else {
-        console.error('Error setting up request:', error.message);
+        console.error('Error setting up request:', (error as Error).message);
         alert('문의 내용을 전송하는데 문제가 발생했습니다.');
       }
     }

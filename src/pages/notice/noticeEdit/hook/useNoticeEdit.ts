@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
 import { handleFileLists } from '../utils/fileHandler';
+import { File as Data } from '@/types/apis/post';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function useNoticeEdit() {
   const navigate = useNavigate();
@@ -13,7 +15,12 @@ export function useNoticeEdit() {
   const [isUrgent, setIsUrgent] = useState<boolean>(false);
 
   const { mutateAsync: uploadFiles } = usePostBoardFiles();
-  const { mutateAsync: createPost, isLoading }: any = usePostBoardPosts();
+  const { mutateAsync: createPost, isPending } = usePostBoardPosts();
+
+  const queryClient = useQueryClient();
+
+  const NOTICE_BOARD_CODE = '공지사항게시판';
+  const SERVICE_NOTICE_BOARD_CODE = '서비스공지사항';
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -66,7 +73,66 @@ export function useNoticeEdit() {
         },
       });
 
+      queryClient.invalidateQueries({
+        queryKey: ['get-board-boardCode-posts-search', NOTICE_BOARD_CODE],
+      });
+
       navigate(`/notice?category=central&sub-category=all`);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleServiceSubmit = async () => {
+    try {
+      if (!title.trim()) {
+        alert('제목을 입력해주세요.');
+        return;
+      }
+      if (!content.trim()) {
+        alert('내용을 입력해주세요.');
+        return;
+      }
+
+      let uploadResponse = null;
+      let postFiles: Data[] = [];
+      let thumbnailUrl: string | null = null;
+
+      if (images.length > 0) {
+        uploadResponse = await uploadFiles({
+          boardCode: '서비스공지사항',
+          files,
+          images,
+        });
+
+        postFiles = uploadResponse.data.data.postFiles;
+        thumbnailUrl = uploadResponse.data.data.thumbnailUrl;
+      }
+
+      const postFileList = handleFileLists(postFiles);
+
+      const groupCodeList: string[] = JSON.parse(localStorage.getItem('groupCodeList') ?? 'null') ?? [''];
+
+      const createPostResponse = await createPost({
+        boardCode: '서비스공지사항',
+        post: {
+          title,
+          content,
+          groupCode: groupCodeList[0],
+          memberCode: localStorage.getItem('memberName'),
+          thumbNailImage: thumbnailUrl,
+          isNotice: isUrgent,
+          postFileList,
+        },
+      });
+
+      const postId = createPostResponse?.data.post_id;
+
+      queryClient.invalidateQueries({
+        queryKey: ['get-board-boardCode-posts', SERVICE_NOTICE_BOARD_CODE],
+      });
+
+      navigate(`/service-notice/${postId}`);
     } catch (e) {
       console.error(e);
     }
@@ -83,6 +149,7 @@ export function useNoticeEdit() {
     handleContentChange,
     handleUrgentChange,
     handleSubmit,
-    isLoading,
+    handleServiceSubmit,
+    isPending,
   };
 }

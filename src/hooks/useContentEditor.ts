@@ -2,9 +2,9 @@ import { RefObject, useRef, useState } from 'react';
 import { EditorType, HookMap, PreviewStyle } from '@toast-ui/editor';
 import { Editor } from '@toast-ui/react-editor';
 import { clientAuth } from '@/apis/client.ts';
-import { PostFileResponse, UploadFilesResponse } from '@/pages/human-rights/hooks/mutations/useUploadFiles.ts';
-import { ApiResponse } from '@/pages/human-rights/hooks/useStuQuery.ts';
-import { FileResponse } from '@/types/apis/get';
+import { PostFileResponse, UploadFilesResponse } from '@/hooks/new/mutations/useUploadFiles.ts';
+import { ApiResponse } from '@/hooks/new/useStuQuery.ts';
+import { FileResponse } from '@/schemas/post';
 
 interface UseContentEditorReturn {
   register: {

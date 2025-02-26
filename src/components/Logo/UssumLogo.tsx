@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+// 제64대 학생회 USSUM의 로고 컴포넌트입니다.
+
+>>>>>>> develop
 export function UssumLogo({ fill = '#ffffff', size = '32px' }: { fill?: string; size?: string }) {
   return (
     <svg

@@ -1,13 +1,15 @@
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/libs/utils';
+import { HTMLAttributes } from 'react';
 
-interface FilterDropDownProps extends React.HTMLAttributes<HTMLDivElement> {
-  defaultValue: string;
-  optionValue: string[];
+// 카테고리 선택을 위한 컴포넌트입니다.
+
+interface FilterDropDownProps extends HTMLAttributes<HTMLDivElement> {
+  defaultValue?: string; // 디폴트 값
+  optionValue: string[]; // 카테고리 목록
   onValueChange: (value: string) => void;
-  value: string;
-  mainTextStyle?: string;
-  itemStyle?: string;
+  value?: string;
+  itemStyle?: string; // item 스타일
 }
 
 export function FilterDropDown({
@@ -16,7 +18,7 @@ export function FilterDropDown({
   optionValue,
   onValueChange,
   value,
-  itemStyle = '',
+  itemStyle,
 }: FilterDropDownProps) {
   const isSelected = !!value;
 

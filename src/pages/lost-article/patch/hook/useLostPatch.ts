@@ -19,7 +19,7 @@ export function useLostPatch() {
     postDetail?.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
   const [thumbnailImage, setThumbnailImage] = useState<string>(imageList[0] ?? '');
 
-  const { mutateAsync: patchPost, isLoading }: any = usePatchBoardPosts();
+  const { mutateAsync: patchPost, isPending } = usePatchBoardPosts();
 
   const handleTitleChange = (newTitle: string) => {
     setTitle(newTitle);
@@ -65,6 +65,6 @@ export function useLostPatch() {
     handleContentChange,
     setThumbnailImage,
     handleSubmit,
-    isLoading,
+    isPending,
   };
 }

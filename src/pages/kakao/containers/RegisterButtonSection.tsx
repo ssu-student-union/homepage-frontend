@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { KakaoButton } from '@/components/Logo/KakaoButton';
+import { KakaoButton } from '@/components/Buttons/KakaoButton';
 import { baseUrl } from '@/pages/kakao/containers/const/data';
+import { useTranslation } from 'react-i18next';
 
 const rest_api_key = import.meta.env.VITE_REST_API_KEY;
 const redirect_uri = import.meta.env.VITE_REDIRECT_URI;
@@ -13,6 +14,7 @@ const handleLogin = () => {
 };
 
 export function RegisterButtonSection() {
+  const { t } = useTranslation();
   return (
     <div
       style={{
@@ -24,14 +26,14 @@ export function RegisterButtonSection() {
       }}
     >
       <div className="flex flex-col items-center text-center">
-        <h1 className="mb-[-10px] text-xs font-normal">제64대 총학생회</h1>
-        <h1 className="text-[56px] font-bold">US:SUM</h1>
+        <h1 className="mb-[-10px] text-xs font-normal">{t('onboarding.제65대 총학생회')}</h1>
+        <h1 className="text-[56px] font-bold">S:SURE</h1>
         <div onClick={handleLogin}>
           <KakaoButton />
         </div>
         <Link to={'/register/scouncil'}>
           <div className="mt-[20px] text-[12px] font-medium not-italic leading-[130%] text-[#828282] underline">
-            학생자치기구 로그인
+            {t('onboarding.학생자치기구 로그인')}
           </div>
         </Link>
       </div>
