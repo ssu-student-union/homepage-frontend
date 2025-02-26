@@ -16,7 +16,7 @@ const CampusMapSection = () => {
   return (
     <>
       <div className="flex items-center justify-start">
-        <h1 className="text-[2rem] font-bold xs:text-[18px] sm:text-[18px]">{t('title.캠퍼스맵')}</h1>
+        <h1 className="text-[2rem] font-bold xs:text-[18px] sm:text-[18px]">{t('introduction.캠퍼스맵')}</h1>
         {/* <ArrowUpRight
           onClick={() => {
             navigate(`/campus`);

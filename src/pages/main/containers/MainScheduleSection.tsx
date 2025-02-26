@@ -2,7 +2,9 @@ import { useVeritasDay } from '../hook/useVeritas';
 
 export function MainScheduleSection({ id }: { id: string }) {
   const targetDate = '2025-03-04T00:00:00+09:00';
-  const daysLeft = useVeritasDay(targetDate);
+  const day = useVeritasDay(targetDate);
+
+  const formattedDay = day >= 0 ? `D-${day}` : `D+${Math.abs(day)}`;
 
   return (
     <div id={id} className="h-[90px] w-full bg-primary text-primary-foreground xs:h-[71px] sm:h-[71px]">
@@ -34,7 +36,7 @@ export function MainScheduleSection({ id }: { id: string }) {
           xl:text-4xl 
           xxl:text-4xl"
         >
-          {`D-${daysLeft}`}
+          {formattedDay}
         </h1>
       </div>
     </div>

@@ -102,7 +102,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
               }}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
             >
-              질의응답게시판
+              {t('header.질의응답게시판')}
             </div>
             <div
               onClick={() => navigate(DATA_PATH)}

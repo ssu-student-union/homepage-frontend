@@ -150,7 +150,7 @@ const NoticeSection = () => {
               xs:mx-auto xs:h-[30px] xs:w-[87px] xs:text-[12px]
               sm:mx-auto sm:h-[30px] sm:w-[87px] sm:text-[12px]"
             >
-              더 알아보기
+              {t('main.더 알아보기')}
             </Button>
           </>
         ) : (
