@@ -39,7 +39,7 @@ export const DataPostEditFormSchema = z.object({
 
 export const DataPostSummarySchema = z.object({
   category: z.string(),
-  content: z.string().transform((val) => val ?? ''),
+  content: z.string(),
   date: z.string().transform((str) => new Date(str)),
   files: z.array(FileResponseSchema).default([]),
   isNotice: z.boolean(),
