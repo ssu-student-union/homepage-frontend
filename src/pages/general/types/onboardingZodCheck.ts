@@ -29,7 +29,7 @@ export const LoginSchemaCertify = z.object({
     .string()
     .min(1, i18n.t('onboarding_validation.name_required'))
     .max(10, i18n.t('onboarding_validation.name_max'))
-    .regex(/^[가-힣]+$/, i18n.t('onboarding_validation.name_regex')),
+    .regex(/^[가-힣a-zA-Z]+$/, i18n.t('onboarding_validation.name_regex')),
   email: z
     .string()
     .email(i18n.t('onboarding_validation.email_format'))
