@@ -6,7 +6,7 @@ export interface QnaPostParams {
   page?: number;
   take?: number;
   qnaMajorCode?: QnaMajorCode | '';
-  qnaMemberCode?: QnaMemberCode;
+  qnaMemberCode?: QnaMemberCode | '';
   q?: string;
 }
 

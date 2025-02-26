@@ -90,7 +90,7 @@ export function QnApage() {
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
   // 유저 데이터가 있다면 qnaMemberCode와 qnaMajorCode에 그 값을 추가해 준다.
-  const qnaMemberCode: QnaMemberCode = isLogin && user && user.memberCode !== '총학생회' ? user.memberCode : '';
+  const qnaMemberCode: QnaMemberCode | '' = isLogin && user && user.memberCode !== '총학생회' ? user.memberCode : '';
   const qnaMajorCode: QnaMajorCode | '' = isLogin && user && user.majorCode ? user.majorCode : '';
 
   const queryParamsForList = buildQnaPostParams({

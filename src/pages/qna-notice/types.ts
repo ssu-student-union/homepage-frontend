@@ -1,19 +1,6 @@
-import { qnaMajorCodesData } from './collegesData';
+import { qnaMajorCodesData, qnaMemberCodeData } from './collegesData';
 
-export type QnaMemberCode =
-  | ''
-  | '총학생회'
-  | '인문대학'
-  | '자연과학대학'
-  | '법과대학'
-  | '사회과학대학'
-  | '경제통상대학'
-  | '경영대학'
-  | '공과대학'
-  | 'IT대학'
-  | '융합특성화자유전공학부'
-  | '베어드학부대학';
-
+export type QnaMemberCode = (typeof qnaMemberCodeData)[number];
 export type QnaMajorCode = (typeof qnaMajorCodesData)[number];
 
 export interface QnaPost {
@@ -53,7 +40,7 @@ export interface UserInfoForQna {
   account: string | null;
   studentId: string | null;
   majorCode: QnaMajorCode | null;
-  memberCode: QnaMemberCode;
+  memberCode: QnaMemberCode | '';
   isUnion: boolean;
 }
 

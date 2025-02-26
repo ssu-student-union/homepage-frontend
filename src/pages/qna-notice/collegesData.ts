@@ -1,5 +1,3 @@
-import { QnaMemberCode } from './types';
-
 export const qnaMemberMajor = {
   총학생회: ['총학생회'],
   인문대학: [
@@ -44,7 +42,7 @@ export const qnaMemberMajor = {
   베어드학부대학: ['자유전공학부(인문)', '자유전공학부(자연)'],
 } as const;
 
-export const qnaMemberCodeData: QnaMemberCode[] = [
+export const qnaMemberCodeData = [
   '총학생회',
   '인문대학',
   '자연과학대학',
@@ -56,7 +54,7 @@ export const qnaMemberCodeData: QnaMemberCode[] = [
   'IT대학',
   '융합특성화자유전공학부',
   '베어드학부대학',
-];
+] as const;
 
 export const qnaMajorCodesData = [
   '총학생회',
