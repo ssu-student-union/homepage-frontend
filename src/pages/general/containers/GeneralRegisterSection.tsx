@@ -22,7 +22,8 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const { sort } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isEn = i18n.language === 'en';
 
   const isScouncilPath = location.pathname === '/register/scouncil';
 
@@ -142,13 +143,21 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
         navigate('/');
         setLoginState(true);
       } else {
-        alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');
+        alert(
+          isEn
+            ? 'Login information does not match. Please try again.'
+            : '로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'
+        );
         setScoucilError(true);
       }
     } catch (error) {
       setScoucilError(true);
       console.error('Error submitting form:', error);
-      alert('로그인 정보가 일치하지 않습니다. 다시 시도해주세요.');
+      alert(
+        isEn
+          ? 'Login information does not match. Please try again.'
+          : '로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'
+      );
     } finally {
       setIsButtonDisabled(false);
     }
@@ -175,7 +184,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                     'w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
                   )}
                   {...register('accountId', {
-                    required: '아이디는 필수 입력입니다.',
+                    required: t('onboarding.아이디는 필수 입력입니다'),
                   })}
                   aria-invalid={isSubmitted ? (errors.accountId ? 'true' : 'false') : undefined}
                 />
@@ -192,7 +201,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                     'mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
                   )}
                   {...register('password', {
-                    required: '비밀번호는 필수 입력입니다.',
+                    required: t('onboarding.비밀번호는 필수 입력입니다'),
                   })}
                   aria-invalid={isSubmitted ? (errors.password ? 'true' : 'false') : undefined}
                 />
@@ -213,7 +222,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                     'h-[54px] xs:w-full xs:rounded-xs xs:px-[1rem] xs:py-[0.1rem] sm:w-full sm:px-[1rem] sm:py-[0.1rem]'
                   )}
                   {...register('name', {
-                    required: '이름은 필수 입력입니다.',
+                    required: t('onboarding.이름은 필수 입력입니다'),
                   })}
                   aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
                 />
@@ -229,7 +238,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                   placeholder={t('onboarding.학번')}
                   className={cn('mt-4 h-[54px] xs:w-full xs:rounded-xs sm:w-full sm:py-[0.1rem]')}
                   {...register('studentId', {
-                    required: '학번은 필수 입력입니다.',
+                    required: t('onboarding.학번은 필수 입력입니다'),
                   })}
                   aria-invalid={isSubmitted ? (errors.studentId ? 'true' : 'false') : undefined}
                 />
@@ -248,7 +257,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 <div className="mt-4"></div>
                 <Select
                   {...register('memberCode', {
-                    required: '옵션을 선택해 주세요.',
+                    required: t('onboarding.옵션을 선택해 주세요'),
                   })}
                   onValueChange={(value) => {
                     setValue('memberCode', value);
@@ -276,7 +285,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 <div className="mt-4"></div>
                 <Select
                   {...register('majorCode', {
-                    required: '학과/부를 선택해 주세요.',
+                    required: t('onboarding.학과/부를 선택해 주세요'),
                   })}
                   onValueChange={(value) => {
                     setValue('majorCode', value);
@@ -302,7 +311,9 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
 
             {scoucilError && (
               <>
-                <div className="mt-[10px] text-xs font-medium text-red-600">입력하신 정보가 올바르지 않습니다</div>
+                <div className="mt-[10px] text-xs font-medium text-red-600">
+                  {t('onboarding.입력하신 정보가 올바르지 않습니다')}
+                </div>
               </>
             )}
             <Button

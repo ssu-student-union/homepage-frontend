@@ -198,7 +198,13 @@
     "제 3자 정보제공 동의": "Consent to Third-Party Information Sharing",
     "보기": "View",
     "다음": "Next",
-    "입력하신 정보가 올바르지 않습니다": "The information you entered is incorrect"
+    "입력하신 정보가 올바르지 않습니다": "The information you entered is incorrect",
+    "아이디는 필수 입력입니다": "ID is required",
+    "비밀번호는 필수 입력입니다": "Password is required",
+    "이름은 필수 입력입니다": "Name is required",
+    "학번은 필수 입력입니다": "Student number is required",
+    "옵션을 선택해 주세요": "Please select an option",
+    "학과/부를 선택해 주세요": "Please select a department/division"
   },
   "onboarding_validation": {
     "name_required": "Please enter your name.",
