@@ -9,7 +9,7 @@ export function RegisterTextSection() {
         WebkitTextFillColor: 'transparent',
       }}
     >
-      SS:URE
+      S:SURE
     </div>
   );
 }
