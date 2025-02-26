@@ -34,7 +34,6 @@ export default function SortOptions({
           onMinorChange('');
         }}
         value={majorCategory}
-        isData={true}
       />
       {/* 중분류 */}
       <FilterDropDown
@@ -46,8 +45,6 @@ export default function SortOptions({
         }}
         value={middleCategory}
         className={cn(defaultFilterStyle, majorCategory || 'pointer-events-none border-gray-500')}
-        mainTextStyle={!majorCategory ? 'text-gray-400' : ''}
-        isData={true}
       />
       {/* 소분류 */}
       <FilterDropDown
@@ -56,8 +53,6 @@ export default function SortOptions({
         onValueChange={onMinorChange}
         value={subCategory}
         className={cn(defaultFilterStyle, middleCategory || 'pointer-events-none border-gray-500')}
-        mainTextStyle={!middleCategory ? 'text-gray-400' : ''}
-        isData={true}
       />
     </div>
   );

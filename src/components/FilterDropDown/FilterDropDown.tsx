@@ -9,9 +9,7 @@ interface FilterDropDownProps extends HTMLAttributes<HTMLDivElement> {
   optionValue: string[]; // 카테고리 목록
   onValueChange: (value: string) => void;
   value?: string;
-  mainTextStyle?: string; // main 스타일
   itemStyle?: string; // item 스타일
-  isData?: boolean;
 }
 
 export function FilterDropDown({

@@ -80,7 +80,7 @@ export default function DataEditPage() {
     formState: { errors },
   } = useDataForm({
     category: '',
-    isNotice: Boolean(category === '총학생회칙'),
+    isNotice: category === '총학생회칙',
     postFileList: [],
   });
 
