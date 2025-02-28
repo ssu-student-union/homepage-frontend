@@ -123,6 +123,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
           const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
           localStorage.removeItem('redirectUrl');
           window.location.href = newRedirectUrl;
+          return;
         }
         localStorage.setItem('userId', formValuesScouncil.accountId);
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
