@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export interface ManagedImage {
   id: string;
@@ -24,7 +24,9 @@ export function useImageManager() {
     setImages(images.filter((imageItem) => imageItem.id !== id));
   };
 
-  const getValidImages = () => images.filter((item) => item.image !== null).map((item) => item.image as File);
+  const getValidImages = useCallback(() => {
+    return images.filter((item) => item.image !== null).map((item) => item.image as File);
+  }, [images]);
 
   return {
     images,

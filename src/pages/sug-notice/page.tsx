@@ -1,19 +1,20 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/Board/BoardSelector';
-// import { PostContent } from '@/components/PostContent/PostContent';
+import { PostContent } from '@/components/PostContent/PostContent';
 import { SuggestCategory } from './schema';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-// import { useRecoilState } from 'recoil';
-// import { SearchState } from '@/recoil/atoms/atom.ts';
+import { useRecoilState } from 'recoil';
+import { SearchState } from '@/recoil/atoms/atom.ts';
+import { useSearchSugNoticePosts } from './queries';
 import { useEffect } from 'react';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
-// const categoryColors: { [category: string]: string } = {
-//   답변대기: 'text-gray-500',
-//   답변완료: 'text-primary',
-// } as const;
+const categoryColors: { [category: string]: string } = {
+  답변대기: 'text-gray-500',
+  답변완료: 'text-primary',
+} as const;
 
 const ensureCategory = (str: string | null): SelectorCategory<SuggestCategory> => {
   if (str === '답변대기' || str === '답변완료') return str;
@@ -22,31 +23,31 @@ const ensureCategory = (str: string | null): SelectorCategory<SuggestCategory> =
 
 const subtitle: JSX.Element = <p className="font-bold">학생자치기구에게 건의 및 문의할 수 있습니다.</p>;
 
-// function PageSkeleton() {
-//   return (
-//     <div>
-//       <HeadLayout title="건의게시판" subtitle={subtitle} searchHidden={true} />
-//       <BodyLayout.Skeleton>
-//         <BoardSelector.Skeleton />
-//         {Array.from(Array(10).keys()).map((_, i) => (
-//           <PostContent.Skeleton key={i} />
-//         ))}
-//       </BodyLayout.Skeleton>
-//     </div>
-//   );
-// }
+function PageSkeleton() {
+  return (
+    <div>
+      <HeadLayout title="건의게시판" subtitle={subtitle} searchHidden={true} />
+      <BodyLayout.Skeleton>
+        <BoardSelector.Skeleton />
+        {Array.from(Array(10).keys()).map((_, i) => (
+          <PostContent.Skeleton key={i} />
+        ))}
+      </BodyLayout.Skeleton>
+    </div>
+  );
+}
 
-const data = {
-  postListResDto: [],
-  allowedAuthorities: [],
-  deniedAuthorities: ['WRITE', 'ALL_READ'],
-  pageInfo: {
-    pageNum: 0,
-    pageSize: 15,
-    totalElements: 0,
-    totalPages: 0,
-  },
-};
+// const data = {
+//   postListResDto: [],
+//   allowedAuthorities: [],
+//   deniedAuthorities: ['WRITE', 'ALL_READ'],
+//   pageInfo: {
+//     pageNum: 0,
+//     pageSize: 15,
+//     totalElements: 0,
+//     totalPages: 0,
+//   },
+// };
 
 export function SuggestPage() {
   const navigate = useNavigate();
@@ -56,7 +57,13 @@ export function SuggestPage() {
 
   // 검색 데이터 불러오는 API 추가 예정
 
-  // const [q] = useRecoilState(SearchState);
+  const [q] = useRecoilState(SearchState);
+
+  const { data, isLoading, isError, error } = useSearchSugNoticePosts({
+    q,
+    page: page - 1,
+    category: category === '전체' ? undefined : category,
+  });
 
   useEffect(() => {
     if (data && (page < 1 || page > data.pageInfo.totalPages)) {
@@ -66,6 +73,19 @@ export function SuggestPage() {
       });
     }
   }, [data, page, setSearchParams]);
+
+  if (isLoading) {
+    return <PageSkeleton />;
+  }
+
+  if (!data || isError) {
+    console.log(error);
+    return (
+      <div className="mt-[120px] flex items-center justify-center">
+        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
+      </div>
+    );
+  }
 
   const { pageNum: currentPage, totalPages } = data.pageInfo;
   const posts = data.postListResDto;
@@ -92,11 +112,11 @@ export function SuggestPage() {
   }
 
   function navigateToWrite() {
-    navigate('/suggest/edit');
+    navigate('/sug-notice/edit');
   }
 
   return (
-    <div>
+    <>
       <HeadLayout title="건의게시판" subtitle={subtitle} />
       <BodyLayout
         totalPages={totalPages}
@@ -111,10 +131,20 @@ export function SuggestPage() {
           onSubcategorySelect={selectCategory}
           className="mb-4"
         />
+        {posts.map((post) => (
+          <PostContent<SuggestCategory>
+            key={post.postId}
+            to={`/sug-notice/${post.postId}`}
+            category={{ name: post.category, className: categoryColors[post.category] }}
+            date={post.date}
+            title={post.title}
+            author={post.author}
+          />
+        ))}
         {posts.length === 0 && (
           <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
         )}
       </BodyLayout>
-    </div>
+    </>
   );
 }

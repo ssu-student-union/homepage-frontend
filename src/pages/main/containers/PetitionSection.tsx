@@ -2,6 +2,7 @@ import { PostTextPetition } from '@/components/PostTextPetition';
 import { Spacing } from '@/components/Spacing';
 import { useGetPetitionTopLiked } from '@/hooks/api/get/useGetPetitionPostsTopLiked';
 import { ArrowUpRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 const PetitionSection = () => {
@@ -11,12 +12,13 @@ const PetitionSection = () => {
     navigate(`/petition-notice/${id}`);
     window.scrollTo(0, 0);
   };
-  // console.log('청원' + data);
+
+  const { t } = useTranslation();
 
   return (
     <section className="w-full">
       <div className="flex items-center">
-        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">인기청원</h1>
+        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">{t('introduction.인기청원')}</h1>
         <ArrowUpRight
           onClick={() => {
             navigate(`/petition-notice/`);
@@ -28,7 +30,7 @@ const PetitionSection = () => {
         />
       </div>
       <Spacing size={18} direction="vertical" />
-      <div className="flex w-full gap-[1.5rem] overflow-x-scroll scrollbar-hide xs:pr-[1.5rem] sm:pr-[1.5rem]">
+      <div className="scrollbar-hide flex w-full gap-[1.5rem] overflow-x-scroll xs:pr-[1.5rem] sm:pr-[1.5rem]">
         {data?.data.pageInfo.totalElements ? (
           <>
             {data?.data.postListResDto.map((petitionData) => (

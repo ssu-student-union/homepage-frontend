@@ -1,12 +1,15 @@
 import { cn } from '@/libs/utils';
 import { List } from '@phosphor-icons/react';
-import { Logo } from '@/components/Logo/SsureLogo';
 import { getStyles } from './const/style';
 import { HeaderSheet } from './component/HeaderSheet';
 import { AuthButton } from './component/AuthButton';
 import { State } from './const/state';
 import { Navigation } from './component/Navigation';
 import { Link } from 'react-router-dom';
+import { useHeaderSize } from '@/hooks/useHeaderSize';
+import SsureLogo from '@/components/Logo/SsureLogo';
+import i18n from '@/translate/i18n';
+import { TranslateButton } from '@/components/Buttons/TranslateButton';
 
 interface HeaderProps {
   state?: State;
@@ -15,6 +18,14 @@ interface HeaderProps {
 
 export function Header({ state = State.Onboarding, onLogout = () => {} }: HeaderProps) {
   const styles = getStyles(state);
+  const isSmall = useHeaderSize();
+
+  // 언어 변경 함수
+  const handleToggleLanguage = () => {
+    const newLang = i18n.language === 'ko' ? 'en' : 'ko';
+    i18n.changeLanguage(newLang);
+    localStorage.setItem('lang', newLang);
+  };
   return (
     <div
       className={cn(
@@ -32,13 +43,27 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
       />
       <div className={cn(styles.headerItemStyle, 'xs:px-0.5 sm:px-0.5 md:px-0.5 lg:px-0.5')}>
         <Link to="/">
-          <div className="flex items-center gap-4">
-            <Logo className="h-[26px]" />
+          <div className="flex items-center">
+            {state === State.Onboarding ? (
+              <SsureLogo.Dark className={isSmall ? 'size-[68px]' : 'size-[88px]'} />
+            ) : (
+              <SsureLogo className={isSmall ? 'size-[64px]' : 'size-[72px]'} />
+            )}
           </div>
         </Link>
       </div>
       <Navigation state={state} />
-      <div className="flex pr-4">
+
+      <div
+        className="flex h-full items-center justify-center pr-4 xs:w-full 
+  xs:justify-end sm:w-full
+  sm:justify-end
+  md:w-full md:justify-end lg:w-full lg:justify-end"
+      >
+        <TranslateButton
+          className={cn(state === State.Onboarding && 'bg-white text-black hover:bg-gray-50')}
+          onToggleLanguage={handleToggleLanguage}
+        />
         <AuthButton state={state} onLogout={onLogout} />
       </div>
     </div>

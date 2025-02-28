@@ -1,5 +1,6 @@
 import { cn } from '@/libs/utils';
 import { Category } from '../Category';
+import { useTranslation } from 'react-i18next';
 
 interface BoardSelectorProps<T> {
   subcategories: T[];
@@ -14,15 +15,16 @@ export function BoardSelector<T extends string>({
   className = '',
   onSubcategorySelect,
 }: BoardSelectorProps<T>) {
+  const { t } = useTranslation();
   return (
     <div className={cn(`flex flex-wrap gap-2`, className)}>
       {subcategories.map((category) => (
         <Category
-          key={category as string}
+          key={category}
           isActive={selectedSubcategory === category}
           onClick={() => onSubcategorySelect(category)}
         >
-          {category as string}
+          {t(`board-selector.${category}`)}
         </Category>
       ))}
     </div>

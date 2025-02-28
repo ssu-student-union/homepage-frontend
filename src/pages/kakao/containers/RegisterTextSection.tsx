@@ -9,7 +9,7 @@ export function RegisterTextSection() {
         WebkitTextFillColor: 'transparent',
       }}
     >
-      US:SUM
+      S:SURE
     </div>
   );
 }

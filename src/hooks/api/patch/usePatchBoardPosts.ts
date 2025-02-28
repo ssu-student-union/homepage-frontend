@@ -1,13 +1,13 @@
 import { patchBoardPosts } from '@/apis/patchBoardPosts';
 import { patchBoardPostProps, patchBoardPostsResponse } from '@/types/patchBoardPosts';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, UseMutationResult } from '@tanstack/react-query';
 
-export const usePatchBoardPosts = () => {
+export const usePatchBoardPosts = (): UseMutationResult<patchBoardPostsResponse, Error, patchBoardPostProps> => {
   const queryClient = useQueryClient();
-  return useMutation<patchBoardPostsResponse, Error, patchBoardPostProps>({
-    mutationFn: (patchData: patchBoardPostProps) => {
-      patchData.posts.isNotice = patchData.posts.isNotice ?? false;
-      return patchBoardPosts(patchData);
+
+  return useMutation({
+    mutationFn: async (patchData: patchBoardPostProps): Promise<patchBoardPostsResponse> => {
+      return await patchBoardPosts(patchData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['getPetitionTopLiked'] });

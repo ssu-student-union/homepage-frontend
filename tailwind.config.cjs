@@ -96,6 +96,25 @@ module.exports = {
           from: { height: 'auto', opacity: '1', transform: 'translateY(0)' },
           to: { height: '0', opacity: '0', transform: 'translateY(-20px)' },
         },
+        fadein: {
+          '0%': {
+            opacity: '0.3',
+            transform: 'translateY(-10px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        fadeout: {
+          '0%': {
+            opacity: '1',
+          },
+          '100%': {
+            opacity: '0',
+            transform: 'translateY(-10px)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -103,8 +122,10 @@ module.exports = {
         sparkle: 'sparkle 0.5s ease-in-out',
         slideDown: 'slideDown 0.3s ease-out',
         slideUp: 'slideUp 0.3s ease-out',
+        fadein: 'fadein 1s',
+        fadeout: 'fadeout 1s',
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar-hide')],
+  plugins: [require('tailwindcss-animate')],
 };

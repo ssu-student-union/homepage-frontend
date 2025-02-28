@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { Post } from '@/types/apis/get';
+import { useEffect, useMemo, useState } from 'react';
 import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 
 export function useTodayPosts(boardCode: string, category: string, subCategory: string) {
@@ -7,7 +6,7 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
   const [page, setPage] = useState<number>(0);
   const [stopFetching, setStopFetching] = useState<boolean>(false);
 
-  const { data, isLoading, isError } = useGetBoardPostSearch<any>({
+  const { data, isLoading, isError } = useGetBoardPostSearch<GetBoardPostSearchResp>({
     boardCode,
     take: 10,
     page,
@@ -15,7 +14,10 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
     memberCode: subCategory === '전체' ? '' : subCategory,
   });
 
-  const posts: Post[] = data?.data?.postListResDto || [];
+  // ✅ useMemo를 사용하여 posts 값 메모이제이션 (불필요한 재계산 방지)
+  const posts: NoticePost[] = useMemo(() => data?.data?.postListResDto || [], [data]);
+
+  console.log(data);
 
   const isPostToday = (dateString: string): boolean => {
     const today = new Date();
@@ -74,7 +76,7 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
     } else {
       setStopFetching(true);
     }
-  }, [posts, category, subCategory]);
+  }, [posts, category, subCategory]); // ✅ posts가 useMemo로 관리되어 불필요한 useEffect 실행 방지
 
   return {
     todayPostCount,
@@ -82,4 +84,39 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
     isError,
     stopFetching,
   };
+}
+
+export interface AllowedAuthorities {
+  allowedAuthorities: string[]; // 예: ["WRITE", "READ"]
+  deniedAuthorities: string[]; // 예: []
+}
+
+export interface PageInfo {
+  pageNum: number;
+  pageSize: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface NoticePost {
+  postId: number;
+  title: string;
+  content: string;
+  date: string; // "YYYY/MM/DD HH:mm:ss" 형식
+  category: string | null;
+  author: string;
+  status: string;
+  thumbNail: string | null;
+}
+
+export interface GetBoardPostSearchResp {
+  code: string; // 예: "200"
+  data: {
+    allowedAuthorities: string[]; // ["WRITE", "READ"]
+    deniedAuthorities: string[]; // []
+    pageInfo: PageInfo;
+    postListResDto: NoticePost[];
+  };
+  isSuccess: boolean;
+  message: string; // 예: "성공 입니다."
 }

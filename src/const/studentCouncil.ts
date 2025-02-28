@@ -1,7 +1,7 @@
 // 현 총학생회 명
-const STUDENT_COUNCIL_NAME = 'S:SURE';
+const STUDENT_COUNCIL_NAME = 'S:SURE' as const;
 
-// 이메일
-const EMAIL = 'ssu65th@gmail.com';
+// 총학생회 메일
+const STUDENT_COUNCIL_EMAIL = 'ssu65th@gmail.com' as const;
 
-export { STUDENT_COUNCIL_NAME, EMAIL };
+export { STUDENT_COUNCIL_NAME, STUDENT_COUNCIL_EMAIL };

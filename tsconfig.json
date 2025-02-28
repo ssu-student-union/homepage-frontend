@@ -3,7 +3,6 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "esModuleInterop": true,
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -23,9 +22,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@toast-ui/editor": ["./node_modules/@toast-ui/editor/types"]
-    }
+    },
+    "typeRoots": ["./src/types/i18n.ts"]
   },
-  "include": ["src", "react-slick.d.ts", "svg.d.ts"],
+  "include": ["src", "react-slick.d.ts"],
+  "exclude" : ["node_modules", ".yarn"],
   "references": [
     {
       "path": "./tsconfig.node.json"
