@@ -3,6 +3,8 @@ import { useState } from 'react';
 import ProfilePage from './profile/page';
 import Sidebar from './component/Sidebar';
 import DropdownUserMenu from './component/DropdownUserMenu';
+import { ServiceNoticePage } from './service-notice/page';
+import MyPostsPage from './myPosts/page';
 
 export default function MyPage() {
   const [selectedMenu, setSelectedMenu] = useState('내 정보');
@@ -13,18 +15,21 @@ export default function MyPage() {
       case '내 정보':
         return <ProfilePage />;
       case '작성 글 보기':
-        return <ProfilePage />;
+        return <MyPostsPage />;
       case '서비스 공지사항':
-        return <ProfilePage />;
+        return <ServiceNoticePage />;
     }
   };
 
   return (
     <div className="mt-24">
       <div>
-        <div className="relative flex sm:justify-center md:ml-52 md:justify-start lg:ml-72 xl:ml-72 xxl:ml-72">
+        <div className="relative flex xs:justify-center sm:justify-center md:ml-52 md:justify-start lg:ml-72 xl:ml-72 xxl:ml-72">
           <h1 className="mb-5 text-2xl font-bold">마이페이지</h1>
-          <button className="mb-5 ml-3 hidden items-center sm:block" onClick={() => setIsDropdown(!isDropdown)}>
+          <button
+            className="mb-5 ml-3 hidden items-center xs:block sm:block"
+            onClick={() => setIsDropdown(!isDropdown)}
+          >
             <img
               src="/image/mypage/arrow_down.png"
               alt="arrow down"
@@ -42,7 +47,7 @@ export default function MyPage() {
           )}
         </div>
         <div className="w-full border-b border-[#E7E7E7]"></div>
-        <div className="flex flex-row">
+        <div className="flex md:flex-row lg:flex-row xl:flex-row xxl:flex-row">
           <Sidebar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
           <div className="flex-grow">{renderMenu()}</div>
         </div>
