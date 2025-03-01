@@ -9,7 +9,7 @@ export const patchUserProfile = async (data: {
   confirmNewPassword: string;
 }) => {
   const response: AxiosResponse<patchUserProfileResponse> = await clientAuth({
-    baseURL: 'http://13.125.101.7:8080',
+    baseURL: import.meta.env.VITE_API_URL,
     url: '/users/mypage',
     method: 'PATCH',
     data,
