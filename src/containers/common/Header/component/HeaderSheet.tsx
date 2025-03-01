@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { State } from '../const/state';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
+import { useTranslation } from 'react-i18next';
 
 interface HeaderSheetProps {
   trigger: ReactNode;
@@ -18,6 +19,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
   const [state, setState] = useState<State>(initialState);
   const navigate = useNavigate();
   const setLoginState = useSetRecoilState(LoginState);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -72,7 +74,9 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
                 pl-10`}
                   onClick={() => toggleCategory(category)}
                 >
-                  <div className={`flex flex-1 items-center text-gray-800 hover:text-[#6B7280]`}>{category}</div>
+                  <div className={`flex flex-1 items-center text-gray-800 hover:text-[#6B7280]`}>
+                    {t(`header.${category}`)}
+                  </div>
                   <CaretDown className="text-[#9CA3AF]" size={20} />
                   <div className="w-4"></div>
                 </div>
@@ -84,33 +88,41 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
                         onClick={() => handleLinkClick(item.path)}
                         className={`flex h-[32px] cursor-pointer items-center px-4 pl-12 text-base font-medium text-[#4B5563] hover:text-[#9CA3AF]`}
                       >
-                        {item.name}
+                        {t(`header-items.${item.name}`)}
                       </div>
                     ))}
                   </div>
                 )}
               </div>
             ))}
-            {/*임시 자료집(구글 드라이브 링크)*/}
+            <div
+              onClick={() => {
+                setIsOpen(false);
+                navigate('/qna');
+              }}
+              className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
+            >
+              {t('header.질의응답게시판')}
+            </div>
             <div
               onClick={() => navigate(DATA_PATH)}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
             >
-              자료집
+              {t('header.자료집')}
             </div>
-            <a
-              href={`https://ssuketch60.cafe24.com/`}
+            {/* <a
+              href={OLD_URL}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
               onClick={() => setIsOpen(false)}
             >
-              이전 홈페이지
-            </a>
+              {t('header.이전 홈페이지')}
+            </a> */}
             {state === State.Login ? (
               <div
                 className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
                 onClick={handleLogoutClick}
               >
-                로그아웃
+                {t('header.로그아웃')}
               </div>
             ) : (
               <Link
@@ -118,7 +130,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
                 to="/register"
                 onClick={() => setIsOpen(false)}
               >
-                로그인
+                {t('header.로그인')}
               </Link>
             )}
           </div>

@@ -6,6 +6,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
+    "types": ["vite-plugin-svgr/client"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -21,9 +22,11 @@
     "paths": {
       "@/*": ["./src/*"],
       "@toast-ui/editor": ["./node_modules/@toast-ui/editor/types"]
-    }
+    },
+    "typeRoots": ["./src/types/i18n.ts"]
   },
   "include": ["src", "react-slick.d.ts"],
+  "exclude" : ["node_modules", ".yarn"],
   "references": [
     {
       "path": "./tsconfig.node.json"

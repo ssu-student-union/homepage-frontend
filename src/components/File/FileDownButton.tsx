@@ -10,7 +10,7 @@ export default function FileDownButton({ file, className }: { file: FileResponse
       className={cn(
         buttonVariants(),
         'h-[31px] w-[143px] rounded-[9px] bg-gray-200 text-[16px] font-medium text-gray-600',
-        'cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap px-2',
+        'cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap px-2 hover:text-white',
         className
       )}
       title={file.fileType}

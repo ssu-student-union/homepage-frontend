@@ -3,11 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Check, CheckCircle } from '@phosphor-icons/react';
 import { Dialog, DialogContent, DialogHeader, DialogPortal, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { PrivacyContent, ProcessContent, ThirdContent } from '../components/TOSContent';
+import { useTranslation } from 'react-i18next';
+import { cn } from '@/libs/utils';
 
 export function TOSSection() {
   const [checkList, setCheckList] = useState<string[]>([]);
   const [selectedTOS, setSelectedTOS] = useState<string>('');
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const textSize = i18n.language === 'en' ? 'text-xs' : 'text-lg';
 
   const checkAll = () => {
     if (checkList.length === 3) {
@@ -39,25 +43,27 @@ export function TOSSection() {
     <Dialog>
       <div className="flex min-h-screen items-center justify-center overflow-hidden">
         <div className="flex w-full max-w-md flex-col items-center p-4">
-          <div className="pb-4 text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)]">약관 동의</div>
+          <div className="pb-4 text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)]">
+            {t('onboarding.약관 동의')}
+          </div>
           <div className="mt-10 min-w-[336px] flex-col text-gray-500">
-            <div className="flex items-center justify-start gap-6">
-              <span className="cursor-pointer" onClick={checkAll}>
+            <div className="flex items-center justify-start gap-6" onClick={checkAll}>
+              <span className="cursor-pointer">
                 {isAllChecked ? <CheckCircle size={26} fill="#2F4BF7" weight="fill" /> : <CheckCircle size={26} />}
               </span>
-              <div>전체동의하기</div>
+              <div>{t('onboarding.전체동의하기')}</div>
             </div>
 
             <hr className="my-8" />
 
-            <div className="flex-col space-y-7">
+            <div className={cn('flex-col space-y-7', textSize)}>
               {[
-                { id: 'privacy', label: '[필수] 개인정보 수집 • 이용 동의' },
-                { id: 'service', label: '[필수] 서비스 이용 약관 동의' },
-                { id: 'third', label: '제 3자 정보제공 동의' },
+                { id: 'privacy', label: t('onboarding.[필수] 개인정보 수집 • 이용 동의') },
+                { id: 'service', label: t('onboarding.[필수] 서비스 이용 약관 동의') },
+                { id: 'third', label: t('onboarding.제 3자 정보제공 동의') },
               ].map((item) => (
                 <div key={item.id} className="flex justify-between">
-                  <div className="flex gap-6">
+                  <div className="flex gap-[16px] xs:gap-[8px] sm:gap-[8px] md:gap-[8px]">
                     <span className="cursor-pointer" onClick={() => check(item.id)}>
                       {checkList.includes(item.id) ? (
                         <Check size={25} fill="#2F4BF7" weight="bold" />
@@ -70,7 +76,7 @@ export function TOSSection() {
 
                   <DialogTrigger asChild>
                     <button onClick={() => setSelectedTOS(item.id)}>
-                      <p className="underline underline-offset-2 hover:text-gray-800">보기</p>
+                      <p className="underline underline-offset-2 hover:text-gray-800">{t('onboarding.보기')}</p>
                     </button>
                   </DialogTrigger>
                   <DialogPortal>
@@ -109,7 +115,7 @@ export function TOSSection() {
             }`}
             onClick={handleNext}
           >
-            다음
+            {t('onboarding.다음')}
           </button>
         </div>
       </div>

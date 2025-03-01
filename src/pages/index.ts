@@ -43,6 +43,9 @@ import { ServiceNoticePage } from './mypage/service-notice/page';
 import { ServiceNoticeDetailPage } from './mypage/service-notice/[id]/page';
 import { ServiceNoticeEditPage } from './mypage/service-notice-edit/page';
 import ServiceNoticePatchPage from './mypage/service-notice/service-noticePatch/page';
+import { QnApage } from './qna-notice/page';
+import QnaDetailPage from './qna-notice/[id]/page';
+import QnaEditPage from './qna-notice/edit/page';
 
 export {
   MainPage,
@@ -90,4 +93,7 @@ export {
   ServiceNoticeDetailPage,
   ServiceNoticeEditPage,
   ServiceNoticePatchPage,
+  QnApage,
+  QnaDetailPage,
+  QnaEditPage,
 };
