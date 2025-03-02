@@ -1,5 +1,5 @@
 import { clientAuth } from './client';
-import { patchUserProfileResponse } from '@/types/apis/get';
+import { PatchUserProfileResponse } from '@/types/apis/get';
 import { AxiosResponse } from 'axios';
 
 export const patchUserProfile = async (data: {
@@ -8,7 +8,7 @@ export const patchUserProfile = async (data: {
   newPassword: string;
   confirmNewPassword: string;
 }) => {
-  const response: AxiosResponse<patchUserProfileResponse> = await clientAuth({
+  const response: AxiosResponse<PatchUserProfileResponse> = await clientAuth({
     baseURL: import.meta.env.VITE_API_URL,
     url: '/users/mypage',
     method: 'PATCH',
