@@ -4,17 +4,27 @@ import { MyPostsContent } from './myPostsContent/myPostsContent';
 import { useGetUserPosts } from './hooks/useGetUserPosts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useSearchUserPosts } from './hooks/useSearchUserPosts';
 
 function MyPostsPage() {
   const [page, setPage] = useState(0);
   const [take] = useState(6);
   const [searchText, setSearchText] = useState('');
+  const [query, setQuery] = useState('');
 
-  const { data, isLoading, error } = useGetUserPosts(page, take);
+  const userPostsData = useGetUserPosts(page, take);
+  const searchData = useSearchUserPosts(page, take, query);
+
+  const data = query ? searchData.data : userPostsData.data;
+  const isLoading = query ? searchData.isLoading : userPostsData.isLoading;
+  const error = query ? searchData.error : userPostsData.error;
+
   const totalPages = data?.data?.pageInfo?.totalPages ?? 1;
 
   const onClickSearch = () => {
     console.log(searchText);
+    setPage(0);
+    setQuery(searchText);
   };
 
   const handlePageClick = (pageNumber: number) => {

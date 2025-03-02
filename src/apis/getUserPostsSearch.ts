@@ -1,10 +1,10 @@
 import { GetUserPostsResponse } from '@/types/apis/get';
 import { AxiosResponse } from 'axios';
-import { clientAuth } from '@/apis/client.ts';
+import { clientAuth } from './client.ts';
 
-export const getUserPosts = async (page: number, take: number) => {
+export const getUserPostsSearch = async (page: number, take: number, q: string) => {
   const response: AxiosResponse<GetUserPostsResponse> = await clientAuth({
-    url: `board/mypost?page=${page}&take=${take}`,
+    url: `board/mypost/search?page=${page}&take=${take}&q=${q}`,
     method: 'get',
   });
   return response.data;

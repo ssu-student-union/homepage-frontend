@@ -1,14 +1,18 @@
-import { getUserPosts } from '@/apis/getUserPosts';
+import { getUserPostsSearch } from '@/apis/getUserPostsSearch';
 import { GetUserPostsResponse } from '@/types/apis/get';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 
-export const useGetUserPosts = (page: number, take: number): UseQueryResult<GetUserPostsResponse, AxiosError> => {
+export const useSearchUserPosts = (
+  page: number,
+  take: number,
+  q: string
+): UseQueryResult<GetUserPostsResponse, AxiosError> => {
   return useQuery<GetUserPostsResponse, AxiosError>({
-    queryKey: ['get-user-posts', page, take],
+    queryKey: ['get-user-posts', page, take, q],
     queryFn: async () => {
       try {
-        return await getUserPosts(page, take);
+        return await getUserPostsSearch(page, take, q);
       } catch (error) {
         console.error('API Error:', error);
         if (axios.isAxiosError(error)) {

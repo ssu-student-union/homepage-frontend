@@ -34,7 +34,7 @@ export default function MyPage() {
             <ChevronDown className="h-4 w-6" color="#9CA3AF" />
           </button>
           {isDropdown && (
-            <div className="absolute top-10">
+            <div className="absolute top-10 z-50">
               <DropdownUserMenu
                 selectedMenu={selectedMenu}
                 setSelectedMenu={setSelectedMenu}
