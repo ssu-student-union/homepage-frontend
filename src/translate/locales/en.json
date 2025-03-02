@@ -97,7 +97,8 @@
     "접수완료": "Received",
     "답변완료": "Answered",
     "종료됨": "Closed",
-    "답변대기": "Pending Response"
+    "답변대기": "Pending Response",
+    "IT지원위원회": "IT Support Committee"
   },
   "faculties": {
     "인문대학": "College of Humanities",
