@@ -5,20 +5,74 @@ import { useEffect, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 
-export function Search() {
+// export function Search() {
+//   const inputRef = useRef<HTMLInputElement>(null);
+//   const { width } = useResize();
+//   const setSearchInput = useSetRecoilState(SearchState);
+
+//   useEffect(() => {
+//     if (inputRef.current) {
+//       if (width > 1439 || (width > 719 && width <= 1079)) {
+//         inputRef.current.placeholder = '원하시는 키워드를 입력하세요';
+//       } else {
+//         inputRef.current.placeholder = '키워드 입력';
+//       }
+//     }
+//   }, [width]);
+
+//   const handleSearch = () => {
+//     if (inputRef.current) {
+//       setSearchInput(inputRef.current.value);
+//     }
+//   };
+
+//   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+//     if (event.key === 'Enter') {
+//       handleSearch();
+//     }
+//   };
+
+//   return (
+//     <div className="flex gap-2">
+//       <Input
+//         ref={inputRef}
+//         type="text"
+//         className="
+//         border-[#959595] text-base placeholder:text-[#B6B6B6] xs:h-[42px] xs:w-[211px] sm:h-[42px] sm:w-[211px] md:h-[58px] md:w-[488px] lg:h-[58px] lg:w-[254px] xl:h-[58px] xl:w-[488px] xxl:h-[58px] xxl:w-[488px]"
+//         placeholder="원하시는 키워드를 입력하세요"
+//         onKeyDown={handleKeyPress}
+//       />
+//       <Button
+//         onClick={handleSearch}
+//         className="text-base xs:h-[46px] xs:w-[77px] sm:h-[46px] sm:w-[77px] md:h-[58px] md:w-[94px] lg:h-[58px] lg:w-[94px] xl:h-[58px] xl:w-[94px] xxl:h-[58px] xxl:w-[94px]"
+//       >
+//         검색
+//       </Button>
+//     </div>
+//   );
+// }
+
+interface SearchProps {
+  placeholderType?: '키워드' | '검색어';
+}
+
+export function Search({ placeholderType = '키워드' }: SearchProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { width } = useResize();
   const setSearchInput = useSetRecoilState(SearchState);
 
   useEffect(() => {
     if (inputRef.current) {
+      const basePlaceholder =
+        placeholderType === '검색어' ? '원하시는 검색어를 입력하세요' : '원하시는 키워드를 입력하세요';
+
       if (width > 1439 || (width > 719 && width <= 1079)) {
-        inputRef.current.placeholder = '원하시는 키워드를 입력하세요';
+        inputRef.current.placeholder = basePlaceholder;
       } else {
-        inputRef.current.placeholder = '키워드 입력';
+        inputRef.current.placeholder = placeholderType === '검색어' ? '검색어 입력' : '키워드 입력';
       }
     }
-  }, [width]);
+  }, [width, placeholderType]);
 
   const handleSearch = () => {
     if (inputRef.current) {
@@ -37,9 +91,8 @@ export function Search() {
       <Input
         ref={inputRef}
         type="text"
-        className="
-        border-[#959595] text-base placeholder:text-[#B6B6B6] xs:h-[42px] xs:w-[211px] sm:h-[42px] sm:w-[211px] md:h-[58px] md:w-[488px] lg:h-[58px] lg:w-[254px] xl:h-[58px] xl:w-[488px] xxl:h-[58px] xxl:w-[488px]"
-        placeholder="원하시는 키워드를 입력하세요"
+        className="border-[#959595] text-base placeholder:text-[#B6B6B6] xs:h-[42px] xs:w-[211px] sm:h-[42px] sm:w-[211px] md:h-[58px] md:w-[488px] lg:h-[58px] lg:w-[254px] xl:h-[58px] xl:w-[488px] xxl:h-[58px] xxl:w-[488px]"
+        placeholder={placeholderType === '검색어' ? '원하시는 검색어를 입력하세요' : '원하시는 키워드를 입력하세요'}
         onKeyDown={handleKeyPress}
       />
       <Button

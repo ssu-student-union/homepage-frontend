@@ -61,6 +61,8 @@ export function MainRouter() {
         <Route path="/service-notice/:id/patch" element={<i.ServiceNoticePatchPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
+        {/*통합검색*/}
+        <Route path="/integrated-search" element={<i.IntegratedSearchPage />} />
       </Route>
       {/* 온보딩 */}
       <Route path="/register" element={<i.KakaoRegisterPage />} />

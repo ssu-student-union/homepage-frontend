@@ -28,7 +28,8 @@
     "감사기구": "Audit Organization",
     "학생청원게시판": "Student Petition Board",
     "건의게시판": "Suggestion Board",
-    "인권신고게시판": "Human Rights Report Board"
+    "인권신고게시판": "Human Rights Report Board",
+    "통합검색" : "Integrated Search"
   },
   "introduction": {
     "총학생회": "Student Council",
@@ -41,6 +42,7 @@
     "캠퍼스맵": "Campus Map",
     "감사기구": "Audit Organization",
     "서비스 공지사항": "Service Notices",
+    "통합검색" : "Integrated Search",
     "학생청원게시판": "Student Petition Board",
     "인기 청원": "Popular Petitions",
     "청원글": "Petition Post",
