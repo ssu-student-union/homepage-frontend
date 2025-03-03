@@ -1,15 +1,11 @@
-import { getUserProfileResponse } from '@/types/apis/get';
-import axios, { AxiosResponse } from 'axios';
+import { GetUserProfileResponse } from '@/types/apis/get';
+import { AxiosResponse } from 'axios';
+import { clientAuth } from './client.ts';
 
 export const getUserProfile = async () => {
-  const accessToken = localStorage.getItem('accessToken');
-  const response: AxiosResponse<getUserProfileResponse> = await axios({
-    baseURL: 'http://13.125.101.7:8080',
+  const response: AxiosResponse<GetUserProfileResponse> = await clientAuth({
     url: '/users/mypage',
     method: 'get',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
   });
   return response.data;
 };

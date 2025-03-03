@@ -71,7 +71,7 @@ export interface getBoardPostsProps {
   q?: string;
 }
 
-export interface getUserProfileResponse {
+export interface GetUserProfileResponse {
   data: {
     name: string;
     nickname?: string;
@@ -83,14 +83,14 @@ export interface getUserProfileResponse {
   };
 }
 
-export interface patchUserProfileRequest {
+export interface PatchUserProfileRequest {
   nickname: string;
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
 }
 
-export interface patchUserProfileResponse {
+export interface PatchUserProfileResponse {
   name: string;
   nickname: string;
   account: string;
@@ -98,4 +98,26 @@ export interface patchUserProfileResponse {
   majorCode: string | null;
   memberCode: string;
   isUnion: boolean;
+}
+export interface PostListResDto {
+  postId: number;
+  title: string;
+  content: string;
+  date: string;
+  commentCount: number;
+  boardCode: string;
+}
+
+export interface GetUserPostsResponse {
+  data: {
+    postListResDto: PostListResDto[];
+    pageInfo: UserPostsPageInfo;
+  };
+}
+
+export interface UserPostsPageInfo {
+  pageNum: number;
+  pageSize: number;
+  totalElements: number;
+  totalPages: number;
 }

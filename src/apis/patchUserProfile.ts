@@ -1,5 +1,5 @@
 import { clientAuth } from './client';
-import { patchUserProfileResponse } from '@/types/apis/get';
+import { PatchUserProfileResponse } from '@/types/apis/get';
 import { AxiosResponse } from 'axios';
 
 export const patchUserProfile = async (data: {
@@ -8,14 +8,10 @@ export const patchUserProfile = async (data: {
   newPassword: string;
   confirmNewPassword: string;
 }) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const response: AxiosResponse<patchUserProfileResponse> = await clientAuth({
-    baseURL: 'http://13.125.101.7:8080',
+  const response: AxiosResponse<PatchUserProfileResponse> = await clientAuth({
+    baseURL: import.meta.env.VITE_API_URL,
     url: '/users/mypage',
     method: 'PATCH',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
     data,
   });
   return response.data;
