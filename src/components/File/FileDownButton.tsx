@@ -5,6 +5,9 @@ import { buttonVariants } from '@/components/ui/button.tsx';
 // 자료집 '/data'에 쓰이는 FileDownButton입니다.
 
 export default function FileDownButton({ file, className }: { file: FileResponse; className?: string }) {
+  // fileUrl에서 확장자명을 추출한 후 대문자로 변경
+  const lastDotIndex = file.fileUrl.lastIndexOf('.');
+  const fileExtension = lastDotIndex !== -1 ? file.fileUrl.substring(lastDotIndex + 1) : '';
   return (
     <a
       className={cn(
@@ -17,7 +20,7 @@ export default function FileDownButton({ file, className }: { file: FileResponse
       href={file.fileUrl}
       download={file.fileName}
     >
-      {file.fileType}
+      {`${file.fileType} ${fileExtension.toUpperCase()}`}
     </a>
   );
 }
