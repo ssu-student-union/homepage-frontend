@@ -112,7 +112,8 @@
     "국제대학": "International College",
     "베어드학부대학": "Baird University College",
     "차세대반도체학과": "Department of Next-Generation Semiconductor",
-    "융합특성화자유전공학부": "School of Convergence Specialization"
+    "융합특성화자유전공학부": "School of Convergence Specialization",
+    "총학생회": "Student Council"
   },
   "departments": {
     "융합특성화자유전공학부": "School of Convergence Specialization",
@@ -180,7 +181,8 @@
     "한국학과": "Department of Korean Studies",
     "자유전공학부(인문)": "School of Liberal Studies (Humanities unit)",
     "자유전공학부(자연)": "School of Liberal Studies (Natural Science Unit)",
-    "문예창작전공": "Major in Creative Writing"
+    "문예창작전공": "Major in Creative Writing",
+    "총학생회": "Student Council"
   },
   "onboarding": {
     "제65대 총학생회": "65th Student Council",
