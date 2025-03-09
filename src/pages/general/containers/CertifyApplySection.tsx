@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchemaCertify, LoginCertifyType } from './ZodCheck';
+import { LoginSchemaCertify, LoginCertifyType } from '../types/onboardingZodCheck';
 import { postOnboardingMail } from '@/apis/postOnboardingMail'; // Import the postOnboardingMail function
 import { AxiosError } from 'axios';
 

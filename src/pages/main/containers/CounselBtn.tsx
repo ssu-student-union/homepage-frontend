@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Channel from '@/assets/image/channel_talk.svg';
 import { InstaFloating, KakaoFloating, YoutubeFloating } from '@/components/Floating/Floating';
 import { Spacing } from '@/components/Spacing';
 import { MAIN_PENDING } from '../const';
+import ChannelTalkFloating from '@/components/Floating/ChannelTalkFloating';
 
 export function CounselBtn() {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,9 +36,7 @@ export function CounselBtn() {
       <Spacing direction="vertical" size={13} />
       <YoutubeFloating />
       <Spacing direction="vertical" size={13} />
-      <button className="custom-button-1">
-        <img className="h-20 w-20 xs:h-[64px] xs:w-[64px] sm:h-[64px] sm:w-[64px]" src={Channel} />
-      </button>
+      <ChannelTalkFloating />
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function SortOptions({
   onMiddleChange,
   onMinorChange,
 }: SortLayoutProps) {
-  const defaultFilterStyle: string = 'w-full';
+  const defaultFilterStyle: string = 'w-full border-primary';
 
   return (
     <div className="mb-[5rem] mt-[3.375rem] flex flex-row justify-center gap-[0.75rem] px-[200px] xs:flex-col xs:px-10 sm:flex-col sm:px-10 md:px-10 lg:px-10">
@@ -44,8 +44,7 @@ export default function SortOptions({
           onMinorChange('');
         }}
         value={middleCategory}
-        className={cn(defaultFilterStyle, majorCategory || 'pointer-events-none')}
-        mainTextStyle={!majorCategory ? 'text-gray-400' : ''}
+        className={cn(defaultFilterStyle, majorCategory || 'pointer-events-none border-gray-500')}
       />
       {/* 소분류 */}
       <FilterDropDown
@@ -53,8 +52,7 @@ export default function SortOptions({
         optionValue={CATEGORIES.minorOptions[middleCategory] || []}
         onValueChange={onMinorChange}
         value={subCategory}
-        className={cn(defaultFilterStyle, majorCategory || 'pointer-events-none')}
-        mainTextStyle={!middleCategory ? 'text-gray-400' : ''}
+        className={cn(defaultFilterStyle, middleCategory || 'pointer-events-none border-gray-500')}
       />
     </div>
   );

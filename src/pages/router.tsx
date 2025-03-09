@@ -63,6 +63,10 @@ export function MainRouter() {
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
         {/*통합검색*/}
         <Route path="/integrated-search" element={<i.IntegratedSearchPage />} />
+        {/* 질의응답게시판 */}
+        <Route path="/qna" element={<i.QnApage />} />
+        <Route path="/qna/:id" element={<i.QnaDetailPage />} />
+        <Route path="/qna/:id?/edit" element={<i.QnaEditPage />} />
       </Route>
       {/* 온보딩 */}
       <Route path="/register" element={<i.KakaoRegisterPage />} />

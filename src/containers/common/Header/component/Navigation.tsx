@@ -6,12 +6,12 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { DATA_PATH, MENU_ITEMS, OLD_URL } from '../const/pathData';
+import { DATA_PATH, MENU_ITEMS, QNA_PATH } from '../const/pathData';
 import { getStyles } from '../const/style';
 import { State } from '../const/state';
 import { cn } from '@/libs/utils';
 import DropDownMenu from './DropDownMenu';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 interface NavigationProps {
@@ -25,6 +25,8 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
   // 스타일 불러오기
   const styles = getStyles(state);
   const textSize = i18n.language === 'en' ? 'text-xs' : 'text-lg';
+
+  const navigate = useNavigate();
 
   return (
     <NavigationMenu className="h-full xs:hidden sm:hidden md:hidden lg:hidden">
@@ -44,6 +46,14 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
             </NavigationMenuContent>
           </NavigationMenuItem>
         ))}
+        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]" onClick={() => navigate('/qna')}>
+          <NavigationMenuLink asChild>
+            <Link to={`${QNA_PATH}`} className={cn(styles.headerItemStyle, textSize)}>
+              {t('header.질의응답게시판')}
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
         <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
           <NavigationMenuLink asChild>
             <Link to={`${DATA_PATH}`} className={cn(styles.headerItemStyle, textSize)}>
@@ -51,13 +61,14 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
-        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
+
+        {/* <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
           <NavigationMenuLink asChild>
             <Link to={`${OLD_URL}`} className={cn(styles.headerItemStyle, textSize)}>
               {t('header.이전 홈페이지')}
             </Link>
           </NavigationMenuLink>
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
       </NavigationMenuList>
     </NavigationMenu>
   );

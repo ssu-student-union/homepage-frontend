@@ -44,7 +44,11 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
       <div className={cn(styles.headerItemStyle, 'xs:px-0.5 sm:px-0.5 md:px-0.5 lg:px-0.5')}>
         <Link to="/">
           <div className="flex items-center">
-            <SsureLogo className={isSmall ? 'size-[64px]' : 'size-[72px]'} fill={styles.fillColor} />
+            {state === State.Onboarding ? (
+              <SsureLogo.Dark className={isSmall ? 'size-[68px]' : 'size-[88px]'} />
+            ) : (
+              <SsureLogo className={isSmall ? 'size-[64px]' : 'size-[72px]'} />
+            )}
           </div>
         </Link>
       </div>
@@ -57,7 +61,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
   md:w-full md:justify-end lg:w-full lg:justify-end"
       >
         <TranslateButton
-          className={state === State.Logout ? '' : 'bg-white text-black hover:bg-gray-50'}
+          className={cn(state === State.Onboarding && 'bg-white text-black hover:bg-gray-50')}
           onToggleLanguage={handleToggleLanguage}
         />
         <AuthButton state={state} onLogout={onLogout} />

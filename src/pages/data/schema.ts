@@ -34,12 +34,12 @@ export const DataPostEditFormSchema = z.object({
   content: z.string().min(1),
   category: z.string().min(1),
   postFileList: z.array(z.number()),
-  notice: z.boolean(),
+  isNotice: z.boolean(),
 });
 
 export const DataPostSummarySchema = z.object({
   category: z.string(),
-  content: z.string().min(1),
+  content: z.string(),
   date: z.string().transform((str) => new Date(str)),
   files: z.array(FileResponseSchema).default([]),
   isNotice: z.boolean(),

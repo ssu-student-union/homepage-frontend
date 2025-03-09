@@ -2,7 +2,7 @@ import { EnvelopeSimple } from '@phosphor-icons/react';
 
 export const Footer = () => {
   return (
-    <footer className="flex h-fit w-full flex-col bg-primary text-white xs:items-center xs:justify-center xs:gap-[5px] xs:py-[21px] sm:items-center sm:items-center sm:items-center sm:justify-center sm:gap-[5px] sm:py-[21px] md:gap-[19px] md:px-[60px] md:py-[34.5px] lg:gap-[27px] lg:px-[87px] lg:py-[71px] xl:gap-[27px] xl:px-[87px] xl:py-[71px] xxl:gap-[27px] xxl:px-[87px] xxl:py-[71px]">
+    <footer className="flex h-fit w-full flex-col bg-primary text-white xs:items-center xs:justify-center xs:gap-[5px] xs:py-[21px] sm:items-center sm:justify-center sm:gap-[5px] sm:py-[21px] md:gap-[19px] md:px-[60px] md:py-[34.5px] lg:gap-[27px] lg:px-[87px] lg:py-[71px] xl:gap-[27px] xl:px-[87px] xl:py-[71px] xxl:gap-[27px] xxl:px-[87px] xxl:py-[71px]">
       <div className="flex flex-col gap-[10px] xs:text-center sm:text-center">
         <p className="text-[24px] font-semibold xs:text-[13px] sm:text-[13px]">제65대 숭실대학교 총학생회 S:SURE</p>
         <p className="xs:text-[12px] sm:text-[12px]">서울시 동작구 상도로 369 숭실대학교 학생회관 106호 총학생회실</p>
