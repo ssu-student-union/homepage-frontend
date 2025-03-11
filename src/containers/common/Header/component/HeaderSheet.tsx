@@ -1,4 +1,4 @@
-import { DATA_PATH, MENU_ITEMS } from '@/containers/common/Header/const/pathData';
+import { DATA_PATH, MENU_ITEMS, OLD_URL } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { CaretDown } from '@phosphor-icons/react';
 import { ReactNode, useEffect, useState } from 'react';
@@ -110,13 +110,13 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
             >
               {t('header.자료집')}
             </div>
-            {/* <a
+            <a
               href={OLD_URL}
               className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
               onClick={() => setIsOpen(false)}
             >
               {t('header.이전 홈페이지')}
-            </a> */}
+            </a>
             {state === State.Login ? (
               <div
                 className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}

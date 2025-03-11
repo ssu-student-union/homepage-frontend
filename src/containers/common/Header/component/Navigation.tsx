@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { DATA_PATH, MENU_ITEMS, QNA_PATH } from '../const/pathData';
+import { DATA_PATH, MENU_ITEMS, OLD_URL, QNA_PATH } from '../const/pathData';
 import { getStyles } from '../const/style';
 import { State } from '../const/state';
 import { cn } from '@/libs/utils';
@@ -62,13 +62,13 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
           </NavigationMenuLink>
         </NavigationMenuItem>
 
-        {/* <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
+        <NavigationMenuItem className="relative h-full min-w-fit text-[20px]">
           <NavigationMenuLink asChild>
             <Link to={`${OLD_URL}`} className={cn(styles.headerItemStyle, textSize)}>
               {t('header.이전 홈페이지')}
             </Link>
           </NavigationMenuLink>
-        </NavigationMenuItem> */}
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
