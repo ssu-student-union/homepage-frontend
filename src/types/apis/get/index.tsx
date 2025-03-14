@@ -99,6 +99,7 @@ export interface PatchUserProfileResponse {
   memberCode: string;
   isUnion: boolean;
 }
+
 export interface PostListResDto {
   postId: number;
   title: string;

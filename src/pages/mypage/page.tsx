@@ -1,4 +1,3 @@
-// import Sidebar from './component/SideBar';
 import { useState } from 'react';
 import ProfilePage from './profile/page';
 import Sidebar from './component/Sidebar';

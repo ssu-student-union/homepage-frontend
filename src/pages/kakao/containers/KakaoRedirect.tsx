@@ -30,6 +30,7 @@ const KakaoRedirect = () => {
               const separator = redirectUrl.includes('?') ? '&' : '?';
               const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
               localStorage.removeItem('redirectUrl');
+              localStorage.removeItem('kakaoData');
               window.location.href = newRedirectUrl;
             } else {
               // 최초 회원가입 or 타 사이트 로그인이 아니라면 accessToken 로컬에 저장
