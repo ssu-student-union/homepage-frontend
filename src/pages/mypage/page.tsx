@@ -16,7 +16,9 @@ export default function MyPage() {
         return <ProfilePage />;
       case '작성 글 보기':
         return <MyPostsPage />;
+        return <MyPostsPage />;
       case '서비스 공지사항':
+        return <ServiceNoticePage />;
         return <ServiceNoticePage />;
     }
   };

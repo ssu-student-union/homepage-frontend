@@ -29,10 +29,9 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
   return (
     <div
       className={cn(
-        'fixed top-0 flex h-[60px] w-[100vw] justify-start xs:h-[50px] sm:h-[50px] md:h-[50px] xl:justify-between xxl:justify-between',
+        'fixed top-0 z-10 flex h-[60px] w-[100vw] justify-start xs:h-[50px] sm:h-[50px] md:h-[50px] xl:justify-between xxl:justify-between',
         styles.bgColor
       )}
-      style={{ zIndex: 100 }}
     >
       <HeaderSheet
         trigger={
