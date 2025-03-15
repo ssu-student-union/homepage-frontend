@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import * as i from './index.ts';
+import { UnionIntroPage } from './union-intro/page.tsx';
 
 export function MainRouter() {
   return (
@@ -65,6 +66,8 @@ export function MainRouter() {
         <Route path="/qna" element={<i.QnApage />} />
         <Route path="/qna/:id" element={<i.QnaDetailPage />} />
         <Route path="/qna/:id?/edit" element={<i.QnaEditPage />} />
+        {/* 학생자치기구 소개 */}
+        <Route path="/union-intro" element={<UnionIntroPage />} />
       </Route>
       {/* 온보딩 */}
       <Route path="/register" element={<i.KakaoRegisterPage />} />
