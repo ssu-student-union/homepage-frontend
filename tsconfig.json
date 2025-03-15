@@ -26,7 +26,7 @@
     "typeRoots": ["./src/types/i18n.ts"]
   },
   "include": ["src", "react-slick.d.ts"],
-  "exclude" : ["node_modules", ".yarn"],
+  "exclude": ["node_modules", ".yarn"],
   "references": [
     {
       "path": "./tsconfig.node.json"

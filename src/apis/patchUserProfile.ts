@@ -9,7 +9,6 @@ export const patchUserProfile = async (data: {
   confirmNewPassword: string;
 }) => {
   const response: AxiosResponse<PatchUserProfileResponse> = await clientAuth({
-    baseURL: import.meta.env.VITE_API_URL,
     url: '/users/mypage',
     method: 'PATCH',
     data,
