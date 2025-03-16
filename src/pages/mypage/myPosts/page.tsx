@@ -80,7 +80,7 @@ function MyPostsPage() {
 
   if (error || !data) {
     console.log('error : ', error);
-    return null;
+    return <div className="p-20">오류가 발생하였습니다.</div>;
   }
 
   return (
