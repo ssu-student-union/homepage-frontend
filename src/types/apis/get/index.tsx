@@ -71,26 +71,24 @@ export interface getBoardPostsProps {
   q?: string;
 }
 
-export interface getUserProfileResponse {
-  data: {
-    name: string;
-    nickname?: string;
-    account?: string;
-    studentId?: string;
-    majorCode?: string;
-    memberCode: string;
-    isUnion: boolean;
-  };
+export interface GetUserProfileResponse {
+  name: string;
+  nickname?: string;
+  account?: string;
+  studentId?: string;
+  majorCode?: string;
+  memberCode: string;
+  isUnion: boolean;
 }
 
-export interface patchUserProfileRequest {
+export interface PatchUserProfileRequest {
   nickname: string;
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
 }
 
-export interface patchUserProfileResponse {
+export interface PatchUserProfileResponse {
   name: string;
   nickname: string;
   account: string;
@@ -98,4 +96,24 @@ export interface patchUserProfileResponse {
   majorCode: string | null;
   memberCode: string;
   isUnion: boolean;
+}
+export interface PostListResDto {
+  postId: number;
+  title: string;
+  content: string;
+  date: string;
+  commentCount: number;
+  boardCode: string;
+}
+
+export interface GetUserPostsResponse {
+  postListResDto: PostListResDto[];
+  pageInfo: UserPostsPageInfo;
+}
+
+export interface UserPostsPageInfo {
+  pageNum: number;
+  pageSize: number;
+  totalElements: number;
+  totalPages: number;
 }
