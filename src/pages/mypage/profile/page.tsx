@@ -4,12 +4,32 @@ import UserContainer from '../component/UserContainer';
 import { useGetUserProfile } from './hooks/useGetUserProfile';
 import { usePatchUserProfile } from './hooks/usePatchUserProfile';
 import { PatchUserProfileRequest } from '@/types/apis/get';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useQueryClient } from '@tanstack/react-query';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+
+const ProfileLoadingSkeleton = () => (
+  <div className="my-4 mr-16 p-4">
+    <div className="flex gap-4">
+      <div className="flex-col space-y-2">
+        <Skeleton className="h-5 w-20" />
+        <Skeleton className="h-5 w-20" />
+      </div>
+      <div className="flex-col space-y-2">
+        <Skeleton className="h-5 w-48" />
+        <Skeleton className="h-5 w-48" />
+      </div>
+    </div>
+  </div>
+);
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useGetUserProfile();
-  const userData = data?.data;
+  const userData = data;
 
   const {
     register,
@@ -33,7 +53,22 @@ export default function ProfilePage() {
     }
   }, [userData, isEditing, setValue]);
 
-  const mutation = usePatchUserProfile();
+  const mutation = usePatchUserProfile({
+    mutationOptions: {
+      onSuccess: () => {
+        alert('성공적으로 업데이트되었습니다.');
+        setIsEditing(false);
+        queryClient.invalidateQueries({ queryKey: ['get-user-profile'] });
+      },
+      onError: (error) => {
+        if (error.response?.status === 500) {
+          alert('해당 비밀번호로 사용자를 찾을 수 없습니다.');
+        } else {
+          alert(`프로필 업데이트 실패: ${error?.message}`);
+        }
+      },
+    },
+  });
 
   const onSubmit = (formData: PatchUserProfileRequest) => {
     if (formData.newPassword !== formData.confirmNewPassword) {
@@ -41,33 +76,25 @@ export default function ProfilePage() {
       return;
     }
 
-    mutation.mutate(
-      {
-        nickname: formData.nickname,
-        currentPassword: formData.currentPassword,
-        newPassword: formData.newPassword,
-        confirmNewPassword: formData.confirmNewPassword,
-      },
-      {
-        onSuccess: () => {
-          alert('성공적으로 업데이트되었습니다.');
-          setIsEditing(false);
-        },
-        onError: (error) => {
-          if (error.response?.status === 500) {
-            alert('해당 비밀번호로 사용자를 찾을 수 없습니다.');
-          } else {
-            alert(`프로필 업데이트 실패: ${error?.message}`);
-          }
-        },
-      }
-    );
+    mutation.mutate({
+      nickname: formData.nickname,
+      currentPassword: formData.currentPassword,
+      newPassword: formData.newPassword,
+      confirmNewPassword: formData.confirmNewPassword,
+    });
+
     reset();
   };
 
   if (isLoading) {
-    console.log('loading');
-    return null;
+    return (
+      <div className="flex flex-col">
+        <UserContainer />
+        <div className="flex flex-col items-start pl-20 xs:items-center sm:items-center">
+          <ProfileLoadingSkeleton />
+        </div>
+      </div>
+    );
   }
 
   if (error || !userData) {
@@ -85,28 +112,28 @@ export default function ProfilePage() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col items-start xs:items-center sm:items-center">
                   <h3 className="pr-52 text-lg font-bold xs:text-base sm:text-base">기본정보</h3>
-                  <div className="grid grid-cols-[1fr_5fr] gap-y-2.5 py-4 text-sm xs:mx-16 xs:grid-cols-[2fr_5fr] xs:text-xs sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 lg:ml-6 xl:ml-6 xxl:md:ml-6">
+                  <div className="grid grid-cols-[1fr_5fr] items-center gap-y-2.5 py-4 text-sm xs:mx-16 xs:grid-cols-[2fr_5fr] xs:text-xs sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 lg:ml-6 xl:ml-6 xxl:md:ml-6">
                     <span className="mt-1 font-semibold">단위명</span>
-                    <input
-                      className="w-64 rounded-sm border border-gray-300 bg-gray-200 px-3 py-1 xs:w-40 sm:w-40"
+                    <Input
+                      className="w-64 rounded-md border border-gray-300 bg-gray-200 px-3 py-1 xs:w-40 sm:w-40"
                       value={userData?.name}
                       readOnly
                     />
 
                     <span className="mt-1 font-semibold">닉네임</span>
-                    <input
+                    <Input
                       {...register('nickname')}
-                      className="w-64 rounded-sm border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
+                      className="w-64 rounded-md border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
                     />
                   </div>
                   <h3 className="mt-10 pr-44 text-lg font-bold xs:text-base sm:text-base">비밀번호 변경</h3>
-                  <div className="grid grid-cols-[1fr_5fr] gap-x-3 gap-y-2.5 py-4 text-sm xs:grid-cols-[2fr_5fr] xs:text-xs sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 lg:ml-6 xl:ml-6 xxl:md:ml-6">
+                  <div className="grid grid-cols-[1fr_5fr] items-center gap-x-3 gap-y-2.5 py-4 text-sm xs:grid-cols-[2fr_5fr] xs:text-xs sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 lg:ml-6 xl:ml-6 xxl:md:ml-6">
                     <span className="mt-1 font-semibold">기존 비밀번호</span>
                     <div className="flex flex-row xs:flex-col sm:flex-col md:flex-col lg:items-center xl:items-center xxl:items-center">
-                      <input
+                      <Input
                         type="password"
                         {...register('currentPassword', { required: '현재 비밀번호를 입력하세요.' })}
-                        className="w-56 rounded-sm border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
+                        className="w-56 rounded-md border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
                       />
                       {errors.currentPassword && (
                         <span className="text-red-500 xs:mt-2 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
@@ -117,10 +144,10 @@ export default function ProfilePage() {
 
                     <span className="mt-1 font-semibold">새 비밀번호</span>
                     <div className="flex flex-row xs:flex-col sm:flex-col md:flex-col lg:items-center xl:items-center xxl:items-center">
-                      <input
+                      <Input
                         type="password"
                         {...register('newPassword', { required: '새 비밀번호를 입력하세요.' })}
-                        className="w-56 rounded-sm border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
+                        className="w-56 rounded-md border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
                       />
                       {errors.newPassword && (
                         <span className="text-red-500 xs:mt-2 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
@@ -131,13 +158,13 @@ export default function ProfilePage() {
 
                     <span className="mt-1 font-semibold">비밀번호 확인</span>
                     <div className="flex flex-row xs:flex-col sm:flex-col md:flex-col lg:items-center xl:items-center xxl:items-center">
-                      <input
+                      <Input
                         type="password"
                         {...register('confirmNewPassword', {
                           required: '비밀번호를 확인해주세요.',
                           validate: (value) => value === watch('newPassword') || '비밀번호가 일치하지 않습니다.',
                         })}
-                        className="w-56 rounded-sm border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
+                        className="w-56 rounded-md border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
                       />
                       {errors.confirmNewPassword && (
                         <span className="text-red-500 xs:mt-2 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
@@ -147,19 +174,19 @@ export default function ProfilePage() {
                     </div>
                   </div>
                   <div className="my-16 mr-10 flex self-end xs:mr-0 xs:self-center sm:mr-0 sm:self-center">
-                    <button
+                    <Button
                       type="button"
                       onClick={() => setIsEditing(false)}
                       className="mr-2 rounded-xs border border-gray-400 bg-white px-6 py-1 text-center text-gray-700 hover:bg-gray-100 xs:text-xs sm:text-xs md:text-sm"
                     >
                       취소
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="submit"
                       className="mr-2 rounded-xs border border-blue-600 bg-blue-600 px-6 py-1 text-center text-white hover:bg-blue-700 xs:text-xs sm:text-xs md:text-sm"
                     >
                       완료
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </form>
@@ -173,12 +200,12 @@ export default function ProfilePage() {
                   <span className="font-semibold">닉네임</span>
                   <span>{userData?.nickname}</span>
                 </div>
-                <button
+                <Button
                   onClick={() => setIsEditing(true)}
                   className="mb-10 mr-10 self-end rounded-xs border border-gray-400 bg-white px-5 py-1.5 text-center text-gray-700 hover:bg-gray-100 xs:mr-0 xs:self-center xs:text-xs sm:mr-0 sm:self-center sm:text-xs md:text-sm"
                 >
                   수정하기
-                </button>
+                </Button>
               </div>
             )}
           </div>

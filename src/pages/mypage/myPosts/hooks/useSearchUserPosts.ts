@@ -1,25 +1,26 @@
-import { getUserPostsSearch } from '@/apis/getUserPostsSearch';
+import { useStuQuery } from '@/hooks/new/useStuQuery';
 import { GetUserPostsResponse } from '@/types/apis/get';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { UseQueryOptions } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { ApiError } from '@/hooks/new/useStuQuery';
+
+type UseSearchUserPostsOptions = {
+  queryOptions?: UseQueryOptions<GetUserPostsResponse, AxiosError | ApiError>;
+};
 
 export const useSearchUserPosts = (
   page: number,
   take: number,
-  q: string
-): UseQueryResult<GetUserPostsResponse, AxiosError> => {
-  return useQuery<GetUserPostsResponse, AxiosError>({
-    queryKey: ['get-user-posts', page, take, q],
-    queryFn: async () => {
-      try {
-        return await getUserPostsSearch(page, take, q);
-      } catch (error) {
-        console.error('API Error:', error);
-        if (axios.isAxiosError(error)) {
-          console.error('Error response:', error.response?.data);
-        }
-        throw error;
-      }
+  q: string,
+  { queryOptions }: UseSearchUserPostsOptions = {}
+) => {
+  return useStuQuery<GetUserPostsResponse>(
+    ['get-user-posts-search', page, take, q],
+    {
+      url: `/board/mypost/search`,
+      method: 'GET',
+      params: { page, take, q },
     },
-  });
+    queryOptions
+  );
 };

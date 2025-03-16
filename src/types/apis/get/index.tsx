@@ -72,15 +72,13 @@ export interface getBoardPostsProps {
 }
 
 export interface GetUserProfileResponse {
-  data: {
-    name: string;
-    nickname?: string;
-    account?: string;
-    studentId?: string;
-    majorCode?: string;
-    memberCode: string;
-    isUnion: boolean;
-  };
+  name: string;
+  nickname?: string;
+  account?: string;
+  studentId?: string;
+  majorCode?: string;
+  memberCode: string;
+  isUnion: boolean;
 }
 
 export interface PatchUserProfileRequest {
@@ -109,10 +107,8 @@ export interface PostListResDto {
 }
 
 export interface GetUserPostsResponse {
-  data: {
-    postListResDto: PostListResDto[];
-    pageInfo: UserPostsPageInfo;
-  };
+  postListResDto: PostListResDto[];
+  pageInfo: UserPostsPageInfo;
 }
 
 export interface UserPostsPageInfo {

@@ -5,6 +5,31 @@ import { useGetUserPosts } from './hooks/useGetUserPosts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useSearchUserPosts } from './hooks/useSearchUserPosts';
+import { Skeleton } from '@/components/ui/skeleton';
+// import Pagination from '@/components/Pagination';
+
+const PostSkeleton = () => (
+  <div className="mx-16 my-4 border-b border-gray-200 p-4">
+    <div className="flex items-start gap-4">
+      <Skeleton className="h-5 w-14" />
+      <Skeleton className="h-5 w-4/5" />
+      <div className="flex-col space-y-2">
+        <Skeleton className="h-5 w-10" />
+        <Skeleton className="h-4 w-10" />
+      </div>
+    </div>
+  </div>
+);
+
+const PostsLoadingSkeleton = () => {
+  return (
+    <>
+      {[...Array(6)].map((_, index) => (
+        <PostSkeleton key={index} />
+      ))}
+    </>
+  );
+};
 
 function MyPostsPage() {
   const [page, setPage] = useState(0);
@@ -19,7 +44,7 @@ function MyPostsPage() {
   const isLoading = query ? searchData.isLoading : userPostsData.isLoading;
   const error = query ? searchData.error : userPostsData.error;
 
-  const totalPages = data?.data?.pageInfo?.totalPages ?? 1;
+  const totalPages = data?.pageInfo?.totalPages ?? 1;
 
   const onClickSearch = () => {
     console.log(searchText);
@@ -39,8 +64,18 @@ function MyPostsPage() {
   };
 
   if (isLoading) {
-    console.log('loading');
-    return null;
+    return (
+      <div className="flex flex-col">
+        <UserContainer />
+        <div>
+          <div className="mx-16 flex items-center border-b-[1px] border-solid border-gray-500 pb-1">
+            <span className="pl-2">작성 글</span>
+            <Skeleton className="ml-2 h-4 w-5" />
+          </div>
+          <PostsLoadingSkeleton />
+        </div>
+      </div>
+    );
   }
 
   if (error || !data) {
@@ -54,9 +89,11 @@ function MyPostsPage() {
       <div>
         <div className="mx-16 flex items-center border-b-[1px] border-solid border-gray-500 pb-1">
           <span className="pl-2">작성 글</span>
-          <span className="ml-2 text-center font-semibold">{data?.data.pageInfo.totalElements}</span>
+          <span className="ml-2 text-center font-semibold">{data.pageInfo.totalElements}</span>
         </div>
-        {data?.data?.postListResDto?.map((post) => <MyPostsContent key={post.postId} data={post} />)}
+        {data.postListResDto.map((post) => (
+          <MyPostsContent key={post.postId} data={post} />
+        ))}
       </div>
       <div className="mb-6 mt-14 flex items-center justify-center text-sm">
         <button
@@ -85,6 +122,7 @@ function MyPostsPage() {
           &gt;
         </button>
       </div>
+      {/* <Pagination totalPages={totalPages} currentPage={page} onPageChange={handlePageClick} /> */}
       <div className="mb-16 flex justify-center gap-3">
         <Input
           type="text"

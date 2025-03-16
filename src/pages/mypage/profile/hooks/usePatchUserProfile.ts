@@ -1,20 +1,22 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { patchUserProfile } from '@/apis/patchUserProfile';
-import { AxiosError } from 'axios';
+import { clientAuth } from '@/apis/client';
+import { useStuMutation } from '@/hooks/new/useStuMutation';
+import { ApiResponse } from '@/hooks/new/useStuQuery';
 import { PatchUserProfileRequest, PatchUserProfileResponse } from '@/types/apis/get';
+import { UseMutationOptions } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
-export const usePatchUserProfile = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation<PatchUserProfileResponse, AxiosError, PatchUserProfileRequest>({
-    mutationFn: async (patchData) => {
-      return await patchUserProfile(patchData);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['get-user-profile'] });
-    },
-    // onError: (error) => {
-    //   console.error('정보 수정 실패:', error.response?.data);
-    // },
-  });
+type UsePatchUserProfileOptions = {
+  mutationOptions?: UseMutationOptions<PatchUserProfileResponse, AxiosError, PatchUserProfileRequest>;
 };
+
+export function usePatchUserProfile({ mutationOptions }: UsePatchUserProfileOptions = {}) {
+  return useStuMutation(async (data: PatchUserProfileRequest) => {
+    return (
+      await clientAuth<ApiResponse<PatchUserProfileResponse>>({
+        method: 'patch',
+        url: '/users/mypage',
+        data,
+      })
+    ).data;
+  }, mutationOptions);
+}
