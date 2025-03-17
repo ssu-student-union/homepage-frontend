@@ -10,11 +10,11 @@ function getImagePaths(category: string, subCategory: string) {
   // public 폴더의 구조에 맞게 경로 수정
   const basePath = `/intro/${category}/${subCategory}`; // 'public/'은 생략
   return {
-    xs: `${basePath}/xs.png`,
-    sm: `${basePath}/sm.jpg`,
-    md: `${basePath}/md.jpg`,
-    lg: `${basePath}/lg.jpg`,
-    xl: `${basePath}/xl.jpg`,
+    xs: `${basePath}/xs.webp`,
+    sm: `${basePath}/sm.webp`,
+    md: `${basePath}/md.webp`,
+    lg: `${basePath}/lg.webp`,
+    xl: `${basePath}/xl.webp`,
   };
 }
 
