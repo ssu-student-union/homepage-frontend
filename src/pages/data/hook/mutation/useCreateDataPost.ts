@@ -8,11 +8,12 @@ type UseCreateDataPostOptions = Omit<UseCreatePostOptions<DataPostEditRequest>, 
 
 // 자료집 POST
 export function useCreateDataPost({ fileCategory, mutationOptions }: UseCreateDataPostOptions) {
+  const parsedCategory = fileCategory.replace(/ /g, '_').replace(/·/g, '');
   return useStuMutation(async ({ post }) => {
     return (
       await clientAuth<ApiResponse<CreatePostResponse>>({
         method: 'post',
-        url: `/board/data/${fileCategory}/post`,
+        url: `/board/data/${parsedCategory}/post`,
         data: post,
       })
     ).data;

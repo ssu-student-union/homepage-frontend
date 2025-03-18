@@ -32,7 +32,12 @@ export const DataPostEditFormSchema = z.object({
   postId: z.number().optional(),
   title: z.string().min(1).max(50),
   content: z.string().min(1),
-  category: z.string().min(1),
+  category: z.preprocess((val) => {
+    if (typeof val === 'string') {
+      return val.replace(/ /g, '_').replace(/·/g, '');
+    }
+    return val;
+  }, z.string().min(1)),
   postFileList: z.array(z.number()),
   isNotice: z.boolean(),
 });
