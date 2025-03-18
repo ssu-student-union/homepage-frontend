@@ -124,7 +124,7 @@ export default function DataEditPage() {
             name: fileName,
             isUploaded: true,
             id: postFileId,
-            category: fileType.replace(/·/g, ''),
+            category: fileType.replace(/ /g, '_').replace(/·/g, ''),
           })
         );
 
@@ -180,7 +180,10 @@ export default function DataEditPage() {
 
       const uploadedFiles = await Promise.all(
         localFiles.map(async (file) => {
-          const { postFiles } = await uploadFiles({ fileType: file.category!, files: [file.file] });
+          const { postFiles } = await uploadFiles({
+            fileType: file.category!.replace(/ /g, '_').replace(/·/g, ''),
+            files: [file.file],
+          });
           return postFiles.map(({ id }) => id);
         })
       );

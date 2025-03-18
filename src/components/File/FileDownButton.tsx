@@ -20,7 +20,7 @@ export default function FileDownButton({ file, className }: { file: FileResponse
       href={file.fileUrl}
       download={file.fileName}
     >
-      {`${file.fileType} ${fileExtension.toUpperCase()}`}
+      {file.fileName === '구자료집' ? `${file.fileType}` : `${file.fileType} ${fileExtension.toUpperCase()}`}
     </a>
   );
 }
