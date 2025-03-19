@@ -41,10 +41,10 @@ export function getStyles(state: Size): Styles {
     case Size.small:
       return {
         container: 'px-5 py-[0.81rem] w-full h-[7.56rem]',
-        textBox: 'gap-1 h-[60px]',
+        textBox: 'gap-1 h-[72px]',
         title: 'text-base line-clamp-1',
         subtitle: 'line-clamp-3 text-xs leading-4',
-        date: 'h-[1.88rem] text-[0.62rem]',
+        date: 'h-[1.5rem] text-[0.62rem]',
         image: 'min-w-[5.94rem] max-w-[5.94rem] h-[5.94rem]',
         gap: 'gap-[1.06rem]',
         profileImg: 'w-3.5 h-3.5',
