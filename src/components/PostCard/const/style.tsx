@@ -31,7 +31,7 @@ export function getStyles(state: Size): Styles {
         container: 'px-5 py-[1.44rem] w-full h-[10.69rem]',
         textBox: 'gap-1 h-[96px]',
         title: 'text-base line-clamp-1',
-        subtitle: 'line-clamp-4 text-sm leading-4',
+        subtitle: 'line-clamp-3 text-sm leading-4',
         date: 'h-[1.88rem] text-sm',
         image: 'min-w-[7.81rem] max-w-[7.81rem] h-[7.81rem]',
         gap: 'gap-[1.69rem]',
