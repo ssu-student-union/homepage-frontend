@@ -31,6 +31,8 @@ const PostCard = ({
 }: PostCardProps) => {
   const styles = getStyles(size);
 
+  const removeTags = subtitle.replace(/<\/?[^>]+(>|$)/g, '');
+
   return (
     <div className="relative">
       <div
@@ -49,7 +51,7 @@ const PostCard = ({
           <div className="w-full flex-col">
             <div className={cn(`flex flex-col`, styles.textBox)}>
               <p className={cn('line-clamp-2 break-all font-semibold', styles.title)}>{title}</p>
-              <p className={cn('font-normal text-gray-500', styles.subtitle)}>{subtitle}</p>
+              <p className={cn('font-normal text-gray-500', styles.subtitle)}>{removeTags}</p>
             </div>
             <hr className={`w-full border border-gray-300 ${styles.hr}`} />
             <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>
