@@ -98,7 +98,6 @@ export default function DataPage() {
             <DataContentItem
               key={post.postId}
               to={`/data/${post.postId}`}
-              category={post.category}
               date={post.date}
               title={post.title}
               content={post.content}
