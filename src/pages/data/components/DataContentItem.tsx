@@ -10,7 +10,6 @@ interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
   title: string;
   content: string;
   date: Date;
-  category: string;
   isNotice: boolean;
   className?: string;
   files: FileResponse[];
@@ -22,7 +21,7 @@ interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
  * 자료집에 쓰이는 자료 목록에서 사용할 수 있는 자료 항목 컴포넌트입니다.
  * 일반적으로 `BodyLayout` 아래에 리스트 형태 아이템으로 표시할 수 있습니다.
  */
-export function DataContentItem({ title, content, date, category, isNotice, files, ...props }: DataContentProp) {
+export function DataContentItem({ title, content, date, isNotice, files, ...props }: DataContentProp) {
   const formattedDate = dayjs(date).format('(YYYY.MM.DD)');
   return (
     <div
@@ -32,7 +31,7 @@ export function DataContentItem({ title, content, date, category, isNotice, file
     >
       <Link {...props} className="flex grow flex-row items-start justify-start">
         <div className={cn('mr-[1.125rem]', isNotice ? 'text-primary' : 'text-muted-foreground')}>
-          [{isNotice ? '공지' : category}]
+          [{isNotice ? '공지' : content}]
         </div>
         <p>
           {title} - {formattedDate}

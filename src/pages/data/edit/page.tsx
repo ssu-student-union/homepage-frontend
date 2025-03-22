@@ -34,11 +34,10 @@ function PageSkeleton() {
   );
 }
 
-function postTransformer({ postId, category, title, fileResponseList, content }: DataPost): DataPostEditForm {
+function postTransformer({ postId, title, fileResponseList, content }: DataPost): DataPostEditForm {
   return {
     postId,
     title,
-    category,
     postFileList: fileResponseList.map((file) => file.postFileId),
     isNotice: false,
     content,
@@ -79,7 +78,6 @@ export default function DataEditPage() {
     trigger,
     formState: { errors },
   } = useDataForm({
-    category: '',
     isNotice: category === '총학생회칙',
     postFileList: [],
   });
@@ -181,7 +179,7 @@ export default function DataEditPage() {
       const uploadedFiles = await Promise.all(
         localFiles.map(async (file) => {
           const { postFiles } = await uploadFiles({
-            fileType: file.category!.replace(/ /g, '_').replace(/·/g, ''),
+            fileType: file.category!.replace(/·/g, ''),
             files: [file.file],
           });
           return postFiles.map(({ id }) => id);
@@ -275,7 +273,6 @@ export default function DataEditPage() {
               optionValue={categories}
               onValueChange={(value) => {
                 setCategory(value);
-                setValue('category', value);
               }}
               value={category}
             />
