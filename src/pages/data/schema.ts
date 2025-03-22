@@ -49,7 +49,7 @@ export const DataPostSummarySchema = z.object({
 export const DataPostSchema = z.object({
   allowedAuthorities: z.array(PostAclSchema).nullable().default([]),
   authorName: z.string(),
-  category: z.string(),
+  category: z.string().nullable(),
   content: z.string(),
   createdAt: z.string().transform((str) => new Date(str)),
   fileResponseList: z.array(FileResponseSchema),
