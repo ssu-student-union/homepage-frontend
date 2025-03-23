@@ -7,13 +7,12 @@ import { DataPostEditRequest } from '../../schema';
 type UseCreateDataPostOptions = Omit<UseCreatePostOptions<DataPostEditRequest>, 'boardCode'> & { fileCategory: string };
 
 // 자료집 POST
-export function useCreateDataPost({ fileCategory, mutationOptions }: UseCreateDataPostOptions) {
-  const parsedCategory = fileCategory.replace(/ /g, '_').replace(/·/g, '');
+export function useCreateDataPost({ mutationOptions }: UseCreateDataPostOptions) {
   return useStuMutation(async ({ post }) => {
     return (
       await clientAuth<ApiResponse<CreatePostResponse>>({
         method: 'post',
-        url: `/board/data/${parsedCategory}/post`,
+        url: `/board/data/post`,
         data: post,
       })
     ).data;

@@ -34,10 +34,12 @@ function PageSkeleton() {
   );
 }
 
-function postTransformer({ postId, title, fileResponseList, content }: DataPost): DataPostEditForm {
+function postTransformer({ postId, title, category, fileResponseList, content }: DataPost): DataPostEditForm {
   return {
     postId,
     title,
+    category: category ?? '',
+    fileCategory: category ?? '',
     postFileList: fileResponseList.map((file) => file.postFileId),
     isNotice: false,
     content,
@@ -78,6 +80,7 @@ export default function DataEditPage() {
     trigger,
     formState: { errors },
   } = useDataForm({
+    category: '',
     isNotice: category === '총학생회칙',
     postFileList: [],
   });
@@ -273,6 +276,8 @@ export default function DataEditPage() {
               optionValue={categories}
               onValueChange={(value) => {
                 setCategory(value);
+                setValue('category', value);
+                setValue('fileCategory', value);
               }}
               value={category}
             />
