@@ -6,7 +6,7 @@ import '@/translate/i18n';
 import mixpanel from 'mixpanel-browser';
 
 // Near entry of your product, init Mixpanel
-mixpanel.init(import.meta.env.MIXPANEL_TOKEN, {
+mixpanel.init(import.meta.env.VITE_MIXPANEL_TOKEN, {
   debug: import.meta.env.DEV,
   track_pageview: true,
   persistence: 'localStorage',
