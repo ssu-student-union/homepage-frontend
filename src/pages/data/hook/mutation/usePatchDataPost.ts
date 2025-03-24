@@ -6,13 +6,12 @@ import { UsePatchPostOptions } from '@/hooks/new/mutations/usePatchPost';
 
 type UsePatchDataPostOptions = Omit<UsePatchPostOptions<DataPostEditRequest>, 'boardCode'> & { fileCategory: string };
 
-export function usePatchDataPost({ fileCategory, mutationOptions }: UsePatchDataPostOptions) {
-  const parsedCategory = fileCategory.replace(/ /g, '_').replace(/·/g, '');
+export function usePatchDataPost({ mutationOptions }: UsePatchDataPostOptions) {
   return useStuMutation(async ({ id, post }) => {
     return (
       await clientAuth<ApiResponse<number>>({
         method: 'patch',
-        url: `/board/data/${parsedCategory}/posts/${id}`,
+        url: `/board/data/posts/${id}`,
         data: post,
       })
     ).data;
