@@ -18,6 +18,8 @@ import { useDeleteQnaReply } from '../hooks/useDeleteQnaReplyComment';
 import { usePatchComment } from '@/hooks/new/mutations/usePatchComment';
 import { useGetComments } from '@/hooks/new/query/useGetComments';
 
+const boardCode = '질의응답게시판';
+
 function PageSkeleton() {
   return (
     <article className="mb-20 mt-[120px]">
@@ -80,7 +82,7 @@ export default function QnaDetailPage() {
             queryKey: ['getComments', postId],
           });
           await queryClient.invalidateQueries({
-            queryKey: ['getPost', postId],
+            queryKey: ['getPost', boardCode, postId],
           });
         },
       }
@@ -99,7 +101,7 @@ export default function QnaDetailPage() {
             queryKey: ['getComments', postId],
           });
           queryClient.invalidateQueries({
-            queryKey: ['getPost', postId],
+            queryKey: ['getPost', boardCode, postId],
           });
         },
       }
@@ -115,7 +117,7 @@ export default function QnaDetailPage() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
-          queryClient.invalidateQueries({ queryKey: ['getPost', postId] });
+          queryClient.invalidateQueries({ queryKey: ['getPost', boardCode, postId] });
         },
       }
     );
