@@ -154,6 +154,8 @@ export function QnApage() {
     }
   }
 
+  console.log('리스트 데이터', data);
+
   return (
     <>
       <HeadLayout title="질의응답게시판" subtitle={subtitle} />
