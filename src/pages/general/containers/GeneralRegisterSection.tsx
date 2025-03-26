@@ -122,6 +122,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
           const separator = redirectUrl.includes('?') ? '&' : '?';
           const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
           localStorage.removeItem('redirectUrl');
+          localStorage.removeItem('kakaoData');
           window.location.href = newRedirectUrl;
           return;
         }
@@ -275,7 +276,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                   >
                     <SelectValue placeholder={t('onboarding.단과대 선택')} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className={cn('z-20 max-h-48')}>
                     {faculties.map((faculty) => (
                       <SelectItem className={cn('py-3')} key={faculty} value={faculty}>
                         {t(`faculties.${faculty}`)}
@@ -299,7 +300,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                   >
                     <SelectValue placeholder={t('onboarding.학과/부 선택')} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className={cn('z-20 max-h-48')}>
                     {(departments[selectedFaculty] || []).map((department) => (
                       <SelectItem className={cn('py-3')} key={department} value={department}>
                         {t(`departments.${department}`)}

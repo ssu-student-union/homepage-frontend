@@ -1,4 +1,3 @@
-import useTruncateText from '@/hooks/useTruncateText';
 import { Badge } from '../ui/badge';
 import { Size } from './const/state';
 import { getStyles } from './const/style';
@@ -32,11 +31,7 @@ const PostCard = ({
 }: PostCardProps) => {
   const styles = getStyles(size);
 
-  const maxTitleLength = size === Size.default ? 12 : 8;
-  const maxSubtitleLength = size === Size.default ? 24 : 18;
-
-  const truncatedTitle = title.slice(0, 4) + useTruncateText(title.slice(4), maxTitleLength as number);
-  const truncatedSubtitle = useTruncateText(subtitle, maxSubtitleLength as number);
+  const removeTags = subtitle.replace(/<\/?[^>]+(>|$)/g, '');
 
   return (
     <div className="relative">
@@ -54,9 +49,9 @@ const PostCard = ({
         <div className={`flex h-full w-full ${styles.gap}`}>
           <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
           <div className="w-full flex-col">
-            <div className={`flex flex-col ${styles.title}`}>
-              <p className={`line-clamp-2 font-semibold`}>{truncatedTitle}</p>
-              <p className={`line-clamp-2 font-normal text-gray-500 ${styles.subtitle}`}>{truncatedSubtitle}</p>
+            <div className={cn(`flex flex-col`, styles.textBox)}>
+              <p className={cn('line-clamp-2 break-all font-semibold', styles.title)}>{title}</p>
+              <p className={cn('font-normal text-gray-500', styles.subtitle)}>{removeTags}</p>
             </div>
             <hr className={`w-full border border-gray-300 ${styles.hr}`} />
             <div className={`flex items-end gap-1 font-normal text-gray-500 ${styles.date}`}>

@@ -1,9 +1,7 @@
 import { useResize } from '@/hooks/useResize';
-import xxl from '@/assets/image/xxl_campusMap.svg';
-import xl from '@/assets/image/xl_campusMap.svg';
-import lg from '@/assets/image/lg_campusMap.svg';
-import sm from '@/assets/image/sm_campusMap.svg';
-import xs from '@/assets/image/xs_campusMap.svg';
+import xl from '@/assets/image/campus-map/xl.svg';
+import md from '@/assets/image/campus-map/md.svg';
+import sm from '@/assets/image/campus-map/sm.svg';
 
 const CampusMapSection = () => {
   const { width } = useResize();
@@ -13,16 +11,12 @@ const CampusMapSection = () => {
         className="h-auto w-full"
         src={(() => {
           switch (true) {
-            case width < 390:
-              return xs;
-            case width < 1080:
+            case width < 720:
               return sm;
-            case width < 1440:
-              return lg;
-            case width < 1920:
+            case width < 1080:
+              return md;
+            case width >= 1440:
               return xl;
-            case width >= 1920:
-              return xxl;
             default:
               return '';
           }

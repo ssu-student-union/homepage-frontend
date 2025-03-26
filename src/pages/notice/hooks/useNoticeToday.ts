@@ -17,8 +17,6 @@ export function useTodayPosts(boardCode: string, category: string, subCategory: 
   // ✅ useMemo를 사용하여 posts 값 메모이제이션 (불필요한 재계산 방지)
   const posts: NoticePost[] = useMemo(() => data?.data?.postListResDto || [], [data]);
 
-  console.log(data);
-
   const isPostToday = (dateString: string): boolean => {
     const today = new Date();
     const todayKST = new Intl.DateTimeFormat('ko-KR', {

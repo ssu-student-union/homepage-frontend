@@ -20,7 +20,7 @@ const Counter = ({ slideCount, currentSlide }: { slideCount: number; currentSlid
   </div>
 );
 
-const images = ['/image/main/1.jpeg', '/image/main/2.jpeg', '/image/main/3.jpeg'];
+const images = ['/image/main/main-1.webp', '/image/main/main-2.webp', '/image/main/main-3.webp'];
 
 const MainCarousel = ({ id }: { id: string }) => {
   const [currentSlide, setCurrentSlide] = useState(0);

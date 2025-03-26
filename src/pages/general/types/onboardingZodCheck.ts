@@ -5,8 +5,8 @@ export const LoginSchemaRegister = z.object({
   name: z
     .string()
     .min(1, i18n.t('onboarding_validation.name_required'))
-    .max(10, i18n.t('onboarding_validation.name_max'))
-    .regex(/^[가-힣]+$/, i18n.t('onboarding_validation.name_regex')),
+    .max(50, i18n.t('onboarding_validation.name_max'))
+    .regex(/^[^!@#$%^&*()\-_=+[\]{};:'",.<>?/\\|`~]+$/, i18n.t('onboarding_validation.name_regex')),
   studentId: z
     .string()
     .length(8, i18n.t('onboarding_validation.studentId_length'))
