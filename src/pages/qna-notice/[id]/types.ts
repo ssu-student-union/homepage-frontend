@@ -23,6 +23,7 @@ export interface QnaOfficialComment {
   createdAt: string;
   lastEditedAt: string | null;
   isAuthor: boolean;
+  isDeleted: boolean;
 }
 
 // API 응답의 data 내부 구조를 나타내는 타입
