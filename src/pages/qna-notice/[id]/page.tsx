@@ -18,6 +18,8 @@ import { useDeleteQnaReply } from '../hooks/useDeleteQnaReplyComment';
 import { usePatchComment } from '@/hooks/new/mutations/usePatchComment';
 import { useGetComments } from '@/hooks/new/query/useGetComments';
 
+const boardCode = '질의응답게시판';
+
 function PageSkeleton() {
   return (
     <article className="mb-20 mt-[120px]">
@@ -43,7 +45,7 @@ export default function QnaDetailPage() {
     navigate('/');
   }
 
-  // 상세 게시글 조화 & 댓글 조회
+  // 상세 게시글 조회 & 댓글 조회
   const { data, isLoading, isError, error } = useGetQnaDetail({ postId });
 
   const {
@@ -80,7 +82,7 @@ export default function QnaDetailPage() {
             queryKey: ['getComments', postId],
           });
           await queryClient.invalidateQueries({
-            queryKey: ['getPost', postId],
+            queryKey: ['getPost', boardCode, postId],
           });
         },
       }
@@ -99,7 +101,7 @@ export default function QnaDetailPage() {
             queryKey: ['getComments', postId],
           });
           queryClient.invalidateQueries({
-            queryKey: ['getPost', postId],
+            queryKey: ['getPost', boardCode, postId],
           });
         },
       }
@@ -115,7 +117,7 @@ export default function QnaDetailPage() {
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['getComments', postId] });
-          queryClient.invalidateQueries({ queryKey: ['getPost', postId] });
+          queryClient.invalidateQueries({ queryKey: ['getPost', boardCode, postId] });
         },
       }
     );
@@ -214,7 +216,8 @@ export default function QnaDetailPage() {
                   commentType={comment.commentType}
                   lastEditedAt={comment.lastEditedAt ? convertToDate(comment.lastEditedAt) : undefined}
                   editable={comment.isAuthor}
-                  deletable={comment.commentType !== 'OFFICIAL' && (comment.isAuthor || commentDeletable)}
+                  deletable={comment.isAuthor || commentDeletable}
+                  deleted={comment.isDeleted ?? false}
                   onDelete={() => handleDeleteComment(comment.id)}
                   onEdit={(content) => handlePatchComment(comment.id, content)}
                 >
