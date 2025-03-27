@@ -45,7 +45,7 @@ export default function QnaDetailPage() {
     navigate('/');
   }
 
-  // 상세 게시글 조화 & 댓글 조회
+  // 상세 게시글 조회 & 댓글 조회
   const { data, isLoading, isError, error } = useGetQnaDetail({ postId });
 
   const {
