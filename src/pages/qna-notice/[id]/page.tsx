@@ -217,6 +217,7 @@ export default function QnaDetailPage() {
                   lastEditedAt={comment.lastEditedAt ? convertToDate(comment.lastEditedAt) : undefined}
                   editable={comment.isAuthor}
                   deletable={comment.isAuthor || commentDeletable}
+                  deleted={comment.isDeleted ?? false}
                   onDelete={() => handleDeleteComment(comment.id)}
                   onEdit={(content) => handlePatchComment(comment.id, content)}
                 >
