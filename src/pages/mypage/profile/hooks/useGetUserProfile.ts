@@ -1,11 +1,20 @@
-import { getUserProfile } from '@/apis/getUserProfile';
-import { getUserProfileResponse } from '@/types/apis/get';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useStuQuery } from '@/hooks/new/useStuQuery';
+import { GetUserProfileResponse } from '@/types/apis/get';
+import { UseQueryOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { ApiError } from '@/hooks/new/useStuQuery';
 
-export const useGetUserProfile = (): UseQueryResult<getUserProfileResponse, AxiosError> => {
-  return useQuery<getUserProfileResponse, AxiosError>({
-    queryKey: ['get-user-profile'],
-    queryFn: getUserProfile,
-  });
+type UseGetUserProfileOptions = {
+  queryOptions?: UseQueryOptions<GetUserProfileResponse, AxiosError | ApiError>;
+};
+
+export const useGetUserProfile = ({ queryOptions }: UseGetUserProfileOptions = {}) => {
+  return useStuQuery<GetUserProfileResponse>(
+    ['get-user-profile'],
+    {
+      url: `/users/mypage`,
+      method: 'GET',
+    },
+    queryOptions
+  );
 };
