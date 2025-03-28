@@ -41,8 +41,8 @@ jobs:
           username: ubuntu
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          source: "dist.tar"
-          target: "/home/ubuntu/"
+          source: 'dist.tar'
+          target: '/home/ubuntu/'
       - name: Extract artifact with SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
