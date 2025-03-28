@@ -52,7 +52,8 @@
     "인권신고게시판": "Human Rights Report Board",
     "마이페이지": "My Page",
     "인기청원": "Trending Petitions",
-    "질의응답게시판": "Q&A Board"
+    "질의응답게시판": "Q&A Board",
+    "홈페이지 이용안내": "Website Usage Guide"
   },
   "board-navigator": {
     "총학생회": "Student Council",
@@ -62,12 +63,16 @@
     "단과대": "College",
     "학생자치기구": "Student Organization",
     "소개": "About",
-    "게시판": "Board"
+    "게시판": "Board",
+    "개인정보처리방침": "Privacy Policy",
+    "이용약관": "Terms of Service",
+    "이메일무단수집거부": "Refusal of Unauthorized Email Collection"
   },
   "board-selector": {
     "전체": "All",
     "총학생회": "Student Council",
     "중앙운영위원회": "Central Operating Committee",
+    "중앙감사위원회": "Central Audit Committee",
     "중앙선거관리위원회": "Central Election Commission",
     "동아리연합회": "Club Federation",
     "경영대학": "Business School",

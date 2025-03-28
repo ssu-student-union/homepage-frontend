@@ -34,11 +34,12 @@ function PageSkeleton() {
   );
 }
 
-function postTransformer({ postId, category, title, fileResponseList, content }: DataPost): DataPostEditForm {
+function postTransformer({ postId, title, category, fileResponseList, content }: DataPost): DataPostEditForm {
   return {
     postId,
     title,
-    category,
+    category: category ?? '',
+    fileCategory: category ?? '',
     postFileList: fileResponseList.map((file) => file.postFileId),
     isNotice: false,
     content,
@@ -124,7 +125,7 @@ export default function DataEditPage() {
             name: fileName,
             isUploaded: true,
             id: postFileId,
-            category: fileType.replace(/·/g, ''),
+            category: fileType.replace(/ /g, '_').replace(/·/g, ''),
           })
         );
 
@@ -180,7 +181,10 @@ export default function DataEditPage() {
 
       const uploadedFiles = await Promise.all(
         localFiles.map(async (file) => {
-          const { postFiles } = await uploadFiles({ fileType: file.category!, files: [file.file] });
+          const { postFiles } = await uploadFiles({
+            fileType: file.category!.replace(/·/g, ''),
+            files: [file.file],
+          });
           return postFiles.map(({ id }) => id);
         })
       );
@@ -273,6 +277,7 @@ export default function DataEditPage() {
               onValueChange={(value) => {
                 setCategory(value);
                 setValue('category', value);
+                setValue('fileCategory', value);
               }}
               value={category}
             />

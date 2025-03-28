@@ -49,7 +49,11 @@ export default function SortOptions({
       {/* 소분류 */}
       <FilterDropDown
         defaultValue="소분류"
-        optionValue={CATEGORIES.minorOptions[middleCategory] || []}
+        optionValue={
+          majorCategory === '선거관리위원회' && middleCategory !== '중앙선거관리위원회'
+            ? (CATEGORIES.minorOptions?.[`${middleCategory}선거관리위원회`] ?? [])
+            : (CATEGORIES.minorOptions?.[middleCategory.replace(/ /g, '_')] ?? [])
+        }
         onValueChange={onMinorChange}
         value={subCategory}
         className={cn(defaultFilterStyle, middleCategory || 'pointer-events-none border-gray-500')}

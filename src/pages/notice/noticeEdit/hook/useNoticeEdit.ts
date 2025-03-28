@@ -60,7 +60,7 @@ export function useNoticeEdit() {
         groupCodeList = ['']; // 기본값 없음으로 해서 오류 시 서버에만 쌓이게 하기(게시판엔 안 보여짐!)
       }
 
-      await createPost({
+      const createPostResponse = await createPost({
         boardCode: '공지사항게시판',
         post: {
           title,
@@ -73,11 +73,13 @@ export function useNoticeEdit() {
         },
       });
 
+      const postId = createPostResponse.data.post_id;
+
       queryClient.invalidateQueries({
         queryKey: ['get-board-boardCode-posts-search', NOTICE_BOARD_CODE],
       });
 
-      navigate(`/notice?category=central&sub-category=all`);
+      navigate(`/notice/${postId}`);
     } catch (e) {
       console.error(e);
     }

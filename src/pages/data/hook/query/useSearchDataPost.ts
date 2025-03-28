@@ -6,7 +6,7 @@ import { PostsResponse } from '@/hooks/new/query/useSearchPosts';
 import { DataPostSummary, DataPostSummaryResponse, DataPostSummarySchema } from '@/pages/data/schema';
 
 /**
- * 자료집 목록 데이터 검색 API 훅훅입니다.
+ * 자료집 목록 데이터 검색 API 훅입니다.
  */
 
 export interface SearchDataPostsOptions<TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
@@ -47,7 +47,7 @@ export function useSearchDataPosts({
       q: q ?? '',
       majorCategory,
       middleCategory,
-      subCategory,
+      subCategory: subCategory!.replace(/·/g, ''),
     }).filter(([_, v]) => v !== '')
   );
 

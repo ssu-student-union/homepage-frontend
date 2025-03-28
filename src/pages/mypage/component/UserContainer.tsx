@@ -35,7 +35,6 @@ export default function UserContainer() {
             <AvatarImage src="/image/mypage/profile_img.png" alt="profile_default_img" />
             <AvatarFallback>User</AvatarFallback>
           </Avatar>
-
           <div className="mb-4">
             <div className="mb-2 flex items-center xs:justify-center sm:mt-6 sm:justify-center md:mt-6">
               <span className="text-lg font-bold">{userData.nickname}</span>

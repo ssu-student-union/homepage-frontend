@@ -31,14 +31,25 @@ export type DataPostEditForm = z.infer<typeof DataPostEditFormSchema>;
 export const DataPostEditFormSchema = z.object({
   postId: z.number().optional(),
   title: z.string().min(1).max(50),
+  category: z.preprocess((val) => {
+    if (typeof val === 'string') {
+      return val.replace(/ /g, '_').replace(/·/g, '');
+    }
+    return val;
+  }, z.string().min(1)),
+  fileCategory: z.preprocess((val) => {
+    if (typeof val === 'string') {
+      return val.replace(/ /g, '_').replace(/·/g, '');
+    }
+    return val;
+  }, z.string().min(1)),
   content: z.string().min(1),
-  category: z.string().min(1),
   postFileList: z.array(z.number()),
   isNotice: z.boolean(),
 });
 
 export const DataPostSummarySchema = z.object({
-  category: z.string(),
+  category: z.string().nullable(),
   content: z.string(),
   date: z.string().transform((str) => new Date(str)),
   files: z.array(FileResponseSchema).default([]),
@@ -50,7 +61,7 @@ export const DataPostSummarySchema = z.object({
 export const DataPostSchema = z.object({
   allowedAuthorities: z.array(PostAclSchema).nullable().default([]),
   authorName: z.string(),
-  category: z.string(),
+  category: z.string().nullable(),
   content: z.string(),
   createdAt: z.string().transform((str) => new Date(str)),
   fileResponseList: z.array(FileResponseSchema),

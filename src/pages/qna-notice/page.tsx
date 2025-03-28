@@ -147,7 +147,11 @@ export function QnApage() {
   }
 
   function navigateToWrite() {
-    navigate('/qna/edit');
+    if (isLogin) {
+      navigate('/qna/edit');
+    } else {
+      navigate('/register');
+    }
   }
 
   return (
