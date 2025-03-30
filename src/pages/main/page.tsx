@@ -13,6 +13,9 @@ import { NoticeResponse } from '../notice/types';
 import { MAIN_PENDING } from './const';
 import QnaSection from './containers/QnaSection';
 import { useResize } from '@/hooks/useResize';
+import { Header } from '@/containers/common/Header/Header';
+import { Footer } from '@/containers/common/Footer/Footer';
+import { State } from '@/containers/common/Header/const/state';
 
 export function MainPage() {
   const boardCode = '서비스공지사항';
@@ -24,7 +27,8 @@ export function MainPage() {
 
   return (
     <>
-      <main>
+      <Header state={State.Login} />
+      <main className="h-screen snap-y snap-mandatory overflow-y-scroll">
         {isLoading ? (
           <div className="flex items-center justify-center">
             <ServiceNoticeTab.Skeleton />
@@ -41,11 +45,11 @@ export function MainPage() {
           />
         ) : null}
 
-        <MainCarousel id={MAIN_PENDING} />
-        <MainScheduleSection id={MAIN_PENDING} />
+        <MainCarousel className="h-screen snap-start" id={MAIN_PENDING} />
+        <MainScheduleSection className="snap-ceneter" id={MAIN_PENDING} />
         <CounselBtn />
 
-        <div className="xs:px-[15px] sm:px-[15px] md:px-[3.125rem] lg:px-[12.5rem] xl:px-[12.5rem] xxl:px-[12.5rem]">
+        <div className="snap-start xs:px-[15px] sm:px-[15px] md:px-[3.125rem] lg:px-[12.5rem] xl:px-[12.5rem] xxl:px-[12.5rem]">
           <Spacing size={86} direction="vertical" />
           <QnaSection />
           <Spacing size={width >= 720 ? 142 : 82} direction="vertical" />
@@ -60,6 +64,7 @@ export function MainPage() {
         </div>
       </main>
       <Spacing size={202} direction="vertical" />
+      <Footer />
     </>
   );
 }
