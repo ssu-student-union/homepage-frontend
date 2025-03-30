@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
 import SsureLogo from '../Logo/SsureLogo';
 import { useTranslation } from 'react-i18next';
+import { cn } from '@/libs/utils';
 
 const CounterItem = ({ isActive }: { isActive: boolean }) => (
   <span className={`block h-[7px] w-[45px] rounded-[15px] ${isActive ? 'bg-[#B8B8B8]' : 'bg-[#E4E4E4]'}`} />
@@ -22,7 +23,7 @@ const Counter = ({ slideCount, currentSlide }: { slideCount: number; currentSlid
 
 const images = ['/image/main/main-1.webp', '/image/main/main-2.webp', '/image/main/main-3.webp'];
 
-const MainCarousel = ({ id }: { id: string }) => {
+const MainCarousel = ({ id, className }: { id: string; className: string }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLogin = useRecoilValue(LoginState);
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const MainCarousel = ({ id }: { id: string }) => {
   };
 
   return (
-    <div id={id} className="relative h-screen w-full overflow-hidden">
+    <div id={id} className={cn('relative h-screen w-full overflow-hidden', className)}>
       <Slider {...settings} className="absolute inset-0 z-0 h-full w-full">
         {images.map((src, i) => (
           <div key={i} className="h-screen w-full overflow-hidden">

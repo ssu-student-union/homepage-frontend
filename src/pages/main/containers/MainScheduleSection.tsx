@@ -1,13 +1,17 @@
+import { cn } from '@/libs/utils';
 import { useVeritasDay } from '../hook/useVeritas';
 
-export function MainScheduleSection({ id }: { id: string }) {
+export function MainScheduleSection({ id, className }: { id: string; className: string }) {
   const targetDate = '2025-03-04T00:00:00+09:00';
   const day = useVeritasDay(targetDate);
 
   const formattedDay = day >= 0 ? `D-${day}` : `D+${Math.abs(day)}`;
 
   return (
-    <div id={id} className="h-[90px] w-full bg-primary text-primary-foreground xs:h-[71px] sm:h-[71px]">
+    <div
+      id={id}
+      className={cn('h-[90px] w-full bg-primary text-primary-foreground xs:h-[71px] sm:h-[71px]', className)}
+    >
       <div
         className="flex h-full items-center justify-center text-center 
         xs:mx-[50px] xs:justify-between  
