@@ -34,7 +34,7 @@ export function PartnershipEditContentSection({ onContentChange, initialValue = 
   };
 
   return (
-    <div className="px-[200px] pt-[32px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]">
+    <div className="px-[30px] xl:px-[200px] pt-[32px]">
       <Editor
         ref={editorRef}
         initialValue={initialValue}

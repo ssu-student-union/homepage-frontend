@@ -44,7 +44,7 @@ export function ServiceNoticeDetailPage() {
       ) : isError ? (
         <div>오류 발생. 관리자에게 문의하세요.</div>
       ) : (
-        <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
+        <div className="px-[20px] md:px-[40px] lg:px-[120px]">
           <ServiceNoticeDeatailTopSection title={title} author={author} date={date} />
           {title === '게시글을 찾을 수 없습니다.' ? (
             <NoticeDetailLoading />

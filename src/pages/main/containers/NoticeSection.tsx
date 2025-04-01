@@ -28,11 +28,11 @@ const NoticeSection = () => {
   return (
     <section className="w-full whitespace-nowrap">
       <div className="flex items-center">
-        <h1 className="text-[2rem] font-bold xs:text-lg sm:text-lg">{t('introduction.공지사항')}</h1>
+        <h1 className="text-lg md:text-[2rem] font-bold">{t('introduction.공지사항')}</h1>
       </div>
 
       <Spacing size={11} direction="vertical" />
-      <p className="font-bold text-gray-500 xs:text-sm sm:text-sm">
+      <p className="text-sm md:text-base font-bold text-gray-500">
         <span>오늘 </span>
         <span className="text-primary">{`${todayPostCount}개`}</span>
         <span>{`의 공지가 올라왔어요!`}</span>
@@ -42,10 +42,10 @@ const NoticeSection = () => {
         subcategories={MainNotices}
         selectedSubcategory={selectedSubcategories}
         onSubcategorySelect={onSubcategorySelect}
-        className="text-lg xs:text-xs sm:text-xs"
+        className="text-xs md:text-lg"
       />
       <Spacing size={24} direction="vertical" />
-      <div className="flex flex-col md:items-center lg:items-center xl:items-center xxl:items-center">
+      <div className="flex flex-col md:items-center">
         {data?.data.pageInfo.totalElements ? (
           <>
             {/* xs, sm */}
@@ -97,7 +97,7 @@ const NoticeSection = () => {
 
             {/* lg */}
             {width >= 1080 && width < 1440 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[18px] pb-[16px] pt-[0.625rem] xl:px-[11.0rem] xxl:px-[11.0rem]">
+              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[18px] pb-[16px] pt-[0.625rem] xl:px-[11.0rem]">
                 {data?.data.postListResDto.slice(0, 3).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -146,9 +146,7 @@ const NoticeSection = () => {
               onClick={() => {
                 navigate(`/notice`);
               }}
-              className="h-fit w-fit rounded-full px-[1rem] py-[0.5rem] text-[1rem]
-              xs:mx-auto xs:h-[30px] xs:w-[87px] xs:text-[12px]
-              sm:mx-auto sm:h-[30px] sm:w-[87px] sm:text-[12px]"
+              className="h-[30px] w-[87px] mx-auto rounded-full px-[1rem] py-[0.5rem] text-[12px] md:h-fit md:w-fit md:mx-0 md:text-[1rem]"
             >
               {t('main.더 알아보기')}
             </Button>

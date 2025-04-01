@@ -18,7 +18,7 @@ const PetitionSection = () => {
   return (
     <section className="w-full">
       <div className="flex items-center">
-        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">{t('introduction.인기청원')}</h1>
+        <h1 className="text-[1.25rem] sm:text-[2rem] font-bold">{t('introduction.인기청원')}</h1>
         <ArrowUpRight
           onClick={() => {
             navigate(`/petition-notice/`);
@@ -30,7 +30,7 @@ const PetitionSection = () => {
         />
       </div>
       <Spacing size={18} direction="vertical" />
-      <div className="scrollbar-hide flex w-full gap-[1.5rem] overflow-x-scroll xs:pr-[1.5rem] sm:pr-[1.5rem]">
+      <div className="scrollbar-hide flex w-full gap-[1.5rem] overflow-x-scroll pr-[1.5rem] md:pr-0">
         {data?.data.pageInfo.totalElements ? (
           <>
             {data?.data.postListResDto.map((petitionData) => (

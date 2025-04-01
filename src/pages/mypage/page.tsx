@@ -24,10 +24,10 @@ export default function MyPage() {
   return (
     <div className="mt-24">
       <div>
-        <div className="relative flex xs:justify-center sm:justify-center md:ml-52 md:justify-start lg:ml-72 xl:ml-72 xxl:ml-72">
+        <div className="relative flex justify-center md:ml-52 md:justify-start lg:ml-72">
           <h1 className="mb-5 text-2xl font-bold">마이페이지</h1>
           <button
-            className="mb-5 ml-3 hidden items-center xs:block sm:block"
+            className="mb-5 ml-3 md:hidden items-center block"
             onClick={() => setIsDropdown(!isDropdown)}
           >
             <ChevronDown className="h-4 w-6" color="#9CA3AF" />

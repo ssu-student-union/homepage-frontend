@@ -23,7 +23,7 @@ export function AuditPage() {
         title="감사기구"
         subtitle="제12대 중앙감사위원회 한빛"
         borderOff={true}
-        className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]"
+        className="px-[30px] xl:px-[200px]"
       />
       <IntroNavSection
         categoryParam="audit"
@@ -32,7 +32,7 @@ export function AuditPage() {
         mainCategoryName="게시판"
         subCategoryDisplayName="게시판"
         isHidden={false}
-        className="mx-[200px] xs:mx-[30px] sm:mx-[30px] md:mx-[30px] lg:mx-[30px]"
+        className="mx-[30px] xl:mx-[200px]"
       />
       <BodyLayout
         selector={

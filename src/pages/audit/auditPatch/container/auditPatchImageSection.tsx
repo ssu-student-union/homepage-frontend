@@ -10,7 +10,7 @@ export function AuditPatchImageSection({ imageList, thumbnailImage, setThumbnail
   return (
     <>
       <div
-        className={imageList.length === 0 ? 'hidden' : 'px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]'}
+        className={imageList.length === 0 ? 'hidden' : 'px-[30px] xl:px-[200px]'}
       >
         <div className="mr-[1rem] mt-[12px] flex h-auto w-full flex-row items-center justify-start gap-4 overflow-x-auto whitespace-nowrap rounded-xs border-[0.125rem] border-gray-300 p-[1rem]">
           <div className="flex max-w-full flex-row gap-4">

@@ -26,7 +26,7 @@ export function DataContentItem({ title, content, date, isNotice, files, ...prop
   return (
     <div
       className={cn(
-        'flex flex-row items-center justify-between border-b border-b-gray-200 p-5 text-[1.125rem] font-medium xs:flex-col xs:items-start xs:gap-[12px] sm:flex-col sm:items-start sm:gap-[12px] md:flex-col md:items-start md:gap-[12px]'
+        'flex flex-col lg:flex-row items-start lg:items-center justify-between border-b border-b-gray-200 p-5 text-[1.125rem] font-medium gap-[12px] lg:gap-0'
       )}
     >
       <Link {...props} className="flex grow flex-row items-start justify-start">
@@ -38,7 +38,7 @@ export function DataContentItem({ title, content, date, isNotice, files, ...prop
         </p>
       </Link>
       <div
-        className="flex flex-row gap-[8px] xs:self-end sm:self-end md:self-end
+        className="flex flex-row gap-[8px] self-end lg:self-auto
 "
       >
         {files.map((file, index) => (
@@ -53,7 +53,7 @@ DataContentItem.Skeleton = () => {
   return (
     <div className={cn('flex gap-5 border-b border-b-gray-200 p-5 font-medium')}>
       <Skeleton className={cn('h-6 w-[6ch] text-nowrap')} />
-      <div className="flex basis-full justify-between gap-5 xs:flex-col sm:flex-col">
+      <div className="flex flex-col md:flex-row basis-full justify-between gap-5">
         <Skeleton className="max-md:basis-full h-6 w-[20ch]" />
         <div className="max-md:basis-full flex justify-between gap-5">
           <Skeleton className="h-6 w-[4ch]" />

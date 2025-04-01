@@ -252,7 +252,7 @@ export default function DataEditPage() {
       </ArticleHeader>
       <Container className="py-[58px]">
         <section className="mb-[12px] flex flex-col gap-[10px]">
-          <div className="flex flex-row gap-[10px] xs:flex-col sm:flex-col">
+          <div className="flex flex-col md:flex-row gap-[10px]">
             <div className="w-full">
               <Input
                 id="title"
@@ -271,7 +271,7 @@ export default function DataEditPage() {
               </p>
             </div>
             <FilterDropDown
-              className="flex h-[44px] w-[346px] items-center justify-center border-gray-500 py-0 text-[19px] font-medium xs:w-[200px] sm:w-[200px] md:w-[200px]"
+              className="flex h-[44px] w-[200px] lg:w-[346px] items-center justify-center border-gray-500 py-0 text-[19px] font-medium"
               defaultValue="카테고리"
               optionValue={categories}
               onValueChange={(value) => {

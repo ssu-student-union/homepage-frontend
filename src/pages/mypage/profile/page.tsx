@@ -191,9 +191,9 @@ export default function ProfilePage() {
                 </div>
               </form>
             ) : (
-              <div className="flex flex-col items-start xs:items-center sm:items-center">
-                <h3 className="pr-28 text-lg font-bold xs:text-base sm:text-base">기본정보</h3>
-                <div className="mb-14 grid grid-cols-[1fr_5fr] gap-x-6 gap-y-3 py-6 text-sm xs:grid-cols-[2fr_5fr] xs:text-xs sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 md:grid-cols-[2fr_5fr] lg:ml-6 xl:ml-6 xxl:md:ml-6">
+              <div className="flex flex-col md:items-start items-center">
+                <h3 className="pr-28 md:text-lg font-bold text-base">기본정보</h3>
+                <div className="mb-14 grid lg:grid-cols-[1fr_5fr] gap-x-6 gap-y-3 py-6 md:text-sm grid-cols-[2fr_5fr] text-xs md:ml-6">
                   <span className="font-semibold">단위명</span>
                   <span>{userData?.memberCode}</span>
 
@@ -202,7 +202,7 @@ export default function ProfilePage() {
                 </div>
                 <Button
                   onClick={() => setIsEditing(true)}
-                  className="mb-10 mr-10 self-end rounded-xs border border-gray-400 bg-white px-5 py-1.5 text-center text-gray-700 hover:bg-gray-100 xs:mr-0 xs:self-center xs:text-xs sm:mr-0 sm:self-center sm:text-xs md:text-sm"
+                  className="mb-10 md:mr-10 md:self-end rounded-xs border border-gray-400 bg-white px-5 py-1.5 text-center text-gray-700 hover:bg-gray-100 mr-0 self-center text-xs md:text-sm"
                 >
                   수정하기
                 </Button>
@@ -215,7 +215,7 @@ export default function ProfilePage() {
           <UserContainer />
           <div className="mb-8 pl-16">
             <h3 className="text-lg font-bold sm:text-base">기본정보</h3>
-            <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm sm:grid-cols-[2fr_4fr] sm:text-xs md:grid-cols-[2fr_5fr]">
+            <div className="grid lg:grid-cols-[1fr_5fr] gap-y-4 p-6 md:text-sm grid-cols-[2fr_4fr] text-xs md:grid-cols-[2fr_5fr]">
               <span className="font-semibold">이름</span>
               <span>{userData?.name}</span>
 

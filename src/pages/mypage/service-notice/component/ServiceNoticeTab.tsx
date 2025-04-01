@@ -58,7 +58,7 @@ export function ServiceNoticeTab({ isEmergency, title, postId }: ServiceNoticeTa
       {!hasCookie && open ? (
         <div
           className={cn(
-            'fixed top-[60px] z-40 flex h-[64px] w-full items-center justify-center gap-[8px] border-b-[1px] border-[#9CA3AF] bg-white pl-[10px] pr-[10px] xs:top-[48px] xs:h-[48px] sm:top-[50px] sm:h-[48px] md:top-[50px]',
+            'fixed z-40 flex w-full items-center justify-center gap-[8px] border-b-[1px] border-[#9CA3AF] bg-white pl-[10px] pr-[10px] top-[48px] h-[48px] sm:top-[50px] md:top-[60px] md:h-[64px]',
             fadeOut ? 'animate-fadeout' : 'animate-fadein'
           )}
           onAnimationEnd={handleAnimationEnd}
@@ -71,7 +71,7 @@ export function ServiceNoticeTab({ isEmergency, title, postId }: ServiceNoticeTa
             ) : (
               <div></div>
             )}
-            <div className="text-[18px] font-[700] xs:text-[12px] sm:text-[12px]">{title}</div>
+            <div className="text-[12px] md:text-[18px] font-[700]">{title}</div>
           </div>
           <div className="absolute right-[20px] flex gap-[4px] text-[18px]" onClick={handleClose}>
             {width >= 1080 ? <div className="text-[#9CA3AF]">하루동안 보지 않기</div> : null}
