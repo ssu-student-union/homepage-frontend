@@ -57,7 +57,7 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
   if (state === State.Logout) {
     return (
       <button
-        className={cn(styles.headerItemStyle, 'hidden w-[9rem] text-base xl:block')}
+        className={cn(styles.headerItemStyle, 'w-[9rem] text-base max-xl:hidden')}
         onClick={() => navigate('/register')}
       >
         {t('header.로그인')}
