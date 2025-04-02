@@ -174,7 +174,7 @@ export function Comment({
                 <span>
                   <User size={mobile_screen ? '14px' : '24px'} />
                 </span>
-                <div className="text-[1.125rem] font-medium xs:text-[0.75rem]">
+                <div className="text-[0.75rem] sm:text-[1.125rem] font-medium">
                   {commentData!.isDeleted
                     ? commentData!.studentId
                     : commentData?.studentId === null
@@ -195,17 +195,17 @@ export function Comment({
 
                 <div className="absolute right-0 z-10">
                   {toggleIsOpen ? (
-                    <div className="flex w-[120px] cursor-pointer flex-col items-center justify-center rounded-[7px] bg-gray-50 drop-shadow-xl xs:w-[100px]">
-                      <ul className="w-full text-[0.938rem] font-medium text-[#374151] xs:text-[0.563rem] ">
+                    <div className="w-[100px] flex sm:w-[120px] cursor-pointer flex-col items-center justify-center rounded-[7px] bg-gray-50 drop-shadow-xl">
+                      <ul className="w-full text-[0.563rem] font-medium text-[#374151] sm:text-[0.938rem]">
                         <li
-                          className="px-[34px] py-[6px] text-center hover:bg-gray-100 xs:px-[20px]"
+                          className="px-[20px] py-[6px] text-center hover:bg-gray-100 sm:px-[34px]"
                           onClick={handleDeleteComment}
                         >
                           삭제하기
                         </li>
                         {authority?.includes('DELETE_COMMENT') ? null : (
                           <li
-                            className="px-[34px] py-[6px] text-center hover:bg-gray-100 xs:px-[20px]"
+                            className="px-[20px] py-[6px] text-center hover:bg-gray-100 sm:px-[34px]"
                             onClick={handleEditComment}
                           >
                             수정하기
@@ -219,10 +219,10 @@ export function Comment({
                 </div>
               </div>
             </div>
-            <div className="mb-[11px] text-[1.125rem] font-medium text-gray-500 xs:text-[0.75rem]">
+            <div className="mb-[11px] text-[0.75rem] font-medium text-gray-500 sm:text-[1.125rem]">
               {commentData!.content}
             </div>
-            <div className="flex justify-start gap-4 text-[1rem] font-medium text-gray-400 xs:text-[0.75rem]">
+            <div className="flex justify-start gap-4 text-[0.75rem] font-medium text-gray-400 sm:text-[1rem]">
               <div>
                 {commentData!.isDeleted ||
                   (commentData?.lastEditedAt ? (
@@ -242,7 +242,7 @@ export function Comment({
                   <span className={`cursor-pointer ${animate ? 'animate-sparkle' : ''}`} onClick={handleLikeButton}>
                     <ThumbsUp size={mobile_screen ? '13px' : '19px'} weight={isLiked ? 'fill' : 'regular'} />
                   </span>
-                  <span className="pt-[1px] xs:pt-0">{isReply ? commentData?.likeCount : likeCount}</span>
+                  <span className="pt-0 sm:pt-[1px]">{isReply ? commentData?.likeCount : likeCount}</span>
                 </div>
               )}
             </div>
