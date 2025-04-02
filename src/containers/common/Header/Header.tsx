@@ -29,7 +29,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
   return (
     <div
       className={cn(
-        'fixed top-0 z-50 flex h-[60px] w-[100vw] justify-start xs:h-[50px] sm:h-[50px] md:h-[50px] xl:justify-between xxl:justify-between',
+        'fixed top-0 z-50 flex h-[50px] w-[100vw] justify-start lg:h-[60px] xl:justify-between',
         styles.bgColor
       )}
     >
@@ -40,7 +40,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
           </div>
         }
       />
-      <div className={cn(styles.headerItemStyle, 'xs:px-0.5 sm:px-0.5 md:px-0.5 lg:px-0.5')}>
+      <div className={cn(styles.headerItemStyle, 'max-lg:px-0.5')}>
         <Link to="/">
           <div className="flex items-center">
             {state === State.Onboarding ? (
@@ -54,10 +54,8 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
       <Navigation state={state} />
 
       <div
-        className="flex h-full items-center justify-center pr-4 xs:w-full 
-  xs:justify-end sm:w-full
-  sm:justify-end
-  md:w-full md:justify-end lg:w-full lg:justify-end"
+        className="flex h-full items-center justify-end pr-4 max-lg:w-full 
+  xl:justify-center"
       >
         <TranslateButton
           className={cn(state === State.Onboarding && 'bg-white text-black hover:bg-gray-50')}
