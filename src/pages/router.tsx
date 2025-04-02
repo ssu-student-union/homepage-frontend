@@ -4,8 +4,8 @@ import * as i from './index.ts';
 export function MainRouter() {
   return (
     <Routes>
-      <Route path="/" element={<i.MainPage />} />
       <Route path="/" element={<i.Layout />}>
+        <Route path="/" element={<i.MainPage />} />
         {/* 1. 소개 */}
         <Route path="/intro" element={<i.IntroPage />} />
         <Route path="/intro/edit" element={<i.IntroEditPage />} />
