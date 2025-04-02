@@ -1,7 +1,7 @@
 import { cn } from '@/libs/utils';
 import { useVeritasDay } from '../hook/useVeritas';
 
-export function MainScheduleSection({ id, className }: { id: string; className: string }) {
+export function MainScheduleSection({ id, className }: { id: string; className?: string }) {
   const targetDate = '2025-03-04T00:00:00+09:00';
   const day = useVeritasDay(targetDate);
 
