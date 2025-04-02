@@ -46,7 +46,7 @@ const LostArticleSection = () => {
   return (
     <section>
       <div className="flex items-center">
-        <h1 className="text-[2rem] font-bold xs:text-[1.25rem]">{t('introduction.분실물 현황')}</h1>
+        <h1 className="text-[1.25rem] font-bold sm:text-[2rem]">{t('introduction.분실물 현황')}</h1>
         <ArrowUpRight
           onClick={() => {
             navigate(`/lost-article?category=state`);
@@ -58,7 +58,7 @@ const LostArticleSection = () => {
         />
       </div>
       <Spacing size={18} direction="vertical" />
-      <div className="scrollbar-hide flex w-full gap-[1.5rem] overflow-x-scroll xs:pr-[1.5rem] sm:pr-[1.5rem]">
+      <div className="scrollbar-hide flex w-full gap-[1.5rem] overflow-x-scroll pr-[1.5rem] md:pr-0">
         {data?.data.pageInfo.totalElements ? (
           <>
             {/* xs */}

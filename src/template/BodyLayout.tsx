@@ -19,26 +19,26 @@ export function BodyLayout({
 }: BodyLayoutProps) {
   const { t } = useTranslation();
   return (
-    <div className={cn('mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10', className)}>
+    <div className={cn('mb-20 px-10 xl:px-[200px]', className)}>
       <div className="text-[1.75rem] font-bold">{title && t(`introduction.${title}`)}</div>
       {selector}
-      <div className="mt-[24px] xs:mt-[25px] ">
+      <div className="mt-[25px] sm:mt-[24px] ">
         <main>{children}</main>
-        <div className="flex xs:mt-9 xs:flex-col-reverse sm:mt-9 sm:flex-col-reverse md:mt-8 md:justify-between lg:mt-8 lg:justify-between xl:mt-8 xl:justify-between xxl:mt-8 xxl:justify-between">
+        <div className="mt-9 flex max-md:flex-col-reverse md:mt-8 md:justify-between">
           <div className="w-[94px]"></div>
           <div className="flex justify-center">
             {totalPages ? (
-              <div className="lg:mt-[66px] xl:mt-[66px] xxl:mt-[66px]">
+              <div className="lg:mt-[66px]">
                 <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
               </div>
             ) : null}
           </div>
-          <div className="flex justify-end xs:justify-center sm:justify-center">
+          <div className="flex justify-center md:justify-end">
             {authority?.includes('WRITE') ? <WriteButton onClick={onWriteClick} /> : null}
           </div>
         </div>
       </div>
-      <div className="flex justify-center xs:mt-[17px] sm:mt-[17px] md:mt-[42px] lg:hidden xl:hidden xxl:hidden">
+      <div className="mt-[17px] flex justify-center md:mt-[42px] lg:hidden">
         <Search />
       </div>
     </div>
@@ -47,10 +47,10 @@ export function BodyLayout({
 
 BodyLayout.Skeleton = ({ children }: { children: ReactNode }) => {
   return (
-    <div className={cn('mb-20 px-[200px] xs:px-10 sm:px-10 md:px-10 lg:px-10')}>
-      <div className="mt-[24px] xs:mt-[25px] ">
+    <div className={cn('mb-20 xl:px-[200px]')}>
+      <div className="mt-[25px] sm:mt-[24px] ">
         <main>{children}</main>
-        <div className="flex xs:mt-9 xs:flex-col-reverse sm:mt-9 sm:flex-col-reverse md:mt-8 md:justify-between lg:mt-8 lg:justify-between xl:mt-8 xl:justify-between xxl:mt-8 xxl:justify-between">
+        <div className="mt-9 flex max-md:flex-col-reverse md:mt-8 md:justify-between">
           <div className="w-[94px]"></div>
         </div>
       </div>

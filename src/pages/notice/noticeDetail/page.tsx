@@ -30,7 +30,7 @@ export function NoticeDetailPage() {
   const fileUrls = [...fileList, ...imageList];
 
   return (
-    <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
+    <div className="px-[20px] md:px-[40px] lg:px-[120px]">
       <NoticeDetailTopSection title={postDetail.title} author={postDetail.authorName} date={postDetail.createdAt} />
       {isLoading ? (
         <NoticeDetailLoading />

@@ -44,7 +44,7 @@ export function MainPage() {
       <MainScheduleSection id={MAIN_PENDING} />
       <CounselBtn />
 
-      <div className="snap-start xs:px-[15px] sm:px-[15px] md:px-[3.125rem] lg:px-[12.5rem] xl:px-[12.5rem] xxl:px-[12.5rem]">
+      <div className="snap-start px-[15px] md:px-[3.125rem] lg:px-[12.5rem]">
         <Spacing size={86} direction="vertical" />
         <QnaSection />
         <Spacing size={width >= 720 ? 142 : 82} direction="vertical" />

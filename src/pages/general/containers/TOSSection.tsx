@@ -63,7 +63,7 @@ export function TOSSection() {
                 { id: 'third', label: t('onboarding.제 3자 정보제공 동의') },
               ].map((item) => (
                 <div key={item.id} className="flex justify-between">
-                  <div className="flex gap-[16px] xs:gap-[8px] sm:gap-[8px] md:gap-[8px]">
+                  <div className="flex gap-[8px] lg:gap-[16px]">
                     <span className="cursor-pointer" onClick={() => check(item.id)}>
                       {checkList.includes(item.id) ? (
                         <Check size={25} fill="#2F4BF7" weight="bold" />
@@ -82,7 +82,7 @@ export function TOSSection() {
                   <DialogPortal>
                     <DialogContent
                       showOverlay={true}
-                      className="fixed left-[50%] top-[50%] z-50 h-[500px] max-h-[800px] w-[800px] translate-x-[-50%] translate-y-[-50%] overflow-y-scroll rounded-[8px] bg-white p-6 shadow-xl xs:w-[300px] xs:text-sm sm:w-[300px]"
+                      className="fixed left-[50%] top-[50%] z-50 h-[500px] max-h-[800px] w-[300px] translate-x-[-50%] translate-y-[-50%] overflow-y-scroll rounded-[8px] bg-white p-6 text-sm shadow-xl sm:text-base md:w-[800px]"
                       onOpenAutoFocus={(e) => e.preventDefault()}
                     >
                       <DialogHeader className="mt-10 text-left">

@@ -43,7 +43,7 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency, class
         onClick={handleTitleClick}
       >
         <span className={`ml-[20px] ${mobileText} cursor-pointer`}>{title}</span>
-        <div className={`${mobileText} text-[#6B7280] xs:min-w-[63px] sm:min-w-[63px]`}>{formattedDate}</div>
+        <div className={`${mobileText} min-w-[63px] text-[#6B7280] md:min-w-0`}>{formattedDate}</div>
       </div>
     </div>
   );

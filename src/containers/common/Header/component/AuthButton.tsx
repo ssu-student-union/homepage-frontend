@@ -24,19 +24,11 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div
-            className={cn(
-              styles.headerItemStyle,
-              'w-[9rem] cursor-pointer text-base xs:hidden sm:hidden md:hidden lg:hidden'
-            )}
-          >
+          <div className={cn(styles.headerItemStyle, 'w-[9rem] cursor-pointer text-base max-xl:hidden')}>
             {t('header.내정보')}
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="rounded-xs border-none bg-[#2F4BF7] text-white xs:hidden sm:hidden md:hidden lg:hidden"
-        >
+        <DropdownMenuContent align="end" className="rounded-xs border-none bg-[#2F4BF7] text-white max-xl:hidden">
           <DropdownMenuItem asChild>
             <Link to="/mypage" className="block w-full px-4 py-3 text-center hover:bg-blue-700">
               {t('introduction.마이페이지')}
@@ -57,7 +49,7 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
   if (state === State.Logout) {
     return (
       <button
-        className={cn(styles.headerItemStyle, 'w-[9rem] text-base xs:hidden sm:hidden md:hidden lg:hidden')}
+        className={cn(styles.headerItemStyle, 'w-[9rem] text-base max-xl:hidden')}
         onClick={() => navigate('/register')}
       >
         {t('header.로그인')}

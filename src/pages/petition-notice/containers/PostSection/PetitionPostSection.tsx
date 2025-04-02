@@ -96,7 +96,7 @@ export function PetitionPostSection() {
                 ))}
             </>
           ) : (
-            <div className="py-[250px] text-center text-lg font-normal text-gray-600 xs:text-xs">
+            <div className="py-[250px] text-center text-xs font-normal text-gray-600 sm:text-lg">
               등록된 게시물이 없습니다.
             </div>
           )}

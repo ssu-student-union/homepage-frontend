@@ -34,9 +34,9 @@ export function PostPetitionDetailCommentSection() {
 
   return (
     <>
-      <div className="mb-[512px] mt-16 px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+      <div className="mb-[512px] mt-16 px-[35px] md:px-[70px] xl:px-[200px]">
         <div className="mb-[51px] flex items-center justify-between">
-          <div className="text-[1.75rem] font-bold xs:text-[1.25rem]">
+          <div className="text-[1.25rem] font-bold sm:text-[1.75rem]">
             댓글
             <span className="ml-3 text-primary">
               {localStorage.getItem('total-comment') ? localStorage.getItem('total-comment') : data?.data.total}

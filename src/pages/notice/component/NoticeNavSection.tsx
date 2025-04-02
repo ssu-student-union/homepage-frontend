@@ -21,7 +21,7 @@ export function NoticeNavSection({
 
   return (
     <>
-      <div className={isHidden ? 'relative xs:hidden sm:hidden' : 'relative'}>
+      <div className={isHidden ? 'relative hidden md:block' : 'relative'}>
         <div className="absolute left-0 top-1/2 z-0 h-[1px] w-full -translate-y-1/2 transform bg-[#E7E7E7]"></div>
         <BoardNavigator
           categories={noticeCategories}
@@ -29,7 +29,7 @@ export function NoticeNavSection({
           onCategorySelect={(selectedCategory) => {
             handleSelection(selectedCategory);
           }}
-          className={cn(`relative z-0 mx-[200px] bg-white md:mx-[60px]`, className)}
+          className={cn(`relative z-0 mx-[60px] bg-white lg:mx-[200px]`, className)}
         />
       </div>
     </>

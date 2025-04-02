@@ -173,7 +173,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
     <>
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex w-full max-w-md flex-col items-center justify-center p-4">
-          <div className="pb-8 text-[1.4rem] font-bold not-italic leading-[normal] text-[rgb(0,0,0)] xs:text-[1.25rem]">
+          <div className="pb-8 text-[1.25rem] font-bold not-italic leading-[normal] text-[rgb(0,0,0)] sm:text-[1.4rem]">
             {subSection1}
           </div>
           <form noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -183,7 +183,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                   type="text"
                   placeholder={t('onboarding.아이디')}
                   className={cn(
-                    'w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
+                    'w-[250px] px-[1rem] py-0 max-sm:min-h-[36px] max-sm:rounded-xs sm:py-[0.1rem] md:w-[420px] md:px-0'
                   )}
                   {...register('accountId', {
                     required: t('onboarding.아이디는 필수 입력입니다'),
@@ -200,7 +200,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                   type="password"
                   placeholder={t('onboarding.비밀번호')}
                   className={cn(
-                    'mt-4 xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem]'
+                    'w-[250px] px-[1rem] py-0 max-sm:min-h-[36px] max-sm:rounded-xs sm:py-[0.1rem] md:w-[420px] md:px-0'
                   )}
                   {...register('password', {
                     required: t('onboarding.비밀번호는 필수 입력입니다'),
@@ -221,7 +221,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                   type="text"
                   placeholder={t('onboarding.이름')}
                   className={cn(
-                    'h-[54px] xs:w-full xs:rounded-xs xs:px-[1rem] xs:py-[0.1rem] sm:w-full sm:px-[1rem] sm:py-[0.1rem]'
+                    'w-[250px] px-[1rem] py-0 max-sm:min-h-[36px] max-sm:rounded-xs sm:py-[0.1rem] md:w-[420px] md:px-0'
                   )}
                   {...register('name', {
                     required: t('onboarding.이름은 필수 입력입니다'),
@@ -238,7 +238,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 <Input
                   type="text"
                   placeholder={t('onboarding.학번')}
-                  className={cn('mt-4 h-[54px] xs:w-full xs:rounded-xs sm:w-full sm:py-[0.1rem]')}
+                  className={cn('mt-4 h-[54px] max-md:w-full max-md:py-[0.1rem] max-sm:rounded-xs')}
                   {...register('studentId', {
                     required: t('onboarding.학번은 필수 입력입니다'),
                   })}
@@ -323,7 +323,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
               disabled={isSubmitting || isButtonDisabled}
               variant="default"
               size="default"
-              className={`mt-4 w-[420px] xs:min-h-[36px] xs:w-[250px] xs:rounded-xs xs:px-[1rem] xs:py-0 sm:w-[250px] sm:px-[1rem] sm:py-[0.1rem] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
+              className={`mt-4 w-[250px] py-0 max-md:px-[1rem] max-md:py-[0.1rem] max-sm:min-h-[36px] max-sm:rounded-xs md:w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
             >
               {t('onboarding.입력 완료')}
             </Button>
