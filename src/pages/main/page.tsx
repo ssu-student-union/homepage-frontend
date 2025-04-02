@@ -13,9 +13,6 @@ import { NoticeResponse } from '../notice/types';
 import { MAIN_PENDING } from './const';
 import QnaSection from './containers/QnaSection';
 import { useResize } from '@/hooks/useResize';
-import { Header } from '@/containers/common/Header/Header';
-import { Footer } from '@/containers/common/Footer/Footer';
-import { State } from '@/containers/common/Header/const/state';
 
 export function MainPage() {
   const boardCode = '서비스공지사항';
@@ -27,7 +24,6 @@ export function MainPage() {
 
   return (
     <>
-      <Header state={State.Login} />
       <main className="h-screen snap-y snap-mandatory overflow-y-scroll">
         {isLoading ? (
           <div className="flex items-center justify-center">
@@ -64,7 +60,6 @@ export function MainPage() {
         </div>
       </main>
       <Spacing size={202} direction="vertical" />
-      <Footer />
     </>
   );
 }
