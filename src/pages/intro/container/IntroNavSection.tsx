@@ -30,7 +30,7 @@ export function IntroNavSection({
 
   return (
     <>
-      <div className={isHidden ? 'relative xs:hidden sm:hidden' : 'relative'}>
+      <div className={isHidden ? 'relative hidden md:block' : 'relative'}>
         <div className="absolute left-0 top-1/2 z-0 h-[1px] w-full -translate-y-1/2 transform bg-[#E7E7E7]"></div>
         <BoardNavigator
           categories={categoryParam === 'audit' ? auditCategories : mainName}
@@ -45,12 +45,12 @@ export function IntroNavSection({
               handleSelection(categoryQueryParam);
             }
           }}
-          className={cn(`relative z-10 mx-[200px] bg-white md:mx-[60px]`, className)}
+          className={cn(`relative z-10 mx-[60px] bg-white lg:mx-[200px]`, className)}
         />
       </div>
       {categoryParam !== 'audit' && (
         <BoardSelector
-          className="px-[200px] pt-[32px] xs:px-[30px] xs:pt-0 sm:px-[30px] sm:pt-0 md:px-[60px]"
+          className="px-[30px] pt-0 md:px-[60px] md:pt-[32px] lg:px-[200px]"
           subcategories={subName}
           selectedSubcategory={subCategoryDisplayName}
           onSubcategorySelect={(subcategory) => {

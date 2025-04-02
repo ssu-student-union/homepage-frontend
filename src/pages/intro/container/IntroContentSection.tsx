@@ -13,9 +13,7 @@ export default function IntroContentSection({
   className,
 }: ContentProps) {
   return (
-    <div
-      className={cn(`px-[200px] pb-[80px] pt-[60px] xs:px-[30px] xs:pt-[40px] sm:px-[30px] md:px-[60px]`, className)}
-    >
+    <div className={cn(`px-[30px] pb-[80px] pt-[40px] sm:pt-[60px] md:px-[60px] lg:px-[200px]`, className)}>
       <RenderImage category={category!} subCategory={subCategory!} />
     </div>
   );
