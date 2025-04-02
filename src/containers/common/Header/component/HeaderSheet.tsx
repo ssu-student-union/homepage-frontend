@@ -4,8 +4,8 @@ import { CaretDown } from '@phosphor-icons/react';
 import { ReactNode, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { State } from '../const/state';
-import { useSetRecoilState } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
+// import { useSetRecoilState } from 'recoil';
+// import { LoginState } from '@/recoil/atoms/atom';
 import { useTranslation } from 'react-i18next';
 
 interface HeaderSheetProps {
@@ -18,7 +18,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState<State>(initialState);
   const navigate = useNavigate();
-  const setLoginState = useSetRecoilState(LoginState);
+  // const setLoginState = useSetRecoilState(LoginState);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -50,13 +50,13 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
     navigate(path);
   };
 
-  const handleLogoutClick = () => {
-    localStorage.clear();
-    setState(State.Logout);
-    setLoginState(false);
-    setIsOpen(false);
-    navigate('/');
-  };
+  // const handleLogoutClick = () => {
+  //   localStorage.clear();
+  //   setState(State.Logout);
+  //   setLoginState(false);
+  //   setIsOpen(false);
+  //   navigate('/');
+  // };
 
   return (
     <div className="xl:hidden xxl:hidden">
@@ -118,12 +118,12 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
               {t('header.이전 홈페이지')}
             </a>
             {state === State.Login ? (
-              <div
+              <Link
                 className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-                onClick={handleLogoutClick}
+                to="/mypage"
               >
-                {t('header.로그아웃')}
-              </div>
+                {t('introduction.마이페이지')}
+              </Link>
             ) : (
               <Link
                 className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
