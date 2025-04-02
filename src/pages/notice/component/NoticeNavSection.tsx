@@ -29,7 +29,7 @@ export function NoticeNavSection({
           onCategorySelect={(selectedCategory) => {
             handleSelection(selectedCategory);
           }}
-          className={cn(`relative z-0 mx-[60px] lg:mx-[200px] bg-white`, className)}
+          className={cn(`relative z-0 mx-[60px] bg-white lg:mx-[200px]`, className)}
         />
       </div>
     </>

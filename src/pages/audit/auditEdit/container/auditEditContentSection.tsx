@@ -39,7 +39,7 @@ export function AuditEditContentSection({ onContentChange, initialValue = '' }: 
   }, []);
 
   return (
-    <div className="audit-edit-content px-[30px] xl:px-[200px] pt-[1rem]">
+    <div className="audit-edit-content px-[30px] pt-[1rem] xl:px-[200px]">
       <Editor
         ref={editorRef}
         initialValue={initialValue || ' '}

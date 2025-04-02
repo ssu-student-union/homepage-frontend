@@ -18,7 +18,7 @@ const PetitionSection = () => {
   return (
     <section className="w-full">
       <div className="flex items-center">
-        <h1 className="text-[1.25rem] sm:text-[2rem] font-bold">{t('introduction.인기청원')}</h1>
+        <h1 className="text-[1.25rem] font-bold sm:text-[2rem]">{t('introduction.인기청원')}</h1>
         <ArrowUpRight
           onClick={() => {
             navigate(`/petition-notice/`);

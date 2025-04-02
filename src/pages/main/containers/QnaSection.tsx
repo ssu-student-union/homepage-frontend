@@ -32,10 +32,10 @@ export default function QnaSection() {
   return (
     <section className="w-full whitespace-nowrap">
       <div className="flex items-center">
-        <h1 className="text-lg md:text-[2rem] font-bold">{t('introduction.질의응답게시판')}</h1>
+        <h1 className="text-lg font-bold md:text-[2rem]">{t('introduction.질의응답게시판')}</h1>
       </div>
       <Spacing size={8} direction="vertical" />
-      <p className="text-[14px] md:text-[20px] font-medium text-gray-500">
+      <p className="text-[14px] font-medium text-gray-500 md:text-[20px]">
         무엇이든 물어보세요! <span className="font-bold">학생회가 직접 답변</span> 드립니다.
       </p>
       <Spacing size={14} direction="vertical" />
@@ -149,7 +149,7 @@ export default function QnaSection() {
           onClick={() => {
             navigate(`/qna`);
           }}
-          className="mx-auto h-[30px] w-[87px] rounded-full px-[1rem] py-[0.5rem] text-[12px] md:h-fit md:w-fit md:mx-0 md:text-[1rem]"
+          className="mx-auto h-[30px] w-[87px] rounded-full px-[1rem] py-[0.5rem] text-[12px] md:mx-0 md:h-fit md:w-fit md:text-[1rem]"
         >
           {t('main.더 알아보기')}
         </Button>

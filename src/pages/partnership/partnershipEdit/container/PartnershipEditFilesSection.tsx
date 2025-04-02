@@ -16,7 +16,7 @@ export function PartnershipEditFilesSection({ onFilesChange }: PartnershipEditFi
   const [files, setFiles] = useState<FileItem[]>([{ id: Date.now(), file: null }]);
 
   return (
-    <div className="flex flex-col items-center justify-center px-[30px] xl:px-[200px] pt-[12px]">
+    <div className="flex flex-col items-center justify-center px-[30px] pt-[12px] xl:px-[200px]">
       <div className="full flex w-full flex-col">
         {files.map((fileItem, index) => (
           <div key={fileItem.id} className="flex items-center pb-[8px]">

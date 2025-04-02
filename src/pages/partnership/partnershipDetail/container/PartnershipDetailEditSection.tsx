@@ -20,7 +20,7 @@ export function PartnershipDetailEditSection({
 
   return (
     <div className="flex w-full justify-end py-[40px] md:py-[60px]">
-      <div className="flex h-[150px] flex-col sm:h-auto sm:flex-row items-end justify-between gap-4">
+      <div className="flex h-[150px] flex-col items-end justify-between gap-4 sm:h-auto sm:flex-row">
         {authority ? (
           <>
             {' '}

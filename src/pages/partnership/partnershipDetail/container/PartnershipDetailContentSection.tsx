@@ -9,7 +9,7 @@ export function PartnershipDetailContentSection({ content, images = [] }: Partne
   return (
     <div className="pt-[32px]">
       <Viewer initialValue={content} />
-      <div className="h-[32px] flex flex-col items-center md:hidden" />
+      <div className="flex h-[32px] flex-col items-center md:hidden" />
       {images?.map((image, index) => (
         <div key={image + index}>
           <img

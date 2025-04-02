@@ -8,9 +8,7 @@ interface ContentSectionProps {
 }
 
 export default function ContentSection({ categoryParam }: ContentSectionProps) {
-  return (
-    <div className="my-20 px-10 xl:px-[200px]">{getContentByCategory(categoryParam)}</div>
-  );
+  return <div className="my-20 px-10 xl:px-[200px]">{getContentByCategory(categoryParam)}</div>;
 }
 
 function getContentByCategory(categoryParam: string) {

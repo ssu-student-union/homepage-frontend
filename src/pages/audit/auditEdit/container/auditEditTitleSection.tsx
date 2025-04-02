@@ -34,7 +34,7 @@ export function AuditEditTitleSection({
 
   return (
     <div className="px-[30px] xl:px-[200px]">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-center gap-1 md:gap-4">
+      <div className="flex flex-col items-start justify-center gap-1 md:flex-row md:items-center md:gap-4">
         <input
           type="text"
           id="title"
@@ -44,7 +44,7 @@ export function AuditEditTitleSection({
           placeholder="제목을 입력하세요"
         />
         <FilterDropDown
-          className="hidden md:flex h-[2.5rem] w-[6.5rem] items-center justify-center rounded-xs border-[0.125rem] border-gray-300 px-[0.4rem] py-[0.35rem] text-sm font-bold text-gray-500"
+          className="hidden h-[2.5rem] w-[6.5rem] items-center justify-center rounded-xs border-[0.125rem] border-gray-300 px-[0.4rem] py-[0.35rem] text-sm font-bold text-gray-500 md:flex"
           itemStyle="py-0 pr-0 text-base font-bold text-gray-500"
           defaultValue="카테고리"
           optionValue={categoryList}

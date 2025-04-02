@@ -26,10 +26,7 @@ export default function MyPage() {
       <div>
         <div className="relative flex justify-center md:ml-52 md:justify-start lg:ml-72">
           <h1 className="mb-5 text-2xl font-bold">마이페이지</h1>
-          <button
-            className="mb-5 ml-3 md:hidden items-center block"
-            onClick={() => setIsDropdown(!isDropdown)}
-          >
+          <button className="mb-5 ml-3 block items-center md:hidden" onClick={() => setIsDropdown(!isDropdown)}>
             <ChevronDown className="h-4 w-6" color="#9CA3AF" />
           </button>
           {isDropdown && (

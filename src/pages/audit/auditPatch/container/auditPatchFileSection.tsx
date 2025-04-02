@@ -41,7 +41,7 @@ export function AuditPatchFilesSection({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-[30px] xl:px-[200px] pt-[12px]">
+    <div className="flex flex-col items-center justify-center px-[30px] pt-[12px] xl:px-[200px]">
       <div className="full flex w-full flex-col">
         {/* 기존 파일 목록 */}
         {remainingFileUrls.map((fileItem, index) => (

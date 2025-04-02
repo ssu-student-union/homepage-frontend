@@ -63,7 +63,7 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>{trigger}</SheetTrigger>
         <SheetContent
-          className={`top-[50px] left-0 lg:top-[60px] flex w-[260px] items-start justify-start border-0 bg-white px-0 py-0 text-lg font-semibold marker:outline-none focus:outline-none`}
+          className={`left-0 top-[50px] flex w-[260px] items-start justify-start border-0 bg-white px-0 py-0 text-lg font-semibold marker:outline-none focus:outline-none lg:top-[60px]`}
         >
           <div className="flex w-full flex-col">
             {Object.entries(MENU_ITEMS).map(([category, items], index) => (

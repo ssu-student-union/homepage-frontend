@@ -25,7 +25,7 @@ export function NavSection({
           onCategorySelect={(selectedCategory) => {
             onCategoryChange(selectedCategory);
           }}
-          className={cn(`relative z-10 mx-[60px] lg:mx-[200px] bg-white`, className)}
+          className={cn(`relative z-10 mx-[60px] bg-white lg:mx-[200px]`, className)}
         />
       </div>
     </>

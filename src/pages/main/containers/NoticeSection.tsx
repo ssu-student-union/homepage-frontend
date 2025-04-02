@@ -28,11 +28,11 @@ const NoticeSection = () => {
   return (
     <section className="w-full whitespace-nowrap">
       <div className="flex items-center">
-        <h1 className="text-lg md:text-[2rem] font-bold">{t('introduction.공지사항')}</h1>
+        <h1 className="text-lg font-bold md:text-[2rem]">{t('introduction.공지사항')}</h1>
       </div>
 
       <Spacing size={11} direction="vertical" />
-      <p className="text-sm md:text-base font-bold text-gray-500">
+      <p className="text-sm font-bold text-gray-500 md:text-base">
         <span>오늘 </span>
         <span className="text-primary">{`${todayPostCount}개`}</span>
         <span>{`의 공지가 올라왔어요!`}</span>
@@ -146,7 +146,7 @@ const NoticeSection = () => {
               onClick={() => {
                 navigate(`/notice`);
               }}
-              className="h-[30px] w-[87px] mx-auto rounded-full px-[1rem] py-[0.5rem] text-[12px] md:h-fit md:w-fit md:mx-0 md:text-[1rem]"
+              className="mx-auto h-[30px] w-[87px] rounded-full px-[1rem] py-[0.5rem] text-[12px] md:mx-0 md:h-fit md:w-fit md:text-[1rem]"
             >
               {t('main.더 알아보기')}
             </Button>

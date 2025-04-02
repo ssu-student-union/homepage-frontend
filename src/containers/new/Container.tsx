@@ -9,12 +9,7 @@ interface ContainerProps {
 
 export function Container({ className, children }: ContainerProps) {
   return (
-    <section
-      className={cn(
-        'flex justify-center px-10 py-20 md:px-[72px] lg:px-[200px]',
-        className
-      )}
-    >
+    <section className={cn('flex justify-center px-10 py-20 md:px-[72px] lg:px-[200px]', className)}>
       <div className="w-full max-w-[1040px]">{children}</div>
     </section>
   );

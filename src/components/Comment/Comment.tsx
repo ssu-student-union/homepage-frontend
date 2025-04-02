@@ -174,7 +174,7 @@ export function Comment({
                 <span>
                   <User size={mobile_screen ? '14px' : '24px'} />
                 </span>
-                <div className="text-[0.75rem] sm:text-[1.125rem] font-medium">
+                <div className="text-[0.75rem] font-medium sm:text-[1.125rem]">
                   {commentData!.isDeleted
                     ? commentData!.studentId
                     : commentData?.studentId === null
@@ -195,7 +195,7 @@ export function Comment({
 
                 <div className="absolute right-0 z-10">
                   {toggleIsOpen ? (
-                    <div className="w-[100px] flex sm:w-[120px] cursor-pointer flex-col items-center justify-center rounded-[7px] bg-gray-50 drop-shadow-xl">
+                    <div className="flex w-[100px] cursor-pointer flex-col items-center justify-center rounded-[7px] bg-gray-50 drop-shadow-xl sm:w-[120px]">
                       <ul className="w-full text-[0.563rem] font-medium text-[#374151] sm:text-[0.938rem]">
                         <li
                           className="px-[20px] py-[6px] text-center hover:bg-gray-100 sm:px-[34px]"

@@ -46,7 +46,7 @@ const LostArticleSection = () => {
   return (
     <section>
       <div className="flex items-center">
-        <h1 className="text-[1.25rem] sm:text-[2rem] font-bold">{t('introduction.분실물 현황')}</h1>
+        <h1 className="text-[1.25rem] font-bold sm:text-[2rem]">{t('introduction.분실물 현황')}</h1>
         <ArrowUpRight
           onClick={() => {
             navigate(`/lost-article?category=state`);

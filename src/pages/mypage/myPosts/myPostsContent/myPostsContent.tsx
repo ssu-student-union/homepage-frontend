@@ -22,7 +22,7 @@ export function MyPostsContent({ data }: MyPostsContentProps) {
 
   return (
     <div className="mx-16 mt-4 flex flex-col border-b-[1px] border-solid border-gray-400 pr-2 text-[14px]">
-      <div className="flex cursor-pointer flex-row justify-between xs:flex-col xs:items-end">
+      <div className="xs:flex-col xs:items-end flex cursor-pointer flex-row justify-between">
         <div className="flex items-center">
           <div className="ml-3 h-5 w-12 text-[#2F4BF7]">{data.postId.toString()}</div>
           {basePath ? (

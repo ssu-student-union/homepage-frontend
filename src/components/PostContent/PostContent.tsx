@@ -31,9 +31,9 @@ export function PostContent<C extends string>({ category, title, author, date, .
       {/* 잘못된 tailwind.config.js: `min-`, `max-` prefix로 range가 지원되는데 왜 이렇게 breakpoint를 짰을까요??
        * Reference: https://tailwindcss.com/docs/responsive-design#targeting-mobile-screens
        */}
-      <div className="flex basis-full justify-between gap-5 flex-col md:flex-row">
+      <div className="flex basis-full flex-col justify-between gap-5 md:flex-row">
         <div className="max-md:basis-full">{title}</div>
-        <div className="max-md:basis-full flex justify-between gap-5">
+        <div className="flex justify-between gap-5 max-md:basis-full">
           <span>{author}</span>
           <span className="text-gray-500">{formattedDate}</span>
         </div>
@@ -46,9 +46,9 @@ PostContent.Skeleton = () => {
   return (
     <div className={cn('flex gap-5 border-b border-b-gray-200 p-5 font-medium')}>
       <Skeleton className={cn('h-6 w-[6ch] text-nowrap')} />
-      <div className="flex basis-full justify-between gap-5 flex-col md:flex-row">
-        <Skeleton className="max-md:basis-full h-6 w-[20ch]" />
-        <div className="max-md:basis-full flex justify-between gap-5">
+      <div className="flex basis-full flex-col justify-between gap-5 md:flex-row">
+        <Skeleton className="h-6 w-[20ch] max-md:basis-full" />
+        <div className="flex justify-between gap-5 max-md:basis-full">
           <Skeleton className="h-6 w-[4ch]" />
           <Skeleton className="h-6 w-[10ch]" />
         </div>

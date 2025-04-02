@@ -26,7 +26,7 @@ export function DataContentItem({ title, content, date, isNotice, files, ...prop
   return (
     <div
       className={cn(
-        'flex flex-col lg:flex-row items-start lg:items-center justify-between border-b border-b-gray-200 p-5 text-[1.125rem] font-medium gap-[12px] lg:gap-0'
+        'flex flex-col items-start justify-between gap-[12px] border-b border-b-gray-200 p-5 text-[1.125rem] font-medium lg:flex-row lg:items-center lg:gap-0'
       )}
     >
       <Link {...props} className="flex grow flex-row items-start justify-start">
@@ -53,9 +53,9 @@ DataContentItem.Skeleton = () => {
   return (
     <div className={cn('flex gap-5 border-b border-b-gray-200 p-5 font-medium')}>
       <Skeleton className={cn('h-6 w-[6ch] text-nowrap')} />
-      <div className="flex flex-col md:flex-row basis-full justify-between gap-5">
-        <Skeleton className="max-md:basis-full h-6 w-[20ch]" />
-        <div className="max-md:basis-full flex justify-between gap-5">
+      <div className="flex basis-full flex-col justify-between gap-5 md:flex-row">
+        <Skeleton className="h-6 w-[20ch] max-md:basis-full" />
+        <div className="flex justify-between gap-5 max-md:basis-full">
           <Skeleton className="h-6 w-[4ch]" />
           <Skeleton className="h-6 w-[10ch]" />
         </div>
