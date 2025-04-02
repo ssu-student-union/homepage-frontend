@@ -15,7 +15,7 @@ export function BoardHead({ title, subtitle, mainStyle = '', subStyle = '' }: Bo
       <div className={cn(`mb-1 font-pretendard text-[2.125rem] font-bold text-black`, mainStyle)}>
         {t(`introduction.${title}`)}
       </div>
-      <div className={cn(`text-base font-bold text-gray-700 sm:text-[14px]`, subStyle)}>{subtitle}</div>
+      <div className={cn(`text-[14px] font-bold text-gray-700 md:text-base`, subStyle)}>{subtitle}</div>
     </div>
   );
 }

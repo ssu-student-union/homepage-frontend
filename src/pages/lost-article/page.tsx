@@ -18,7 +18,7 @@ export function LostArticlePage() {
       <HeadLayout
         title="분실물게시판"
         subtitle="학생서비스팀, 학생자치기구, 숭실대학교 학생들의 분실물 통합 게시판"
-        className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]"
+        className="px-[30px] xl:px-[200px]"
       />
       <BodyLayout
         selector={

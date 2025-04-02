@@ -1,6 +1,6 @@
 export function GuideMessage() {
   return (
-    <div className="mt-12 text-[1.125rem] font-bold xs:text-[0.75rem] sm:text-[0.75rem]">
+    <div className="mt-12 text-[0.75rem] font-bold md:text-[1.125rem]">
       <p className="mb-8 text-[#767676]">※ 청원 게시판 안내</p>
       <p className="text-[#A4A4A4]">
         학생청원게시판은 학생이 함께 만들어가는 학생자치를 위해, 학우분들의 의견을 반영하고자 개설한 게시판입니다.

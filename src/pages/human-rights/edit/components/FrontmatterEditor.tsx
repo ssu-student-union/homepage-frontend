@@ -25,7 +25,7 @@ export function FrontmatterEditor<TFieldValues extends FieldValues = NonNullable
   register,
 }: FrontmatterEditProps<TFieldValues>) {
   return (
-    <div className="grid grid-cols-[auto_minmax(0,_1fr)] items-start gap-x-4 gap-y-3 xs:grid-cols-1">
+    <div className="grid grid-cols-[auto_minmax(0,_1fr)] items-start gap-x-4 gap-y-3 sm:grid-cols-1">
       {items.map(({ id: itemId, term, required, value, disabled, errorMessage, registerPath }) => {
         const error = get(errors, registerPath)?.type;
         return (

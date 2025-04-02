@@ -37,11 +37,11 @@ export function ServiceNoticeDetailEditSection({
   };
 
   return (
-    <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
-      <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
+    <div className="flex w-full justify-end py-[40px] md:py-[60px]">
+      <div className="flex h-[150px] flex-col items-end justify-between gap-4 sm:h-auto sm:flex-row">
         {isAuthor ? (
           <>
-            <DeleteButton onClick={handleDelete} className="sm:w-[100px]" />
+            <DeleteButton onClick={handleDelete} className="max-md:w-[100px]" />
             <EditButton
               onClick={() =>
                 serviceNoticeHandleLocation(
@@ -53,12 +53,12 @@ export function ServiceNoticeDetailEditSection({
                   navigate
                 )
               }
-              className="sm:w-[100px]"
+              className="max-md:w-[100px]"
             />
           </>
         ) : null}
         <a href="/service-notice">
-          <ListButton className="sm:w-[100px]" />
+          <ListButton className="max-md:w-[100px]" />
         </a>
       </div>
     </div>

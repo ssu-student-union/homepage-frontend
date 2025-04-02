@@ -43,25 +43,25 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
 
   return (
     <div
-      className="petition-item flex h-[252px] w-[362px] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[13px] border border-gray-300 bg-white p-5 xs:h-[184px] xs:w-[304px] xs:p-4 sm:h-[184px] sm:w-[304px] sm:p-4"
+      className="petition-item flex h-[184px] w-[304px] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[13px] border border-gray-300 bg-white p-4 md:h-[252px] md:w-[362px] md:p-5"
       onClick={() => onClick(data.postId)}
     >
       <div className="flex flex-col">
         {renderStatusTag()}
-        <h3 className="mt-2 text-[1.375rem] font-bold text-gray-700 xs:text-[1rem] sm:text-[1rem]">{title}</h3>
-        <p className="mt-3 flex-grow overflow-hidden text-ellipsis text-[1.125rem] font-medium text-gray-500 xs:mt-2 xs:text-[0.875rem] sm:mt-2 sm:text-[0.875rem]">
+        <h3 className="mt-2 text-[1rem] font-bold text-gray-700 md:text-[1.375rem]">{title}</h3>
+        <p className="mt-2 flex-grow overflow-hidden text-ellipsis text-[0.875rem] font-medium text-gray-500 md:mt-3 md:text-[1.125rem]">
           {content}
         </p>
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-[1.125rem] font-normal text-gray-400 xs:text-[0.875rem] sm:text-[0.875rem]">
+        <span className="text-[0.875rem] font-normal text-gray-400 md:text-[1.125rem]">
           {formatYYYYMMDD(data?.date)}
         </span>
         <div className="flex cursor-pointer items-center gap-1 text-[#7D7BFF]">
           <span className="pb-1">
             <ThumbsUp size={isSmallScreen ? 14 : 22} />
           </span>
-          <span className="text-[1.125rem] font-medium xs:text-[0.875rem] sm:text-[0.875rem]">{data?.likeCount}</span>
+          <span className="text-[0.875rem] font-medium md:text-[1.125rem]">{data?.likeCount}</span>
         </div>
       </div>
     </div>

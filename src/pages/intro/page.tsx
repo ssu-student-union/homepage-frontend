@@ -38,11 +38,7 @@ export function IntroPage() {
   return (
     <>
       <HeadLayout
-        className={
-          categoryParam === 'audit'
-            ? 'px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]'
-            : 'px-[200px] xs:px-[30px] sm:px-[30px] md:px-[60px] lg:px-[200px]'
-        }
+        className={categoryParam === 'audit' ? 'px-[30px] xl:px-[200px]' : 'px-[30px] lg:px-[200px]'}
         searchHidden={true}
         borderOff={true}
         title={paramToTitle(categoryParam)}
@@ -55,7 +51,7 @@ export function IntroPage() {
         mainCategoryName={mainCategoryName}
         subCategoryDisplayName={subCategoryDisplayName}
         isHidden={categoryParam === 'audit' ? false : true}
-        className={categoryParam === 'audit' ? 'mx-[200px] xs:mx-[30px] sm:mx-[30px] md:mx-[30px] lg:mx-[30px]' : ''}
+        className={categoryParam === 'audit' ? 'mx-[30px] xl:mx-[200px]' : ''}
       />
       <IntroContentSection category={categoryParam} subCategory={subCategoryParam} />
       {/* /intro/edit navigate 버튼 <IntroEditButton /> */}

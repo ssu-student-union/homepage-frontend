@@ -132,7 +132,7 @@ function MyPostsPage() {
         />
         <Button
           onClick={onClickSearch}
-          className="h-12 rounded-md bg-[#2F4BF7] px-7 text-[13px] text-white xs:px-4 sm:px-5"
+          className="xs:px-4 h-12 rounded-md bg-[#2F4BF7] px-7 text-[13px] text-white sm:px-5"
         >
           검색
         </Button>

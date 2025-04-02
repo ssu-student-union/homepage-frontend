@@ -19,8 +19,8 @@ export function PartnershipDetailEditSection({
   const { mutate } = useDelBoardPosts();
 
   return (
-    <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
-      <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
+    <div className="flex w-full justify-end py-[40px] md:py-[60px]">
+      <div className="flex h-[150px] flex-col items-end justify-between gap-4 sm:h-auto sm:flex-row">
         {authority ? (
           <>
             {' '}
