@@ -53,7 +53,7 @@ export default function QnaDetailPage() {
     isLoading: isCommentsLoading,
     isError: isCommentsError,
     error: commentsError,
-  } = useGetComments<QnaComment>({ postId, type: '최신순' });
+  } = useGetComments<QnaComment>({ postId, type: '최신순', queryOptions: { refetchOnMount: 'always', staleTime: 0 } });
 
   // 게시글 삭제
   const { mutate: deleteDetail, isPending: isDeleteDetailPending } = useDeleteQnaDetail();
