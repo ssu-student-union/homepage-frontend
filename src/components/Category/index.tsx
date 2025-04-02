@@ -10,7 +10,7 @@ export function Category({ isActive = false, children, className = '', ...props 
   return (
     <button
       className={cn(
-        `flex h-[38px] min-w-fit items-center justify-center rounded-[32px] border border-gray-800 px-[16px] py-[8px] text-[1.125rem] font-bold transition-colors duration-100 xs:h-[31px] xs:text-[0.875rem] sm:h-[31px] sm:text-[0.875rem] ${
+        `flex h-[31px] min-w-fit items-center justify-center rounded-[32px] border border-gray-800 px-[16px] py-[8px] text-[0.875rem] font-bold transition-colors duration-100 md:h-[38px] md:text-[1.125rem] ${
           isActive
             ? 'bg border-none bg-primary text-white'
             : 'border border-black bg-white text-black hover:bg-gray-100'
@@ -25,11 +25,5 @@ export function Category({ isActive = false, children, className = '', ...props 
 }
 
 Category.Skeleton = () => {
-  return (
-    <Skeleton
-      className={cn(
-        `h-[38px] w-[6ch] rounded-[32px] text-[1.125rem] xs:h-[31px] xs:text-[0.875rem] sm:h-[31px] sm:text-[0.875rem]`
-      )}
-    />
-  );
+  return <Skeleton className={cn(`h-[31px] w-[6ch] rounded-[32px] text-[0.875rem] md:h-[38px] md:text-[1.125rem]`)} />;
 };

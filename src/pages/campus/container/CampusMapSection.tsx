@@ -6,7 +6,7 @@ import sm from '@/assets/image/campus-map/sm.svg';
 const CampusMapSection = () => {
   const { width } = useResize();
   return (
-    <div className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px]">
+    <div className="px-[30px] lg:px-[200px]">
       <img
         className="h-auto w-full"
         src={(() => {

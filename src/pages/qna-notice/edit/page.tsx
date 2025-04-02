@@ -175,7 +175,7 @@ export default function QnaEditPage() {
       <hr className="bg-[#E7E7E7]" />
       <Container>
         {!isEdit && (
-          <section className="mb-4 flex justify-between xs:flex-col sm:flex-col">
+          <section className="xs:flex-col mb-4 flex justify-between sm:flex-col">
             {/* 질문 대상 선택 드롭다운 */}
             <select
               {...register('qnaMemberCode')}
@@ -183,12 +183,12 @@ export default function QnaEditPage() {
                 setSelectedMember(e.target.value as keyof typeof qnaMemberMajor)
               }
               className="
-              h-11 w-[49.5%] appearance-none
-              rounded-[0.5rem]
-              border border-gray-600  
-              bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat
-              text-center text-gray-800
-              xs:mb-3 xs:w-auto sm:mb-3 sm:w-auto
+              xs:mb-3 xs:w-auto h-11
+              w-[49.5%]
+              appearance-none rounded-[0.5rem]  
+              border border-gray-600 bg-[url(/image/arrow-down.svg)]
+              bg-[position:calc(100%-3rem)_center] bg-no-repeat
+              text-center text-gray-800 sm:mb-3 sm:w-auto
             "
               disabled={isEdit}
             >
@@ -207,12 +207,12 @@ export default function QnaEditPage() {
             <select
               {...register('qnaMajorCode')}
               className="
-            h-11 w-[49.5%] appearance-none
-            rounded-[0.5rem]
-            border border-gray-600  
-            bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat
-            text-center text-gray-800
-            xs:w-auto sm:w-auto
+            xs:w-auto h-11 w-[49.5%]
+            appearance-none
+            rounded-[0.5rem] border  
+            border-gray-600 bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center]
+            bg-no-repeat text-center
+            text-gray-800 sm:w-auto
             "
               disabled={selectedMember === undefined || isEdit}
             >

@@ -37,7 +37,7 @@ export function NoticePage() {
           </>
         }
         borderOff={true}
-        className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]"
+        className="px-[30px] xl:px-[200px]"
       />
       <NoticeNavSection
         categoryParam={category}
@@ -45,7 +45,7 @@ export function NoticePage() {
         handleSelection={handleCategoryChange}
         mainCategoryName="게시판"
         isHidden={false}
-        className="mx-[200px] xs:mx-[30px] sm:mx-[30px] md:mx-[30px] lg:mx-[30px]"
+        className="mx-[30px] xl:mx-[200px]"
       />
       <BodyLayout
         selector={

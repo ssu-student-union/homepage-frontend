@@ -10,21 +10,21 @@ interface PostCardPetitProps {
 const PostCardPetit = ({ title = '', subtitle = '', date, goodNumber = 0 }: PostCardPetitProps) => {
   return (
     <div
-      className={`flex h-[15.75rem] w-[22.75rem] cursor-pointer flex-col items-center justify-between rounded-[0.8rem] border 
-      border-gray-300 bg-white px-7 py-6 xs:h-[9.75rem] xs:w-[15.5rem] xs:rounded-[0.62rem] xs:px-[1.37rem] 
-      xs:py-4`}
+      className={`flex h-[9.75rem] w-[15.5rem] cursor-pointer flex-col items-center justify-between rounded-[0.62rem] border 
+      border-gray-300 bg-white px-[1.37rem] py-4 sm:h-[15.75rem] sm:w-[22.75rem] sm:rounded-[0.8rem] sm:px-7 
+      sm:py-6`}
     >
-      <div className={`flex w-full flex-col gap-2.5 xs:gap-2`}>
-        <p className="line-clamp-1 text-[1.37rem] font-bold xs:text-base">{title}</p>
-        <p className={`line-clamp-2 text-lg font-normal leading-[1.37rem] text-gray-500 xs:text-sm xs:leading-4`}>
+      <div className={`flex w-full flex-col gap-2 sm:gap-2.5`}>
+        <p className="line-clamp-1 text-base font-bold sm:text-[1.37rem]">{title}</p>
+        <p className={`line-clamp-2 text-sm font-normal leading-4 text-gray-500 sm:text-lg sm:leading-[1.37rem]`}>
           {subtitle}
         </p>
       </div>
       <div className={`flex w-full items-center justify-between font-normal`}>
-        <span className="text-base text-gray-500 xs:text-xs">{date}</span>
+        <span className="text-xs text-gray-500 sm:text-base">{date}</span>
         <div className="flex items-center gap-1">
-          <ThumbsUp className="h-6 w-6 xs:h-5 xs:w-5" />
-          <span className="pt-[0.1rem] text-lg text-[#FF5151] xs:text-xs">{goodNumber}</span>
+          <ThumbsUp className="size-5 sm:size-6" />
+          <span className="pt-[0.1rem] text-xs text-[#FF5151] sm:text-lg">{goodNumber}</span>
         </div>
       </div>
     </div>

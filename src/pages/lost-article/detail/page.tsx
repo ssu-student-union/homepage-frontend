@@ -41,7 +41,7 @@ export function LostDetailPage() {
   const fileUrls = [...fileList, ...imageList]; // 모든 파일과 이미지 URL을 합친 리스트
 
   return (
-    <div className="px-[120px] xs:px-[20px] sm:px-[20px] md:px-[40px]">
+    <div className="px-[20px] md:px-[40px] lg:px-[120px]">
       <LostDetailTopSection
         studentId={postDetail.studentId ? postDetail.studentId : postDetail.authorName}
         isCouncil={postDetail.studentId === null}

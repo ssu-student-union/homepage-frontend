@@ -32,7 +32,7 @@ export default function IntroEditFileSection({ category, subCategory }: IntroEdi
   };
 
   return (
-    <div className="h-full w-full px-[120px] pt-[20px] xs:px-[30px] sm:px-[60px]">
+    <div className="h-full w-full px-[30px] pt-[20px] sm:px-[60px] md:px-[120px]">
       {(subCategory === 'intro' || subCategory === 'org') && files.length === 0 && (
         <div
           {...getRootProps()}
@@ -78,8 +78,8 @@ interface RenderSubmitButtonProps {
 
 export function RenderSubmitButton({ onSubmit }: RenderSubmitButtonProps) {
   return (
-    <div className="flex justify-end py-[40px] xs:py-[20px] sm:py-[20px]">
-      <RegisterButton onClick={onSubmit} className="h-[30px] w-[72px] rounded-xs text-sm xs:w-full sm:w-full" />
+    <div className="flex justify-end py-[20px] md:py-[40px]">
+      <RegisterButton onClick={onSubmit} className="h-[30px] w-full rounded-xs text-sm md:w-[72px]" />
     </div>
   );
 }

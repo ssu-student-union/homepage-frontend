@@ -162,7 +162,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileItemProps>(function (
       </div>
       {innerFile && categories && (
         <FilterDropDown
-          className="flex h-[64px] w-[354px] justify-center rounded-[12px] border-gray-500 text-[19px] font-medium xs:w-[257px] sm:w-[187px]"
+          className="flex h-[64px] w-[257px] justify-center rounded-[12px] border-gray-500 text-[19px] font-medium md:w-[354px]"
           defaultValue="파일종류 선택"
           optionValue={categories || []}
           onValueChange={categoryChangeHandler}

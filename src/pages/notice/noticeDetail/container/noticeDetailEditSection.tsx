@@ -31,11 +31,11 @@ export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls
   };
 
   return (
-    <div className="flex w-full justify-end py-[60px] sm:py-[40px]">
-      <div className="flex items-end justify-between gap-4 xs:h-[150px] xs:flex-col">
+    <div className="flex w-full justify-end py-[40px] md:py-[60px]">
+      <div className="flex items-end justify-between gap-4 max-sm:h-[150px] max-sm:flex-col">
         {isAuthor ? (
           <>
-            <DeleteButton onClick={handleDelete} className="sm:w-[100px]" />
+            <DeleteButton onClick={handleDelete} className="max-md:w-[100px]" />
             <EditButton
               onClick={() =>
                 handleLocation(

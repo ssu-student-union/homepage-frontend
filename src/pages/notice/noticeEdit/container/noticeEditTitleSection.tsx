@@ -34,14 +34,14 @@ export function NoticeEditTitleSection({
   };
 
   return (
-    <div className="px-[200px] xs:px-[30px] sm:px-[30px] md:px-[30px] lg:px-[30px]">
-      <div className="flex flex-row items-center justify-center gap-4 xs:flex-col xs:items-start xs:gap-1 sm:flex-col sm:items-start sm:gap-1">
+    <div className="px-[30px] xl:px-[200px]">
+      <div className="flex flex-col items-start justify-center gap-1 md:flex-row md:items-center md:gap-4">
         <input
           type="text"
           id="title"
           value={title}
           onChange={handleTitleChange}
-          className="w-full flex-1 rounded-xs border-[0.125rem] border-gray-300 px-3 py-[0.4rem] shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
+          className="w-full flex-1 rounded-xs border-[0.125rem] border-gray-300 px-3 py-[0.4rem] text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 md:text-base"
           placeholder="제목을 입력하세요"
         />
         {onUrgentChange && (
