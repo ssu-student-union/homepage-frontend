@@ -23,7 +23,7 @@ const Counter = ({ slideCount, currentSlide }: { slideCount: number; currentSlid
 
 const images = ['/image/main/main-1.webp', '/image/main/main-2.webp', '/image/main/main-3.webp'];
 
-const MainCarousel = ({ id, className }: { id: string; className: string }) => {
+const MainCarousel = ({ id, className = '' }: { id: string; className: string }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLogin = useRecoilValue(LoginState);
   const navigate = useNavigate();
