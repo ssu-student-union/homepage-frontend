@@ -5,7 +5,7 @@ interface SidebarProps {
 
 export default function Sidebar({ selectedMenu, setSelectedMenu }: SidebarProps) {
   return (
-    <aside className="my-10 hidden w-64 border-r border-[#E7E7E7] md:block md:w-56 lg:block xl:block xxl:block">
+    <aside className="my-10 hidden w-56 border-r border-[#E7E7E7] md:block">
       <div className="ml-6 p-10 font-bold md:ml-0 md:pr-0 md:text-sm">
         <ul>
           <li

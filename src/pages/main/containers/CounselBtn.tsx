@@ -26,7 +26,7 @@ export function CounselBtn() {
 
   return (
     <div
-      className={`fixed right-10 top-20 z-50 transform transition-all duration-500 xs:right-4 sm:right-4 ${
+      className={`fixed right-4 top-20 z-50 transform transition-all duration-500 md:right-10 ${
         isVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-[-20px] opacity-0'
       }`}
     >

@@ -10,9 +10,9 @@ interface FloatingIconProps {
 const FloatingIcon = ({ icon, fill = '#ffffff', viewBox, path }: FloatingIconProps) => (
   <a
     href={linkPaths[path]}
-    className="flex h-20 w-20 cursor-pointer items-center justify-center rounded-[40px] bg-primary hover:bg-blue-700 xs:h-[62px] xs:w-[62px] sm:h-[62px] sm:w-[62px]"
+    className="flex size-[62px] cursor-pointer items-center justify-center rounded-[40px] bg-primary hover:bg-blue-700 md:size-20"
   >
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox} className="h-[34px] w-[34px]  xs:w-[27px] sm:w-[27px]">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox} className="h-[34px] w-[27px]  md:w-[34px]">
       <path fill={fill} d={iconPaths[icon]} />
     </svg>
   </a>

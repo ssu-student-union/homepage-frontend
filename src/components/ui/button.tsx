@@ -17,7 +17,7 @@ const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         Register:
-          'bg-[#2F4BF7] hover:bg-[#2F4BF7]/90 w-[105px] md:w-full sm:w-full xs:w-full h-10 text-white text-lg xs:text-xs text-center font-semibold rounded-[7px]',
+          'bg-[#2F4BF7] hover:bg-[#2F4BF7]/90 lg:w-[105px] w-full h-10 text-white sm:text-lg text-xs text-center font-semibold rounded-[7px]',
         List_Edit:
           'flex gap-2 w-32 h-10 bg-white border border-gray-400 text-lg text-center font-semibold text-gray-700 hover:border-primary hover:bg-white hover:text-primary',
         Write:

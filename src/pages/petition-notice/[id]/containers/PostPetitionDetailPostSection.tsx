@@ -112,7 +112,7 @@ export function PostPetitionDetailPostSection() {
     <>
       {isLoading ? (
         <>
-          <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+          <div className="mb-[25px] mt-[182px] px-[35px] md:px-[70px] xl:px-[200px]">
             <Skeleton className="mb-4 h-6 w-1/3" />
             <Skeleton className="mb-2 h-10 w-2/3" />
             <div className="flex items-center gap-4">
@@ -121,7 +121,7 @@ export function PostPetitionDetailPostSection() {
             </div>
           </div>
           <Skeleton className="h-px w-full" />
-          <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+          <div className="mt-[59px] flex-col px-[35px] md:px-[70px] xl:px-[200px]">
             <div className="flex justify-between gap-10">
               <div className="w-full">
                 <Skeleton className="mb-4 h-40 w-full" />
@@ -134,19 +134,19 @@ export function PostPetitionDetailPostSection() {
                   <Skeleton className="h-6 w-8" />
                 </div>
               </div>
-              <div className="xs:hidden sm:hidden md:hidden">
+              <div className="hidden lg:block">
                 <Skeleton className="h-10 w-24" />
               </div>
             </div>
             <div className="mt-[60px] flex-col">
               <div className="mb-5 w-full rounded-[10px] border border-primary bg-gray-50 p-8">
-                <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
+                <div className="mb-2 flex text-[0.75rem] font-bold sm:text-[1.125rem]">
                   <Skeleton className="mr-2 h-6 w-6" />
                   <Skeleton className="h-6 w-40" />
                 </div>
                 <Skeleton className="h-20 w-full" />
               </div>
-              <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
+              <div className="mb-[35px] mt-20 flex justify-center gap-4 sm:justify-end md:mt-14 ">
                 <Skeleton className="h-10 w-24" />
                 <Skeleton className="h-10 w-24" />
                 <Skeleton className="h-10 w-24" />
@@ -156,7 +156,7 @@ export function PostPetitionDetailPostSection() {
         </>
       ) : (
         <>
-          <div className="mb-[25px] mt-[182px] px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+          <div className="mb-[25px] mt-[182px] px-[35px] md:px-[70px] xl:px-[200px]">
             <Breadcrumb items={breadcrumbItems} />
             <PostHead
               title={`[${data?.data.postDetailResDto.category}] ${data?.data.postDetailResDto.title}`}
@@ -173,7 +173,7 @@ export function PostPetitionDetailPostSection() {
             />
           </div>
           <hr />
-          <div className="mt-[59px] flex-col px-[200px] xs:px-[35px] sm:px-[35px] md:px-[70px] lg:px-[70px]">
+          <div className="mt-[59px] flex-col px-[35px] md:px-[70px] xl:px-[200px]">
             <div className="flex justify-between gap-10 ">
               <div className="w-full">
                 <Viewer initialValue={JSON.parse(data?.data.postDetailResDto.content as string)} />
@@ -184,7 +184,7 @@ export function PostPetitionDetailPostSection() {
                   <span className="pt-1">{data?.data.postDetailResDto.likeCount}</span>
                 </div>
               </div>
-              <div className="xs:hidden sm:hidden md:hidden">
+              <div className="hidden lg:block">
                 <StateTag current={data?.data.postDetailResDto.category || null} />
               </div>
             </div>
@@ -196,17 +196,17 @@ export function PostPetitionDetailPostSection() {
                       className="mb-5 w-full rounded-[10px] border border-primary bg-gray-50 p-8"
                       key={official_comment.id}
                     >
-                      <div className="mb-2 flex text-[1.125rem] font-bold xs:text-[0.75rem]">
+                      <div className="mb-2 flex text-[0.75rem] font-bold sm:text-[1.125rem]">
                         <span className="ml-2 text-[#2F4BF7]">{official_comment.authorName} 공식답변</span>
                       </div>
-                      <p className="text-[1.125rem] font-medium text-[#7E7E7E] xs:text-[0.75rem]">
+                      <p className="text-[0.75rem] font-medium text-[#7E7E7E] sm:text-[1.125rem]">
                         {official_comment.content}
                       </p>
                     </div>
                   ))}
                 </>
               )}
-              <div className="mb-[35px] mt-14 flex justify-end gap-4 xs:mt-20 xs:justify-center sm:mt-20">
+              <div className="mb-[35px] mt-20 flex justify-center gap-4 sm:justify-end md:mt-14 ">
                 {data?.data.postDetailResDto.isAuthor ||
                 data?.data.postDetailResDto.allowedAuthorities.includes('DELETE') ? (
                   <DeleteButton onClick={handleDeleteContent} />

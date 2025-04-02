@@ -13,7 +13,7 @@ export function HeadLayout({
   return (
     <div
       className={cn(
-        'mt-[120px] flex justify-between px-[200px] pb-9 xs:px-10 sm:px-10 md:px-10 lg:px-10',
+        'mt-[120px] flex justify-between px-10 pb-9 xl:px-[200px]',
         className,
         borderOff ? '' : 'border-b border-b-[#E7E7E7]'
       )}
@@ -22,7 +22,7 @@ export function HeadLayout({
       {searchHidden ? (
         <></>
       ) : (
-        <div className={cn(`xs:hidden sm:hidden md:hidden`)}>
+        <div className={cn(`hidden lg:block`)}>
           <Search />
         </div>
       )}

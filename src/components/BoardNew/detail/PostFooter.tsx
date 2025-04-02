@@ -36,7 +36,7 @@ export function PostFooter({ boardUrl, deletable, editable, editUrl, onDelete, c
 
 PostFooter.Skeleton = () => {
   return (
-    <footer className="flex justify-center px-10 md:px-[72px] lg:px-[200px] xl:px-[200px] xxl:px-[200px]">
+    <footer className="flex justify-center px-10 md:px-[72px] lg:px-[200px]">
       <div className="flex w-full max-w-[1040px] justify-end gap-4">
         <Skeleton className="h-10 w-32" />
         <Skeleton className="h-10 w-32" />

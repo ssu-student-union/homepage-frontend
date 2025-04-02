@@ -29,7 +29,7 @@ export function Navigation({ state = State.Onboarding }: NavigationProps) {
   const navigate = useNavigate();
 
   return (
-    <NavigationMenu className="h-full xs:hidden sm:hidden md:hidden lg:hidden">
+    <NavigationMenu className="hidden h-full xl:block">
       <NavigationMenuList className="h-full">
         {Object.entries(MENU_ITEMS).map(([category, items]) => (
           <NavigationMenuItem key={category} className="relative h-full min-w-fit text-[20px]">
