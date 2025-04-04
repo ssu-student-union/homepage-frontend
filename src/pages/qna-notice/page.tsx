@@ -147,11 +147,13 @@ export function QnApage() {
   }
 
   function navigateToWrite() {
-    if (isLogin) {
-      navigate('/qna/edit');
-    } else {
-      navigate('/register');
-    }
+    alert('시범운영 기간이 종료되었습니다. 곧 오픈 예정이니 다음에 이용해주세요');
+
+    // if (isLogin) {
+    //   navigate('/qna/edit');
+    // } else {
+    //   navigate('/register');
+    // }
   }
 
   return (
