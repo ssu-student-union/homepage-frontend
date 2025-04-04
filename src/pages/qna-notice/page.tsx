@@ -2,7 +2,7 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent/PostContent';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { QnaPostParams, useGetQnaList } from './hooks/useGetQnaList';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -77,7 +77,7 @@ function PageSkeleton() {
 }
 
 export function QnApage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
@@ -147,11 +147,13 @@ export function QnApage() {
   }
 
   function navigateToWrite() {
-    if (isLogin) {
-      navigate('/qna/edit');
-    } else {
-      navigate('/register');
-    }
+    alert('시범운영 기간이 종료되었습니다. 곧 오픈 예정이니 다음에 이용해주세요');
+
+    // if (isLogin) {
+    //   navigate('/qna/edit');
+    // } else {
+    //   navigate('/register');
+    // }
   }
 
   return (
