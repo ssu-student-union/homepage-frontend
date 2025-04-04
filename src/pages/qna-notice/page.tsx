@@ -2,7 +2,7 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent/PostContent';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { QnaPostParams, useGetQnaList } from './hooks/useGetQnaList';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -77,7 +77,7 @@ function PageSkeleton() {
 }
 
 export function QnApage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
