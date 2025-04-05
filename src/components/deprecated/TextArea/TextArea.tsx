@@ -5,8 +5,8 @@ import { usePostBoardPostComment, usePostBoardPostReplyComment } from '@/hooks/a
 import { cn } from '@/libs/utils';
 import { useNavigate, useParams } from 'react-router';
 import { TextAreaProps } from './types';
-import { useSetRecoilState } from 'recoil';
-import { commentLoadingState } from '@/recoil/atoms/atom';
+import { commentLoadingState } from '@/atoms/atom';
+import { useAtom } from 'jotai';
 
 type ParamsType = {
   id: string;
@@ -41,7 +41,7 @@ export function TextArea({
   const patchBoardCommentMutation = usePatchBoardPostsComment();
   const patchBoardReplyCommentMutation = usePatchBoardPostsReplyComment();
 
-  const setIsLoading = useSetRecoilState(commentLoadingState);
+  const [, setIsLoading] = useAtom(commentLoadingState);
   useEffect(() => {
     setIsLoading(postBoardCommentMutation.isPending);
   }, [setIsLoading, postBoardCommentMutation]);

@@ -4,11 +4,11 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
-import { SearchState } from '@/recoil/atoms/atom';
+import { SearchState } from '@/atoms/atom';
 import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { useDataCategory } from './hook/utils/useDataCategory';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
+import { useAtom } from 'jotai';
 
 function PageSkeleton() {
   return (
@@ -33,7 +33,7 @@ export default function DataPage() {
 
   /* Search state management */
   // TODO: Use search parameters instead of recoil state
-  const [q] = useRecoilState(SearchState);
+  const [q] = useAtom(SearchState);
 
   /* 카테고리 분류 */
   const { majorCategory, middleCategory, subCategory, setMajor, setMiddle, setSub } = useDataCategory();

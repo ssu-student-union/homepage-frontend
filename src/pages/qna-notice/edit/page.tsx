@@ -19,8 +19,8 @@ import { useGetQnaDetail } from '../hooks/useGetQnaDetail';
 import { useGetUserInfoQna } from '../hooks/useGetUserInfoQna';
 import { qnaMemberCodeData } from '../collegesData';
 import { qnaMemberMajor } from '../collegesData';
-import { useRecoilValue } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
+import { LoginState } from '@/atoms/atom';
+import { useAtom } from 'jotai';
 
 function PageSkeleton() {
   return (
@@ -38,7 +38,7 @@ export default function QnaEditPage() {
   const postId = id ? parseInt(id ?? '') || undefined : undefined;
 
   // 사용자의 단과대 학과를 가져오기 위해 로그인 확인 후 유저 데이터 페칭
-  const isLogin = useRecoilValue(LoginState);
+  const [isLogin] = useAtom(LoginState);
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
   // form과 Editor 사용

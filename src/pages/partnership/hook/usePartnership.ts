@@ -1,18 +1,18 @@
 import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { useRecoilValue } from 'recoil';
-import { SearchState } from '@/recoil/atoms/atom';
+import { SearchState } from '@/atoms/atom';
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { GetPartnershipBoardPostsResponse } from '@/types/getPartnershipBoardPosts';
 import { PartnershipSubcategories } from '../const';
+import { useAtom } from 'jotai';
 
 export function usePartnership(boardCode: string, category: string) {
   const { itemsPerPage } = useResponseBoard();
   const { currentPage, handlePageChange } = useCurrentPage();
 
-  const searchQuery = useRecoilValue(SearchState);
+  const [searchQuery] = useAtom(SearchState);
 
   const subcategories = Object.values(PartnershipSubcategories).filter(Boolean) as string[];
   const selectedCategory = category === '전체' ? null : category;

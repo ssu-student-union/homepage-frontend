@@ -7,8 +7,8 @@ import { Comment } from '@/components/deprecated/Comment/Comment';
 import { useParams } from 'react-router';
 import { useGetBoardPostComment } from '@/hooks/api/get/useGetBoardPostComment';
 import { SkeletonComment } from './SkeletonComment';
-import { useRecoilValue } from 'recoil';
-import { commentLoadingState } from '@/recoil/atoms/atom';
+import { commentLoadingState } from '@/atoms/atom';
+import { useAtom } from 'jotai';
 
 type ParamsType = {
   id: string;
@@ -30,7 +30,7 @@ export function PostPetitionDetailCommentSection() {
   }
 
   // 댓글 생성 시 로딩 시간 처리
-  const isCommentLoading = useRecoilValue(commentLoadingState);
+  const [isCommentLoading] = useAtom(commentLoadingState);
 
   return (
     <>

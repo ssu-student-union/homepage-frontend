@@ -4,10 +4,10 @@ import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent';
 import { HumanRightsCategory } from '@/pages/human-rights/schema.ts';
 import { useNavigate, useSearchParams } from 'react-router';
-import { useRecoilState } from 'recoil';
-import { SearchState } from '@/recoil/atoms/atom.ts';
+import { SearchState } from '@/atoms/atom';
 import { useSearchHumanRightsPosts } from '@/pages/human-rights/queries.ts';
 import { useEffect } from 'react';
+import { useAtom } from 'jotai';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -51,7 +51,7 @@ export function HumanRightsPage() {
 
   /* Search state management */
   // TODO: Use search parameters instead of recoil state
-  const [q] = useRecoilState(SearchState);
+  const [q] = useAtom(SearchState);
 
   /* Load data from Query */
   const { data, isLoading, isError, error } = useSearchHumanRightsPosts({

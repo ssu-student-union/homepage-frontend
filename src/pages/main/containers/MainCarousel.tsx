@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useRecoilValue } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
+import { LoginState } from '@/atoms/atom';
 import SsureLogo from '../../../components/logo/SsureLogo';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/libs/utils';
+import { useAtom } from 'jotai';
 
 const CounterItem = ({ isActive }: { isActive: boolean }) => (
   <span className={`block h-[7px] w-[45px] rounded-[15px] ${isActive ? 'bg-[#B8B8B8]' : 'bg-[#E4E4E4]'}`} />
@@ -25,7 +25,7 @@ const images = ['/image/main/main-1.webp', '/image/main/main-2.webp', '/image/ma
 
 const MainCarousel = ({ id, className = '' }: { id: string; className: string }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const isLogin = useRecoilValue(LoginState);
+  const [isLogin] = useAtom(LoginState);
   const navigate = useNavigate();
   const { t } = useTranslation();
 

@@ -4,10 +4,10 @@ import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent';
 import { SuggestCategory } from './schema';
 import { useNavigate, useSearchParams } from 'react-router';
-import { useRecoilState } from 'recoil';
-import { SearchState } from '@/recoil/atoms/atom.ts';
+import { SearchState } from '@/atoms/atom';
 import { useSearchSugNoticePosts } from './queries';
 import { useEffect } from 'react';
+import { useAtom } from 'jotai';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -57,7 +57,7 @@ export function SuggestPage() {
 
   // 검색 데이터 불러오는 API 추가 예정
 
-  const [q] = useRecoilState(SearchState);
+  const [q] = useAtom(SearchState);
 
   const { data, isLoading, isError, error } = useSearchSugNoticePosts({
     q,

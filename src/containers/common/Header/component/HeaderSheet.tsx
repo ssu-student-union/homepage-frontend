@@ -4,8 +4,6 @@ import { Globe } from '@phosphor-icons/react';
 import { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { State } from '../const/state';
-// import { useSetRecoilState } from 'recoil';
-// import { LoginState } from '@/recoil/atoms/atom';
 import { useTranslation } from 'react-i18next';
 import { Button, buttonVariants } from '@/components/ui/button';
 import SsureLogo from '@/components/logo/SsureLogo';
