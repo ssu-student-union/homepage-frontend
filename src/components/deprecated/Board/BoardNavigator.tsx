@@ -9,6 +9,9 @@ interface BoardNavigatorProps {
   onCategorySelect: (subcategory: string) => void;
 }
 
+/**
+ * @deprecated shadcn/ui의 `Tabs`를 `BoardTabs` 내 컴포넌트와 함께 사용하세요 (`pages/notice/page.tsx` 참고).
+ */
 export function BoardNavigator({
   categories,
   selectedCategory,

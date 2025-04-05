@@ -72,7 +72,7 @@ export function PostCommentEditor({
           </Button>
         )}
         <Button
-          variant="Register"
+          variant="register"
           className={cn('flex items-center justify-center gap-1')}
           disabled={innerValue.length < 1 || uploading}
           onClick={handleClick}

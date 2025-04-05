@@ -62,5 +62,7 @@ const PostCardMain = ({
   );
 };
 
-// PostCardNotice => imgUrl, title, subtitle, date, badgeType, size, profileImg, profileName 속성 기입해서 사용
+/**
+ * @deprecated 디자인 변경으로 사용되지 않습니다. 대신 `components/PostCard`를 사용하세요.
+ */
 export const PostCardNotice = (props: PostCardMainProps) => <PostCardMain {...props} />;

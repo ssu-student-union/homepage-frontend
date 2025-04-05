@@ -7,7 +7,9 @@ interface PostHeadProps {
   writer: string;
   date: string | null;
 }
-
+/**
+ * @deprecated `components/detail/PostHeader`를 사용하세요.
+ */
 export function PostHead({ title, writer, date }: PostHeadProps) {
   return (
     <section>

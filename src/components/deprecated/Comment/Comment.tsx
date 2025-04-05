@@ -13,6 +13,9 @@ import {
 } from '@/hooks/api/post/usePostPostCommentReaction';
 import { useNavigate } from 'react-router';
 
+/**
+ * @deprecated `components/detail/PostComment`를 대신 사용하세요.
+ */
 export function Comment({
   comment,
   replyComment,

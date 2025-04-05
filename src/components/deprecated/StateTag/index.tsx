@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { StateTagProps, StateTagType } from './types';
 import { ACTIVE_TAG, ANSWERED_TAG, CLOSED_TAG, RECEIVED_TAG } from './const';
 
+/**
+ * @deprecated `shadcn/ui`의 `Badge` 컴포넌트에 style variant를 추가하여 사용하세요.
+ */
 export function StateTag({ current }: StateTagProps) {
   const [currentState, setCurrentState] = useState<StateTagType>({
     active: false,

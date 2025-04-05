@@ -4,6 +4,9 @@ interface SwitchProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isActive?: boolean;
 }
 
+/**
+ * @deprecated `Button` 컴포넌트 혹은 `Toggle` 컴포넌트를 커스텀하여 사용하세요.
+ */
 export function Switch({ isActive = false, children, className, ...props }: SwitchProps) {
   return (
     <button

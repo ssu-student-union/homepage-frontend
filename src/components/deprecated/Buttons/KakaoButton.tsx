@@ -1,5 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
+/**
+ * @deprecated 이미지를 파일로 가져오는 방식으로 재작성 필요
+ */
 export function KakaoButton() {
   const { i18n } = useTranslation();
 

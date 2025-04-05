@@ -29,5 +29,7 @@ const PostCardPetit = ({ title = '', subtitle = '', date, goodNumber = 0 }: Post
   );
 };
 
-// PostTextPetitionView => title, subtitle, date, goodNumber 속성 기입해서 사용
+/**
+ * @deprecated 디자인 변경으로 사용되지 않습니다. 대신 `components/PostCard`를 사용하세요.
+ */
 export const PostTextPetitionView = (props: PostCardPetitProps) => <PostCardPetit {...props} />;
