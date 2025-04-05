@@ -37,9 +37,8 @@ const PostCardMain = ({
         xl:h-[387px] xl:w-[330px]
         "
     >
-      {badgeType === '긴급공지' && <Badge variant="Emergency">긴급</Badge>}
-      {badgeType === '새로운' && <Badge variant="New">NEW!</Badge>}
-      {badgeType === '일반' && <Badge variant="Default"></Badge>}
+      {badgeType === '긴급공지' && <Badge variant="emergency-old">긴급</Badge>}
+      {badgeType === '새로운' && <Badge variant="new-old">NEW!</Badge>}
       <div className="flex flex-row gap-2.5 md:flex-col">
         <img
           alt="image"

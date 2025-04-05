@@ -65,7 +65,7 @@ export function ServiceNoticeTab({ isEmergency, title, postId }: ServiceNoticeTa
         >
           <div className="flex cursor-pointer items-center justify-center gap-[8px]" onClick={handleTabClick}>
             {isEmergency ? (
-              <Badge variant="Emergency" className="relative right-0 top-0">
+              <Badge variant="emergency-old" className="relative right-0 top-0">
                 긴급
               </Badge>
             ) : (
