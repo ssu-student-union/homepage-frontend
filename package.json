@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx,md}\"",
-    "prettier:check": "prettier --check --config ./.prettierrc \"**/*.{ts,tsx,md}\""
+    "prettier:check": "prettier --check --config ./.prettierrc \"**/*.{ts,tsx,md}\"",
+    "knip": "knip"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -63,7 +64,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
-    "@svgr/webpack": "^8.1.0",
     "@toast-ui/editor": "^3.2.2",
     "@types/eslint-plugin-tailwindcss": "^3",
     "@types/mixpanel-browser": "^2.54.0",
@@ -79,6 +79,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "globals": "^16.0.0",
+    "knip": "^5.46.5",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
