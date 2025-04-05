@@ -240,7 +240,7 @@ export default function QnaEditPage() {
       </Container>
       <ArticleFooter>
         <Button
-          variant={'Register'}
+          variant="register"
           className="mb-10 flex items-center justify-center gap-1 self-end px-2"
           disabled={isCreatePending || isPatchPending}
           onClick={handleSubmit(onSubmit)}

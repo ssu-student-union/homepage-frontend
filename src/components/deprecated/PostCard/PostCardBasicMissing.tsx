@@ -71,7 +71,13 @@ const PostCard = ({
   );
 };
 
+/**
+ * @deprecated 디자인 변경으로 사용되지 않습니다. 대신 `components/PostCard`를 사용하세요.
+ */
 export const PostCardBasic = (props: Omit<PostCardProps, 'cardType'>) => <PostCard cardType="Basic" {...props} />;
+/**
+ * @deprecated 디자인 변경으로 사용되지 않습니다. 대신 `components/PostCard`를 사용하세요.
+ */
 export const PostCardMissing = (
   props: Omit<PostCardProps, 'cardType' | 'badgeType' | 'profileImg' | 'profileName'>
 ) => <PostCard cardType="Missing" badgeType="Default" {...props} />;

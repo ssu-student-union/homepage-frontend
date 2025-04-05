@@ -9,6 +9,9 @@ interface PetitionPostContentProps {
   onClick: (id: number) => void;
 }
 
+/**
+ * @deprecated 청원게시판 전용 컴포넌트입니다. 사용하지 않기를 권장합니다.
+ */
 export function PetitionPostContent({ data, onClick }: PetitionPostContentProps) {
   const { width } = useResize();
 

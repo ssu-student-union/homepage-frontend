@@ -2,6 +2,9 @@ interface CarouselProps {
   onClick: () => void;
 }
 
+/**
+ * @deprecated `lucide-react`와 `shadcn/ui`의 `Button` 컴포넌트로 리팩토링 필요
+ */
 export function RigthCarouselButton({ onClick }: CarouselProps) {
   return (
     <div className="absolute right-0 top-1/2 size-[26px] cursor-pointer md:size-[52px]" onClick={onClick}>

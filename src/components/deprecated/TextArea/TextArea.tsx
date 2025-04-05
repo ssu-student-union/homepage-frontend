@@ -12,6 +12,10 @@ type ParamsType = {
   id: string;
 };
 
+/**
+ * @deprecated `components/detail/PostCommentEditor`를 대신 사용하세요.
+ * @description 댓글 작성 및 수정 컴포넌트입니다. **주의: HTML TextArea와는 관계 없으며, 댓글 작성창과 강결합되어 있습니다.**
+ */
 export function TextArea({
   children,
   className,

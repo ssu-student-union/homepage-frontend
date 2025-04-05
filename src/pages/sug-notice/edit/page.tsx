@@ -222,7 +222,7 @@ export function SuggestWritePage() {
       </Container>
       <ArticleFooter className="pb-6">
         <Button
-          variant={'Register'}
+          variant="register"
           className="flex items-center justify-center gap-1 self-end px-2"
           disabled={Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
           onClick={handleSubmit(submitForm)}

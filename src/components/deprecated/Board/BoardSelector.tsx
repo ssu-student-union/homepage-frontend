@@ -11,6 +11,9 @@ interface BoardSelectorProps<T> {
   onSubcategorySelect: (category: T) => void;
 }
 
+/**
+ * @deprecated `LinkCategories`를 사용하세요.
+ */
 export function BoardSelector<T extends string>({
   subcategories,
   selectedSubcategory,

@@ -5,6 +5,9 @@ import { useEffect, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
 
+/**
+ * @deprecated 이 컴포넌트는 recoilState와 강결합 되어 있습니다. 대신 `components/Search`를 사용하세요.
+ */
 export function Search() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { width } = useResize();

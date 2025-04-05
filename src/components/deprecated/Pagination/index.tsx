@@ -17,6 +17,9 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
+/**
+ * @deprecated 이 페이지네이션은 시멘틱 링크로 동작하지 않습니다. 대신 `LinkPagination`을 사용하세요.
+ */
 const Pagination = ({ totalPages, currentPage, onPageChange }: PaginationProps) => {
   const { handlePageChange, handleTenPrevious, handleTenNext } = PaginationUtils(totalPages, currentPage, onPageChange);
 

@@ -8,6 +8,9 @@ interface BoardHeadProp {
   subStyle?: string;
 }
 
+/**
+ * @deprecated `BoardHeader`를 사용하세요.
+ */
 export function BoardHead({ title, subtitle, mainStyle = '', subStyle = '' }: BoardHeadProp) {
   const { t } = useTranslation();
   return (

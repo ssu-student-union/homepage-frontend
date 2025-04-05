@@ -6,6 +6,9 @@ import { PostTextPetitionProps } from './types';
 import { useMemo } from 'react';
 import useTruncateText from '@/hooks/useTruncateText';
 
+/**
+ * @deprecated 청원게시판 전용 컴포넌트입니다.
+ */
 export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
   const { width } = useResize();
   const isSmallScreen = width <= 391;
