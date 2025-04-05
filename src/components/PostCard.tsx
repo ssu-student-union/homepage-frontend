@@ -1,4 +1,5 @@
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/libs/utils';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
@@ -27,7 +28,6 @@ const cardVariants = cva('relative flex gap-2 rounded-md p-2', {
 });
 
 export function PostCard<T extends Post = Post>({ post, className, to }: { post: T; className?: string; to: To }) {
-  post.status = '긴급공지';
   const statusVariant = useMemo(() => {
     switch (post.status) {
       case '긴급공지':
@@ -87,8 +87,5 @@ export function PostCard<T extends Post = Post>({ post, className, to }: { post:
 }
 
 PostCard.Skeleton = ({ className }: { className?: string }) => (
-  <div className={cn(cardVariants({ variant: 'list' }), 'animate-pulse', className)}>
-    <div className="h-4 w-1/2 rounded-md bg-gray-200"></div>
-    <div className="h-4 w-1/3 rounded-md bg-gray-200"></div>
-  </div>
+  <Skeleton className={cn('w-full rounded-md max-md:h-28 md:aspect-instagram', className)}></Skeleton>
 );
