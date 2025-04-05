@@ -15,26 +15,28 @@ import { Pencil } from 'lucide-react';
 import { useMemo } from 'react';
 import { Link, To, useSearchParams } from 'react-router';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
-const CENTRAL_SUB_CATEGORIES: { id: string; name: string; to: To }[] = [
-  { id: '전체', name: '전체', to: { search: '?category=중앙' } },
-  { id: '총학생회', name: '총학생회', to: { search: '?category=중앙&sub=총학생회' } },
-  { id: '중앙운영위원회', name: '중앙운영위원회', to: { search: '?category=중앙&sub=중앙운영위원회' } },
-  { id: '중앙감사위원회', name: '중앙감사위원회', to: { search: '?category=중앙&sub=중앙감사위원회' } },
-  { id: '중앙선거관리위원회', name: '중앙선거관리위원회', to: { search: '?category=중앙&sub=중앙선거관리위원회' } },
-  { id: '동아리연합회', name: '동아리연합회', to: { search: '?category=중앙&sub=동아리연합회' } },
+const buildCentralSubCategories: (t: TFunction) => { id: string; name: string; to: To }[] = (t) => [
+  { id: '전체', name: t('board-selector.전체'), to: { search: '?category=중앙' } },
+  { id: '총학생회', name: t('board-selector.총학생회'), to: { search: '?category=중앙&sub=총학생회' } },
+  { id: '중앙운영위원회', name: t('board-selector.중앙운영위원회'), to: { search: '?category=중앙&sub=중앙운영위원회' } },
+  { id: '중앙감사위원회', name: t('board-selector.중앙감사위원회'), to: { search: '?category=중앙&sub=중앙감사위원회' } },
+  { id: '중앙선거관리위원회', name: t('board-selector.중앙선거관리위원회'), to: { search: '?category=중앙&sub=중앙선거관리위원회' } },
+  { id: '동아리연합회', name: t('board-selector.동아리연합회'), to: { search: '?category=중앙&sub=동아리연합회' } },
 ];
 
-const COLLAGE_SUB_CATEGORIES: { id: string; name: string; to: To }[] = [
-  { id: '전체', name: '전체', to: { search: '?category=단과대' } },
-  { id: '경영대학', name: '경영대학', to: { search: '?category=단과대&sub=경영대학' } },
-  { id: '경제통상대학', name: '경제통상대학', to: { search: '?category=단과대&sub=경제통상대학' } },
-  { id: '공과대학', name: '공과대학', to: { search: '?category=단과대&sub=공과대학' } },
-  { id: '법과대학', name: '법과대학', to: { search: '?category=단과대&sub=법과대학' } },
-  { id: '사회과학대학', name: '사회과학대학', to: { search: '?category=단과대&sub=사회과학대학' } },
-  { id: '인문대학', name: '인문대학', to: { search: '?category=단과대&sub=인문대학' } },
-  { id: '자연과학대학', name: '자연과학대학', to: { search: '?category=단과대&sub=자연과학대학' } },
-  { id: 'IT대학', name: 'IT대학', to: { search: '?category=단과대&sub=IT대학' } },
+const buildCollageSubCategories: (t: TFunction) => { id: string; name: string; to: To }[] = (t) => [
+  { id: '전체', name: t('board-selector.전체'), to: { search: '?category=단과대' } },
+  { id: '경영대학', name: t('board-selector.경영대학'), to: { search: '?category=단과대&sub=경영대학' } },
+  { id: '경제통상대학', name: t('board-selector.경제통상대학'), to: { search: '?category=단과대&sub=경제통상대학' } },
+  { id: '공과대학', name: t('board-selector.공과대학'), to: { search: '?category=단과대&sub=공과대학' } },
+  { id: '법과대학', name: t('board-selector.법과대학'), to: { search: '?category=단과대&sub=법과대학' } },
+  { id: '사회과학대학', name: t('board-selector.사회과학대학'), to: { search: '?category=단과대&sub=사회과학대학' } },
+  { id: '인문대학', name: t('board-selector.인문대학'), to: { search: '?category=단과대&sub=인문대학' } },
+  { id: '자연과학대학', name: t('board-selector.자연과학대학'), to: { search: '?category=단과대&sub=자연과학대학' } },
+  { id: 'IT대학', name: t('board-selector.IT대학'), to: { search: '?category=단과대&sub=IT대학' } },
   {
     id: '융합특성화자유전공학부',
     name: '융합특성화자유전공학부',
@@ -58,6 +60,10 @@ export function NoticePage() {
   const subCategory = useMemo(() => searchParams.get('sub') ?? '전체', [searchParams]);
   const page = useMemo(() => parseInt(searchParams.get('page') || '1') || 1, [searchParams]);
   const q = useMemo(() => searchParams.get('q') ?? undefined, [searchParams]);
+  const { t } = useTranslation();
+
+  const centralSubCategories = useMemo(() => buildCentralSubCategories(t), [t]);
+  const collageSubCategories = useMemo(() => buildCollageSubCategories(t), [t]);
 
   const { data, isLoading } = useSearchNoticePosts({
     q,
@@ -87,7 +93,7 @@ export function NoticePage() {
   return (
     <>
       <BoardHeader
-        title={category === '중앙' ? '중앙 공지사항' : '단과대 공지사항'}
+        title={category === '중앙' ? t('introduction.중앙 공지사항') : t('introduction.단과대 공지사항')}
         subtitle={
           isLoading ? (
             <Skeleton className="h-6 w-32" />
@@ -115,7 +121,7 @@ export function NoticePage() {
                 category !== '중앙' && 'text-neutral-600'
               )}
             >
-              중앙
+              {t('board-navigator.중앙')}
             </Link>
             <Link
               to="/notice?category=단과대"
@@ -125,7 +131,7 @@ export function NoticePage() {
                 category !== '단과대' && 'text-neutral-600'
               )}
             >
-              단과대
+              {t('board-navigator.단과대')}
             </Link>
           </BoardTabsList>
         </div>
@@ -133,10 +139,10 @@ export function NoticePage() {
         <Container className="pt-0">
           <div className="flex flex-col gap-4">
             <TabsContent value="중앙">
-              <LinkCategories value={subCategory} categories={CENTRAL_SUB_CATEGORIES} />
+              <LinkCategories value={subCategory} categories={centralSubCategories} />
             </TabsContent>
             <TabsContent value="단과대">
-              <LinkCategories value={subCategory} categories={COLLAGE_SUB_CATEGORIES} />
+              <LinkCategories value={subCategory} categories={collageSubCategories} />
             </TabsContent>
             <div className="flex flex-wrap gap-7"></div>
             {isLoading ? (
