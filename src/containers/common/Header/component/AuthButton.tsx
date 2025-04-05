@@ -25,7 +25,7 @@ export function AuthButton({ className, state = State.Onboarding, onLogout }: Au
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className={cn('max-xl:hidden w-[9rem] cursor-pointer text-base xl:text-primary-foreground', className)}
+            className={cn('w-[9rem] cursor-pointer text-base max-xl:hidden xl:text-primary-foreground', className)}
           >
             {t('header.내정보')}
           </Button>

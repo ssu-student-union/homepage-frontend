@@ -10,7 +10,7 @@ export function Category({ isActive = false, children, className = '', ...props 
   return (
     <button
       className={cn(
-        `flex h-[38px] min-w-fit items-center justify-center rounded-[32px] border px-[16px] py-[8px] text-[1.125rem] transition-colors duration-100 xs:h-[31px] xs:text-[0.875rem] sm:h-[31px] sm:text-[0.875rem] ${
+        `xs:h-[31px] xs:text-[0.875rem] flex h-[38px] min-w-fit items-center justify-center rounded-[32px] border px-[16px] py-[8px] text-[1.125rem] transition-colors duration-100 sm:h-[31px] sm:text-[0.875rem] ${
           isActive
             ? 'bg border-none bg-primary font-bold text-white'
             : 'border border-neutral-200 bg-white font-medium text-neutral-600 hover:bg-neutral-100'

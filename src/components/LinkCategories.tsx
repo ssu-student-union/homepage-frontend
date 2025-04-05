@@ -17,7 +17,7 @@ export function LinkCategories({
             key={categoryDef.id}
             className={cn(
               buttonVariants({ variant: categoryDef.id === value ? 'default' : 'outline' }),
-              'rounded-full px-3 py-2 text-xs h-7 md:h-9 md:px-4 md:text-base',
+              'h-7 rounded-full px-3 py-2 text-xs md:h-9 md:px-4 md:text-base',
               categoryDef.id !== value && 'text-neutral-600'
             )}
             to={categoryDef.to}

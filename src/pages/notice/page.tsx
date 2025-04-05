@@ -21,9 +21,21 @@ import { TFunction } from 'i18next';
 const buildCentralSubCategories: (t: TFunction) => { id: string; name: string; to: To }[] = (t) => [
   { id: '전체', name: t('board-selector.전체'), to: { search: '?category=중앙' } },
   { id: '총학생회', name: t('board-selector.총학생회'), to: { search: '?category=중앙&sub=총학생회' } },
-  { id: '중앙운영위원회', name: t('board-selector.중앙운영위원회'), to: { search: '?category=중앙&sub=중앙운영위원회' } },
-  { id: '중앙감사위원회', name: t('board-selector.중앙감사위원회'), to: { search: '?category=중앙&sub=중앙감사위원회' } },
-  { id: '중앙선거관리위원회', name: t('board-selector.중앙선거관리위원회'), to: { search: '?category=중앙&sub=중앙선거관리위원회' } },
+  {
+    id: '중앙운영위원회',
+    name: t('board-selector.중앙운영위원회'),
+    to: { search: '?category=중앙&sub=중앙운영위원회' },
+  },
+  {
+    id: '중앙감사위원회',
+    name: t('board-selector.중앙감사위원회'),
+    to: { search: '?category=중앙&sub=중앙감사위원회' },
+  },
+  {
+    id: '중앙선거관리위원회',
+    name: t('board-selector.중앙선거관리위원회'),
+    to: { search: '?category=중앙&sub=중앙선거관리위원회' },
+  },
   { id: '동아리연합회', name: t('board-selector.동아리연합회'), to: { search: '?category=중앙&sub=동아리연합회' } },
 ];
 

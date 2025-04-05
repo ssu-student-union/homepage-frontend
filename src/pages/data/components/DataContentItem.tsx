@@ -37,10 +37,7 @@ export function DataContentItem({ title, content, date, isNotice, files, ...prop
           {title} - {formattedDate}
         </p>
       </Link>
-      <div
-        className="flex flex-row gap-[8px] self-end lg:self-auto
-"
-      >
+      <div className="flex flex-row gap-[8px] self-end lg:self-auto">
         {files.map((file, index) => (
           <FileDownButton key={`${index} + ${file}`} file={file} />
         ))}
