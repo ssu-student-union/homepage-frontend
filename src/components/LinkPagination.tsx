@@ -18,7 +18,7 @@ interface LinkPaginationProps {
 
 const LinkPagination = ({ totalPages, maxDisplay, page, url }: LinkPaginationProps) => {
   const displayStart = useMemo(
-    () => Math.max(1, Math.min(page - maxDisplay / 2, totalPages - maxDisplay + 1)),
+    () => Math.max(1, Math.min(page - Math.floor(maxDisplay / 2), totalPages - maxDisplay + 1)),
     [page, maxDisplay, totalPages]
   );
   const pages = Array.from({ length: Math.min(maxDisplay, totalPages - displayStart + 1) }, (_, i) => displayStart + i);
