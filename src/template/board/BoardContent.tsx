@@ -124,7 +124,7 @@ export function BoardContent<T extends Post>({
     }
 
     return (
-      <div key={post.postId} className="pb-[20px] pr-0 xl:pb-0 xl:pr-[1.5rem]">
+      <div key={post.postId} className="pb-[20px] pr-0 xl:pb-0 xl:pr-6">
         <PostCardBasic
           size={size}
           imgUrl={thumbnail ? thumbnail : `image/default/thumbnail/default_thumbnail.png`}

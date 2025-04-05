@@ -23,7 +23,7 @@ export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectio
 
   return (
     <div className="px-[30px] xl:px-[200px]">
-      <div className="mt-[12px] flex h-[270px] w-full flex-row items-center justify-start gap-4 overflow-x-auto whitespace-nowrap rounded-xs border-[0.125rem] border-gray-300 p-[1rem]">
+      <div className="mt-[12px] flex h-[270px] w-full flex-row items-center justify-start gap-4 overflow-x-auto whitespace-nowrap rounded-xs border-[0.125rem] border-gray-300 p-4">
         <ImageDropzone onDrop={handleImageAdd} />
         <div className="flex max-w-full flex-row gap-4">
           {images.map((imageItem, index) => (

@@ -44,11 +44,10 @@ const PostCardMain = ({
           alt="image"
           src={imgUrl || '/image/default/thumbnail/thumbnail.webp'}
           className="
-            h-[64px] w-[64px] 
-            rounded-[4px] bg-gray-200 object-cover 
-            md:mt-1 md:h-[206px] md:w-[208px]
-            md:rounded-[0.5rem] xl:mt-0 xl:h-[18.75rem]
-            xl:w-[18.75rem]
+            size-[64px] rounded-[4px] 
+            bg-gray-200 object-cover md:mt-1 
+            md:h-[206px] md:w-[208px] md:rounded-[0.5rem]
+            xl:mt-0 xl:size-[18.75rem]
           "
         />
         <div
@@ -58,7 +57,7 @@ const PostCardMain = ({
           md:w-full xl:text-lg
           "
         >
-          <p className="mb-1 line-clamp-1 w-[13rem] md:w-[208px] xl:w-[18.75rem]">{truncatedTitle}</p>
+          <p className="mb-1 line-clamp-1 w-52 md:w-[208px] xl:w-[18.75rem]">{truncatedTitle}</p>
           {subtitle && (
             <p className="mb-1 line-clamp-2 h-[24px] w-[calc(85vw-100px)] text-[12px] font-medium text-gray-600">
               {subtitle}

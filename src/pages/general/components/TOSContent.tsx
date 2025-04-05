@@ -1,5 +1,5 @@
 export const PrivacyContent = () => (
-  <div className="text-md space-y-4 text-black">
+  <div className="space-y-4 text-base text-black">
     <p>수집 항목과 목적, 보유 및 이용 기간</p>
     <p className="text-gray-600">
       숭실대학교 총학생회 홈페이지 서비스는 다음의 목적을 위해 이용자가 동의 받은 범위에 한하여 개인정보를 수집하고
@@ -43,7 +43,7 @@ export const PrivacyContent = () => (
 );
 
 export const ProcessContent = () => (
-  <div className="text-md space-y-4 text-black">
+  <div className="space-y-4 text-base text-black">
     <p>서비스 이용 방침</p>
     <div>
       <ul className="list-none space-y-3 pb-4 text-gray-600">
@@ -335,7 +335,7 @@ export const ProcessContent = () => (
 );
 
 export const ThirdContent = () => (
-  <div className="text-md space-y-4 text-black">
+  <div className="space-y-4 text-base text-black">
     <p>개인정보 제3자 제공에 대한 안내</p>
     <p className="text-gray-600">
       숭실대학교 IT지원위원회는 회원의 개인정보를 보호하고 안전하게 관리하기 위해 관련 법령에 따라 개인정보를 수집 ・

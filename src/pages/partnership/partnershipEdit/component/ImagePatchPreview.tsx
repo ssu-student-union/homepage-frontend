@@ -19,17 +19,17 @@ export function ImagePatchPreview({
 
   return (
     <div
-      className="relative flex h-[231px] w-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
+      className="relative flex size-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
       onClick={onClick}
     >
       {isThumbnail && (
-        <div className="absolute left-[0.5rem] top-[0.75rem] rounded-xs bg-primary px-[0.6rem] py-[0.2rem] text-sm font-bold text-white">
+        <div className="absolute left-2 top-3 rounded-xs bg-primary px-[0.6rem] py-[0.2rem] text-sm font-bold text-white">
           대표
         </div>
       )}
-      {fileURL && <img src={fileURL} alt="uploaded" className="h-full w-full object-cover" />}
+      {fileURL && <img src={fileURL} alt="uploaded" className="size-full object-cover" />}
       <button
-        className="absolute right-[-0.75rem] top-[-0.75rem]"
+        className="absolute -right-3 -top-3"
         onClick={(e) => {
           e.stopPropagation();
           onRemove();

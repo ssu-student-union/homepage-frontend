@@ -22,11 +22,11 @@ const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProp
 PaginationContent.displayName = 'PaginationContent';
 
 const PaginationLinkVariants = cva(
-  'cursor-pointer select-none h-[27px] w-[27px] text-[18px] flex text-gray-700 font-medium justify-center items-center',
+  'flex size-[27px] cursor-pointer select-none items-center justify-center text-[18px] font-medium text-gray-700',
   {
     variants: {
       variant: {
-        active: 'bg-gray-100 rounded-[4px]',
+        active: 'rounded-[4px] bg-gray-100',
         default: ' font-medium ',
       },
     },

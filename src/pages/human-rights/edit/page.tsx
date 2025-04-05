@@ -378,7 +378,7 @@ export function HumanRightsEditPage() {
                 <div className="relative mb-6">
                   {index > 0 && (
                     <button
-                      className="absolute top-1/2 -translate-x-[calc(100%+2px)] -translate-y-1/2 text-[#979797]"
+                      className="absolute top-1/2 -translate-y-1/2 translate-x-[calc(-100%-2px)] text-[#979797]"
                       onClick={() => victimRemove(index)}
                     >
                       <MinusCircle size="20" />
@@ -430,7 +430,7 @@ export function HumanRightsEditPage() {
                 <div className="relative mb-6">
                   {index > 0 && (
                     <button
-                      className="absolute top-1/2 -translate-x-[calc(100%+2px)] -translate-y-1/2 text-[#979797]"
+                      className="absolute top-1/2 -translate-y-1/2 translate-x-[calc(-100%-2px)] text-[#979797]"
                       onClick={() => attackerRemove(index)}
                     >
                       <MinusCircle size="20" />

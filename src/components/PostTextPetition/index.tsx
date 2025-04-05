@@ -43,13 +43,13 @@ export function PostTextPetition({ data, onClick }: PostTextPetitionProps) {
 
   return (
     <div
-      className="petition-item flex h-[184px] w-[304px] flex-shrink-0 cursor-pointer flex-col justify-between rounded-[13px] border border-gray-300 bg-white p-4 md:h-[252px] md:w-[362px] md:p-5"
+      className="petition-item flex h-[184px] w-[304px] shrink-0 cursor-pointer flex-col justify-between rounded-[13px] border border-gray-300 bg-white p-4 md:h-[252px] md:w-[362px] md:p-5"
       onClick={() => onClick(data.postId)}
     >
       <div className="flex flex-col">
         {renderStatusTag()}
         <h3 className="mt-2 text-[1rem] font-bold text-gray-700 md:text-[1.375rem]">{title}</h3>
-        <p className="mt-2 flex-grow overflow-hidden text-ellipsis text-[0.875rem] font-medium text-gray-500 md:mt-3 md:text-[1.125rem]">
+        <p className="mt-2 grow overflow-hidden text-ellipsis text-[0.875rem] font-medium text-gray-500 md:mt-3 md:text-[1.125rem]">
           {content}
         </p>
       </div>

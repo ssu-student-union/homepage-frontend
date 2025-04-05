@@ -4597,6 +4597,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"globals@npm:^16.0.0":
+  version: 16.0.0
+  resolution: "globals@npm:16.0.0"
+  checksum: 10c0/8906d5f01838df64a81d6c2a7b7214312e2216cf65c5ed1546dc9a7d0febddf55ffa906cf04efd5b01eec2534d6f14859a89535d1a68241832810e41ef3fd5bb
+  languageName: node
+  linkType: hard
+
 "gopd@npm:^1.2.0":
   version: 1.2.0
   resolution: "gopd@npm:1.2.0"
@@ -4719,6 +4726,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.19"
     eslint-plugin-tailwindcss: "npm:^3.18.0"
+    globals: "npm:^16.0.0"
     history: "npm:5.3.0"
     i18next: "npm:^24.2.3"
     i18next-browser-languagedetector: "npm:^8.0.4"
@@ -4741,6 +4749,7 @@ __metadata:
     slick-carousel: "npm:^1.8.1"
     sonner: "npm:^1.7.4"
     tailwind-merge: "npm:^2.6.0"
+    tailwind-scrollbar-hide: "npm:^2.0.0"
     tailwindcss: "npm:^3.4.17"
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5.8.3"
@@ -6616,6 +6625,15 @@ __metadata:
   version: 2.6.0
   resolution: "tailwind-merge@npm:2.6.0"
   checksum: 10c0/fc8a5535524de9f4dacf1c16ab298581c7bb757d68a95faaf28942b1c555a619bba9d4c6726fe83986e44973b315410c1a5226e5354c30ba82353bd6d2288fa5
+  languageName: node
+  linkType: hard
+
+"tailwind-scrollbar-hide@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "tailwind-scrollbar-hide@npm:2.0.0"
+  peerDependencies:
+    tailwindcss: ">=3.0.0 || >= 4.0.0 || >= 4.0.0-beta.8 || >= 4.0.0-alpha.20"
+  checksum: 10c0/eb320b8fbb4d558fb025420fb21f291201781599b36ef5ff7be500f44daa04e41ff161a484180a180c8a6e38ac863d4f05ecaa73c1c8a58668bcc821fc2725fe
   languageName: node
   linkType: hard
 

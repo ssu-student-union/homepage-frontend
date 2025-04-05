@@ -14,11 +14,11 @@ interface Post {
   status?: '긴급공지' | '새로운' | '일반';
 }
 
-const cardVariants = cva('flex gap-2 p-2 rounded-md relative', {
+const cardVariants = cva('relative flex gap-2 rounded-md p-2', {
   variants: {
     variant: {
       thumbnail: 'flex-col border',
-      list: 'flex-row border-b rounded-none items-center',
+      list: 'flex-row items-center rounded-none border-b',
     },
   },
   defaultVariants: {

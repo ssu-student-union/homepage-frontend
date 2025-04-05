@@ -30,7 +30,7 @@ export function AuthButton({ className, state = State.Onboarding, onLogout }: Au
             {t('header.내정보')}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="max-xl:hidden rounded-xs border-none bg-primary text-white">
+        <DropdownMenuContent align="end" className="rounded-xs border-none bg-primary text-white max-xl:hidden">
           <DropdownMenuItem asChild>
             <Link to="/mypage" className="block w-full px-4 py-3 text-center hover:bg-primary">
               {t('introduction.마이페이지')}

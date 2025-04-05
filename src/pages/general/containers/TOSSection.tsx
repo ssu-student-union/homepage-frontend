@@ -82,7 +82,7 @@ export function TOSSection() {
                   <DialogPortal>
                     <DialogContent
                       showOverlay={true}
-                      className="fixed left-[50%] top-[50%] z-50 h-[500px] max-h-[800px] w-[300px] translate-x-[-50%] translate-y-[-50%] overflow-y-scroll rounded-[8px] bg-white p-6 text-sm shadow-xl sm:text-base md:w-[800px]"
+                      className="fixed left-1/2 top-1/2 z-50 h-[500px] max-h-[800px] w-[300px] -translate-x-1/2 -translate-y-1/2 overflow-y-scroll rounded-[8px] bg-white p-6 text-sm shadow-xl sm:text-base md:w-[800px]"
                       onOpenAutoFocus={(e) => e.preventDefault()}
                     >
                       <DialogHeader className="mt-10 text-left">

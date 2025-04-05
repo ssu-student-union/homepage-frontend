@@ -32,7 +32,7 @@ export default function IntroEditFileSection({ category, subCategory }: IntroEdi
   };
 
   return (
-    <div className="h-full w-full px-[30px] pt-[20px] sm:px-[60px] md:px-[120px]">
+    <div className="size-full px-[30px] pt-[20px] sm:px-[60px] md:px-[120px]">
       {(subCategory === 'intro' || subCategory === 'org') && files.length === 0 && (
         <div
           {...getRootProps()}
@@ -60,9 +60,9 @@ function RenderThumbnail({ files, removeFile }: RenderThumbnailProps) {
     <>
       {files.map((file) => (
         <div key={file.name} className="relative h-auto w-full overflow-hidden rounded-md">
-          <img src={file.preview} className="h-full w-full object-cover" alt={file.name} />
+          <img src={file.preview} className="size-full object-cover" alt={file.name} />
           <button onClick={() => removeFile()} className="absolute right-2 top-2 cursor-pointer">
-            <XCircle className="h-6 w-6 text-red-500" />
+            <XCircle className="size-6 text-red-500" />
           </button>
         </div>
       ))}
