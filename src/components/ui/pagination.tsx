@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cn } from '@/libs/utils';
 import { cva } from 'class-variance-authority';
 import { CaretDoubleLeft, CaretDoubleRight, CaretLeft, CaretRight } from '@phosphor-icons/react';
+import { Link } from 'react-router-dom';
 
 const PaginationContainer = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
@@ -55,8 +56,8 @@ const PaginationItem = React.forwardRef<HTMLLIElement, PaginationItemProps>(
 );
 PaginationItem.displayName = 'PaginationItem';
 
-const PaginationLink = ({ className, ...props }: React.ComponentProps<'a'>) => (
-  <a aria-current={'page'} className={cn('', className)} {...props} />
+const PaginationLink = ({ className, ...props }: React.ComponentProps<typeof Link>) => (
+  <Link aria-current={'page'} className={cn('', className)} {...props} />
 );
 PaginationLink.displayName = 'PaginationLink';
 
