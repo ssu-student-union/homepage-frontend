@@ -15,6 +15,9 @@ module.exports = {
       center: true,
       padding: '2rem',
     },
+    aspectRatio: {
+      instagram: '4 / 5',
+    },
     extend: {
       scrollbar: {
         hide: {
