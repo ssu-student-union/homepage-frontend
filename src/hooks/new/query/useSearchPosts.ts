@@ -44,7 +44,7 @@ export function useSearchPosts<TRaw, TData = TRaw>({
   queryOptions,
 }: SearchPostsOptions<TRaw, TData>) {
   const accessToken = localStorage.getItem('accessToken');
-  const queryKey = ['searchPosts', boardCode, accessToken, category, q, take, page];
+  const queryKey = ['searchPosts', boardCode, accessToken, category, groupCode, memberCode, q, take, page];
   const config: AxiosRequestConfig = {
     url: `/board/${boardCode}/posts/search`,
     method: 'get',

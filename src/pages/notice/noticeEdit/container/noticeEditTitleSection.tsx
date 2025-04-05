@@ -50,7 +50,7 @@ export function NoticeEditTitleSection({
               type="checkbox"
               checked={isUrgent}
               onChange={handleCheckboxChange}
-              className="h-4 w-4 rounded-xl border-gray-400 bg-gray-100 text-primary focus:ring-blue-500"
+              className="size-4 rounded-xl border-gray-400 bg-gray-100 text-primary focus:ring-blue-500"
             />
             <span className="ml-2 font-semibold text-[#616161]">긴급공지</span>
           </label>

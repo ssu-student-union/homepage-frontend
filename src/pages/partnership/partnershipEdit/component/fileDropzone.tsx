@@ -16,7 +16,7 @@ export function FileDropzone({ file, onDrop }: FileDropzoneProps) {
       {file ? (
         <p className="text-sm">{file.name}</p>
       ) : (
-        <p className="text-medium text-sm text-gray-400">파일을 선택해주세요</p>
+        <p className="text-sm font-medium text-gray-400">파일을 선택해주세요</p>
       )}
     </div>
   );

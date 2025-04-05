@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import NoticeDetailLoading from '@/pages/notice/noticeDetail/container/noticeDetailLoading';
 import { NoticeDetailContentSection } from '@/pages/notice/noticeDetail/container/noticeDetailContentSection';
 import { ServiceNoticeDeatailTopSection } from './container/serviceNoticeDeatilTopSection';

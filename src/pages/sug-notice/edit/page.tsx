@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { Input } from '@/components/ui/input';
-import { FileInputs } from '@/components/BoardNew/edit/FileInputs';
+import { FileInputs } from '@/components/edit/FileInputs';
 import { Editor } from '@toast-ui/react-editor';
 import { cn } from '@/libs/utils.ts';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
+import { PostHeader } from '@/components/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
+import { PostFooter } from '@/components/detail/PostFooter';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
 import { ArticleHeader } from '@/containers/new/ArticleHeader';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import { useContentEditor } from '@/hooks/useContentEditor';
@@ -222,7 +222,7 @@ export function SuggestWritePage() {
       </Container>
       <ArticleFooter className="pb-6">
         <Button
-          variant={'Register'}
+          variant="register"
           className="flex items-center justify-center gap-1 self-end px-2"
           disabled={Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
           onClick={handleSubmit(submitForm)}

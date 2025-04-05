@@ -1,20 +1,20 @@
 import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { useRecoilValue } from 'recoil';
-import { SearchState } from '@/recoil/atoms/atom';
+import { SearchState } from '@/atoms/atom';
 import { useEffect } from 'react';
 import { categoryMap } from '../const/data';
 import { useCategory } from './useCategory';
 import { LostArticleResponse } from '../types';
 import { useQueryClient } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
 
 export function useLostBoard(boardCode: string) {
   const { itemsPerPage } = useResponseBoard();
   const { currentPage, handlePageChange } = useCurrentPage();
   const { categoryParam } = useCategory();
 
-  const searchQuery = useRecoilValue(SearchState);
+  const [searchQuery] = useAtom(SearchState);
 
   const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
   const selectedCategory = categoryMap[categoryParam] === '전체' ? null : categoryMap[categoryParam];

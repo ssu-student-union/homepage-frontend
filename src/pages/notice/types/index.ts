@@ -7,7 +7,7 @@ export interface NoticeContentResponse {
   date: string;
   isEmergency: boolean;
   postId: number;
-  status: string;
+  status: '긴급공지' | '새로운' | '일반';
   thumbNail: string;
   title: string;
 }

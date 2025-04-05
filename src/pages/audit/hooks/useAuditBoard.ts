@@ -2,16 +2,16 @@ import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { categoryMap } from '../const/data';
-import { useRecoilValue } from 'recoil';
-import { SearchState } from '@/recoil/atoms/atom';
+import { SearchState } from '@/atoms/atom';
 import { useEffect, useRef } from 'react';
 import { AuditResponse } from '../types';
+import { useAtom } from 'jotai';
 
 export function useAuditBoard(boardCode: string, category: string) {
   const { itemsPerPage } = useResponseBoard();
   const { currentPage, handlePageChange } = useCurrentPage();
 
-  const searchQuery = useRecoilValue(SearchState);
+  const [searchQuery] = useAtom(SearchState);
 
   const subcategories = Object.values(categoryMap).filter(Boolean) as string[];
   const selectedCategory = categoryMap[category] === '전체' ? null : categoryMap[category];

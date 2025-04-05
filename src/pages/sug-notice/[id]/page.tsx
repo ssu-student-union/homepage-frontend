@@ -1,17 +1,17 @@
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
+import { PostFooter } from '@/components/detail/PostFooter';
+import { PostHeader } from '@/components/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { useDeleteSuggestPost, useGetSuggestComments, useGetSuggestPost } from '../queries';
 import { SuggestComment, SuggestCommentResponse } from '../schema';
 import { usePatchComment } from '@/hooks/new/mutations/usePatchComment';
 import { useDeleteComment } from '@/hooks/new/mutations/useDeleteComment';
 import { useCreateComment } from '@/hooks/new/mutations/useCreateComment';
 import { useState } from 'react';
-import { PostBody } from '@/components/BoardNew/detail/PostBody';
-import { PostCommentEditor } from '@/components/BoardNew/detail/PostCommentEditor';
-import { PostComment } from '@/components/BoardNew/detail/PostComment';
+import { PostBody } from '@/components/detail/PostBody';
+import { PostCommentEditor } from '@/components/detail/PostCommentEditor';
+import { PostComment } from '@/components/detail/PostComment';
 
 const BOARD_CODE = '건의게시판' as const;
 const breadcrumbItems: [string, string | null][] = [

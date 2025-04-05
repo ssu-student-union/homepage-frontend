@@ -1,4 +1,4 @@
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router';
 import IntroContentSection from './container/IntroContentSection';
 import { HeadLayout } from '@/template/HeadLayout';
 import { useBoardSelect } from '@/hooks/useBoardSelect';

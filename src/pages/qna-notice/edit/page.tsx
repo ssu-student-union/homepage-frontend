@@ -1,13 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { Editor } from '@toast-ui/react-editor';
 import { cn } from '@/libs/utils.ts';
 import { ArticleHeader } from '@/containers/new/ArticleHeader';
 import { Container } from '@/containers/new/Container.tsx';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
+import { PostHeader } from '@/components/detail/PostHeader';
+import { PostFooter } from '@/components/detail/PostFooter';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
@@ -19,8 +19,8 @@ import { useGetQnaDetail } from '../hooks/useGetQnaDetail';
 import { useGetUserInfoQna } from '../hooks/useGetUserInfoQna';
 import { qnaMemberCodeData } from '../collegesData';
 import { qnaMemberMajor } from '../collegesData';
-import { useRecoilValue } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
+import { LoginState } from '@/atoms/atom';
+import { useAtom } from 'jotai';
 
 function PageSkeleton() {
   return (
@@ -38,7 +38,7 @@ export default function QnaEditPage() {
   const postId = id ? parseInt(id ?? '') || undefined : undefined;
 
   // 사용자의 단과대 학과를 가져오기 위해 로그인 확인 후 유저 데이터 페칭
-  const isLogin = useRecoilValue(LoginState);
+  const [isLogin] = useAtom(LoginState);
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
   // form과 Editor 사용
@@ -182,14 +182,7 @@ export default function QnaEditPage() {
               onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                 setSelectedMember(e.target.value as keyof typeof qnaMemberMajor)
               }
-              className="
-              xs:mb-3 xs:w-auto h-11
-              w-[49.5%]
-              appearance-none rounded-[0.5rem]  
-              border border-gray-600 bg-[url(/image/arrow-down.svg)]
-              bg-[position:calc(100%-3rem)_center] bg-no-repeat
-              text-center text-gray-800 sm:mb-3 sm:w-auto
-            "
+              className="xs:mb-3 xs:w-auto h-11 w-[49.5%] appearance-none rounded-[0.5rem] border border-gray-600 bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat text-center text-gray-800 sm:mb-3 sm:w-auto"
               disabled={isEdit}
             >
               <option value="">질문 대상 선택</option>
@@ -206,14 +199,7 @@ export default function QnaEditPage() {
             {/* 세부 대상 선택 드롭다운 */}
             <select
               {...register('qnaMajorCode')}
-              className="
-            xs:w-auto h-11 w-[49.5%]
-            appearance-none
-            rounded-[0.5rem] border  
-            border-gray-600 bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center]
-            bg-no-repeat text-center
-            text-gray-800 sm:w-auto
-            "
+              className="xs:w-auto h-11 w-[49.5%] appearance-none rounded-[0.5rem] border border-gray-600 bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat text-center text-gray-800 sm:w-auto"
               disabled={selectedMember === undefined || isEdit}
             >
               <option value="">세부 대상 선택</option>
@@ -254,7 +240,7 @@ export default function QnaEditPage() {
       </Container>
       <ArticleFooter>
         <Button
-          variant={'Register'}
+          variant="register"
           className="mb-10 flex items-center justify-center gap-1 self-end px-2"
           disabled={isCreatePending || isPatchPending}
           onClick={handleSubmit(onSubmit)}

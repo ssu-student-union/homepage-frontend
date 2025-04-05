@@ -1,7 +1,6 @@
 import { cn } from '@/libs/utils';
 import { State } from '../const/state';
-import { getStyles } from '../const/style';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
   DropdownMenu,
@@ -9,37 +8,40 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 interface AuthButtonProps {
+  className?: string;
   state?: State;
   onLogout: () => void;
 }
 
-export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonProps) {
-  const styles = getStyles(state);
-  const navigate = useNavigate();
+export function AuthButton({ className, state = State.Onboarding, onLogout }: AuthButtonProps) {
   const { t } = useTranslation();
 
   if (state === State.Login) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className={cn(styles.headerItemStyle, 'w-[9rem] cursor-pointer text-base max-xl:hidden')}>
+          <Button
+            variant="ghost"
+            className={cn('w-[9rem] cursor-pointer text-base max-xl:hidden xl:text-primary-foreground', className)}
+          >
             {t('header.내정보')}
-          </div>
+          </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="rounded-xs border-none bg-[#2F4BF7] text-white max-xl:hidden">
+        <DropdownMenuContent align="end" className="rounded-xs border-none bg-primary text-white max-xl:hidden">
           <DropdownMenuItem asChild>
-            <Link to="/mypage" className="block w-full px-4 py-3 text-center hover:bg-blue-700">
+            <Link to="/mypage" className="block w-full px-4 py-3 text-center hover:bg-primary">
               {t('introduction.마이페이지')}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link to="/service-notice" className="block w-full px-4 py-3 text-center hover:bg-blue-700">
+            <Link to="/service-notice" className="block w-full px-4 py-3 text-center hover:bg-primary">
               {t('header-items.서비스 공지사항')}
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onSelect={onLogout} className="cursor-pointer px-4 py-3 text-center hover:bg-blue-700">
+          <DropdownMenuItem onSelect={onLogout} className="cursor-pointer px-4 py-3 text-center hover:bg-primary">
             {t('header.로그아웃')}
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -48,12 +50,12 @@ export function AuthButton({ state = State.Onboarding, onLogout }: AuthButtonPro
   }
   if (state === State.Logout) {
     return (
-      <button
-        className={cn(styles.headerItemStyle, 'w-[9rem] text-base max-xl:hidden')}
-        onClick={() => navigate('/register')}
+      <Link
+        className={cn(buttonVariants({ variant: 'ghost' }), 'xl:text-primary-foreground', className)}
+        to="/register"
       >
         {t('header.로그인')}
-      </button>
+      </Link>
     );
   }
   if (state === State.Onboarding) return null;

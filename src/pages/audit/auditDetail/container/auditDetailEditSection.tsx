@@ -1,5 +1,5 @@
-import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
-import { useNavigate } from 'react-router-dom';
+import { DeleteButton, EditButton, ListButton } from '@/components/deprecated/Buttons/BoardActionButtons';
+import { useNavigate } from 'react-router';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 
 interface AuditDetailEditProps {

@@ -1,6 +1,6 @@
-import Pagination from '@/components/Pagination';
-import { WriteButton } from '@/components/Buttons/BoardActionButtons';
-import { Search } from '@/components/Search/Search';
+import Pagination from '@/components/deprecated/Pagination';
+import { WriteButton } from '@/components/deprecated/Buttons/BoardActionButtons';
+import { Search } from '@/components/deprecated/Search/Search';
 import { BodyLayoutProps } from '@/types/layout';
 import { cn } from '@/libs/utils';
 import { ReactNode } from 'react';
@@ -22,7 +22,7 @@ export function BodyLayout({
     <div className={cn('mb-20 px-10 xl:px-[200px]', className)}>
       <div className="text-[1.75rem] font-bold">{title && t(`introduction.${title}`)}</div>
       {selector}
-      <div className="mt-[25px] sm:mt-[24px] ">
+      <div className="mt-[25px] sm:mt-[24px]">
         <main>{children}</main>
         <div className="mt-9 flex max-md:flex-col-reverse md:mt-8 md:justify-between">
           <div className="w-[94px]"></div>
@@ -48,7 +48,7 @@ export function BodyLayout({
 BodyLayout.Skeleton = ({ children }: { children: ReactNode }) => {
   return (
     <div className={cn('mb-20 xl:px-[200px]')}>
-      <div className="mt-[25px] sm:mt-[24px] ">
+      <div className="mt-[25px] sm:mt-[24px]">
         <main>{children}</main>
         <div className="mt-9 flex max-md:flex-col-reverse md:mt-8 md:justify-between">
           <div className="w-[94px]"></div>

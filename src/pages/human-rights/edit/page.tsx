@@ -7,7 +7,7 @@ import { Container } from '@/containers/new/Container.tsx';
 import { ArticleFooter } from '@/containers/new/ArticleFooter.tsx';
 import { MinusCircle, Plus } from '@phosphor-icons/react';
 import { useHumanRightsForm } from '@/pages/human-rights/edit/form.ts';
-import { FileInputs } from '@/components/BoardNew/edit/FileInputs.tsx';
+import { FileInputs } from '@/components/edit/FileInputs';
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor.ts';
 import {
@@ -24,12 +24,12 @@ import {
   usePatchHumanRightsPost,
   useUploadHumanRightsFiles,
 } from '@/pages/human-rights/queries.ts';
-import { useNavigate, useParams } from 'react-router-dom';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader.tsx';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter.tsx';
+import { useNavigate, useParams } from 'react-router';
+import { PostHeader } from '@/components/detail/PostHeader';
+import { PostFooter } from '@/components/detail/PostFooter';
 import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput.tsx';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
 import { useGetUserInfo } from '@/hooks/new/query/useGetUserInfo.ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { FileResponse } from '@/schemas/post';
@@ -378,7 +378,7 @@ export function HumanRightsEditPage() {
                 <div className="relative mb-6">
                   {index > 0 && (
                     <button
-                      className="absolute top-1/2 -translate-x-[calc(100%+2px)] -translate-y-1/2 text-[#979797]"
+                      className="absolute top-1/2 -translate-y-1/2 translate-x-[calc(-100%-2px)] text-[#979797]"
                       onClick={() => victimRemove(index)}
                     >
                       <MinusCircle size="20" />
@@ -430,7 +430,7 @@ export function HumanRightsEditPage() {
                 <div className="relative mb-6">
                   {index > 0 && (
                     <button
-                      className="absolute top-1/2 -translate-x-[calc(100%+2px)] -translate-y-1/2 text-[#979797]"
+                      className="absolute top-1/2 -translate-y-1/2 translate-x-[calc(-100%-2px)] text-[#979797]"
                       onClick={() => attackerRemove(index)}
                     >
                       <MinusCircle size="20" />
@@ -537,7 +537,7 @@ export function HumanRightsEditPage() {
       </Container>
       <ArticleFooter className="pb-6">
         <Button
-          variant={'Register'}
+          variant="register"
           className="flex items-center justify-center gap-1 self-end px-2"
           disabled={!disclaimerAgreed || Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
           onClick={handleSubmit(submitForm)}

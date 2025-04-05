@@ -1,4 +1,4 @@
-import { statusType } from '@/components/PostCard/type';
+import { statusType } from '@/components/deprecated/PostCard/type';
 import { PageInfo } from './apis/get';
 
 export interface GetPartnershipBoardPostsResponse {

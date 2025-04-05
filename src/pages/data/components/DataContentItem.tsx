@@ -1,9 +1,9 @@
 import { RefAttributes } from 'react';
 import { cn } from '@/libs/utils.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
-import { Link, LinkProps } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router';
 import dayjs from 'dayjs';
-import FileDownButton from '@/components/File/FileDownButton';
+import FileDownButton from '@/components/FileDownButton';
 import { FileResponse } from '@/schemas/post';
 
 interface DataContentProp extends LinkProps, RefAttributes<HTMLAnchorElement> {
@@ -37,10 +37,7 @@ export function DataContentItem({ title, content, date, isNotice, files, ...prop
           {title} - {formattedDate}
         </p>
       </Link>
-      <div
-        className="flex flex-row gap-[8px] self-end lg:self-auto
-"
-      >
+      <div className="flex flex-row gap-[8px] self-end lg:self-auto">
         {files.map((file, index) => (
           <FileDownButton key={`${index} + ${file}`} file={file} />
         ))}

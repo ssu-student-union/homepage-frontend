@@ -1,4 +1,4 @@
-import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
+import { FilterDropDown } from '@/components/FilterDropDown';
 import * as CATEGORIES from '@/pages/data/const/category';
 import { cn } from '@/libs/utils';
 
@@ -22,7 +22,7 @@ export default function SortOptions({
   const defaultFilterStyle: string = 'w-full border-primary';
 
   return (
-    <div className="mb-[5rem] mt-[3.375rem] flex flex-col justify-center gap-[0.75rem] px-10 md:flex-row xl:px-[200px]">
+    <div className="mb-20 mt-[3.375rem] flex flex-col justify-center gap-3 px-10 md:flex-row xl:px-[200px]">
       {/* 대분류 */}
       <FilterDropDown
         defaultValue="대분류"

@@ -1,5 +1,5 @@
-import { BoardSelector } from '@/components/Board/BoardSelector';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
+import { useLocation, useNavigate } from 'react-router';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { BodyLayout } from '@/template/BodyLayout';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
@@ -7,19 +7,19 @@ import { Spacing } from '@/components/Spacing';
 import { PetitionPostsTopLikedResponse } from '@/types/getPetitionTopLiked';
 import { PetitionSubcategoriesType } from '../../type';
 import { PetitionSubcategories } from '../../const';
-import { PetitionPostContent } from '@/components/PostContent/PetitionPostContent';
+import { PetitionPostContent } from '@/components/deprecated/PetitionPostContent/PetitionPostContent';
 import { PetitionPostSectionSkeleton } from './PetitionPostSectionSkeleton';
-import { useRecoilValue } from 'recoil';
-import { SearchState } from '@/recoil/atoms/atom';
+import { SearchState } from '@/atoms/atom';
 import { useEffect } from 'react';
 import { useGetBoardPostSearch } from '@/hooks/api/get/useGetBoardPostSearch';
 import { useQueryClient } from '@tanstack/react-query';
+import { useAtom } from 'jotai';
 
 export function PetitionPostSection() {
   const navigate = useNavigate();
   const location = useLocation();
   const { currentPage, handlePageChange } = useCurrentPage(1);
-  const searchKeyword = useRecoilValue(SearchState);
+  const [searchKeyword] = useAtom(SearchState);
 
   const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<PetitionSubcategoriesType>(
     PetitionSubcategories[0]

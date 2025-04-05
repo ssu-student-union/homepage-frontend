@@ -1,4 +1,4 @@
-import { RegisterButton } from '@/components/Buttons/BoardActionButtons';
+import { RegisterButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 
 interface NoticeEditSubmitButtonProps {
   onSubmit: () => void;

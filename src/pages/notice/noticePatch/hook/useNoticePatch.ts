@@ -4,7 +4,7 @@ import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { handleFileLists } from '@/pages/audit/auditEdit/utils/fileHandler';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 interface useNoticePatchProps {
   boardCode: string;

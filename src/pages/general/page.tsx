@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { GeneralRegisterSection } from '@/pages/general/containers/GeneralRegisterSection';
 import { CertifyErrorSection } from '@/pages/general/containers/CertifyErrorSection';
 import { CertifyApplySection } from './containers/CertifyApplySection';
