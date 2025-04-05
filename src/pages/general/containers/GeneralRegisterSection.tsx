@@ -8,11 +8,11 @@ import { departments, faculties } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
 import { LoginSchemaRegister, LoginSchemaScoucil, LoginScoucilType, LoginType } from '../types/onboardingZodCheck';
-import { useSetRecoilState } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
+import { LoginState } from '@/atoms/atom';
 import ChannelTalkFloating from '@/components/deprecated/Floating/ChannelTalkFloating';
 import { cn } from '@/libs/utils';
 import { useTranslation } from 'react-i18next';
+import { useAtom } from 'jotai';
 
 interface LoginFormProps {
   subSection1: string;
@@ -39,7 +39,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
     defaultValues: isScouncilPath ? ({} as LoginScoucilType) : ({} as LoginType),
   });
 
-  const setLoginState = useSetRecoilState(LoginState);
+  const [, setLoginState] = useAtom(LoginState);
 
   const [selectedFaculty, setSelectedFaculty] = useState<string>('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);

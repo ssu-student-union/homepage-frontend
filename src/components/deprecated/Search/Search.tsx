@@ -2,16 +2,16 @@ import { useResize } from '@/hooks/useResize';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { useEffect, useRef } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { SearchState } from '@/recoil/atoms/atom';
+import { SearchState } from '@/atoms/atom';
+import { useAtom } from 'jotai';
 
 /**
- * @deprecated 이 컴포넌트는 recoilState와 강결합 되어 있습니다. 대신 `components/Search`를 사용하세요.
+ * @deprecated 이 컴포넌트는 전역 상태와 강결합 되어 있습니다. 대신 `components/Search`를 사용하세요.
  */
 export function Search() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { width } = useResize();
-  const setSearchInput = useSetRecoilState(SearchState);
+  const [, setSearchInput] = useAtom(SearchState);
 
   useEffect(() => {
     if (inputRef.current) {
