@@ -47,10 +47,10 @@ const MainCarousel = ({ id, className = '' }: { id: string; className: string })
 
   return (
     <div id={id} className={cn('relative h-screen w-full overflow-hidden', className)}>
-      <Slider {...settings} className="absolute inset-0 z-0 h-full w-full">
+      <Slider {...settings} className="absolute inset-0 z-0 size-full">
         {images.map((src, i) => (
           <div key={i} className="h-screen w-full overflow-hidden">
-            <img className="h-full w-full object-cover" src={src} alt={`슬라이드 ${i + 1}`} />
+            <img className="size-full object-cover" src={src} alt={`슬라이드 ${i + 1}`} />
           </div>
         ))}
       </Slider>
@@ -64,12 +64,12 @@ const MainCarousel = ({ id, className = '' }: { id: string; className: string })
               e.stopPropagation();
               navigate('/register');
             }}
-            className="pointer-events-auto mt-[1rem] h-[46px] w-[173px] rounded-full border-[1px] border-white bg-transparent transition duration-500 ease-in-out hover:bg-white hover:text-gray-700"
+            className="pointer-events-auto mt-4 h-[46px] w-[173px] rounded-full border border-white bg-transparent transition duration-500 ease-in-out hover:bg-white hover:text-gray-700"
           >
             <p className="font-bold">{t('main.로그인하러 가기')}</p>
           </button>
         )}
-        {isLogin && <div className="mt-[1rem] h-[46px]"></div>}
+        {isLogin && <div className="mt-4 h-[46px]"></div>}
       </div>
 
       <Counter slideCount={images.length} currentSlide={currentSlide} />

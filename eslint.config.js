@@ -7,10 +7,10 @@ import tseslint from 'typescript-eslint';
 import tailwind from 'eslint-plugin-tailwindcss';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', '**/*.{cjs,js}'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  ...tailwind.configs["flat/recommended"],
+  ...tailwind.configs['flat/recommended'],
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -34,6 +34,16 @@ export default tseslint.config(
           destructuredArrayIgnorePattern: '^_',
           varsIgnorePattern: '^_',
           ignoreRestSiblings: true,
+        },
+      ],
+      'tailwindcss/no-custom-classname': [
+        'warn',
+        {
+          whitelist: [
+            'petition-item',
+            'scrollbar-hide',
+            'scrollbar-default', // from tailwindcss-plugin-scrollbar-hide
+          ],
         },
       ],
     },

@@ -50,7 +50,7 @@ const NoticeSection = () => {
           <>
             {/* xs, sm */}
             {width >= 360 && width < 720 && (
-              <div className="mx-auto flex w-[90vw] flex-col justify-center gap-[16px] pb-[16px] pt-[0.625rem]">
+              <div className="mx-auto flex w-[90vw] flex-col justify-center gap-[16px] pb-[16px] pt-2.5">
                 {data?.data.postListResDto.slice(0, 3).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -74,7 +74,7 @@ const NoticeSection = () => {
 
             {/*  md */}
             {width >= 720 && width < 1080 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[16px] pb-[16px] pt-[0.625rem]">
+              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[16px] pb-[16px] pt-2.5">
                 {data?.data.postListResDto.slice(0, 2).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -97,7 +97,7 @@ const NoticeSection = () => {
 
             {/* lg */}
             {width >= 1080 && width < 1440 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[18px] pb-[16px] pt-[0.625rem] xl:px-[11.0rem]">
+              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[18px] pb-[16px] pt-2.5 xl:px-[11.0rem]">
                 {data?.data.postListResDto.slice(0, 3).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -120,7 +120,7 @@ const NoticeSection = () => {
 
             {/* xl, xxl */}
             {width >= 1440 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[26px] pb-[16px] pt-[0.625rem] ">
+              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[26px] pb-[16px] pt-2.5 ">
                 {data?.data.postListResDto.slice(0, 3).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {
@@ -146,7 +146,7 @@ const NoticeSection = () => {
               onClick={() => {
                 navigate(`/notice`);
               }}
-              className="mx-auto h-[30px] w-[87px] rounded-full px-[1rem] py-[0.5rem] text-[12px] md:mx-0 md:h-fit md:w-fit md:text-[1rem]"
+              className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text-[1rem]"
             >
               {t('main.더 알아보기')}
             </Button>

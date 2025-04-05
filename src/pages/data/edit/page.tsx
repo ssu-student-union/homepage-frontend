@@ -256,7 +256,7 @@ export default function DataEditPage() {
             <div className="w-full">
               <Input
                 id="title"
-                className="w-full rounded-[6px] border-[2px] border-gray-300 py-[4px] text-[18px] font-medium"
+                className="w-full rounded-[6px] border-2 border-gray-300 py-[4px] text-[18px] font-medium"
                 type="text"
                 placeholder="제목을 입력하세요."
                 {...register('title')}

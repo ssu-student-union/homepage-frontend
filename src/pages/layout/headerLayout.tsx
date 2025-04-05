@@ -29,7 +29,7 @@ export function Layout() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header state={loginState ? State.Login : State.Logout} onLogout={handleLogout} />
-      <main className="flex-grow">
+      <main className="grow">
         <Outlet />
       </main>
       <Footer />

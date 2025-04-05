@@ -20,7 +20,7 @@ export function PetitionPostContent({ data, onClick }: PetitionPostContentProps)
         <div className="flex-col border-b border-b-gray-400 p-5">
           <div className="flex items-center justify-between text-[1.125rem] font-medium">
             <div className="flex min-w-0 flex-1 items-center gap-5" onClick={() => onClick(data.postId)}>
-              <div className="w-20 flex-shrink-0 whitespace-nowrap text-indigo-500">{`[${data.onGoingStatus}]`}</div>
+              <div className="w-20 shrink-0 whitespace-nowrap text-indigo-500">{`[${data.onGoingStatus}]`}</div>
               <div className="flex-1 cursor-pointer text-gray-700 underline decoration-white hover:decoration-gray-400 hover:underline-offset-1">
                 {title}
               </div>
@@ -38,7 +38,7 @@ export function PetitionPostContent({ data, onClick }: PetitionPostContentProps)
           <div className="flex items-center justify-between text-[0.75rem] font-medium">
             <div className="min-w-0 flex-1 flex-col items-center gap-5" onClick={() => onClick(data.postId)}>
               <div className="flex">
-                <div className="w-20 flex-shrink-0 whitespace-nowrap text-indigo-500">{`[${data.onGoingStatus}]`}</div>
+                <div className="w-20 shrink-0 whitespace-nowrap text-indigo-500">{`[${data.onGoingStatus}]`}</div>
                 <div className="flex-1 cursor-pointer text-gray-700 underline decoration-white hover:decoration-gray-400 hover:underline-offset-1">
                   {title}
                 </div>

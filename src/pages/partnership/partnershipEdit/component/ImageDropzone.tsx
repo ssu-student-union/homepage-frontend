@@ -21,7 +21,7 @@ export function ImageDropzone({ onDrop }: ImageDropzoneProps) {
   return (
     <div
       {...getRootProps()}
-      className="flex h-[231px] w-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
+      className="flex size-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
     >
       <input {...getInputProps()} />
       <div className="flex flex-col items-center text-black">

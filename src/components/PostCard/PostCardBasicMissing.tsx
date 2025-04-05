@@ -45,7 +45,7 @@ const PostCard = ({
       >
         {badgeType === 'Emergency' && <Badge variant="emergency-old">긴급</Badge>}
         {badgeType === 'New' && <Badge variant="new-old">NEW!</Badge>}
-        <div className={`flex h-full w-full ${styles.gap}`}>
+        <div className={`flex size-full ${styles.gap}`}>
           <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
           <div className="w-full flex-col">
             <div className={cn(`flex flex-col`, styles.textBox)}>

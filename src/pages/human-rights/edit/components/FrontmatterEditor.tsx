@@ -43,7 +43,7 @@ export function FrontmatterEditor<TFieldValues extends FieldValues = NonNullable
             <div className="flex flex-col">
               <FrontmatterInput
                 id={`${id}_${itemId}`}
-                className="px-2 py-2"
+                className="p-2"
                 required={required}
                 value={value}
                 disabled={disabled}

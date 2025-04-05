@@ -14,7 +14,7 @@ export default function BoardContentLoading({ screenWidth }: BoardContentLoading
         {emptyThree.map((_, index) => (
           <div key={index} className="flex flex-row justify-start pb-[30px]">
             {emptyThree.map((_, i) => (
-              <Skeleton key={i} className="mr-[1.5rem] h-[209px] min-w-[400px] px-[16px] py-[16px]" />
+              <Skeleton key={i} className="mr-6 h-[209px] min-w-[400px] p-[16px]" />
             ))}
           </div>
         ))}
@@ -26,7 +26,7 @@ export default function BoardContentLoading({ screenWidth }: BoardContentLoading
         {emptyThree.map((_, index) => (
           <div key={index} className="flex flex-row justify-start pb-[30px]">
             {emptyTwo.map((_, i) => (
-              <Skeleton key={i} className="mr-[1.5rem] h-[209px] min-w-[400px] px-[16px] py-[16px]" />
+              <Skeleton key={i} className="mr-6 h-[209px] min-w-[400px] p-[16px]" />
             ))}
           </div>
         ))}

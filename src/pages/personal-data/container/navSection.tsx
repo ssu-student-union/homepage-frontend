@@ -18,7 +18,7 @@ export function NavSection({
   return (
     <>
       <div className={isHidden ? 'relative hidden md:block' : 'relative'}>
-        <div className="absolute left-0 top-1/2 z-0 h-[1px] w-full -translate-y-1/2 transform bg-[#E7E7E7]"></div>
+        <div className="absolute left-0 top-1/2 z-0 h-px w-full -translate-y-1/2 bg-[#E7E7E7]"></div>
         <BoardNavigator
           categories={mainName}
           selectedCategory={mainName[selectedCategoryIndex]}

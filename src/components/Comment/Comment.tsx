@@ -242,7 +242,7 @@ export function Comment({
                   <span className={`cursor-pointer ${animate ? 'animate-sparkle' : ''}`} onClick={handleLikeButton}>
                     <ThumbsUp size={mobile_screen ? '13px' : '19px'} weight={isLiked ? 'fill' : 'regular'} />
                   </span>
-                  <span className="pt-0 sm:pt-[1px]">{isReply ? commentData?.likeCount : likeCount}</span>
+                  <span className="pt-0 sm:pt-px">{isReply ? commentData?.likeCount : likeCount}</span>
                 </div>
               )}
             </div>

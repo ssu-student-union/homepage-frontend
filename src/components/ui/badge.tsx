@@ -13,9 +13,9 @@ const badgeVariants = cva(
         destructive: 'border-transparent bg-red-700 text-destructive-foreground hover:bg-red-700/80',
         outline: 'text-foreground',
         'emergency-old':
-          'bg-red-500 rounded-[21px] w-[54px] h-[23px] flex justify-center text-white border-none absolute top-[-10px] right-[-10px]',
+          'absolute right-[-10px] top-[-10px] flex h-[23px] w-[54px] justify-center rounded-[21px] border-none bg-red-500 text-white',
         'new-old':
-          'bg-primary rounded-[21px] w-[54px] h-[23px] flex justify-center text-white border-none absolute top-[-10px] right-[-10px]',
+          'absolute right-[-10px] top-[-10px] flex h-[23px] w-[54px] justify-center rounded-[21px] border-none bg-primary text-white',
       },
       size: {
         default: 'px-2.5 py-0.5 text-xs',

@@ -56,7 +56,7 @@ export default function UserContainer() {
           <div className="mb-4">
             <div className="mb-2 flex items-center max-lg:mt-6 max-md:justify-center">
               <span className="text-sm font-bold sm:text-base md:text-lg">{userData.name}</span>
-              <span className="ml-1 mr-1 text-xl font-light"> | </span>
+              <span className="mx-1 text-xl font-light"> | </span>
               <span className="text-sm font-bold max-sm:m-0 sm:text-base md:text-lg">{userData.studentId}</span>
             </div>
             <div className="mb-3 text-xs sm:text-xs md:mb-2 md:text-sm lg:mb-1">

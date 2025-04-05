@@ -323,7 +323,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
               disabled={isSubmitting || isButtonDisabled}
               variant="default"
               size="default"
-              className={`mt-4 w-[250px] py-0 max-md:px-[1rem] max-md:py-[0.1rem] max-sm:min-h-[36px] max-sm:rounded-xs md:w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
+              className={`mt-4 w-[250px] py-0 max-md:px-4 max-md:py-[0.1rem] max-sm:min-h-[36px] max-sm:rounded-xs md:w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
             >
               {t('onboarding.입력 완료')}
             </Button>

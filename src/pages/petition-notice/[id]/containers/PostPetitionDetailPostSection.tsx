@@ -141,7 +141,7 @@ export function PostPetitionDetailPostSection() {
             <div className="mt-[60px] flex-col">
               <div className="mb-5 w-full rounded-[10px] border border-primary bg-gray-50 p-8">
                 <div className="mb-2 flex text-[0.75rem] font-bold sm:text-[1.125rem]">
-                  <Skeleton className="mr-2 h-6 w-6" />
+                  <Skeleton className="mr-2 size-6" />
                   <Skeleton className="h-6 w-40" />
                 </div>
                 <Skeleton className="h-20 w-full" />
