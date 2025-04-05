@@ -24,7 +24,7 @@ const NavigationMenuList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <NavigationMenuPrimitive.List
     ref={ref}
-    className={cn('group flex w-full  list-none items-center justify-center space-x-1', className)}
+    className={cn('group flex w-full list-none items-center justify-center space-x-1', className)}
     {...props}
   />
 ));
@@ -40,7 +40,7 @@ const NavigationMenuTrigger = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
   NavigationMenuTriggerProps
 >(({ className, children, isData = false, ...props }, ref) => (
-  <NavigationMenuPrimitive.Trigger ref={ref} className={cn('group', className)} {...props}>
+  <NavigationMenuPrimitive.Trigger ref={ref} className={cn('group flex items-center', className)} {...props}>
     {children}
     {!isData && (
       <ChevronDown

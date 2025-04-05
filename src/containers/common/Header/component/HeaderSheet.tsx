@@ -1,12 +1,16 @@
 import { DATA_PATH, MENU_ITEMS, OLD_URL } from '@/containers/common/Header/const/pathData';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { CaretDown } from '@phosphor-icons/react';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Globe } from '@phosphor-icons/react';
 import { ReactNode, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { State } from '../const/state';
 // import { useSetRecoilState } from 'recoil';
 // import { LoginState } from '@/recoil/atoms/atom';
 import { useTranslation } from 'react-i18next';
+import { Button, buttonVariants } from '@/components/ui/button';
+import SsureLogo from '@/components/Logo/SsureLogo';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { cn } from '@/libs/utils';
 
 interface HeaderSheetProps {
   trigger: ReactNode;
@@ -14,12 +18,11 @@ interface HeaderSheetProps {
 }
 
 export function HeaderSheet({ trigger, state: initialState = State.Logout }: HeaderSheetProps) {
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState<State>(initialState);
-  const navigate = useNavigate();
-  // const setLoginState = useSetRecoilState(LoginState);
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
+
+  const buttonText = i18n.language === 'ko' ? 'EN' : 'KO';
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -41,13 +44,15 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
     };
   }, []);
 
-  const toggleCategory = (category: string) => {
-    setExpandedCategory((prevCategory) => (prevCategory === category ? null : category));
+  const closeSheet = () => {
+    setIsOpen(false);
   };
 
-  const handleLinkClick = (path: string) => {
-    setIsOpen(false);
-    navigate(path);
+  // 언어 변경 함수
+  const handleToggleLanguage = () => {
+    const newLang = i18n.language === 'ko' ? 'en' : 'ko';
+    i18n.changeLanguage(newLang);
+    localStorage.setItem('lang', newLang);
   };
 
   // const handleLogoutClick = () => {
@@ -59,83 +64,61 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
   // };
 
   return (
-    <div className="xl:hidden">
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger asChild>{trigger}</SheetTrigger>
-        <SheetContent
-          className={`left-0 top-[50px] flex w-[260px] items-start justify-start border-0 bg-white px-0 py-0 text-lg font-semibold marker:outline-none focus:outline-none lg:top-[60px]`}
-        >
-          <div className="flex w-full flex-col">
-            {Object.entries(MENU_ITEMS).map(([category, items], index) => (
-              <div key={index} className="w-full">
-                <div
-                  className={`flex h-[64px] w-full cursor-pointer flex-row items-center justify-between border-b 
-                border-[#E5E7EB]
-                pl-10`}
-                  onClick={() => toggleCategory(category)}
-                >
-                  <div className={`flex flex-1 items-center text-gray-800 hover:text-[#6B7280]`}>
-                    {t(`header.${category}`)}
-                  </div>
-                  <CaretDown className="text-[#9CA3AF]" size={20} />
-                  <div className="w-4"></div>
-                </div>
-                {expandedCategory === category && (
-                  <div className={`flex-center flex flex-col justify-center border-b border-[#E5E7EB] bg-white py-4`}>
-                    {items.map((item) => (
-                      <div
-                        key={item.path}
-                        onClick={() => handleLinkClick(item.path)}
-                        className={`flex h-[32px] cursor-pointer items-center px-4 pl-12 text-base font-medium text-[#4B5563] hover:text-[#9CA3AF]`}
-                      >
-                        {t(`header-items.${item.name}`)}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-            <div
-              onClick={() => {
-                setIsOpen(false);
-                navigate('/qna');
-              }}
-              className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-            >
-              {t('header.질의응답게시판')}
-            </div>
-            <div
-              onClick={() => navigate(DATA_PATH)}
-              className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-            >
-              {t('header.자료집')}
-            </div>
-            <a
-              href={OLD_URL}
-              className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>{trigger}</SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>
+            <SsureLogo className="h-4 object-contain invert xl:h-6" />
+          </SheetTitle>
+          <SheetDescription />
+        </SheetHeader>
+        <Accordion type="single" collapsible className="w-full">
+          {Object.entries(MENU_ITEMS).map(([category, items]) => (
+            <AccordionItem value={category} key={category} className="w-full">
+              <AccordionTrigger>{t(`header.${category}`)}</AccordionTrigger>
+              <AccordionContent>
+                {items.map((item) => (
+                  <Link
+                    key={item.path}
+                    onClick={closeSheet}
+                    to={item.path}
+                    className={cn(buttonVariants({ variant: 'ghost' }), 'flex w-full justify-start')}
+                  >
+                    {t(`header-items.${item.name}`)}
+                  </Link>
+                ))}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+          <Link onClick={closeSheet} className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to="/qna">
+            {t('header.질의응답게시판')}
+          </Link>
+          <Link className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to={DATA_PATH}>
+            {t('header.자료집')}
+          </Link>
+          <a className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} target="_blank" href={OLD_URL}>
+            {t('header.이전 홈페이지')}
+          </a>
+          {state === State.Login ? (
+            <Link className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to="/mypage">
+              {t('introduction.마이페이지')}
+            </Link>
+          ) : (
+            <Link
+              className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')}
+              to="/register"
               onClick={() => setIsOpen(false)}
             >
-              {t('header.이전 홈페이지')}
-            </a>
-            {state === State.Login ? (
-              <Link
-                className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-                to="/mypage"
-              >
-                {t('introduction.마이페이지')}
-              </Link>
-            ) : (
-              <Link
-                className={`flex h-[64px] cursor-pointer items-center border-b border-[#E5E7EB] pl-10 text-gray-800`}
-                to="/register"
-                onClick={() => setIsOpen(false)}
-              >
-                {t('header.로그인')}
-              </Link>
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
-    </div>
+              {t('header.로그인')}
+            </Link>
+          )}
+        </Accordion>
+        <Button variant="ghost" className="mt-4 flex w-full justify-start" onClick={handleToggleLanguage}>
+          <Globe className="mr-2 size-4" />
+          {buttonText}
+        </Button>
+      </SheetContent>
+    </Sheet>
   );
 }

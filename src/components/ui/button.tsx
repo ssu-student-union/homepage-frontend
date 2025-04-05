@@ -15,6 +15,8 @@ const buttonVariants = cva(
         outline: 'border border-neutral-200 bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
+        'sheet-item':
+          'hover:underline hover:text-accent-foreground flex w-full justify-start rounded-none border-b text-base',
         link: 'text-primary underline-offset-4 hover:underline',
         Register:
           'bg-[#2F4BF7] hover:bg-[#2F4BF7]/90 lg:w-[105px] w-full h-10 text-white sm:text-lg text-xs text-center font-semibold rounded-[7px]',
