@@ -1,70 +1,180 @@
-import { HeadLayout } from '@/template/HeadLayout';
-import { BoardSelector } from '@/components/Board/BoardSelector';
-import { useNoticeBoard } from './hooks/useNoticeBoard';
-import { useNoticeCategory } from './hooks/useNoticeCategory';
-import { NoticeNavSection } from './component/NoticeNavSection';
-import { useTodayPosts } from './hooks/useNoticeToday';
-import { BodyLayout } from '@/template/BodyLayout';
+import { BoardHeader } from '@/components/BoardNew/BoardHeader';
+import { BoardTabsList } from '@/components/BoardNew/BoardTabs';
+import { PostCard } from '@/components/BoardNew/PostCard';
+import { CardLayout } from '@/components/BoardNew/layouts/CardLayout';
+import { LinkCategories } from '@/components/BoardNew/LinkCategories';
+import LinkPagination from '@/components/BoardNew/LinkPagination';
+import { Search } from '@/components/BoardNew/Search';
+import { buttonVariants } from '@/components/ui/button';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { ArticleFooter } from '@/containers/new/ArticleFooter';
+import { Container } from '@/containers/new/Container';
+import { cn } from '@/libs/utils';
+import { useSearchNoticePosts } from '@/pages/notice/queries';
+import { Pencil } from 'lucide-react';
+import { useMemo } from 'react';
+import { Link, To, useSearchParams } from 'react-router-dom';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useNavigate } from 'react-router-dom';
-import { BoardContent } from '@/template/board/BoardContent';
+
+const CENTRAL_SUB_CATEGORIES: { id: string; name: string; to: To }[] = [
+  { id: '전체', name: '전체', to: { search: '?category=중앙' } },
+  { id: '총학생회', name: '총학생회', to: { search: '?category=중앙&sub=총학생회' } },
+  { id: '중앙운영위원회', name: '중앙운영위원회', to: { search: '?category=중앙&sub=중앙운영위원회' } },
+  { id: '중앙감사위원회', name: '중앙감사위원회', to: { search: '?category=중앙&sub=중앙감사위원회' } },
+  { id: '중앙선거관리위원회', name: '중앙선거관리위원회', to: { search: '?category=중앙&sub=중앙선거관리위원회' } },
+  { id: '동아리연합회', name: '동아리연합회', to: { search: '?category=중앙&sub=동아리연합회' } },
+];
+
+const COLLAGE_SUB_CATEGORIES: { id: string; name: string; to: To }[] = [
+  { id: '전체', name: '전체', to: { search: '?category=단과대' } },
+  { id: '경영대학', name: '경영대학', to: { search: '?category=단과대&sub=경영대학' } },
+  { id: '경제통상대학', name: '경제통상대학', to: { search: '?category=단과대&sub=경제통상대학' } },
+  { id: '공과대학', name: '공과대학', to: { search: '?category=단과대&sub=공과대학' } },
+  { id: '법과대학', name: '법과대학', to: { search: '?category=단과대&sub=법과대학' } },
+  { id: '사회과학대학', name: '사회과학대학', to: { search: '?category=단과대&sub=사회과학대학' } },
+  { id: '인문대학', name: '인문대학', to: { search: '?category=단과대&sub=인문대학' } },
+  { id: '자연과학대학', name: '자연과학대학', to: { search: '?category=단과대&sub=자연과학대학' } },
+  { id: 'IT대학', name: 'IT대학', to: { search: '?category=단과대&sub=IT대학' } },
+  {
+    id: '융합특성화자유전공학부',
+    name: '융합특성화자유전공학부',
+    to: { search: '?category=단과대&sub=융합특성화자유전공학부' },
+  },
+];
+
+const isToday = (date: string) => {
+  const today = new Date();
+  const postDate = new Date(date);
+  return (
+    today.getFullYear() === postDate.getFullYear() &&
+    today.getMonth() === postDate.getMonth() &&
+    today.getDate() === postDate.getDate()
+  );
+};
 
 export function NoticePage() {
-  const { category, subCategory, subCategorys, handleCategoryChange, handleSubCategoryChange } = useNoticeCategory();
-  const boardCode = '공지사항게시판';
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = useMemo(() => searchParams.get('category') ?? '중앙', [searchParams]);
+  const subCategory = useMemo(() => searchParams.get('sub') ?? '전체', [searchParams]);
+  const page = useMemo(() => parseInt(searchParams.get('page') || '1') || 1, [searchParams]);
+  const q = useMemo(() => searchParams.get('q') ?? undefined, [searchParams]);
 
-  const { data, totalPages, currentPage, handlePageChange, isLoading } = useNoticeBoard(
-    boardCode,
-    category,
-    subCategory
-  );
-  const { todayPostCount, isLoading: isPostsLoading } = useTodayPosts(boardCode, category, subCategory);
+  const { data, isLoading } = useSearchNoticePosts({
+    q,
+    page: page - 1,
+    take: 16,
+    groupCode: category === '중앙' ? '중앙기구' : '단과대학생회',
+    memberCode: subCategory === '전체' ? '' : subCategory,
+  });
+
+  const today = useMemo(() => data?.postListResDto?.filter((post) => isToday(post.date))?.length ?? 0, [data]);
+  const totalPages = useMemo(() => data?.pageInfo.totalPages ?? 0, [data]);
+  const authorites = useMemo(() => data?.allowedAuthorities ?? [], [data]);
+  const writable = useMemo(() => authorites.includes('WRITE'), [authorites]);
+
+  const handleSearch = (value: string) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev.toString());
+      if (value) {
+        newParams.set('q', value);
+      } else {
+        newParams.delete('q');
+      }
+      return newParams;
+    });
+  };
 
   return (
     <>
-      <HeadLayout
-        title="공지사항"
+      <BoardHeader
+        title={category === '중앙' ? '중앙 공지사항' : '단과대 공지사항'}
         subtitle={
-          <>
-            <span>오늘 총</span>
-            {isPostsLoading ? (
-              <Skeleton className="h-6 w-16 bg-gray-200" />
+          isLoading ? (
+            <Skeleton className="h-6 w-32" />
+          ) : (
+            <p>
+              <span>오늘 총</span>
+              <span className="text-primary"> {today}개의 </span>
+              <span>공지가 올라왔어요!</span>
+            </p>
+          )
+        }
+        className="mt-[120px]"
+      >
+        <Search className="hidden xl:flex" onSearch={handleSearch} />
+      </BoardHeader>
+      <Tabs value={category} className="w-full">
+        <div className="max-md:hidden">
+          <BoardTabsList>
+            {/* TODO: Make BoardTabs with Link as a component */}
+            <Link
+              to="/notice?category=중앙"
+              className={cn(
+                buttonVariants({ variant: category === '중앙' ? 'default' : 'ghost', size: 'sm' }),
+                'h-8',
+                category !== '중앙' && 'text-neutral-600'
+              )}
+            >
+              중앙
+            </Link>
+            <Link
+              to="/notice?category=단과대"
+              className={cn(
+                buttonVariants({ variant: category === '단과대' ? 'default' : 'ghost', size: 'sm' }),
+                'h-8',
+                category !== '단과대' && 'text-neutral-600'
+              )}
+            >
+              단과대
+            </Link>
+          </BoardTabsList>
+        </div>
+
+        <Container className="pt-0">
+          <div className="flex flex-col gap-4">
+            <TabsContent value="중앙">
+              <LinkCategories value={subCategory} categories={CENTRAL_SUB_CATEGORIES} />
+            </TabsContent>
+            <TabsContent value="단과대">
+              <LinkCategories value={subCategory} categories={COLLAGE_SUB_CATEGORIES} />
+            </TabsContent>
+            <div className="flex flex-wrap gap-7"></div>
+            {isLoading ? (
+              <CardLayout.Skeleton />
             ) : (
-              <span className="text-primary"> {todayPostCount}개의 </span>
+              <CardLayout>
+                {data?.postListResDto?.map((post) => (
+                  <PostCard key={post.postId} post={post} to={`/notice/${post.postId}`} />
+                ))}
+              </CardLayout>
             )}
-            <span>공지가 올라왔어요!</span>
-          </>
-        }
-        borderOff={true}
-        className="px-[30px] xl:px-[200px]"
-      />
-      <NoticeNavSection
-        categoryParam={category}
-        subCategoryParam={subCategory}
-        handleSelection={handleCategoryChange}
-        mainCategoryName="게시판"
-        isHidden={false}
-        className="mx-[30px] xl:mx-[200px]"
-      />
-      <BodyLayout
-        selector={
-          <BoardSelector
-            subcategories={subCategorys}
-            selectedSubcategory={subCategory || '전체'}
-            onSubcategorySelect={(number) => handleSubCategoryChange(number)}
-          />
-        }
-        children={<BoardContent boardName="공지사항게시판" data={data?.data.postListResDto} isLoading={isLoading} />}
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        onWriteClick={() => {
-          navigate(`/notice/edit`);
-        }}
-        className="pt-[32px]"
-        authority={data?.data.allowedAuthorities}
-      />
+          </div>
+        </Container>
+        <ArticleFooter className="mb-20">
+          <div className="flex flex-col gap-9">
+            <div className="grid grid-cols-3">
+              <div></div>
+              <div className="flex justify-center">
+                <LinkPagination
+                  totalPages={totalPages}
+                  maxDisplay={7}
+                  page={page}
+                  url={(page) => `/notice?category=${category}&sub=${subCategory}&page=${page}${q ? `&q=${q}` : ''}`}
+                />
+              </div>
+              <div className="flex justify-end">
+                {writable && (
+                  <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/notice/edit">
+                    <Pencil className="size-4" />
+                    <p>글쓰기</p>
+                  </Link>
+                )}
+              </div>
+            </div>
+            <Search className="xl:hidden" onSearch={handleSearch} />
+          </div>
+        </ArticleFooter>
+      </Tabs>
     </>
   );
 }
