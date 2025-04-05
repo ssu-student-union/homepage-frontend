@@ -11,7 +11,7 @@ import {
   usePostPostCommentReaction,
   usePostPostReplyCommentReaction,
 } from '@/hooks/api/post/usePostPostCommentReaction';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export function Comment({
   comment,

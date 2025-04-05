@@ -1,6 +1,6 @@
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/libs/utils';
-import { Link, To } from 'react-router-dom';
+import { Link, To } from 'react-router';
 
 export function LinkCategories({
   value,

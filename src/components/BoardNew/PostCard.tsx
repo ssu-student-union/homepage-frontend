@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/libs/utils';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
-import { Link, To } from 'react-router-dom';
+import { Link, To } from 'react-router';
 
 interface Post {
   postId: string | number;

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader.tsx';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';
 import { PostBody } from '@/components/BoardNew/detail/PostBody.tsx';

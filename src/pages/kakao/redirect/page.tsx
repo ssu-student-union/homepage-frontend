@@ -2,7 +2,7 @@ import { State } from '@/containers/common/Header/const/state';
 import { Header } from '@/containers/common/Header/Header';
 import { RegisterButtonSection } from '@/pages/kakao/containers/RegisterButtonSection';
 import { RegisterTextSection } from '@/pages/kakao/containers/RegisterTextSection';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 export function KakaoRegisterRedirectPage() {
   const [searchParams] = useSearchParams();

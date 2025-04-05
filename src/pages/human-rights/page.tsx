@@ -3,7 +3,7 @@ import { BodyLayout } from '@/template/BodyLayout.tsx';
 import { BoardSelector } from '@/components/Board/BoardSelector.tsx';
 import { PostContent } from '@/components/PostContent/PostContent.tsx';
 import { HumanRightsCategory } from '@/pages/human-rights/schema.ts';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { useRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom.ts';
 import { useSearchHumanRightsPosts } from '@/pages/human-rights/queries.ts';

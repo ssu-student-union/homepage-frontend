@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { MainRouter } from './pages/router';
 import { Toaster } from './components/ui/sonner';
 import { RecoilRoot } from 'recoil';

@@ -1,4 +1,4 @@
-import { NavigateFunction } from 'react-router-dom';
+import { NavigateFunction } from 'react-router';
 import { category, mainName } from '../const/data';
 
 interface UseCategoryProps {

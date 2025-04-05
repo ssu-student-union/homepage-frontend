@@ -3,7 +3,7 @@ import { Spacing } from '@/components/Spacing';
 import { useGetPetitionTopLiked } from '@/hooks/api/get/useGetPetitionPostsTopLiked';
 import { ArrowUpRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const PetitionSection = () => {
   const navigate = useNavigate();

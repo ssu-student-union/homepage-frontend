@@ -2,7 +2,7 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { ServiceNoticePostContent } from './component/ServiceNoticePostContent';
 import Pagination from '@/components/Pagination';
 import { WriteButton } from '@/components/Buttons/BoardActionButtons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useContentWidth } from './hooks/useContetnWidth';
 import { cn } from '@/libs/utils';
 import { useServiceNoticeBoard } from './hooks/useServiceNoticeBoard';

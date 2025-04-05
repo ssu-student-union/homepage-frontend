@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cn } from '@/libs/utils';
 import { cva } from 'class-variance-authority';
 import { CaretDoubleLeft, CaretDoubleRight, CaretLeft, CaretRight } from '@phosphor-icons/react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const PaginationContainer = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav

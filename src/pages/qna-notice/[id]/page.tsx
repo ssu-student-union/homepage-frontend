@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter';

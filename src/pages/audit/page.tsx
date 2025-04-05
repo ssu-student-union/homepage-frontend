@@ -4,7 +4,7 @@ import { IntroNavSection } from '../intro/container/IntroNavSection';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { useAuditBoard } from './hooks/useAuditBoard';
 import { categoryMap } from './const/data';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { BoardContent } from '@/template/board/BoardContent';
 import { useCategory } from './hooks/useCategory';
 

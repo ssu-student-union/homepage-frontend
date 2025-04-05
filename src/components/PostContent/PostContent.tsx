@@ -2,7 +2,7 @@ import { RefAttributes } from 'react';
 import { cn } from '@/libs/utils.ts';
 import dayjs from 'dayjs';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
-import { Link, LinkProps } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router';
 
 interface PostContentProp<C extends string> extends LinkProps, RefAttributes<HTMLAnchorElement> {
   category: {

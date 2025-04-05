@@ -2,7 +2,7 @@ import { BodyLayout } from '@/template/BodyLayout';
 import SortOptions from '@/pages/data/container/SortOptions.tsx';
 import { HeadLayout } from '@/template/HeadLayout';
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';

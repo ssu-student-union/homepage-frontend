@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { subName, subName2 } from '../const/data';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 export function useNoticeCategory() {
   const [category, setCategory] = useState<string>('중앙');

@@ -6,7 +6,7 @@ import '@toast-ui/editor/dist/i18n/ko-kr';
 import { useEffect, useRef, useState } from 'react';
 import { EditLayout } from '@/template/EditLayout';
 import { postBoardImages } from '@/apis/postBoardImages';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { GuideMessage } from '../components/GuidMessage';
 import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
 import history from '@/hooks/useHistory';

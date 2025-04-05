@@ -4,7 +4,7 @@ import { PostTextPetition } from '@/components/PostTextPetition';
 import { useIsOverflow } from '@/hooks/useIsOverflow';
 import { useResize } from '@/hooks/useResize';
 import { useGetPetitionTopLiked } from '@/hooks/api/get/useGetPetitionPostsTopLiked';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { PetitionNoticeHeadSection } from './HeadSection/PetitionNoticeHeadSection';
 import { PetitionNoticeHeadSectionSkeleton } from './HeadSection/PetitionNoticeHeadSectionSkeleton';
 import { PetitionNoticePopularSectionSkeleton } from './PetitionNoticePopularSectionSkeleton';

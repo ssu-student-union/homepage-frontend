@@ -1,6 +1,6 @@
 import CommentMark from '@/assets/image/comentMark.svg';
 import { PostListResDto } from '@/types/apis/get';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 interface MyPostsContentProps {
   data: PostListResDto;
 }
