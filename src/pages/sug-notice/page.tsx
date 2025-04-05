@@ -3,7 +3,7 @@ import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent/PostContent';
 import { SuggestCategory } from './schema';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { useRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom.ts';
 import { useSearchSugNoticePosts } from './queries';

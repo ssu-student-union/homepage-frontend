@@ -2,7 +2,7 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent/PostContent';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { QnaPostParams, useGetQnaList } from './hooks/useGetQnaList';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';

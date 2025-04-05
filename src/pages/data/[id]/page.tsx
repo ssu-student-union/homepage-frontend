@@ -5,7 +5,7 @@ import { Container } from '@/containers/new/Container';
 import { breadcrumbItems } from '@/pages/data/const/data';
 import { useDeleteDataPost, useGetDataPost } from '@/pages/data/queries';
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function PageSkeleton() {
   return (

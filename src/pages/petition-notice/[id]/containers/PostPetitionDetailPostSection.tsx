@@ -2,7 +2,7 @@ import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/Board
 import { StateTag } from '@/components/StateTag';
 import { Viewer } from '@toast-ui/react-editor';
 import { ThumbsUp } from '@phosphor-icons/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import Breadcrumb from '@/components/Breadcrumb';
 import { PostHead } from '@/components/PostHead';
 import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';

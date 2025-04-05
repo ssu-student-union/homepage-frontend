@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';

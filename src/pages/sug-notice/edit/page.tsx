@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { Input } from '@/components/ui/input';
 import { FileInputs } from '@/components/BoardNew/edit/FileInputs';
 import { Editor } from '@toast-ui/react-editor';

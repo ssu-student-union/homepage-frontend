@@ -24,7 +24,7 @@ import {
   usePatchHumanRightsPost,
   useUploadHumanRightsFiles,
 } from '@/pages/human-rights/queries.ts';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader.tsx';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter.tsx';
 import { Button } from '@/components/ui/button.tsx';

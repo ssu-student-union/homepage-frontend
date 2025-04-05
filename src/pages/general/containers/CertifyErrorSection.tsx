@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { CertifyErrorCheck } from './CertifyErrorCheck';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export function CertifyErrorSection() {
   const navigate = useNavigate();

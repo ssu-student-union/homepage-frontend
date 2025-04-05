@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { departments, faculties } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';

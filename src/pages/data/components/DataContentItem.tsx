@@ -1,7 +1,7 @@
 import { RefAttributes } from 'react';
 import { cn } from '@/libs/utils.ts';
 import { Skeleton } from '@/components/ui/skeleton.tsx';
-import { Link, LinkProps } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router';
 import dayjs from 'dayjs';
 import FileDownButton from '@/components/File/FileDownButton';
 import { FileResponse } from '@/schemas/post';

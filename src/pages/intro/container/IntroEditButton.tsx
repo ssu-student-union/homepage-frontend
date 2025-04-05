@@ -1,5 +1,5 @@
 import { EditButton } from '@/components/Buttons/BoardActionButtons';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 
 export default function IntroEditButton() {
   const navigate = useNavigate();

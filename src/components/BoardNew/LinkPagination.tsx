@@ -7,7 +7,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { useMemo } from 'react';
-import { To } from 'react-router-dom';
+import { To } from 'react-router';
 
 interface LinkPaginationProps {
   totalPages: number;

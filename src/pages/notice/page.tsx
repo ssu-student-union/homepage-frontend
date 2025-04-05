@@ -13,7 +13,7 @@ import { cn } from '@/libs/utils';
 import { useSearchNoticePosts } from '@/pages/notice/queries';
 import { Pencil } from 'lucide-react';
 import { useMemo } from 'react';
-import { Link, To, useSearchParams } from 'react-router-dom';
+import { Link, To, useSearchParams } from 'react-router';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const CENTRAL_SUB_CATEGORIES: { id: string; name: string; to: To }[] = [

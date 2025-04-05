@@ -3,7 +3,7 @@ import { RegisterButton, CancelButton } from '@/components/Buttons/BoardActionBu
 import { usePatchBoardPostsComment, usePatchBoardPostsReplyComment } from '@/hooks/api/patch/usePatchBoardPostComment';
 import { usePostBoardPostComment, usePostBoardPostReplyComment } from '@/hooks/api/post/usePostBoardPostComment';
 import { cn } from '@/libs/utils';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { TextAreaProps } from './types';
 import { useSetRecoilState } from 'recoil';
 import { commentLoadingState } from '@/recoil/atoms/atom';

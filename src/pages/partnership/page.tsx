@@ -5,7 +5,7 @@ import { BoardSelector } from '@/components/Board/BoardSelector';
 import { PartnershipSubcategories } from './const';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PartnershipSubcategoriesType } from './type';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useMemo } from 'react';
 import { usePartnership } from './hook/usePartnership';
 import { BoardContent } from '@/template/board/BoardContent';

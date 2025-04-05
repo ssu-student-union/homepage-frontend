@@ -1,4 +1,4 @@
-import { NavigateFunction } from 'react-router-dom';
+import { NavigateFunction } from 'react-router';
 import { categoryMap } from '../const/data';
 
 export function handleCategory(

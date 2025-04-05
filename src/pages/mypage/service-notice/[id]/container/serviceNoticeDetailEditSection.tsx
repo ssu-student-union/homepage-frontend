@@ -1,5 +1,5 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { serviceNoticeHandleLocation } from '../../../../notice/noticeDetail/utils/locationHandler';
 import { delBoardPosts } from '@/apis/delBoardPosts';
 import { useQueryClient } from '@tanstack/react-query';

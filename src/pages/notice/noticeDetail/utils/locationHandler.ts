@@ -1,4 +1,4 @@
-import { NavigateFunction } from 'react-router-dom';
+import { NavigateFunction } from 'react-router';
 
 interface dataType {
   data: {

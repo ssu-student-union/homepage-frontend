@@ -4,7 +4,7 @@ import { useResize } from '@/hooks/useResize';
 import { useGetQnaList } from '@/pages/qna-notice/hooks/useGetQnaList';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function QnaSection() {
   const { width } = useResize();

@@ -2,7 +2,7 @@ import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { useDeleteSuggestPost, useGetSuggestComments, useGetSuggestPost } from '../queries';
 import { SuggestComment, SuggestCommentResponse } from '../schema';
 import { usePatchComment } from '@/hooks/new/mutations/usePatchComment';

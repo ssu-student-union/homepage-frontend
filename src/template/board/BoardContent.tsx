@@ -2,7 +2,7 @@ import { Size } from '@/components/PostCard/const/state';
 import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import BoardContentLoading from './BoardContentLoading';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { nameToUrl } from './boardData';

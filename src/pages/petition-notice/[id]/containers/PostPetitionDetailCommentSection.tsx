@@ -4,7 +4,7 @@ import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PetitionCommentOrderType } from '../../type';
 import { PetitionCommentOrder } from '../../const';
 import { Comment } from '@/components/Comment/Comment';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { useGetBoardPostComment } from '@/hooks/api/get/useGetBoardPostComment';
 import { SkeletonComment } from './SkeletonComment';
 import { useRecoilValue } from 'recoil';

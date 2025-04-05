@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { KakaoButton } from '@/components/Buttons/KakaoButton';
 import { baseUrl } from '@/pages/kakao/containers/const/data';
 import { useTranslation } from 'react-i18next';

@@ -1,5 +1,5 @@
 import { BoardSelector } from '@/components/Board/BoardSelector';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { BodyLayout } from '@/template/BodyLayout';
 import { useBoardSelect } from '@/hooks/useBoardSelect';

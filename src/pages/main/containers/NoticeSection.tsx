@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PostCardNotice } from '@/components/PostCard/PostCardNotice';
 import { useResize } from '@/hooks/useResize';
 import { MainNotices, MainNoticesType } from '@/types/boardSelector';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { useTodayPost } from '../hook/useTodayPost';
 import { useTranslation } from 'react-i18next';

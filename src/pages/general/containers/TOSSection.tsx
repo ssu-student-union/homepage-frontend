@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { Check, CheckCircle } from '@phosphor-icons/react';
 import { Dialog, DialogContent, DialogHeader, DialogPortal, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { PrivacyContent, ProcessContent, ThirdContent } from '../components/TOSContent';

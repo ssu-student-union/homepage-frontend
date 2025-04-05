@@ -12,7 +12,7 @@ import { User } from '@phosphor-icons/react';
 import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
 import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
 import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
