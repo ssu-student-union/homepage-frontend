@@ -9,9 +9,9 @@ import { Loader2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor';
 import { User } from '@phosphor-icons/react';
-import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
+import { FilterDropDown } from '@/components/FilterDropDown';
+import { PostHeader } from '@/components/detail/PostHeader';
+import { PostFooter } from '@/components/detail/PostFooter';
 import { useNavigate, useParams } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
@@ -20,8 +20,8 @@ import { userCategories, userFileCategories } from '@/pages/data/const/category'
 import { useGetDataPost, useUploadDataFiles } from '@/pages/data/queries';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
 import { useCreateDataPost } from '@/pages/data/hook/mutation/useCreateDataPost';
-import { FileInputs } from '@/components/BoardNew/edit/FileInputs.tsx';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
+import { FileInputs } from '@/components/edit/FileInputs';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
 
 function PageSkeleton() {
   return (

@@ -6,8 +6,8 @@ import { cn } from '@/libs/utils.ts';
 import { ArticleHeader } from '@/containers/new/ArticleHeader';
 import { Container } from '@/containers/new/Container.tsx';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
+import { PostHeader } from '@/components/detail/PostHeader';
+import { PostFooter } from '@/components/detail/PostFooter';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
@@ -182,14 +182,7 @@ export default function QnaEditPage() {
               onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                 setSelectedMember(e.target.value as keyof typeof qnaMemberMajor)
               }
-              className="
-              xs:mb-3 xs:w-auto h-11
-              w-[49.5%]
-              appearance-none rounded-[0.5rem]  
-              border border-gray-600 bg-[url(/image/arrow-down.svg)]
-              bg-[position:calc(100%-3rem)_center] bg-no-repeat
-              text-center text-gray-800 sm:mb-3 sm:w-auto
-            "
+              className="xs:mb-3 xs:w-auto h-11 w-[49.5%] appearance-none rounded-[0.5rem] border border-gray-600 bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat text-center text-gray-800 sm:mb-3 sm:w-auto"
               disabled={isEdit}
             >
               <option value="">질문 대상 선택</option>
@@ -206,14 +199,7 @@ export default function QnaEditPage() {
             {/* 세부 대상 선택 드롭다운 */}
             <select
               {...register('qnaMajorCode')}
-              className="
-            xs:w-auto h-11 w-[49.5%]
-            appearance-none
-            rounded-[0.5rem] border  
-            border-gray-600 bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center]
-            bg-no-repeat text-center
-            text-gray-800 sm:w-auto
-            "
+              className="xs:w-auto h-11 w-[49.5%] appearance-none rounded-[0.5rem] border border-gray-600 bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat text-center text-gray-800 sm:w-auto"
               disabled={selectedMember === undefined || isEdit}
             >
               <option value="">세부 대상 선택</option>

@@ -1,5 +1,5 @@
 import { MainScheduleSection } from './containers/MainScheduleSection';
-import MainCarousel from '@/components/MainCarousel';
+import MainCarousel from '@/pages/main/containers/MainCarousel';
 import NoticeSection from './containers/NoticeSection';
 import { Spacing } from '@/components/Spacing';
 /* 기존 공약사업 기능 임시 제거 */

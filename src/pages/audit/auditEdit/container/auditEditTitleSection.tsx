@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
+import { FilterDropDown } from '@/components/FilterDropDown';
 
 interface AuditEditTitleSectionProps {
   initialTitle?: string;

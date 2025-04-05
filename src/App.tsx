@@ -5,7 +5,7 @@ import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryCache, QueryClientProvider } from '@tanstack/react-query';
 import { APIResponseError } from 'endpoint-client';
 import './style.css';
-import ScrollToTop from './components/ScrollTop/ScrollTop';
+import ScrollToTop from './components/deprecated/ScrollTop/ScrollTop';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({

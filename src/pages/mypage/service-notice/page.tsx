@@ -1,7 +1,7 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { ServiceNoticePostContent } from './component/ServiceNoticePostContent';
-import Pagination from '@/components/Pagination';
-import { WriteButton } from '@/components/Buttons/BoardActionButtons';
+import Pagination from '@/components/deprecated/Pagination';
+import { WriteButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router';
 import { useContentWidth } from './hooks/useContetnWidth';
 import { cn } from '@/libs/utils';

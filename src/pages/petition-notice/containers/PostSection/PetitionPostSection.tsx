@@ -1,4 +1,4 @@
-import { BoardSelector } from '@/components/Board/BoardSelector';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { useLocation, useNavigate } from 'react-router';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
 import { BodyLayout } from '@/template/BodyLayout';
@@ -7,7 +7,7 @@ import { Spacing } from '@/components/Spacing';
 import { PetitionPostsTopLikedResponse } from '@/types/getPetitionTopLiked';
 import { PetitionSubcategoriesType } from '../../type';
 import { PetitionSubcategories } from '../../const';
-import { PetitionPostContent } from '@/components/PostContent/PetitionPostContent';
+import { PetitionPostContent } from '@/components/deprecated/PetitionPostContent/PetitionPostContent';
 import { PetitionPostSectionSkeleton } from './PetitionPostSectionSkeleton';
 import { useRecoilValue } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';

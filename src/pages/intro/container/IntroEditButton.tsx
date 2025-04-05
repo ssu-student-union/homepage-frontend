@@ -1,4 +1,4 @@
-import { EditButton } from '@/components/Buttons/BoardActionButtons';
+import { EditButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 import { useNavigate, useSearchParams } from 'react-router';
 
 export default function IntroEditButton() {

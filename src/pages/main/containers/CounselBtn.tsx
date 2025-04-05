@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { InstaFloating, KakaoFloating, YoutubeFloating } from '@/components/Floating/Floating';
+import { InstaFloating, KakaoFloating, YoutubeFloating } from '@/components/deprecated/Floating/Floating';
 import { Spacing } from '@/components/Spacing';
 import { MAIN_PENDING } from '../const';
-import ChannelTalkFloating from '@/components/Floating/ChannelTalkFloating';
+import ChannelTalkFloating from '@/components/deprecated/Floating/ChannelTalkFloating';
 
 export function CounselBtn() {
   const [isVisible, setIsVisible] = useState(false);

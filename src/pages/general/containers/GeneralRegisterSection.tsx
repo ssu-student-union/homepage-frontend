@@ -10,7 +10,7 @@ import { client } from '@/apis/client';
 import { LoginSchemaRegister, LoginSchemaScoucil, LoginScoucilType, LoginType } from '../types/onboardingZodCheck';
 import { useSetRecoilState } from 'recoil';
 import { LoginState } from '@/recoil/atoms/atom';
-import ChannelTalkFloating from '@/components/Floating/ChannelTalkFloating';
+import ChannelTalkFloating from '@/components/deprecated/Floating/ChannelTalkFloating';
 import { cn } from '@/libs/utils';
 import { useTranslation } from 'react-i18next';
 
@@ -209,7 +209,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 />
                 <div className="mt-3"></div>
                 {errors.password && (
-                  <small className=" text-[13px] text-red-600">
+                  <small className="text-[13px] text-red-600">
                     {' '}
                     {(errors.password as { message?: string }).message || 'Error occurred'}
                   </small>
@@ -230,7 +230,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 />
                 <div className="mt-3"></div>
                 {errors.name?.message && (
-                  <small className=" text-[13px] text-red-600">
+                  <small className="text-[13px] text-red-600">
                     {' '}
                     {(errors.name as { message?: string }).message || 'Error occurred'}
                   </small>
@@ -246,7 +246,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 />
                 <div className="mt-3"></div>
                 {errors.studentId?.message && (
-                  <small className=" text-[13px] text-red-600">
+                  <small className="text-[13px] text-red-600">
                     {' '}
                     {(errors.studentId as { message?: string }).message || 'Error occurred'}
                   </small>

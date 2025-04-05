@@ -7,7 +7,7 @@ import { Container } from '@/containers/new/Container.tsx';
 import { ArticleFooter } from '@/containers/new/ArticleFooter.tsx';
 import { MinusCircle, Plus } from '@phosphor-icons/react';
 import { useHumanRightsForm } from '@/pages/human-rights/edit/form.ts';
-import { FileInputs } from '@/components/BoardNew/edit/FileInputs.tsx';
+import { FileInputs } from '@/components/edit/FileInputs';
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor.ts';
 import {
@@ -25,11 +25,11 @@ import {
   useUploadHumanRightsFiles,
 } from '@/pages/human-rights/queries.ts';
 import { useNavigate, useParams } from 'react-router';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader.tsx';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter.tsx';
+import { PostHeader } from '@/components/detail/PostHeader';
+import { PostFooter } from '@/components/detail/PostFooter';
 import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput.tsx';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
 import { useGetUserInfo } from '@/hooks/new/query/useGetUserInfo.ts';
 import { useQueryClient } from '@tanstack/react-query';
 import { FileResponse } from '@/schemas/post';

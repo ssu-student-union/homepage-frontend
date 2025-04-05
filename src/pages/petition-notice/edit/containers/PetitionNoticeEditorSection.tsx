@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input';
-import { RegisterButton } from '@/components/Buttons/BoardActionButtons';
+import { RegisterButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/toastui-editor.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';

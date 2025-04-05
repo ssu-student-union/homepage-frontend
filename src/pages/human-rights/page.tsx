@@ -1,7 +1,7 @@
 import { HeadLayout } from '@/template/HeadLayout.tsx';
 import { BodyLayout } from '@/template/BodyLayout.tsx';
-import { BoardSelector } from '@/components/Board/BoardSelector.tsx';
-import { PostContent } from '@/components/PostContent/PostContent.tsx';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
+import { PostContent } from '@/components/PostContent';
 import { HumanRightsCategory } from '@/pages/human-rights/schema.ts';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useRecoilState } from 'recoil';
