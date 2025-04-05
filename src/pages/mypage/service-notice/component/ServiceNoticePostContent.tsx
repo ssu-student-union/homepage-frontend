@@ -32,7 +32,7 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency, class
       style={{ width: `${contentWidth}px` }}
     >
       {Emergency ? (
-        <Badge variant="Emergency" className="relative top-[22px] text-[12px]">
+        <Badge variant="emergency-old" className="relative top-[22px] text-[12px]">
           긴급
         </Badge>
       ) : (

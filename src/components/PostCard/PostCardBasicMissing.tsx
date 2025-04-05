@@ -43,9 +43,8 @@ const PostCard = ({
         )}
         onClick={onClick}
       >
-        {badgeType === 'Emergency' && <Badge variant="Emergency">긴급</Badge>}
-        {badgeType === 'New' && <Badge variant="New">NEW!</Badge>}
-        {badgeType === 'Default' && <Badge variant="Default"></Badge>}
+        {badgeType === 'Emergency' && <Badge variant="emergency-old">긴급</Badge>}
+        {badgeType === 'New' && <Badge variant="new-old">NEW!</Badge>}
         <div className={`flex h-full w-full ${styles.gap}`}>
           <img alt="image" src={imgUrl} className={`rounded-[8px] bg-gray-200 object-cover ${styles.image}`} />
           <div className="w-full flex-col">
