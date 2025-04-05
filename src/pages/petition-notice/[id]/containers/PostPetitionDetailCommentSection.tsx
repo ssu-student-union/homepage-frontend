@@ -1,9 +1,9 @@
-import { BoardSelector } from '@/components/Board/BoardSelector';
-import { TextArea } from '@/components/TextArea/TextArea';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
+import { TextArea } from '@/components/deprecated/TextArea/TextArea';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PetitionCommentOrderType } from '../../type';
 import { PetitionCommentOrder } from '../../const';
-import { Comment } from '@/components/Comment/Comment';
+import { Comment } from '@/components/deprecated/Comment/Comment';
 import { useParams } from 'react-router';
 import { useGetBoardPostComment } from '@/hooks/api/get/useGetBoardPostComment';
 import { SkeletonComment } from './SkeletonComment';

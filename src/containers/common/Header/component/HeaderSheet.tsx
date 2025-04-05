@@ -8,7 +8,7 @@ import { State } from '../const/state';
 // import { LoginState } from '@/recoil/atoms/atom';
 import { useTranslation } from 'react-i18next';
 import { Button, buttonVariants } from '@/components/ui/button';
-import SsureLogo from '@/components/Logo/SsureLogo';
+import SsureLogo from '@/components/logo/SsureLogo';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { cn } from '@/libs/utils';
 

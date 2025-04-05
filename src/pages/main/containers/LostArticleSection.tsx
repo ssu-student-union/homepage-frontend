@@ -1,4 +1,4 @@
-import { PostCardMissing } from '@/components/PostCard/PostCardBasicMissing';
+import { PostCardMissing } from '@/components/deprecated/PostCard/PostCardBasicMissing';
 import { Spacing } from '@/components/Spacing';
 import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 import { useResize } from '@/hooks/useResize';
@@ -58,7 +58,7 @@ const LostArticleSection = () => {
         />
       </div>
       <Spacing size={18} direction="vertical" />
-      <div className="scrollbar-hide flex w-full gap-6 overflow-x-scroll pr-6 md:pr-0">
+      <div className="flex w-full gap-6 overflow-x-scroll pr-6 scrollbar-hide md:pr-0">
         {data?.data.pageInfo.totalElements ? (
           <>
             {/* xs */}

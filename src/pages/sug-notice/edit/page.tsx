@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Input } from '@/components/ui/input';
-import { FileInputs } from '@/components/BoardNew/edit/FileInputs';
+import { FileInputs } from '@/components/edit/FileInputs';
 import { Editor } from '@toast-ui/react-editor';
 import { cn } from '@/libs/utils.ts';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
+import { PostHeader } from '@/components/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
+import { PostFooter } from '@/components/detail/PostFooter';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
 import { ArticleHeader } from '@/containers/new/ArticleHeader';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import { useContentEditor } from '@/hooks/useContentEditor';

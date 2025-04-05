@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { SearchState } from '@/recoil/atoms/atom';
-import { BoardSelector } from '@/components/Board/BoardSelector';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { useDataCategory } from './hook/utils/useDataCategory';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
 

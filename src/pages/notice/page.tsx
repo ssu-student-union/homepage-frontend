@@ -1,10 +1,10 @@
-import { BoardHeader } from '@/components/BoardNew/BoardHeader';
-import { BoardTabsList } from '@/components/BoardNew/BoardTabs';
-import { PostCard } from '@/components/BoardNew/PostCard';
-import { CardLayout } from '@/components/BoardNew/layouts/CardLayout';
-import { LinkCategories } from '@/components/BoardNew/LinkCategories';
-import LinkPagination from '@/components/BoardNew/LinkPagination';
-import { Search } from '@/components/BoardNew/Search';
+import { BoardHeader } from '@/components/BoardHeader';
+import { BoardTabsList } from '@/components/BoardTabs';
+import { PostCard } from '@/components/PostCard';
+import { CardLayout } from '@/components/layouts/CardLayout';
+import { LinkCategories } from '@/components/LinkCategories';
+import LinkPagination from '@/components/LinkPagination';
+import { Search } from '@/components/Search';
 import { buttonVariants } from '@/components/ui/button';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';

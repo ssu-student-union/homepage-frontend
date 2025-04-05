@@ -1,4 +1,4 @@
-import { BoardNavigator } from '@/components/Board/BoardNavigator';
+import { BoardNavigator } from '@/components/deprecated/Board/BoardNavigator';
 import { cn } from '@/libs/utils';
 import { mainName } from '../const/data';
 

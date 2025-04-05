@@ -1,10 +1,10 @@
-import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
-import { StateTag } from '@/components/StateTag';
+import { DeleteButton, EditButton, ListButton } from '@/components/deprecated/Buttons/BoardActionButtons';
+import { StateTag } from '@/components/deprecated/StateTag';
 import { Viewer } from '@toast-ui/react-editor';
 import { ThumbsUp } from '@phosphor-icons/react';
 import { useNavigate, useParams } from 'react-router';
 import Breadcrumb from '@/components/Breadcrumb';
-import { PostHead } from '@/components/PostHead';
+import { PostHead } from '@/components/deprecated/PostHead';
 import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 import { usePostPostReaction } from '@/hooks/api/post/usePostPostReaction';
 import { useEffect, useState } from 'react';
@@ -146,7 +146,7 @@ export function PostPetitionDetailPostSection() {
                 </div>
                 <Skeleton className="h-20 w-full" />
               </div>
-              <div className="mb-[35px] mt-20 flex justify-center gap-4 sm:justify-end md:mt-14 ">
+              <div className="mb-[35px] mt-20 flex justify-center gap-4 sm:justify-end md:mt-14">
                 <Skeleton className="h-10 w-24" />
                 <Skeleton className="h-10 w-24" />
                 <Skeleton className="h-10 w-24" />
@@ -174,7 +174,7 @@ export function PostPetitionDetailPostSection() {
           </div>
           <hr />
           <div className="mt-[59px] flex-col px-[35px] md:px-[70px] xl:px-[200px]">
-            <div className="flex justify-between gap-10 ">
+            <div className="flex justify-between gap-10">
               <div className="w-full">
                 <Viewer initialValue={JSON.parse(data?.data.postDetailResDto.content as string)} />
                 <div className="mt-[51px] flex justify-start gap-1 text-primary">
@@ -206,7 +206,7 @@ export function PostPetitionDetailPostSection() {
                   ))}
                 </>
               )}
-              <div className="mb-[35px] mt-20 flex justify-center gap-4 sm:justify-end md:mt-14 ">
+              <div className="mb-[35px] mt-20 flex justify-center gap-4 sm:justify-end md:mt-14">
                 {data?.data.postDetailResDto.isAuthor ||
                 data?.data.postDetailResDto.allowedAuthorities.includes('DELETE') ? (
                   <DeleteButton onClick={handleDeleteContent} />

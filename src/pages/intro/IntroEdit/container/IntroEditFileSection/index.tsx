@@ -70,7 +70,7 @@ function RenderThumbnail({ files, removeFile }: RenderThumbnailProps) {
   );
 }
 
-import { RegisterButton } from '@/components/Buttons/BoardActionButtons';
+import { RegisterButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 
 interface RenderSubmitButtonProps {
   onSubmit: () => void;

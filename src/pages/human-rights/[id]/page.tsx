@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader.tsx';
+import { PostHeader } from '@/components/detail/PostHeader';
 import { Frontmatter } from '@/pages/human-rights/[id]/components/Frontmatter.tsx';
-import { PostBody } from '@/components/BoardNew/detail/PostBody.tsx';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter.tsx';
-import { PostCommentEditor } from '@/components/BoardNew/detail/PostCommentEditor.tsx';
-import { PostComment } from '@/components/BoardNew/detail/PostComment.tsx';
+import { PostBody } from '@/components/detail/PostBody';
+import { PostFooter } from '@/components/detail/PostFooter';
+import { PostCommentEditor } from '@/components/detail/PostCommentEditor';
+import { PostComment } from '@/components/detail/PostComment';
 import {
   HumanRightsComment,
   HumanRightsCommentResponse,

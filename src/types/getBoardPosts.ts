@@ -1,4 +1,4 @@
-import { statusType } from '@/components/PostCard/type';
+import { statusType } from '@/components/deprecated/PostCard/type';
 import { MainNoticesType } from './boardSelector';
 
 interface PageInfo {

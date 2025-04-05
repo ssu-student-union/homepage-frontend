@@ -1,4 +1,4 @@
-import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
+import { FilterDropDown } from '@/components/FilterDropDown';
 import * as CATEGORIES from '@/pages/data/const/category';
 import { cn } from '@/libs/utils';
 

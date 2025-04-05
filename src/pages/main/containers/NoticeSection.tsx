@@ -1,8 +1,8 @@
-import { BoardSelector } from '@/components/Board/BoardSelector';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { Spacing } from '@/components/Spacing';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { Button } from '@/components/ui/button';
-import { PostCardNotice } from '@/components/PostCard/PostCardNotice';
+import { PostCardNotice } from '@/components/deprecated/PostCard/PostCardNotice';
 import { useResize } from '@/hooks/useResize';
 import { MainNotices, MainNoticesType } from '@/types/boardSelector';
 import { useNavigate } from 'react-router';
@@ -120,7 +120,7 @@ const NoticeSection = () => {
 
             {/* xl, xxl */}
             {width >= 1440 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[26px] pb-[16px] pt-2.5 ">
+              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[26px] pb-[16px] pt-2.5">
                 {data?.data.postListResDto.slice(0, 3).map((notice) => {
                   let thumbnail = notice.thumbNail || undefined;
                   if (notice.status === '긴급공지' && thumbnail === undefined) {

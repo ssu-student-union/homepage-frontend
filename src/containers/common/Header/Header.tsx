@@ -4,8 +4,8 @@ import { HeaderSheet } from './component/HeaderSheet';
 import { AuthButton } from './component/AuthButton';
 import { State } from './const/state';
 import { Link } from 'react-router';
-import SsureLogo from '@/components/Logo/SsureLogo';
-import { TranslateButton } from '@/components/Buttons/TranslateButton';
+import SsureLogo from '@/components/logo/SsureLogo';
+import { TranslateButton } from '@/components/deprecated/Buttons/TranslateButton';
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,

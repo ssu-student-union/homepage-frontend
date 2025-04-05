@@ -1,4 +1,4 @@
-import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
+import { FilterDropDown } from '@/components/FilterDropDown';
 import { useState } from 'react';
 
 interface PartnershipEditTitleSectionProps {

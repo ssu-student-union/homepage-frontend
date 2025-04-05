@@ -120,7 +120,7 @@ export default function QnaSection() {
 
         {/* xl, xxl */}
         {width >= 1440 && (
-          <div className="flex justify-center gap-[26px] pb-[16px] pt-2.5 ">
+          <div className="flex justify-center gap-[26px] pb-[16px] pt-2.5">
             {qnaData.postListResDto.slice(0, 3).map((qna) => {
               return (
                 <div

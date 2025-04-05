@@ -1,7 +1,7 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { Spacing } from '@/components/Spacing';
-import { BoardSelector } from '@/components/Board/BoardSelector';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { PartnershipSubcategories } from './const';
 import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { PartnershipSubcategoriesType } from './type';

@@ -1,6 +1,6 @@
 import { MutableRefObject, useCallback, useEffect, useState } from 'react';
-import { LeftCarouselButton, RigthCarouselButton } from '@/components/Carousel';
-import { PostTextPetition } from '@/components/PostTextPetition';
+import { LeftCarouselButton, RigthCarouselButton } from '@/components/deprecated/Carousel';
+import { PostTextPetition } from '@/components/deprecated/PostTextPetition';
 import { useIsOverflow } from '@/hooks/useIsOverflow';
 import { useResize } from '@/hooks/useResize';
 import { useGetPetitionTopLiked } from '@/hooks/api/get/useGetPetitionPostsTopLiked';
@@ -101,9 +101,9 @@ export function PetitionNoticePopularSection() {
       {isFetching && isLoading ? (
         <PetitionNoticePopularSectionSkeleton />
       ) : data?.data && data.data.postListResDto.length! > 0 ? (
-        <div className="relative mb-[33px] mt-[70px] pl-10 text-[1.75rem] font-bold max-md:mb-[66px] xl:pl-[200px] ">
+        <div className="relative mb-[33px] mt-[70px] pl-10 text-[1.75rem] font-bold max-md:mb-[66px] xl:pl-[200px]">
           <p className="mb-[11px]">인기청원</p>
-          <div className="scrollbar-hide flex gap-6 overflow-scroll pr-5" ref={ref}>
+          <div className="flex gap-6 overflow-scroll pr-5 scrollbar-hide" ref={ref}>
             {data?.data.postListResDto &&
               data?.data.postListResDto.map((content) => (
                 <PostTextPetition data={content} key={content.postId} onClick={handlePostDetail} />

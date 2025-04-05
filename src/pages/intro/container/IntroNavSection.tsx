@@ -1,5 +1,5 @@
-import { BoardNavigator } from '@/components/Board/BoardNavigator';
-import { BoardSelector } from '@/components/Board/BoardSelector';
+import { BoardNavigator } from '@/components/deprecated/Board/BoardNavigator';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { category, mainName, subCategory, subName } from './const/data';
 import { useAuditSwitch } from './utils/switchUtils';
 import { cn } from '@/libs/utils';
