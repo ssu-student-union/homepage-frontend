@@ -4,7 +4,7 @@ export function PetitionNoticePopularSectionSkeleton() {
   return (
     <div className="mb-[75px] mt-[70px] pl-10 sm:mb-[150px] xl:pl-[200px]">
       <Skeleton className="h-[24.5px] w-[104px] rounded-[35px]" />
-      <div className="mt-[54px] flex w-full space-x-14 overflow-hidden ">
+      <div className="mt-[54px] flex w-full space-x-14 overflow-hidden">
         {[...Array(4)].map((_, index) => (
           <span className="shrink-0" key={index}>
             <SkeletonPopular />
