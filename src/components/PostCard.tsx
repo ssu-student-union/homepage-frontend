@@ -46,7 +46,7 @@ export function PostCard<T extends Post = Post>({ post, className, to }: { post:
           <h1 className="line-clamp-2 text-ellipsis break-all text-sm font-medium">
             {statusVariant && (
               <Badge variant={statusVariant} size="sm" className="mr-1">
-                긴급
+                {statusVariant === 'destructive' ? '긴급' : 'NEW'}
               </Badge>
             )}
             {post.title}
@@ -66,7 +66,7 @@ export function PostCard<T extends Post = Post>({ post, className, to }: { post:
       <Link className={cn(cardVariants({ variant: 'thumbnail' }), 'hidden md:flex')} to={to}>
         {statusVariant && (
           <Badge variant={statusVariant} className="absolute right-2 top-3 z-10 mr-1">
-            긴급
+            {statusVariant === 'destructive' ? '긴급' : 'NEW'}
           </Badge>
         )}
         <img
