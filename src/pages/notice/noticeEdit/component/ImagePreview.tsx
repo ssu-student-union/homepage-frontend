@@ -14,11 +14,11 @@ export function ImagePreview({ imageItem, onRemove = () => {}, onClick = () => {
 
   return (
     <div
-      className="relative flex h-[231px] w-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
+      className="relative flex size-[231px] cursor-pointer items-center justify-center rounded-sm bg-gray-100"
       onClick={onClick}
     >
       {isThumbnail && (
-        <div className="absolute left-[0.5rem] top-[0.75rem] rounded-xs bg-primary px-[0.6rem] py-[0.2rem] text-sm font-bold text-white">
+        <div className="absolute left-2 top-3 rounded-xs bg-primary px-[0.6rem] py-[0.2rem] text-sm font-bold text-white">
           대표
         </div>
       )}
@@ -30,14 +30,14 @@ export function ImagePreview({ imageItem, onRemove = () => {}, onClick = () => {
         />
       )}
       <button
-        className="absolute right-[-0.75rem] top-[-0.75rem]"
+        className="absolute -right-3 -top-3"
         onClick={(e) => {
           e.stopPropagation();
           onRemove();
         }}
       >
         <div className="relative">
-          <div className="absolute inset-0 m-auto h-[24px] w-[24px] rounded-full bg-white" />
+          <div className="absolute inset-0 m-auto size-[24px] rounded-full bg-white" />
           <XCircle size={32} color="#2F4BF7" weight="fill" className="relative z-10" />
         </div>
       </button>

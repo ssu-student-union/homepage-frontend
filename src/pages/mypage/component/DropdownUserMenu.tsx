@@ -6,7 +6,7 @@ interface DropdownUserMenuProps {
 
 export default function DropdownUserMenu({ selectedMenu, setSelectedMenu, setIsDropdown }: DropdownUserMenuProps) {
   return (
-    <div className="rounded-xs border bg-gray-50 px-1 py-1 text-xs text-gray-700 shadow-lg marker:w-36 md:text-sm lg:text-base">
+    <div className="rounded-xs border bg-gray-50 p-1 text-xs text-gray-700 shadow-lg marker:w-36 md:text-sm lg:text-base">
       <ul>
         <li
           className={`cursor-pointer px-4 py-3 ${

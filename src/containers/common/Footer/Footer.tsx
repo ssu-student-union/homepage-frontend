@@ -13,7 +13,7 @@ export const Footer = () => {
           ssu65th@gmail.com
         </a>
       </div>
-      <div className="flex items-center gap-[1px] text-[13px] md:text-base">
+      <div className="flex items-center gap-px text-[13px] md:text-base">
         <a href="/personal-data?category=personal">개인정보처리방침</a>
         <span className="w-[18px] text-center">|</span>
         <a href="/personal-data?category=tos">이용약관</a>

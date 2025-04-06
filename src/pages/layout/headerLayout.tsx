@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
+import { LoginState } from '@/atoms/atom';
 import { Footer } from '@/containers/common/Footer/Footer';
+import { useAtom } from 'jotai';
 
 export function Layout() {
-  const loginState = useRecoilValue(LoginState);
-  const setLoginState = useSetRecoilState(LoginState);
+  const [loginState, setLoginState] = useAtom(LoginState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export function Layout() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header state={loginState ? State.Login : State.Logout} onLogout={handleLogout} />
-      <main className="flex-grow">
+      <main className="grow">
         <Outlet />
       </main>
       <Footer />

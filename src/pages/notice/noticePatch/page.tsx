@@ -5,7 +5,7 @@ import { NoticeEditSubmitButton } from '../noticeEdit/container/noticeEditSubmit
 import { useNoticePatch } from './hook/useNoticePatch';
 import { NoticePatchImageSection } from './container/noticePatchImageSection';
 import { AuditPatchFilesSection } from '@/pages/audit/auditPatch/container/auditPatchFileSection';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 export default function NoticePatchPage() {
   const { id } = useParams();

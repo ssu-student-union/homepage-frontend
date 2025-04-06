@@ -1,5 +1,5 @@
 import { HeadLayout } from '@/template/HeadLayout';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router';
 import { NavSection } from './container/navSection';
 import { useCategory } from './hook/useCategory';
 import { category } from './const/data';

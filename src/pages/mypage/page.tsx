@@ -42,7 +42,7 @@ export default function MyPage() {
         <div className="w-full border-b border-[#E7E7E7]"></div>
         <div className="flex">
           <Sidebar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-          <div className="flex-grow">{renderMenu()}</div>
+          <div className="grow">{renderMenu()}</div>
         </div>
       </div>
     </div>

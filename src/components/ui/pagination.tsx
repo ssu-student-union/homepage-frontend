@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cn } from '@/libs/utils';
 import { cva } from 'class-variance-authority';
 import { CaretDoubleLeft, CaretDoubleRight, CaretLeft, CaretRight } from '@phosphor-icons/react';
+import { Link } from 'react-router';
 
 const PaginationContainer = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
@@ -21,11 +22,11 @@ const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProp
 PaginationContent.displayName = 'PaginationContent';
 
 const PaginationLinkVariants = cva(
-  'cursor-pointer select-none h-[27px] w-[27px] text-[18px] flex text-gray-700 font-medium justify-center items-center',
+  'flex size-[27px] cursor-pointer select-none items-center justify-center text-[18px] font-medium text-gray-700',
   {
     variants: {
       variant: {
-        active: 'bg-gray-100 rounded-[4px]',
+        active: 'rounded-[4px] bg-gray-100',
         default: ' font-medium ',
       },
     },
@@ -55,8 +56,8 @@ const PaginationItem = React.forwardRef<HTMLLIElement, PaginationItemProps>(
 );
 PaginationItem.displayName = 'PaginationItem';
 
-const PaginationLink = ({ className, ...props }: React.ComponentProps<'a'>) => (
-  <a aria-current={'page'} className={cn('', className)} {...props} />
+const PaginationLink = ({ className, ...props }: React.ComponentProps<typeof Link>) => (
+  <Link aria-current={'page'} className={cn('', className)} {...props} />
 );
 PaginationLink.displayName = 'PaginationLink';
 

@@ -335,7 +335,7 @@ export const userCategories: UserCategories = {
 } as const;
 
 // 파일종류
-interface UserFileCategories extends UserCategories {}
+export type UserFileCategories = UserCategories;
 
 export const userFileCategories: UserFileCategories = {
   중앙운영위원회: ['결과보고서', '회의록', '총학생회칙', '운영세칙', '자료'],

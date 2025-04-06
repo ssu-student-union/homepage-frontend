@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
 import { handleFileLists } from '../utils/fileHandler';

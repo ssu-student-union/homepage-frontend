@@ -9,10 +9,10 @@ import { Loader2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor';
 import { User } from '@phosphor-icons/react';
-import { FilterDropDown } from '@/components/FilterDropDown/FilterDropDown';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
-import { useNavigate, useParams } from 'react-router-dom';
+import { FilterDropDown } from '@/components/FilterDropDown';
+import { PostHeader } from '@/components/detail/PostHeader';
+import { PostFooter } from '@/components/detail/PostFooter';
+import { useNavigate, useParams } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
@@ -20,8 +20,8 @@ import { userCategories, userFileCategories } from '@/pages/data/const/category'
 import { useGetDataPost, useUploadDataFiles } from '@/pages/data/queries';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
 import { useCreateDataPost } from '@/pages/data/hook/mutation/useCreateDataPost';
-import { FileInputs } from '@/components/BoardNew/edit/FileInputs.tsx';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/BoardNew/edit/FileInput';
+import { FileInputs } from '@/components/edit/FileInputs';
+import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
 
 function PageSkeleton() {
   return (
@@ -256,7 +256,7 @@ export default function DataEditPage() {
             <div className="w-full">
               <Input
                 id="title"
-                className="w-full rounded-[6px] border-[2px] border-gray-300 py-[4px] text-[18px] font-medium"
+                className="w-full rounded-[6px] border-2 border-gray-300 py-[4px] text-[18px] font-medium"
                 type="text"
                 placeholder="제목을 입력하세요."
                 {...register('title')}
@@ -303,7 +303,7 @@ export default function DataEditPage() {
       </Container>
       <ArticleFooter className="pb-6">
         <Button
-          variant={'Register'}
+          variant="register"
           className="flex items-center justify-center gap-1 self-end px-2"
           disabled={Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
           onClick={handleSubmit(submitForm)}

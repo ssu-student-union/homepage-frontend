@@ -21,10 +21,10 @@ export function AuditDetailFileSection({ files, fileNames }: AuditDetailFileProp
         <div
           onClick={() => openInNewTab(file)}
           key={file + index}
-          className="mb-[0.75rem] flex cursor-pointer flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2"
+          className="mb-3 flex cursor-pointer flex-row items-center justify-start rounded-xs border border-[#CDCDCD] p-2"
         >
           <DownloadSimple size="24px" />
-          <div className="ml-[0.5rem] flex-1 overflow-hidden">
+          <div className="ml-2 flex-1 overflow-hidden">
             <p className="truncate text-base font-medium text-gray-600">{formatFileName(fileNames[index])}</p>
           </div>
         </div>

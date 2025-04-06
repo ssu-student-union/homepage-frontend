@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { useContentWidth } from '../hooks/useContetnWidth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { cn } from '@/libs/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
@@ -32,7 +32,7 @@ export function ServiceNoticePostContent({ postId, title, date, Emergency, class
       style={{ width: `${contentWidth}px` }}
     >
       {Emergency ? (
-        <Badge variant="Emergency" className="relative top-[22px] text-[12px]">
+        <Badge variant="emergency-old" className="relative top-[22px] text-[12px]">
           긴급
         </Badge>
       ) : (

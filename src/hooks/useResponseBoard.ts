@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Size } from '@/components/PostCard/const/state';
+import { Size } from '@/components/deprecated/PostCard/const/state';
 import { useResize } from '@/hooks/useResize';
 
 export function useResponseBoard() {
