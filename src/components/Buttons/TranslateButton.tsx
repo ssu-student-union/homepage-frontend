@@ -10,7 +10,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export function TranslateButton({ onToggleLanguage, ...props }: ButtonProps) {
   const { i18n } = useTranslation();
 
-  const buttonText = i18n.language === 'ko' ? 'EN' : 'KO';
+  const buttonText = i18n.language === 'ko' ? 'EN' : '한국어';
 
   return (
     <Button variant={'ghost'} disabled={false} onClick={onToggleLanguage} {...props}>
