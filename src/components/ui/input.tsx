@@ -9,7 +9,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const InputVariants = cva(
-  'flex min-h-[46px] w-full rounded-md color-gray-800 font-semibold border bg-background px-[20px] py-[16px] text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus:outline-none focus:border focus:border-primary disabled:cursor-not-allowed disabled:opacity-50',
+  'flex min-h-[46px] w-full rounded-md border bg-background px-[20px] py-[16px] text-sm font-semibold text-gray-800 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus:border focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {

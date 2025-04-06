@@ -6,7 +6,7 @@ export function PetitionNoticeHeadSectionSkeleton() {
       <div className="flex flex-col space-y-[22.25px]">
         <Skeleton className="h-[29.75px] w-[206px] rounded-[42.5px]" />
         <div className="space-y-2">
-          <Skeleton className="h-[14px] w-[429px] rounded-[20px] " />
+          <Skeleton className="h-[14px] w-[429px] rounded-[20px]" />
         </div>
       </div>
       <div className="hidden lg:block">

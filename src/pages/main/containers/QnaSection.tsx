@@ -4,7 +4,7 @@ import { useResize } from '@/hooks/useResize';
 import { useGetQnaList } from '@/pages/qna-notice/hooks/useGetQnaList';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function QnaSection() {
   const { width } = useResize();
@@ -42,7 +42,7 @@ export default function QnaSection() {
       <div className="flex w-full flex-col justify-center">
         {/* xs, sm */}
         {width >= 360 && width < 720 && (
-          <div className="mx-auto flex w-[90vw] flex-col justify-center gap-[16px] pb-[16px] pt-[0.625rem]">
+          <div className="mx-auto flex w-[90vw] flex-col justify-center gap-[16px] pb-[16px] pt-2.5">
             {qnaData.postListResDto.slice(0, 3).map((qna) => {
               return (
                 <div
@@ -68,7 +68,7 @@ export default function QnaSection() {
 
         {/*  md */}
         {width >= 720 && width < 1080 && (
-          <div className="flex justify-center gap-[16px] pb-[16px] pt-[0.625rem]">
+          <div className="flex justify-center gap-[16px] pb-[16px] pt-2.5">
             {qnaData.postListResDto.slice(0, 2).map((qna) => {
               return (
                 <div
@@ -94,7 +94,7 @@ export default function QnaSection() {
 
         {/* lg */}
         {width >= 1080 && width < 1440 && (
-          <div className="flex justify-center gap-[18px] pb-[16px] pt-[0.625rem] xl:px-[11.0rem]">
+          <div className="flex justify-center gap-[18px] pb-[16px] pt-2.5 xl:px-[11.0rem]">
             {qnaData.postListResDto.slice(0, 3).map((qna) => {
               return (
                 <div
@@ -120,7 +120,7 @@ export default function QnaSection() {
 
         {/* xl, xxl */}
         {width >= 1440 && (
-          <div className="flex justify-center gap-[26px] pb-[16px] pt-[0.625rem] ">
+          <div className="flex justify-center gap-[26px] pb-[16px] pt-2.5">
             {qnaData.postListResDto.slice(0, 3).map((qna) => {
               return (
                 <div
@@ -149,7 +149,7 @@ export default function QnaSection() {
           onClick={() => {
             navigate(`/qna`);
           }}
-          className="mx-auto h-[30px] w-[87px] rounded-full px-[1rem] py-[0.5rem] text-[12px] md:mx-0 md:h-fit md:w-fit md:text-[1rem]"
+          className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text-[1rem]"
         >
           {t('main.더 알아보기')}
         </Button>

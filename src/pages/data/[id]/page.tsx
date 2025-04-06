@@ -1,11 +1,11 @@
-import { PostBody } from '@/components/BoardNew/detail/PostBody';
-import { PostFooter } from '@/components/BoardNew/detail/PostFooter';
-import { PostHeader } from '@/components/BoardNew/detail/PostHeader';
+import { PostBody } from '@/components/detail/PostBody';
+import { PostFooter } from '@/components/detail/PostFooter';
+import { PostHeader } from '@/components/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
 import { breadcrumbItems } from '@/pages/data/const/data';
 import { useDeleteDataPost, useGetDataPost } from '@/pages/data/queries';
 import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function PageSkeleton() {
   return (

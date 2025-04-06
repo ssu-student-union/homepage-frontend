@@ -68,7 +68,7 @@ function MyPostsPage() {
       <div className="flex flex-col">
         <UserContainer />
         <div>
-          <div className="mx-16 flex items-center border-b-[1px] border-solid border-gray-500 pb-1">
+          <div className="mx-16 flex items-center border-b border-solid border-gray-500 pb-1">
             <span className="pl-2">작성 글</span>
             <Skeleton className="ml-2 h-4 w-5" />
           </div>
@@ -87,7 +87,7 @@ function MyPostsPage() {
     <div className="flex flex-col">
       <UserContainer />
       <div>
-        <div className="mx-16 flex items-center border-b-[1px] border-solid border-gray-500 pb-1">
+        <div className="mx-16 flex items-center border-b border-solid border-gray-500 pb-1">
           <span className="pl-2">작성 글</span>
           <span className="ml-2 text-center font-semibold">{data.pageInfo.totalElements}</span>
         </div>

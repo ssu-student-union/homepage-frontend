@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchemaCertify, LoginCertifyType } from '../types/onboardingZodCheck';
 import { postOnboardingMail } from '@/apis/postOnboardingMail'; // Import the postOnboardingMail function
@@ -76,7 +76,7 @@ export function CertifyApplySection() {
         <div className="pb-4 text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)] md:text-3xl">
           학생인증이 안 되시나요?
         </div>
-        <div className="ext-xs w-[540px] text-center font-medium text-gray-700 md:text-base">
+        <div className="w-[540px] text-center text-xs font-medium text-gray-700 md:text-base">
           신편입학, 학적 변동의 이유로 학생 인증이 지연될 수 있습니다 <br></br>
           문의를 보내주시면 기입해주신 이메일을 통해 문의 접수를 도와드리겠습니다
         </div>
@@ -91,7 +91,7 @@ export function CertifyApplySection() {
             aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
           />
           <div className="mt-3"></div>
-          {errors.name?.message && <small className=" text-[13px] text-red-600">{errors.name?.message}</small>}
+          {errors.name?.message && <small className="text-[13px] text-red-600">{errors.name?.message}</small>}
 
           <Input
             type="text"
@@ -103,7 +103,7 @@ export function CertifyApplySection() {
             aria-invalid={isSubmitted ? (errors.id ? 'true' : 'false') : undefined}
           />
           <div className="mt-3"></div>
-          {errors.id?.message && <small className=" text-[13px] text-red-600">{errors.id?.message}</small>}
+          {errors.id?.message && <small className="text-[13px] text-red-600">{errors.id?.message}</small>}
 
           <Input
             type="email"
@@ -115,7 +115,7 @@ export function CertifyApplySection() {
             aria-invalid={isSubmitted ? (errors.email ? 'true' : 'false') : undefined}
           />
           <div className="mt-3"></div>
-          {errors.email?.message && <small className=" text-[13px] text-red-600">{errors.email.message}</small>}
+          {errors.email?.message && <small className="text-[13px] text-red-600">{errors.email.message}</small>}
 
           <textarea
             className="mt-5 flex h-24 min-h-[46px] w-[300px] rounded-md border border-gray-500 bg-background px-[20px] py-[16px] text-sm font-semibold ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus:border focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:w-[420px]"
@@ -126,7 +126,7 @@ export function CertifyApplySection() {
             aria-invalid={isSubmitted ? (errors.inquiry ? 'true' : 'false') : undefined}
           />
           <div className="mt-3"></div>
-          {errors.inquiry && <small className=" text-[13px] text-red-600">{errors.inquiry.message}</small>}
+          {errors.inquiry && <small className="text-[13px] text-red-600">{errors.inquiry.message}</small>}
 
           <Button
             type="submit"

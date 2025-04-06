@@ -1,17 +1,17 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
-import { BoardSelector } from '@/components/Board/BoardSelector';
-import { PostContent } from '@/components/PostContent/PostContent';
-import { useSearchParams } from 'react-router-dom';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
+import { PostContent } from '@/components/PostContent';
+import { useSearchParams } from 'react-router';
 import { QnaPostParams, useGetQnaList } from './hooks/useGetQnaList';
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
+import { LoginState } from '@/atoms/atom';
 import { QnaMajorCode, QnaMemberCode } from './types';
-import { SearchState } from '@/recoil/atoms/atom';
+import { SearchState } from '@/atoms/atom';
 import { convertToDateOnly } from './utils/convertToDateOnly';
 import { qnaMajorCodesData, qnaMemberCodeData } from './collegesData';
 import { useGetUserInfoQna } from './hooks/useGetUserInfoQna';
+import { useAtom } from 'jotai';
 
 /* 빠르게 질의응답게시판 구현을 위해 해당 페이지에서 직접 데이터 페칭을 합니다. 이후에 리팩토링 예정이니 이해 부탁드려요ㅠ */
 
@@ -82,10 +82,10 @@ export function QnApage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
   const target = ensureTarget(searchParams.get('target'));
-  const [q] = useRecoilState(SearchState);
+  const [q] = useAtom(SearchState);
 
   // 페이지를 렌더링할 때 로그인을 했는지 확인하고 했을 경우 유저 데이터를 불러온다.
-  const isLogin = useRecoilValue(LoginState);
+  const [isLogin] = useAtom(LoginState);
 
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 

@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { departments, faculties } from './index';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { client } from '@/apis/client';
 import { LoginSchemaRegister, LoginSchemaScoucil, LoginScoucilType, LoginType } from '../types/onboardingZodCheck';
-import { useSetRecoilState } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
-import ChannelTalkFloating from '@/components/Floating/ChannelTalkFloating';
+import { LoginState } from '@/atoms/atom';
+import ChannelTalkFloating from '@/components/deprecated/Floating/ChannelTalkFloating';
 import { cn } from '@/libs/utils';
 import { useTranslation } from 'react-i18next';
+import { useAtom } from 'jotai';
 
 interface LoginFormProps {
   subSection1: string;
@@ -39,7 +39,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
     defaultValues: isScouncilPath ? ({} as LoginScoucilType) : ({} as LoginType),
   });
 
-  const setLoginState = useSetRecoilState(LoginState);
+  const [, setLoginState] = useAtom(LoginState);
 
   const [selectedFaculty, setSelectedFaculty] = useState<string>('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -209,7 +209,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 />
                 <div className="mt-3"></div>
                 {errors.password && (
-                  <small className=" text-[13px] text-red-600">
+                  <small className="text-[13px] text-red-600">
                     {' '}
                     {(errors.password as { message?: string }).message || 'Error occurred'}
                   </small>
@@ -230,7 +230,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 />
                 <div className="mt-3"></div>
                 {errors.name?.message && (
-                  <small className=" text-[13px] text-red-600">
+                  <small className="text-[13px] text-red-600">
                     {' '}
                     {(errors.name as { message?: string }).message || 'Error occurred'}
                   </small>
@@ -246,7 +246,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 />
                 <div className="mt-3"></div>
                 {errors.studentId?.message && (
-                  <small className=" text-[13px] text-red-600">
+                  <small className="text-[13px] text-red-600">
                     {' '}
                     {(errors.studentId as { message?: string }).message || 'Error occurred'}
                   </small>
@@ -323,7 +323,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
               disabled={isSubmitting || isButtonDisabled}
               variant="default"
               size="default"
-              className={`mt-4 w-[250px] py-0 max-md:px-[1rem] max-md:py-[0.1rem] max-sm:min-h-[36px] max-sm:rounded-xs md:w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
+              className={`mt-4 w-[250px] py-0 max-md:px-4 max-md:py-[0.1rem] max-sm:min-h-[36px] max-sm:rounded-xs md:w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
             >
               {t('onboarding.입력 완료')}
             </Button>

@@ -1,9 +1,9 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 import { Post } from '@/types/apis/get';
-import { useRecoilState } from 'recoil';
-import { todayPostCountState } from '@/recoil/atoms/atom';
+import { todayPostCountState } from '@/atoms/atom';
 import { GetNoticeBoardPostsResponse } from '@/types/getBoardPosts';
+import { useAtom } from 'jotai';
 
 interface UseNoticePostProps {
   boardCode: string;
@@ -14,7 +14,7 @@ interface UseNoticePostProps {
 }
 
 export const useTodayPost = ({ boardCode, groupCode, memberCode, take, page }: UseNoticePostProps) => {
-  const [todayPostCount, setTodayPostCount] = useRecoilState(todayPostCountState('중앙기구'));
+  const [todayPostCount, setTodayPostCount] = useAtom(todayPostCountState('중앙기구'));
   const [_, setPageCount] = useState<number>(0);
   const [stopFetching, setStopFetching] = useState<boolean>(false);
 

@@ -1,4 +1,4 @@
-import { PostCardMissing } from '@/components/PostCard/PostCardBasicMissing';
+import { PostCardMissing } from '@/components/deprecated/PostCard/PostCardBasicMissing';
 import { Spacing } from '@/components/Spacing';
 import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 import { useResize } from '@/hooks/useResize';
@@ -6,7 +6,7 @@ import { GetLostArticlePostsResponse } from '@/types/getBoardPosts';
 import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 import { ArrowUpRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const LostArticleSection = () => {
   const { width } = useResize();
@@ -58,7 +58,7 @@ const LostArticleSection = () => {
         />
       </div>
       <Spacing size={18} direction="vertical" />
-      <div className="scrollbar-hide flex w-full gap-[1.5rem] overflow-x-scroll pr-[1.5rem] md:pr-0">
+      <div className="scrollbar-hide flex w-full gap-6 overflow-x-scroll pr-6 md:pr-0">
         {data?.data.pageInfo.totalElements ? (
           <>
             {/* xs */}

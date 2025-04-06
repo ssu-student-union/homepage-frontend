@@ -1,6 +1,6 @@
-import { DeleteButton, EditButton, ListButton } from '@/components/Buttons/BoardActionButtons';
+import { DeleteButton, EditButton, ListButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 import { useDelBoardPosts } from '@/hooks/api/del/useDelBoardPosts';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 interface PartnershipDetailEditProps {
   boardCode: string;

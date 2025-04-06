@@ -1,5 +1,5 @@
-import { BoardHead } from '@/components/Board/BoardHead';
-import { Search } from '@/components/Search/Search';
+import { BoardHead } from '@/components/deprecated/Board/BoardHead';
+import { Search } from '@/components/deprecated/Search/Search';
 import { HeadLayoutProps } from '@/types/layout';
 import { cn } from '@/libs/utils';
 

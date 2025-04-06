@@ -1,8 +1,8 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { ServiceNoticePostContent } from './component/ServiceNoticePostContent';
-import Pagination from '@/components/Pagination';
-import { WriteButton } from '@/components/Buttons/BoardActionButtons';
-import { useNavigate } from 'react-router-dom';
+import Pagination from '@/components/deprecated/Pagination';
+import { WriteButton } from '@/components/deprecated/Buttons/BoardActionButtons';
+import { useNavigate } from 'react-router';
 import { useContentWidth } from './hooks/useContetnWidth';
 import { cn } from '@/libs/utils';
 import { useServiceNoticeBoard } from './hooks/useServiceNoticeBoard';
@@ -33,7 +33,7 @@ export function ServiceNoticePage() {
           />
         </div>
         {/* 로딩 상태에 따라 Skeleton 또는 실제 데이터를 표시 */}
-        <div className="jutify-center flex flex-col items-center">
+        <div className="flex flex-col items-center justify-center">
           {isLoading ? (
             <div className="mb-[300px] mt-[64px] flex w-full flex-col items-center">
               <div className={cn(`flex w-full flex-col flex-wrap gap-[10px]`)}>

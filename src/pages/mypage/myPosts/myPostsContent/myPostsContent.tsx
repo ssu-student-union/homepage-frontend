@@ -1,6 +1,6 @@
 import CommentMark from '@/assets/image/comentMark.svg';
 import { PostListResDto } from '@/types/apis/get';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 interface MyPostsContentProps {
   data: PostListResDto;
 }
@@ -21,7 +21,7 @@ export function MyPostsContent({ data }: MyPostsContentProps) {
   const basePath = boardRoutes[data.boardCode as keyof typeof boardRoutes];
 
   return (
-    <div className="mx-16 mt-4 flex flex-col border-b-[1px] border-solid border-gray-400 pr-2 text-[14px]">
+    <div className="mx-16 mt-4 flex flex-col border-b border-solid border-gray-400 pr-2 text-[14px]">
       <div className="xs:flex-col xs:items-end flex cursor-pointer flex-row justify-between">
         <div className="flex items-center">
           <div className="ml-3 h-5 w-12 text-[#2F4BF7]">{data.postId.toString()}</div>

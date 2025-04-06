@@ -1,7 +1,7 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
-import { BoardSelector } from '@/components/Board/BoardSelector';
-import { useNavigate } from 'react-router-dom';
+import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
+import { useNavigate } from 'react-router';
 import { categoryMap } from './const/data';
 import { useLostBoard } from './hook/useLostBoard';
 import { BoardContent } from '@/template/board/BoardContent';

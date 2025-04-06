@@ -1,12 +1,12 @@
 import { useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
-import { useSetRecoilState } from 'recoil';
-import { LoginState } from '@/recoil/atoms/atom';
+import { LoginState } from '@/atoms/atom';
 import { baseUrl } from '@/pages/kakao/containers/const/data';
+import { useAtom } from 'jotai';
 
 const KakaoRedirect = () => {
-  const setLoginState = useSetRecoilState(LoginState);
+  const [, setLoginState] = useAtom(LoginState);
   const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
   const navigate = useNavigate();
 
