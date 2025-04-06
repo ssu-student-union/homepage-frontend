@@ -52,7 +52,7 @@ export function PostCard<T extends Post = Post>({ post, className, to }: { post:
             {post.title}
           </h1>
           <p className="line-clamp-2 text-ellipsis break-all text-xs">{post.content}</p>
-          <div className="flex items-center gap-2 text-xs text-neutral-400">
+          <div className="flex flex-wrap items-center gap-x-2 text-xs text-neutral-400">
             <p>{post.author}</p>
             <p>{post.date}</p>
           </div>
@@ -76,7 +76,7 @@ export function PostCard<T extends Post = Post>({ post, className, to }: { post:
         />
         <div className="flex grow flex-col justify-between gap-2">
           <h1 className="line-clamp-2 text-ellipsis break-all text-base font-semibold">{post.title}</h1>
-          <div className="flex items-center gap-2 text-sm text-neutral-400">
+          <div className="flex flex-wrap items-center gap-x-2 text-sm text-neutral-400">
             <p>{post.author}</p>
             <p>{post.date}</p>
           </div>
