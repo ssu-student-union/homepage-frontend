@@ -65,7 +65,7 @@ export default function DataPage() {
     // TODO: 오류 발생 시 세부정보 제공
     console.log(error);
     return (
-      <div className="mt-[120px] flex items-center justify-center">
+      <div className="mt-16 flex items-center justify-center">
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );

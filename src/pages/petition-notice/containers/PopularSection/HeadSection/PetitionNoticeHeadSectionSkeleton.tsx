@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export function PetitionNoticeHeadSectionSkeleton() {
   return (
-    <div className="mt-[120px] flex justify-between border-b-2 px-10 pb-9 xl:px-[200px]">
+    <div className="mt-16 flex justify-between border-b-2 px-10 pb-9 xl:px-[200px]">
       <div className="flex flex-col space-y-[22.25px]">
         <Skeleton className="h-[29.75px] w-[206px] rounded-[42.5px]" />
         <div className="space-y-2">
