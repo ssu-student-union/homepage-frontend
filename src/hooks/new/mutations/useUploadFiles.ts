@@ -36,8 +36,8 @@ function appendFormData(formData: FormData, name: string, files: File[]) {
 export function useUploadFiles({ boardCode, mutationOptions }: UseUploadFilesOptions) {
   return useStuMutation(async ({ files, images, fileType }) => {
     const formData = new FormData();
-    files && appendFormData(formData, 'files', files);
-    images && appendFormData(formData, 'images', images);
+    if (files) appendFormData(formData, 'files', files);
+    if (images) appendFormData(formData, 'images', images);
 
     return (
       await clientAuth<ApiResponse<UploadFilesResponse>>({

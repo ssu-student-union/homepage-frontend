@@ -17,7 +17,7 @@ export function NoticeEditFilesSection({ onFilesChange }: NoticeEditFilesSection
 
   return (
     <div className="flex flex-col items-center justify-center px-[30px] pt-[12px] xl:px-[200px]">
-      <div className="full flex w-full flex-col">
+      <div className="flex w-full flex-col">
         {files.map((fileItem, index) => (
           <div key={fileItem.id} className="flex items-center pb-[8px]">
             <FileDropzone

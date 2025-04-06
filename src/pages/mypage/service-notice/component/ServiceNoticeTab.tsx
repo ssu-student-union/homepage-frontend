@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import XdeleteImg from '@/assets/image/Xdelete.svg';
 import { useResize } from '@/hooks/useResize';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/libs/utils';
@@ -65,7 +65,7 @@ export function ServiceNoticeTab({ isEmergency, title, postId }: ServiceNoticeTa
         >
           <div className="flex cursor-pointer items-center justify-center gap-[8px]" onClick={handleTabClick}>
             {isEmergency ? (
-              <Badge variant="Emergency" className="relative right-0 top-0">
+              <Badge variant="emergency-old" className="relative right-0 top-0">
                 긴급
               </Badge>
             ) : (

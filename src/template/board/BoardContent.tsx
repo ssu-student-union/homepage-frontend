@@ -1,8 +1,8 @@
-import { Size } from '@/components/PostCard/const/state';
-import { PostCardBasic } from '@/components/PostCard/PostCardBasicMissing';
+import { Size } from '@/components/deprecated/PostCard/const/state';
+import { PostCardBasic } from '@/components/deprecated/PostCard/PostCardBasicMissing';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import BoardContentLoading from './BoardContentLoading';
 import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
 import { nameToUrl } from './boardData';
@@ -124,7 +124,7 @@ export function BoardContent<T extends Post>({
     }
 
     return (
-      <div key={post.postId} className="pb-[20px] pr-0 xl:pb-0 xl:pr-[1.5rem]">
+      <div key={post.postId} className="pb-[20px] pr-0 xl:pb-0 xl:pr-6">
         <PostCardBasic
           size={size}
           imgUrl={thumbnail ? thumbnail : `image/default/thumbnail/default_thumbnail.png`}
