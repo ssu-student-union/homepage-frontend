@@ -117,7 +117,7 @@ export function NoticePage() {
             </p>
           )
         }
-        className="mt-[120px]"
+        className="mt-16"
       >
         <Search className="hidden xl:flex" onSearch={handleSearch} />
       </BoardHeader>

@@ -27,7 +27,7 @@ export function ServiceNoticeDeatailTopSection({
 
   return (
     <>
-      <div className="mt-[120px] flex flex-col">
+      <div className="mt-16 flex flex-col">
         <Breadcrumb items={breadcrumbItems} />
         <div className="mb-1 pt-[24px] text-2xl font-bold text-black">{title}</div>
         <div className="flex items-center pb-[24px] pt-[8px] text-sm font-medium text-[#999999]">

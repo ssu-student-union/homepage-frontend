@@ -119,7 +119,7 @@ export function QnApage() {
     if (isError) console.log('list error', error);
     if (isUserError) console.log('user error', userError);
     return (
-      <div className="mt-[120px] flex items-center justify-center">
+      <div className="mt-16 flex items-center justify-center">
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );
