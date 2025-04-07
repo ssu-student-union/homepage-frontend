@@ -150,20 +150,22 @@ export function NoticePage() {
           </BoardTabsList>
         </div>
 
-        <Container className="pt-0">
+        <Container className="pt-0 max-md:px-0">
           <div className="flex flex-col gap-4">
-            <TabsContent value="중앙">
-              <LinkCategories value={subCategory} categories={centralSubCategories} />
-            </TabsContent>
-            <TabsContent value="단과대">
-              <LinkCategories value={subCategory} categories={collageSubCategories} />
-            </TabsContent>
+            <div className="px-4">
+              <TabsContent value="중앙">
+                <LinkCategories value={subCategory} categories={centralSubCategories} />
+              </TabsContent>
+              <TabsContent value="단과대">
+                <LinkCategories value={subCategory} categories={collageSubCategories} />
+              </TabsContent>
+            </div>
             {isLoading ? (
               <CardLayout.Skeleton />
             ) : (
               <CardLayout>
                 {data?.postListResDto?.map((post) => (
-                  <PostCard key={post.postId} post={post} to={`/notice/${post.postId}`} />
+                  <PostCard key={post.postId} post={post} to={`/notice/${post.postId}`} className="max-md:px-4" />
                 ))}
               </CardLayout>
             )}
