@@ -2,13 +2,20 @@ import { BodyLayout } from '@/template/BodyLayout';
 import SortOptions from '@/pages/data/container/SortOptions.tsx';
 import { HeadLayout } from '@/template/HeadLayout';
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
-import { useNavigate, useSearchParams } from 'react-router';
-import { useEffect } from 'react';
-import { SearchState } from '@/atoms/atom';
+import { Link, useSearchParams } from 'react-router';
+import { useEffect, useMemo } from 'react';
 import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { useDataCategory } from './hook/utils/useDataCategory';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
-import { useAtom } from 'jotai';
+import { BoardHeader } from '@/components/BoardHeader';
+import { Search } from '@/components/Search';
+import { Container } from '@/containers/new/Container';
+import { ArticleFooter } from '@/containers/new/ArticleFooter';
+import LinkPagination from '@/components/LinkPagination';
+import { Pencil, SlidersHorizontal } from 'lucide-react';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/libs/utils';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 function PageSkeleton() {
   return (
@@ -25,15 +32,10 @@ function PageSkeleton() {
 }
 
 export default function DataPage() {
-  /* Navigation function for write operation */
-  const navigate = useNavigate();
   /* Obtain query parameters */
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = parseInt(searchParams.get('page') ?? '1') || 1;
-
-  /* Search state management */
-  // TODO: Use search parameters instead of recoil state
-  const [q] = useAtom(SearchState);
+  const page = useMemo(() => parseInt(searchParams.get('page') ?? '1') || 1, [searchParams]);
+  const q = useMemo(() => searchParams.get('q') ?? '', [searchParams]);
 
   /* 카테고리 분류 */
   const { majorCategory, middleCategory, subCategory, setMajor, setMiddle, setSub } = useDataCategory();
@@ -57,6 +59,12 @@ export default function DataPage() {
     }
   }, [data, page, majorCategory, middleCategory, subCategory, setSearchParams]);
 
+  /* Data preparation */
+  const { totalPages } = useMemo(() => data?.pageInfo ?? { totalPages: 0 }, [data]);
+  const posts = useMemo(() => data?.postListResDto ?? [], [data]);
+  const authorities = useMemo(() => data?.allowedAuthorities ?? [], [data]);
+  const writable = useMemo(() => authorities.includes('WRITE'), [authorities]);
+
   if (isLoading) {
     return <PageSkeleton />;
   }
@@ -71,56 +79,93 @@ export default function DataPage() {
     );
   }
 
-  /* Data preparation */
-  const { pageNum: currentPage, totalPages } = data.pageInfo;
-  const posts = data.postListResDto;
+  const handleSearch = (value: string) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev.toString());
+      if (value) {
+        newParams.set('q', value);
+      } else {
+        newParams.delete('q');
+      }
+      return newParams;
+    });
+  };
 
   return (
     <>
-      <HeadLayout title="자료집"></HeadLayout>
-      <SortOptions
-        majorCategory={majorCategory || ''}
-        middleCategory={middleCategory || ''}
-        subCategory={subCategory || ''}
-        onMajorChange={setMajor}
-        onMiddleChange={setMiddle}
-        onMinorChange={setSub}
-      ></SortOptions>
-      <BodyLayout
-        totalPages={totalPages}
-        currentPage={currentPage + 1}
-        authority={data.allowedAuthorities}
-        onPageChange={navigatePage}
-        onWriteClick={navigateToWrite}
-      >
-        <div className="border-t-[0.063rem] border-t-black">
-          {posts.map((post) => (
-            <DataContentItem
-              key={post.postId}
-              to={`/data/${post.postId}`}
-              date={post.date}
-              title={post.title}
-              content={post.content}
-              isNotice={post.isNotice}
-              files={post.files}
-            />
-          ))}
+      <Collapsible>
+        <BoardHeader title="자료집" className="mt-16">
+          <Search className="hidden xl:flex" onSearch={handleSearch} />
+          <CollapsibleTrigger className="md:hidden">
+            <SlidersHorizontal className="size-4" />
+          </CollapsibleTrigger>
+        </BoardHeader>
+        <hr className="hidden border-t border-t-neutral-200 md:block" />
+        <Container className="max-md:pt-0">
+          <div className="flex flex-col gap-5">
+            <CollapsibleContent>
+              <SortOptions
+                majorCategory={majorCategory || ''}
+                middleCategory={middleCategory || ''}
+                subCategory={subCategory || ''}
+                onMajorChange={setMajor}
+                onMiddleChange={setMiddle}
+                onMinorChange={setSub}
+              />
+            </CollapsibleContent>
+            <SortOptions
+              className="hidden md:flex"
+              majorCategory={majorCategory || ''}
+              middleCategory={middleCategory || ''}
+              subCategory={subCategory || ''}
+              onMajorChange={setMajor}
+              onMiddleChange={setMiddle}
+              onMinorChange={setSub}
+            ></SortOptions>
+            <div className="border-t-black md:border-t">
+              {posts.map((post) => (
+                <DataContentItem
+                  key={post.postId}
+                  to={`/data/${post.postId}`}
+                  date={post.date}
+                  title={post.title}
+                  content={post.content}
+                  isNotice={post.isNotice}
+                  files={post.files}
+                />
+              ))}
+            </div>
+            {posts.length === 0 && (
+              <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
+            )}
+          </div>
+        </Container>
+      </Collapsible>
+
+      <ArticleFooter className="mb-20">
+        <div className="flex flex-col gap-9">
+          <div className="grid grid-cols-3">
+            <div></div>
+            <div className="flex justify-center">
+              <LinkPagination
+                totalPages={totalPages}
+                maxDisplay={7}
+                page={page}
+                url={(page) => `/data?page=${page}${q ? `&q=${q}` : ''}`}
+              />
+            </div>
+            <div className="flex justify-end">
+              {writable && (
+                <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/notice/edit">
+                  <Pencil className="size-4" />
+                  <p>글쓰기</p>
+                </Link>
+              )}
+            </div>
+          </div>
+          <Search className="xl:hidden" onSearch={handleSearch} />
         </div>
-        {posts.length === 0 && (
-          <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
-        )}
-      </BodyLayout>
+      </ArticleFooter>
     </>
   );
-  function navigatePage(page: number) {
-    setSearchParams((prev) => {
-      prev.set('page', `${page}`);
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function navigateToWrite() {
-    navigate('/data/edit');
-  }
 }
