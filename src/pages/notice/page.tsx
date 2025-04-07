@@ -17,6 +17,7 @@ import { Link, To, useSearchParams } from 'react-router';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
+import { QueryLink } from '@/components/QueryLink';
 
 const buildCentralSubCategories: (t: TFunction) => { id: string; name: string; to: To }[] = (t) => [
   { id: '전체', name: t('board-selector.전체'), to: { search: '?category=중앙' } },
@@ -66,6 +67,16 @@ const isToday = (date: string) => {
   );
 };
 
+const TodaySubtitle = ({ count }: { count: number }) => {
+  return (
+    <p>
+      <span>오늘 총</span>
+      <span className="text-primary"> {count}개의 </span>
+      <span>공지가 올라왔어요!</span>
+    </p>
+  );
+};
+
 export function NoticePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = useMemo(() => searchParams.get('category') ?? '중앙', [searchParams]);
@@ -106,17 +117,7 @@ export function NoticePage() {
     <>
       <BoardHeader
         title={category === '중앙' ? t('introduction.중앙 공지사항') : t('introduction.단과대 공지사항')}
-        subtitle={
-          isLoading ? (
-            <Skeleton className="h-6 w-32" />
-          ) : (
-            <p>
-              <span>오늘 총</span>
-              <span className="text-primary"> {today}개의 </span>
-              <span>공지가 올라왔어요!</span>
-            </p>
-          )
-        }
+        subtitle={isLoading ? <Skeleton className="h-6 w-32" /> : <TodaySubtitle count={today} />}
         className="mt-16"
       >
         <Search className="hidden xl:flex" onSearch={handleSearch} />
@@ -125,8 +126,9 @@ export function NoticePage() {
         <div className="max-md:hidden">
           <BoardTabsList>
             {/* TODO: Make BoardTabs with Link as a component */}
-            <Link
-              to="/notice?category=중앙"
+            <QueryLink
+              query="category"
+              value="중앙"
               className={cn(
                 buttonVariants({ variant: category === '중앙' ? 'default' : 'ghost', size: 'sm' }),
                 'h-8',
@@ -134,9 +136,10 @@ export function NoticePage() {
               )}
             >
               {t('board-navigator.중앙')}
-            </Link>
-            <Link
-              to="/notice?category=단과대"
+            </QueryLink>
+            <QueryLink
+              query="category"
+              value="단과대"
               className={cn(
                 buttonVariants({ variant: category === '단과대' ? 'default' : 'ghost', size: 'sm' }),
                 'h-8',
@@ -144,7 +147,7 @@ export function NoticePage() {
               )}
             >
               {t('board-navigator.단과대')}
-            </Link>
+            </QueryLink>
           </BoardTabsList>
         </div>
 
@@ -173,12 +176,7 @@ export function NoticePage() {
             <div className="grid grid-cols-3">
               <div></div>
               <div className="flex justify-center">
-                <LinkPagination
-                  totalPages={totalPages}
-                  maxDisplay={7}
-                  page={page}
-                  url={(page) => `/notice?category=${category}&sub=${subCategory}&page=${page}${q ? `&q=${q}` : ''}`}
-                />
+                <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
               </div>
               <div className="flex justify-end">
                 {writable && (

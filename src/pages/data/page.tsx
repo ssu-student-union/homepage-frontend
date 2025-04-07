@@ -147,7 +147,6 @@ export default function DataPage() {
                 totalPages={totalPages}
                 maxDisplay={7}
                 page={page}
-                url={(page) => `/data?page=${page}${q ? `&q=${q}` : ''}`}
               />
             </div>
             <div className="flex justify-end">
