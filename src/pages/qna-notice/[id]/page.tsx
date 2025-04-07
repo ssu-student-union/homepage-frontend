@@ -22,7 +22,7 @@ const boardCode = '질의응답게시판';
 
 function PageSkeleton() {
   return (
-    <article className="mb-20 mt-[120px]">
+    <article className="mb-20 mt-16">
       <PostHeader.Skeleton />
       <hr className="bg-[#E7E7E7]" />
       <Container.Skeleton />
@@ -148,7 +148,7 @@ export default function QnaDetailPage() {
     console.log('detail error', error);
     console.log('comments error', commentsError);
     return (
-      <div className="mt-[120px] flex items-center justify-center">
+      <div className="mt-16 flex items-center justify-center">
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );
@@ -165,7 +165,7 @@ export default function QnaDetailPage() {
 
   return (
     <>
-      <article className="mt-[120px]">
+      <article className="mt-16">
         <PostHeader
           subject={`${data.qnaTargetCode} 질문`}
           title={data.title}

@@ -23,7 +23,7 @@ const BOARD_CODE = '건의게시판';
 
 function PageSkeleton() {
   return (
-    <article className="mb-20 mt-[120px]">
+    <article className="mb-20 mt-16">
       <PostHeader.Skeleton />
       <hr className="bg-[#E7E7E7]" />
       <Container.Skeleton />
@@ -179,7 +179,7 @@ export function SuggestWritePage() {
     if (isFileUploadError) console.log(fileUploadError);
 
     return (
-      <div className="mt-[120px] flex items-center justify-center py-12">
+      <div className="mt-16 flex items-center justify-center py-12">
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );

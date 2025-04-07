@@ -24,7 +24,7 @@ import { useAtom } from 'jotai';
 
 function PageSkeleton() {
   return (
-    <article className="mb-20 mt-[120px]">
+    <article className="mb-20 mt-16">
       <PostHeader.Skeleton />
       <hr className="bg-[#E7E7E7]" />
       <Container.Skeleton />
@@ -105,7 +105,7 @@ export default function QnaEditPage() {
 
   if (!isLogin) {
     return (
-      <div className="mt-[120px] flex items-center justify-center">
+      <div className="mt-16 flex items-center justify-center">
         <p>로그인 후 이용해 주세요.</p>
       </div>
     );
@@ -120,7 +120,7 @@ export default function QnaEditPage() {
     if (isCreateError) console.log('create error', createError);
     if (isPatchError) console.log('patch error', patchError);
     return (
-      <div className="mt-[120px] flex items-center justify-center">
+      <div className="mt-16 flex items-center justify-center">
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );

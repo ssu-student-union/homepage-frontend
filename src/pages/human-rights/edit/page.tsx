@@ -54,7 +54,7 @@ const DISCLAIMER = `학생인권위원회는 인권침해구제와 관련하여 
 
 function PageSkeleton() {
   return (
-    <article className="mb-20 mt-[120px]">
+    <article className="mb-20 mt-16">
       <PostHeader.Skeleton />
       <hr className="bg-[#E7E7E7]" />
       <Container.Skeleton />
@@ -305,7 +305,7 @@ export function HumanRightsEditPage() {
     if (isUserInfoError) console.log(userInfoError);
     // TODO: 오류 발생 시 세부정보 제공
     return (
-      <div className="mt-[120px] flex items-center justify-center py-12">
+      <div className="mt-16 flex items-center justify-center py-12">
         <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
       </div>
     );
