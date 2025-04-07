@@ -87,8 +87,8 @@ export function NoticePage() {
 
   const today = useMemo(() => data?.postListResDto?.filter((post) => isToday(post.date))?.length ?? 0, [data]);
   const totalPages = useMemo(() => data?.pageInfo.totalPages ?? 0, [data]);
-  const authorites = useMemo(() => data?.allowedAuthorities ?? [], [data]);
-  const writable = useMemo(() => authorites.includes('WRITE'), [authorites]);
+  const authorities = useMemo(() => data?.allowedAuthorities ?? [], [data]);
+  const writable = useMemo(() => authorities.includes('WRITE'), [authorities]);
 
   const handleSearch = (value: string) => {
     setSearchParams((prev) => {

@@ -26,18 +26,18 @@ export function DataContentItem({ title, content, date, isNotice, files, ...prop
   return (
     <div
       className={cn(
-        'flex flex-col items-start justify-between gap-[12px] border-b border-b-gray-200 p-5 text-[1.125rem] font-medium lg:flex-row lg:items-center lg:gap-0'
+        'flex flex-col flex-wrap items-start justify-start gap-3 border-b border-b-gray-200 p-5 text-sm font-medium md:text-lg lg:flex-row'
       )}
     >
-      <Link {...props} className="flex grow flex-row items-start justify-start">
-        <div className={cn('mr-[1.125rem]', isNotice ? 'text-primary' : 'text-muted-foreground')}>
+      <Link {...props} className="block grow">
+        <span className={cn('mr-2 text-muted-foreground', isNotice && 'text-primary')}>
           [{isNotice ? '공지' : content}]
-        </div>
-        <p>
+        </span>
+        <span>
           {title} - {formattedDate}
-        </p>
+        </span>
       </Link>
-      <div className="flex flex-row gap-[8px] self-end lg:self-auto">
+      <div className="flex grow flex-row flex-wrap justify-end gap-2">
         {files.map((file, index) => (
           <FileDownButton key={`${index} + ${file}`} file={file} />
         ))}
