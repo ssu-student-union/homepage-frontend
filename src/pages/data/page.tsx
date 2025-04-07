@@ -1,10 +1,7 @@
-import { BodyLayout } from '@/template/BodyLayout';
 import SortOptions from '@/pages/data/container/SortOptions.tsx';
-import { HeadLayout } from '@/template/HeadLayout';
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
 import { Link, useSearchParams } from 'react-router';
 import { useEffect, useMemo } from 'react';
-import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { useDataCategory } from './hook/utils/useDataCategory';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
 import { BoardHeader } from '@/components/BoardHeader';
@@ -20,13 +17,13 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 function PageSkeleton() {
   return (
     <>
-      <HeadLayout title="자료집" />
-      <BodyLayout.Skeleton>
-        <BoardSelector.Skeleton />
+      <BoardHeader title="자료집" className="mt-16" />
+      <hr className="hidden border-t border-t-neutral-200 md:block" />
+      <Container className="max-md:pt-0">
         {Array.from(Array(10).keys()).map((_, i) => (
           <DataContentItem.Skeleton key={i} />
         ))}
-      </BodyLayout.Skeleton>
+      </Container>
     </>
   );
 }
@@ -94,13 +91,12 @@ export default function DataPage() {
   return (
     <>
       <Collapsible>
-        <BoardHeader title="자료집" className="mt-16">
+        <BoardHeader title="자료집" className="mt-16 border-b-neutral-200 md:border-b">
           <Search className="hidden xl:flex" onSearch={handleSearch} />
           <CollapsibleTrigger className="md:hidden">
             <SlidersHorizontal className="size-4" />
           </CollapsibleTrigger>
         </BoardHeader>
-        <hr className="hidden border-t border-t-neutral-200 md:block" />
         <Container className="max-md:pt-0">
           <div className="flex flex-col gap-5">
             <CollapsibleContent>
