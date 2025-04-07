@@ -36,6 +36,7 @@ export default function DataPage() {
 
   /* 카테고리 분류 */
   const { majorCategory, middleCategory, subCategory, setMajor, setMiddle, setSub } = useDataCategory();
+  const [filterOpen, setFilterOpen] = useState(false);
 
   /* Load data from Query */
   const { data, isLoading, isError, error } = useSearchDataPosts({
@@ -90,16 +91,16 @@ export default function DataPage() {
 
   return (
     <>
-      <Collapsible>
-        <BoardHeader title="자료집" className="mt-16 border-b-neutral-200 md:border-b">
+      <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
+        <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b">
           <Search className="hidden xl:flex" onSearch={handleSearch} />
           <CollapsibleTrigger className="md:hidden">
             <SlidersHorizontal className="size-4" />
           </CollapsibleTrigger>
         </BoardHeader>
-        <Container className="max-md:pt-0">
+        <Container className="pt-0 max-md:px-0 md:pt-14">
           <div className="flex flex-col gap-5">
-            <CollapsibleContent>
+            <CollapsibleContent className="max-md:px-4">
               <SortOptions
                 majorCategory={majorCategory || ''}
                 middleCategory={middleCategory || ''}
@@ -110,14 +111,14 @@ export default function DataPage() {
               />
             </CollapsibleContent>
             <SortOptions
-              className="hidden md:flex"
+              className="mb-9 hidden md:flex"
               majorCategory={majorCategory || ''}
               middleCategory={middleCategory || ''}
               subCategory={subCategory || ''}
               onMajorChange={setMajor}
               onMiddleChange={setMiddle}
               onMinorChange={setSub}
-            ></SortOptions>
+            />
             <div className="border-t-black md:border-t">
               {posts.map((post) => (
                 <DataContentItem
@@ -143,11 +144,7 @@ export default function DataPage() {
           <div className="grid grid-cols-3">
             <div></div>
             <div className="flex justify-center">
-              <LinkPagination
-                totalPages={totalPages}
-                maxDisplay={7}
-                page={page}
-              />
+              <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
             </div>
             <div className="flex justify-end">
               {writable && (

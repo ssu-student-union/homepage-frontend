@@ -118,7 +118,6 @@ export function NoticePage() {
       <BoardHeader
         title={category === '중앙' ? t('introduction.중앙 공지사항') : t('introduction.단과대 공지사항')}
         subtitle={isLoading ? <Skeleton className="h-6 w-32" /> : <TodaySubtitle count={today} />}
-        className="mt-16"
       >
         <Search className="hidden xl:flex" onSearch={handleSearch} />
       </BoardHeader>
@@ -159,7 +158,6 @@ export function NoticePage() {
             <TabsContent value="단과대">
               <LinkCategories value={subCategory} categories={collageSubCategories} />
             </TabsContent>
-            <div className="flex flex-wrap gap-7"></div>
             {isLoading ? (
               <CardLayout.Skeleton />
             ) : (
