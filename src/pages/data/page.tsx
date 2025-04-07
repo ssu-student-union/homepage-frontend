@@ -1,7 +1,7 @@
 import SortOptions from '@/pages/data/container/SortOptions.tsx';
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
 import { Link, useSearchParams } from 'react-router';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDataCategory } from './hook/utils/useDataCategory';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
 import { BoardHeader } from '@/components/BoardHeader';
@@ -13,20 +13,6 @@ import { Pencil, SlidersHorizontal } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/libs/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-
-function PageSkeleton() {
-  return (
-    <>
-      <BoardHeader title="자료집" className="mt-16" />
-      <hr className="hidden border-t border-t-neutral-200 md:block" />
-      <Container className="max-md:pt-0">
-        {Array.from(Array(10).keys()).map((_, i) => (
-          <DataContentItem.Skeleton key={i} />
-        ))}
-      </Container>
-    </>
-  );
-}
 
 export default function DataPage() {
   /* Obtain query parameters */
@@ -64,7 +50,27 @@ export default function DataPage() {
   const writable = useMemo(() => authorities.includes('WRITE'), [authorities]);
 
   if (isLoading) {
-    return <PageSkeleton />;
+    return (
+      <>
+        <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b" />
+        <Container className="pt-0 max-md:px-0 md:pt-14">
+          <div className="flex flex-col gap-5">
+            <SortOptions
+              className="mb-9 hidden md:flex"
+              majorCategory={majorCategory || ''}
+              middleCategory={middleCategory || ''}
+              subCategory={subCategory || ''}
+              onMajorChange={setMajor}
+              onMiddleChange={setMiddle}
+              onMinorChange={setSub}
+            />
+            {Array.from(Array(10).keys()).map((_, i) => (
+              <DataContentItem.Skeleton key={i} />
+            ))}
+          </div>
+        </Container>
+      </>
+    );
   }
 
   if (!data || isError) {
