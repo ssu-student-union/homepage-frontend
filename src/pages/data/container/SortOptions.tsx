@@ -3,6 +3,7 @@ import * as CATEGORIES from '@/pages/data/const/category';
 import { cn } from '@/libs/utils';
 
 interface SortLayoutProps {
+  className?: string;
   majorCategory: string;
   middleCategory: string;
   subCategory: string;
@@ -12,6 +13,7 @@ interface SortLayoutProps {
 }
 
 export default function SortOptions({
+  className,
   majorCategory,
   middleCategory,
   subCategory,
@@ -22,7 +24,7 @@ export default function SortOptions({
   const defaultFilterStyle: string = 'w-full border-primary';
 
   return (
-    <div className="mb-20 mt-[3.375rem] flex flex-col justify-center gap-3 px-10 md:flex-row xl:px-[200px]">
+    <div className={cn('flex flex-col justify-center gap-3 md:flex-row', className)}>
       {/* 대분류 */}
       <FilterDropDown
         defaultValue="대분류"
