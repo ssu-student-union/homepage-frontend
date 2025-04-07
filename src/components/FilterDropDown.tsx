@@ -25,7 +25,10 @@ export function FilterDropDown({
   return (
     <Select onValueChange={onValueChange} value={value}>
       <SelectTrigger
-        className={cn(`h-[67px] w-[411px] pl-9 ${isSelected ? 'text-gray-800' : 'text-gray-500'}`, className)}
+        className={cn(
+          `h-10 w-[411px] px-4 py-3 text-sm md:h-16 md:text-base ${isSelected ? 'text-gray-800' : 'text-gray-500'}`,
+          className
+        )}
       >
         <SelectValue placeholder={defaultValue} />
       </SelectTrigger>

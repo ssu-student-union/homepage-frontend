@@ -1,4 +1,5 @@
 import { ArticleHeader } from '@/containers/new/ArticleHeader';
+import { cn } from '@/libs/utils';
 import React from 'react';
 
 interface BoardHeaderProps {
@@ -10,7 +11,7 @@ interface BoardHeaderProps {
 
 export function BoardHeader({ title, subtitle, className, children }: BoardHeaderProps) {
   return (
-    <ArticleHeader className={className}>
+    <ArticleHeader className={cn('py-4 md:py-6 xl:pt-16', className)}>
       <div className="flex justify-between">
         <div className="flex w-max flex-col gap-1 md:gap-3">
           <h1 className="text-2xl font-semibold md:text-3xl md:font-bold">{title}</h1>
