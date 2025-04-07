@@ -13,7 +13,7 @@ export function HeadLayout({
   return (
     <div
       className={cn(
-        'mt-[120px] flex justify-between px-10 pb-9 xl:px-[200px]',
+        'mt-16 flex justify-between px-10 pb-9 xl:px-[200px]',
         className,
         borderOff ? '' : 'border-b border-b-[#E7E7E7]'
       )}
