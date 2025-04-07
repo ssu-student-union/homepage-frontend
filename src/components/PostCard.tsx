@@ -59,7 +59,7 @@ export function PostCard<T extends Post = Post>({ post, className, to }: { post:
         </div>
         <img
           src={post.thumbNail || '/image/default/thumbnail/thumbnail.webp'}
-          alt="Thumbnail"
+          alt={post.title}
           className="aspect-instagram w-20 shrink-0 rounded-md object-contain"
         />
       </Link>

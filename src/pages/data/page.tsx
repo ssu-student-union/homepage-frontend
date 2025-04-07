@@ -1,10 +1,7 @@
-import { BodyLayout } from '@/template/BodyLayout';
 import SortOptions from '@/pages/data/container/SortOptions.tsx';
-import { HeadLayout } from '@/template/HeadLayout';
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
 import { Link, useSearchParams } from 'react-router';
-import { useEffect, useMemo } from 'react';
-import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
+import { useEffect, useMemo, useState } from 'react';
 import { useDataCategory } from './hook/utils/useDataCategory';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
 import { BoardHeader } from '@/components/BoardHeader';
@@ -17,20 +14,6 @@ import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/libs/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-function PageSkeleton() {
-  return (
-    <>
-      <HeadLayout title="자료집" />
-      <BodyLayout.Skeleton>
-        <BoardSelector.Skeleton />
-        {Array.from(Array(10).keys()).map((_, i) => (
-          <DataContentItem.Skeleton key={i} />
-        ))}
-      </BodyLayout.Skeleton>
-    </>
-  );
-}
-
 export default function DataPage() {
   /* Obtain query parameters */
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,6 +22,7 @@ export default function DataPage() {
 
   /* 카테고리 분류 */
   const { majorCategory, middleCategory, subCategory, setMajor, setMiddle, setSub } = useDataCategory();
+  const [filterOpen, setFilterOpen] = useState(false);
 
   /* Load data from Query */
   const { data, isLoading, isError, error } = useSearchDataPosts({
@@ -66,7 +50,27 @@ export default function DataPage() {
   const writable = useMemo(() => authorities.includes('WRITE'), [authorities]);
 
   if (isLoading) {
-    return <PageSkeleton />;
+    return (
+      <>
+        <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b" />
+        <Container className="pt-0 max-md:px-0 md:pt-14">
+          <div className="flex flex-col gap-5">
+            <SortOptions
+              className="mb-9 hidden md:flex"
+              majorCategory={majorCategory || ''}
+              middleCategory={middleCategory || ''}
+              subCategory={subCategory || ''}
+              onMajorChange={setMajor}
+              onMiddleChange={setMiddle}
+              onMinorChange={setSub}
+            />
+            {Array.from(Array(10).keys()).map((_, i) => (
+              <DataContentItem.Skeleton key={i} />
+            ))}
+          </div>
+        </Container>
+      </>
+    );
   }
 
   if (!data || isError) {
@@ -93,17 +97,16 @@ export default function DataPage() {
 
   return (
     <>
-      <Collapsible>
-        <BoardHeader title="자료집" className="mt-16">
+      <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
+        <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b">
           <Search className="hidden xl:flex" onSearch={handleSearch} />
           <CollapsibleTrigger className="md:hidden">
             <SlidersHorizontal className="size-4" />
           </CollapsibleTrigger>
         </BoardHeader>
-        <hr className="hidden border-t border-t-neutral-200 md:block" />
-        <Container className="max-md:pt-0">
+        <Container className="pt-0 max-md:px-0 md:pt-14">
           <div className="flex flex-col gap-5">
-            <CollapsibleContent>
+            <CollapsibleContent className="max-md:px-4">
               <SortOptions
                 majorCategory={majorCategory || ''}
                 middleCategory={middleCategory || ''}
@@ -114,14 +117,14 @@ export default function DataPage() {
               />
             </CollapsibleContent>
             <SortOptions
-              className="hidden md:flex"
+              className="mb-9 hidden md:flex"
               majorCategory={majorCategory || ''}
               middleCategory={middleCategory || ''}
               subCategory={subCategory || ''}
               onMajorChange={setMajor}
               onMiddleChange={setMiddle}
               onMinorChange={setSub}
-            ></SortOptions>
+            />
             <div className="border-t-black md:border-t">
               {posts.map((post) => (
                 <DataContentItem
@@ -147,12 +150,7 @@ export default function DataPage() {
           <div className="grid grid-cols-3">
             <div></div>
             <div className="flex justify-center">
-              <LinkPagination
-                totalPages={totalPages}
-                maxDisplay={7}
-                page={page}
-                url={(page) => `/data?page=${page}${q ? `&q=${q}` : ''}`}
-              />
+              <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
             </div>
             <div className="flex justify-end">
               {writable && (

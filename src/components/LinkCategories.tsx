@@ -3,14 +3,16 @@ import { cn } from '@/libs/utils';
 import { Link, To } from 'react-router';
 
 export function LinkCategories({
+  className,
   value,
   categories,
 }: {
+  className?: string;
   value: string;
   categories: { id: string; name: string; to: To }[];
 }) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className={cn('flex flex-col gap-4', className)}>
       <div className="flex flex-wrap gap-2">
         {categories.map((categoryDef) => (
           <Link
