@@ -149,9 +149,7 @@ export default function ProfilePage() {
                         className="rounded-md border border-gray-300 px-3 py-1 sm:w-40 md:w-56"
                       />
                       {errors.currentPassword && (
-                        <span className=" text-red-500 sm:mt-2 md:mt-2 lg:ml-3">
-                          {errors.currentPassword.message}
-                        </span>
+                        <span className="text-red-500 sm:mt-2 md:mt-2 lg:ml-3">{errors.currentPassword.message}</span>
                       )}
                     </div>
 
@@ -163,9 +161,7 @@ export default function ProfilePage() {
                         className="rounded-md border border-gray-300 px-3 py-1 sm:w-40 md:w-56"
                       />
                       {errors.newPassword && (
-                        <span className="text-red-500 sm:mt-2 md:mt-2 lg:ml-3">
-                          {errors.newPassword.message}
-                        </span>
+                        <span className="text-red-500 sm:mt-2 md:mt-2 lg:ml-3">{errors.newPassword.message}</span>
                       )}
                     </div>
 
@@ -186,7 +182,7 @@ export default function ProfilePage() {
                         className="rounded-md border border-gray-300 px-3 py-1 sm:w-40 md:w-56"
                       />
                       {errors.confirmNewPassword && (
-                        <span className=" text-red-500 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
+                        <span className="text-red-500 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
                           {errors.confirmNewPassword.message}
                         </span>
                       )}
