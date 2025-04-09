@@ -22,7 +22,7 @@ export default function MyPage() {
   };
 
   return (
-    <div className="mt-24">
+    <div className="mt-20">
       <div>
         <div className="relative flex justify-center md:ml-52 md:justify-start lg:ml-72">
           <h1 className="mb-5 text-2xl font-bold">마이페이지</h1>

@@ -118,15 +118,15 @@ export default function ProfilePage() {
       {userData?.isUnion ? (
         <>
           <UserContainer />
-          <div className="xs:pl-0 mb-8 pl-16 sm:pl-0">
+          <div className="mb-8 sm:pl-0 md:pl-16">
             {isEditing ? (
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="xs:items-center flex flex-col items-start sm:items-center">
-                  <h3 className="xs:text-base pr-52 text-lg font-bold sm:text-base">기본정보</h3>
-                  <div className="xs:mx-16 xs:grid-cols-[2fr_5fr] xs:text-xs grid grid-cols-[1fr_5fr] items-center gap-y-2.5 py-4 text-sm sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 lg:ml-6 xl:ml-6 xxl:md:ml-6">
+                <div className="flex flex-col sm:items-center md:items-start">
+                  <h3 className="pr-52 font-bold sm:text-base md:text-lg">기본정보</h3>
+                  <div className="xs:mx-16 grid items-center gap-y-2.5 py-4 sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 md:grid-cols-[1fr_5fr] md:text-sm">
                     <span className="mt-1 font-semibold">단위명</span>
                     <Input
-                      className="xs:w-40 w-64 rounded-md border border-gray-300 bg-gray-200 px-3 py-1 sm:w-40"
+                      className="rounded-md border border-gray-300 bg-gray-200 px-3 py-1 sm:w-40 md:w-64"
                       value={userData?.name}
                       readOnly
                     />
@@ -134,43 +134,43 @@ export default function ProfilePage() {
                     <span className="mt-1 font-semibold">닉네임</span>
                     <Input
                       {...register('nickname')}
-                      className="xs:w-40 w-64 rounded-md border border-gray-300 px-3 py-1 sm:w-40"
+                      className="rounded-md border border-gray-300 px-3 py-1 sm:w-40 md:w-64"
                     />
                   </div>
-                  <h3 className="xs:text-base mt-10 pr-44 text-lg font-bold sm:text-base">비밀번호 변경</h3>
-                  <div className="xs:grid-cols-[2fr_5fr] xs:text-xs grid grid-cols-[1fr_5fr] items-center gap-x-3 gap-y-2.5 py-4 text-sm sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 lg:ml-6 xl:ml-6 xxl:md:ml-6">
+                  <h3 className="mt-10 pr-44 font-bold sm:text-base md:text-lg">비밀번호 변경</h3>
+                  <div className="grid items-center gap-x-3 gap-y-2.5 py-4 sm:grid-cols-[2fr_5fr] sm:text-xs md:ml-6 md:grid-cols-[1fr_5fr] md:text-sm">
                     <span className="mt-1 font-semibold">기존 비밀번호</span>
-                    <div className="xs:flex-col flex flex-row sm:flex-col md:flex-col lg:items-center xl:items-center xxl:items-center">
+                    <div className="flex sm:flex-col md:flex-row lg:items-center">
                       <Input
                         type="password"
                         {...register('currentPassword', {
                           required: '현재 비밀번호를 입력하세요.',
                         })}
-                        className="w-56 rounded-md border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
+                        className="rounded-md border border-gray-300 px-3 py-1 sm:w-40 md:w-56"
                       />
                       {errors.currentPassword && (
-                        <span className="xs:mt-2 text-red-500 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
+                        <span className=" text-red-500 sm:mt-2 md:mt-2 lg:ml-3">
                           {errors.currentPassword.message}
                         </span>
                       )}
                     </div>
 
                     <span className="mt-1 font-semibold">새 비밀번호</span>
-                    <div className="xs:flex-col flex flex-row sm:flex-col md:flex-col lg:items-center xl:items-center xxl:items-center">
+                    <div className="flex md:flex-col lg:flex-row lg:items-center">
                       <Input
                         type="password"
                         {...register('newPassword')}
-                        className="w-56 rounded-md border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
+                        className="rounded-md border border-gray-300 px-3 py-1 sm:w-40 md:w-56"
                       />
                       {errors.newPassword && (
-                        <span className="xs:mt-2 text-red-500 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
+                        <span className="text-red-500 sm:mt-2 md:mt-2 lg:ml-3">
                           {errors.newPassword.message}
                         </span>
                       )}
                     </div>
 
                     <span className="mt-1 font-semibold">비밀번호 확인</span>
-                    <div className="xs:flex-col flex flex-row sm:flex-col md:flex-col lg:items-center xl:items-center xxl:items-center">
+                    <div className="flex md:flex-col lg:flex-row lg:items-center">
                       <Input
                         type="password"
                         {...register('confirmNewPassword', {
@@ -183,26 +183,26 @@ export default function ProfilePage() {
                                 : true,
                           },
                         })}
-                        className="xs:w-40 w-56 rounded-md border border-gray-300 px-3 py-1 sm:w-40"
+                        className="rounded-md border border-gray-300 px-3 py-1 sm:w-40 md:w-56"
                       />
                       {errors.confirmNewPassword && (
-                        <span className="xs:mt-2 text-red-500 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
+                        <span className=" text-red-500 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
                           {errors.confirmNewPassword.message}
                         </span>
                       )}
                     </div>
                   </div>
-                  <div className="xs:mr-0 xs:self-center my-16 mr-10 flex self-end sm:mr-0 sm:self-center">
+                  <div className="my-16 flex sm:mr-0 sm:self-center md:mr-10 md:self-end">
                     <Button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="xs:text-xs mr-2 rounded-xs border border-gray-400 bg-white px-6 py-1 text-center text-gray-700 hover:bg-gray-100 sm:text-xs md:text-sm"
+                      className="mr-2 rounded-xs border border-gray-400 bg-white px-6 py-1 text-center text-gray-700 hover:bg-gray-100 sm:text-xs md:text-sm"
                     >
                       취소
                     </Button>
                     <Button
                       type="submit"
-                      className="xs:text-xs mr-2 rounded-xs border border-blue-600 bg-blue-600 px-6 py-1 text-center text-white hover:bg-blue-700 sm:text-xs md:text-sm"
+                      className="mr-2 rounded-xs border border-blue-600 bg-blue-600 px-6 py-1 text-center text-white hover:bg-blue-700 sm:text-xs md:text-sm"
                     >
                       완료
                     </Button>
@@ -211,8 +211,8 @@ export default function ProfilePage() {
               </form>
             ) : (
               <div className="flex flex-col items-center md:items-start">
-                <h3 className="pr-28 text-base font-bold md:text-lg">기본정보</h3>
-                <div className="mb-14 grid grid-cols-[2fr_5fr] gap-x-6 gap-y-3 py-6 text-xs md:ml-6 md:text-sm lg:grid-cols-[1fr_5fr]">
+                <h3 className="pr-28 font-bold sm:text-base md:text-lg">기본정보</h3>
+                <div className="mb-14 grid gap-x-6 gap-y-3 py-6 sm:text-xs md:ml-6 md:grid-cols-[2fr_5fr] md:text-sm lg:grid-cols-[1fr_5fr]">
                   <span className="font-semibold">단위명</span>
                   <span>{userData?.memberCode}</span>
 
@@ -234,7 +234,7 @@ export default function ProfilePage() {
           <UserContainer />
           <div className="mb-8 pl-16">
             <h3 className="text-lg font-bold sm:text-base">기본정보</h3>
-            <div className="grid grid-cols-[2fr_4fr] gap-y-4 p-6 text-xs md:grid-cols-[2fr_5fr] md:text-sm lg:grid-cols-[1fr_5fr]">
+            <div className="grid gap-y-4 p-6 sm:grid-cols-[2fr_4fr] sm:text-xs md:grid-cols-[2fr_5fr] md:text-sm lg:grid-cols-[1fr_5fr]">
               <span className="font-semibold">이름</span>
               <span>{userData?.name}</span>
 
@@ -243,8 +243,8 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="mb-40 pl-16">
-            <h3 className="text-lg font-bold sm:text-base">학적정보 - 주전공</h3>
-            <div className="grid grid-cols-[1fr_5fr] gap-y-4 p-6 text-sm sm:grid-cols-[2fr_4fr] sm:text-xs md:grid-cols-[2fr_5fr]">
+            <h3 className="font-bold sm:text-base md:text-lg">학적정보 - 주전공</h3>
+            <div className="grid gap-y-4 p-6 sm:grid-cols-[2fr_4fr] sm:text-xs md:grid-cols-[2fr_5fr] md:text-sm lg:grid-cols-[1fr_5fr]">
               <span className="mr-9 font-semibold">단과대학</span>
               <span>{userData?.memberCode}</span>
 
