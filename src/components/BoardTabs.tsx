@@ -43,7 +43,7 @@ BoardTabsTrigger.displayName = 'BoardTabsTrigger';
 const BoardTabsQueryLink = forwardRef<HTMLAnchorElement, Omit<LinkProps, 'to'> & QueryLinkProps>(
   ({ className, query, value, ...props }, ref) => {
     const [search] = useSearchParams();
-    const state = useMemo(() => search.get(query) === value ? 'active' : 'inactive', [search, query, value]);
+    const state = useMemo(() => (search.get(query) === value ? 'active' : 'inactive'), [search, query, value]);
     return (
       <QueryLink
         className={cn(

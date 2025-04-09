@@ -1,5 +1,5 @@
-import { TFunction } from "i18next";
-import { To } from "react-router";
+import { TFunction } from 'i18next';
+import { To } from 'react-router';
 
 // Breadcrumb
 export const items = new Map<string, string | null>([
