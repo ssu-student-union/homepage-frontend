@@ -1,5 +1,5 @@
 import Breadcrumb from '@/components/Breadcrumb';
-import { items } from '../../const/data';
+import { items } from '../../const';
 import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
 import { User } from '@phosphor-icons/react';
 
