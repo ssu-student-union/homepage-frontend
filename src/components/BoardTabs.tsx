@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
 import { cn } from '@/libs/utils';
 import { Container } from '@/containers/new/Container';
+import { QueryLink, QueryLinkProps } from '@/components/QueryLink';
+import { LinkProps, useSearchParams } from 'react-router';
 
 const BoardTabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
@@ -38,4 +40,25 @@ const BoardTabsTrigger = React.forwardRef<
 ));
 BoardTabsTrigger.displayName = 'BoardTabsTrigger';
 
-export { BoardTabsList, BoardTabsTrigger };
+const BoardTabsQueryLink = forwardRef<HTMLAnchorElement, Omit<LinkProps, 'to'> & QueryLinkProps>(
+  ({ className, query, value, ...props }, ref) => {
+    const [search] = useSearchParams();
+    const state = useMemo(() => search.get(query) === value ? 'active' : 'inactive', [search, query, value]);
+    return (
+      <QueryLink
+        className={cn(
+          'inline-flex h-8 items-center justify-center whitespace-nowrap rounded-sm px-4 py-1 text-lg font-bold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm',
+          className
+        )}
+        data-state={state}
+        ref={ref}
+        query={query}
+        value={value}
+        {...props}
+      />
+    );
+  }
+);
+BoardTabsQueryLink.displayName = 'BoardTabsQueryLink';
+
+export { BoardTabsList, BoardTabsTrigger, BoardTabsQueryLink };

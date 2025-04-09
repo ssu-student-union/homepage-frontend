@@ -1,5 +1,5 @@
 import { BoardHeader } from '@/components/BoardHeader';
-import { BoardTabsList } from '@/components/BoardTabs';
+import { BoardTabsList, BoardTabsQueryLink } from '@/components/BoardTabs';
 import { PostCard } from '@/components/PostCard';
 import { CardLayout } from '@/components/layouts/CardLayout';
 import { LinkCategories } from '@/components/LinkCategories';
@@ -17,7 +17,6 @@ import { Link, To, useSearchParams } from 'react-router';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import { QueryLink } from '@/components/QueryLink';
 
 const buildCentralSubCategories: (t: TFunction) => { id: string; name: string; to: To }[] = (t) => [
   { id: '전체', name: t('board-selector.전체'), to: { search: '?category=중앙' } },
@@ -125,28 +124,12 @@ export function NoticePage() {
         <div className="max-md:hidden">
           <BoardTabsList>
             {/* TODO: Make BoardTabs with Link as a component */}
-            <QueryLink
-              query="category"
-              value="중앙"
-              className={cn(
-                buttonVariants({ variant: category === '중앙' ? 'default' : 'ghost', size: 'sm' }),
-                'h-8',
-                category !== '중앙' && 'text-neutral-600'
-              )}
-            >
+            <BoardTabsQueryLink query="category" value="중앙">
               {t('board-navigator.중앙')}
-            </QueryLink>
-            <QueryLink
-              query="category"
-              value="단과대"
-              className={cn(
-                buttonVariants({ variant: category === '단과대' ? 'default' : 'ghost', size: 'sm' }),
-                'h-8',
-                category !== '단과대' && 'text-neutral-600'
-              )}
-            >
+            </BoardTabsQueryLink>
+            <BoardTabsQueryLink query="category" value="단과대">
               {t('board-navigator.단과대')}
-            </QueryLink>
+            </BoardTabsQueryLink>
           </BoardTabsList>
         </div>
 
