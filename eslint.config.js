@@ -46,6 +46,7 @@ export default tseslint.config(
           ],
         },
       ],
+      'tailwindcss/classname-order': 'off',
     },
   },
   prettier
