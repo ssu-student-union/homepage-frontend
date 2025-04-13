@@ -71,17 +71,28 @@ export default function ProfilePage() {
   });
 
   const onSubmit = (formData: PatchUserProfileRequest) => {
-    if (formData.newPassword !== formData.confirmNewPassword) {
-      alert('비밀번호가 일치하지 않습니다.');
-      return;
-    }
+    const { nickname, currentPassword, newPassword, confirmNewPassword } = formData;
 
-    mutation.mutate({
-      nickname: formData.nickname,
-      currentPassword: formData.currentPassword,
-      newPassword: formData.newPassword,
-      confirmNewPassword: formData.confirmNewPassword,
-    });
+    if (newPassword == '') {
+      mutation.mutate({
+        nickname: nickname,
+        currentPassword: currentPassword,
+        newPassword: currentPassword,
+        confirmNewPassword: currentPassword,
+      });
+    } else {
+      if (newPassword !== confirmNewPassword) {
+        alert('비밀번호가 일치하지 않습니다.');
+        return;
+      }
+
+      mutation.mutate({
+        nickname: nickname,
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        confirmNewPassword: confirmNewPassword,
+      });
+    }
 
     reset();
   };
@@ -132,7 +143,9 @@ export default function ProfilePage() {
                     <div className="xs:flex-col flex flex-row sm:flex-col md:flex-col lg:items-center xl:items-center xxl:items-center">
                       <Input
                         type="password"
-                        {...register('currentPassword', { required: '현재 비밀번호를 입력하세요.' })}
+                        {...register('currentPassword', {
+                          required: '현재 비밀번호를 입력하세요.',
+                        })}
                         className="xs:w-40 w-56 rounded-md border border-gray-300 px-3 py-1 sm:w-40"
                       />
                       {errors.currentPassword && (
@@ -146,7 +159,7 @@ export default function ProfilePage() {
                     <div className="xs:flex-col flex flex-row sm:flex-col md:flex-col lg:items-center xl:items-center xxl:items-center">
                       <Input
                         type="password"
-                        {...register('newPassword', { required: '새 비밀번호를 입력하세요.' })}
+                        {...register('newPassword')}
                         className="xs:w-40 w-56 rounded-md border border-gray-300 px-3 py-1 sm:w-40"
                       />
                       {errors.newPassword && (
@@ -161,8 +174,14 @@ export default function ProfilePage() {
                       <Input
                         type="password"
                         {...register('confirmNewPassword', {
-                          required: '비밀번호를 확인해주세요.',
-                          validate: (value) => value === watch('newPassword') || '비밀번호가 일치하지 않습니다.',
+                          validate: {
+                            requiredIfNewPassword: (value) =>
+                              watch('newPassword') ? !!value || '비밀번호를 확인해주세요.' : true,
+                            matchesNewPassword: (value) =>
+                              watch('newPassword') && value !== watch('newPassword')
+                                ? '비밀번호가 일치하지 않습니다.'
+                                : true,
+                          },
                         })}
                         className="xs:w-40 w-56 rounded-md border border-gray-300 px-3 py-1 sm:w-40"
                       />
