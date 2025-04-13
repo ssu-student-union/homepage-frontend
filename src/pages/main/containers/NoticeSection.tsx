@@ -1,161 +1,87 @@
-import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { Spacing } from '@/components/Spacing';
-import { useBoardSelect } from '@/hooks/useBoardSelect';
 import { Button } from '@/components/ui/button';
-import { PostCardNotice } from '@/components/deprecated/PostCard/PostCardNotice';
-import { useResize } from '@/hooks/useResize';
-import { MainNotices, MainNoticesType } from '@/types/boardSelector';
 import { useNavigate } from 'react-router';
-import { formatYYYYMMDD } from '@/utils/formatYYYYMMDD';
-import { useTodayPost } from '../hook/useTodayPost';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useMemo, useState } from 'react';
+import { buildCentralSubCategories } from '@/pages/notice/const';
+import { Category } from '@/components/Category';
+import { useSearchNoticePosts } from '@/pages/notice/queries';
+import { isToday } from '@/pages/notice/utils';
+import { PostCard } from '@/components/PostCard';
+import { useBreakpoints } from '@/hooks/useBreakpoints';
+
+const breakpointPosts: Record<string, number> = {
+  sm: 4,
+  md: 2,
+  lg: 3,
+  xl: 4,
+  xxl: 4,
+  null: 4,
+};
 
 const NoticeSection = () => {
-  const { selectedSubcategories, onSubcategorySelect } = useBoardSelect<MainNoticesType>(MainNotices[0]);
-  const { width } = useResize();
+  const breakpoint = useBreakpoints();
+  useEffect(() => console.log(breakpoint), [breakpoint]);
+  const [subCategory, setSubCategory] = useState<string>('전체');
+  const { t } = useTranslation();
+  const centralSubCategories = useMemo(() => buildCentralSubCategories(t), [t]);
   const navigate = useNavigate();
 
-  const { data, todayPostCount } = useTodayPost({
-    boardCode: '공지사항게시판',
+  const { data, isLoading, error } = useSearchNoticePosts({
     take: 10,
     page: 0,
     groupCode: '중앙기구',
-    memberCode: selectedSubcategories === '전체' ? '' : selectedSubcategories,
+    ...(subCategory !== '전체' && { memberCode: subCategory }),
   });
 
-  const { t } = useTranslation();
+  const today = useMemo(() => data?.postListResDto?.filter((post) => isToday(post.date))?.length ?? 0, [data]);
+
+  const postLength = useMemo(() => breakpointPosts[breakpoint ?? 'null'], [breakpoint]);
+
+  const posts = useMemo(() => {
+    return data?.postListResDto?.slice(0, postLength) ?? [];
+  }, [data?.postListResDto, postLength]);
 
   return (
-    <section className="w-full whitespace-nowrap">
+    <section className="w-full">
       <div className="flex items-center">
         <h1 className="text-lg font-bold md:text-[2rem]">{t('introduction.공지사항')}</h1>
       </div>
 
-      <Spacing size={11} direction="vertical" />
+      <Spacing size={12} direction="vertical" />
       <p className="text-sm font-bold text-gray-500 md:text-base">
         <span>오늘 </span>
-        <span className="text-primary">{`${todayPostCount}개`}</span>
+        <span className="text-primary">{`${today}개`}</span>
         <span>{`의 공지가 올라왔어요!`}</span>
       </p>
       <Spacing size={21} direction="vertical" />
-      <BoardSelector
-        subcategories={MainNotices}
-        selectedSubcategory={selectedSubcategories}
-        onSubcategorySelect={onSubcategorySelect}
-        className="text-xs md:text-lg"
-      />
+      <div className="flex flex-wrap gap-2">
+        {centralSubCategories.map((sub) => (
+          <Category key={sub.id} isActive={sub.id === subCategory} onClick={() => setSubCategory(sub.id)}>
+            {sub.name}
+          </Category>
+        ))}
+      </div>
       <Spacing size={24} direction="vertical" />
-      <div className="flex flex-col md:items-center">
-        {data?.data.pageInfo.totalElements ? (
-          <>
-            {/* xs, sm */}
-            {width >= 360 && width < 720 && (
-              <div className="mx-auto flex w-[90vw] flex-col justify-center gap-[16px] pb-[16px] pt-2.5">
-                {data?.data.postListResDto.slice(0, 3).map((notice) => {
-                  let thumbnail = notice.thumbNail || undefined;
-                  if (notice.status === '긴급공지' && thumbnail === undefined) {
-                    thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
-                  }
-                  return (
-                    <PostCardNotice
-                      key={notice.postId}
-                      onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
-                      badgeType={notice.status}
-                      imgUrl={thumbnail}
-                      title={notice.title}
-                      date={formatYYYYMMDD(notice.date)}
-                      profileName={notice.author}
-                      subtitle={notice.content}
-                    />
-                  );
-                })}
-              </div>
-            )}
-
-            {/*  md */}
-            {width >= 720 && width < 1080 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[16px] pb-[16px] pt-2.5">
-                {data?.data.postListResDto.slice(0, 2).map((notice) => {
-                  let thumbnail = notice.thumbNail || undefined;
-                  if (notice.status === '긴급공지' && thumbnail === undefined) {
-                    thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
-                  }
-                  return (
-                    <PostCardNotice
-                      key={notice.postId}
-                      onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
-                      badgeType={notice.status}
-                      imgUrl={thumbnail}
-                      title={notice.title}
-                      date={formatYYYYMMDD(notice.date)}
-                      profileName={notice.author}
-                    />
-                  );
-                })}
-              </div>
-            )}
-
-            {/* lg */}
-            {width >= 1080 && width < 1440 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[18px] pb-[16px] pt-2.5 xl:px-[11.0rem]">
-                {data?.data.postListResDto.slice(0, 3).map((notice) => {
-                  let thumbnail = notice.thumbNail || undefined;
-                  if (notice.status === '긴급공지' && thumbnail === undefined) {
-                    thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
-                  }
-                  return (
-                    <PostCardNotice
-                      key={notice.postId}
-                      onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
-                      badgeType={notice.status}
-                      imgUrl={thumbnail}
-                      title={notice.title}
-                      date={formatYYYYMMDD(notice.date)}
-                      profileName={notice.author}
-                    />
-                  );
-                })}
-              </div>
-            )}
-
-            {/* xl, xxl */}
-            {width >= 1440 && (
-              <div className="flex w-[calc(100dvw-3.125rem)] justify-center gap-[26px] pb-[16px] pt-2.5">
-                {data?.data.postListResDto.slice(0, 3).map((notice) => {
-                  let thumbnail = notice.thumbNail || undefined;
-                  if (notice.status === '긴급공지' && thumbnail === undefined) {
-                    thumbnail = `image/default/thumbnail/thumbnail_299px.png`;
-                  }
-                  return (
-                    <PostCardNotice
-                      key={notice.postId}
-                      onClick={() => navigate(`/notice/${notice.postId}`, { state: { postId: notice.postId } })}
-                      badgeType={notice.status}
-                      imgUrl={thumbnail}
-                      title={notice.title}
-                      date={formatYYYYMMDD(notice.date)}
-                      profileName={notice.author}
-                    />
-                  );
-                })}
-              </div>
-            )}
-            <Spacing size={width >= 720 ? 68 : 30} direction="vertical" />
-
-            <Button
-              onClick={() => {
-                navigate(`/notice`);
-              }}
-              className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text-[1rem]"
-            >
-              {t('main.더 알아보기')}
-            </Button>
-          </>
-        ) : (
-          <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">
-            등록된 게시물이 없습니다.
-          </p>
+      <div className="flex flex-col gap-16 md:items-center">
+        <div className="grid grid-cols-1 place-items-stretch gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {posts.map((post) => (
+            <PostCard key={post.postId} post={post} to={`/notice/${post.postId}`} />
+          ))}
+          {isLoading && Array.from({ length: postLength }).map((_, index) => <PostCard.Skeleton key={index} />)}
+        </div>
+        {data && posts.length === 0 && (
+          <p className="flex h-96 w-full items-center justify-center text-gray-600">등록된 게시물이 없습니다.</p>
         )}
+        {error && <p className="flex h-96 w-full items-center justify-center text-destructive">오류가 발생했습니다.</p>}
+        <Button
+          onClick={() => {
+            navigate(`/notice`);
+          }}
+          className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text-[1rem]"
+        >
+          {t('main.더 알아보기')}
+        </Button>
       </div>
     </section>
   );

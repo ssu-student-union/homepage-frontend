@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from 'react-router';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
 import { LoginState } from '@/atoms/atom';
-import { Footer } from '@/containers/common/Footer/Footer';
+import { Footer } from '@/containers/common/Footer';
 import { useAtom } from 'jotai';
 
 export function Layout() {
