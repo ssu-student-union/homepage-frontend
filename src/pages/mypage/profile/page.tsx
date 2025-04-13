@@ -146,7 +146,7 @@ export default function ProfilePage() {
                         {...register('currentPassword', {
                           required: '현재 비밀번호를 입력하세요.',
                         })}
-                        className="w-56 rounded-md border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
+                        className="xs:w-40 w-56 rounded-md border border-gray-300 px-3 py-1 sm:w-40"
                       />
                       {errors.currentPassword && (
                         <span className="xs:mt-2 text-red-500 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                       <Input
                         type="password"
                         {...register('newPassword')}
-                        className="w-56 rounded-md border border-gray-300 px-3 py-1 xs:w-40 sm:w-40"
+                        className="xs:w-40 w-56 rounded-md border border-gray-300 px-3 py-1 sm:w-40"
                       />
                       {errors.newPassword && (
                         <span className="xs:mt-2 text-red-500 sm:mt-2 md:mt-2 lg:ml-3 xl:ml-3 xxl:ml-3">
