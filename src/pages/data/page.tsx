@@ -154,7 +154,7 @@ export default function DataPage() {
             </div>
             <div className="flex justify-end">
               {writable && (
-                <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/notice/edit">
+                <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/data/edit">
                   <Pencil className="size-4" />
                   <p>글쓰기</p>
                 </Link>
