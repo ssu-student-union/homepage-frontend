@@ -1,8 +1,6 @@
-import SortOptions from '@/pages/data/container/SortOptions.tsx';
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
 import { Link, useSearchParams } from 'react-router';
 import { useEffect, useMemo, useState } from 'react';
-import { useDataCategory } from './hook/utils/useDataCategory';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
 import { BoardHeader } from '@/components/BoardHeader';
 import { Search } from '@/components/Search';
@@ -13,6 +11,7 @@ import { Pencil, SlidersHorizontal } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/libs/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { CategoryPopover, DataCategoryValue } from '@/pages/data/components/CategoryPopover';
 
 export default function DataPage() {
   /* Obtain query parameters */
@@ -21,7 +20,8 @@ export default function DataPage() {
   const q = useMemo(() => searchParams.get('q') ?? '', [searchParams]);
 
   /* 카테고리 분류 */
-  const { majorCategory, middleCategory, subCategory, setMajor, setMiddle, setSub } = useDataCategory();
+  const [category, setCategory] = useState<DataCategoryValue>([]);
+  const [majorCategory, middleCategory, subCategory] = category;
   const [filterOpen, setFilterOpen] = useState(false);
 
   /* Load data from Query */
@@ -49,31 +49,7 @@ export default function DataPage() {
   const authorities = useMemo(() => data?.allowedAuthorities ?? [], [data]);
   const writable = useMemo(() => authorities.includes('WRITE'), [authorities]);
 
-  if (isLoading) {
-    return (
-      <>
-        <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b" />
-        <Container className="pt-0 max-md:px-0 md:pt-14">
-          <div className="flex flex-col gap-5">
-            <SortOptions
-              className="mb-9 hidden md:flex"
-              majorCategory={majorCategory || ''}
-              middleCategory={middleCategory || ''}
-              subCategory={subCategory || ''}
-              onMajorChange={setMajor}
-              onMiddleChange={setMiddle}
-              onMinorChange={setSub}
-            />
-            {Array.from(Array(10).keys()).map((_, i) => (
-              <DataContentItem.Skeleton key={i} />
-            ))}
-          </div>
-        </Container>
-      </>
-    );
-  }
-
-  if (!data || isError) {
+  if (isError) {
     // TODO: 오류 발생 시 세부정보 제공
     console.log(error);
     return (
@@ -101,43 +77,37 @@ export default function DataPage() {
         <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b">
           <Search className="hidden xl:flex" onSearch={handleSearch} />
           <CollapsibleTrigger className="md:hidden">
-            <SlidersHorizontal className="size-4" />
+            <SlidersHorizontal className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
           </CollapsibleTrigger>
         </BoardHeader>
         <Container className="pt-0 max-md:px-0 md:pt-14">
           <div className="flex flex-col gap-5">
-            <CollapsibleContent className="max-md:px-4">
-              <Search className="xl:hidden" onSearch={handleSearch} />
-              <SortOptions
-                majorCategory={majorCategory || ''}
-                middleCategory={middleCategory || ''}
-                subCategory={subCategory || ''}
-                onMajorChange={setMajor}
-                onMiddleChange={setMiddle}
-                onMinorChange={setSub}
-              />
+            <CollapsibleContent
+              className={cn(
+                'data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down transition-all',
+                'border-b border-b-border max-md:px-4 md:hidden'
+              )}
+            >
+              <div className="flex flex-col gap-2 py-2">
+                <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
+                <CategoryPopover value={category} onChange={setCategory} />
+              </div>
             </CollapsibleContent>
-            <SortOptions
-              className="mb-9 hidden md:flex"
-              majorCategory={majorCategory || ''}
-              middleCategory={middleCategory || ''}
-              subCategory={subCategory || ''}
-              onMajorChange={setMajor}
-              onMiddleChange={setMiddle}
-              onMinorChange={setSub}
-            />
+            <CategoryPopover className="hidden md:flex" value={category} onChange={setCategory} />
             <div className="border-t-black md:border-t">
-              {posts.map((post) => (
-                <DataContentItem
-                  key={post.postId}
-                  to={`/data/${post.postId}`}
-                  date={post.date}
-                  title={post.title}
-                  content={post.content}
-                  isNotice={post.isNotice}
-                  files={post.files}
-                />
-              ))}
+              {isLoading
+                ? Array.from(Array(10).keys()).map((_, i) => <DataContentItem.Skeleton key={i} />)
+                : posts.map((post) => (
+                    <DataContentItem
+                      key={post.postId}
+                      to={`/data/${post.postId}`}
+                      date={post.date}
+                      title={post.title}
+                      content={post.content}
+                      isNotice={post.isNotice}
+                      files={post.files}
+                    />
+                  ))}
             </div>
             {posts.length === 0 && (
               <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
