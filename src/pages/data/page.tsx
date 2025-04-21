@@ -107,6 +107,7 @@ export default function DataPage() {
         <Container className="pt-0 max-md:px-0 md:pt-14">
           <div className="flex flex-col gap-5">
             <CollapsibleContent className="max-md:px-4">
+              <Search className="xl:hidden" onSearch={handleSearch} />
               <SortOptions
                 majorCategory={majorCategory || ''}
                 middleCategory={middleCategory || ''}
@@ -161,7 +162,6 @@ export default function DataPage() {
               )}
             </div>
           </div>
-          <Search className="xl:hidden" onSearch={handleSearch} />
         </div>
       </ArticleFooter>
     </>
