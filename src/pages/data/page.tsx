@@ -7,7 +7,7 @@ import { Search } from '@/components/Search';
 import { Container } from '@/containers/new/Container';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import LinkPagination from '@/components/LinkPagination';
-import { Pencil, SlidersHorizontal } from 'lucide-react';
+import { Pencil, SearchIcon } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/libs/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -72,49 +72,47 @@ export default function DataPage() {
   };
 
   return (
-    <>
-      <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
-        <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b">
-          <Search className="hidden xl:flex" onSearch={handleSearch} />
-          <CollapsibleTrigger className="md:hidden">
-            <SlidersHorizontal className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
-          </CollapsibleTrigger>
-        </BoardHeader>
-        <Container className="pt-0 max-md:px-0 md:pt-14">
-          <div className="flex flex-col gap-5">
-            <CollapsibleContent
-              className={cn(
-                'data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down transition-all',
-                'border-b border-b-border max-md:px-4 md:hidden'
-              )}
-            >
-              <div className="flex flex-col gap-2 py-2">
-                <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
-                <CategoryPopover value={category} onChange={setCategory} />
-              </div>
-            </CollapsibleContent>
-            <CategoryPopover className="hidden md:flex" value={category} onChange={setCategory} />
-            <div className="border-t-black md:border-t">
-              {isLoading
-                ? Array.from(Array(10).keys()).map((_, i) => <DataContentItem.Skeleton key={i} />)
-                : posts.map((post) => (
-                    <DataContentItem
-                      key={post.postId}
-                      to={`/data/${post.postId}`}
-                      date={post.date}
-                      title={post.title}
-                      content={post.content}
-                      isNotice={post.isNotice}
-                      files={post.files}
-                    />
-                  ))}
-            </div>
-            {posts.length === 0 && (
-              <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
+    <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
+      <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b">
+        <Search className="hidden xl:flex" onSearch={handleSearch} />
+        <CollapsibleTrigger className="md:hidden">
+          <SearchIcon className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
+        </CollapsibleTrigger>
+      </BoardHeader>
+      <Container className="pt-0 max-md:px-0 md:pt-14">
+        <div className="flex flex-col gap-4">
+          <CollapsibleContent
+            className={cn(
+              'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
+              'border-b border-b-border max-md:px-4 md:hidden'
             )}
+          >
+            <div className="flex flex-col gap-2 py-2">
+              <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
+              <CategoryPopover value={category} onChange={setCategory} />
+            </div>
+          </CollapsibleContent>
+          <CategoryPopover className="hidden md:flex" value={category} onChange={setCategory} />
+          <div className="border-t-black md:border-t">
+            {isLoading
+              ? Array.from(Array(10).keys()).map((_, i) => <DataContentItem.Skeleton key={i} />)
+              : posts.map((post) => (
+                  <DataContentItem
+                    key={post.postId}
+                    to={`/data/${post.postId}`}
+                    date={post.date}
+                    title={post.title}
+                    content={post.content}
+                    isNotice={post.isNotice}
+                    files={post.files}
+                  />
+                ))}
           </div>
-        </Container>
-      </Collapsible>
+          {posts.length === 0 && (
+            <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
+          )}
+        </div>
+      </Container>
 
       <ArticleFooter className="mb-20">
         <div className="flex flex-col gap-9">
@@ -134,6 +132,6 @@ export default function DataPage() {
           </div>
         </div>
       </ArticleFooter>
-    </>
+    </Collapsible>
   );
 }
