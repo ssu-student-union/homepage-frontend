@@ -62,6 +62,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
               <List className="size-6 shrink-0" />
             </Button>
           }
+          state={state}
         />
         <Link
           className={cn(

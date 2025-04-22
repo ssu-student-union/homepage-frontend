@@ -5,6 +5,6 @@ export const SearchState = atom('');
 
 export const todayPostCountState = atomFamily((_groupCode: string) => atom(0));
 
-export const LoginState = atomWithStorage('login-state', false);
+export const LoginState = atomWithStorage('login-state', false, undefined, { getOnInit: true });
 
 export const commentLoadingState = atom(false);
