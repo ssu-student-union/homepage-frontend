@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: develop
+    environment: preview
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
@@ -36,3 +36,28 @@ jobs:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
           VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
           VITE_REST_API_KEY: ${{ secrets.VITE_REST_API_KEY }}
+      - name: Compress build artifacts
+        if: github.base_ref == 'develop'
+        run: tar -cvf ./dist.tar ./dist
+      - name: Upload with SCP
+        if: github.base_ref == 'develop'
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          username: ubuntu
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'dist.tar'
+          target: '/home/ubuntu/'
+      - name: Extract artifact with SSH
+        if: github.base_ref == 'develop'
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          username: ubuntu
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            tar -xvf ./dist.tar ./dist
+            sudo rm -rf ${{ vars.DEPLOYMENT_PATH }}
+            sudo mv ./dist ${{ vars.DEPLOYMENT_PATH }}
+            rm -rf ./dist
+            rm -f ./dist.tar
