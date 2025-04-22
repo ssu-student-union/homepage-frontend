@@ -51,7 +51,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             tar -xvf ./dist.tar ./dist
-            sudo rm -rf /var/www/homepage-frontend
-            sudo mv ./dist /var/www/homepage-frontend
+            sudo rm -rf ${{ vars.DEPLOYMENT_PATH }}
+            sudo mv ./dist ${{ vars.DEPLOYMENT_PATH }}
             rm -rf ./dist
             rm -f ./dist.tar
