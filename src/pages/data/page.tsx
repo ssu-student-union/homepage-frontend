@@ -74,7 +74,7 @@ export default function DataPage() {
   return (
     <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
       <BoardHeader title="자료집" className="border-b-neutral-200 max-md:px-5 md:border-b">
-        <Search className="hidden xl:flex" onSearch={handleSearch} />
+        <Search className="hidden md:flex" onSearch={handleSearch} />
         <CollapsibleTrigger className="md:hidden">
           <SearchIcon className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
         </CollapsibleTrigger>
