@@ -11,21 +11,16 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { cn } from '@/libs/utils';
 
 interface HeaderSheetProps {
+  onLogout?: () => void;
   trigger: ReactNode;
   state?: State;
 }
 
-export function HeaderSheet({ trigger, state: initialState = State.Logout }: HeaderSheetProps) {
+export function HeaderSheet({ trigger, state }: HeaderSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [state, setState] = useState<State>(initialState);
   const { i18n, t } = useTranslation();
 
   const buttonText = i18n.language === 'ko' ? 'EN' : 'KO';
-
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    setState(token ? State.Login : State.Logout);
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,12 +48,9 @@ export function HeaderSheet({ trigger, state: initialState = State.Logout }: Hea
     localStorage.setItem('lang', newLang);
   };
 
-  // const handleLogoutClick = () => {
-  //   localStorage.clear();
-  //   setState(State.Logout);
-  //   setLoginState(false);
+  // const handleLogout = () => {
+  //   onLogout?.();
   //   setIsOpen(false);
-  //   navigate('/');
   // };
 
   return (
