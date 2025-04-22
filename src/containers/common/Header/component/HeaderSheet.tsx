@@ -16,7 +16,7 @@ interface HeaderSheetProps {
   state?: State;
 }
 
-export function HeaderSheet({ trigger, state }: HeaderSheetProps) {
+export function HeaderSheet({ trigger, state, onLogout }: HeaderSheetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { i18n, t } = useTranslation();
 
@@ -48,10 +48,10 @@ export function HeaderSheet({ trigger, state }: HeaderSheetProps) {
     localStorage.setItem('lang', newLang);
   };
 
-  // const handleLogout = () => {
-  //   onLogout?.();
-  //   setIsOpen(false);
-  // };
+  const handleLogout = () => {
+    onLogout?.();
+    setIsOpen(false);
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -91,9 +91,12 @@ export function HeaderSheet({ trigger, state }: HeaderSheetProps) {
             {t('header.이전 홈페이지')}
           </a>
           {state === State.Login ? (
-            <Link className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to="/mypage">
-              {t('introduction.마이페이지')}
-            </Link>
+            // <Link className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to="/mypage">
+            //   {t('introduction.마이페이지')}
+            // </Link>
+            <Button variant="sheet-item" className="w-full px-0 py-7" onClick={handleLogout}>
+              {t('header.로그아웃')}
+            </Button>
           ) : (
             <Link
               className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')}
