@@ -182,9 +182,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 <Input
                   type="text"
                   placeholder={t('onboarding.아이디')}
-                  className={cn(
-                    'w-[250px] px-[1rem] py-0 max-sm:min-h-[36px] max-sm:rounded-xs sm:py-[0.1rem] md:w-[420px] md:px-0'
-                  )}
+                  className={cn('w-[250px] max-sm:min-h-9 max-sm:rounded-xs md:w-[420px]')}
                   {...register('accountId', {
                     required: t('onboarding.아이디는 필수 입력입니다'),
                   })}
@@ -199,9 +197,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 <Input
                   type="password"
                   placeholder={t('onboarding.비밀번호')}
-                  className={cn(
-                    'w-[250px] px-[1rem] py-0 max-sm:min-h-[36px] max-sm:rounded-xs sm:py-[0.1rem] md:w-[420px] md:px-0'
-                  )}
+                  className={cn('w-[250px] max-sm:min-h-9 max-sm:rounded-xs md:w-[420px]')}
                   {...register('password', {
                     required: t('onboarding.비밀번호는 필수 입력입니다'),
                   })}
@@ -220,9 +216,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 <Input
                   type="text"
                   placeholder={t('onboarding.이름')}
-                  className={cn(
-                    'w-[250px] px-[1rem] py-0 max-sm:min-h-[36px] max-sm:rounded-xs sm:py-[0.1rem] md:w-[420px] md:px-0'
-                  )}
+                  className={cn('w-[250px] max-sm:min-h-9 max-sm:rounded-xs md:w-[420px]')}
                   {...register('name', {
                     required: t('onboarding.이름은 필수 입력입니다'),
                   })}
@@ -238,7 +232,7 @@ export function GeneralRegisterSection({ subSection1 }: LoginFormProps) {
                 <Input
                   type="text"
                   placeholder={t('onboarding.학번')}
-                  className={cn('mt-4 h-[54px] max-md:w-full max-md:py-[0.1rem] max-sm:rounded-xs')}
+                  className={cn('h-13 mt-4 max-md:w-full max-sm:rounded-xs')}
                   {...register('studentId', {
                     required: t('onboarding.학번은 필수 입력입니다'),
                   })}
