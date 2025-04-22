@@ -22,11 +22,11 @@ export function Search({ className, onSearch }: SearchProps) {
   };
 
   return (
-    <div className={cn('flex gap-2', className)}>
+    <div className={cn('flex items-stretch gap-2', className)}>
       <Input
         ref={searchRef}
         type="text"
-        className="grow border-[#959595] text-base placeholder:text-[#B6B6B6]"
+        className="h-auto grow border-border text-base placeholder:text-[#B6B6B6]"
         placeholder="원하시는 키워드를 입력하세요"
         onKeyDown={handleKeyPress}
       />

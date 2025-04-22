@@ -11,13 +11,14 @@ import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import { Container } from '@/containers/new/Container';
 import { cn } from '@/libs/utils';
 import { useSearchNoticePosts } from '@/pages/notice/queries';
-import { Pencil } from 'lucide-react';
-import { useMemo } from 'react';
+import { Pencil, SearchIcon } from 'lucide-react';
+import { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTranslation } from 'react-i18next';
 import { buildCentralSubCategories, buildCollageSubCategories } from '@/pages/notice/const';
 import { isToday } from '@/pages/notice/utils';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 const TodaySubtitle = ({ count }: { count: number }) => {
   return (
@@ -31,6 +32,7 @@ const TodaySubtitle = ({ count }: { count: number }) => {
 
 export function NoticePage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [filterOpen, setFilterOpen] = useState(false);
   const category = useMemo(() => searchParams.get('category') ?? '중앙', [searchParams]);
   const subCategory = useMemo(() => searchParams.get('sub') ?? '전체', [searchParams]);
   const page = useMemo(() => parseInt(searchParams.get('page') || '1') || 1, [searchParams]);
@@ -66,12 +68,15 @@ export function NoticePage() {
   };
 
   return (
-    <>
+    <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
       <BoardHeader
         title={category === '중앙' ? t('introduction.중앙 공지사항') : t('introduction.단과대 공지사항')}
         subtitle={isLoading ? <Skeleton className="h-6 w-32" /> : <TodaySubtitle count={today} />}
       >
-        <Search className="hidden xl:flex" onSearch={handleSearch} />
+        <Search className="hidden md:flex" onSearch={handleSearch} />
+        <CollapsibleTrigger className="md:hidden">
+          <SearchIcon className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
+        </CollapsibleTrigger>
       </BoardHeader>
       <Tabs value={category} className="w-full">
         <div className="max-md:hidden">
@@ -88,6 +93,16 @@ export function NoticePage() {
 
         <Container className="pt-0 max-md:px-0">
           <div className="flex flex-col gap-4">
+            <CollapsibleContent
+              className={cn(
+                'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
+                'border-b border-b-border max-md:px-4 md:hidden'
+              )}
+            >
+              <div className="py-2">
+                <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
+              </div>
+            </CollapsibleContent>
             <div className="px-4">
               <TabsContent value="중앙">
                 <LinkCategories value={subCategory} categories={centralSubCategories} />
@@ -107,6 +122,7 @@ export function NoticePage() {
             )}
           </div>
         </Container>
+
         <ArticleFooter className="mb-20">
           <div className="flex flex-col gap-9">
             <div className="grid grid-cols-3">
@@ -123,10 +139,9 @@ export function NoticePage() {
                 )}
               </div>
             </div>
-            <Search className="xl:hidden" onSearch={handleSearch} />
           </div>
         </ArticleFooter>
       </Tabs>
-    </>
+    </Collapsible>
   );
 }
