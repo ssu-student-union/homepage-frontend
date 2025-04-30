@@ -73,8 +73,7 @@ export function CertifyApplySection() {
             .split('.')
             .map((line, index) => (
               <div key={index}>
-                {line}
-                {index < t('onboarding.error_apply_description').split('.').length - 1 && <br />}
+                {line}.{index < t('onboarding.error_apply_description').split('.').length - 1 && <br />}
               </div>
             ))}
         </div>

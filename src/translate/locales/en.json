@@ -222,6 +222,8 @@
     "학번은 필수 입력입니다": "Student number is required",
     "옵션을 선택해 주세요": "Please select an option",
     "학과/부를 선택해 주세요": "Please select a department/division",
+    "문의가 접수되었습니다": "Your inquiry has been received",
+    "error_check_description": "The administrator will check your inquiry after receiving it. We apologize for any inconvenience.",
     "error_apply_description": "Due to reasons such as late enrollment or changes in academic status, student verification may be delayed. If you send a form, we will help you receive the message via the email you provided.",
     "error_apply_button": "Send"
   },
