@@ -15,7 +15,7 @@ export const LoginSchemaRegister = z.object({
   majorCode: z.string(),
 });
 
-export const LoginSchemaScoucil = z.object({
+export const LoginSchemaScouncil = z.object({
   accountId: z
     .string()
     .min(5, i18n.t('onboarding_validation.accountId_min'))
@@ -43,4 +43,4 @@ export const LoginSchemaCertify = z.object({
 
 export type LoginType = z.infer<typeof LoginSchemaRegister>;
 export type LoginCertifyType = z.infer<typeof LoginSchemaCertify>;
-export type LoginScoucilType = z.infer<typeof LoginSchemaScoucil>;
+export type LoginScouncilType = z.infer<typeof LoginSchemaScouncil>;

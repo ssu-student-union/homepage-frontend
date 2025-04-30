@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 import { LoginState } from '@/atoms/atom';
 import { baseUrl } from '@/pages/kakao/containers/const/data';
-import { useAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
+import { moveToPASSU } from './utils/moveToPASSU';
 
 const KakaoRedirect = () => {
-  const [, setLoginState] = useAtom(LoginState);
+  const setLoginState = useSetAtom(LoginState);
   const AUTHORIZE_CODE: string = new URLSearchParams(window.location.search).get('code')!;
   const navigate = useNavigate();
 
@@ -27,11 +28,7 @@ const KakaoRedirect = () => {
             navigate('/register/tos'); // 최초 회원가입 유저는 약관 동의 화면으로 이동
           } else {
             if (redirectUrl !== null) {
-              const separator = redirectUrl.includes('?') ? '&' : '?';
-              const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
-              localStorage.removeItem('redirectUrl');
-              localStorage.removeItem('kakaoData');
-              window.location.href = newRedirectUrl;
+              moveToPASSU(redirectUrl, accessToken);
             } else {
               // 최초 회원가입 or 타 사이트 로그인이 아니라면 accessToken 로컬에 저장
               localStorage.setItem('accessToken', accessToken);

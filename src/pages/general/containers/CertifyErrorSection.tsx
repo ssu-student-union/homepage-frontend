@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import { CertifyErrorCheck } from './CertifyErrorCheck';
 import { useNavigate } from 'react-router';
 
 export function CertifyErrorSection() {
@@ -11,7 +10,7 @@ export function CertifyErrorSection() {
   return (
     <div className="mt-[260px] grid place-content-center text-center">
       <div className="flex justify-center">
-        <CertifyErrorCheck />
+        <img src="/image/certify-error.svg" alt="certify-error" />
       </div>
       <div className="text-[22px] font-bold md:text-[32px]">문의가 접수되었습니다</div>
       <div className="mt-[12px] text-[11px] font-medium md:text-base">
