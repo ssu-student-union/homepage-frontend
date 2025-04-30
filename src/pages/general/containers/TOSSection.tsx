@@ -71,7 +71,7 @@ export function TOSSection() {
                         <Check size={25} />
                       )}
                     </span>
-                    <div>{item.label}</div>
+                    <div className="max-w-[300px]">{item.label}</div>
                   </div>
 
                   <DialogTrigger asChild>
