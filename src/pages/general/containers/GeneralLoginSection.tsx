@@ -35,7 +35,7 @@ export function GeneralLoginSection() {
 
   const formValues = watch();
 
-  const redirectUrl = localStorage.getItem('redirectUrl');
+  // const redirectUrl = localStorage.getItem('redirectUrl');
 
   useEffect(() => {
     const isFormValid = Object.keys(errors).length === 0 && Object.values(formValues).every(Boolean);
