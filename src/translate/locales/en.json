@@ -203,6 +203,8 @@
     "학생 정보 입력": "Enter Student Information",
     "이름": "Name",
     "학번": "Student Number",
+    "이메일": "Email",
+    "문의내용": "Details",
     "단과대 선택": "Select College",
     "학과/부 선택": "Select Department/Division",
     "학생인증이 안 되시나요?": "Having trouble with student verification?",
@@ -219,7 +221,9 @@
     "이름은 필수 입력입니다": "Name is required",
     "학번은 필수 입력입니다": "Student number is required",
     "옵션을 선택해 주세요": "Please select an option",
-    "학과/부를 선택해 주세요": "Please select a department/division"
+    "학과/부를 선택해 주세요": "Please select a department/division",
+    "error_apply_description": "Due to reasons such as late enrollment or changes in academic status, student verification may be delayed. If you send a form, we will help you receive the message via the email you provided.",
+    "error_apply_button": "Send"
   },
   "onboarding_validation": {
     "name_required": "Please enter your name.",

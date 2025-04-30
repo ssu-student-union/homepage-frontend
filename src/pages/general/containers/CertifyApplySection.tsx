@@ -7,8 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchemaCertify, LoginCertifyType } from '../types/onboardingZodCheck';
 import { postOnboardingMail } from '@/apis/postOnboardingMail'; // Import the postOnboardingMail function
 import { AxiosError } from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export function CertifyApplySection() {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -19,42 +21,32 @@ export function CertifyApplySection() {
   });
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-  const isScouncilPath = location.pathname === '/register/scouncil';
   const formValues = watch();
 
   useEffect(() => {
-    localStorage.setItem('formValues', JSON.stringify(formValues));
-  }, [formValues]);
-
-  useEffect(() => {
-    const isFormValid = isScouncilPath
-      ? formValues.id && formValues.email
-      : formValues.name && formValues.id && formValues.inquiry;
+    const isFormValid = formValues.name && formValues.id && formValues.inquiry && formValues.email;
     setIsButtonDisabled(!isFormValid);
-  }, [formValues, isScouncilPath]);
+  }, [formValues]);
 
   const onSubmit: SubmitHandler<LoginCertifyType> = async () => {
     try {
-      const resBody = {
+      const reqBody = {
         name: formValues.name || '', // Ensure `name` is a string
         studentId: Number(formValues.id) || 0, // Ensure `studentId` is a number
         email: formValues.email || '', // Ensure `email` is a string
         content: formValues.inquiry || '', // Ensure `content` is a string
       };
 
-      console.log('Request body being sent:', resBody);
+      console.log('Request body being sent:', reqBody);
 
-      const response = await postOnboardingMail(resBody);
+      const response = await postOnboardingMail(reqBody);
       console.log('Response from server:', response);
 
       alert('문의내용이 확인되었습니다.');
       navigate('/register/errorcheck');
     } catch (error: unknown) {
-      // ✅ `unknown` 타입으로 설정 후, `instanceof`로 `AxiosError` 확인
       if (error instanceof AxiosError) {
         if (error.response) {
           console.error('Server error response:', error.response.status, error.response.data);
@@ -73,20 +65,26 @@ export function CertifyApplySection() {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="flex w-full max-w-md flex-col items-center p-4">
-        <div className="pb-4 text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)] md:text-3xl">
-          학생인증이 안 되시나요?
+        <div className="max-w-[300px] pb-4 text-center text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)] md:text-3xl">
+          {t('onboarding.학생인증이 안 되시나요?')}
         </div>
-        <div className="w-[540px] text-center text-xs font-medium text-gray-700 md:text-base">
-          신편입학, 학적 변동의 이유로 학생 인증이 지연될 수 있습니다 <br></br>
-          문의를 보내주시면 기입해주신 이메일을 통해 문의 접수를 도와드리겠습니다
+        <div className="text-center text-xs font-medium text-gray-700 md:w-[510px] md:text-base">
+          {t('onboarding.error_apply_description')
+            .split('.')
+            .map((line, index) => (
+              <div key={index}>
+                {line}
+                {index < t('onboarding.error_apply_description').split('.').length - 1 && <br />}
+              </div>
+            ))}
         </div>
         <form className="mt-[36px] w-[300px] md:w-[420px]" noValidate onSubmit={handleSubmit(onSubmit)}>
           <Input
             type="text"
-            placeholder="이름"
+            placeholder={t('onboarding.이름')}
             className="w-[300px] md:w-[420px]"
             {...register('name', {
-              required: '이름은 필수 입력입니다.',
+              required: t('onboarding.이름은 필수 입력입니다'),
             })}
             aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
           />
@@ -95,10 +93,10 @@ export function CertifyApplySection() {
 
           <Input
             type="text"
-            placeholder="학번"
+            placeholder={t('onboarding.학번')}
             className="mt-5 w-[300px] md:w-[420px]"
             {...register('id', {
-              required: '학번은 필수 입력입니다.',
+              required: t('onboarding.학번은 필수 입력입니다'),
             })}
             aria-invalid={isSubmitted ? (errors.id ? 'true' : 'false') : undefined}
           />
@@ -107,10 +105,10 @@ export function CertifyApplySection() {
 
           <Input
             type="email"
-            placeholder="이메일"
+            placeholder={t('onboarding.이메일')}
             className="mt-3 w-[300px] md:w-[420px]"
             {...register('email', {
-              required: '이메일은 필수 입력입니다.',
+              required: t('onboarding_validation.email_required'),
             })}
             aria-invalid={isSubmitted ? (errors.email ? 'true' : 'false') : undefined}
           />
@@ -119,9 +117,9 @@ export function CertifyApplySection() {
 
           <textarea
             className="mt-5 flex h-24 min-h-[46px] w-[300px] rounded-md border border-gray-500 bg-background px-[20px] py-[16px] text-sm font-semibold ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus:border focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:w-[420px]"
-            placeholder="문의내용"
+            placeholder={t('onboarding.문의내용')}
             {...register('inquiry', {
-              required: '문의내용는 필수 입력입니다.',
+              required: t('onboarding_validation.inquiry_required'),
             })}
             aria-invalid={isSubmitted ? (errors.inquiry ? 'true' : 'false') : undefined}
           />
@@ -135,7 +133,7 @@ export function CertifyApplySection() {
             size="default"
             className={`mt-4 w-[300px] md:w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
           >
-            문의 보내기
+            {t('onboarding.error_apply_button')}
           </Button>
         </form>
       </div>
