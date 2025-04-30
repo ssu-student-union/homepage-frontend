@@ -230,7 +230,7 @@
   "onboarding_validation": {
     "name_required": "Please enter your name.",
     "name_max": "The name must be within 10 characters.",
-    "name_regex": "The name must be in Korean characters only.",
+    "name_regex": "The name must contain only English letters.",
     "studentId_length": "The student ID must be 8 digits.",
     "studentId_regex": "The student ID must contain only numbers.",
     "accountId_min": "The username must be at least 5 characters.",

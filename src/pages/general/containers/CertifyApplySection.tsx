@@ -88,7 +88,7 @@ export function CertifyApplySection() {
             aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
           />
           <div className="mt-3"></div>
-          {errors.name?.message && <small className="text-[13px] text-red-600">{errors.name?.message}</small>}
+          {errors.name?.message && <small className="text-[13px] text-red-600">{t(errors.name?.message)}</small>}
 
           <Input
             type="text"
@@ -100,7 +100,7 @@ export function CertifyApplySection() {
             aria-invalid={isSubmitted ? (errors.id ? 'true' : 'false') : undefined}
           />
           <div className="mt-3"></div>
-          {errors.id?.message && <small className="text-[13px] text-red-600">{errors.id?.message}</small>}
+          {errors.id?.message && <small className="text-[13px] text-red-600">{t(errors.id?.message)}</small>}
 
           <Input
             type="email"
@@ -112,7 +112,7 @@ export function CertifyApplySection() {
             aria-invalid={isSubmitted ? (errors.email ? 'true' : 'false') : undefined}
           />
           <div className="mt-3"></div>
-          {errors.email?.message && <small className="text-[13px] text-red-600">{errors.email.message}</small>}
+          {errors.email?.message && <small className="text-[13px] text-red-600">{t(errors.email?.message)}</small>}
 
           <textarea
             className="mt-5 flex h-24 min-h-[46px] w-[300px] rounded-md border border-gray-500 bg-background px-[20px] py-[16px] text-sm font-semibold ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus:border focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:w-[420px]"
@@ -123,7 +123,7 @@ export function CertifyApplySection() {
             aria-invalid={isSubmitted ? (errors.inquiry ? 'true' : 'false') : undefined}
           />
           <div className="mt-3"></div>
-          {errors.inquiry && <small className="text-[13px] text-red-600">{errors.inquiry.message}</small>}
+          {errors.inquiry?.message && <small className="text-[13px] text-red-600">{t(errors.inquiry?.message)}</small>}
 
           <Button
             type="submit"

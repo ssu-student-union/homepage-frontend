@@ -112,9 +112,7 @@ export function GeneralLoginSection() {
             />
             <div className="mt-3"></div>
             {errors.accountId && (
-              <small className="text-[13px] text-red-600">
-                {(errors.accountId as { message?: string }).message || 'Error occurred'}
-              </small>
+              <small className="text-[13px] text-red-600">{t(errors.accountId?.message as string)}</small>
             )}
             <Input
               type="password"
@@ -127,9 +125,7 @@ export function GeneralLoginSection() {
             />
             <div className="mt-3"></div>
             {errors.password && (
-              <small className="text-[13px] text-red-600">
-                {(errors.password as { message?: string }).message || 'Error occurred'}
-              </small>
+              <small className="text-[13px] text-red-600">{t(errors.password?.message as string)}</small>
             )}
             {ScouncilError && (
               <>

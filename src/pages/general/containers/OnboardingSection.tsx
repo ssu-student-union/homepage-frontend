@@ -130,10 +130,7 @@ export function OnboardingSection() {
           />
           <div className="mt-3"></div>
           {errors.name?.message && (
-            <small className="text-[13px] text-red-600">
-              {' '}
-              {(errors.name as { message?: string }).message || 'Error occurred'}
-            </small>
+            <small className="text-[13px] text-red-600">{t(errors.name?.message as string)}</small>
           )}
           <Input
             type="text"
@@ -146,10 +143,7 @@ export function OnboardingSection() {
           />
           <div className="mt-3"></div>
           {errors.studentId?.message && (
-            <small className="text-[13px] text-red-600">
-              {' '}
-              {(errors.studentId as { message?: string }).message || 'Error occurred'}
-            </small>
+            <small className="text-[13px] text-red-600">{t(errors.studentId?.message as string)}</small>
           )}
           <div className="mt-4"></div>
           <Select
