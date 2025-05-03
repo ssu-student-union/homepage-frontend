@@ -11,6 +11,7 @@ export interface QnaPost {
   category: '답변대기' | '답변완료';
   department: string;
   college: string;
+  authorName: string;
 }
 
 export interface PageInfo {
