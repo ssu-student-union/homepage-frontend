@@ -2,7 +2,7 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { QnaPostParams, useGetQnaList } from './hooks/useGetQnaList';
 import { useEffect } from 'react';
 import { LoginState } from '@/atoms/atom';
@@ -58,7 +58,7 @@ const buildQnaPostParams = (params: BuildQnaPostParams): QnaPostParams => {
 
 const subtitle = (
   <p className="font-bold">
-    질문을 등록하면 <span className="text-primary">24시간 내에 학생회</span>가 답변합니다
+    질문을 등록하면 <span className="text-primary">72시간 내에 학생회</span>가 답변합니다
   </p>
 );
 
@@ -77,7 +77,7 @@ function PageSkeleton() {
 }
 
 export function QnApage() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
@@ -147,14 +147,14 @@ export function QnApage() {
   }
 
   function navigateToWrite() {
-    alert('시범운영 기간이 종료되었습니다. 곧 오픈 예정이니 다음에 이용해주세요');
-
-    // if (isLogin) {
-    //   navigate('/qna/edit');
-    // } else {
-    //   navigate('/register');
-    // }
+    if (isLogin) {
+      navigate('/qna/edit');
+    } else {
+      navigate('/register');
+    }
   }
+
+  console.log('데이터', data);
 
   return (
     <>
