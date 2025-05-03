@@ -169,8 +169,9 @@ export default function QnaDetailPage() {
         <PostHeader
           subject={`${data.qnaTargetCode} 질문`}
           title={data.title}
-          authorName={`${data.college} ${data.department}`}
+          authorName={`${data.department} ${data.authorName}`}
           createdAt={convertToDate(data.createdAt)}
+          className="mb-3"
         />
         <hr className="bg-[#E7E7E7]" />
         <Container>
@@ -234,7 +235,7 @@ export default function QnaDetailPage() {
                 <div key={comment.id} className="relative mb-2">
                   <PostComment
                     key={comment.id}
-                    author={comment.authorName}
+                    author={`${comment.department} ${comment.authorName}`}
                     createdAt={convertToDate(comment.createdAt)}
                     commentType={comment.commentType}
                     lastEditedAt={comment.lastEditedAt ? convertToDate(comment.lastEditedAt) : undefined}
@@ -256,7 +257,7 @@ export default function QnaDetailPage() {
                         return (
                           <PostComment
                             key={reply.id}
-                            author={reply.authorName}
+                            author={`${reply.department} ${reply.authorName}`}
                             createdAt={convertToDate(reply.createdAt)}
                             lastEditedAt={reply.lastEditedAt ? convertToDate(reply.lastEditedAt) : undefined}
                             deletable={reply.isAuthor || commentDeletable}
