@@ -154,8 +154,6 @@ export function QnApage() {
     }
   }
 
-  console.log('데이터', data);
-
   return (
     <>
       <HeadLayout title="질의응답게시판" subtitle={subtitle} />
@@ -184,7 +182,7 @@ export function QnApage() {
             category={{ name: post.category, className: answerColors[post.category] }}
             date={convertToDateOnly(post.date)}
             title={post.title}
-            author={post.department}
+            author={`${post.department} ${post.authorName}`}
           />
         ))}
         {data.postListResDto.length === 0 && (
