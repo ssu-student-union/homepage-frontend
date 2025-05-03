@@ -13,6 +13,7 @@ export interface QnaDetail {
   department: string;
   college: string;
   qnaTargetCode: string;
+  authorname: string;
 }
 
 export interface QnaOfficialComment {

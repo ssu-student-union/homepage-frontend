@@ -17,6 +17,7 @@ import { useCreateQnaReply } from '../hooks/useCreateQnaReplyComment';
 import { useDeleteQnaReply } from '../hooks/useDeleteQnaReplyComment';
 import { usePatchComment } from '@/hooks/new/mutations/usePatchComment';
 import { useGetComments } from '@/hooks/new/query/useGetComments';
+import { nameMasking } from '../utils/nameMasking';
 
 const boardCode = '질의응답게시판';
 
@@ -163,14 +164,17 @@ export default function QnaDetailPage() {
   // 댓글 표시에 사용할 데이터
   const totalComments = data.officialCommentList.length + comments.total;
 
+  console.log('데이타ㅓ', data);
+
   return (
     <>
       <article className="mt-16">
         <PostHeader
           subject={`${data.qnaTargetCode} 질문`}
           title={data.title}
-          authorName={`${data.college} ${data.department}`}
+          authorName={`${data.department} ${nameMasking(data.authorName)}`}
           createdAt={convertToDate(data.createdAt)}
+          className="mb-3"
         />
         <hr className="bg-[#E7E7E7]" />
         <Container>
@@ -234,7 +238,7 @@ export default function QnaDetailPage() {
                 <div key={comment.id} className="relative mb-2">
                   <PostComment
                     key={comment.id}
-                    author={comment.authorName}
+                    author={`${comment.department} ${nameMasking(comment.authorName)}`}
                     createdAt={convertToDate(comment.createdAt)}
                     commentType={comment.commentType}
                     lastEditedAt={comment.lastEditedAt ? convertToDate(comment.lastEditedAt) : undefined}
@@ -256,7 +260,7 @@ export default function QnaDetailPage() {
                         return (
                           <PostComment
                             key={reply.id}
-                            author={reply.authorName}
+                            author={`${reply.department} ${nameMasking(reply.authorName)}`}
                             createdAt={convertToDate(reply.createdAt)}
                             lastEditedAt={reply.lastEditedAt ? convertToDate(reply.lastEditedAt) : undefined}
                             deletable={reply.isAuthor || commentDeletable}

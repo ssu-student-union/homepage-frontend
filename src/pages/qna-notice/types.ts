@@ -42,6 +42,7 @@ export interface UserInfoForQna {
   majorCode: QnaMajorCode | null;
   memberCode: QnaMemberCode | '';
   isUnion: boolean;
+  authorname: string;
 }
 
 export interface LoginCheckObject {
