@@ -131,7 +131,7 @@ export function OnboardingSection() {
           <Input
             type="text"
             placeholder={t('onboarding.학번')}
-            className={cn('h-13 mt-4 max-md:w-full max-sm:rounded-xs')}
+            className={cn('w-[250px] max-sm:min-h-9 max-sm:rounded-xs md:w-[420px]')}
             {...register('studentId', {
               required: t('onboarding.학번은 필수 입력입니다'),
             })}
