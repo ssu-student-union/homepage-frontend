@@ -4,23 +4,22 @@ import { Input } from '@/components/ui/input';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { client } from '@/apis/client';
 import { LoginSchemaScouncil, LoginScouncilType } from '../types/onboardingZodCheck';
 import { LoginState } from '@/atoms/atom';
 import ChannelTalkFloating from '@/components/deprecated/Floating/ChannelTalkFloating';
 import { cn } from '@/libs/utils';
 import { useTranslation } from 'react-i18next';
 import { useSetAtom } from 'jotai';
-
+import usePostLoginData from '../hooks/mutation/usePostLoginData';
+import { PostScouncilLoginDataResponse } from '@/types/apis/get';
 export function GeneralLoginSection() {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
-  const isEn = i18n.language === 'en';
+  const { t } = useTranslation();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitting },
+    formState: { errors, isSubmitted, isSubmitting, isValid },
     watch,
   } = useForm<FieldValues>({
     resolver: zodResolver(LoginSchemaScouncil),
@@ -31,66 +30,51 @@ export function GeneralLoginSection() {
   const setLoginState = useSetAtom(LoginState);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [ScouncilError, setScouncilError] = useState(false);
+  const [scouncilError, setScouncilError] = useState(false);
 
   const formValues = watch();
 
   // const redirectUrl = localStorage.getItem('redirectUrl');
 
   useEffect(() => {
-    const isFormValid = Object.keys(errors).length === 0 && Object.values(formValues).every(Boolean);
-    setIsButtonDisabled(!isFormValid);
-  }, [errors, formValues]);
+    setIsButtonDisabled(!isValid);
+  }, [isValid]);
 
-  const setDataInLocalStorage = (data: {
-    data: { groupCodeList: string[]; memberName: string; majorName: string };
-  }) => {
-    localStorage.setItem('groupCodeList', JSON.stringify(data?.data?.groupCodeList));
-    localStorage.setItem('memberName', data?.data?.memberName);
-    localStorage.setItem('majorName', data?.data?.majorName);
+  const setDataInLocalStorage = (data: { groupCodeList: string[]; memberName: string }) => {
+    localStorage.setItem('groupCodeList', JSON.stringify(data?.groupCodeList));
+    localStorage.setItem('memberName', data?.memberName);
   };
-
-  const onSubmit: SubmitHandler<FieldValues> = async () => {
-    if (isSubmitting || isButtonDisabled) {
-      return;
-    }
-
-    try {
-      // client.post 요청을 실행
-      const response = await client.post('/auth/council-login', formValues);
-      if (response.status === 200) {
-        // passu에서 자치기구 로그인 해야한다고 하면 주석 해제 아니면 주석 삭제
-        // if (redirectUrl !== null) {
-        //   const separator = redirectUrl.includes('?') ? '&' : '?';
-        //   const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
-        //   localStorage.removeItem('redirectUrl');
-        //   localStorage.removeItem('kakaoData');
-        //   window.location.href = newRedirectUrl;
-        //   return;
-        // }
-        localStorage.setItem('accessToken', response.data?.data?.accessToken);
-        setDataInLocalStorage(response.data);
+  const mutation = usePostLoginData({
+    mutationOptions: {
+      onSuccess: (data: PostScouncilLoginDataResponse) => {
         navigate('/');
         setLoginState(true);
-      } else {
-        alert(
-          isEn
-            ? 'Login information does not match. Please try again.'
-            : '로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'
-        );
+        setDataInLocalStorage(data);
+      },
+      onError: () => {
         setScouncilError(true);
-      }
-    } catch (error) {
-      setScouncilError(true);
-      console.error('Error submitting form:', error);
-      alert(
-        isEn
-          ? 'Login information does not match. Please try again.'
-          : '로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'
-      );
-    } finally {
-      setIsButtonDisabled(false);
-    }
+        alert(t('onboarding.로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'));
+      },
+      onSettled: () => {
+        setIsButtonDisabled(false);
+      },
+    },
+  });
+
+  const onSubmit: SubmitHandler<FieldValues> = async () => {
+    //     // passu에서 자치기구 로그인 해야한다고 하면 주석 해제 아니면 주석 삭제
+    //     // if (redirectUrl !== null) {
+    //     //   const separator = redirectUrl.includes('?') ? '&' : '?';
+    //     //   const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
+    //     //   localStorage.removeItem('redirectUrl');
+    //     //   localStorage.removeItem('kakaoData');
+    //     //   window.location.href = newRedirectUrl;
+    //     //   return;
+    //     // }
+    mutation.mutate({
+      accountId: formValues.accountId,
+      password: formValues.password,
+    });
   };
 
   return (
@@ -127,7 +111,7 @@ export function GeneralLoginSection() {
             {errors.password && (
               <small className="text-[13px] text-red-600">{t(errors.password?.message as string)}</small>
             )}
-            {ScouncilError && (
+            {scouncilError && (
               <>
                 <div className="mt-[10px] text-xs font-medium text-red-600">
                   {t('onboarding.입력하신 정보가 올바르지 않습니다')}
