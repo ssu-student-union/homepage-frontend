@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoginSchemaRegister, LoginType } from '../types/onboardingZodCheck';
+import { LoginSchemaRegister } from '../types/onboardingZodCheck';
 import { FieldValues } from 'react-hook-form';
 import { useSetAtom } from 'jotai';
 import { LoginState } from '@/atoms/atom';
@@ -29,7 +29,12 @@ export function OnboardingSection() {
   } = useForm<FieldValues>({
     resolver: zodResolver(LoginSchemaRegister),
     mode: 'onBlur',
-    defaultValues: {} as LoginType,
+    defaultValues: {
+      name: '',
+      studentId: '',
+      memberCode: '',
+      majorCode: '',
+    },
   });
 
   const setLoginState = useSetAtom(LoginState);
@@ -46,12 +51,16 @@ export function OnboardingSection() {
   // 그건 애초에 isFirst === true한 유저가 아니니 이전에 메인으로 갔을 것이기에
   // 이 부분 논의 후 수정할 필요 있음
   useEffect(() => {
-    const kakaoData = localStorage.getItem('kakaoData');
-    if (kakaoData) {
-      const parsedKakaoData = JSON.parse(kakaoData);
-      if (parsedKakaoData.data?.name && parsedKakaoData.data?.studentId) {
-        navigate('/');
+    try {
+      const kakaoData = localStorage.getItem('kakaoData');
+      if (kakaoData) {
+        const parsedKakaoData = JSON.parse(kakaoData);
+        if (parsedKakaoData.data?.name && parsedKakaoData.data?.studentId) {
+          navigate('/');
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
   }, [navigate]);
 
