@@ -13,7 +13,7 @@ interface UsePostLoginDataOptions {
   >;
 }
 
-export default function usePostLoginData({ mutationOptions }: Omit<UsePostLoginDataOptions, 'endpoint' | 'data'>) {
+export default function usePostLoginData({ mutationOptions }: Omit<UsePostLoginDataOptions, 'mutationFn'>) {
   return useStuMutation(async (data: PostScouncilLoginDataRequest) => {
     return (
       await clientAuth<ApiResponse<PostScouncilLoginDataResponse>>({

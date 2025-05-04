@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 import { client } from '@/apis/client';
 import { faculties, departments } from './index';
 import { SubmitHandler } from 'react-hook-form';
-import { moveToPASSU } from '@/pages/kakao/containers/utils/moveToPASSU';
+import { moveToRedirectUrl } from '@/pages/kakao/containers/utils/moveToRedirectUrl';
 export function OnboardingSection() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
@@ -23,7 +23,7 @@ export function OnboardingSection() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitting },
+    formState: { errors, isSubmitted, isSubmitting, isValid },
     watch,
     setValue,
   } = useForm<FieldValues>({
@@ -36,7 +36,7 @@ export function OnboardingSection() {
 
   const [selectedFaculty, setSelectedFaculty] = useState<string>('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [ScouncilError, setScouncilError] = useState(false);
+  const [scouncilError, setScouncilError] = useState(false);
 
   const formValues = watch();
 
@@ -56,15 +56,10 @@ export function OnboardingSection() {
   }, [navigate]);
 
   useEffect(() => {
-    const isFormValid = Object.keys(errors).length === 0 && Object.values(formValues).every(Boolean);
-    setIsButtonDisabled(!isFormValid);
-  }, [errors, formValues]);
+    setIsButtonDisabled(!isValid);
+  }, [isValid]);
 
   const onSubmit: SubmitHandler<FieldValues> = async () => {
-    if (isSubmitting || isButtonDisabled) {
-      return;
-    }
-
     try {
       const UserData = localStorage.getItem('kakaoData');
       let accessToken;
@@ -72,7 +67,6 @@ export function OnboardingSection() {
         const parsedUserData = JSON.parse(UserData);
         accessToken = parsedUserData?.data?.accessToken;
       }
-      // client.post 요청을 실행
       const response = await client.post('/onboarding/academy-information', formValues, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -82,18 +76,11 @@ export function OnboardingSection() {
           if (!accessToken) {
             accessToken = response.data?.data?.accessToken;
           }
-          moveToPASSU(redirectUrl, accessToken);
+          moveToRedirectUrl(redirectUrl, accessToken);
         }
         localStorage.setItem('accessToken', response.data?.data?.accessToken);
         navigate('/');
         setLoginState(true);
-      } else {
-        alert(
-          isEn
-            ? 'Login information does not match. Please try again.'
-            : '로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'
-        );
-        setScouncilError(true);
       }
     } catch (error) {
       setScouncilError(true);
@@ -197,7 +184,7 @@ export function OnboardingSection() {
               ))}
             </SelectContent>
           </Select>
-          {ScouncilError && (
+          {scouncilError && (
             <>
               <div className="mt-[10px] text-xs font-medium text-red-600">
                 {t('onboarding.입력하신 정보가 올바르지 않습니다')}

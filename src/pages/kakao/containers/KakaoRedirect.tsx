@@ -4,7 +4,7 @@ import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 import { LoginState } from '@/atoms/atom';
 import { baseUrl } from '@/pages/kakao/containers/const/data';
 import { useSetAtom } from 'jotai';
-import { moveToPASSU } from './utils/moveToPASSU';
+import { moveToPASSU } from './utils/moveToRedirectUrl';
 
 const KakaoRedirect = () => {
   const setLoginState = useSetAtom(LoginState);
