@@ -28,7 +28,7 @@ export function OnboardingSection() {
     setValue,
   } = useForm<FieldValues>({
     resolver: zodResolver(LoginSchemaRegister),
-    mode: 'onChange',
+    mode: 'onBlur',
     defaultValues: {} as LoginType,
   });
 

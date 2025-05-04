@@ -24,7 +24,7 @@ export function GeneralLoginSection() {
     watch,
   } = useForm<FieldValues>({
     resolver: zodResolver(LoginSchemaScouncil),
-    mode: 'onChange',
+    mode: 'onBlur',
     defaultValues: {} as LoginScouncilType,
   });
 

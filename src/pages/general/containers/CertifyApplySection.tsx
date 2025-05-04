@@ -14,10 +14,11 @@ export function CertifyApplySection() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitting },
+    formState: { errors, isSubmitted, isSubmitting, isValid },
     watch,
   } = useForm<LoginCertifyType>({
     resolver: zodResolver(LoginSchemaCertify),
+    mode: 'onBlur',
   });
 
   const navigate = useNavigate();
@@ -26,26 +27,22 @@ export function CertifyApplySection() {
   const formValues = watch();
 
   useEffect(() => {
-    const isFormValid = formValues.name && formValues.id && formValues.inquiry && formValues.email;
-    setIsButtonDisabled(!isFormValid);
-  }, [formValues]);
+    setIsButtonDisabled(!isValid);
+  }, [isValid]);
 
   const onSubmit: SubmitHandler<LoginCertifyType> = async () => {
     try {
       const reqBody = {
-        name: formValues.name || '', // Ensure `name` is a string
-        studentId: Number(formValues.id) || 0, // Ensure `studentId` is a number
-        email: formValues.email || '', // Ensure `email` is a string
-        content: formValues.inquiry || '', // Ensure `content` is a string
+        name: formValues.name ?? '',
+        studentId: formValues.id ?? 0,
+        email: formValues.email ?? '',
+        content: formValues.inquiry ?? '',
       };
 
-      console.log('Request body being sent:', reqBody);
-
       const response = await postOnboardingMail(reqBody);
-      console.log('Response from server:', response);
-
-      alert('문의내용이 확인되었습니다.');
-      navigate('/register/errorcheck');
+      if (response.status === 200) {
+        navigate('/register/errorcheck');
+      }
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         if (error.response) {
