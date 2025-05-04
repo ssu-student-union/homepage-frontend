@@ -65,14 +65,8 @@ export function CertifyApplySection() {
         <div className="max-w-[300px] pb-4 text-center text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)] md:text-3xl">
           {t('onboarding.학생인증이 안 되시나요?')}
         </div>
-        <div className="text-center text-xs font-medium text-gray-700 md:w-[510px] md:text-base">
-          {t('onboarding.error_apply_description')
-            .split('.')
-            .map((line, index) => (
-              <div key={index}>
-                {line}.{index < t('onboarding.error_apply_description').split('.').length - 1 && <br />}
-              </div>
-            ))}
+        <div className="whitespace-pre-line text-center text-xs font-medium text-gray-700 md:w-[540px] md:text-base">
+          {t('onboarding.error_apply_description')}
         </div>
         <form className="mt-[36px] w-[300px] md:w-[420px]" noValidate onSubmit={handleSubmit(onSubmit)}>
           <Input

@@ -15,14 +15,8 @@ export function CertifyErrorSection() {
         <img src="/image/certify-error.svg" alt="certify-error" />
       </div>
       <div className="text-[22px] font-bold md:text-[32px]">{t('onboarding.문의가 접수되었습니다')}</div>
-      <div className="mt-[12px] text-[11px] font-medium md:text-base">
-        {t('onboarding.error_check_description')
-          .split('.')
-          .map((line, index) => (
-            <div key={index}>
-              {line}.{index < t('onboarding.error_check_description').split('.').length - 1 && <br />}
-            </div>
-          ))}
+      <div className="mt-[12px] whitespace-pre-line text-[11px] font-medium md:text-base">
+        {t('onboarding.error_check_description')}
       </div>
       <Button onClick={handleToMain} className="mt-[39px] h-[58px] w-[308px] md:w-[440px]">
         메인페이지 이동
