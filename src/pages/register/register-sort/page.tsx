@@ -1,7 +1,7 @@
 import { useParams } from 'react-router';
-import { GeneralLoginSection } from '@/pages/general/containers/GeneralLoginSection';
-import { CertifyErrorSection } from '@/pages/general/containers/CertifyErrorSection';
-import { CertifyApplySection } from './containers/CertifyApplySection';
+import { GeneralLoginSection } from '@/pages/register/register-sort/containers/GeneralLoginSection';
+import { CertifyErrorSection } from '@/pages/register/register-sort/containers/CertifyErrorSection';
+import { CertifyApplySection } from '@/pages/register/register-sort/containers/CertifyApplySection';
 import { Header } from '@/containers/common/Header/Header';
 import { State } from '@/containers/common/Header/const/state';
 import { TOSSection } from './containers/TOSSection';

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-import { baseUrl } from '@/pages/kakao/containers/const/data';
+import { baseUrl } from '@/pages/register/containers/const/data';
 const rest_api_key = import.meta.env.VITE_REST_API_KEY;
 const redirect_uri = import.meta.env.VITE_REDIRECT_URI;
 // 카카오 로그인 리다이렉트 수정되면 경로 마꿔야함 - 학생회 이름 안 바뀜

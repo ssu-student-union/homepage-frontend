@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 import { client } from '@/apis/client';
 import { faculties, departments } from './index';
 import { SubmitHandler } from 'react-hook-form';
-import { moveToRedirectUrl } from '@/pages/kakao/containers/utils/moveToRedirectUrl';
+import { moveToRedirectUrl } from '@/pages/register/containers/utils/moveToRedirectUrl';
 export function OnboardingSection() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();

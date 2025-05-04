@@ -1,17 +1,9 @@
 import { State } from '@/containers/common/Header/const/state';
 import { Header } from '@/containers/common/Header/Header';
-import { RegisterButtonSection } from '@/pages/kakao/containers/RegisterButtonSection';
-import { RegisterTextSection } from '@/pages/kakao/containers/RegisterTextSection';
-import { useSearchParams } from 'react-router';
+import { RegisterButtonSection } from '@/pages/register/containers/RegisterButtonSection';
+import { RegisterTextSection } from '@/pages/register/containers/RegisterTextSection';
 
-export function KakaoRegisterRedirectPage() {
-  const [searchParams] = useSearchParams();
-  const redirectUrl = searchParams.get('redirect');
-
-  if (redirectUrl) {
-    localStorage.setItem('redirectUrl', redirectUrl);
-  }
-
+export function KakaoRegisterPage() {
   return (
     <>
       <Header state={State.Onboarding} />

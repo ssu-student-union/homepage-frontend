@@ -2,9 +2,9 @@ import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 import { LoginState } from '@/atoms/atom';
-import { baseUrl } from '@/pages/kakao/containers/const/data';
+import { baseUrl } from '@/pages/register/containers/const/data';
 import { useSetAtom } from 'jotai';
-import { moveToRedirectUrl } from './utils/moveToRedirectUrl';
+import { moveToRedirectUrl } from '../containers/utils/moveToRedirectUrl';
 
 const KakaoRedirect = () => {
   const setLoginState = useSetAtom(LoginState);
