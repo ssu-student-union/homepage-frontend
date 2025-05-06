@@ -1,7 +1,6 @@
 import { MainPage } from './main/page';
 import { KakaoRegisterPage } from './register/page';
-import { GeneralRegisterPage } from './register/register-sort/page';
-import KakaoRedirect from './register/auth-callback/page';
+import KakaoRedirect from './register/auth/callback/page';
 import { IntroPage } from './intro/page';
 import { IntroEditPage } from './intro/IntroEdit/page';
 import { AuditPage } from './audit/page';
@@ -32,7 +31,7 @@ import { LostDetailPage } from './lost-article/detail/page';
 import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
-import { KakaoRegisterRedirectPage } from './register/register-redirect/page';
+import { KakaoRegisterRedirectPage } from './register/redirect/page';
 import MyPage from './mypage/page';
 import DataPage from './data/page';
 import DataDetailPage from './data/[id]/page';
@@ -46,11 +45,15 @@ import ServiceNoticePatchPage from './mypage/service-notice/service-noticePatch/
 import { QnApage } from './qna-notice/page';
 import QnaDetailPage from './qna-notice/[id]/page';
 import QnaEditPage from './qna-notice/edit/page';
-
+import { TOSPage } from './register/step/tos/page';
+import { OnboardingPage } from './register/step/onboarding/page';
+import { CertifyErrorPage } from './register/step/errorcheck/page';
+import { CertifyApplyPage } from './register/step/errorapply/page';
+import { GeneralLoginPage } from './register/step/scouncil/page';
+import { RegisterLayout } from './layout/registerLayout';
 export {
   MainPage,
   KakaoRegisterPage,
-  GeneralRegisterPage,
   KakaoRedirect,
   IntroPage,
   IntroEditPage,
@@ -96,4 +99,10 @@ export {
   QnApage,
   QnaDetailPage,
   QnaEditPage,
+  TOSPage,
+  OnboardingPage,
+  CertifyErrorPage,
+  CertifyApplyPage,
+  GeneralLoginPage,
+  RegisterLayout,
 };

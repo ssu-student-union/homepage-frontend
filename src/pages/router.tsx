@@ -67,9 +67,15 @@ export function MainRouter() {
         <Route path="/qna/:id?/edit" element={<i.QnaEditPage />} />
       </Route>
       {/* 온보딩 */}
-      <Route path="/register" element={<i.KakaoRegisterPage />} />
+      <Route path="/register" element={<i.RegisterLayout />}>
+        <Route path="/register" element={<i.KakaoRegisterPage />} />
+        <Route path="/register/scouncil" element={<i.GeneralLoginPage />} />
+        <Route path="/register/errorcheck" element={<i.CertifyErrorPage />} />
+        <Route path="/register/errorapply" element={<i.CertifyApplyPage />} />
+        <Route path="/register/tos" element={<i.TOSPage />} />
+        <Route path="/register/onboarding" element={<i.OnboardingPage />} />
+      </Route>
       <Route path="/register/redirect" element={<i.KakaoRegisterRedirectPage />} />
-      <Route path="/register/:sort" element={<i.GeneralRegisterPage />} />
       <Route path="/auth/callback" element={<i.KakaoRedirect />} />
       {/* 이외 경로 리다이렉트 처리 */}
       <Route path="*" element={<Navigate to="/" replace />} />

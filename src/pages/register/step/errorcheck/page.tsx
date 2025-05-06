@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
-export function CertifyErrorSection() {
+export function CertifyErrorPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 

@@ -6,7 +6,7 @@ import { PrivacyContent, ProcessContent, ThirdContent } from '../components/TOSC
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/libs/utils';
 
-export function TOSSection() {
+export function TOSPage() {
   const [checkList, setCheckList] = useState<string[]>([]);
   const [selectedTOS, setSelectedTOS] = useState<string>('');
   const navigate = useNavigate();

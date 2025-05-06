@@ -12,10 +12,10 @@ import { useSetAtom } from 'jotai';
 import { LoginState } from '@/atoms/atom';
 import { useState, useEffect } from 'react';
 import { client } from '@/apis/client';
-import { faculties, departments } from './index';
+import { faculties, departments } from '../const/index';
 import { SubmitHandler } from 'react-hook-form';
 import { moveToRedirectUrl } from '@/pages/register/containers/utils/moveToRedirectUrl';
-export function OnboardingSection() {
+export function OnboardingPage() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isEn = i18n.language === 'en';

@@ -9,7 +9,7 @@ import { postOnboardingMail } from '@/apis/postOnboardingMail'; // Import the po
 import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
 
-export function CertifyApplySection() {
+export function CertifyApplyPage() {
   const { t } = useTranslation();
   const {
     register,

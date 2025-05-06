@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useSetAtom } from 'jotai';
 import usePostLoginData from '../hooks/mutation/usePostLoginData';
 import { PostScouncilLoginDataResponse } from '@/types/apis/get';
-export function GeneralLoginSection() {
+export function GeneralLoginPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
