@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { InstaFloating, KakaoFloating, YoutubeFloating } from '@/components/deprecated/Floating/Floating';
 import { Spacing } from '@/components/Spacing';
 import { MAIN_PENDING } from '../const';
-import ChannelTalkFloating from '@/components/deprecated/Floating/ChannelTalkFloating';
+import FloatingButton from '@/components/deprecated/Buttons/FloatingButton';
+import KakaoIcon from '@/components/SvgIcon/KakaoIcon';
+import InstaIcon from '@/components/SvgIcon/InstaIcon';
+import ChannelTalkIcon from '@/components/SvgIcon/ChannelTalkIcon';
 
 export function CounselBtn() {
   const [isVisible, setIsVisible] = useState(false);
@@ -30,12 +32,17 @@ export function CounselBtn() {
         isVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-[-20px] opacity-0'
       }`}
     >
-      <KakaoFloating />
+      <FloatingButton href="http://pf.kakao.com/_RZTKV">
+        <KakaoIcon className="size-9 max-md:size-7" />
+      </FloatingButton>
       <Spacing direction="vertical" size={13} />
-      <InstaFloating />
+      <FloatingButton href="https://www.instagram.com/ssure65th/">
+        <InstaIcon className="size-9 max-md:size-7" />
+      </FloatingButton>
       <Spacing direction="vertical" size={13} />
-      <Spacing direction="vertical" size={13} />
-      <ChannelTalkFloating />
+      <FloatingButton isChannelTalk={true}>
+        <ChannelTalkIcon className="size-22 max-md:size-15" />
+      </FloatingButton>
     </div>
   );
 }
