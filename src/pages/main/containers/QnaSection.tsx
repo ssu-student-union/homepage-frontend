@@ -39,7 +39,7 @@ export default function QnaSection() {
         무엇이든 물어보세요! <span className="font-bold">학생회가 직접 답변</span> 드립니다.
       </p>
       <Spacing size={14} direction="vertical" />
-      <div className="flex w-full flex-col justify-center">
+      <div className="flex w-full flex-col items-center justify-center">
         {/* xs, sm */}
         {width >= 360 && width < 720 && (
           <div className="mx-auto flex w-[90vw] flex-col justify-center gap-[16px] pb-[16px] pt-2.5">
