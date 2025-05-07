@@ -117,3 +117,14 @@ export interface UserPostsPageInfo {
   totalElements: number;
   totalPages: number;
 }
+
+export interface PostScouncilLoginDataResponse {
+  accessToken: string;
+  groupCodeList: string[];
+  memberName: string;
+}
+
+export interface PostScouncilLoginDataRequest {
+  accountId: string;
+  password: string;
+}
