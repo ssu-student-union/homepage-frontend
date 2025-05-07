@@ -6,7 +6,7 @@ import { PrivacyContent, ProcessContent, ThirdContent } from '../components/TOSC
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/libs/utils';
 
-export function TOSSection() {
+export function TOSPage() {
   const [checkList, setCheckList] = useState<string[]>([]);
   const [selectedTOS, setSelectedTOS] = useState<string>('');
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ export function TOSSection() {
                         <Check size={25} />
                       )}
                     </span>
-                    <div>{item.label}</div>
+                    <div className="max-w-[300px]">{item.label}</div>
                   </div>
 
                   <DialogTrigger asChild>

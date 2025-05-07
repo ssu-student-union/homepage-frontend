@@ -1,3 +1,5 @@
+import { STUDENT_COUNCIL_NAME } from '@/const/studentCouncil';
+
 export function RegisterTextSection() {
   return (
     <div
@@ -9,7 +11,7 @@ export function RegisterTextSection() {
         WebkitTextFillColor: 'transparent',
       }}
     >
-      S:SURE
+      {STUDENT_COUNCIL_NAME}
     </div>
   );
 }
