@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Spacing } from '@/components/Spacing';
 import { MAIN_PENDING } from '../const';
-import FloatingButton from '@/components/deprecated/Buttons/FloatingButton';
+import FloatingButton from '@/components/Buttons/FloatingButton';
 import KakaoIcon from '@/components/SvgIcon/KakaoIcon';
 import InstaIcon from '@/components/SvgIcon/InstaIcon';
 import ChannelTalkIcon from '@/components/SvgIcon/ChannelTalkIcon';
@@ -41,7 +41,7 @@ export function CounselBtn() {
       </FloatingButton>
       <Spacing direction="vertical" size={13} />
       <FloatingButton isChannelTalk={true}>
-        <ChannelTalkIcon className="size-22 max-md:size-15" />
+        <ChannelTalkIcon className="size-20 max-md:size-14" />
       </FloatingButton>
     </div>
   );
