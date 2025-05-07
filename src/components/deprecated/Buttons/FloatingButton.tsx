@@ -1,6 +1,8 @@
 import { cn } from '@/libs/utils';
 import { ReactNode } from 'react';
 
+// 메인페이지에 쓰이는 FloatingButton 컴포넌트입니다. 기본적으로, children에 아이콘을 넣어서 사용합니다. 채널톡의 경우 특수하기에 isChannelTalk으로 case를 분류해놨습니다.
+
 interface FloatingButtonProps {
   href?: string;
   children: ReactNode;
