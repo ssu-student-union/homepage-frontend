@@ -34,7 +34,6 @@ export function CounselBtn() {
       <Spacing direction="vertical" size={13} />
       <InstaFloating />
       <Spacing direction="vertical" size={13} />
-      <YoutubeFloating />
       <Spacing direction="vertical" size={13} />
       <ChannelTalkFloating />
     </div>
