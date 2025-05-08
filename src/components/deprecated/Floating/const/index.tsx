@@ -9,6 +9,6 @@ export const iconPaths = {
 
 export const linkPaths = {
   kakaoLink: 'http://pf.kakao.com/_RZTKV',
-  instaLink: 'https://www.instagram.com/ussum_64th/',
+  instaLink: ' https://www.instagram.com/ssure65th/',
   youtubeLink: 'https://www.youtube.com/@ussum_64th',
 };
