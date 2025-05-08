@@ -40,16 +40,17 @@ export function GeneralLoginPage() {
     setIsButtonDisabled(!isValid);
   }, [isValid]);
 
-  const setDataInLocalStorage = (data: { groupCodeList: string[]; memberName: string }) => {
+  const setDataInLocalStorage = (data: { groupCodeList: string[]; memberName: string; accessToken: string }) => {
     localStorage.setItem('groupCodeList', JSON.stringify(data?.groupCodeList));
     localStorage.setItem('memberName', data?.memberName);
+    localStorage.setItem('accessToken', data?.accessToken);
   };
   const mutation = usePostLoginData({
     mutationOptions: {
       onSuccess: (data: PostScouncilLoginDataResponse) => {
-        navigate('/');
         setLoginState(true);
         setDataInLocalStorage(data);
+        navigate('/');
       },
       onError: () => {
         setScouncilError(true);
