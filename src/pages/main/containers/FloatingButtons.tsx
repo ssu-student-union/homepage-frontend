@@ -28,7 +28,7 @@ export function FloatingButtons() {
 
   return (
     <div
-      className={`fixed right-4 top-24 z-30 transition-all duration-500 md:right-10${
+      className={`fixed right-4 top-20 z-30 transition-all duration-500 md:right-10${
         isVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-[-20px] opacity-0'
       }`}
     >
