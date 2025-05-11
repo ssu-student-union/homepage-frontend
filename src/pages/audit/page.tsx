@@ -1,6 +1,6 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
-import { IntroNavSection } from '../intro/container/IntroNavSection';
+import { IntroNavSection } from '../intro/legacy/container/IntroNavSection';
 import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { useAuditBoard } from './hooks/useAuditBoard';
 import { categoryMap } from './const/data';

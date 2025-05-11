@@ -1,4 +1,4 @@
-import { mainName } from '../../container/const/data';
+import { mainName } from '../../legacy/container/const/data';
 
 export function categoryToTitle(category: string) {
   switch (category) {
