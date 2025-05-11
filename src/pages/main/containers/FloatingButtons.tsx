@@ -6,7 +6,7 @@ import KakaoIcon from '@/components/SvgIcon/KakaoIcon';
 import InstaIcon from '@/components/SvgIcon/InstaIcon';
 import ChannelTalkIcon from '@/components/SvgIcon/ChannelTalkIcon';
 
-export function CounselBtn() {
+export function FloatingButtons() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export function CounselBtn() {
 
   return (
     <div
-      className={`fixed right-4 top-20 z-50 transition-all duration-500 md:right-10${
+      className={`fixed right-4 top-32 z-50 transition-all duration-500 md:right-10${
         isVisible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-[-20px] opacity-0'
       }`}
     >

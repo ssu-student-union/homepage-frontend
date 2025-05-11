@@ -6,7 +6,7 @@ import { Spacing } from '@/components/Spacing';
 // import PetitionSection from './containers/PetitionSection';
 // import LostArticleSection from './containers/LostArticleSection';
 import CampusMapSection from './containers/CampusMapSection';
-import { CounselBtn } from './containers/CounselBtn';
+import { FloatingButtons } from './containers/FloatingButtons';
 import { ServiceNoticeTab } from '../mypage/service-notice/component/ServiceNoticeTab';
 import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
 import { NoticeResponse } from '../notice/types';
@@ -42,7 +42,7 @@ export function MainPage() {
 
       <MainCarousel className="h-screen" id={MAIN_PENDING} />
       <MainScheduleSection id={MAIN_PENDING} />
-      <CounselBtn />
+      <FloatingButtons />
 
       <div className="snap-start px-[15px] md:px-[3.125rem] lg:px-[12.5rem]">
         <Spacing size={86} direction="vertical" />
