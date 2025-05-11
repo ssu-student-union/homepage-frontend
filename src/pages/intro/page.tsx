@@ -31,8 +31,8 @@ export default function IntroPage() {
 
   const subtitle: Record<string, string> = {
     총학생회: '제64대 총학생회 US:SUM',
-    중앙집행위원회: '제64대 중앙집행위원회',
     중앙운영위원회: '제64대 중앙운영위원회',
+    중앙집행위원회: '제64대 중앙집행위원회',
   };
 
   const subCategories = [
@@ -50,17 +50,17 @@ export default function IntroPage() {
 
   return (
     <>
-      <BoardHeader title={category} subtitle={subtitle[category] ?? '총학생회회'} />
+      <BoardHeader title={category} subtitle={subtitle[category] ?? '총학생회'} />
       <Tabs defaultValue={category} className="w-full">
         <BoardTabsList>
           <BoardTabsQueryLink query="category" value="총학생회">
             총학생회
           </BoardTabsQueryLink>
-          <BoardTabsQueryLink query="category" value="중앙집행위원회">
-            중앙집행위원회
-          </BoardTabsQueryLink>
           <BoardTabsQueryLink query="category" value="중앙운영위원회">
             중앙운영위원회
+          </BoardTabsQueryLink>
+          <BoardTabsQueryLink query="category" value="중앙집행위원회">
+            중앙집행위원회
           </BoardTabsQueryLink>
         </BoardTabsList>
         <div className="px-4">
@@ -68,10 +68,10 @@ export default function IntroPage() {
             <TabsContent value="총학생회">
               <LinkCategories value={subCategory} categories={subCategories} />
             </TabsContent>
-            <TabsContent value="중앙집행위원회">
+            <TabsContent value="중앙운영위원회">
               <LinkCategories value={subCategory} categories={subCategories} />
             </TabsContent>
-            <TabsContent value="중앙운영위원회">
+            <TabsContent value="중앙집행위원회">
               <LinkCategories value={subCategory} categories={subCategories} />
             </TabsContent>
             <div className="flex w-full items-center justify-center overflow-hidden">
