@@ -1,4 +1,4 @@
-import { mainName } from '../../legacy/container/const/data';
+import { mainName } from '@/pages/notice/const';
 
 export function categoryToTitle(category: string) {
   switch (category) {

@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router';
-import { useValidateAndRedirect } from '../legacy/container/hooks/useValidateAndRedirect';
 import { IntroEditTitleSection } from './container/IntroEditTitleSection';
 import IntroEditFileSection from './container/IntroEditFileSection';
+import { useValidateAndRedirect } from '@/pages/intro/legacy/container/hooks/useValidateAndRedirect';
 
 export function IntroEditPage() {
   const [searchParams] = useSearchParams();
