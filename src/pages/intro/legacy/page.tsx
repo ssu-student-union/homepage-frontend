@@ -7,7 +7,7 @@ import { useCategoryMap } from './container/hooks/useCategoryMap';
 import { paramToHisNum, paramToName, paramToSubTitle, paramToTitle } from './container/utils/dataUtils';
 import { IntroNavSection } from './container/IntroNavSection';
 
-export function IntroPage() {
+export function IntroPageLegacy() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 

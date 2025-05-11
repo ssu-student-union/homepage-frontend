@@ -8,7 +8,6 @@ export function MainRouter() {
         <Route path="/" element={<i.MainPage />} />
         {/* 1. 소개 */}
         <Route path="/intro" element={<i.IntroPage />} />
-        <Route path="/intro/edit" element={<i.IntroEditPage />} />
         {/* 2. 학교생활 */}
         {/* 2-1. 공지사항 */}
         <Route path="/notice" element={<i.NoticePage />} />
