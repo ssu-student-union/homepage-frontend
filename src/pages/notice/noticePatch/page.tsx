@@ -4,7 +4,7 @@ import { NoticeEditContentSection } from '../noticeEdit/container/noticeEditCont
 import { NoticeEditSubmitButton } from '../noticeEdit/container/noticeEditSubmitButton';
 import { useNoticePatch } from './hook/useNoticePatch';
 import { NoticePatchImageSection } from './container/noticePatchImageSection';
-import { AuditPatchFilesSection } from '@/pages/audit/auditPatch/container/auditPatchFileSection';
+import { AuditPatchFilesSection } from '@/pages/audit/patch/container/auditPatchFileSection';
 import { useParams } from 'react-router';
 
 export default function NoticePatchPage() {

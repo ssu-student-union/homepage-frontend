@@ -1,4 +1,4 @@
-import { ImagePreview } from '@/pages/audit/edit/component/ImagePreview';
+import { ImagePreview } from '../../edit/component/ImagePreview';
 
 interface AuditPatchImageSectionProps {
   imageList: string[];
@@ -6,7 +6,7 @@ interface AuditPatchImageSectionProps {
   setThumbnailImage: (image: string) => void;
 }
 
-export function NoticePatchImageSection({ imageList, thumbnailImage, setThumbnailImage }: AuditPatchImageSectionProps) {
+export function AuditPatchImageSection({ imageList, thumbnailImage, setThumbnailImage }: AuditPatchImageSectionProps) {
   return (
     <>
       <div className={imageList.length === 0 ? 'hidden' : 'px-[30px] xl:px-[200px]'}>

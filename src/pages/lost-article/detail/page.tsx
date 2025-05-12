@@ -1,10 +1,10 @@
 import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
-import { AuditDetailContentSection } from '@/pages/audit/auditDetail/container/auditDetailContentSection';
-import { AuditDetailEditSection } from '@/pages/audit/auditDetail/container/auditDetailEditSection';
-import AuditDetailLoading from '@/pages/audit/auditDetail/container/auditDetailLoading';
+import { AuditDetailContentSection } from '@/pages/audit/[id]/container/auditDetailContentSection';
+import { AuditDetailEditSection } from '@/pages/audit/[id]/container/auditDetailEditSection';
+import AuditDetailLoading from '@/pages/audit/[id]/container/auditDetailLoading';
 import { items } from './const/data';
 import { LostDetailTopSection } from './container/lostDetailTopSection';
-import { AuditDetailFileSection } from '@/pages/audit/auditDetail/auditDetailFileSection';
+import { AuditDetailFileSection } from '@/pages/audit/[id]/auditDetailFileSection';
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { usePostId } from '@/hooks/usePostId';

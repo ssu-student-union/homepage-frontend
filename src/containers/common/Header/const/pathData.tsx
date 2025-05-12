@@ -6,14 +6,14 @@ export interface MenuItem {
 
 export const MENU_ITEMS: Record<string, MenuItem[]> = {
   소개: [
-    { name: '총학생회', path: '/intro?category=president&sub-category=intro' },
+    { name: '총학생회', path: '/intro?category=총학생회&sub=소개' },
     {
       name: '중앙운영위원회',
-      path: '/intro?category=central_operating_committee&sub-category=intro',
+      path: '/intro?category=중앙운영위원회&sub=소개',
     },
     {
       name: '중앙집행위원회',
-      path: '/intro?category=central_executive_committee&sub-category=intro',
+      path: '/intro?category=중앙집행위원회&sub=소개',
     },
   ],
   공지사항: [

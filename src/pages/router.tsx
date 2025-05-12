@@ -8,7 +8,6 @@ export function MainRouter() {
         <Route path="/" element={<i.MainPage />} />
         {/* 1. 소개 */}
         <Route path="/intro" element={<i.IntroPage />} />
-        <Route path="/intro/edit" element={<i.IntroEditPage />} />
         {/* 2. 학교생활 */}
         {/* 2-1. 공지사항 */}
         <Route path="/notice" element={<i.NoticePage />} />
@@ -32,10 +31,6 @@ export function MainRouter() {
         <Route path="/petition-notice/edit" element={<i.PetitionNoticeEditPage />} />
         <Route path="/petition-notice/:id" element={<i.PetitionNoticeDetailPage />} />
         {/* 4. 소통 */}
-        <Route path="/audit" element={<i.AuditPage />} />
-        <Route path="/audit/:id" element={<i.AuditDetailPage />} />
-        <Route path="/audit/edit" element={<i.AuditEditPage />} />
-        <Route path="/audit/:id/patch" element={<i.AuditPatchPage />} />
         {/* 4-1. 인권신고게시판*/}
         <Route path="/human-rights" element={<i.HumanRightsPage />} />
         <Route path="/human-rights/:id" element={<i.HumanRightsDetailPage />} />

@@ -1,4 +1,4 @@
-import { FileItem } from '@/pages/audit/auditEdit/container/auditEditFilesSection';
+import { FileItem } from '@/pages/audit/edit/container/auditEditFilesSection';
 import { File as Data } from '@/types/apis/post';
 
 const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];

@@ -1,11 +1,6 @@
 import { MainPage } from './main/page';
 import { KakaoRegisterPage } from './register/page';
 import KakaoRedirect from './register/auth/callback/page';
-import { IntroPage } from './intro/page';
-import { IntroEditPage } from './intro/IntroEdit/page';
-import { AuditPage } from './audit/page';
-import { AuditDetailPage } from './audit/auditDetail/page';
-import { AuditEditPage } from './audit/auditEdit/page';
 import { HumanRightsPage } from './human-rights/page';
 import { HumanRightsDetailPage } from './human-rights/[id]/page';
 import { HumanRightsEditPage } from './human-rights/edit/page';
@@ -23,7 +18,6 @@ import { NoticePage } from './notice/page';
 import { NoticeEditPage } from './notice/noticeEdit/page';
 import { NoticeDetailPage } from './notice/noticeDetail/page';
 import NoticePatchPage from './notice/noticePatch/page';
-import { AuditPatchPage } from './audit/auditPatch/page';
 import { LostArticlePage } from './lost-article/page';
 import { LostArticleEditPage } from './lost-article/edit/page';
 import CampusPage from './campus/page';
@@ -51,15 +45,12 @@ import { CertifyErrorPage } from './register/step/errorcheck/page';
 import { CertifyApplyPage } from './register/step/errorapply/page';
 import { GeneralLoginPage } from './register/step/scouncil/page';
 import { RegisterLayout } from './layout/registerLayout';
+import IntroPage from './intro/page';
 export {
   MainPage,
   KakaoRegisterPage,
   KakaoRedirect,
   IntroPage,
-  IntroEditPage,
-  AuditPage,
-  AuditDetailPage,
-  AuditEditPage,
   HumanRightsPage,
   HumanRightsDetailPage,
   HumanRightsEditPage,
@@ -77,7 +68,6 @@ export {
   NoticeEditPage,
   NoticeDetailPage,
   NoticePatchPage,
-  AuditPatchPage,
   LostArticlePage,
   LostArticleEditPage,
   CampusPage,
