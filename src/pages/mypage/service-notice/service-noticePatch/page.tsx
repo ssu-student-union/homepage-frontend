@@ -1,5 +1,5 @@
 import { HeadLayout } from '@/template/HeadLayout';
-import { AuditPatchFilesSection } from '@/pages/audit/auditPatch/container/auditPatchFileSection';
+import { AuditPatchFilesSection } from '@/pages/audit/patch/container/auditPatchFileSection';
 import { NoticeEditTitleSection } from '@/pages/notice/noticeEdit/container/noticeEditTitleSection';
 import { NoticeEditContentSection } from '@/pages/notice/noticeEdit/container/noticeEditContentSection';
 import { NoticePatchImageSection } from '@/pages/notice/noticePatch/container/noticePatchImageSection';

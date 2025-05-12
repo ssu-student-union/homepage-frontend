@@ -5,7 +5,7 @@ import { PartnershipEditContentSection } from '../partnershipEdit/container/Part
 import { PartnershipEditSubmitButton } from '../partnershipEdit/container/PartnershipEditSubmitButton';
 import { usePartnershipPatch } from './hook/usePartnershipPatch';
 import { PartnershipPatchImageSection } from './container/PartnershipPatchImageSection';
-import { AuditPatchFilesSection } from '@/pages/audit/auditPatch/container/auditPatchFileSection';
+import { AuditPatchFilesSection } from '@/pages/audit/patch/container/auditPatchFileSection';
 
 export default function PartnershipPatchPage() {
   const {

@@ -1,17 +1,17 @@
+import { AuditDetailTopSection } from './container/auditDetailTopSection';
+import { AuditDetailContentSection } from './container/auditDetailContentSection';
+import { AuditDetailEditSection } from './container/auditDetailEditSection';
 import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
-import { AuditDetailContentSection } from '@/pages/audit/[id]/container/auditDetailContentSection';
-import { AuditDetailEditSection } from '@/pages/audit/[id]/container/auditDetailEditSection';
-import AuditDetailLoading from '@/pages/audit/[id]/container/auditDetailLoading';
-import { items } from './const/data';
-import { LostDetailTopSection } from './container/lostDetailTopSection';
-import { AuditDetailFileSection } from '@/pages/audit/[id]/auditDetailFileSection';
-import { useEffect } from 'react';
+import AuditDetailLoading from './container/auditDetailLoading';
+import { items } from '../const/data';
+import { AuditDetailFileSection } from './auditDetailFileSection';
 import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { usePostId } from '@/hooks/usePostId';
 
-export function LostDetailPage() {
+export function AuditDetailPage() {
   const postId = usePostId();
-  const boardCode: string = '분실물게시판';
+  const boardCode: string = '감사기구게시판';
 
   const queryClient = useQueryClient();
   const { data: resp, isLoading, isError, refetch } = useGetBoardDetail({ boardCode, postId });
@@ -21,33 +21,29 @@ export function LostDetailPage() {
       refetch();
     }
   }, [queryClient, refetch]);
-
   const postDetail = resp?.data.postDetailResDto;
 
   if (!postDetail || isError) {
     return <div>에러 발생!!!</div>;
   }
 
-  // 파일과 이미지 리스트를 타입별로 구분하여 처리
   const fileNameList =
     postDetail.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileName) || [];
 
   const fileList =
     postDetail.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileUrl) || [];
-
   const imageList =
     postDetail.fileResponseList?.filter((file) => file.fileType === 'images').map((file) => file.fileUrl) || [];
 
-  const fileUrls = [...fileList, ...imageList]; // 모든 파일과 이미지 URL을 합친 리스트
+  const fileUrls = [...fileList, ...imageList];
 
   return (
     <div className="px-[20px] md:px-[40px] lg:px-[120px]">
-      <LostDetailTopSection
-        studentId={postDetail.studentId ? postDetail.studentId : postDetail.authorName}
-        isCouncil={postDetail.studentId === null}
+      <AuditDetailTopSection
         items={items}
         title={postDetail.title}
         date={postDetail.createdAt}
+        authorName={postDetail.authorName}
       />
       {isLoading ? (
         <AuditDetailLoading />
@@ -56,16 +52,16 @@ export function LostDetailPage() {
           <AuditDetailContentSection content={postDetail.content} images={imageList} />
           <AuditDetailFileSection files={fileList} fileNames={fileNameList} />
           <AuditDetailEditSection
-            title={postDetail.title}
-            content={postDetail.content}
             authority={postDetail.allowedAuthorities}
             isAuthor={postDetail.isAuthor}
+            title={postDetail.title}
+            content={postDetail.content}
             imageUrls={imageList}
             boardCode={boardCode}
             postId={postId}
             fileUrls={fileUrls}
-            baseUrl="/lost-article"
-            noticeUrl="/lost-article?category=state"
+            baseUrl="/audit"
+            noticeUrl="/audit?category=notice"
           />
         </>
       )}

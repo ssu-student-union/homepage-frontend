@@ -1,7 +1,7 @@
 import { AuditEditContentSection } from '@/pages/audit/edit/container/auditEditContentSection';
 import { AuditEditSubmitButton } from '@/pages/audit/edit/container/auditEditSubmitButton';
 import { AuditEditTitleSection } from '@/pages/audit/edit/container/auditEditTitleSection';
-import { AuditPatchImageSection } from '@/pages/audit/auditPatch/container/auditPatchImageSection';
+import { AuditPatchImageSection } from '@/pages/audit/patch/container/auditPatchImageSection';
 import { HeadLayout } from '@/template/HeadLayout';
 import { useLostPatch } from './hook/useLostPatch';
 
