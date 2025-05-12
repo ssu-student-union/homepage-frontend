@@ -2,7 +2,7 @@ import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
 import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
-import { handleFileLists } from '@/pages/audit/auditEdit/utils/fileHandler';
+import { handleFileLists } from '@/pages/audit/edit/utils/fileHandler';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 

@@ -1,4 +1,4 @@
-import { ImagePreview } from '@/pages/audit/auditEdit/component/ImagePreview';
+import { ImagePreview } from '@/pages/audit/edit/component/ImagePreview';
 
 interface AuditPatchImageSectionProps {
   imageList: string[];

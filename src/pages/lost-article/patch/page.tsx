@@ -1,6 +1,6 @@
-import { AuditEditContentSection } from '@/pages/audit/auditEdit/container/auditEditContentSection';
-import { AuditEditSubmitButton } from '@/pages/audit/auditEdit/container/auditEditSubmitButton';
-import { AuditEditTitleSection } from '@/pages/audit/auditEdit/container/auditEditTitleSection';
+import { AuditEditContentSection } from '@/pages/audit/edit/container/auditEditContentSection';
+import { AuditEditSubmitButton } from '@/pages/audit/edit/container/auditEditSubmitButton';
+import { AuditEditTitleSection } from '@/pages/audit/edit/container/auditEditTitleSection';
 import { AuditPatchImageSection } from '@/pages/audit/auditPatch/container/auditPatchImageSection';
 import { HeadLayout } from '@/template/HeadLayout';
 import { useLostPatch } from './hook/useLostPatch';

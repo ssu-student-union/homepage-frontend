@@ -1,7 +1,7 @@
-import { AuditEditContentSection } from '@/pages/audit/auditEdit/container/auditEditContentSection';
-import { AuditEditImageSection } from '@/pages/audit/auditEdit/container/auditEditImageSection';
-import { AuditEditSubmitButton } from '@/pages/audit/auditEdit/container/auditEditSubmitButton';
-import { AuditEditTitleSection } from '@/pages/audit/auditEdit/container/auditEditTitleSection';
+import { AuditEditContentSection } from '@/pages/audit/edit/container/auditEditContentSection';
+import { AuditEditImageSection } from '@/pages/audit/edit/container/auditEditImageSection';
+import { AuditEditSubmitButton } from '@/pages/audit/edit/container/auditEditSubmitButton';
+import { AuditEditTitleSection } from '@/pages/audit/edit/container/auditEditTitleSection';
 import { HeadLayout } from '@/template/HeadLayout';
 import { useLostEdit } from './hook/useLostEdit';
 
