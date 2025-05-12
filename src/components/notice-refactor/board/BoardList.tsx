@@ -1,7 +1,7 @@
 import { BodyLayout } from '@/template/BodyLayout';
 import { HeadLayout } from '@/template/HeadLayout';
-import { BoardSelector } from '../deprecated/Board/BoardSelector';
-import { PostContent } from '../PostContent';
+import { BoardSelector } from '../../deprecated/Board/BoardSelector';
+import { PostContent } from '../../PostContent';
 import { SetURLSearchParams } from 'react-router';
 import { useConditionalNavigate } from '@/hooks/useConditionalNavigate';
 import { useEffect } from 'react';

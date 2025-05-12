@@ -3,8 +3,8 @@ import { useSearchParams } from 'react-router';
 import { SearchState } from '@/atoms/atom';
 import { useSearchHumanRightsPosts } from '@/pages/human-rights/queries.ts';
 import { useAtom } from 'jotai';
-import { BoardListSkeleton } from '@/components/notice-refactor/BoardListSkeleton';
-import { BoardList } from '@/components/notice-refactor/BoardList';
+import { BoardListSkeleton } from '@/components/notice-refactor/board/BoardListSkeleton';
+import { BoardList } from '@/components/notice-refactor/board/BoardList';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
