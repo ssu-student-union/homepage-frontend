@@ -34,22 +34,24 @@ export function GeneralLoginPage() {
 
   const formValues = watch();
 
-  // const redirectUrl = localStorage.getItem('redirectUrl');
+  const redirectUrl = localStorage.getItem('redirectUrl');
+  const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
     setIsButtonDisabled(!isValid);
   }, [isValid]);
 
-  const setDataInLocalStorage = (data: { groupCodeList: string[]; memberName: string }) => {
+  const setDataInLocalStorage = (data: { groupCodeList: string[]; memberName: string; accessToken: string }) => {
     localStorage.setItem('groupCodeList', JSON.stringify(data?.groupCodeList));
     localStorage.setItem('memberName', data?.memberName);
+    localStorage.setItem('accessToken', data?.accessToken);
   };
   const mutation = usePostLoginData({
     mutationOptions: {
       onSuccess: (data: PostScouncilLoginDataResponse) => {
-        navigate('/');
         setLoginState(true);
         setDataInLocalStorage(data);
+        navigate('/');
       },
       onError: () => {
         setScouncilError(true);
@@ -62,15 +64,14 @@ export function GeneralLoginPage() {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async () => {
-    //     // passu에서 자치기구 로그인 해야한다고 하면 주석 해제 아니면 주석 삭제
-    //     // if (redirectUrl !== null) {
-    //     //   const separator = redirectUrl.includes('?') ? '&' : '?';
-    //     //   const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
-    //     //   localStorage.removeItem('redirectUrl');
-    //     //   localStorage.removeItem('kakaoData');
-    //     //   window.location.href = newRedirectUrl;
-    //     //   return;
-    //     // }
+    if (redirectUrl !== null && accessToken !== null) {
+      const separator = redirectUrl.includes('?') ? '&' : '?';
+      const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
+      localStorage.removeItem('redirectUrl');
+      localStorage.removeItem('kakaoData');
+      window.location.href = newRedirectUrl;
+      return;
+    }
     mutation.mutate({
       accountId: formValues.accountId,
       password: formValues.password,
