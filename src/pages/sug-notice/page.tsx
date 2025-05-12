@@ -1,13 +1,10 @@
-import { HeadLayout } from '@/template/HeadLayout';
-import { BodyLayout } from '@/template/BodyLayout';
-import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
-import { PostContent } from '@/components/PostContent';
 import { SuggestCategory } from './schema';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 import { SearchState } from '@/atoms/atom';
 import { useSearchSugNoticePosts } from './queries';
-import { useEffect } from 'react';
 import { useAtom } from 'jotai';
+import { BoardList } from '@/components/notice-refactor/BoardList';
+import { BoardListSkeleton } from '@/components/notice-refactor/BoardListSkeleton';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -23,39 +20,12 @@ const ensureCategory = (str: string | null): SelectorCategory<SuggestCategory> =
 
 const subtitle: JSX.Element = <p className="font-bold">학생자치기구에게 건의 및 문의할 수 있습니다.</p>;
 
-function PageSkeleton() {
-  return (
-    <div>
-      <HeadLayout title="건의게시판" subtitle={subtitle} searchHidden={true} />
-      <BodyLayout.Skeleton>
-        <BoardSelector.Skeleton />
-        {Array.from(Array(10).keys()).map((_, i) => (
-          <PostContent.Skeleton key={i} />
-        ))}
-      </BodyLayout.Skeleton>
-    </div>
-  );
-}
-
-// const data = {
-//   postListResDto: [],
-//   allowedAuthorities: [],
-//   deniedAuthorities: ['WRITE', 'ALL_READ'],
-//   pageInfo: {
-//     pageNum: 0,
-//     pageSize: 15,
-//     totalElements: 0,
-//     totalPages: 0,
-//   },
-// };
-
 export function SuggestPage() {
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
   const category = ensureCategory(searchParams.get('category'));
 
-  // 검색 데이터 불러오는 API 추가 예정
+  const boardType = '건의게시판';
 
   const [q] = useAtom(SearchState);
 
@@ -65,17 +35,8 @@ export function SuggestPage() {
     category: category === '전체' ? undefined : category,
   });
 
-  useEffect(() => {
-    if (data && (page < 1 || page > data.pageInfo.totalPages)) {
-      setSearchParams((prev) => {
-        prev.delete('page');
-        return prev;
-      });
-    }
-  }, [data, page, setSearchParams]);
-
   if (isLoading) {
-    return <PageSkeleton />;
+    return <BoardListSkeleton boardType={boardType} subtitle={subtitle} />;
   }
 
   if (!data || isError) {
@@ -90,61 +51,25 @@ export function SuggestPage() {
   const { pageNum: currentPage, totalPages } = data.pageInfo;
   const posts = data.postListResDto;
 
-  function selectCategory(category: SelectorCategory<SuggestCategory>) {
-    setSearchParams((prev) => {
-      if (category === '전체') {
-        prev.delete('category');
-      } else {
-        prev.set('category', category);
-      }
-      prev.delete('page');
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function navigatePage(page: number) {
-    setSearchParams((prev) => {
-      prev.set('page', `${page}`);
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function navigateToWrite() {
-    navigate('/sug-notice/edit');
-  }
-
   return (
     <>
-      <HeadLayout title="건의게시판" subtitle={subtitle} />
-      <BodyLayout
+      <BoardList
+        boardType={boardType}
+        subtitle={subtitle}
         totalPages={totalPages}
         currentPage={currentPage + 1}
-        authority={data.allowedAuthorities}
-        onPageChange={navigatePage}
-        onWriteClick={navigateToWrite}
-      >
-        <BoardSelector
-          subcategories={['전체', '답변대기', '답변완료']}
-          selectedSubcategory={category}
-          onSubcategorySelect={selectCategory}
-          className="mb-4"
-        />
-        {posts.map((post) => (
-          <PostContent<SuggestCategory>
-            key={post.postId}
-            to={`/sug-notice/${post.postId}`}
-            category={{ name: post.category, className: categoryColors[post.category] }}
-            date={post.date}
-            title={post.title}
-            author={post.author}
-          />
-        ))}
-        {posts.length === 0 && (
-          <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
-        )}
-      </BodyLayout>
+        authorityList={data.allowedAuthorities}
+        toWritepath="/sug-notice/edit"
+        category={category}
+        subcategories={['전체', '답변대기', '답변완료']}
+        categoryColors={categoryColors}
+        setSearchParams={setSearchParams}
+        page={page}
+        posts={posts}
+        getCategory={(post) => post.category}
+        getAuthor={(post) => post.author}
+        getPostUrl={(post) => `/sug-notice/${post.postId}`}
+      />
     </>
   );
 }

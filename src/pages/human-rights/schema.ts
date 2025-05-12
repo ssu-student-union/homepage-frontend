@@ -111,7 +111,7 @@ export const HumanRightsPostSchema = z.object({
 export const HumanRightsPostSummarySchema = z.object({
   postId: z.number(),
   title: z.string().min(1),
-  date: z.string().transform((str) => new Date(str)),
+  date: z.coerce.date(), //z.string().transform((str) => new Date(str)),
   category: HumanRightsCategorySchema.nullable().transform((str) => str ?? '접수대기'),
   reportName: z.string().min(1),
 });

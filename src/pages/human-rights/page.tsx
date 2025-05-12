@@ -1,13 +1,10 @@
-import { HeadLayout } from '@/template/HeadLayout.tsx';
-import { BodyLayout } from '@/template/BodyLayout.tsx';
-import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
-import { PostContent } from '@/components/PostContent';
-import { HumanRightsCategory } from '@/pages/human-rights/schema.ts';
-import { useNavigate, useSearchParams } from 'react-router';
+import { HumanRightsCategory, HumanRightsPostSummaryResponse } from '@/pages/human-rights/schema.ts';
+import { useSearchParams } from 'react-router';
 import { SearchState } from '@/atoms/atom';
 import { useSearchHumanRightsPosts } from '@/pages/human-rights/queries.ts';
-import { useEffect } from 'react';
 import { useAtom } from 'jotai';
+import { BoardListSkeleton } from '@/components/notice-refactor/BoardListSkeleton';
+import { BoardList } from '@/components/notice-refactor/BoardList';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -27,27 +24,13 @@ const subtitle = (
   </p>
 );
 
-function PageSkeleton() {
-  return (
-    <>
-      <HeadLayout title="인권신고게시판" subtitle={subtitle} searchHidden={true} />
-      <BodyLayout.Skeleton>
-        <BoardSelector.Skeleton />
-        {Array.from(Array(10).keys()).map((_, i) => (
-          <PostContent.Skeleton key={i} />
-        ))}
-      </BodyLayout.Skeleton>
-    </>
-  );
-}
-
 export function HumanRightsPage() {
-  /* Navigation function for write operation */
-  const navigate = useNavigate();
   /* Obtain query parameters */
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
   const category = ensureCategory(searchParams.get('category'));
+
+  const boardType = '인권신고게시판';
 
   /* Search state management */
   // TODO: Use search parameters instead of recoil state
@@ -60,18 +43,8 @@ export function HumanRightsPage() {
     category: category === '전체' ? undefined : category,
   });
 
-  // check wrong page params
-  useEffect(() => {
-    if (data && (page < 1 || page > data.pageInfo.totalPages)) {
-      setSearchParams((prev) => {
-        prev.delete('page');
-        return prev;
-      });
-    }
-  }, [data, page, setSearchParams]);
-
   if (isLoading) {
-    return <PageSkeleton />;
+    return <BoardListSkeleton boardType={boardType} subtitle={subtitle} />;
   }
 
   if (!data || isError) {
@@ -88,62 +61,23 @@ export function HumanRightsPage() {
   const { pageNum: currentPage, totalPages } = data.pageInfo;
   const posts = data.postListResDto;
 
-  /* Handle user inputs */
-  function selectCategory(category: SelectorCategory<HumanRightsCategory>) {
-    setSearchParams((prev) => {
-      if (category === '전체') {
-        prev.delete('category');
-      } else {
-        prev.set('category', category);
-      }
-      prev.delete('page');
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function navigatePage(page: number) {
-    setSearchParams((prev) => {
-      prev.set('page', `${page}`);
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function navigateToWrite() {
-    navigate('/human-rights/edit');
-  }
-
   return (
-    <>
-      <HeadLayout title="인권신고게시판" subtitle={subtitle}></HeadLayout>
-      <BodyLayout
-        totalPages={totalPages}
-        currentPage={currentPage + 1}
-        authority={data.allowedAuthorities}
-        onPageChange={navigatePage}
-        onWriteClick={navigateToWrite}
-      >
-        <BoardSelector
-          subcategories={['전체', '접수대기', '접수완료']}
-          selectedSubcategory={category}
-          onSubcategorySelect={selectCategory}
-          className="mb-4"
-        />
-        {posts.map((post) => (
-          <PostContent<HumanRightsCategory>
-            key={post.postId}
-            to={`/human-rights/${post.postId}`}
-            category={{ name: post.category, className: categoryColors[post.category] }}
-            date={post.date}
-            title={post.title}
-            author={post.reportName}
-          />
-        ))}
-        {posts.length === 0 && (
-          <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
-        )}
-      </BodyLayout>
-    </>
+    <BoardList<HumanRightsCategory, HumanRightsPostSummaryResponse>
+      boardType={boardType}
+      subtitle={subtitle}
+      totalPages={totalPages}
+      currentPage={currentPage + 1}
+      authorityList={data.allowedAuthorities}
+      toWritepath="human-rights/edit"
+      category={category}
+      subcategories={['전체', '접수대기', '접수완료']}
+      categoryColors={categoryColors}
+      setSearchParams={setSearchParams}
+      page={page}
+      posts={posts}
+      getCategory={(post) => post.category || '접수대기'}
+      getAuthor={(post) => post.reportName}
+      getPostUrl={(post) => `/human-rights/${post.postId}`}
+    />
   );
 }
