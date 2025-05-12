@@ -3,37 +3,33 @@ import { BoardTabsList, BoardTabsQueryLink } from '@/components/BoardTabs';
 import { LinkCategories } from '@/components/LinkCategories';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Container } from '@/containers/new/Container';
-import { useResize } from '@/hooks/useResize';
-import { useEffect, useMemo, useState } from 'react';
+import { useBreakpoints } from '@/hooks/useBreakpoints';
+import { SUBTITLE } from '@/pages/intro/const';
+import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
 export default function IntroPage() {
   const [searchParams] = useSearchParams();
   const category = useMemo(() => searchParams.get('category') ?? '총학생회', [searchParams]);
   const subCategory = useMemo(() => searchParams.get('sub') ?? '소개', [searchParams]);
-  const { width: screenWidth } = useResize();
-  const [size, setSize] = useState<string>('lg');
-  useEffect(() => {
-    if (screenWidth <= 389) {
-      setSize('xs');
-    } else if (screenWidth >= 390 && screenWidth <= 719) {
-      setSize('sm');
-    } else if (screenWidth >= 720 && screenWidth <= 1079) {
-      setSize('md');
-    } else if (screenWidth >= 1080 && screenWidth <= 1439) {
-      setSize('lg');
-    } else if (screenWidth >= 1440) {
-      setSize('xl');
-    } else {
-      setSize('lg');
-    }
-  }, [screenWidth]);
 
-  const subtitle: Record<string, string> = {
-    총학생회: '제64대 총학생회 US:SUM',
-    중앙운영위원회: '제64대 중앙운영위원회',
-    중앙집행위원회: '제64대 중앙집행위원회',
-  };
+  const breakpoint = useBreakpoints();
+  const size = (() => {
+    switch (breakpoint) {
+      case 'sm':
+        return 'sm';
+      case 'md':
+        return 'md';
+      case 'lg':
+        return 'md';
+      case 'xl':
+        return 'lg';
+      case 'xxl':
+        return 'xl';
+      default:
+        return 'xs';
+    }
+  })();
 
   const subCategories = [
     {
@@ -52,7 +48,7 @@ export default function IntroPage() {
     <>
       <BoardHeader
         title={category}
-        subtitle={<span className="text-gray-700">{subtitle[category] ?? '총학생회'}</span>}
+        subtitle={<span className="text-gray-700">{SUBTITLE[category] ?? '총학생회'}</span>}
       />
       <Tabs defaultValue={category} className="w-full">
         <BoardTabsList>
@@ -80,7 +76,7 @@ export default function IntroPage() {
             <div className="flex w-full items-center justify-center overflow-hidden">
               <img
                 className="h-auto max-w-full object-contain"
-                src={`/intro/${category}/${subCategory}/${size}.webp`}
+                src={`/intro/${category}/${subCategory}/${size ?? 'lg'}.webp`}
               />
             </div>
           </Container>
