@@ -1,60 +1,79 @@
-import { useSearchParams, useNavigate } from 'react-router';
-import IntroContentSection from './container/IntroContentSection';
-import { HeadLayout } from '@/template/HeadLayout';
-import { useBoardSelect } from '@/hooks/useBoardSelect';
-import { useValidateAndRedirect } from './container/hooks/useValidateAndRedirect';
-import { useCategoryMap } from './container/hooks/useCategoryMap';
-import { paramToHisNum, paramToName, paramToSubTitle, paramToTitle } from './container/utils/dataUtils';
-import { IntroNavSection } from './container/IntroNavSection';
+import { BoardHeader } from '@/components/BoardHeader';
+import { BoardTabsList, BoardTabsQueryLink } from '@/components/BoardTabs';
+import { LinkCategories } from '@/components/LinkCategories';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { Container } from '@/containers/new/Container';
+import { useBreakpoints } from '@/hooks/useBreakpoints';
+import { SUBTITLE } from '@/pages/intro/const';
+import { useMemo } from 'react';
+import { useSearchParams } from 'react-router';
 
-export function IntroPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
+export default function IntroPage() {
+  const [searchParams] = useSearchParams();
+  const category = useMemo(() => searchParams.get('category') ?? '총학생회', [searchParams]);
+  const subCategory = useMemo(() => searchParams.get('sub') ?? '소개', [searchParams]);
 
-  const categoryParam = searchParams.get('category') || '';
-  const subCategoryParam = searchParams.get('sub-category') || '';
+  const breakpoint = useBreakpoints();
+  const size = (() => {
+    switch (breakpoint) {
+      case 'xxl':
+        return 'xl';
+      default:
+        return breakpoint;
+    }
+  })();
 
-  const { isValidCategory, isValidSubCategory } = useValidateAndRedirect({
-    category: categoryParam,
-    subCategory: subCategoryParam,
-  });
-
-  const { onSubcategorySelect } = useBoardSelect<string>(categoryParam);
-  const { onSubcategorySelect: onSubSelect } = useBoardSelect<string>(subCategoryParam);
-
-  const { mainCategoryName, subCategoryDisplayName, handleSelection } = useCategoryMap({
-    categoryParam,
-    subCategoryParam,
-    onSubcategorySelect,
-    onSubSelect,
-    setSearchParams,
-    navigate,
-  });
-
-  if (!isValidCategory || !isValidSubCategory) {
-    return null;
-  }
+  const subCategories = [
+    {
+      id: '소개',
+      name: '소개',
+      to: `/intro?category=${category}&sub=소개`,
+    },
+    {
+      id: '조직도',
+      name: '조직도',
+      to: `/intro?category=${category}&sub=조직도`,
+    },
+  ];
 
   return (
     <>
-      <HeadLayout
-        className={categoryParam === 'audit' ? 'px-[30px] xl:px-[200px]' : 'px-[30px] lg:px-[200px]'}
-        searchHidden={true}
-        borderOff={true}
-        title={paramToTitle(categoryParam)}
-        subtitle={`${paramToHisNum(categoryParam)} ${paramToSubTitle(categoryParam)} ${paramToName(categoryParam)}`}
+      <BoardHeader
+        title={category}
+        subtitle={<span className="text-gray-700">{SUBTITLE[category] ?? '총학생회'}</span>}
       />
-      <IntroNavSection
-        categoryParam={categoryParam}
-        subCategoryParam={subCategoryParam}
-        handleSelection={handleSelection}
-        mainCategoryName={mainCategoryName}
-        subCategoryDisplayName={subCategoryDisplayName}
-        isHidden={categoryParam === 'audit' ? false : true}
-        className={categoryParam === 'audit' ? 'mx-[30px] xl:mx-[200px]' : ''}
-      />
-      <IntroContentSection category={categoryParam} subCategory={subCategoryParam} />
-      {/* /intro/edit navigate 버튼 <IntroEditButton /> */}
+      <Tabs defaultValue={category} className="w-full">
+        <BoardTabsList>
+          <BoardTabsQueryLink query="category" value="총학생회">
+            총학생회
+          </BoardTabsQueryLink>
+          <BoardTabsQueryLink query="category" value="중앙운영위원회">
+            중앙운영위원회
+          </BoardTabsQueryLink>
+          <BoardTabsQueryLink query="category" value="중앙집행위원회">
+            중앙집행위원회
+          </BoardTabsQueryLink>
+        </BoardTabsList>
+        <div className="px-4">
+          <Container className="pt-0 max-md:px-0">
+            <TabsContent value="총학생회">
+              <LinkCategories value={subCategory} categories={subCategories} />
+            </TabsContent>
+            <TabsContent value="중앙운영위원회">
+              <LinkCategories value={subCategory} categories={subCategories} />
+            </TabsContent>
+            <TabsContent value="중앙집행위원회">
+              <LinkCategories value={subCategory} categories={subCategories} />
+            </TabsContent>
+            <div className="my-8 flex w-full items-center justify-center overflow-hidden">
+              <img
+                className="h-auto max-w-full object-contain"
+                src={`/intro/${category}/${subCategory}/${size ?? 'md'}.webp`}
+              />
+            </div>
+          </Container>
+        </div>
+      </Tabs>
     </>
   );
 }

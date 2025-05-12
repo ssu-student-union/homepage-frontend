@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
-import { handleFileLists } from '@/pages/audit/auditEdit/utils/fileHandler';
+import { handleFileLists } from '@/pages/audit/edit/utils/fileHandler';
 
 export function useLostEdit() {
   const navigate = useNavigate();
