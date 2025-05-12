@@ -31,10 +31,6 @@ export function MainRouter() {
         <Route path="/petition-notice/edit" element={<i.PetitionNoticeEditPage />} />
         <Route path="/petition-notice/:id" element={<i.PetitionNoticeDetailPage />} />
         {/* 4. 소통 */}
-        <Route path="/audit" element={<i.AuditPage />} />
-        <Route path="/audit/:id" element={<i.AuditDetailPage />} />
-        <Route path="/audit/edit" element={<i.AuditEditPage />} />
-        <Route path="/audit/:id/patch" element={<i.AuditPatchPage />} />
         {/* 4-1. 인권신고게시판*/}
         <Route path="/human-rights" element={<i.HumanRightsPage />} />
         <Route path="/human-rights/:id" element={<i.HumanRightsDetailPage />} />
