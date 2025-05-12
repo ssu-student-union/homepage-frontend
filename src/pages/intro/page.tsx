@@ -50,9 +50,10 @@ export default function IntroPage() {
 
   return (
     <>
-      <BoardHeader title={category}>
-        <span className="text-gray-700">{subtitle[category] ?? '총학생회'}</span>
-      </BoardHeader>
+      <BoardHeader
+        title={category}
+        subtitle={<span className="text-gray-700">{subtitle[category] ?? '총학생회'}</span>}
+      />
       <Tabs defaultValue={category} className="w-full">
         <BoardTabsList>
           <BoardTabsQueryLink query="category" value="총학생회">
