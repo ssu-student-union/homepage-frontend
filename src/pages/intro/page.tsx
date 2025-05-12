@@ -21,13 +21,13 @@ export default function IntroPage() {
       case 'md':
         return 'md';
       case 'lg':
-        return 'md';
+        return 'xl';
       case 'xl':
-        return 'lg';
+        return 'xl';
       case 'xxl':
         return 'xl';
       default:
-        return 'xs';
+        return 'sm';
     }
   })();
 
@@ -73,10 +73,10 @@ export default function IntroPage() {
             <TabsContent value="중앙집행위원회">
               <LinkCategories value={subCategory} categories={subCategories} />
             </TabsContent>
-            <div className="flex w-full items-center justify-center overflow-hidden">
+            <div className="my-8 flex w-full items-center justify-center overflow-hidden">
               <img
                 className="h-auto max-w-full object-contain"
-                src={`/intro/${category}/${subCategory}/${size ?? 'lg'}.webp`}
+                src={`/intro/${category}/${subCategory}/${size ?? 'md'}.webp`}
               />
             </div>
           </Container>
