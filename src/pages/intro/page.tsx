@@ -16,18 +16,10 @@ export default function IntroPage() {
   const breakpoint = useBreakpoints();
   const size = (() => {
     switch (breakpoint) {
-      case 'sm':
-        return 'sm';
-      case 'md':
-        return 'md';
-      case 'lg':
-        return 'xl';
-      case 'xl':
-        return 'xl';
       case 'xxl':
         return 'xl';
       default:
-        return 'sm';
+        return breakpoint;
     }
   })();
 
