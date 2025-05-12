@@ -58,7 +58,7 @@ export function ServiceNoticeTab({ isEmergency, title, postId }: ServiceNoticeTa
       {!hasCookie && open ? (
         <div
           className={cn(
-            'fixed top-12 z-40 flex h-12 w-full items-center justify-center gap-4 border-y border-[#9CA3AF] bg-white px-8 xl:h-16 xl:top-16',
+            'fixed top-12 z-40 flex h-12 w-full items-center justify-center gap-4 border-y border-[#9CA3AF] bg-white px-8 xl:top-16 xl:h-16',
             fadeOut ? 'animate-fadeout' : 'animate-fadein'
           )}
           onAnimationEnd={handleAnimationEnd}
