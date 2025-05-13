@@ -152,3 +152,10 @@ export function BoardList<T extends string, P extends PostBase>({
     </>
   );
 }
+
+// 공통화된 요소들은 최대한 배제하고 게시판의 특수한 요소들만 들고 있어야한다
+// 보일러 플레이트는 최대한 작게 가져가고 그 내부의 액션을 자율적으로 넣을 수 있어야 한다
+// 코드만 보고 그 뷰가 어떤 느낌인지 이해할 수 있어야 함
+// 자료집 페이지의 경우 ArtivleFooter와 내부를 붂어서 BoarderFooter로 만들고
+// writable과 같은 데이터를 표시하는 방식을 외부에서 넣을 수 있게 하여
+// 이해할 수 있는 코드가 되어야 한다.
