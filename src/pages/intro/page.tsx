@@ -19,6 +19,8 @@ export default function IntroPage() {
     switch (breakpoint) {
       case 'xxl':
         return 'xl';
+      case 'lg':
+        return 'md';
       default:
         return breakpoint;
     }
@@ -63,7 +65,7 @@ export default function IntroPage() {
             <TabsContent value="중앙집행위원회">
               <LinkCategories value={subCategory} categories={subCategories} />
             </TabsContent>
-            <div className="my-8 flex w-full items-center justify-center">
+            <div className="my-16 flex w-full items-center justify-center">
               {subCategory === '소개' ? (
                 <IntroCard>
                   <p>{INTROTEXTS[category]}</p>
