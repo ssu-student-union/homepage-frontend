@@ -1,10 +1,11 @@
 import { BoardHeader } from '@/components/BoardHeader';
 import { BoardTabsList, BoardTabsQueryLink } from '@/components/BoardTabs';
+import { IntroCard } from '@/components/IntroCard';
 import { LinkCategories } from '@/components/LinkCategories';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { Container } from '@/containers/new/Container';
 import { useBreakpoints } from '@/hooks/useBreakpoints';
-import { SUBTITLE } from '@/pages/intro/const';
+import { INTROTEXTS, SUBTITLE } from '@/pages/intro/const';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 
@@ -38,10 +39,7 @@ export default function IntroPage() {
 
   return (
     <>
-      <BoardHeader
-        title={category}
-        subtitle={<span className="text-gray-700">{SUBTITLE[category] ?? '총학생회'}</span>}
-      />
+      <BoardHeader title={category} subtitle={<span className="text-gray-700">{SUBTITLE[category]}</span>} />
       <Tabs defaultValue={category} className="w-full">
         <BoardTabsList>
           <BoardTabsQueryLink query="category" value="총학생회">
@@ -65,11 +63,17 @@ export default function IntroPage() {
             <TabsContent value="중앙집행위원회">
               <LinkCategories value={subCategory} categories={subCategories} />
             </TabsContent>
-            <div className="my-8 flex w-full items-center justify-center overflow-hidden">
-              <img
-                className="h-auto max-w-full object-contain"
-                src={`/intro/${category}/${subCategory}/${size ?? 'md'}.webp`}
-              />
+            <div className="my-8 flex w-full items-center justify-center">
+              {subCategory === '소개' ? (
+                <IntroCard>
+                  <p>{INTROTEXTS[category]}</p>
+                </IntroCard>
+              ) : (
+                <img
+                  className="h-auto max-w-full object-contain"
+                  src={`/intro/${category}/${subCategory}/${size ?? 'md'}.webp`}
+                />
+              )}
             </div>
           </Container>
         </div>
