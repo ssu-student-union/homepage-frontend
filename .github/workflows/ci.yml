@@ -9,7 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: preview
+    environment:
+      name: preview
+      url: ${{ vars.DEPLOYMENT_URL }}
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
