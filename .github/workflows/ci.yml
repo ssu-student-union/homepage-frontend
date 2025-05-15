@@ -40,7 +40,7 @@ jobs:
         run: yarn lint
       - name: Generate lint failure report
         if: failure()
-        run: yarn lint:report
+        run: yarn lint:export
       - name: Annotate Code Linting Results
         if: failure()
         uses: ataylorme/eslint-annotate-action@v3
