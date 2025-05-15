@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: develop
-      url: ${{ vars.DEPLOYMENT_URL }}
+      url: https://dev.sssupport.shop
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4

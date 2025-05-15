@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: prod
-      url: ${{ vars.DEPLOYMENT_URL }}
+      url: https://stu.ssu.ac.kr
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
