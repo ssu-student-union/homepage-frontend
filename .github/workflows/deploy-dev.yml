@@ -18,7 +18,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
-          cache: 'yarn'
+      - name: Retrive caches
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ hashFiles('yarn.lock') }}
       - name: Enable corepack
         run: corepack enable
       - name: Install project
