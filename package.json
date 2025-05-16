@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:export": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --output-file eslint-report.json --format json",
     "preview": "vite preview",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx,md}\"",
     "prettier:check": "prettier --check --config ./.prettierrc \"**/*.{ts,tsx,md}\"",
