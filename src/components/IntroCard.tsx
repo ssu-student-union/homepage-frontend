@@ -9,10 +9,10 @@ interface IntroCardProps {
 }
 export function IntroCard({ children, className = '' }: IntroCardProps) {
   return (
-    <div className={cn('rounded-[1.25rem] bg-gradient-to-b from-[#9ABAFF] to-[#6F84FF] p-0.5', className)}>
+    <div className={cn('rounded-[1.25rem] bg-gradient-to-b from-[#9ABAFF] to-[#6F84FF]', className)}>
       <Card
         className={cn(
-          'whitespace-pre-wrap rounded-[1.25rem] bg-white px-10 pt-12 text-center text-base font-semibold leading-relaxed text-[#2F377C]'
+          'transparent whitespace-pre-wrap rounded-[1.25rem] border-[0.125rem] bg-white px-10 pt-12 text-center text-base font-semibold leading-relaxed text-[#2F377C]'
         )}
       >
         <CardContent
