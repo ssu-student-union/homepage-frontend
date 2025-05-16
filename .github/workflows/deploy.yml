@@ -8,7 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: prod
+    environment:
+      name: prod
+      url: https://stu.ssu.ac.kr
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
@@ -51,7 +53,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             tar -xvf ./dist.tar ./dist
-            sudo rm -rf /var/www/homepage-frontend
-            sudo mv ./dist /var/www/homepage-frontend
+            sudo rm -rf ${{ vars.DEPLOYMENT_PATH }}
+            sudo mv ./dist ${{ vars.DEPLOYMENT_PATH }}
             rm -rf ./dist
             rm -f ./dist.tar
