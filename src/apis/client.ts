@@ -9,6 +9,9 @@ export const client = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  paramsSerializer: {
+    encode: (params) => encodeURIComponent(params),
+  },
 });
 
 client.interceptors.request.use(
