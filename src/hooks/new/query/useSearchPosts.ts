@@ -52,7 +52,7 @@ export function useSearchPosts<TRaw, TData = TRaw>({
       page,
       take: take ?? 15,
       category,
-      q: q ?? '',
+      q: encodeURIComponent(q ?? ''),
       groupCode,
       memberCode,
     },
