@@ -12,12 +12,12 @@ export function IntroCard({ children, className = '' }: IntroCardProps) {
     <div className={cn('rounded-[1.25rem] bg-gradient-to-b from-[#9ABAFF] to-[#6F84FF]', className)}>
       <Card
         className={cn(
-          'transparent whitespace-pre-wrap rounded-[1.25rem] border-[0.125rem] bg-white px-10 pt-12 text-center text-base font-semibold leading-relaxed text-[#2F377C]'
+          'overflow-hidden whitespace-pre-wrap rounded-[1.25rem] border-[0.125rem] border-transparent bg-transparent text-center text-base font-semibold leading-relaxed text-[#2F377C]'
         )}
       >
         <CardContent
           className={cn(
-            'flex flex-col items-center whitespace-pre-wrap p-0 text-center text-base font-semibold leading-relaxed text-[#2F377C]'
+            'flex flex-col items-center whitespace-pre-wrap bg-white px-10 pt-12 text-center text-base font-semibold leading-relaxed text-[#2F377C]'
           )}
         >
           {children}
