@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { useTranslation } from 'react-i18next';
 import { getStyles } from '@/containers/common/Header/const/style';
-import { DATA_PATH, MENU_ITEMS, OLD_URL, QNA_PATH } from '@/containers/common/Header/const/pathData';
+import { DATA_PATH, MENU_ITEMS, QNA_PATH } from '@/containers/common/Header/const/pathData';
 import DropDownMenu from '@/containers/common/Header/component/DropDownMenu';
 
 interface HeaderProps {
@@ -127,22 +127,6 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
                   )}
                 >
                   {t('header.자료집')}
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  to={`${OLD_URL}`}
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    'h-full bg-transparent px-7 text-foreground transition-colors hover:text-foreground',
-                    state !== State.Onboarding && 'xl:text-primary-foreground hover:xl:text-primary-foreground',
-                    textSize
-                  )}
-                >
-                  {t('header.이전 홈페이지')}
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
