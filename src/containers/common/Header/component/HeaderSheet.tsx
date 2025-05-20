@@ -1,4 +1,4 @@
-import { DATA_PATH, MENU_ITEMS, OLD_URL } from '@/containers/common/Header/const/pathData';
+import { DATA_PATH, MENU_ITEMS } from '@/containers/common/Header/const/pathData';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Globe } from '@phosphor-icons/react';
 import { ReactNode, useEffect, useState } from 'react';
@@ -87,9 +87,6 @@ export function HeaderSheet({ trigger, state, onLogout }: HeaderSheetProps) {
           <Link className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to={DATA_PATH}>
             {t('header.자료집')}
           </Link>
-          <a className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} target="_blank" href={OLD_URL}>
-            {t('header.이전 홈페이지')}
-          </a>
           {state === State.Login ? (
             // <Link className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to="/mypage">
             //   {t('introduction.마이페이지')}
