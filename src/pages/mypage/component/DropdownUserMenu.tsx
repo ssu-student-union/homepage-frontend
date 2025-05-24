@@ -1,47 +1,48 @@
+import { Link } from 'react-router';
+
 interface DropdownUserMenuProps {
   selectedMenu: string;
-  setSelectedMenu: (menu: string) => void;
   setIsDropdown: (value: boolean) => void;
 }
 
-export default function DropdownUserMenu({ selectedMenu, setSelectedMenu, setIsDropdown }: DropdownUserMenuProps) {
+export default function DropdownUserMenu({ selectedMenu, setIsDropdown }: DropdownUserMenuProps) {
   return (
     <div className="rounded-xs border bg-gray-50 p-1 text-xs text-gray-700 shadow-lg marker:w-36 md:text-sm lg:text-base">
-      <ul>
-        <li
+      <div className="flex flex-col">
+        <Link
+          to="/mypage"
           className={`cursor-pointer px-4 py-3 ${
-            selectedMenu === '내 정보' ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'
+            selectedMenu === '/mypage' ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'
           }`}
           onClick={() => {
-            setSelectedMenu('내 정보');
-            setIsDropdown(false); // 메뉴 선택 후 닫기
+            setIsDropdown(false);
           }}
         >
           내 정보
-        </li>
-        <li
+        </Link>
+        <Link
+          to="/mypage/myPosts"
           className={`cursor-pointer px-4 py-3 ${
-            selectedMenu === '작성 글 보기' ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'
+            selectedMenu === '/mypage/myPosts' ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'
           }`}
           onClick={() => {
-            setSelectedMenu('작성 글 보기');
             setIsDropdown(false);
           }}
         >
           작성 글 보기
-        </li>
-        <li
+        </Link>
+        <Link
+          to="/mypage/service-notice"
           className={`cursor-pointer px-4 py-3 ${
-            selectedMenu === '서비스 공지사항' ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'
+            selectedMenu === '/mypage/service-notice' ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'
           }`}
           onClick={() => {
-            setSelectedMenu('서비스 공지사항');
             setIsDropdown(false);
           }}
         >
           서비스 공지사항
-        </li>
-      </ul>
+        </Link>
+      </div>
     </div>
   );
 }

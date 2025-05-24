@@ -1,25 +1,20 @@
-import { useState } from 'react';
-import ProfilePage from './profile/page';
+import { useState, useEffect } from 'react';
 import Sidebar from './component/Sidebar';
 import DropdownUserMenu from './component/DropdownUserMenu';
-import { ServiceNoticePage } from './service-notice/page';
-import MyPostsPage from './myPosts/page';
 import { ChevronDown } from 'lucide-react';
-
+import { Outlet } from 'react-router';
+import { useLocation } from 'react-router';
 export default function MyPage() {
-  const [selectedMenu, setSelectedMenu] = useState('내 정보');
+  const [selectedMenu, setSelectedMenu] = useState('');
   const [isDropdown, setIsDropdown] = useState(false);
 
-  const renderMenu = () => {
-    switch (selectedMenu) {
-      case '내 정보':
-        return <ProfilePage />;
-      case '작성 글 보기':
-        return <MyPostsPage />;
-      case '서비스 공지사항':
-        return <ServiceNoticePage />;
-    }
-  };
+  const path = useLocation();
+
+  useEffect(() => {
+    setSelectedMenu(path.pathname ?? '');
+  }, [path]);
+
+  console.log('selectedMenu', selectedMenu);
 
   return (
     <div className="mt-24">
@@ -31,18 +26,16 @@ export default function MyPage() {
           </button>
           {isDropdown && (
             <div className="absolute top-10 z-50">
-              <DropdownUserMenu
-                selectedMenu={selectedMenu}
-                setSelectedMenu={setSelectedMenu}
-                setIsDropdown={setIsDropdown}
-              />
+              <DropdownUserMenu selectedMenu={selectedMenu} setIsDropdown={setIsDropdown} />
             </div>
           )}
         </div>
         <div className="w-full border-b border-[#E7E7E7]"></div>
         <div className="flex">
-          <Sidebar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
-          <div className="grow">{renderMenu()}</div>
+          <Sidebar selectedMenu={selectedMenu} />
+          <div className="grow">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

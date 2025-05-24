@@ -46,9 +46,11 @@ export function MainRouter() {
         <Route path="/data/:id?/edit" element={<i.DataEditPage />} />
         {/* 마이페이지 */}
         {/*마이페이지*/}
-        <Route path="/mypage" element={<i.MyPage />} />
-        <Route path="/mypage/profile" element={<i.ProfilePage />} />
-        <Route path="/mypage/myposts" element={<i.MyPostsPage />} />
+        <Route path="/mypage" element={<i.MyPage />}>
+          <Route path="/mypage" element={<i.ProfilePage />} />
+          <Route path="/mypage/myPosts" element={<i.MyPostsPage />} />
+          <Route path="/mypage/service-notice" element={<i.ServiceNoticePage />} />
+        </Route>
         {/*서비스 공지사항*/}
         <Route path="/service-notice" element={<i.ServiceNoticePage />} />
         <Route path="/service-notice/:id" element={<i.ServiceNoticeDetailPage />} />
