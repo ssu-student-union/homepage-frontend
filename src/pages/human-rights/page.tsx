@@ -88,6 +88,8 @@ export function HumanRightsPage() {
   const { pageNum: currentPage, totalPages } = data.pageInfo;
   const posts = data.postListResDto;
 
+  console.log(data);
+
   /* Handle user inputs */
   function selectCategory(category: SelectorCategory<HumanRightsCategory>) {
     setSearchParams((prev) => {

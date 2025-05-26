@@ -36,7 +36,7 @@ import { FileResponse } from '@/schemas/post';
 
 const BOARD_CODE = '인권신고게시판';
 
-const DISCLAIMER = `학생인권위원회는 인권침해구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
+const DISCLAIMER = `학생인권위원회는 인권침해 구제와 관련하여 아래와 같이 개인정보를 수집·이용하고자 합니다.
 
 ✔수집 및 이용 대상
 학생인권위원회
@@ -48,7 +48,7 @@ const DISCLAIMER = `학생인권위원회는 인권침해구제와 관련하여 
 이름, 학과, 학번, 전화번호
 
 ✔개인정보 보관 일자
-2024년 5월 23일 ~ 2024년 12월 31일
+접수 후 3년간
 
 ` as const;
 
