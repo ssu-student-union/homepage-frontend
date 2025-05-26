@@ -31,7 +31,8 @@
     "감사기구": "Audit Organization",
     "학생청원게시판": "Student Petition Board",
     "건의게시판": "Suggestion Board",
-    "인권신고게시판": "Human Rights Report Board"
+    "인권신고게시판": "Human Rights Report Board",
+    "질의응답게시판": "Q&A Board"
   },
   "introduction": {
     "총학생회": "Student Council",
@@ -102,6 +103,7 @@
     "감사결과": "Audit Results",
     "기타": "Others",
     "진행중": "In Progress",
+    "접수대기": "Awaiting Approval",
     "접수완료": "Received",
     "답변완료": "Answered",
     "종료됨": "Closed",

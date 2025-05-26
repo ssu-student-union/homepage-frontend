@@ -47,6 +47,10 @@ export const MENU_ITEMS: Record<string, MenuItem[]> = {
   //   { name: '건의게시판', path: '/sug-notice' },
   //   { name: '인권신고게시판', path: '/human-rights' },
   // ],
+  소통: [
+    { name: '인권신고게시판', path: '/human-rights' },
+    { name: '질의응답게시판', path: '/qna' },
+  ],
 } as const;
 
 export const DATA_PATH = '/data' as const; // 자료집 라우트 경로
