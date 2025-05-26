@@ -49,7 +49,7 @@ export const MENU_ITEMS: Record<string, MenuItem[]> = {
   // ],
   소통: [
     { name: '인권신고게시판', path: '/human-rights' },
-    { name: '질의응답게시판', path: '/qna'}
+    { name: '질의응답게시판', path: '/qna' },
   ],
 } as const;
 
