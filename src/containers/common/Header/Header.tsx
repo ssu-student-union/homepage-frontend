@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { useTranslation } from 'react-i18next';
 import { getStyles } from '@/containers/common/Header/const/style';
-import { DATA_PATH, MENU_ITEMS, QNA_PATH } from '@/containers/common/Header/const/pathData';
+import { DATA_PATH, MENU_ITEMS } from '@/containers/common/Header/const/pathData';
 import DropDownMenu from '@/containers/common/Header/component/DropDownMenu';
 
 interface HeaderProps {
@@ -99,7 +99,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
                 </NavigationMenuContent>
               </NavigationMenuItem>
             ))}
-            <NavigationMenuItem>
+            {/* <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link
                   to={`${QNA_PATH}`}
@@ -113,7 +113,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
                   {t('header.질의응답게시판')}
                 </Link>
               </NavigationMenuLink>
-            </NavigationMenuItem>
+            </NavigationMenuItem> */}
 
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
