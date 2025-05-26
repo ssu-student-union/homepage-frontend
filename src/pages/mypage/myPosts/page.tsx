@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import UserContainer from '../component/UserContainer';
 import { MyPostsContent } from './myPostsContent/myPostsContent';
 import { useGetUserPosts } from './hooks/useGetUserPosts';
 import { Button } from '@/components/ui/button';
@@ -65,15 +64,12 @@ function MyPostsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col">
-        <UserContainer />
-        <div>
-          <div className="mx-16 flex items-center border-b border-solid border-gray-500 pb-1">
-            <span className="pl-2">작성 글</span>
-            <Skeleton className="ml-2 h-4 w-5" />
-          </div>
-          <PostsLoadingSkeleton />
+      <div>
+        <div className="mx-16 flex items-center border-b border-solid border-gray-500 pb-1">
+          <span className="pl-2">작성 글</span>
+          <Skeleton className="ml-2 h-4 w-5" />
         </div>
+        <PostsLoadingSkeleton />
       </div>
     );
   }
@@ -83,9 +79,10 @@ function MyPostsPage() {
     return <div className="p-20">오류가 발생하였습니다.</div>;
   }
 
+  console.log('data : ', data);
+
   return (
-    <div className="flex flex-col">
-      <UserContainer />
+    <>
       <div>
         <div className="mx-16 flex items-center border-b border-solid border-gray-500 pb-1">
           <span className="pl-2">작성 글</span>
@@ -137,7 +134,7 @@ function MyPostsPage() {
           검색
         </Button>
       </div>
-    </div>
+    </>
   );
 }
 

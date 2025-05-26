@@ -6,7 +6,7 @@ interface MyPostsContentProps {
 }
 const boardRoutes = {
   질의응답게시판: '/qna',
-  공지사항: '/notice',
+  공지사항게시판: '/notice',
   제휴게시판: '/partnership',
   분실물게시판: '/lost-article',
   학생자치기구: '/petition-notice',
@@ -15,7 +15,7 @@ const boardRoutes = {
   자료집게시판: '/data',
   감사게시판: '/audit',
   서비스공지사항: '/service-notice',
-} as const;
+};
 
 export function MyPostsContent({ data }: MyPostsContentProps) {
   const basePath = boardRoutes[data.boardCode as keyof typeof boardRoutes];

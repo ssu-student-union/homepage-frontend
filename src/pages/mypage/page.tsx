@@ -1,41 +1,79 @@
-import { useState, useEffect } from 'react';
-import Sidebar from './component/Sidebar';
-import DropdownUserMenu from './component/DropdownUserMenu';
+import { useEffect, useState } from 'react';
+import Sidebar from './components/Sidebar';
+import DropdownUserMenu from './components/DropdownUserMenu';
 import { ChevronDown } from 'lucide-react';
-import { Outlet } from 'react-router';
-import { useLocation } from 'react-router';
-export default function MyPage() {
-  const [selectedMenu, setSelectedMenu] = useState('');
-  const [isDropdown, setIsDropdown] = useState(false);
+import ProfilePage from './profile/page';
+import MyPostsPage from './myPosts/page';
+import { useNavigate } from 'react-router';
+import UserContainer from './components/UserContainer';
+import { useGetUserProfile } from './profile/hooks/useGetUserProfile';
+import ProfileLoadingSkeleton from './profile/components/ProfileLoadingSkeleton';
+import UserContainerSkeleton from './profile/components/UserContainerSkeleton';
 
-  const path = useLocation();
+export default function MyPage() {
+  const [selectedMenu, setSelectedMenu] = useState('profile');
+  const [isDropdown, setIsDropdown] = useState(false);
+  const navigate = useNavigate();
+
+  const { data, isLoading, error } = useGetUserProfile();
+  const userData = data;
+  console.log('userData : ', userData);
+
+  const renderPage = () => {
+    if (selectedMenu === 'profile') {
+      return <ProfilePage />;
+    } else if (selectedMenu === 'myPosts') {
+      return <MyPostsPage />;
+    }
+  };
 
   useEffect(() => {
-    setSelectedMenu(path.pathname ?? '');
-  }, [path]);
+    if (selectedMenu === 'service-notice') {
+      navigate('/service-notice');
+    }
+  }, [selectedMenu, navigate]);
 
-  console.log('selectedMenu', selectedMenu);
+  if (isLoading) {
+    return (
+      <div className="flex flex-col">
+        <UserContainerSkeleton />
+        <ProfileLoadingSkeleton />
+      </div>
+    );
+  }
+
+  if (error || !userData) {
+    console.log('error : ', error);
+    return <div className="p-20">오류가 발생하였습니다.</div>;
+  }
 
   return (
     <div className="mt-24">
       <div>
-        <div className="relative flex justify-center md:ml-52 md:justify-start lg:ml-72">
+        <div className="relative flex justify-center md:ml-52 md:justify-start">
           <h1 className="mb-5 text-2xl font-bold">마이페이지</h1>
           <button className="mb-5 ml-3 block items-center md:hidden" onClick={() => setIsDropdown(!isDropdown)}>
             <ChevronDown className="h-4 w-6" color="#9CA3AF" />
           </button>
           {isDropdown && (
             <div className="absolute top-10 z-50">
-              <DropdownUserMenu selectedMenu={selectedMenu} setIsDropdown={setIsDropdown} />
+              <DropdownUserMenu
+                selectedMenu={selectedMenu}
+                setIsDropdown={setIsDropdown}
+                setSelectedMenu={setSelectedMenu}
+              />
             </div>
           )}
         </div>
         <div className="w-full border-b border-[#E7E7E7]"></div>
         <div className="flex">
-          <Sidebar selectedMenu={selectedMenu} />
-          <div className="grow">
-            <Outlet />
-          </div>
+          <Sidebar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
+          <main className="grow">
+            <div className="flex flex-col">
+              <UserContainer userData={userData} />
+              {renderPage()}
+            </div>
+          </main>
         </div>
       </div>
     </div>
