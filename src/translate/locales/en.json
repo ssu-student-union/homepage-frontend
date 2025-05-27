@@ -243,5 +243,29 @@
     "email_format": "Invalid email format.",
     "email_required": "Please enter your email.",
     "inquiry_required": "Please enter your inquiry."
+  },
+  "mypage": {
+    "마이페이지": "My Page",
+    "내 정보": "My Information",
+    "작성 글 보기": "My Posts",
+    "작성 글": "My Posts",
+    "서비스 공지사항": "Service Notices",
+    "기본정보": "Basic Information",
+    "비밀번호 변경": "Change Password",
+    "이름": "Name",
+    "학번": "Student Number",
+    "학적정보 - 주전공": "Student Information - Major",
+    "단과대학": "College",
+    "학과/부": "Department/Division",
+    "단위명": "Unit Name",
+    "닉네임": "Nickname",
+    "기존 비밀번호": "Current Password",
+    "새 비밀번호": "New Password",
+    "비밀번호 확인": "Confirm Password",
+    "취소": "Back",
+    "완료": "Save",
+    "검색": "Search",
+    "수정하기": "Edit",
+    "원하시는 키워드를 입력하세요": "Enter the keyword you want to search for"
   }
 }

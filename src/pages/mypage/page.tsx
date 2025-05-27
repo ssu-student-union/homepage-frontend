@@ -9,12 +9,13 @@ import UserContainer from './components/UserContainer';
 import { useGetUserProfile } from './profile/hooks/useGetUserProfile';
 import ProfileLoadingSkeleton from './profile/components/ProfileLoadingSkeleton';
 import UserContainerSkeleton from './profile/components/UserContainerSkeleton';
+import { useTranslation } from 'react-i18next';
 
 export default function MyPage() {
   const [selectedMenu, setSelectedMenu] = useState('profile');
   const [isDropdown, setIsDropdown] = useState(false);
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const { data, isLoading, error } = useGetUserProfile();
   const userData = data;
   console.log('userData : ', userData);
@@ -51,7 +52,7 @@ export default function MyPage() {
     <div className="mt-24">
       <div>
         <div className="relative flex justify-center md:ml-52 md:justify-start">
-          <h1 className="mb-5 text-2xl font-bold">마이페이지</h1>
+          <h1 className="mb-5 text-2xl font-bold">{t('mypage.마이페이지')}</h1>
           <button className="mb-5 ml-3 block items-center md:hidden" onClick={() => setIsDropdown(!isDropdown)}>
             <ChevronDown className="h-4 w-6" color="#9CA3AF" />
           </button>
