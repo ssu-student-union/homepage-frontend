@@ -170,7 +170,7 @@ export default function QnaEditPage() {
   return (
     <article className="mt-[200px]">
       <ArticleHeader>
-        <h1 className="text-5xl font-bold">질의응답게시판</h1>
+        <h1 className="text-5xl font-bold">건의게시판</h1>
       </ArticleHeader>
       <hr className="bg-[#E7E7E7]" />
       <Container>
