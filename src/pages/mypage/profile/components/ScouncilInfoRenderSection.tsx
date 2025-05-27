@@ -1,14 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { GetUserProfileResponse } from '@/types/apis/get';
 
-interface InfoRenderPageProps {
+interface InfoRenderSectionProps {
   userData: GetUserProfileResponse;
   setIsEditing: (isEditing: boolean) => void;
 }
 
-export default function ScouncilInfoRenderPage({ userData, setIsEditing }: InfoRenderPageProps) {
+export default function ScouncilInfoRenderSection({ userData, setIsEditing }: InfoRenderSectionProps) {
   return (
-    <div className="mx-[22%] flex flex-col items-start md:mx-16">
+    <div className="mx-[24%] flex flex-col items-start md:mx-16">
       <h3 className="pr-28 text-base font-bold md:text-lg">기본정보</h3>
       <div className="mb-14 grid grid-cols-[2fr_5fr] gap-x-6 gap-y-3 py-6 text-xs md:ml-6 md:text-sm lg:grid-cols-[1fr_5fr]">
         <span className="font-semibold">단위명</span>

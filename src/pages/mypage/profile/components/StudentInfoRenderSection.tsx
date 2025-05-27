@@ -1,11 +1,9 @@
 import { GetUserProfileResponse } from '@/types/apis/get';
-import { Button } from '@/components/ui/button';
-interface StudentInfoRenderPageProps {
+interface StudentInfoRenderSectionProps {
   userData: GetUserProfileResponse;
-  setIsEditing: (isEditing: boolean) => void;
 }
 
-export default function StudentInfoRenderPage({ userData, setIsEditing }: StudentInfoRenderPageProps) {
+export default function StudentInfoRenderSection({ userData }: StudentInfoRenderSectionProps) {
   return (
     <div className="mx-[22%] flex flex-col items-start md:mx-16">
       <h3 className="text-lg font-bold sm:text-base">기본정보</h3>
@@ -22,13 +20,7 @@ export default function StudentInfoRenderPage({ userData, setIsEditing }: Studen
 
         <span className="font-semibold">학과/부</span>
         <span>{userData?.majorCode}</span>
-      </div>{' '}
-      <Button
-        onClick={() => setIsEditing(true)}
-        className="mb-10 mr-0 self-center rounded-xs border border-gray-400 bg-white px-5 py-1.5 text-center text-xs text-gray-700 hover:bg-gray-100 md:mr-10 md:self-end md:text-sm"
-      >
-        수정하기
-      </Button>
+      </div>
     </div>
   );
 }

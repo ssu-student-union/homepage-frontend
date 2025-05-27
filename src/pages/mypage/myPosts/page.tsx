@@ -127,10 +127,7 @@ function MyPostsPage() {
           className="w-56 rounded-md border border-gray-300 p-3 text-xs md:w-80"
           placeholder="원하시는 키워드를 입력하세요"
         />
-        <Button
-          onClick={onClickSearch}
-          className="xs:px-4 h-12 rounded-md bg-[#2F4BF7] px-7 text-[13px] text-white sm:px-5"
-        >
+        <Button onClick={onClickSearch} className="h-12 rounded-md bg-[#2F4BF7] px-4 text-[13px] text-white sm:px-5">
           검색
         </Button>
       </div>
