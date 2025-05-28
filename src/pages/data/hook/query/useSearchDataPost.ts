@@ -47,7 +47,7 @@ export function useSearchDataPosts({
       q: encodeURIComponent(q ?? ''),
       majorCategory,
       middleCategory,
-      subCategory: subCategory!.replace(/·/g, ''),
+      subCategory,
     }).filter(([_, v]) => v !== '')
   );
 

@@ -125,7 +125,7 @@ export default function DataEditPage() {
             name: fileName,
             isUploaded: true,
             id: postFileId,
-            category: fileType.replace(/ /g, '_').replace(/·/g, ''),
+            category: fileType.replace(/ /g, '_'),
           })
         );
 
