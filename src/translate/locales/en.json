@@ -266,6 +266,7 @@
     "완료": "Save",
     "검색": "Search",
     "수정하기": "Edit",
-    "원하시는 키워드를 입력하세요": "Enter the keyword you want to search for"
+    "원하시는 키워드를 입력하세요": "Enter the keyword you want to search for",
+    "게시글이 존재하지 않습니다.": "No posts exist"
   }
 }

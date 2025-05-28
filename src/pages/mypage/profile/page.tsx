@@ -99,7 +99,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      {!userData?.isUnion ? (
+      {userData?.isUnion ? (
         <div className="mb-8">
           {isEditing ? (
             <form onSubmit={handleSubmit(onSubmit)}>

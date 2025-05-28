@@ -1,38 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import DropdownUserMenu from './components/DropdownUserMenu';
 import { ChevronDown } from 'lucide-react';
 import ProfilePage from './profile/page';
 import MyPostsPage from './myPosts/page';
-import { useNavigate } from 'react-router';
 import UserContainer from './components/UserContainer';
 import { useGetUserProfile } from './profile/hooks/useGetUserProfile';
 import ProfileLoadingSkeleton from './profile/components/ProfileLoadingSkeleton';
 import UserContainerSkeleton from './profile/components/UserContainerSkeleton';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router';
 
 export default function MyPage() {
-  const [selectedMenu, setSelectedMenu] = useState('profile');
+  const [searchParams] = useSearchParams();
   const [isDropdown, setIsDropdown] = useState(false);
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const { data, isLoading, error } = useGetUserProfile();
   const userData = data;
   console.log('userData : ', userData);
+  const selectedMenu = searchParams.get('selectedMenu');
 
   const renderPage = () => {
-    if (selectedMenu === 'profile') {
-      return <ProfilePage />;
-    } else if (selectedMenu === 'myPosts') {
-      return <MyPostsPage />;
+    switch (selectedMenu) {
+      case 'profile':
+        return <ProfilePage />;
+      case 'myPosts':
+        return <MyPostsPage />;
+      default:
+        return <ProfilePage />;
     }
   };
-
-  useEffect(() => {
-    if (selectedMenu === 'service-notice') {
-      navigate('/service-notice');
-    }
-  }, [selectedMenu, navigate]);
 
   if (isLoading) {
     return (
@@ -58,17 +55,13 @@ export default function MyPage() {
           </button>
           {isDropdown && (
             <div className="absolute top-10 z-50">
-              <DropdownUserMenu
-                selectedMenu={selectedMenu}
-                setIsDropdown={setIsDropdown}
-                setSelectedMenu={setSelectedMenu}
-              />
+              <DropdownUserMenu selectedMenu={selectedMenu} setIsDropdown={setIsDropdown} />
             </div>
           )}
         </div>
         <div className="w-full border-b border-[#E7E7E7]"></div>
         <div className="flex">
-          <Sidebar selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
+          <Sidebar selectedMenu={selectedMenu} />
           <main className="grow">
             <div className="flex flex-col">
               <UserContainer userData={userData} />
