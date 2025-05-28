@@ -47,8 +47,6 @@ export function MainRouter() {
         {/* 마이페이지 */}
         {/*마이페이지*/}
         <Route path="/mypage" element={<i.MyPage />} />
-        <Route path="/mypage/profile" element={<i.ProfilePage />} />
-        <Route path="/mypage/myposts" element={<i.MyPostsPage />} />
         {/*서비스 공지사항*/}
         <Route path="/service-notice" element={<i.ServiceNoticePage />} />
         <Route path="/service-notice/:id" element={<i.ServiceNoticeDetailPage />} />

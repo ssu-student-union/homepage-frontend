@@ -5,10 +5,11 @@ import { AxiosError } from 'axios';
 import { ApiError } from '@/hooks/new/useStuQuery';
 
 type UseGetUserPostsOptions = {
+  enabled?: boolean;
   queryOptions?: UseQueryOptions<GetUserPostsResponse, AxiosError | ApiError>;
 };
 
-export const useGetUserPosts = (page: number, take: number, { queryOptions }: UseGetUserPostsOptions = {}) => {
+export const useGetUserPosts = (page: number, take: number, { enabled, queryOptions }: UseGetUserPostsOptions = {}) => {
   return useStuQuery<GetUserPostsResponse>(
     ['get-user-posts', page, take],
     {
@@ -16,6 +17,9 @@ export const useGetUserPosts = (page: number, take: number, { queryOptions }: Us
       method: 'GET',
       params: { page, take },
     },
-    queryOptions
+    {
+      ...queryOptions,
+      enabled,
+    }
   );
 };

@@ -1,32 +1,11 @@
-import { Skeleton } from '@/components/ui/skeleton';
-import { useGetUserProfile } from '../profile/hooks/useGetUserProfile';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { GetUserProfileResponse } from '@/types/apis/get';
 
-const UserContainerSkeleton = () => (
-  <div className="xs:mx-[20%] xs:flex-col xs:pb-4 mx-auto mb-10 mt-16 flex flex-row items-center rounded-2xl border-2 border-[#D9D9D9] bg-white px-10 py-8 sm:mx-[22%] sm:flex-col md:mx-10 md:py-6 lg:mx-10 xl:mx-10 xxl:mx-10">
-    <div className="flex gap-4">
-      <Skeleton className="size-24 rounded-full" />
-      <div className="flex-col space-y-2 pt-3">
-        <Skeleton className="h-5 w-60" />
-        <Skeleton className="h-4 w-48" />
-      </div>
-    </div>
-  </div>
-);
+interface UserContainerProps {
+  userData: GetUserProfileResponse;
+}
 
-export default function UserContainer() {
-  const { data, isLoading, error } = useGetUserProfile();
-  const userData = data;
-
-  if (isLoading) {
-    return <UserContainerSkeleton />;
-  }
-
-  if (error || !userData) {
-    console.log('error : ', error);
-    return <div className="p-20">오류가 발생하였습니다.</div>;
-  }
-
+export default function UserContainer({ userData }: UserContainerProps) {
   return (
     <div className="w-full px-4">
       {userData.isUnion ? (
@@ -37,12 +16,11 @@ export default function UserContainer() {
           </Avatar>
           <div className="mb-4">
             <div className="mb-2 flex items-center max-lg:mt-6 max-md:justify-center">
-              <span className="text-lg font-bold">{userData.nickname}</span>
+              <span className="text-lg font-bold">{userData.name}</span>
             </div>
             <div className="mb-1 text-xs sm:mb-3 md:mb-2 md:text-sm">
               <span>{userData.memberCode}</span>
-              {userData.majorCode ? <span>•</span> : ''}
-              <span>{userData.majorCode}</span>
+              {userData.majorCode ? <span>• {userData.majorCode}</span> : ''}
             </div>
           </div>
         </div>
