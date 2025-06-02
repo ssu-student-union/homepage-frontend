@@ -65,7 +65,7 @@ const subtitle = (
 function PageSkeleton() {
   return (
     <>
-      <HeadLayout title="질의응답게시판" subtitle={subtitle} searchHidden={true} />
+      <HeadLayout title="건의게시판" subtitle={subtitle} searchHidden={true} />
       <BodyLayout.Skeleton>
         <BoardSelector.Skeleton />
         {Array.from(Array(10).keys()).map((_, i) => (
@@ -156,7 +156,7 @@ export function QnApage() {
 
   return (
     <>
-      <HeadLayout title="질의응답게시판" subtitle={subtitle} />
+      <HeadLayout title="건의게시판" subtitle={subtitle} />
       <BodyLayout
         totalPages={data.pageInfo.totalPages}
         currentPage={data.pageInfo.pageNum + 1}

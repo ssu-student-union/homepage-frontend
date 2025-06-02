@@ -81,9 +81,6 @@ export function HeaderSheet({ trigger, state, onLogout }: HeaderSheetProps) {
               </AccordionContent>
             </AccordionItem>
           ))}
-          <Link onClick={closeSheet} className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to="/qna">
-            {t('header.질의응답게시판')}
-          </Link>
           <Link className={cn(buttonVariants({ variant: 'sheet-item' }), 'px-0 py-7')} to={DATA_PATH}>
             {t('header.자료집')}
           </Link>

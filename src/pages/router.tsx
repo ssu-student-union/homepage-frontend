@@ -56,7 +56,7 @@ export function MainRouter() {
         <Route path="/service-notice/:id/patch" element={<i.ServiceNoticePatchPage />} />
         {/* 개인정보이용약관 */}
         <Route path="/personal-data" element={<i.PersonalDataPage />} />
-        {/* 질의응답게시판 */}
+        {/* (질의응답게시판->) 건의게시판 */}
         <Route path="/qna" element={<i.QnApage />} />
         <Route path="/qna/:id" element={<i.QnaDetailPage />} />
         <Route path="/qna/:id?/edit" element={<i.QnaEditPage />} />

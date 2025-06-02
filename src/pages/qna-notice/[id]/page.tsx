@@ -167,7 +167,7 @@ export default function QnaDetailPage() {
     <>
       <article className="mt-16">
         <PostHeader
-          subject={`${data.qnaTargetCode} 질문`}
+          subject={`${data.qnaTargetCode} 건의`}
           title={data.title}
           authorName={`${data.department} ${data.authorName}`}
           createdAt={convertToDate(data.createdAt)}
