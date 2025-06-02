@@ -70,6 +70,7 @@ export default function DataPage() {
       return newParams;
     });
   };
+  console.log(data);
 
   return (
     <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
