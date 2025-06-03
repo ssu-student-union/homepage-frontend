@@ -16,7 +16,7 @@ import { PartnershipEditPage } from './partnership/partnershipEdit/page';
 import PartnershipPatchPage from './partnership/partnershipPatch/page';
 import { NoticePage } from './notice/page';
 import { NoticeEditPage } from './notice/noticeEdit/page';
-import { NoticeDetailPage } from './notice/noticeDetail/page';
+import NoticeDetailPage from './notice/[id]/page';
 import NoticePatchPage from './notice/noticePatch/page';
 import { LostArticlePage } from './lost-article/page';
 import { LostArticleEditPage } from './lost-article/edit/page';

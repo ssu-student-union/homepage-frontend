@@ -1,8 +1,8 @@
 import { useParams } from 'react-router';
-import NoticeDetailLoading from '@/pages/notice/noticeDetail/container/noticeDetailLoading';
-import { NoticeDetailContentSection } from '@/pages/notice/noticeDetail/container/noticeDetailContentSection';
+import NoticeDetailLoading from '@/pages/notice/[id]/container/noticeDetailLoading';
+import { NoticeDetailContentSection } from '@/pages/notice/[id]/container/noticeDetailContentSection';
 import { ServiceNoticeDeatailTopSection } from './container/serviceNoticeDeatilTopSection';
-import { NoticeDetailFileSection } from '@/pages/notice/noticeDetail/container/noticeDetailFileSection';
+import { NoticeDetailFileSection } from '@/pages/notice/[id]/container/noticeDetailFileSection';
 import { ServiceNoticeDetailEditSection } from './container/serviceNoticeDetailEditSection';
 import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 
