@@ -13,6 +13,7 @@ export type NoticePostResponse = z.input<typeof NoticePostSchema>;
 export type NoticePost = z.output<typeof NoticePostSchema>;
 
 export const NoticePostSchema = z.object({
+  status: z.string(),
   postId: z.number(),
   category: z.string().nullable(),
   authorName: z.string(),

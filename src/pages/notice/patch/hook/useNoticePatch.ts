@@ -1,20 +1,21 @@
 import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
-import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
 import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
 import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
 import { handleFileLists } from '@/pages/audit/edit/utils/fileHandler';
+import { NoticePost } from '@/pages/notice/schema';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 interface useNoticePatchProps {
   boardCode: string;
+  postDetail?: NoticePost;
   postId: number;
 }
 
-export function useNoticePatch({ boardCode, postId }: useNoticePatchProps) {
+export function useNoticePatch({ postDetail, boardCode, postId }: useNoticePatchProps) {
   const navigate = useNavigate();
-  const { data: resp } = useGetBoardDetail({ boardCode, postId });
-  const postDetail = resp?.data.postDetailResDto;
+  const queryClient = useQueryClient();
 
   const fileList =
     postDetail?.fileResponseList?.filter((file) => file.fileType === 'files').map((file) => file.fileUrl) || [];
@@ -73,6 +74,8 @@ export function useNoticePatch({ boardCode, postId }: useNoticePatchProps) {
       });
 
       if (boardCode === '공지사항게시판') {
+        await queryClient.invalidateQueries({ queryKey: ['getPost', boardCode, postId] });
+        await queryClient.invalidateQueries({ queryKey: ['searchPosts', '공지사항게시판'] });
         navigate(`/notice/${postId}`, { state: { postId } });
       } else if (boardCode === '서비스공지사항') {
         navigate(`/service-notice/${postId}`, { state: { postId } });

@@ -12,7 +12,7 @@ export function useGetBoardDetail({
   boardCode,
   postId,
 }: useBoardDetailProps): UseQueryResult<GetBoardDetailResponse, AxiosError> {
-  const queryKey = ['get-board-boardCode-posts-postId', boardCode, postId];
+  const queryKey = ['getPost', boardCode, postId];
 
   const queryResult = useQuery<GetBoardDetailResponse, AxiosError>({
     queryKey,

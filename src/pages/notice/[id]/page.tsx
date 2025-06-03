@@ -2,7 +2,6 @@ import { PostBody } from '@/components/detail/PostBody';
 import { PostFooter } from '@/components/detail/PostFooter';
 import { PostHeader } from '@/components/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
-import { breadcrumbItems } from '@/pages/data/const/data';
 import { NoticeDetailEditSection } from '@/pages/notice/[id]/container/noticeDetailEditSection';
 import { useDeleteNoticePost, useGetNoticePost } from '@/pages/notice/queries';
 import { useQueryClient } from '@tanstack/react-query';
@@ -71,7 +70,7 @@ export default function NoticeDetailPage() {
           title={post.title}
           authorName={post.authorName}
           createdAt={post.createdAt}
-          breadcrumbItems={breadcrumbItems}
+          breadcrumbItems={[['공지사항', null]]}
         />
         <hr className="bg-[#E7E7E7]" />
         <Container>
@@ -79,6 +78,7 @@ export default function NoticeDetailPage() {
         </Container>
         <NoticeDetailEditSection
           className="mb-20"
+          postDetail={post}
           editable={editable}
           deletable={deletable}
           postId={postId}
