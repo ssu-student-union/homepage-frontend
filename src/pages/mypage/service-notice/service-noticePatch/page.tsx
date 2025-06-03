@@ -1,10 +1,10 @@
 import { HeadLayout } from '@/template/HeadLayout';
 import { AuditPatchFilesSection } from '@/pages/audit/patch/container/auditPatchFileSection';
-import { NoticeEditTitleSection } from '@/pages/notice/noticeEdit/container/noticeEditTitleSection';
-import { NoticeEditContentSection } from '@/pages/notice/noticeEdit/container/noticeEditContentSection';
-import { NoticePatchImageSection } from '@/pages/notice/noticePatch/container/noticePatchImageSection';
-import { NoticeEditSubmitButton } from '@/pages/notice/noticeEdit/container/noticeEditSubmitButton';
-import { useNoticePatch } from '@/pages/notice/noticePatch/hook/useNoticePatch';
+import { NoticeEditTitleSection } from '@/pages/notice/edit/container/noticeEditTitleSection';
+import { NoticeEditContentSection } from '@/pages/notice/edit/container/noticeEditContentSection';
+import { NoticePatchImageSection } from '@/pages/notice/patch/container/noticePatchImageSection';
+import { NoticeEditSubmitButton } from '@/pages/notice/edit/container/noticeEditSubmitButton';
+import { useNoticePatch } from '@/pages/notice/patch/hook/useNoticePatch';
 import { useParams } from 'react-router';
 
 export default function ServiceNoticePatchPage() {

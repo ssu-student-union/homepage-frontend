@@ -1,9 +1,9 @@
-import { NoticeEditContentSection } from '@/pages/notice/noticeEdit/container/noticeEditContentSection';
-import { NoticeEditFilesSection } from '@/pages/notice/noticeEdit/container/noticeEditFilesSection';
-import { NoticeEditImageSection } from '@/pages/notice/noticeEdit/container/noticeEditImageSection';
-import { NoticeEditSubmitButton } from '@/pages/notice/noticeEdit/container/noticeEditSubmitButton';
-import { NoticeEditTitleSection } from '@/pages/notice/noticeEdit/container/noticeEditTitleSection';
-import { useNoticeEdit } from '@/pages/notice/noticeEdit/hook/useNoticeEdit';
+import { NoticeEditContentSection } from '@/pages/notice/edit/container/noticeEditContentSection';
+import { NoticeEditFilesSection } from '@/pages/notice/edit/container/noticeEditFilesSection';
+import { NoticeEditImageSection } from '@/pages/notice/edit/container/noticeEditImageSection';
+import { NoticeEditSubmitButton } from '@/pages/notice/edit/container/noticeEditSubmitButton';
+import { NoticeEditTitleSection } from '@/pages/notice/edit/container/noticeEditTitleSection';
+import { useNoticeEdit } from '@/pages/notice/edit/hook/useNoticeEdit';
 import { HeadLayout } from '@/template/HeadLayout';
 
 export function ServiceNoticeEditPage() {

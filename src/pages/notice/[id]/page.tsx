@@ -3,6 +3,7 @@ import { PostFooter } from '@/components/detail/PostFooter';
 import { PostHeader } from '@/components/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
 import { breadcrumbItems } from '@/pages/data/const/data';
+import { NoticeDetailEditSection } from '@/pages/notice/[id]/container/noticeDetailEditSection';
 import { useDeleteNoticePost, useGetNoticePost } from '@/pages/notice/queries';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
@@ -55,7 +56,7 @@ export default function NoticeDetailPage() {
         { postId: id, fileUrls: post.fileResponseList.map((file) => file.fileUrl) },
         {
           onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['searchPosts', 'notice'] });
+            await queryClient.invalidateQueries({ queryKey: ['searchPosts', '공지사항게시판'] });
             navigate('/notice');
           },
         }
@@ -76,15 +77,12 @@ export default function NoticeDetailPage() {
         <Container>
           <PostBody content={post.content} files={post.fileResponseList} />
         </Container>
-        <PostFooter
-          boardUrl="/notice"
+        <NoticeDetailEditSection
+          className="mb-20"
           editable={editable}
           deletable={deletable}
-          editUrl={`/notice/${postId}/edit`}
-          className="mb-20"
-          onDelete={() => {
-            handleDeletePost();
-          }}
+          postId={postId}
+          handleDelete={handleDeletePost}
         />
       </article>
       <hr className="bg-[#E7E7E7]" />

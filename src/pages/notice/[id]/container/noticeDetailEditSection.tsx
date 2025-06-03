@@ -1,59 +1,46 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router';
 import { handleLocation } from '../utils/locationHandler';
-import { delBoardPosts } from '@/apis/delBoardPosts';
-import { useQueryClient } from '@tanstack/react-query';
+import { ArticleFooter } from '@/containers/new/ArticleFooter';
 
 interface NoticeDetailEditProps {
-  boardCode: string;
+  className?: string;
   postId: number;
-  fileUrls: string[];
-  imageUrls: string[];
-  content: string;
-  title: string;
-
-  isAuthor: boolean;
+  editable: boolean;
+  deletable: boolean;
+  handleDelete: () => void;
 }
 
-export function NoticeDetailEditSection({ boardCode, postId, fileUrls, imageUrls, isAuthor }: NoticeDetailEditProps) {
+export function NoticeDetailEditSection({
+  className,
+  postId,
+  editable,
+  deletable,
+  handleDelete,
+}: NoticeDetailEditProps) {
   const navigate = useNavigate();
 
-  const fileurl: string[] = [...fileUrls, ...imageUrls];
-
-  const queryClient = useQueryClient();
-
-  const handleDelete = async () => {
-    await delBoardPosts(boardCode, postId, fileurl);
-    queryClient.invalidateQueries({
-      queryKey: ['get-board-boardCode-posts', boardCode],
-    });
-    navigate(`/notice`);
-  };
-
   return (
-    <div className="flex w-full justify-end py-[40px] md:py-[60px]">
-      <div className="flex items-end justify-between gap-4 max-sm:h-[150px] max-sm:flex-col">
-        {isAuthor ? (
-          <>
-            <DeleteButton onClick={handleDelete} className="max-md:w-[100px]" />
-            <EditButton
-              onClick={() =>
-                handleLocation(
-                  {
-                    data: {
-                      postId,
-                    },
+    <ArticleFooter className={className}>
+      <div className="flex w-full max-w-[1040px] justify-end gap-4">
+        {editable && <DeleteButton onClick={handleDelete} className="max-md:w-[100px]" />}
+        {deletable && (
+          <EditButton
+            onClick={() =>
+              handleLocation(
+                {
+                  data: {
+                    postId,
                   },
-                  navigate
-                )
-              }
-              className="sm:w-[100px]"
-            />
-          </>
-        ) : null}
-
+                },
+                navigate
+              )
+            }
+            className="sm:w-[100px]"
+          />
+        )}
         <ListButton onClick={() => navigate(`/notice`)} className="sm:w-[100px]" />
       </div>
-    </div>
+    </ArticleFooter>
   );
 }

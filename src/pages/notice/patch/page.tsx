@@ -1,7 +1,7 @@
 import { HeadLayout } from '@/template/HeadLayout';
-import { NoticeEditTitleSection } from '../noticeEdit/container/noticeEditTitleSection';
-import { NoticeEditContentSection } from '../noticeEdit/container/noticeEditContentSection';
-import { NoticeEditSubmitButton } from '../noticeEdit/container/noticeEditSubmitButton';
+import { NoticeEditTitleSection } from '../edit/container/noticeEditTitleSection';
+import { NoticeEditContentSection } from '../edit/container/noticeEditContentSection';
+import { NoticeEditSubmitButton } from '../edit/container/noticeEditSubmitButton';
 import { useNoticePatch } from './hook/useNoticePatch';
 import { NoticePatchImageSection } from './container/noticePatchImageSection';
 import { AuditPatchFilesSection } from '@/pages/audit/patch/container/auditPatchFileSection';
