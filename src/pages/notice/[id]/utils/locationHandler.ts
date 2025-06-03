@@ -1,8 +1,10 @@
+import { NoticePost } from '@/pages/notice/schema';
 import { NavigateFunction } from 'react-router';
 
-interface dataType {
+export interface dataType {
   data: {
     postId: number;
+    postDetail?: NoticePost;
   };
 }
 

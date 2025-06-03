@@ -76,7 +76,7 @@ export function useNoticeEdit() {
       const postId = createPostResponse.data.post_id;
 
       queryClient.invalidateQueries({
-        queryKey: ['get-board-boardCode-posts-search', NOTICE_BOARD_CODE],
+        queryKey: ['searchPosts', NOTICE_BOARD_CODE],
       });
 
       navigate(`/notice/${postId}`);

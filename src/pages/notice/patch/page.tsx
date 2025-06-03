@@ -1,15 +1,18 @@
 import { HeadLayout } from '@/template/HeadLayout';
-import { NoticeEditTitleSection } from '../noticeEdit/container/noticeEditTitleSection';
-import { NoticeEditContentSection } from '../noticeEdit/container/noticeEditContentSection';
-import { NoticeEditSubmitButton } from '../noticeEdit/container/noticeEditSubmitButton';
+import { NoticeEditTitleSection } from '../edit/container/noticeEditTitleSection';
+import { NoticeEditContentSection } from '../edit/container/noticeEditContentSection';
+import { NoticeEditSubmitButton } from '../edit/container/noticeEditSubmitButton';
 import { useNoticePatch } from './hook/useNoticePatch';
 import { NoticePatchImageSection } from './container/noticePatchImageSection';
 import { AuditPatchFilesSection } from '@/pages/audit/patch/container/auditPatchFileSection';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
+import { dataType } from '@/pages/notice/[id]/utils/locationHandler';
 
 export default function NoticePatchPage() {
   const { id } = useParams();
   const postId = Number(id);
+  const location = useLocation() as { state: dataType };
+  const postDetail = location.state?.data?.postDetail;
   const {
     title,
     content,
@@ -27,7 +30,7 @@ export default function NoticePatchPage() {
     setNewFiles,
     isUrgent,
     setIsUrgent,
-  } = useNoticePatch({ boardCode: '공지사항게시판', postId });
+  } = useNoticePatch({ postId, boardCode: '공지사항게시판', postDetail });
 
   return (
     <>
