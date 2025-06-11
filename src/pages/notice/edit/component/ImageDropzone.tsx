@@ -3,12 +3,19 @@ import { Plus } from '@phosphor-icons/react';
 
 interface ImageDropzoneProps {
   onDrop: (acceptedFiles: File[]) => void;
+  onFileSizeError?: () => void;
 }
 
-export function ImageDropzone({ onDrop }: ImageDropzoneProps) {
+export function ImageDropzone({ onDrop, onFileSizeError }: ImageDropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
       onDrop(acceptedFiles);
+    },
+    onDropRejected: (fileRejections) => {
+      const oversizedFiles = fileRejections.filter((rejection) => rejection.file.size > 10 * 1024 * 1024);
+      if (oversizedFiles.length > 0 && onFileSizeError) {
+        onFileSizeError();
+      }
     },
     accept: {
       'image/jpeg': ['.jpeg', '.jpg'],
@@ -16,6 +23,7 @@ export function ImageDropzone({ onDrop }: ImageDropzoneProps) {
       'image/gif': ['.gif'],
     },
     multiple: true,
+    maxSize: 10 * 1024 * 1024,
   });
 
   return (
