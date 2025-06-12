@@ -60,6 +60,7 @@ export function ImageDropzone({ onDrop }: ImageDropzoneProps) {
       'image/webp': ['.webp'],
     },
     multiple: true,
+    disabled: isCompressing,
   });
 
   return (
