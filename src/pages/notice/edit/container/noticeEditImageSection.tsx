@@ -9,16 +9,16 @@ interface NoticeEditImageSectionProps {
 
 export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectionProps): JSX.Element {
   const { images, addImage, removeImage, getValidImages } = useImageManager();
-  const [sizeError, setSizeError] = useState<boolean>(false);
+  const [compressError, setCompressError] = useState<boolean>(false);
 
   useEffect(() => {
-    if (sizeError) {
+    if (compressError) {
       const timer = setTimeout(() => {
-        setSizeError(false);
+        setCompressError(false);
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [sizeError]);
+  }, [compressError]);
 
   useEffect(() => {
     onImagesChange(getValidImages());
@@ -34,7 +34,7 @@ export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectio
   return (
     <div className="px-[30px] xl:px-[200px]">
       <div className="mt-[12px] flex h-[270px] w-full flex-row items-center justify-start gap-4 overflow-x-auto whitespace-nowrap rounded-xs border-[0.125rem] border-gray-300 p-4">
-        <ImageDropzone onDrop={handleImageAdd} onFileSizeError={() => setSizeError(true)} />
+        <ImageDropzone onDrop={handleImageAdd} onCompressError={() => setCompressError(true)} />
         <div className="flex max-w-full flex-row gap-4">
           {images.map((imageItem, index) => (
             <ImagePreview
@@ -46,9 +46,7 @@ export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectio
           ))}
         </div>
       </div>
-      {sizeError && (
-        <p className="my-1 ml-1 font-medium text-red-500">10MB를 초과하는 이미지는 업로드할 수 없습니다.</p>
-      )}
+      {compressError && <p className="my-1 ml-1 font-medium text-red-500">이미지 최적화 중 에러가 발생했습니다.</p>}
     </div>
   );
 }

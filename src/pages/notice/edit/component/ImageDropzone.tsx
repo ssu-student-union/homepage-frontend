@@ -1,29 +1,45 @@
 import { useDropzone } from 'react-dropzone';
+import imageCompression from 'browser-image-compression';
 import { Plus } from '@phosphor-icons/react';
 
 interface ImageDropzoneProps {
-  onDrop: (acceptedFiles: File[]) => void;
-  onFileSizeError?: () => void;
+  onDrop: (compressedFiles: File[]) => void;
+  onCompressError: () => void;
 }
 
-export function ImageDropzone({ onDrop, onFileSizeError }: ImageDropzoneProps) {
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles) => {
-      onDrop(acceptedFiles);
-    },
-    onDropRejected: (fileRejections) => {
-      const oversizedFiles = fileRejections.filter((rejection) => rejection.file.size > 10 * 1024 * 1024);
-      if (oversizedFiles.length > 0 && onFileSizeError) {
-        onFileSizeError();
+export function ImageDropzone({ onDrop, onCompressError }: ImageDropzoneProps) {
+  const compressImages = async (files: File[]) => {
+    const compressedFiles: File[] = [];
+
+    for (const file of files) {
+      try {
+        const compressed = await imageCompression(file, {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1080,
+          useWebWorker: true,
+          fileType: 'image/webp',
+        });
+        compressedFiles.push(compressed);
+      } catch (_error) {
+        onCompressError();
       }
+    }
+
+    return compressedFiles;
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: async (acceptedFiles) => {
+      const compressed = await compressImages(acceptedFiles);
+      onDrop(compressed);
     },
     accept: {
       'image/jpeg': ['.jpeg', '.jpg'],
       'image/png': ['.png'],
       'image/gif': ['.gif'],
+      'image/webp': ['.webp'],
     },
     multiple: true,
-    maxSize: 10 * 1024 * 1024,
   });
 
   return (
