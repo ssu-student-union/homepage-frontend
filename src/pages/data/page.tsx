@@ -4,14 +4,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
 import { BoardHeader } from '@/components/BoardHeader';
 import { Search } from '@/components/Search';
-import { Container } from '@/containers/new/Container';
-import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import LinkPagination from '@/components/LinkPagination';
 import { Pencil, SearchIcon } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/libs/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { CategoryPopover, DataCategoryValue } from '@/pages/data/components/CategoryPopover';
+import { BoardFooter } from '@/components/BoardFooter';
+import { BoardContainer } from './../../components/BoardContainer';
 
 export default function DataPage() {
   /* Obtain query parameters */
@@ -70,7 +70,6 @@ export default function DataPage() {
       return newParams;
     });
   };
-  console.log(data);
 
   return (
     <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
@@ -80,59 +79,50 @@ export default function DataPage() {
           <SearchIcon className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
         </CollapsibleTrigger>
       </BoardHeader>
-      <Container className="pt-0 max-md:px-0 md:pt-14">
-        <div className="flex flex-col gap-4">
-          <CollapsibleContent
-            className={cn(
-              'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
-              'border-b border-b-border max-md:px-4 md:hidden'
-            )}
-          >
-            <div className="flex flex-col gap-2 py-2">
-              <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
-              <CategoryPopover value={category} onChange={setCategory} />
-            </div>
-          </CollapsibleContent>
-          <CategoryPopover className="hidden md:flex" value={category} onChange={setCategory} />
-          <div className="border-t-black md:border-t">
-            {isLoading
-              ? Array.from(Array(10).keys()).map((_, i) => <DataContentItem.Skeleton key={i} />)
-              : posts.map((post) => (
-                  <DataContentItem
-                    key={post.postId}
-                    to={`/data/${post.postId}`}
-                    date={post.date}
-                    title={post.title}
-                    content={post.content}
-                    isNotice={post.isNotice}
-                    files={post.files}
-                  />
-                ))}
-          </div>
-          {posts.length === 0 && (
-            <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
+      <BoardContainer isEmpty={!isLoading && posts.length === 0}>
+        <CollapsibleContent
+          className={cn(
+            'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
+            'border-b border-b-border max-md:px-4 md:hidden'
           )}
-        </div>
-      </Container>
-
-      <ArticleFooter className="mb-20">
-        <div className="flex flex-col gap-9">
-          <div className="grid grid-cols-3">
-            <div></div>
-            <div className="flex justify-center">
-              <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
-            </div>
-            <div className="flex justify-end">
-              {writable && (
-                <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/data/edit">
-                  <Pencil className="size-4" />
-                  <p>글쓰기</p>
-                </Link>
-              )}
-            </div>
+        >
+          <div className="flex flex-col gap-2 py-2">
+            <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
+            <CategoryPopover value={category} onChange={setCategory} />
           </div>
-        </div>
-      </ArticleFooter>
+        </CollapsibleContent>
+        <CategoryPopover className="hidden md:flex" value={category} onChange={setCategory} />
+        <BoardContainer.Card
+          isLoading={isLoading}
+          skeleton={Array.from({ length: 10 }).map((_, i) => (
+            <DataContentItem.Skeleton key={i} />
+          ))}
+          items={posts.map((post) => (
+            <DataContentItem
+              key={post.postId}
+              to={`/data/${post.postId}`}
+              date={post.date}
+              title={post.title}
+              content={post.content}
+              isNotice={post.isNotice}
+              files={post.files}
+            />
+          ))}
+        />
+      </BoardContainer>
+      <BoardFooter>
+        <BoardFooter.Pagination>
+          <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
+        </BoardFooter.Pagination>
+        <BoardFooter.Link>
+          {writable && (
+            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/data/edit">
+              <Pencil className="size-4" />
+              <p>글쓰기</p>
+            </Link>
+          )}
+        </BoardFooter.Link>
+      </BoardFooter>
     </Collapsible>
   );
 }
