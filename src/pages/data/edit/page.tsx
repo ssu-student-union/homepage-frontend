@@ -1,14 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
-import { ArticleHeader } from '@/containers/new/ArticleHeader';
 import { Container } from '@/containers/new/Container';
 import { cn } from '@/libs/utils';
 import { Editor } from '@toast-ui/react-editor';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useContentEditor } from '@/hooks/useContentEditor';
-import { User } from '@phosphor-icons/react';
 import { FilterDropDown } from '@/components/FilterDropDown';
 import { PostHeader } from '@/components/detail/PostHeader';
 import { PostFooter } from '@/components/detail/PostFooter';
@@ -22,6 +20,7 @@ import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
 import { useCreateDataPost } from '@/pages/data/hook/mutation/useCreateDataPost';
 import { FileInputs } from '@/components/edit/FileInputs';
 import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
+import { EditHeader } from '@/components/EditHeader';
 
 function PageSkeleton() {
   return (
@@ -243,13 +242,7 @@ export default function DataEditPage() {
 
   return (
     <article className="mt-[123px]">
-      <ArticleHeader className="">
-        <h1 className="text-[34px] font-bold">자료집</h1>
-        <div className="flex flex-row items-center gap-[5px] text-[16px] font-medium text-[#999999]">
-          <User className="size-[16px]" />
-          <p>{memberName}</p>
-        </div>
-      </ArticleHeader>
+      <EditHeader title="자료집" memberName={memberName} />
       <Container className="py-[58px]">
         <section className="mb-[12px] flex flex-col gap-[10px]">
           <div className="flex flex-col gap-[10px] md:flex-row">
