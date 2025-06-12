@@ -1,7 +1,9 @@
 import { ImageDropzone } from '../component/ImageDropzone';
 import { ImagePreview } from '../component/ImagePreview';
 import { useImageManager } from '../hook/useImageManager';
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback } from 'react';
+import { useAtom } from 'jotai';
+import { compressErrorState } from '@/pages/notice/state';
 
 interface NoticeEditImageSectionProps {
   onImagesChange: (images: File[]) => void;
@@ -9,7 +11,7 @@ interface NoticeEditImageSectionProps {
 
 export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectionProps): JSX.Element {
   const { images, addImage, removeImage, getValidImages } = useImageManager();
-  const [compressError, setCompressError] = useState<boolean>(false);
+  const [compressError, setCompressError] = useAtom(compressErrorState);
 
   useEffect(() => {
     if (compressError) {
@@ -18,7 +20,7 @@ export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectio
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [compressError]);
+  }, [compressError, setCompressError]);
 
   useEffect(() => {
     onImagesChange(getValidImages());
@@ -34,7 +36,7 @@ export function NoticeEditImageSection({ onImagesChange }: NoticeEditImageSectio
   return (
     <div className="px-[30px] xl:px-[200px]">
       <div className="mt-[12px] flex h-[270px] w-full flex-row items-center justify-start gap-4 overflow-x-auto whitespace-nowrap rounded-xs border-[0.125rem] border-gray-300 p-4">
-        <ImageDropzone onDrop={handleImageAdd} onCompressError={() => setCompressError(true)} />
+        <ImageDropzone onDrop={handleImageAdd} />
         <div className="flex max-w-full flex-row gap-4">
           {images.map((imageItem, index) => (
             <ImagePreview

@@ -2,7 +2,7 @@ import { Spacing } from '@/components/Spacing';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { buildCentralSubCategories } from '@/pages/notice/const';
 import { Category } from '@/components/Category';
 import { useSearchNoticePosts } from '@/pages/notice/queries';
@@ -21,7 +21,6 @@ const breakpointPosts: Record<string, number> = {
 
 const NoticeSection = () => {
   const breakpoint = useBreakpoints();
-  useEffect(() => console.log(breakpoint), [breakpoint]);
   const [subCategory, setSubCategory] = useState<string>('전체');
   const { t } = useTranslation();
   const centralSubCategories = useMemo(() => buildCentralSubCategories(t), [t]);
