@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 env:
-  NODE_ENV: production
+  NODE_ENV: ${{ vars.NODE_ENV }}
 
 jobs:
   deploy:
@@ -66,7 +66,8 @@ jobs:
             --distribution-id ${{ vars.HOMEPAGE_FE_CF_PROD }} \
             --paths "/prod/*"
 
-      ### 2. EC2 배포 ###
+      ### ✅ 2. EC2 배포 (기존 방식 유지) ###
+      # TODO: 인프라 전환 완료 후 EC2 배포 로직 제거 예정
       - name: Compress build artifacts
         run: tar -cvf ./dist.tar ./dist
 
