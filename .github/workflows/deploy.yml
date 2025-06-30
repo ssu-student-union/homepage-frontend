@@ -65,7 +65,7 @@ jobs:
         run: |
           aws cloudfront create-invalidation \
             --distribution-id ${{ vars.HOMEPAGE_FE_CF_PROD }} \
-            --paths "/prod/*"
+            --paths "/*"
 
       ### ✅ 2. EC2 배포 (기존 방식 유지) ###
       # TODO: 인프라 전환 완료 후 EC2 배포 로직 제거 예정
