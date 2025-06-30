@@ -5,44 +5,29 @@ on:
     branches:
       - develop
 
-env:
-  AWS_REGION: ${{ vars.AWS_REGION }}
-  BUCKET_NAME: ${{ vars.BUCKET_NAME }}
-  DISTRIBUTION_ID: ${{ vars.DISTRIBUTION_ID }}
-
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     environment:
       name: develop
-      url: https://staging.sssupport.shop
-
+      url: https://dev.sssupport.shop
     steps:
-      - name: Checkout repository
+      - name: Repository checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
-
-      - name: Cache dependencies
+      - name: Retrive caches
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ hashFiles('yarn.lock') }}
-
       - name: Enable corepack
         run: corepack enable
-
-      - name: Install dependencies
+      - name: Install project
         run: yarn install --immutable
-
-      - name: Build project
+      - name: Build
         run: yarn build
         env:
           NODE_ENV: ${{ vars.NODE_ENV }}
@@ -50,20 +35,25 @@ jobs:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
           VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
           VITE_REST_API_KEY: ${{ secrets.VITE_REST_API_KEY }}
-
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Compress build artifacts
+        run: tar -cvf ./dist.tar ./dist
+      - name: Upload with SCP
+        uses: appleboy/scp-action@v0.1.7
         with:
-          role-to-assume: arn:aws:iam::941377121690:role/ssu-itsupport-github-actions-deploy-frontend
-          role-session-name: GitHubActionsOIDCSession
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Upload to S3
-        run: |
-          aws s3 sync ./dist s3://${{ env.BUCKET_NAME }}/staging --delete
-
-      - name: Invalidate CloudFront cache
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ env.DISTRIBUTION_ID }} \
-            --paths "/staging/*"
+          username: ubuntu
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'dist.tar'
+          target: '/home/ubuntu/'
+      - name: Extract artifact with SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          username: ubuntu
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            tar -xvf ./dist.tar ./dist
+            sudo rm -rf ${{ vars.DEPLOYMENT_PATH }}
+            sudo mv ./dist ${{ vars.DEPLOYMENT_PATH }}
+            rm -rf ./dist
+            rm -f ./dist.tar
