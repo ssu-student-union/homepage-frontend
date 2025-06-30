@@ -5,29 +5,44 @@ on:
     branches:
       - main
 
+env:
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  BUCKET_NAME: ${{ vars.BUCKET_NAME }}
+  DISTRIBUTION_ID: ${{ vars.DISTRIBUTION_ID }}
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: prod
       url: https://stu.ssu.ac.kr
+
     steps:
-      - name: Repository checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
-      - name: Retrive caches
+
+      - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ hashFiles('yarn.lock') }}
+
       - name: Enable corepack
         run: corepack enable
-      - name: Install project
+
+      - name: Install dependencies
         run: yarn install --immutable
-      - name: Build
+
+      - name: Build project
         run: yarn build
         env:
           NODE_ENV: ${{ vars.NODE_ENV }}
@@ -35,8 +50,29 @@ jobs:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
           VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
           VITE_REST_API_KEY: ${{ secrets.VITE_REST_API_KEY }}
+
+      ### ✅ 1. S3 배포 ###
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::941377121690:role/ssu-itsupport-github-actions-deploy-frontend
+          role-session-name: GitHubActionsOIDCSession
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload to S3
+        run: |
+          aws s3 sync ./dist s3://${{ env.BUCKET_NAME }}/prod --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.DISTRIBUTION_ID }} \
+            --paths "/prod/*"
+
+      ### ✅ 2. EC2 배포 (기존 방식 유지) ###
       - name: Compress build artifacts
         run: tar -cvf ./dist.tar ./dist
+
       - name: Upload with SCP
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -45,6 +81,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: 'dist.tar'
           target: '/home/ubuntu/'
+
       - name: Extract artifact with SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
