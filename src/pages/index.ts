@@ -7,22 +7,11 @@ import { HumanRightsEditPage } from './human-rights/edit/page';
 import { SuggestPage } from './sug-notice/page';
 import { SuggestDetailPage } from './sug-notice/[id]/page';
 import { SuggestWritePage } from './sug-notice/edit/page';
-import { PartnershipPage } from './partnership/page';
-import { PetitionNoticePage } from './petition-notice/page';
-import { PetitionNoticeEditPage } from './petition-notice/edit/page';
-import { PetitionNoticeDetailPage } from './petition-notice/[id]/page';
-import { PartnershipDetailPage } from './partnership/partnershipDetail/page';
-import { PartnershipEditPage } from './partnership/partnershipEdit/page';
-import PartnershipPatchPage from './partnership/partnershipPatch/page';
 import { NoticePage } from './notice/page';
 import { NoticeEditPage } from './notice/edit/page';
 import NoticeDetailPage from './notice/[id]/page';
 import NoticePatchPage from './notice/patch/page';
-import { LostArticlePage } from './lost-article/page';
-import { LostArticleEditPage } from './lost-article/edit/page';
 import CampusPage from './campus/page';
-import { LostDetailPage } from './lost-article/detail/page';
-import { LostPatchPage } from './lost-article/patch/page';
 import PersonalDataPage from './personal-data/page';
 import { Layout } from './layout/headerLayout';
 import { KakaoRegisterRedirectPage } from './register/redirect/page';
@@ -57,22 +46,11 @@ export {
   SuggestPage,
   SuggestDetailPage,
   SuggestWritePage,
-  PartnershipPage,
-  PetitionNoticePage,
-  PetitionNoticeEditPage,
-  PetitionNoticeDetailPage,
-  PartnershipDetailPage,
-  PartnershipEditPage,
-  PartnershipPatchPage,
   NoticePage,
   NoticeEditPage,
   NoticeDetailPage,
   NoticePatchPage,
-  LostArticlePage,
-  LostArticleEditPage,
   CampusPage,
-  LostDetailPage,
-  LostPatchPage,
   PersonalDataPage,
   Layout,
   KakaoRegisterRedirectPage,

@@ -15,21 +15,9 @@ export function MainRouter() {
         <Route path="/notice/edit" element={<i.NoticeEditPage />} />
         <Route path="/notice/:id/patch" element={<i.NoticePatchPage />} />
         {/* 2-2. 제휴 */}
-        <Route path="/partnership" element={<i.PartnershipPage />} />
-        <Route path="/partnership/:id" element={<i.PartnershipDetailPage />} />
-        <Route path="/partnership/edit" element={<i.PartnershipEditPage />} />
-        <Route path="/partnership/:id/patch" element={<i.PartnershipPatchPage />} />
         {/* 2-3. 분실물 */}
-        <Route path="/lost-article" element={<i.LostArticlePage />} />
-        <Route path="/lost-article/:id" element={<i.LostDetailPage />} />
-        <Route path="/lost-article/edit" element={<i.LostArticleEditPage />} />
-        <Route path="/lost-article/:id/patch" element={<i.LostPatchPage />} />
         {/* 2-4.캠퍼스맵 */}
         <Route path="/campus-map" element={<i.CampusPage />} />
-        {/* 3. 학생자치기구 */}
-        <Route path="/petition-notice" element={<i.PetitionNoticePage />} />
-        <Route path="/petition-notice/edit" element={<i.PetitionNoticeEditPage />} />
-        <Route path="/petition-notice/:id" element={<i.PetitionNoticeDetailPage />} />
         {/* 4. 소통 */}
         {/* 4-1. 인권신고게시판*/}
         <Route path="/human-rights" element={<i.HumanRightsPage />} />

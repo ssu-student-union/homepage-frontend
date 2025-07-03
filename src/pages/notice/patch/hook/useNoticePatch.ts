@@ -1,6 +1,6 @@
-import { useDelBoardFiles } from '@/hooks/api/del/useDelBoardFiles';
-import { usePatchBoardPosts } from '@/hooks/api/patch/usePatchBoardPosts';
-import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
+import { useDelBoardFiles } from '@/hooks/deprecated/del/useDelBoardFiles';
+import { usePatchBoardPosts } from '@/hooks/deprecated/patch/usePatchBoardPosts';
+import { usePostBoardFiles } from '@/hooks/deprecated/post/usePostBoardFiles';
 import { handleFileLists } from '@/pages/audit/edit/utils/fileHandler';
 import { NoticePost } from '@/pages/notice/schema';
 import { useQueryClient } from '@tanstack/react-query';

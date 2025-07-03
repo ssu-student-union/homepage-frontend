@@ -4,7 +4,7 @@ import { NoticeDetailContentSection } from '@/pages/notice/[id]/container/notice
 import { ServiceNoticeDeatailTopSection } from './container/serviceNoticeDeatilTopSection';
 import { NoticeDetailFileSection } from '@/pages/notice/[id]/container/noticeDetailFileSection';
 import { ServiceNoticeDetailEditSection } from './container/serviceNoticeDetailEditSection';
-import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
+import { useGetBoardDetail } from '@/hooks/deprecated/get/useGetBoardDetail';
 
 export function ServiceNoticeDetailPage() {
   const { id } = useParams();

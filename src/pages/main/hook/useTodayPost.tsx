@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
+import { useGetBoardPosts } from '@/hooks/deprecated/get/useGetBoardPosts';
 import { Post } from '@/types/apis/get';
 import { todayPostCountState } from '@/atoms/atom';
 import { GetNoticeBoardPostsResponse } from '@/types/getBoardPosts';
