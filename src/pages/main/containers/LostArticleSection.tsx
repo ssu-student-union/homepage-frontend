@@ -1,6 +1,6 @@
 import { PostCardMissing } from '@/components/deprecated/PostCard/PostCardBasicMissing';
 import { Spacing } from '@/components/Spacing';
-import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
+import { useGetBoardPosts } from '@/hooks/deprecated/get/useGetBoardPosts';
 import { useResize } from '@/hooks/useResize';
 import { GetLostArticlePostsResponse } from '@/types/getBoardPosts';
 import { formatYYYYMMDDHHMM } from '@/utils/formatYYYYMMDDHHMM';
