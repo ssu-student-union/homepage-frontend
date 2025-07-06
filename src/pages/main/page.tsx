@@ -8,7 +8,7 @@ import { Spacing } from '@/components/Spacing';
 import CampusMapSection from './containers/CampusMapSection';
 import { FloatingButtons } from './containers/FloatingButtons';
 import { ServiceNoticeTab } from '../mypage/service-notice/component/ServiceNoticeTab';
-import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
+import { useGetBoardPosts } from '@/hooks/deprecated/get/useGetBoardPosts';
 import { NoticeResponse } from '../notice/types';
 import { MAIN_PENDING } from './const';
 import QnaSection from './containers/QnaSection';

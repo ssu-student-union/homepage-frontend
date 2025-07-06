@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchemaScouncil, LoginScouncilType } from '../types/onboardingZodCheck';
 import { LoginState } from '@/atoms/atom';
-import ChannelTalkFloating from '@/components/deprecated/Floating/ChannelTalkFloating';
 import { cn } from '@/libs/utils';
 import { useTranslation } from 'react-i18next';
 import { useSetAtom } from 'jotai';
 import usePostLoginData from '../hooks/mutation/usePostLoginData';
 import { PostScouncilLoginDataResponse } from '@/types/apis/get';
+import FloatingButton from '@/components/Buttons/FloatingButton';
+import ChannelTalkIcon from '@/components/svg-icon/ChannelTalkIcon';
 export function GeneralLoginPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -131,7 +132,9 @@ export function GeneralLoginPage() {
           </form>
         </div>
       </div>
-      <ChannelTalkFloating className="fixed bottom-10 right-10 z-50" />
+      <FloatingButton className="fixed bottom-10 right-10 z-50" isChannelTalk={true}>
+        <ChannelTalkIcon className="size-20 max-md:size-14" />
+      </FloatingButton>
     </>
   );
 }

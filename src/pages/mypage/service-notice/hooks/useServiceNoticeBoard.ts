@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useResponseBoard } from '@/hooks/useResponseBoard';
 import { useCurrentPage } from '@/hooks/useCurrentPage';
-import { useGetBoardPosts } from '@/hooks/api/get/useGetBoardPosts';
+import { useGetBoardPosts } from '@/hooks/deprecated/get/useGetBoardPosts';
 import { NoticeResponse } from '@/pages/notice/types';
 
 export function useServiceNoticeBoard(boardCode: string) {
