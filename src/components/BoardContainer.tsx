@@ -5,11 +5,41 @@ import { cn } from '@/libs/utils';
 interface BoardContainerProps {
   children: ReactNode;
   isEmpty: boolean;
+  className?: string;
 }
 
-export function BoardContainer({ children, isEmpty }: BoardContainerProps) {
+/**
+ * 게시판 레이아웃을 구성하는 컨테이너 컴포넌트입니다.
+ *
+ * 게시글 목록, 필터 UI 등을 자식으로 감싸며,
+ * 게시글이 없을 경우 "등록된 게시글이 없습니다." 메시지를 자동 출력합니다.
+ *
+ * @example
+ * ```tsx
+ * <BoardContainer isEmpty={!isLoading && posts.length === 0}>
+ *   {isLoading
+ *     ? Array.from({ length: 10 }).map((_, i) => <DataContentItem.Skeleton key={i} />)
+ *     : posts.map((post) => (
+ *         <DataContentItem
+ *           key={post.postId}
+ *           to={`/data/${post.postId}`}
+ *           date={post.date}
+ *           title={post.title}
+ *           content={post.content}
+ *           isNotice={post.isNotice}
+ *           files={post.files}
+ *         />
+ *       ))}
+ * </BoardContainer>
+ * ```
+ *
+ * @param {boolean} isEmpty - 게시글이 비어 있는 상태 여부를 나타냅니다.
+ * @param {ReactNode} children - 자식 요소들 (예: 게시글 목록, 필터, 검색 등)
+ * @param {string} [className] - Container에 추가할 클래스
+ */
+export function BoardContainer({ children, isEmpty, className }: BoardContainerProps) {
   return (
-    <Container className="pt-0 max-md:px-0 md:pt-14">
+    <Container className={cn('pt-0 max-md:px-0 md:pt-14', className)}>
       <div className="flex flex-col gap-4">
         {children}
         {isEmpty && (
@@ -20,53 +50,4 @@ export function BoardContainer({ children, isEmpty }: BoardContainerProps) {
       </div>
     </Container>
   );
-}
-
-interface CardProps {
-  isLoading: boolean;
-  skeleton: ReactNode[];
-  items: ReactNode[];
-  className?: string;
-}
-
-function Card({ isLoading, skeleton, items, className }: CardProps) {
-  return <div className={cn(className)}>{isLoading ? skeleton : items}</div>;
-}
-
-BoardContainer.Card = Card;
-
-{
-  /* 
-사용 예시입니다.(출처: 자료집페이지(src/pages/data/page.tsx))
-<BoardContainer isEmpty={!isLoading && posts.length === 0}>
-  <CollapsibleContent
-    className={cn(
-      'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
-      'border-b border-b-border max-md:px-4 md:hidden'
-    )}
-  >
-    <div className="flex flex-col gap-2 py-2">
-      <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
-      <CategoryPopover value={category} onChange={setCategory} />
-    </div>
-  </CollapsibleContent>
-  <CategoryPopover className="hidden md:flex" value={category} onChange={setCategory} />
-  <BoardContainer.Card
-    isLoading={isLoading}
-    skeleton={Array.from({ length: 10 }).map((_, i) => (
-      <DataContentItem.Skeleton key={i} />
-    ))}
-    items={posts.map((post) => (
-      <DataContentItem
-        key={post.postId}
-        to={`/data/${post.postId}`}
-        date={post.date}
-        title={post.title}
-        content={post.content}
-        isNotice={post.isNotice}
-        files={post.files}
-      />
-    ))}
-  />
-</BoardContainer> */
 }

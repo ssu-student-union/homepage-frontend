@@ -11,7 +11,7 @@ import { cn } from '@/libs/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { CategoryPopover, DataCategoryValue } from '@/pages/data/components/CategoryPopover';
 import { BoardFooter } from '@/components/BoardFooter';
-import { BoardContainer } from './../../components/BoardContainer';
+import { BoardContainer } from '@/components/BoardContainer';
 
 export default function DataPage() {
   /* Obtain query parameters */
@@ -92,36 +92,32 @@ export default function DataPage() {
           </div>
         </CollapsibleContent>
         <CategoryPopover className="hidden md:flex" value={category} onChange={setCategory} />
-        <BoardContainer.Card
-          isLoading={isLoading}
-          skeleton={Array.from({ length: 10 }).map((_, i) => (
-            <DataContentItem.Skeleton key={i} />
-          ))}
-          items={posts.map((post) => (
-            <DataContentItem
-              key={post.postId}
-              to={`/data/${post.postId}`}
-              date={post.date}
-              title={post.title}
-              content={post.content}
-              isNotice={post.isNotice}
-              files={post.files}
-            />
-          ))}
-        />
+        {isLoading
+          ? Array.from({ length: 10 }).map((_, i) => <DataContentItem.Skeleton key={i} />)
+          : posts.map((post) => (
+              <DataContentItem
+                key={post.postId}
+                to={`/data/${post.postId}`}
+                date={post.date}
+                title={post.title}
+                content={post.content}
+                isNotice={post.isNotice}
+                files={post.files}
+              />
+            ))}
       </BoardContainer>
       <BoardFooter>
-        <BoardFooter.Pagination>
+        <BoardFooter.CenterSlot>
           <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
-        </BoardFooter.Pagination>
-        <BoardFooter.Link>
+        </BoardFooter.CenterSlot>
+        <BoardFooter.RightSlot>
           {writable && (
             <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/data/edit">
               <Pencil className="size-4" />
               <p>글쓰기</p>
             </Link>
           )}
-        </BoardFooter.Link>
+        </BoardFooter.RightSlot>
       </BoardFooter>
     </Collapsible>
   );

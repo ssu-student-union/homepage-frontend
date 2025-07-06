@@ -242,7 +242,10 @@ export default function DataEditPage() {
 
   return (
     <article className="mt-[123px]">
-      <EditHeader title="자료집" memberName={memberName} />
+      <EditHeader>
+        <EditHeader.Title>자료집</EditHeader.Title>
+        {memberName && <EditHeader.Member>{memberName}</EditHeader.Member>}
+      </EditHeader>
       <Container className="py-[58px]">
         <section className="mb-[12px] flex flex-col gap-[10px]">
           <div className="flex flex-col gap-[10px] md:flex-row">
