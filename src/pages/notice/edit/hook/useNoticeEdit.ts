@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { usePostBoardFiles } from '@/hooks/api/post/usePostBoardFiles';
-import { usePostBoardPosts } from '@/hooks/api/post/usePostBoardPosts';
+import { usePostBoardFiles } from '@/hooks/deprecated/post/usePostBoardFiles';
+import { usePostBoardPosts } from '@/hooks/deprecated/post/usePostBoardPosts';
 import { handleFileLists } from '../utils/fileHandler';
 import { File as Data } from '@/types/apis/post';
 import { useQueryClient } from '@tanstack/react-query';

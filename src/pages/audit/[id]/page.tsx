@@ -1,7 +1,7 @@
 import { AuditDetailTopSection } from './container/auditDetailTopSection';
 import { AuditDetailContentSection } from './container/auditDetailContentSection';
 import { AuditDetailEditSection } from './container/auditDetailEditSection';
-import { useGetBoardDetail } from '@/hooks/api/get/useGetBoardDetail';
+import { useGetBoardDetail } from '@/hooks/deprecated/get/useGetBoardDetail';
 import AuditDetailLoading from './container/auditDetailLoading';
 import { items } from '../const/data';
 import { AuditDetailFileSection } from './auditDetailFileSection';
