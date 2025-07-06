@@ -17,8 +17,3 @@ export interface BodyLayoutProps {
   onPageChange: (page: number) => void;
   onWriteClick: () => void;
 }
-
-export interface EditLayoutProps {
-  children: React.ReactNode;
-  title: string;
-}

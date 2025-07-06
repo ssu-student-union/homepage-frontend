@@ -19,18 +19,6 @@ export function RegisterButton({ ...props }) {
 }
 
 /**
- * @deprecated 권장하지 않음, `Button` 컴포넌트의 `register` variant를 사용하세요.
- * @description 너무 간단한 컴포넌트, 버튼의 속성을 그대로 사용할 수 있도록 `forwardRef` 등 사용 필요
- */
-export function CancelButton({ ...props }) {
-  return (
-    <Button variant="register" {...props}>
-      <p>취소</p>
-    </Button>
-  );
-}
-
-/**
  * @deprecated 권장하지 않음, `Button` 컴포넌트의 `list-edit` variant와 `lucide-react/List` 아이콘을 사용하세요.
  * @description 너무 간단한 컴포넌트, 버튼의 속성을 그대로 사용할 수 있도록 `forwardRef` 등 사용 필요
  */
