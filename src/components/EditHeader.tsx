@@ -3,6 +3,11 @@ import { cn } from '@/libs/utils';
 import { User } from 'lucide-react';
 import { ReactNode } from 'react';
 
+interface EditHeaderRootProps {
+  children: ReactNode;
+  className?: string;
+}
+
 /**
  * 게시글 작성/수정 화면에서 사용하는 헤더 컴포넌트입니다.
  *
@@ -24,12 +29,6 @@ import { ReactNode } from 'react';
  * </EditHeader>
  * ```
  */
-
-interface EditHeaderRootProps {
-  children: ReactNode;
-  className?: string;
-}
-
 function EditHeaderRoot({ children, className }: EditHeaderRootProps) {
   return <ArticleHeader className={cn('py-4 md:py-6 xl:pt-16', className)}>{children}</ArticleHeader>;
 }
