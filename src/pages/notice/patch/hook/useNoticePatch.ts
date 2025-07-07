@@ -78,6 +78,8 @@ export function useNoticePatch({ postDetail, boardCode, postId }: useNoticePatch
         await queryClient.invalidateQueries({ queryKey: ['searchPosts', '공지사항게시판'] });
         navigate(`/notice/${postId}`, { state: { postId } });
       } else if (boardCode === '서비스공지사항') {
+        await queryClient.invalidateQueries({ queryKey: ['getPost', boardCode, postId] });
+        await queryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts', '서비스공지사항'] });
         navigate(`/service-notice/${postId}`, { state: { postId } });
       }
     } catch (e) {
