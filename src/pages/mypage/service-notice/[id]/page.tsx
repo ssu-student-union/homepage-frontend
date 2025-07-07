@@ -83,16 +83,6 @@ export function ServiceNoticeDetailPage() {
           postDetail={post}
           handleDelete={handleDeletePost}
         />
-        <PostFooter
-          boardUrl="/service-notice"
-          editable={editable}
-          deletable={deletable}
-          editUrl={`/service-notice/${postId}/patch`}
-          className="mb-20"
-          onDelete={() => {
-            handleDeletePost();
-          }}
-        />
       </article>
       <hr className="bg-[#E7E7E7]" />
     </>
