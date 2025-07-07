@@ -1,50 +1,58 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router';
-import { delBoardPosts } from '@/apis/delBoardPosts';
+import { LostArticlePost } from '@/pages/lost-article/schema';
+import { ArticleFooter } from '@/containers/new/ArticleFooter';
+import { lostArticleHandleLocation } from '@/pages/notice/[id]/utils/locationHandler';
 
 interface AuditDetailEditProps {
-  boardCode: string;
-  postId: number;
-  fileUrls: string[];
-  imageUrls: string[];
-  content: string;
-  title: string;
-  authority?: string[];
-  isAuthor: boolean;
-  baseUrl?: string;
-  noticeUrl?: string;
+  className?: string;
+    postId: number;
+    editable: boolean;
+    deletable: boolean;
+    postDetail: LostArticlePost;
+    handleDelete: () => void;
 }
 
 export function AuditDetailEditSection({
-  boardCode,
+  className,
   postId,
-  fileUrls,
-  imageUrls,
-  baseUrl = `/`,
-  noticeUrl = `/`,
-  isAuthor,
+  editable,
+  deletable,
+  postDetail,
+  handleDelete
 }: AuditDetailEditProps) {
   const navigate = useNavigate();
 
-  const fileurl = [...fileUrls, ...imageUrls];
+  //const fileurl = [...fileUrls, ...imageUrls];
 
-  const handleDelete = async () => {
-    await delBoardPosts(boardCode, postId, fileurl);
-    navigate(noticeUrl);
-    window.location.reload();
-  };
+  // const handleDelete = async () => {
+  //   await delBoardPosts(boardCode, postId, fileurl);
+  //   navigate(noticeUrl);
+  //   window.location.reload();
+  // };
 
   return (
-    <div className="flex w-full justify-end py-[40px] md:py-[60px]">
-      <div className="flex h-[150px] flex-col items-end justify-between gap-4 sm:h-auto sm:flex-row">
-        {isAuthor ? (
-          <>
-            <DeleteButton onClick={handleDelete} />
-            <EditButton onClick={() => navigate(`${baseUrl}/${postId}/patch`, { state: { postId: postId } })} />
-          </>
-        ) : null}
-        <ListButton onClick={() => navigate(noticeUrl)} />
-      </div>
-    </div>
+    <ArticleFooter className={className}>
+          <div className="flex w-full max-w-[1040px] justify-end gap-4">
+            {editable && <DeleteButton onClick={handleDelete} className="max-md:w-[100px]" />}
+            {deletable && (
+              <EditButton
+                onClick={() =>
+                  lostArticleHandleLocation(
+                    {
+                      data: {
+                        postId,
+                        postDetail,
+                      },
+                    },
+                    navigate
+                  )
+                }
+                className="sm:w-[100px]"
+              />
+            )}
+            <ListButton onClick={() => navigate('/lost-article')} className="sm:w-[100px]" />
+          </div>
+        </ArticleFooter>
   );
 }

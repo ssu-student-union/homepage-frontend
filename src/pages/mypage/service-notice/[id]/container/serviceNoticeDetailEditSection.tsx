@@ -1,7 +1,7 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router';
 import { ArticleFooter } from '@/containers/new/ArticleFooter';
-import { handleLocation } from '@/pages/notice/[id]/utils/locationHandler';
+import { serviceNoticeHandleLocation } from '@/pages/notice/[id]/utils/locationHandler';
 import { ServiceNoticePost } from '@/pages/mypage/service-notice/schema';
 
 interface NoticeDetailEditProps {
@@ -30,7 +30,7 @@ export function ServiceNoticeDetailEditSection({
         {deletable && (
           <EditButton
             onClick={() =>
-              handleLocation(
+              serviceNoticeHandleLocation(
                 {
                   data: {
                     postId,
