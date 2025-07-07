@@ -32,8 +32,6 @@ export default function ServiceNoticePatchPage() {
     setIsUrgent,
   } = useNoticePatch({ boardCode: '서비스공지사항', postId: postId, postDetail });
 
-  console.log(postDetail);
-
   return (
     <>
       <HeadLayout title="서비스 공지사항" searchHidden={true} borderOff={true} />
