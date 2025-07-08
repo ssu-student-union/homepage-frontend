@@ -8,7 +8,7 @@ import { useDeletePost, UseDeletePostOptions } from '@/hooks/new/mutations/useDe
 export function useGetServiceNoticePost({
   postId,
   queryOptions,
-}: Omit<GetPostOptions<ServiceNoticePostResponse, ServiceNoticePost>, 'boardCode' | 'zodeSchema'>) {
+}: Omit<GetPostOptions<ServiceNoticePostResponse, ServiceNoticePost>, 'boardCode' | 'zodSchema'>) {
   const zodSchema = ServiceNoticePostSchema;
   return useGetPost({
     boardCode: BOARD_CODE,
