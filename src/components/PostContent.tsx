@@ -26,11 +26,11 @@ export function PostContent<C extends string>({ category, title, author, date, .
   const formattedDate = dayjs(date).format('YYYY/MM/DD');
 
   return (
-    <Link {...props} className={cn('flex gap-5 border-b border-b-gray-400 p-5 font-medium')}>
+    <Link {...props} className={cn('flex gap-5 border-b border-b-gray-200 p-5 font-medium')}>
       <div className={cn('text-nowrap', category.className)}>[{category.name}]</div>
       <div className="flex basis-full flex-col justify-between gap-5 md:flex-row">
-        <div className="max-md:basis-full">{title}</div>
-        <div className="flex justify-between gap-5 max-md:basis-full">
+        <div className="max-md:basis-full lg:max-w-md xl:max-w-2xl">{title}</div>
+        <div className="flex min-w-[190px] justify-between gap-5 max-md:basis-full">
           <span>{author}</span>
           <span className="text-gray-500">{formattedDate}</span>
         </div>

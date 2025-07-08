@@ -3,11 +3,23 @@ import { BodyLayout } from '@/template/BodyLayout.tsx';
 import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent';
 import { HumanRightsCategory } from '@/pages/human-rights/schema.ts';
-import { useNavigate, useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { SearchState } from '@/atoms/atom';
 import { useSearchHumanRightsPosts } from '@/pages/human-rights/queries.ts';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAtom } from 'jotai';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { BoardHeader } from '@/components/BoardHeader';
+import { Search } from '@/components/Search';
+import { Pencil, SearchIcon } from 'lucide-react';
+import { cn } from '@/libs/utils';
+import LinkPagination from '@/components/LinkPagination';
+import { buttonVariants } from '@/components/ui/button';
+import { BoardFooter } from '@/components/BoardFooter';
+import { BoardContainer } from '@/components/BoardContainer';
+import { LinkCategories } from '@/components/LinkCategories';
+import { buildHumanRightsCategories } from '@/pages/human-rights/const';
+import { useTranslation } from 'react-i18next';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -42,8 +54,9 @@ function PageSkeleton() {
 }
 
 export function HumanRightsPage() {
+  const { t } = useTranslation();
   /* Navigation function for write operation */
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   /* Obtain query parameters */
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
@@ -52,6 +65,8 @@ export function HumanRightsPage() {
   /* Search state management */
   // TODO: Use search parameters instead of recoil state
   const [q] = useAtom(SearchState);
+
+  const [filterOpen, setFilterOpen] = useState(false);
 
   /* Load data from Query */
   const { data, isLoading, isError, error } = useSearchHumanRightsPosts({
@@ -70,6 +85,10 @@ export function HumanRightsPage() {
     }
   }, [data, page, setSearchParams]);
 
+  const { totalPages } = useMemo(() => data?.pageInfo ?? { totalPages: 0 }, [data]);
+  const authorities = useMemo(() => data?.allowedAuthorities ?? [], [data]);
+  const writable = useMemo(() => authorities.includes('WRITE'), [authorities]);
+
   if (isLoading) {
     return <PageSkeleton />;
   }
@@ -85,67 +104,68 @@ export function HumanRightsPage() {
   }
 
   /* Data preparation */
-  const { pageNum: currentPage, totalPages } = data.pageInfo;
   const posts = data.postListResDto;
 
-  console.log(data);
-
-  /* Handle user inputs */
-  function selectCategory(category: SelectorCategory<HumanRightsCategory>) {
+  const handleSearch = (value: string) => {
     setSearchParams((prev) => {
-      if (category === '전체') {
-        prev.delete('category');
+      const newParams = new URLSearchParams(prev.toString());
+      if (value) {
+        newParams.set('q', value);
       } else {
-        prev.set('category', category);
+        newParams.delete('q');
       }
-      prev.delete('page');
-      return prev;
+      return newParams;
     });
-    window.scrollTo(0, 0);
-  }
-
-  function navigatePage(page: number) {
-    setSearchParams((prev) => {
-      prev.set('page', `${page}`);
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function navigateToWrite() {
-    navigate('/human-rights/edit');
-  }
+  };
 
   return (
-    <>
-      <HeadLayout title="인권신고게시판" subtitle={subtitle}></HeadLayout>
-      <BodyLayout
-        totalPages={totalPages}
-        currentPage={currentPage + 1}
-        authority={data.allowedAuthorities}
-        onPageChange={navigatePage}
-        onWriteClick={navigateToWrite}
-      >
-        <BoardSelector
-          subcategories={['전체', '접수대기', '접수완료']}
-          selectedSubcategory={category}
-          onSubcategorySelect={selectCategory}
-          className="mb-4"
-        />
-        {posts.map((post) => (
-          <PostContent<HumanRightsCategory>
-            key={post.postId}
-            to={`/human-rights/${post.postId}`}
-            category={{ name: post.category, className: categoryColors[post.category] }}
-            date={post.date}
-            title={post.title}
-            author={post.reportName}
-          />
-        ))}
-        {posts.length === 0 && (
-          <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
-        )}
-      </BodyLayout>
-    </>
+    <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
+      <BoardHeader title="인권신고게시판" className="border-b-neutral-200 max-md:px-5 md:border-b">
+        <Search className="hidden md:flex" onSearch={handleSearch} />
+        <CollapsibleTrigger className="md:hidden">
+          <SearchIcon className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
+        </CollapsibleTrigger>
+      </BoardHeader>
+      <BoardContainer isEmpty={posts.length === 0}>
+        <CollapsibleContent
+          className={cn(
+            'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
+            'border-b border-b-border max-md:px-4 md:hidden'
+          )}
+        >
+          <div className="flex flex-col gap-2 py-2">
+            <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
+          </div>
+        </CollapsibleContent>
+        <LinkCategories value={category} categories={buildHumanRightsCategories(t)} />
+        <div className="border-t-black md:border-t">
+          {isLoading
+            ? Array.from(Array(10).keys()).map((_, i) => <PostContent.Skeleton key={i} />)
+            : posts.map((post) => (
+                <PostContent<HumanRightsCategory>
+                  key={post.postId}
+                  to={`/human-rights/${post.postId}`}
+                  category={{ name: post.category, className: categoryColors[post.category] }}
+                  date={post.date}
+                  title={post.title}
+                  author={post.reportName}
+                />
+              ))}
+        </div>
+      </BoardContainer>
+      <BoardFooter>
+        <div className="flex justify-center">
+          <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
+        </div>
+        <div className="flex justify-end">
+          {writable && (
+            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/qna/edit">
+              <Pencil className="size-4" />
+              <p>글쓰기</p>
+            </Link>
+          )}
+        </div>
+      </BoardFooter>
+    </Collapsible>
   );
 }
