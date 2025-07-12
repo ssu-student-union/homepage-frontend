@@ -13,10 +13,13 @@ import { BoardHeader } from '@/components/BoardHeader';
 import { Search } from '@/components/Search';
 import { Pencil, SearchIcon } from 'lucide-react';
 import { cn } from '@/libs/utils';
-import { Container } from '@/containers/new/Container';
-import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import LinkPagination from '@/components/LinkPagination';
 import { buttonVariants } from '@/components/ui/button';
+import { BoardFooter } from '@/components/BoardFooter';
+import { BoardContainer } from '@/components/BoardContainer';
+import { LinkCategories } from '@/components/LinkCategories';
+import { buildHumanRightsCategories } from '@/pages/human-rights/const';
+import { useTranslation } from 'react-i18next';
 
 type SelectorCategory<T> = T extends T ? '전체' | T : never;
 
@@ -51,6 +54,7 @@ function PageSkeleton() {
 }
 
 export function HumanRightsPage() {
+  const { t } = useTranslation();
   /* Navigation function for write operation */
   // const navigate = useNavigate();
   /* Obtain query parameters */
@@ -102,32 +106,6 @@ export function HumanRightsPage() {
   /* Data preparation */
   const posts = data.postListResDto;
 
-  /* Handle user inputs */
-  function selectCategory(category: SelectorCategory<HumanRightsCategory>) {
-    setSearchParams((prev) => {
-      if (category === '전체') {
-        prev.delete('category');
-      } else {
-        prev.set('category', category);
-      }
-      prev.delete('page');
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  // function navigatePage(page: number) {
-  //   setSearchParams((prev) => {
-  //     prev.set('page', `${page}`);
-  //     return prev;
-  //   });
-  //   window.scrollTo(0, 0);
-  // }
-
-  // function navigateToWrite() {
-  //   navigate('/human-rights/edit');
-  // }
-
   const handleSearch = (value: string) => {
     setSearchParams((prev) => {
       const newParams = new URLSearchParams(prev.toString());
@@ -148,61 +126,46 @@ export function HumanRightsPage() {
           <SearchIcon className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
         </CollapsibleTrigger>
       </BoardHeader>
-      <Container className="pt-0 max-md:px-0 md:pt-14">
-        <div className="flex flex-col gap-4">
-          <CollapsibleContent
-            className={cn(
-              'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
-              'border-b border-b-border max-md:px-4 md:hidden'
-            )}
-          >
-            <div className="flex flex-col gap-2 py-2">
-              <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
-            </div>
-          </CollapsibleContent>
-          <BoardSelector
-            subcategories={['전체', '접수대기', '접수완료']}
-            selectedSubcategory={category}
-            onSubcategorySelect={selectCategory}
-            className="mb-4 max-md:px-4"
-          />
-          <div className="border-t-black md:border-t">
-            {isLoading
-              ? Array.from(Array(10).keys()).map((_, i) => <PostContent.Skeleton key={i} />)
-              : posts.map((post) => (
-                  <PostContent<HumanRightsCategory>
-                    key={post.postId}
-                    to={`/human-rights/${post.postId}`}
-                    category={{ name: post.category, className: categoryColors[post.category] }}
-                    date={post.date}
-                    title={post.title}
-                    author={post.reportName}
-                  />
-                ))}
+      <BoardContainer isEmpty={posts.length === 0}>
+        <CollapsibleContent
+          className={cn(
+            'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
+            'border-b border-b-border max-md:px-4 md:hidden'
+          )}
+        >
+          <div className="flex flex-col gap-2 py-2">
+            <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
           </div>
-          {posts.length === 0 && (
-            <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
+        </CollapsibleContent>
+        <LinkCategories value={category} categories={buildHumanRightsCategories(t)} />
+        <div className="border-t-black md:border-t">
+          {isLoading
+            ? Array.from(Array(10).keys()).map((_, i) => <PostContent.Skeleton key={i} />)
+            : posts.map((post) => (
+                <PostContent<HumanRightsCategory>
+                  key={post.postId}
+                  to={`/human-rights/${post.postId}`}
+                  category={{ name: post.category, className: categoryColors[post.category] }}
+                  date={post.date}
+                  title={post.title}
+                  author={post.reportName}
+                />
+              ))}
+        </div>
+      </BoardContainer>
+      <BoardFooter>
+        <div className="flex justify-center">
+          <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
+        </div>
+        <div className="flex justify-end">
+          {writable && (
+            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/qna/edit">
+              <Pencil className="size-4" />
+              <p>글쓰기</p>
+            </Link>
           )}
         </div>
-      </Container>
-      <ArticleFooter className="mb-20">
-        <div className="flex flex-col gap-9">
-          <div className="grid grid-cols-3">
-            <div></div>
-            <div className="flex justify-center">
-              <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
-            </div>
-            <div className="flex justify-end">
-              {writable && (
-                <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/qna/edit">
-                  <Pencil className="size-4" />
-                  <p>글쓰기</p>
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </ArticleFooter>
+      </BoardFooter>
     </Collapsible>
   );
 }
