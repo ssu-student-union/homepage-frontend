@@ -5,10 +5,10 @@ import { useServiceNoticeBoard } from './hooks/useServiceNoticeBoard';
 import dayjs from 'dayjs';
 import { BoardHeader } from '@/components/BoardHeader';
 import { Container } from '@/containers/new/Container';
-import { ArticleFooter } from '@/containers/new/ArticleFooter';
 import LinkPagination from '@/components/LinkPagination';
 import { Pencil } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
+import { BoardFooter } from '@/components/BoardFooter';
 export function ServiceNoticePage() {
   const boardCode = '서비스공지사항';
   const { idata, totalPages, currentPage, isLoading } = useServiceNoticeBoard(boardCode);
@@ -39,25 +39,25 @@ export function ServiceNoticePage() {
             />
           ))
         )}
+        {data?.length === 0 && (
+          <article className="flex items-center justify-center py-12 text-muted-foreground">
+            등록된 게시글이 없습니다.
+          </article>
+        )}
       </Container>
-      <ArticleFooter className="mb-20">
-        <div className="flex flex-col gap-9">
-          <div className="grid grid-cols-3">
-            <div></div>
-            <div className="flex justify-center">
-              <LinkPagination totalPages={totalPages} maxDisplay={7} page={currentPage} />
-            </div>
-            <div className="flex justify-end">
-              {idata?.data.allowedAuthorities?.includes('WRITE') && (
-                <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/data/edit">
-                  <Pencil className="size-4" />
-                  <p>글쓰기</p>
-                </Link>
-              )}
-            </div>
-          </div>
+      <BoardFooter>
+        <div className="flex justify-center">
+          <LinkPagination totalPages={totalPages} maxDisplay={7} page={currentPage} />
         </div>
-      </ArticleFooter>
+        <div className="flex justify-end">
+          {idata?.data.allowedAuthorities?.includes('WRITE') && (
+            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/data/edit">
+              <Pencil className="size-4" />
+              <p>글쓰기</p>
+            </Link>
+          )}
+        </div>
+      </BoardFooter>
     </>
   );
 }
