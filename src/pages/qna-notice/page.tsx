@@ -58,7 +58,7 @@ const buildQnaPostParams = (params: BuildQnaPostParams): QnaPostParams => {
 
 const subtitle = (
   <p className="font-bold">
-    질문을 등록하면 <span className="text-primary">72시간 내에 학생회</span>가 답변합니다
+    질문을 등록하면 <span className="text-primary">72시간 내에 해당 단위 학생회</span>가 답변합니다
   </p>
 );
 
