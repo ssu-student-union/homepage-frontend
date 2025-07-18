@@ -1,66 +1,50 @@
 import { DeleteButton, EditButton, ListButton } from '@/components/deprecated/Buttons/BoardActionButtons';
 import { useNavigate } from 'react-router';
-import { serviceNoticeHandleLocation } from '../../../../notice/[id]/utils/locationHandler';
-import { delBoardPosts } from '@/apis/delBoardPosts';
-import { useQueryClient } from '@tanstack/react-query';
+import { ArticleFooter } from '@/containers/new/ArticleFooter';
+import { serviceNoticeHandleLocation } from '@/pages/notice/[id]/utils/locationHandler';
+import { ServiceNoticePost } from '@/pages/mypage/service-notice/schema';
 
 interface NoticeDetailEditProps {
-  boardCode: string;
+  className?: string;
   postId: number;
-  fileUrls: string[];
-  imageUrls: string[];
-  content: string;
-  title: string;
-
-  isAuthor?: boolean;
+  editable: boolean;
+  deletable: boolean;
+  postDetail: ServiceNoticePost;
+  handleDelete: () => void;
 }
 
 export function ServiceNoticeDetailEditSection({
-  boardCode,
+  className,
   postId,
-  fileUrls,
-  imageUrls,
-  isAuthor,
+  editable,
+  deletable,
+  postDetail,
+  handleDelete,
 }: NoticeDetailEditProps) {
   const navigate = useNavigate();
 
-  const fileurl: string[] = [...fileUrls, ...imageUrls];
-
-  const queryClient = useQueryClient();
-
-  const handleDelete = async () => {
-    await delBoardPosts(boardCode, postId, fileurl);
-    queryClient.invalidateQueries({
-      queryKey: ['get-board-boardCode-posts', boardCode],
-    });
-    navigate(`/service-notice`);
-  };
-
   return (
-    <div className="flex w-full justify-end py-[40px] md:py-[60px]">
-      <div className="flex h-[150px] flex-col items-end justify-between gap-4 sm:h-auto sm:flex-row">
-        {isAuthor ? (
-          <>
-            <DeleteButton onClick={handleDelete} className="max-md:w-[100px]" />
-            <EditButton
-              onClick={() =>
-                serviceNoticeHandleLocation(
-                  {
-                    data: {
-                      postId,
-                    },
+    <ArticleFooter className={className}>
+      <div className="flex w-full max-w-[1040px] justify-end gap-4">
+        {editable && <DeleteButton onClick={handleDelete} className="max-md:w-[100px]" />}
+        {deletable && (
+          <EditButton
+            onClick={() =>
+              serviceNoticeHandleLocation(
+                {
+                  data: {
+                    postId,
+                    postDetail,
                   },
-                  navigate
-                )
-              }
-              className="max-md:w-[100px]"
-            />
-          </>
-        ) : null}
-        <a href="/service-notice">
-          <ListButton className="max-md:w-[100px]" />
-        </a>
+                },
+                navigate
+              )
+            }
+            className="sm:w-[100px]"
+          />
+        )}
+        <ListButton onClick={() => navigate('/service-notice')} className="sm:w-[100px]" />
       </div>
-    </div>
+    </ArticleFooter>
   );
 }

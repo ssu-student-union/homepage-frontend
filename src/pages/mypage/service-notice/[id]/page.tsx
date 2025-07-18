@@ -1,70 +1,90 @@
-import { useParams } from 'react-router';
-import NoticeDetailLoading from '@/pages/notice/[id]/container/noticeDetailLoading';
-import { NoticeDetailContentSection } from '@/pages/notice/[id]/container/noticeDetailContentSection';
-import { ServiceNoticeDeatailTopSection } from './container/serviceNoticeDeatilTopSection';
-import { NoticeDetailFileSection } from '@/pages/notice/[id]/container/noticeDetailFileSection';
+import { useNavigate, useParams } from 'react-router';
 import { ServiceNoticeDetailEditSection } from './container/serviceNoticeDetailEditSection';
-import { useGetBoardDetail } from '@/hooks/deprecated/get/useGetBoardDetail';
+import { PostHeader } from '@/components/detail/PostHeader';
+import { Container } from '@/containers/new/Container';
+import { PostFooter } from '@/components/detail/PostFooter';
+import { useQueryClient } from '@tanstack/react-query';
+import { useDeleteServiceNoticePost, useGetServiceNoticePost } from '../quaries';
+import { PostBody } from '@/components/detail/PostBody';
+import { BOARD_CODE } from '../const/data';
+
+function PageSkeleton() {
+  return (
+    <article className="mb-20 mt-16">
+      <PostHeader.Skeleton />
+      <hr className="bg-[#E7E7E7]" />
+      <Container.Skeleton />
+      <PostFooter.Skeleton />
+    </article>
+  );
+}
 
 export function ServiceNoticeDetailPage() {
   const { id } = useParams();
   const postId = Number(id);
-  const boardCode: string = '서비스공지사항';
-  // id에 해당하는 게시글 데이터 찾기
-  const { data, isLoading, isError } = useGetBoardDetail({ boardCode, postId });
+  const navigate = useNavigate();
 
-  // post가 존재하는 경우 title과 date를 가져오고, 없으면 빈 값으로 처리
-  const title = data ? data.data.postDetailResDto.title : '게시글을 찾을 수 없습니다.';
-  const date = data ? data.data.postDetailResDto.createdAt : '';
-  const content = data ? data.data.postDetailResDto.content : '';
-  const author = data ? data.data.postDetailResDto.authorName : 'IT지원위원회';
+  const boardCode: string = BOARD_CODE;
 
-  const fileList =
-    data?.data?.postDetailResDto?.fileResponseList
-      ?.filter((file) => file.fileType === 'files')
-      .map((file) => file.fileUrl) ?? [];
-  const fileNames =
-    data?.data?.postDetailResDto?.fileResponseList
-      ?.filter((file) => file.fileType === 'files')
-      .map((file) => file.fileName) ?? [];
+  const QueryClient = useQueryClient();
+  const { data: post, isLoading, error, isError } = useGetServiceNoticePost({ postId, queryOptions: { retry: true } });
+  const { mutate: deletePost, isPending: isDeletePostPending } = useDeleteServiceNoticePost();
 
-  const imageList =
-    data?.data?.postDetailResDto?.fileResponseList
-      ?.filter((file) => file.fileType === 'images')
-      .map((file) => file.fileUrl) ?? [];
+  if (isLoading || isDeletePostPending) {
+    return <PageSkeleton />;
+  }
 
-  const fileUrls = [...fileList, ...imageList];
+  if (isNaN(postId) || !post || isError) {
+    console.log(error);
+    // TODO: 오류 발생 시 세부정보 제공
+    return (
+      <div className="mt-16 flex items-center justify-center">
+        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
+      </div>
+    );
+  }
+
+  const editable = post.isAuthor || (post.allowedAuthorities ?? []).includes('EDIT');
+  const deletable = post.isAuthor || (post.allowedAuthorities ?? []).includes('DELETE');
+
+  function handleDeletePost() {
+    if (id && post) {
+      deletePost(
+        { postId: id, fileUrls: post.fileResponseList.map((file) => file.fileUrl) },
+        {
+          onSuccess: async () => {
+            //TODO: 게시판 목록 일반화 후 쿼리 키 수정
+            await QueryClient.invalidateQueries({ queryKey: ['get-board-boardCode-posts', '서비스공지사항'] });
+            navigate('/service-notice');
+          },
+        }
+      );
+    }
+  }
 
   return (
     <>
-      {isLoading ? (
-        <div className="flex h-screen items-center justify-center">
-          <NoticeDetailLoading />
-        </div>
-      ) : isError ? (
-        <div>오류 발생. 관리자에게 문의하세요.</div>
-      ) : (
-        <div className="px-[20px] md:px-[40px] lg:px-[120px]">
-          <ServiceNoticeDeatailTopSection title={title} author={author} date={date} />
-          {title === '게시글을 찾을 수 없습니다.' ? (
-            <NoticeDetailLoading />
-          ) : (
-            <>
-              <NoticeDetailContentSection content={content} images={imageList} />
-              <NoticeDetailFileSection files={fileList} fileNames={fileNames} />
-              <ServiceNoticeDetailEditSection
-                title={title}
-                content={content}
-                isAuthor={data?.data.postDetailResDto.isAuthor}
-                imageUrls={imageList}
-                boardCode={boardCode}
-                postId={postId}
-                fileUrls={fileUrls}
-              />
-            </>
-          )}
-        </div>
-      )}
+      <article className="mt-16">
+        <PostHeader
+          title={post.title}
+          authorName={post.authorName}
+          createdAt={post.createdAt}
+          breadcrumbItems={[[boardCode, null]]}
+        />
+        <hr className="bg-[#E7E7E7]" />
+        <Container>
+          <PostBody content={post.content} files={post.fileResponseList} />
+        </Container>
+        <ServiceNoticeDetailEditSection
+          className="mb-20"
+          editable={editable}
+          deletable={deletable}
+          postId={postId}
+          postDetail={post}
+          handleDelete={handleDeletePost}
+        />
+      </article>
+      <hr className="bg-[#E7E7E7]" />
     </>
   );
 }
