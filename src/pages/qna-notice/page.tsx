@@ -2,17 +2,29 @@ import { HeadLayout } from '@/template/HeadLayout';
 import { BodyLayout } from '@/template/BodyLayout';
 import { BoardSelector } from '@/components/deprecated/Board/BoardSelector';
 import { PostContent } from '@/components/PostContent';
-import { useNavigate, useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { QnaPostParams, useGetQnaList } from './hooks/useGetQnaList';
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { LoginState } from '@/atoms/atom';
+import { Search } from '@/components/Search';
 import { QnaMajorCode, QnaMemberCode } from './types';
 import { SearchState } from '@/atoms/atom';
 import { convertToDateOnly } from './utils/convertToDateOnly';
 import { qnaMajorCodesData, qnaMemberCodeData } from './collegesData';
 import { useGetUserInfoQna } from './hooks/useGetUserInfoQna';
 import { useAtom } from 'jotai';
-
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { BoardHeader } from '@/components/BoardHeader';
+import { Pencil, SearchIcon } from 'lucide-react';
+import { cn } from '@/libs/utils';
+import { buttonVariants } from '@/components/ui/button';
+import LinkPagination from '@/components/LinkPagination';
+import { BoardFooter } from '@/components/BoardFooter';
+import { BoardContainer } from '@/components/BoardContainer';
+import { LinkCategories } from '@/components/LinkCategories';
+import { buildQnACategories } from './const';
+import { useTranslation } from 'react-i18next';
+import { QnaNoticeCategory } from './schema';
 /* 빠르게 질의응답게시판 구현을 위해 해당 페이지에서 직접 데이터 페칭을 합니다. 이후에 리팩토링 예정이니 이해 부탁드려요ㅠ */
 
 const answerColors: { [target: string]: string } = {
@@ -77,19 +89,20 @@ function PageSkeleton() {
 }
 
 export function QnApage() {
-  const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') ?? '1') || 1;
   const target = ensureTarget(searchParams.get('target'));
   const [q] = useAtom(SearchState);
+
+  const [filterOpen, setFilterOpen] = useState(false);
 
   // 페이지를 렌더링할 때 로그인을 했는지 확인하고 했을 경우 유저 데이터를 불러온다.
   const [isLogin] = useAtom(LoginState);
 
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
-  // 유저 데이터가 있다면 qnaMemberCode와 qnaMajorCode에 그 값을 추가해 준다.
+  // // 유저 데이터가 있다면 qnaMemberCode와 qnaMajorCode에 그 값을 추가해 준다.
   const qnaMemberCode: QnaMemberCode | '' = isLogin && user && user.memberCode !== '총학생회' ? user.memberCode : '';
   const qnaMajorCode: QnaMajorCode | '' = isLogin && user && user.majorCode ? user.majorCode : '';
 
@@ -101,6 +114,22 @@ export function QnApage() {
   });
 
   const { data, isLoading, isError, error } = useGetQnaList(queryParamsForList);
+
+  const { totalPages } = useMemo(() => data?.pageInfo ?? { totalPages: 0 }, [data]);
+  const authorities = useMemo(() => data?.allowedAuthorities ?? [], [data]);
+  const writable = useMemo(() => authorities.includes('WRITE'), [authorities]);
+
+  const handleSearch = (value: string) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev.toString());
+      if (value) {
+        newParams.set('q', value);
+      } else {
+        newParams.delete('q');
+      }
+      return newParams;
+    });
+  };
 
   useEffect(() => {
     if (data && (page < 1 || page > data.pageInfo.totalPages)) {
@@ -125,70 +154,54 @@ export function QnApage() {
     );
   }
 
-  function selectTarget(target: string) {
-    setSearchParams((prev) => {
-      if (target === '전체') {
-        prev.delete('target');
-      } else {
-        prev.set('target', target);
-      }
-      prev.delete('page');
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function navigatePage(page: number) {
-    setSearchParams((prev) => {
-      prev.set('page', `${page}`);
-      return prev;
-    });
-    window.scrollTo(0, 0);
-  }
-
-  function navigateToWrite() {
-    if (isLogin) {
-      navigate('/qna/edit');
-    } else {
-      navigate('/register');
-    }
-  }
-
   return (
-    <>
-      <HeadLayout title="건의게시판" subtitle={subtitle} />
-      <BodyLayout
-        totalPages={data.pageInfo.totalPages}
-        currentPage={data.pageInfo.pageNum + 1}
-        authority={data.allowedAuthorities}
-        onPageChange={navigatePage}
-        onWriteClick={navigateToWrite}
-      >
-        <BoardSelector
-          subcategories={[
-            '전체',
-            '총학생회',
-            `${qnaMemberCode && qnaMemberCode}`,
-            `${qnaMajorCode && qnaMajorCode}`,
-          ].filter(Boolean)}
-          selectedSubcategory={target}
-          onSubcategorySelect={selectTarget}
-          className="mb-4"
-        />
-        {data.postListResDto.map((post) => (
-          <PostContent
-            key={post.postId}
-            to={`/qna/${post.postId}`}
-            category={{ name: post.category, className: answerColors[post.category] }}
-            date={convertToDateOnly(post.date)}
-            title={post.title}
-            author={`${post.department} ${post.authorName}`}
-          />
-        ))}
-        {data.postListResDto.length === 0 && (
-          <article className="flex items-center justify-center py-12">등록된 게시글이 없습니다.</article>
-        )}
-      </BodyLayout>
-    </>
+    <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>
+      <BoardHeader title="건의게시판" className="border-b-neutral-200 max-md:px-5 md:border-b">
+        <Search className="hidden md:flex" onSearch={handleSearch} />
+        <CollapsibleTrigger className="md:hidden">
+          <SearchIcon className={cn('size-4 transition-colors', filterOpen && 'text-primary')} />
+        </CollapsibleTrigger>
+      </BoardHeader>
+      <BoardContainer isEmpty={data.postListResDto.length === 0}>
+        <CollapsibleContent
+          className={cn(
+            'transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
+            'border-b border-b-border max-md:px-4 md:hidden'
+          )}
+        >
+          <div className="flex flex-col gap-2 py-2">
+            <Search className="h-12 xl:hidden [&_button]:hidden" onSearch={handleSearch} />
+          </div>
+        </CollapsibleContent>
+        <LinkCategories value={target} categories={buildQnACategories(t, qnaMemberCode, qnaMajorCode)} />
+        <div className="border-t-black md:border-t">
+          {isLoading
+            ? Array.from(Array(10).keys()).map((_, i) => <PostContent.Skeleton key={i} />)
+            : data.postListResDto.map((post) => (
+                <PostContent<QnaNoticeCategory>
+                  key={post.postId}
+                  to={`/qna/${post.postId}`}
+                  category={{ name: post.category, className: answerColors[post.category] }}
+                  date={convertToDateOnly(post.date)}
+                  title={post.title}
+                  author={`${post.department} ${post.authorName}`}
+                />
+              ))}
+        </div>
+      </BoardContainer>
+      <BoardFooter>
+        <div className="flex justify-center">
+          <LinkPagination totalPages={totalPages} maxDisplay={7} page={page} />
+        </div>
+        <div className="flex justify-end">
+          {writable && (
+            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/qna/edit">
+              <Pencil className="size-4" />
+              <p>글쓰기</p>
+            </Link>
+          )}
+        </div>
+      </BoardFooter>
+    </Collapsible>
   );
 }
