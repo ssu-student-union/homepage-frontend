@@ -32,7 +32,7 @@ export default function QnaSection() {
   return (
     <section className="w-full whitespace-nowrap">
       <div className="flex items-center">
-        <h1 className="text-lg font-bold md:text-[2rem]">{t('introduction.질의응답게시판')}</h1>
+        <h1 className="text-lg font-bold md:text-[2rem]">{t('introduction.건의게시판')}</h1>
       </div>
       <Spacing size={8} direction="vertical" />
       <p className="text-[14px] font-medium text-gray-500 md:text-[20px]">
