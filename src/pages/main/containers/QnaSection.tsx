@@ -34,9 +34,9 @@ export default function QnaSection() {
       <div className="flex items-center">
         <h1 className="text-lg font-bold md:text-[2rem]">{t('introduction.건의게시판')}</h1>
       </div>
-      <Spacing size={8} direction="vertical" />
-      <p className="text-[14px] font-medium text-gray-500 md:text-[20px]">
-        무엇이든 물어보세요! <span className="font-bold">학생회가 직접 답변</span> 드립니다.
+      <Spacing size={12} direction="vertical" />
+      <p className="text-sm font-bold text-gray-500 md:text-base">
+        질문을 등록하면 <span className="text-primary">72시간 내에 해당 단위 학생회</span>가 답변합니다.
       </p>
       <Spacing size={14} direction="vertical" />
       <div className="flex w-full flex-col items-center justify-center">
