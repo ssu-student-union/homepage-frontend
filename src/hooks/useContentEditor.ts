@@ -6,7 +6,7 @@ import { PostFileResponse, UploadFilesResponse } from '@/hooks/new/mutations/use
 import { ApiResponse } from '@/hooks/new/useStuQuery.ts';
 import { FileResponse } from '@/schemas/post';
 
-interface UseContentEditorReturn {
+export interface UseContentEditorReturn {
   register: {
     hooks: HookMap;
     ref: RefObject<Editor>;
