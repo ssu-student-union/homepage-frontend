@@ -255,12 +255,14 @@ export function HumanRightsEditPage() {
     const postFileList: number[] = files
       .filter((file): file is UploadedPostFile => file.isUploaded)
       .map(({ id }) => id);
+
     if (files) {
       const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded).map(({ file }) => file);
       const uploaded = await uploadFiles({ files: localFiles });
       uploaded.postFiles.forEach(({ id }) => postFileList.push(id));
     }
     const uploadedImages: FileResponse[] = post?.postFileList?.filter(({ fileType }) => fileType === 'images') ?? [];
+
     const { existedImages, newImages, content } = await processImages(uploadedImages);
     existedImages.forEach(({ postFileId }) => postFileList.push(postFileId));
     newImages.forEach(({ id }) => postFileList.push(id));
