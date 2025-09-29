@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { FileInput, PostFile } from '@/components/edit/FileInput';
 import { cn } from '@/libs/utils.ts';
 
-interface FileInputsProps {
+export interface FileInputsProps {
   className?: string;
   sizeLimit?: number;
   files?: PostFile[];
