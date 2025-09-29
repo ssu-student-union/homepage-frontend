@@ -1,4 +1,6 @@
 import { getBoardDetail } from '@/apis/getBoardDetail';
+import { useDeletePost, UseDeletePostOptions } from '@/hooks/new/mutations/useDeletePost';
+import { BOARD_CODE } from '@/pages/mypage/service-notice/const/data';
 import { GetBoardDetailResponse } from '@/types/apis/get';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -23,4 +25,8 @@ export function useGetBoardDetail({
   });
 
   return queryResult;
+}
+
+export function useDeleteServicePost({ mutationOptions }: Omit<UseDeletePostOptions, 'boardCode'> = {}) {
+  return useDeletePost({ boardCode: BOARD_CODE, mutationOptions });
 }
