@@ -1,0 +1,177 @@
+@tailwind components;
+@tailwind utilities;
+
+/* 달력 컨테이너 */
+.container {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex-shrink: 0;
+}
+
+@screen md {
+  .container {
+    width: 602px !important;
+    min-width: 602px !important;
+    max-width: 602px !important;
+    flex-shrink: 0;
+  }
+}
+
+/* 헤더 (년도.월) */
+.header {
+  @apply text-[1.10675rem] font-bold leading-normal tracking-[-0.09rem] text-[#374151];
+}
+
+@screen md {
+  .header {
+    @apply text-[2.1501875rem];
+  }
+}
+
+@screen lg {
+  .header {
+    @apply text-[2.6130625rem];
+  }
+}
+
+@screen xl {
+  .header {
+    @apply text-[2.1rem];
+  }
+}
+
+@screen xxl {
+  .header {
+    @apply text-[3rem];
+  }
+}
+
+/* 범주 텍스트(학사/총학생회/공휴일) */
+.category {
+  @apply flex flex-row items-center justify-end gap-1 text-[0.3228125rem] font-normal text-[#6B7280];
+}
+
+@screen md {
+  .category {
+    @apply text-[0.627125rem];
+  }
+}
+
+@screen lg {
+  .category {
+    @apply text-[0.762125rem];
+  }
+}
+
+@screen xl {
+  .category {
+    @apply text-[0.6125rem];
+  }
+}
+
+@screen xxl {
+  .category {
+    @apply text-sm;
+  }
+}
+
+/* 범주 점 */
+.dot {
+  @apply size-[0.345875rem] rounded-full;
+}
+
+@screen md {
+  .dot {
+    @apply size-[0.6719375rem];
+  }
+}
+
+@screen lg {
+  .dot {
+    @apply size-[0.8165625rem];
+  }
+}
+
+@screen xl {
+  .dot {
+    @apply size-[0.65625rem];
+  }
+}
+
+@screen xxl {
+  .dot {
+    @apply size-[0.9375rem];
+  }
+}
+
+/* 요일 셀 */
+.weekday {
+  @apply text-[0.50725rem] font-semibold;
+}
+
+@screen md {
+  .weekday {
+    @apply text-[0.9855rem];
+  }
+}
+
+@screen lg {
+  .weekday {
+    @apply text-[1.197625rem];
+  }
+}
+
+@screen xl {
+  .weekday {
+    @apply text-[0.9625rem];
+  }
+}
+
+@screen xxl {
+  .weekday {
+    @apply text-[1.375rem];
+  }
+}
+
+/* 날짜 숫자 버튼 */
+.date {
+  @apply flex items-center justify-center rounded-full text-[0.553375rem];
+  width: 24px;
+  height: 24px;
+  aspect-ratio: 1 / 1;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+}
+
+@screen md {
+  .date {
+    width: 40px;
+    height: 40px;
+    font-size: 1.075125rem; /* 17.202px */
+  }
+}
+
+@screen lg {
+  .date {
+    width: 40px;
+    height: 40px;
+    font-size: 1.075125rem; /* 17.202px */
+  }
+}
+
+@screen xl {
+  .date {
+    width: 40px;
+    height: 40px;
+    font-size: 1.075125rem; /* 17.202px */
+  }
+}
+
+@screen xxl {
+  .date {
+    width: 48px;
+    height: 48px;
+    font-size: 1.075125rem; /* 17.202px */
+  }
+}

@@ -48,6 +48,8 @@ export function MainRouter() {
         <Route path="/qna" element={<i.QnApage />} />
         <Route path="/qna/:id" element={<i.QnaDetailPage />} />
         <Route path="/qna/:id?/edit" element={<i.QnaEditPage />} />
+        {/* 일정 */}
+        <Route path="/schedule" element={<i.SchedulePage />} />
       </Route>
       {/* 온보딩 */}
       <Route path="/register" element={<i.RegisterLayout />}>
