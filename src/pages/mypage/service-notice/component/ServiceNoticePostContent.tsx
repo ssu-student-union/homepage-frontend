@@ -24,14 +24,13 @@ export function ServiceNoticePostContent({
   const formattedDate = date ? formatYYYYMMDD(date) : '';
   const mobileText =
     contentWidth === 316
-      ? 'text-[12px] font-[500]' // Style for width 316
-      : ''; // Default style
+      ? 'text-[12px] font-[500]'
+      : '';
 
   return (
     <Link
       {...props}
-      className={cn('flex h-[64px] border-b-[1px] border-[#9CA3AF]', className)}
-      style={{ width: `${contentWidth}px` }}
+      className={cn('flex h-[64px] w-full border-b-[1px] border-[#9CA3AF]', className)}
     >
       {Emergency ? (
         <Badge variant="emergency-old" className="relative top-[22px] text-[12px]">
