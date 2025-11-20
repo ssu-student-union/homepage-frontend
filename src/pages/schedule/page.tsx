@@ -1,14 +1,35 @@
 import { BoardHeader } from '@/components/BoardHeader';
 import { BoardContainer } from '@/components/BoardContainer';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Category } from '@/components/Category';
 import { DateGrid } from './components/DateGrid';
 import { ScheduleDetailCard } from './components/ScheduleDetailCard';
 import { SCHEDULE_CATEGORIES, type ScheduleCategory } from './const/const';
+import { useGetCalendars } from './hook/query/useGetCalendars';
+import { formatDateRange } from './utils/formatDateRange';
+import { startOfMonth } from 'date-fns';
+import { CalendarItem } from './types';
 
 export function SchedulePage() {
   const [selectedCategory, setSelectedCategory] = useState<ScheduleCategory>('전체');
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  // 현재 달의 첫 번째 날을 기준으로 API 요청 (달 변경 시 자동으로 재요청됨)
+  const monthStart = useMemo(() => startOfMonth(currentDate), [currentDate]);
+  const { data: calendarData, isLoading } = useGetCalendars({ date: monthStart });
+
+  // 카테고리 필터링
+  const filteredCalendars = useMemo((): CalendarItem[] => {
+    if (!calendarData?.calendarEventResponseList) return [];
+
+    if (selectedCategory === '전체') {
+      return calendarData.calendarEventResponseList;
+    }
+
+    return calendarData.calendarEventResponseList.filter(
+      (item: CalendarItem) => item.calendarCategory === selectedCategory
+    );
+  }, [calendarData, selectedCategory]);
 
   return (
     <>
@@ -33,11 +54,24 @@ export function SchedulePage() {
           </div>
           <div className="2xl:px-[60px] flex w-full justify-center lg:min-w-0 lg:shrink lg:flex-col lg:px-0 xl:px-[42px]">
             <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto md:w-[33.625rem] lg:w-auto lg:min-w-[23.125rem] lg:max-w-[33.625rem] lg:basis-[33.625rem]">
-              <ScheduleDetailCard
-                category="학사"
-                title="2024-2학기 기말강의평가기간"
-                dateRange="12월 9일 ~ 12월 20일"
-              />
+              {isLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <p className="text-gray-500">로딩 중...</p>
+                </div>
+              ) : filteredCalendars.length === 0 ? (
+                <div className="flex items-center justify-center py-8">
+                  <p className="text-gray-500">일정이 없습니다.</p>
+                </div>
+              ) : (
+                filteredCalendars.map((item) => (
+                  <ScheduleDetailCard
+                    key={item.calenderId}
+                    category={item.calendarCategory}
+                    title={item.title}
+                    dateRange={formatDateRange(item.startDate, item.endDate)}
+                  />
+                ))
+              )}
             </div>
           </div>
         </div>
