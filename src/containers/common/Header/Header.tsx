@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { getStyles } from '@/containers/common/Header/const/style';
 import { DATA_PATH, MENU_ITEMS } from '@/containers/common/Header/const/pathData';
 import DropDownMenu from '@/containers/common/Header/component/DropDownMenu';
+import IntegratedSearch from '@/components/IntegratedSearch';
 
 interface HeaderProps {
   state?: State;
@@ -131,6 +132,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
               </NavigationMenuLink>
             </NavigationMenuItem>
             <div className="hidden grow items-center justify-end gap-2 px-4 xl:flex">
+              <IntegratedSearch className="h-8 w-[22.25rem]" />
               <TranslateButton
                 className={cn(
                   navigationMenuTriggerStyle(),

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(corepack enable)",
+      "Bash(yarn --version:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
