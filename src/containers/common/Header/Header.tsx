@@ -3,7 +3,7 @@ import { List } from '@phosphor-icons/react';
 import { HeaderSheet } from './component/HeaderSheet';
 import { AuthButton } from './component/AuthButton';
 import { State } from './const/state';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import SsureLogo from '@/components/logo/SsureLogo';
 import { TranslateButton } from '@/components/Buttons/TranslateButton';
 import { Button } from '@/components/ui/button';
@@ -30,12 +30,20 @@ interface HeaderProps {
 export function Header({ state = State.Onboarding, onLogout = () => {} }: HeaderProps) {
   // 번역 훅
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   // 언어 변경 함수
   const handleToggleLanguage = () => {
     const newLang = i18n.language === 'ko' ? 'en' : 'ko';
     i18n.changeLanguage(newLang);
     localStorage.setItem('lang', newLang);
+  };
+
+  // 검색 핸들러
+  const handleSearch = (value: string) => {
+    if (value.trim()) {
+      navigate(`/search?q=${encodeURIComponent(value.trim())}`);
+    }
   };
 
   const textSize = i18n.language === 'en' ? 'text-xs' : 'text-lg';
@@ -132,7 +140,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
               </NavigationMenuLink>
             </NavigationMenuItem>
             <div className="hidden grow items-center justify-end gap-2 px-4 xl:flex">
-              <IntegratedSearch className="h-8 w-[22.25rem]" />
+              <IntegratedSearch className="h-8 w-[22.25rem]" onSearch={handleSearch} />
               <TranslateButton
                 className={cn(
                   navigationMenuTriggerStyle(),

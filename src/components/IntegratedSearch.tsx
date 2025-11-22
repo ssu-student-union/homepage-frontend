@@ -11,7 +11,11 @@ export default function IntegratedSearch({ className, onSearch }: IntegratedSear
   const searchRef = useRef<HTMLInputElement>(null);
 
   const handleSearch = () => {
-    onSearch?.(searchRef.current?.value || '');
+    const value = searchRef.current?.value || '';
+    onSearch?.(value);
+    if (searchRef.current) {
+      searchRef.current.value = '';
+    }
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {

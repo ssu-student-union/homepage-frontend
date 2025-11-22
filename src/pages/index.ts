@@ -33,6 +33,7 @@ import { OnboardingPage } from './register/step/onboarding/page';
 import { CertifyErrorPage } from './register/step/errorcheck/page';
 import { CertifyApplyPage } from './register/step/errorapply/page';
 import { GeneralLoginPage } from './register/step/scouncil/page';
+import { IntegratedSearch } from './IntegratedSearch/page';
 import { RegisterLayout } from './layout/registerLayout';
 import IntroPage from './intro/page';
 export {
@@ -73,4 +74,5 @@ export {
   CertifyApplyPage,
   GeneralLoginPage,
   RegisterLayout,
+  IntegratedSearch,
 };
