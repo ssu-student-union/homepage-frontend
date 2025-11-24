@@ -3,8 +3,8 @@ import { useSearchParams } from 'react-router';
 import { Subtitle } from './component/Subtitle';
 import { PostCard } from '@/components/PostCard';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router';
-import { useTranslation } from 'react-i18next';
+// import { useNavigate } from 'react-router';
+// import { useTranslation } from 'react-i18next';
 import { DataContentItem } from '@/pages/data/components/DataContentItem';
 import { ServiceNoticePostContent } from '@/pages/mypage/service-notice/component/ServiceNoticePostContent';
 
@@ -97,8 +97,8 @@ const mockServiceNoticePosts = [
 export function IntegratedSearch() {
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('q') || '';
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+  // const navigate = useNavigate();
+  // const { t } = useTranslation();
 
   // 임시 페이지네이션 상태 (나중에 실제 API 데이터로 교체)
   const currentPage = 1;
@@ -134,7 +134,7 @@ export function IntegratedSearch() {
             <div className="w-full">
               <Subtitle title="자료집" count={mockDataPosts.length} />
               <div className="flex flex-col gap-16 md:items-center">
-                <div className="flex flex-col border-t border-t-gray-200">
+                <div className="flex w-full flex-col border-t border-t-gray-200">
                   {mockDataPosts.map((post) => (
                     <DataContentItem
                       key={post.postId}

@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(corepack enable)",
-      "Bash(yarn --version:*)"
+      "Bash(yarn --version:*)",
+      "Bash(yarn set:*)",
+      "Bash(corepack prepare:*)",
+      "Bash(corepack yarn:*)",
+      "Bash(npm config:*)",
+      "Bash(where.exe yarn)",
+      "Bash(npm uninstall:*)",
+      "Bash(Remove-Item -Path \"C:\\Users\\sumin\\AppData\\Roaming\\npm\\yarn*\" -Force -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item:*)"
     ],
     "deny": [],
     "ask": []
