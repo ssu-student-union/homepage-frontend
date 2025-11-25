@@ -50,7 +50,7 @@ export function SchedulePage() {
       <BoardContainer isEmpty={false}>
         <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-stretch lg:gap-[2.8125rem]">
           <div className="2xl:px-[60px] w-full shrink-0 px-0 md:w-[602px] md:min-w-[602px] md:max-w-[602px] lg:px-0 xl:px-[42px]">
-            <DateGrid selectedDate={currentDate} setSelectedDate={setCurrentDate} />
+            <DateGrid selectedDate={currentDate} setSelectedDate={setCurrentDate} calendarItems={filteredCalendars} />
           </div>
           <div className="2xl:px-[60px] flex w-full justify-center lg:min-w-0 lg:shrink lg:flex-col lg:px-0 xl:px-[42px]">
             <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto md:w-[33.625rem] lg:w-auto lg:min-w-[23.125rem] lg:max-w-[33.625rem] lg:basis-[33.625rem]">
