@@ -1,6 +1,5 @@
 import { getMonth, getDate, parseISO, isSameDay } from 'date-fns';
-
-const MONTH_NAMES = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+import { MONTH_NAMES } from '../const';
 
 /**
  * 시작일과 종료일을 한국어 형식의 날짜 범위 문자열로 변환합니다.
@@ -25,4 +24,3 @@ export function formatDateRange(startDate: string, endDate: string): string {
   // 항상 시작일과 종료일 모두 월과 일을 표시
   return `${startMonth} ${startDay}일 ~ ${endMonth} ${endDay}일`;
 }
-
