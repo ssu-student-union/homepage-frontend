@@ -36,6 +36,7 @@ import { GeneralLoginPage } from './register/step/scouncil/page';
 import { RegisterLayout } from './layout/registerLayout';
 import IntroPage from './intro/page';
 import { SchedulePage } from './schedule/page';
+import { ScheduleEditPage } from './schedule/edit/page';
 export {
   MainPage,
   KakaoRegisterPage,
@@ -75,4 +76,5 @@ export {
   GeneralLoginPage,
   RegisterLayout,
   SchedulePage,
+  ScheduleEditPage,
 };
