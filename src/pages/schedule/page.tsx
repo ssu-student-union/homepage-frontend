@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { Category } from '@/components/Category';
 import { ScheduleDateGrid } from './components/calendar/ScheduleDateGrid';
 import { ScheduleDetailCard } from './components/display/ScheduleDetailCard';
-import { SCHEDULE_CATEGORIES, type ScheduleCategory } from './const';
+import { SCHEDULE_CATEGORIES, type ScheduleCategory } from './const/const';
 import { useGetCalendars } from './hook/query/useGetCalendars';
 import { formatDateRange } from './utils/formatDateRange';
 import { startOfMonth } from 'date-fns';

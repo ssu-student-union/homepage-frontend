@@ -1,6 +1,6 @@
 import { isSameMonth } from 'date-fns';
 import { useCalendar } from '@/pages/schedule/hook/useCalendar';
-import { DATE_COLORS } from '../../const';
+import { DATE_COLORS } from '../../const/const';
 
 export interface DateGridBaseProps {
   selectedDate: Date;

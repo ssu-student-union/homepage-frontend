@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SCHEDULE_CATEGORY_OPTIONS } from './const';
+import { SCHEDULE_CATEGORY_OPTIONS } from './const/const';
 
 /**
  * 일정 작성/수정 폼에서 사용하는 게시물 정보입니다.
@@ -49,4 +49,3 @@ export function transformScheduleFormToRequest(formData: ScheduleEditForm): Sche
     isDDay: formData.isDDay,
   };
 }
-

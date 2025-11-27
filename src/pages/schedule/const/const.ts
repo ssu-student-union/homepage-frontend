@@ -4,9 +4,10 @@ export const CATEGORY_COLORS = {
   '공휴일/기념일': '#EF4444',
 } as const;
 
-export const SCHEDULE_CATEGORY_OPTIONS = Object.keys(CATEGORY_COLORS) as Array<keyof typeof CATEGORY_COLORS>;
-
-export const SCHEDULE_CATEGORIES = ['전체', ...SCHEDULE_CATEGORY_OPTIONS] as const;
+export const SCHEDULE_CATEGORIES = [
+  '전체',
+  ...(Object.keys(CATEGORY_COLORS) as Array<keyof typeof CATEGORY_COLORS>),
+] as const;
 
 export type ScheduleCategory = (typeof SCHEDULE_CATEGORIES)[number];
 
