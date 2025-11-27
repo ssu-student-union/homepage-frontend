@@ -57,8 +57,8 @@ export function ScheduleDatePicker({
   };
 
   return (
-    <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-      <div className="flex-1">
+    <div className="mx-auto flex w-full max-w-fit flex-col gap-4 lg:flex-row lg:items-center">
+      <div className="flex-1 lg:flex-initial">
         <DateRangePicker
           selectedDate={currentMonth}
           setSelectedDate={setCurrentMonth}
@@ -69,15 +69,15 @@ export function ScheduleDatePicker({
         />
       </div>
       <div className="flex flex-col gap-4 lg:w-[250px]">
-        <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold">시작일자</h3>
-          <p className="text-base text-gray-700">{formatDateToMonthDay(startDate)}</p>
-          {startDateError && <p className="text-sm text-red-500">{startDateError.message}</p>}
+        <div className="flex flex-col justify-center gap-2 self-center">
+          <h3 className="text-center text-lg font-semibold">시작일자</h3>
+          <p className="text-center text-base text-gray-700">{formatDateToMonthDay(startDate)}</p>
+          {startDateError && <p className="text-center text-sm text-red-500">{startDateError.message}</p>}
         </div>
-        <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-semibold">종료일자</h3>
-          <p className="text-base text-gray-700">{formatDateToMonthDay(endDate)}</p>
-          {endDateError && <p className="text-sm text-red-500">{endDateError.message}</p>}
+        <div className="flex flex-col justify-center gap-2 self-center">
+          <h3 className="text-center text-lg font-semibold">종료일자</h3>
+          <p className="text-center text-base text-gray-700">{formatDateToMonthDay(endDate)}</p>
+          {endDateError && <p className="text-center text-sm text-red-500">{endDateError.message}</p>}
         </div>
         <ScheduleDDayCheckbox control={control} error={isDDayError} />
         <Button onClick={onSubmit} disabled={!canSubmit} className="mt-4">
