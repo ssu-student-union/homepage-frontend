@@ -1,5 +1,5 @@
 import { FilterDropDown } from '@/components/FilterDropDown';
-import { SCHEDULE_CATEGORY_OPTIONS } from '@/pages/schedule/const';
+import { SCHEDULE_CATEGORY_OPTIONS } from '@/pages/schedule/const/const';
 import { ScheduleTitleInput } from './ScheduleTitleInput';
 import { UseFormRegisterReturn, UseFormSetValue, FieldError } from 'react-hook-form';
 import { ScheduleEditForm } from '../../schema';

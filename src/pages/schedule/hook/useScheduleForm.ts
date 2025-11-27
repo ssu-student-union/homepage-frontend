@@ -6,6 +6,7 @@ export function useScheduleForm(defaultValues?: DefaultValues<ScheduleEditForm>)
   const form = useForm<ScheduleEditForm>({
     resolver: zodResolver(ScheduleEditFormSchema),
     mode: 'onBlur',
+    shouldFocusError: false,
     defaultValues,
   });
   return {

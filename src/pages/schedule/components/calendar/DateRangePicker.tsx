@@ -1,7 +1,7 @@
 import { isToday, subMonths, addMonths } from 'date-fns';
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import { cn } from '@/libs/utils';
-import { CATEGORY_COLORS, DATE_COLORS, DATE_SELECTION_COLORS } from '../../const';
+import { CATEGORY_COLORS, DATE_COLORS, DATE_SELECTION_COLORS } from '../../const/const';
 import { DateGridBase, type DateGridBaseProps } from './DateGridBase';
 import { formatMonthYear } from '../../utils/dateFormat';
 

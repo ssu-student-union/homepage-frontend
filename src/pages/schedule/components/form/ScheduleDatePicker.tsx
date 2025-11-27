@@ -3,7 +3,7 @@ import { DateRangePicker } from '../calendar/DateRangePicker';
 import { getMonth, getDate } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { handleDateSelection, createDateSelectionHelpers } from '@/pages/schedule/utils/dateSelectionHandler';
-import { MONTH_NAMES } from '@/pages/schedule/const';
+import { MONTH_NAMES } from '@/pages/schedule/const/const';
 import { UseFormSetValue, FieldError, Control } from 'react-hook-form';
 import { ScheduleEditForm } from '../../schema';
 import { ScheduleDDayCheckbox } from './ScheduleDDayCheckbox';

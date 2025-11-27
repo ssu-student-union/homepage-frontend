@@ -2,7 +2,7 @@ import { BoardHeader } from '@/components/BoardHeader';
 import { Container } from '@/containers/new/Container';
 import { ScheduleBasicInfoForm } from '@/pages/schedule/components/form/ScheduleBasicInfoForm';
 import { ScheduleDatePicker } from '@/pages/schedule/components/form/ScheduleDatePicker';
-import { useScheduleForm } from './form';
+import { useScheduleForm } from '../hook/useScheduleForm';
 import { transformScheduleFormToRequest, ScheduleEditForm } from '../schema';
 import { SubmitHandler } from 'react-hook-form';
 

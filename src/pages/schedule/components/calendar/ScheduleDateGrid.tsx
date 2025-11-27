@@ -1,7 +1,7 @@
 import { isToday, isSameDay, subMonths, addMonths } from 'date-fns';
 import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import { cn } from '@/libs/utils';
-import { CATEGORY_COLORS, DATE_COLORS } from '../../const';
+import { CATEGORY_COLORS, DATE_COLORS } from '../../const/const';
 import { CalendarItem } from '../../types';
 import { getSchedulesForDate } from '../../utils/getSchedulesForDate';
 import { formatMonthYear } from '../../utils/dateFormat';
