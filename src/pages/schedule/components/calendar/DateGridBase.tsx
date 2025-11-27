@@ -41,7 +41,7 @@ export function DateGridBase({
         {weekDays.map((day, index) => {
           const isSunday = index === 0;
           const isSaturday = index === 6;
-          const color = isSunday ? DATE_COLORS.sunday : isSaturday ? DATE_COLORS.saturday : '#6B7280';
+          const color = isSunday ? DATE_COLORS.sunday : isSaturday ? DATE_COLORS.gray : '#6B7280';
           return (
             <div key={index} className="px-1" style={{ color }}>
               {day}

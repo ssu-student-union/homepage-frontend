@@ -25,8 +25,8 @@ export function ScheduleDateGrid({
   calendarItems,
 }: ScheduleDateGridProps) {
   const getDateTextColor = (day: number) => {
-    if (day === 0) return DATE_COLORS.sunday;
-    if (day === 6) return DATE_COLORS.saturday;
+    if (day === 0) return DATE_COLORS.gray;
+    if (day === 6) return DATE_COLORS.gray;
     return DATE_COLORS.default;
   };
 
