@@ -4,16 +4,19 @@ export const CATEGORY_COLORS = {
   '공휴일/기념일': '#EF4444',
 } as const;
 
-export const SCHEDULE_CATEGORIES = [
-  '전체',
-  ...(Object.keys(CATEGORY_COLORS) as Array<keyof typeof CATEGORY_COLORS>),
-] as const;
+export type ScheduleCategoryKey = keyof typeof CATEGORY_COLORS;
+
+export const SCHEDULE_CATEGORY_OPTIONS: readonly ScheduleCategoryKey[] = Object.keys(
+  CATEGORY_COLORS
+) as ScheduleCategoryKey[];
+
+export const SCHEDULE_CATEGORIES = ['전체', ...SCHEDULE_CATEGORY_OPTIONS] as const;
 
 export type ScheduleCategory = (typeof SCHEDULE_CATEGORIES)[number];
 
 export const DATE_COLORS = {
   sunday: '#FF0000',
-  saturday: '#9CA3AF',
+  gray: '#9CA3AF',
   default: '#1F2937',
   selected: '#3B82F6',
 } as const;
@@ -23,11 +26,11 @@ export const DATE_COLORS = {
  */
 export const DATE_SELECTION_COLORS = {
   selected: '#3B82F6',
-  inRange: '#E0E7FF',
+  inRange: '#E0ECFF',
   text: {
-    selected: 'white',
+    selected: '#FFFFFF',
     sunday: '#FF0000',
-    saturday: '#9CA3AF',
+    gray: '#9CA3AF',
     default: '#1F2937',
   },
 } as const;
@@ -35,18 +38,4 @@ export const DATE_SELECTION_COLORS = {
 /**
  * 1월 ~ 12월
  */
-export const MONTH_NAMES = [
-  '1월',
-  '2월',
-  '3월',
-  '4월',
-  '5월',
-  '6월',
-  '7월',
-  '8월',
-  '9월',
-  '10월',
-  '11월',
-  '12월',
-] as const;
-
+export const MONTH_NAMES: readonly string[] = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
