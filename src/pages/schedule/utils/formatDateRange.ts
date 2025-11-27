@@ -1,5 +1,5 @@
 import { getMonth, getDate, parseISO, isSameDay } from 'date-fns';
-import { MONTH_NAMES } from '../const';
+import { MONTH_NAMES } from '../const/const';
 
 /**
  * 시작일과 종료일을 한국어 형식의 날짜 범위 문자열로 변환합니다.
