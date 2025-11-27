@@ -29,39 +29,97 @@ export function DateRangePicker({
   isDateEnd,
 }: DateRangePickerProps) {
   const getDateTextColor = (day: number) => {
-    if (day === 0) return DATE_COLORS.sunday;
-    if (day === 6) return DATE_COLORS.saturday;
+    if (day === 0) return DATE_COLORS.gray;
+    if (day === 6) return DATE_COLORS.gray;
     return DATE_COLORS.default;
   };
 
-  const renderDateCell = (date: Date, _index: number) => {
+  const renderDateCell = (date: Date, index: number) => {
     const day = date.getDay();
     const isTodayDate = isToday(date);
     const selected = isDateSelected(date);
     const isStart = isDateStart(date);
     const isEnd = isDateEnd(date);
+    const isInRange = selected && !isStart && !isEnd;
 
     let textColor: string = getDateTextColor(day);
     let bgColor: string = 'transparent';
-    let isInRange = false;
 
     if (selected) {
       if (isStart || isEnd) {
         textColor = DATE_SELECTION_COLORS.text.selected;
         bgColor = DATE_SELECTION_COLORS.selected;
+      }
+    }
+
+    // 주의 위치 계산
+    const dayOfWeek = index % 7;
+    const isWeekStart = dayOfWeek === 0;
+    const isWeekEnd = dayOfWeek === 6;
+
+    // 월의 첫날/마지막날 체크
+    const dateNum = date.getDate();
+    const isMonthStart = dateNum === 1;
+    const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const isMonthEnd = dateNum === lastDayOfMonth;
+
+    let barClassName = '';
+    if (isInRange) {
+      let expandLeft = true;
+      let expandRight = true;
+
+      if (isMonthStart) {
+        expandLeft = false;
+      }
+      if (isMonthEnd) {
+        expandRight = false;
+      }
+      if (isWeekStart) {
+        expandLeft = false;
+      }
+      if (isWeekEnd) {
+        expandRight = false;
+      }
+
+      if (!expandLeft && !expandRight) {
+        barClassName = 'left-0 w-[100%]';
+      } else if (!expandLeft && expandRight) {
+        barClassName = 'left-0 w-[200%]';
+      } else if (expandLeft && !expandRight) {
+        barClassName = '-left-full w-[200%]';
       } else {
-        isInRange = true;
-        bgColor = DATE_SELECTION_COLORS.inRange;
+        barClassName = '-left-full w-[300%]';
+      }
+    } else if (isStart && isEnd) {
+      barClassName = '';
+    } else if (isStart) {
+      if (isMonthEnd || isWeekEnd) {
+        barClassName = 'left-1/2 w-[50%]';
+      } else {
+        barClassName = 'left-1/2 w-[150%]';
+      }
+    } else if (isEnd) {
+      if (isMonthStart || isWeekStart) {
+        barClassName = 'left-0 w-[50%]';
+      } else {
+        barClassName = '-left-full w-[150%]';
       }
     }
 
     return (
-      <div className="px-1">
+      <div className="relative flex items-center justify-center">
+        {barClassName && (
+          <div
+            className={cn('absolute z-0', '2xl:h-12 h-6 md:h-10 lg:h-10 xl:h-10', barClassName)}
+            style={{
+              backgroundColor: DATE_SELECTION_COLORS.inRange,
+            }}
+          />
+        )}
         <button
           onClick={() => onDateClick(date)}
           className={cn(
-            '2xl:w-12 2xl:h-12 2xl:text-[1.075125rem] mb-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-[0.553375rem] transition-[background-color,color] md:h-10 md:w-10 md:text-[1.075125rem] lg:h-10 lg:w-10 lg:text-[1.075125rem] xl:h-10 xl:w-10 xl:text-[1.075125rem]',
-            isInRange && 'rounded-none'
+            '2xl:w-12 2xl:h-12 2xl:text-[1.075125rem] relative z-10 mx-auto flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-[0.553375rem] transition-[background-color,color] md:h-10 md:w-10 md:text-[1.075125rem] lg:h-10 lg:w-10 lg:text-[1.075125rem] xl:h-10 xl:w-10 xl:text-[1.075125rem]'
           )}
           style={{ backgroundColor: bgColor, color: textColor }}
           aria-label={`${date.getDate()}일 선택`}
