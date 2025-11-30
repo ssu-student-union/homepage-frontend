@@ -48,12 +48,6 @@ export function ScheduleDatePicker({
 
   const handleDateClick = (date: Date) => {
     handleDateSelection(date, startDate, endDate, onStartDateChange, onEndDateChange);
-    if (!startDate || date < startDate) {
-      setValue('startDate', date);
-    }
-    if (!endDate || date > endDate) {
-      setValue('endDate', date);
-    }
   };
 
   return (

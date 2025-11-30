@@ -84,6 +84,8 @@ export function createDateSelectionHelpers(startDate: Date | null, endDate: Date
  *    - 시작일자보다 앞선 날짜 클릭: 자동으로 시작일자와 종료일자 교체
  *    - 시작일자보다 뒤인 날짜 클릭: 종료일자로 설정
  * 3. 시작일자와 종료일자가 모두 있는 경우:
+ *    - 시작일자와 종료일자가 동일한 경우(하루만 선택):
+ *      * 같은 날짜 클릭: 시작일자와 종료일자 모두 취소
  *    - 시작일자 클릭: 시작일자 취소
  *    - 종료일자 클릭: 종료일자 취소
  *    - 시작일자보다 앞선 날짜 클릭: 시작일자를 해당 날짜로 확장
@@ -143,6 +145,14 @@ export function handleDateSelection(
   }
 
   // 3. 시작일자와 종료일자가 모두 있는 경우
+  if (isSameDay(startDate, endDate)) {
+    if (isSameDay(clickedDate, startDate)) {
+      onStartDateChange(null);
+      onEndDateChange(null);
+      return;
+    }
+  }
+
   if (isSameDay(clickedDate, startDate)) {
     onStartDateChange(null);
     return;

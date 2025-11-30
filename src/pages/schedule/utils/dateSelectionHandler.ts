@@ -112,35 +112,35 @@ export function handleDateSelection(
   endDate: Date | null,
   onStartDateChange: (date: Date | null) => void,
   onEndDateChange: (date: Date | null) => void
-): void {
+): { cancelled: boolean } {
   // 유효성 검증
   if (!isValid(clickedDate)) {
     console.warn('Invalid date provided to handleDateSelection');
-    return;
+    return { cancelled: false };
   }
 
   // 1. 시작일자가 없는 경우
   if (!startDate) {
     onStartDateChange(clickedDate);
     onEndDateChange(clickedDate);
-    return;
+    return { cancelled: false };
   }
 
   // 2. 시작일자만 있는 경우
   if (!endDate) {
     if (isSameDay(clickedDate, startDate)) {
-      onEndDateChange(startDate);
-      return;
+      onStartDateChange(null);
+      return { cancelled: true };
     }
 
     if (isBefore(clickedDate, startDate)) {
       onEndDateChange(startDate);
       onStartDateChange(clickedDate);
-      return;
+      return { cancelled: false };
     }
 
     onEndDateChange(clickedDate);
-    return;
+    return { cancelled: false };
   }
 
   // 3. 시작일자와 종료일자가 모두 있는 경우
@@ -148,15 +148,15 @@ export function handleDateSelection(
     if (isSameDay(clickedDate, startDate)) {
       onStartDateChange(null);
       onEndDateChange(null);
-      return;
+      return { cancelled: true };
     }
     if (isBefore(clickedDate, startDate)) {
       onStartDateChange(clickedDate);
-      return;
+      return { cancelled: false };
     }
 
     onEndDateChange(clickedDate);
-    return;
+    return { cancelled: false };
   }
 
   if (isSameDay(clickedDate, startDate)) {
@@ -165,7 +165,7 @@ export function handleDateSelection(
     } else {
       onStartDateChange(null);
     }
-    return;
+    return { cancelled: !endDate };
   }
 
   if (isSameDay(clickedDate, endDate)) {
@@ -174,18 +174,19 @@ export function handleDateSelection(
     } else {
       onEndDateChange(null);
     }
-    return;
+    return { cancelled: !startDate };
   }
 
   if (isBefore(clickedDate, startDate)) {
     onStartDateChange(clickedDate);
-    return;
+    return { cancelled: false };
   }
 
   if (isAfter(clickedDate, endDate)) {
     onEndDateChange(clickedDate);
-    return;
+    return { cancelled: false };
   }
 
   onStartDateChange(clickedDate);
+  return { cancelled: false };
 }
