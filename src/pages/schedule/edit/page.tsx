@@ -5,8 +5,14 @@ import { ScheduleDatePicker } from '@/pages/schedule/components/form/ScheduleDat
 import { useScheduleForm } from '../hook/useScheduleForm';
 import { transformScheduleFormToRequest, ScheduleEditForm } from '../schema';
 import { SubmitHandler } from 'react-hook-form';
+import { useCreateSchedule } from '../hook/mutations/useCreateSchedule';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function ScheduleEditPage() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -30,10 +36,22 @@ export function ScheduleEditPage() {
   // 등록 버튼 활성화 조건: title, category, startDate, endDate가 모두 입력되어야 함
   const canSubmit = Boolean(title && category && startDate && endDate);
 
+  const { mutate: createSchedule, isPending } = useCreateSchedule({
+    mutationOptions: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['getCalendars'] });
+        navigate('/schedule');
+      },
+      onError: (error) => {
+        console.error('일정 등록 실패:', error);
+        toast.error('일정 등록에 실패했습니다. 다시 시도해주세요.');
+      },
+    },
+  });
+
   const onSubmit: SubmitHandler<ScheduleEditForm> = (formData) => {
-    // TODO: API 연동
     const requestData = transformScheduleFormToRequest(formData);
-    console.log('Form submitted:', requestData);
+    createSchedule({ schedule: requestData });
   };
 
   return (

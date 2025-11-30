@@ -46,6 +46,7 @@ export function ScheduleDateGrid({
       <>
         <div className="px-1">
           <button
+            type="button"
             onClick={() => setSelectedDate(date)}
             className="2xl:size-12 2xl:text-[1.075125rem] mb-1 flex size-6 cursor-pointer items-center justify-center rounded-full text-[0.553375rem] transition-[background-color,color] md:size-10 md:text-[1.075125rem] lg:size-10 lg:text-[1.075125rem] xl:size-10 xl:text-[1.075125rem]"
             style={{ backgroundColor: bgColor, color: textColor }}
@@ -109,6 +110,7 @@ export function ScheduleDateGrid({
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-center gap-[3.875rem]">
           <button
+            type="button"
             className="rounded p-1 hover:bg-gray-100"
             onClick={() => setSelectedDate(subMonths(selectedDate, 1))}
             aria-label="이전 달"
@@ -119,6 +121,7 @@ export function ScheduleDateGrid({
             {formattedDate}
           </div>
           <button
+            type="button"
             className="rounded p-1 hover:bg-gray-100"
             onClick={() => setSelectedDate(addMonths(selectedDate, 1))}
             aria-label="다음 달"

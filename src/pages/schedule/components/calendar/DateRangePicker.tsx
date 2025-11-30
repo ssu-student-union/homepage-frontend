@@ -79,6 +79,7 @@ export function DateRangePicker({
           />
         )}
         <button
+          type="button"
           onClick={() => onDateClick(date)}
           className={cn(
             'relative z-10 mx-auto flex h-6 w-6 cursor-pointer items-center justify-center rounded-full',
@@ -106,6 +107,7 @@ export function DateRangePicker({
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-center gap-[3.875rem]">
           <button
+            type="button"
             className="rounded p-1 hover:bg-gray-100"
             onClick={() => setSelectedDate(subMonths(selectedDate, 1))}
             aria-label="이전 달"
@@ -116,6 +118,7 @@ export function DateRangePicker({
             {formattedDate}
           </div>
           <button
+            type="button"
             className="rounded p-1 hover:bg-gray-100"
             onClick={() => setSelectedDate(addMonths(selectedDate, 1))}
             aria-label="다음 달"

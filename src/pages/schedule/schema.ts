@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { SCHEDULE_CATEGORY_OPTIONS } from './const/const';
+import { formatDateToYYYYMMDD } from '@/utils/formatYYYYMMDD';
 
 /**
  * 일정 작성/수정 폼에서 사용하는 게시물 정보입니다.
@@ -8,7 +9,7 @@ export type ScheduleEditForm = z.infer<typeof ScheduleEditFormSchema>;
 
 /**
  * 일정 작성/수정 요청 시 사용하는 게시물 정보입니다.
- * API 요청 형식에 맞춰 Date를 ISO 문자열로 변환하고, category를 calendarCategory로 변환합니다.
+ * API 요청 형식에 맞춰 Date를 YYYYMMDD 형식으로 변환하고, category를 calendarCategory로 변환합니다.
  */
 export type ScheduleEditRequest = {
   calendarCategory: string;
@@ -43,8 +44,8 @@ export const ScheduleEditFormSchema = z
 export function transformScheduleFormToRequest(formData: ScheduleEditForm): ScheduleEditRequest {
   return {
     calendarCategory: formData.category,
-    startDate: formData.startDate.toISOString(),
-    endDate: formData.endDate.toISOString(),
+    startDate: formatDateToYYYYMMDD(formData.startDate),
+    endDate: formatDateToYYYYMMDD(formData.endDate),
     title: formData.title,
     isDDay: formData.isDDay,
   };
