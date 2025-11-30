@@ -55,10 +55,10 @@ export function ScheduleEditPage() {
               startDate={startDate || null}
               endDate={endDate || null}
               onStartDateChange={(date) => {
-                if (date) setValue('startDate', date);
+                setValue('startDate', date || undefined);
               }}
               onEndDateChange={(date) => {
-                if (date) setValue('endDate', date);
+                setValue('endDate', date || undefined);
               }}
               setValue={setValue}
               startDateError={errors.startDate}
