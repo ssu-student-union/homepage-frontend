@@ -151,7 +151,7 @@ export function IntegratedSearch() {
                   onClick={() => {
                     // 다음 페이지 로드 로직 (API 연결 시 구현)
                   }}
-                  className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text-[1rem]"
+                  className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text[1rem]"
                 >
                   더보기 ({currentPage}/{totalPages})
                 </Button>
