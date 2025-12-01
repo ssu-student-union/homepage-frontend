@@ -4,6 +4,8 @@ import { BoardHeader } from '@/components/BoardHeader';
 import { Subtitle } from './component/Subtitle';
 import { PostCard } from '@/components/PostCard';
 import { Button } from '@/components/ui/button';
+// import { useNavigate } from 'react-router';
+// import { useTranslation } from 'react-i18next';
 import { DataContentItem } from '@/pages/data/components/DataContentItem';
 import { ServiceNoticePostContent } from '@/pages/mypage/service-notice/component/ServiceNoticePostContent';
 import { PostContent } from '@/components/PostContent';
@@ -82,29 +84,44 @@ const categoryColors: { [category: string]: string } = {
 export function IntegratedSearch() {
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('q') || '';
-  
-  const windowWidth = useWindowWidth();
-//섹션별 행 수
+  // const navigate = useNavigate();
+  // const { t } = useTranslation();
+
+  // 각 섹션별 표시할 행 수 상태
   const [noticeRows, setNoticeRows] = useState(1);
   const [dataRows, setDataRows] = useState(1);
   const [serviceRows, setServiceRows] = useState(1);
   const [suggestRows, setSuggestRows] = useState(1);
 
+  // 윈도우 너비 감지
+  const windowWidth = useWindowWidth();
 
+  // 공지사항 그리드 컬럼 수 계산
   const noticeColumns = useMemo(() => {
-    if (windowWidth === 0) return 4; 
-    if (windowWidth >= 1440) return 4;
-    if (windowWidth >= 720) return 3;
-    return 2;
+    if (windowWidth < 720) return 1;
+    if (windowWidth < 1440) return 3;
+    return 4;
   }, [windowWidth]);
 
-  const displayedNoticePosts = mockNoticePosts.slice(0, noticeRows * noticeColumns);
-  
-  // 리스트형(자료집 등)은 보통 한 줄에 1개씩 쌓이지만, 기존 로직대로 3개씩 끊어서 보여줌
+  // 리스트형 섹션의 한 페이지당 아이템 수
   const listItemsPerPage = 3;
-  const displayedDataPosts = mockDataPosts.slice(0, dataRows * listItemsPerPage);
-  const displayedServicePosts = mockServiceNoticePosts.slice(0, serviceRows * listItemsPerPage);
-  const displayedSuggestPosts = mockSuggestPosts.slice(0, suggestRows * listItemsPerPage);
+
+  // 각 섹션별 표시할 아이템
+  const displayedNoticePosts = useMemo(() => {
+    return mockNoticePosts.slice(0, noticeRows * noticeColumns);
+  }, [noticeRows, noticeColumns]);
+
+  const displayedDataPosts = useMemo(() => {
+    return mockDataPosts.slice(0, dataRows * listItemsPerPage);
+  }, [dataRows]);
+
+  const displayedServicePosts = useMemo(() => {
+    return mockServiceNoticePosts.slice(0, serviceRows * listItemsPerPage);
+  }, [serviceRows]);
+
+  const displayedSuggestPosts = useMemo(() => {
+    return mockSuggestPosts.slice(0, suggestRows * listItemsPerPage);
+  }, [suggestRows]);
 
   // 더보기 버튼 표시 여부
   const hasMoreNotices = displayedNoticePosts.length < mockNoticePosts.length;
@@ -113,7 +130,6 @@ export function IntegratedSearch() {
   const hasMoreSuggest = displayedSuggestPosts.length < mockSuggestPosts.length;
 
   // 현재/전체 페이지 계산
-  // 공지사항은 컬럼 수에 따라 전체 페이지 수가 유동적으로 변함
   const noticeCurrentPage = noticeRows;
   const noticeTotalPages = Math.ceil(mockNoticePosts.length / noticeColumns);
 
