@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(corepack enable)",
-      "Bash(yarn --version:*)"
+      "Bash(yarn --version:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
