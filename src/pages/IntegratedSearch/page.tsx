@@ -3,10 +3,11 @@ import { useSearchParams } from 'react-router';
 import { Subtitle } from './component/Subtitle';
 import { PostCard } from '@/components/PostCard';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router';
-import { useTranslation } from 'react-i18next';
+// import { useNavigate } from 'react-router';
+// import { useTranslation } from 'react-i18next';
 import { DataContentItem } from '@/pages/data/components/DataContentItem';
 import { ServiceNoticePostContent } from '@/pages/mypage/service-notice/component/ServiceNoticePostContent';
+import { PostContent } from '@/components/PostContent';
 
 // 임시 데이터
 const mockNoticePosts = [
@@ -94,11 +95,40 @@ const mockServiceNoticePosts = [
   },
 ];
 
+const mockSuggestPosts = [
+  {
+    postId: 1,
+    title: '학생식당 메뉴 개선 건의',
+    category: '답변대기' as const,
+    author: '홍길동',
+    date: new Date(),
+  },
+  {
+    postId: 2,
+    title: '도서관 열람실 확대 요청',
+    category: '답변완료' as const,
+    author: '김철수',
+    date: new Date(Date.now() - 86400000),
+  },
+  {
+    postId: 3,
+    title: '캠퍼스 와이파이 속도 개선 문의',
+    category: '답변대기' as const,
+    author: '이영희',
+    date: new Date(Date.now() - 172800000),
+  },
+];
+
+const categoryColors: { [category: string]: string } = {
+  답변대기: 'text-gray-500',
+  답변완료: 'text-primary',
+} as const;
+
 export function IntegratedSearch() {
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get('q') || '';
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+  // const navigate = useNavigate();
+  // const { t } = useTranslation();
 
   // 임시 페이지네이션 상태 (나중에 실제 API 데이터로 교체)
   const currentPage = 1;
@@ -107,7 +137,7 @@ export function IntegratedSearch() {
   return (
     <>
       <BoardHeader title="통합검색" className="border-b-neutral-200 max-md:px-5 md:border-b" />
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center mb-10">
         <div className="w-full max-w-[1530px] md:px-[72px] lg:px-[200px]">
           <div className="flex w-full text-3xl font-bold">
             <span className="text-[#2F4BF7]">"{keyword}"</span>에 대한 검색 결과
@@ -134,7 +164,7 @@ export function IntegratedSearch() {
             <div className="w-full">
               <Subtitle title="자료집" count={mockDataPosts.length} />
               <div className="flex flex-col gap-16 md:items-center">
-                <div className="flex flex-col border-t border-t-gray-200">
+                <div className="flex w-full flex-col border-t border-t-gray-200">
                   {mockDataPosts.map((post) => (
                     <DataContentItem
                       key={post.postId}
@@ -151,7 +181,7 @@ export function IntegratedSearch() {
                   onClick={() => {
                     // 다음 페이지 로드 로직 (API 연결 시 구현)
                   }}
-                  className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text[1rem]"
+                  className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text-[1rem]"
                 >
                   더보기 ({currentPage}/{totalPages})
                 </Button>
@@ -182,7 +212,31 @@ export function IntegratedSearch() {
                 </Button>
               </div>
             </div>
-            <Subtitle title="건의게시판" count={0} />
+            <div className="w-full">
+              <Subtitle title="건의게시판" count={mockSuggestPosts.length} />
+              <div className="flex flex-col gap-16 md:items-center">
+                <div className="flex w-full flex-col border-t border-t-gray-200">
+                  {mockSuggestPosts.map((post) => (
+                    <PostContent
+                      key={post.postId}
+                      to={`/sug-notice/${post.postId}`}
+                      category={{ name: post.category, className: categoryColors[post.category] }}
+                      title={post.title}
+                      author={post.author}
+                      date={post.date}
+                    />
+                  ))}
+                </div>
+                <Button
+                  onClick={() => {
+                    // 다음 페이지 로드 로직 (API 연결 시 구현)
+                  }}
+                  className="mx-auto h-[30px] w-[87px] rounded-full px-4 py-2 text-[12px] md:mx-0 md:size-fit md:text-[1rem]"
+                >
+                  더보기 ({currentPage}/{totalPages})
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
