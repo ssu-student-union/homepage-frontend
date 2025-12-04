@@ -5,13 +5,43 @@ import { useScheduleForm } from '../hook/useScheduleForm';
 import { transformScheduleFormToRequest, ScheduleEditForm } from '../schema';
 import { SubmitHandler } from 'react-hook-form';
 import { useCreateSchedule } from '../hook/mutations/useCreateSchedule';
-import { useNavigate } from 'react-router';
+import { useUpdateSchedule } from '../hook/mutations/useUpdateSchedule';
+import { useGetSchedule } from '../hook/query/useGetSchedule';
+import { useNavigate, useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useMemo } from 'react';
+import { parseISO } from 'date-fns';
+import { checkSchedulePermission } from '../utils/checkSchedulePermission';
+import { AxiosError } from 'axios';
+import { ApiError } from '@/hooks/new/useStuQuery';
 
 export function ScheduleEditPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
+  const calendarEventId = searchParams.get('id') ? Number(searchParams.get('id')) : null;
+  const isEditMode = calendarEventId !== null;
+
+  // 권한 체크: 총학생회 또는 중앙집행위원회 계정만 접근 가능
+  const hasPermission = useMemo(() => checkSchedulePermission(), []);
+
+  // 권한이 없으면 리다이렉트
+  useEffect(() => {
+    if (!hasPermission) {
+      toast.error('일정을 작성/수정할 권한이 없습니다.');
+      navigate('/schedule');
+    }
+  }, [hasPermission, navigate]);
+
+  // 편집 모드일 때 일정 데이터 조회
+  const { data: scheduleData, isLoading: isScheduleLoading } = useGetSchedule({
+    calendarEventId: calendarEventId!,
+    queryOptions: {
+      enabled: isEditMode && hasPermission,
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -19,6 +49,7 @@ export function ScheduleEditPage() {
     watch,
     control,
     trigger,
+    reset,
     formState: { errors },
   } = useScheduleForm({
     title: '',
@@ -27,6 +58,19 @@ export function ScheduleEditPage() {
     endDate: undefined,
     isDDay: false,
   });
+
+  // 편집 모드일 때 기존 데이터를 폼에 설정
+  useEffect(() => {
+    if (isEditMode && scheduleData) {
+      reset({
+        title: scheduleData.title,
+        category: scheduleData.calendarCategory,
+        startDate: parseISO(scheduleData.startDate),
+        endDate: parseISO(scheduleData.endDate),
+        isDDay: scheduleData.isDDay,
+      });
+    }
+  }, [isEditMode, scheduleData, reset]);
 
   const title = watch('title') || '';
   const category = watch('category') || '';
@@ -39,20 +83,93 @@ export function ScheduleEditPage() {
   const { mutate: createSchedule } = useCreateSchedule({
     mutationOptions: {
       onSuccess: () => {
+        // 캐시를 무효화하여 /schedule 페이지로 이동할 때 최신 데이터를 가져오도록 함
         queryClient.invalidateQueries({ queryKey: ['getCalendars'] });
+        toast.success('일정이 등록되었습니다.');
         navigate('/schedule');
       },
       onError: (error) => {
         console.error('일정 등록 실패:', error);
-        toast.error('일정 등록에 실패했습니다. 다시 시도해주세요.');
+        if (error && typeof error === 'object' && 'isSuccess' in error && !error.isSuccess) {
+          // ApiError인 경우 서버에서 보낸 메시지 사용
+          const apiError = error as ApiError;
+          toast.error(apiError.message || '일정 등록에 실패했습니다. 다시 시도해주세요.');
+        } else if (error instanceof AxiosError) {
+          // AxiosError인 경우 네트워크 에러 등 처리
+          if (error.response) {
+            toast.error('일정 등록에 실패했습니다. 다시 시도해주세요.');
+          } else if (error.request) {
+            toast.error('서버로부터 응답을 받을 수 없습니다. 네트워크 연결을 확인해주세요.');
+          } else {
+            toast.error('일정 등록 중 오류가 발생했습니다. 다시 시도해주세요.');
+          }
+        } else {
+          toast.error('일정 등록에 실패했습니다. 다시 시도해주세요.');
+        }
+      },
+    },
+  });
+
+  const { mutate: updateSchedule } = useUpdateSchedule({
+    mutationOptions: {
+      onSuccess: () => {
+        // 캐시를 무효화하여 /schedule 페이지로 이동할 때 최신 데이터를 가져오도록 함
+        queryClient.invalidateQueries({ queryKey: ['getCalendars'] });
+        toast.success('일정이 수정되었습니다.');
+        navigate('/schedule');
+      },
+      onError: (error) => {
+        console.error('일정 수정 실패:', error);
+        if (error && typeof error === 'object' && 'isSuccess' in error && !error.isSuccess) {
+          // ApiError인 경우 서버에서 보낸 메시지 사용
+          const apiError = error as ApiError;
+          toast.error(apiError.message || '일정 수정에 실패했습니다. 다시 시도해주세요.');
+        } else if (error instanceof AxiosError) {
+          // AxiosError인 경우 네트워크 에러 등 처리
+          if (error.response) {
+            toast.error('일정 수정에 실패했습니다. 다시 시도해주세요.');
+          } else if (error.request) {
+            toast.error('서버로부터 응답을 받을 수 없습니다. 네트워크 연결을 확인해주세요.');
+          } else {
+            toast.error('일정 수정 중 오류가 발생했습니다. 다시 시도해주세요.');
+          }
+        } else {
+          toast.error('일정 수정에 실패했습니다. 다시 시도해주세요.');
+        }
       },
     },
   });
 
   const onSubmit: SubmitHandler<ScheduleEditForm> = (formData) => {
     const requestData = transformScheduleFormToRequest(formData);
-    createSchedule({ schedule: requestData });
+    if (isEditMode && calendarEventId !== null) {
+      updateSchedule({ calendarEventId, schedule: requestData });
+    } else {
+      createSchedule({ schedule: requestData });
+    }
   };
+
+  // 권한이 없으면 아무것도 렌더링하지 않음 (리다이렉트 중)
+  if (!hasPermission) {
+    return null;
+  }
+
+  // 편집 모드일 때 데이터 로딩 중이면 로딩 표시
+  if (isEditMode && isScheduleLoading) {
+    return (
+      <>
+        <BoardHeader
+          title="일정"
+          className="border-b border-b-neutral-200 [&_h1]:px-4 [&_h1]:pb-[3.125rem] [&_h1]:text-[2.125rem]"
+        />
+        <section className="flex justify-center py-[58px]">
+          <div className="flex items-center justify-center">
+            <p className="text-gray-500">로딩 중...</p>
+          </div>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
@@ -100,6 +217,7 @@ export function ScheduleEditPage() {
             isDDayError={errors.isDDay}
             canSubmit={canSubmit}
             onSubmit={() => handleSubmit(onSubmit)()}
+            isEditMode={isEditMode}
           />
         </form>
       </section>

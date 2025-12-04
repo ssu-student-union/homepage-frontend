@@ -15,6 +15,9 @@ import { Button } from '@/components/ui/button';
 import { useDeleteSchedule } from './hook/mutations/useDeleteSchedule';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { checkSchedulePermission } from './utils/checkSchedulePermission';
+import { AxiosError } from 'axios';
+import { ApiError } from '@/hooks/new/useStuQuery';
 import {
   Dialog,
   DialogContent,
@@ -49,7 +52,22 @@ export function SchedulePage() {
       },
       onError: (error) => {
         console.error('일정 삭제 실패:', error);
-        toast.error('일정 삭제에 실패했습니다. 다시 시도해주세요.');
+        if (error && typeof error === 'object' && 'isSuccess' in error && !error.isSuccess) {
+          // ApiError인 경우 서버에서 보낸 메시지 사용
+          const apiError = error as ApiError;
+          toast.error(apiError.message || '일정 삭제에 실패했습니다. 다시 시도해주세요.');
+        } else if (error instanceof AxiosError) {
+          // AxiosError인 경우 네트워크 에러 등 처리
+          if (error.response) {
+            toast.error('일정 삭제에 실패했습니다. 다시 시도해주세요.');
+          } else if (error.request) {
+            toast.error('서버로부터 응답을 받을 수 없습니다. 네트워크 연결을 확인해주세요.');
+          } else {
+            toast.error('일정 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
+          }
+        } else {
+          toast.error('일정 삭제에 실패했습니다. 다시 시도해주세요.');
+        }
       },
     },
   });
@@ -85,6 +103,9 @@ export function SchedulePage() {
     }
     return filteredCalendars;
   }, [filteredCalendars, selectedScheduleId]);
+
+  // 일정 관리 권한 확인 (총학생회 또는 중앙집행위원회만 가능)
+  const hasSchedulePermission = useMemo(() => checkSchedulePermission(), []);
 
   return (
     <div className="pt-16">
@@ -159,52 +180,54 @@ export function SchedulePage() {
                   ))
                 )}
               </div>
-              <div className="w-full px-8 pt-4">
-                <div className="flex justify-end">
-                  {clickedScheduleId === null ? (
-                    <Button
-                      variant="outline"
-                      onClick={() => navigate(`/schedule/edit`)}
-                      size={null}
-                      className="flex h-[2.625rem] min-w-[7.6875rem] items-center gap-2"
-                    >
-                      <Pencil className="size-4" />
-                      <p>글쓰기</p>
-                    </Button>
-                  ) : (
-                    <div className="flex flex-wrap justify-end gap-2">
-                      <Button
-                        variant="destructive"
-                        size={null}
-                        className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
-                        onClick={handleDeleteClick}
-                        isDisabled={isDeleting}
-                      >
-                        삭제
-                      </Button>
+              {hasSchedulePermission && (
+                <div className="w-full px-8 pt-4">
+                  <div className="flex justify-end">
+                    {clickedScheduleId === null ? (
                       <Button
                         variant="outline"
-                        size={null}
-                        className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
                         onClick={() => navigate(`/schedule/edit`)}
-                      >
-                        편집
-                      </Button>
-                      <Button
-                        variant="ghost"
                         size={null}
-                        className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
-                        onClick={() => {
-                          setClickedScheduleId(null);
-                          setHoveredScheduleId(null);
-                        }}
+                        className="flex h-[2.625rem] min-w-[7.6875rem] items-center gap-2"
                       >
-                        목록
+                        <Pencil className="size-4" />
+                        <p>글쓰기</p>
                       </Button>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="flex flex-wrap justify-end gap-2">
+                        <Button
+                          variant="destructive"
+                          size={null}
+                          className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
+                          onClick={handleDeleteClick}
+                          isDisabled={isDeleting}
+                        >
+                          삭제
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size={null}
+                          className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
+                          onClick={() => navigate(`/schedule/edit?id=${clickedScheduleId}`)}
+                        >
+                          편집
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size={null}
+                          className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
+                          onClick={() => {
+                            setClickedScheduleId(null);
+                            setHoveredScheduleId(null);
+                          }}
+                        >
+                          목록
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
