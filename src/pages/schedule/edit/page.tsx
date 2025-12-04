@@ -1,5 +1,4 @@
 import { BoardHeader } from '@/components/BoardHeader';
-import { Container } from '@/containers/new/Container';
 import { ScheduleBasicInfoForm } from '@/pages/schedule/components/form/ScheduleBasicInfoForm';
 import { ScheduleDatePicker } from '@/pages/schedule/components/form/ScheduleDatePicker';
 import { useScheduleForm } from '../hook/useScheduleForm';
@@ -19,6 +18,7 @@ export function ScheduleEditPage() {
     setValue,
     watch,
     control,
+    trigger,
     formState: { errors },
   } = useScheduleForm({
     title: '',
@@ -33,10 +33,10 @@ export function ScheduleEditPage() {
   const startDate = watch('startDate');
   const endDate = watch('endDate');
 
-  // 등록 버튼 활성화 조건: title, category, startDate, endDate가 모두 입력되어야 함
-  const canSubmit = Boolean(title && category && startDate && endDate);
+  // 등록 버튼 활성화 조건: title, category, startDate, endDate가 모두 입력되어야 하고, 제목은 50자 이하여야 함
+  const canSubmit = Boolean(title && category && startDate && endDate && title.length <= 50);
 
-  const { mutate: createSchedule, isPending } = useCreateSchedule({
+  const { mutate: createSchedule } = useCreateSchedule({
     mutationOptions: {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['getCalendars'] });
@@ -56,9 +56,15 @@ export function ScheduleEditPage() {
 
   return (
     <>
-      <BoardHeader title="일정" className="border-b-neutral-200 max-md:px-5 md:border-b" />
-      <Container className="py-[58px]">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <BoardHeader
+        title="일정"
+        className="border-b border-b-neutral-200 [&_h1]:px-4 [&_h1]:pb-[3.125rem] [&_h1]:text-[2.125rem]"
+      />
+      <section className="flex justify-center py-[58px]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex w-full max-w-[320px] flex-col items-center md:max-w-screen-md xl:max-w-[1200px]"
+        >
           <ScheduleBasicInfoForm
             titleRegister={register('title')}
             titleValue={title}
@@ -67,28 +73,36 @@ export function ScheduleEditPage() {
             setValue={setValue}
             categoryError={errors.category}
           />
-          <section className="mb-12">
-            <h2 className="mb-4 text-xl font-semibold">등록할 일정의 시작일자와 종료일자를 선택해주세요.</h2>
-            <ScheduleDatePicker
-              startDate={startDate || null}
-              endDate={endDate || null}
-              onStartDateChange={(date) => {
-                setValue('startDate', date || undefined);
-              }}
-              onEndDateChange={(date) => {
-                setValue('endDate', date || undefined);
-              }}
-              setValue={setValue}
-              startDateError={errors.startDate}
-              endDateError={errors.endDate}
-              control={control}
-              isDDayError={errors.isDDay}
-              canSubmit={canSubmit}
-              onSubmit={() => handleSubmit(onSubmit)()}
-            />
-          </section>
+
+          <div className="my-[60px] w-full max-w-[326px] border-t border-[#E7E7E7] md:my-[80px] md:max-w-[660px]" />
+
+          <ScheduleDatePicker
+            startDate={startDate || null}
+            endDate={endDate || null}
+            onStartDateChange={(date) => {
+              // @ts-expect-error - setValue accepts undefined for optional fields
+              setValue('startDate', date || undefined, { shouldValidate: true });
+              if (date) {
+                trigger(['title', 'category']);
+              }
+            }}
+            onEndDateChange={(date) => {
+              // @ts-expect-error - setValue accepts undefined for optional fields
+              setValue('endDate', date || undefined, { shouldValidate: true });
+              if (date) {
+                trigger(['title', 'category']);
+              }
+            }}
+            setValue={setValue}
+            startDateError={errors.startDate}
+            endDateError={errors.endDate}
+            control={control}
+            isDDayError={errors.isDDay}
+            canSubmit={canSubmit}
+            onSubmit={() => handleSubmit(onSubmit)()}
+          />
         </form>
-      </Container>
+      </section>
     </>
   );
 }
