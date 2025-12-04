@@ -4,6 +4,7 @@ import { UndefinedInitialDataOptions } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { CalendarResponse, CalendarResponseSchema } from '../../types';
 import { formatDateToYYYYMM } from '../../utils/dateFormat';
+import { SCHEDULE_API_PATHS } from '../../const/const';
 
 export interface UseGetCalendarsOptions {
   date: Date;
@@ -21,7 +22,7 @@ export function useGetCalendars({ date, queryOptions }: UseGetCalendarsOptions) 
   const dateString = formatDateToYYYYMM(date);
   const queryKey = ['getCalendars', dateString];
   const config: AxiosRequestConfig = {
-    url: `/board/캘린더/calendars`,
+    url: SCHEDULE_API_PATHS.BASE,
     method: 'get',
     params: {
       date: dateString,

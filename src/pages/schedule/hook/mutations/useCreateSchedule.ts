@@ -4,6 +4,7 @@ import { ApiError, ApiResponse } from '@/hooks/new/useStuQuery';
 import { useStuMutation } from '@/hooks/new/useStuMutation';
 import { clientAuth } from '@/apis/client';
 import { ScheduleEditRequest } from '../../schema';
+import { SCHEDULE_API_PATHS } from '../../const/const';
 
 export interface UseCreateScheduleOptions {
   mutationOptions?: Omit<
@@ -25,7 +26,7 @@ export function useCreateSchedule({ mutationOptions }: UseCreateScheduleOptions 
     return (
       await clientAuth<ApiResponse<CreateScheduleResponse>>({
         method: 'post',
-        url: `/board/캘린더/calendars`,
+        url: SCHEDULE_API_PATHS.BASE,
         data: schedule,
       })
     ).data;

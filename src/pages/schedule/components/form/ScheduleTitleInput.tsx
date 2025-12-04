@@ -1,6 +1,7 @@
 import { Input } from '@/components/ui/input';
 import { cn } from '@/libs/utils';
 import { UseFormRegisterReturn, FieldError } from 'react-hook-form';
+import { SCHEDULE_TITLE_MAX_LENGTH } from '../../const/const';
 
 interface ScheduleTitleInputProps {
   register: UseFormRegisterReturn<'title'>;
@@ -9,7 +10,12 @@ interface ScheduleTitleInputProps {
   maxLength?: number;
 }
 
-export function ScheduleTitleInput({ register, value, error, maxLength = 50 }: ScheduleTitleInputProps) {
+export function ScheduleTitleInput({
+  register,
+  value,
+  error,
+  maxLength = SCHEDULE_TITLE_MAX_LENGTH,
+}: ScheduleTitleInputProps) {
   return (
     <div className="lg:flex-1">
       <div className="relative w-[326px] justify-center self-center md:w-full">
@@ -17,7 +23,7 @@ export function ScheduleTitleInput({ register, value, error, maxLength = 50 }: S
           id="title"
           type="text"
           placeholder="제목을 입력하세요."
-          maxLength={51}
+          maxLength={maxLength + 1}
           className="w-full !rounded-xl border-2 border-gray-300 py-4 pl-3 pr-16 text-xs font-medium placeholder:font-medium placeholder:text-gray-400 md:h-[60px] md:w-[338px] md:pl-5 md:text-base lg:w-full"
           {...register}
         />

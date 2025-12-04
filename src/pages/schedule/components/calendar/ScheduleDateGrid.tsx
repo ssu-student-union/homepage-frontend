@@ -1,12 +1,12 @@
-import { isToday, isSameDay, subMonths, addMonths } from 'date-fns';
-import { CaretLeft, CaretRight } from '@phosphor-icons/react';
+import { isToday, isSameDay } from 'date-fns';
 import { cn } from '@/libs/utils';
-import { CATEGORY_COLORS, DATE_COLORS } from '../../const/const';
+import { DATE_COLORS, CATEGORY_COLORS, CALENDAR_DATE_BUTTON_STYLES } from '../../const/const';
 import { CalendarItem } from '../../types';
 import { getSchedulesForDate } from '../../utils/getSchedulesForDate';
 import { getScheduleHeightMap } from '../../utils/getScheduleHeightMap';
-import { formatMonthYear } from '../../utils/dateFormat';
 import { DateGridBase, type DateGridBaseProps } from './DateGridBase';
+import { CalendarHeader, useCalendarHeader } from './CalendarHeader';
+import { CategoryLegend } from './CategoryLegend';
 import { useMemo } from 'react';
 
 export interface ScheduleDateGridProps extends Omit<DateGridBaseProps, 'renderDateCell' | 'showCategoryLegend'> {
@@ -53,7 +53,7 @@ export function ScheduleDateGrid({
           <button
             type="button"
             onClick={() => setSelectedDate(date)}
-            className="2xl:size-12 2xl:text-[1.075125rem] mb-1 flex size-6 cursor-pointer items-center justify-center rounded-full text-[0.553375rem] transition-[background-color,color] md:size-10 md:text-[1.075125rem] lg:size-10 lg:text-[1.075125rem] xl:size-10 xl:text-[1.075125rem]"
+            className={cn('mb-1', CALENDAR_DATE_BUTTON_STYLES.base)}
             style={{ backgroundColor: bgColor, color: textColor }}
             aria-label={`${date.getDate()}일 선택`}
             aria-current={isTodayDate ? 'date' : undefined}
@@ -110,47 +110,17 @@ export function ScheduleDateGrid({
     );
   };
 
-  const formattedDate = formatMonthYear(selectedDate);
+  const { handlePreviousMonth, handleNextMonth } = useCalendarHeader(selectedDate, setSelectedDate);
 
   return (
     <div className="flex w-full min-w-[350px] shrink-0 flex-col md:w-[602px]">
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-center gap-[3.875rem]">
-          <button
-            type="button"
-            className="rounded p-1 hover:bg-gray-100"
-            onClick={() => setSelectedDate(subMonths(selectedDate, 1))}
-            aria-label="이전 달"
-          >
-            <CaretLeft weight="bold" className="size-4 text-gray-700" />
-          </button>
-          <div className="2xl:text-[3rem] text-[1.10675rem] font-bold leading-normal tracking-[-0.09rem] text-[#374151] md:text-[2.1501875rem] lg:text-[2.6130625rem] xl:text-[2.1rem]">
-            {formattedDate}
-          </div>
-          <button
-            type="button"
-            className="rounded p-1 hover:bg-gray-100"
-            onClick={() => setSelectedDate(addMonths(selectedDate, 1))}
-            aria-label="다음 달"
-          >
-            <CaretRight weight="bold" className="size-4 text-gray-700" />
-          </button>
-        </div>
-
-        <div className="flex flex-row items-center justify-end gap-3.5 self-stretch">
-          {Object.entries(CATEGORY_COLORS).map(([label, color]) => (
-            <div
-              key={label}
-              className="2xl:text-sm flex flex-row items-center justify-end gap-1 text-[0.3228125rem] font-normal text-[#6B7280] md:text-[0.627125rem] lg:text-[0.762125rem] xl:text-[0.6125rem]"
-            >
-              <span>{label}</span>
-              <div
-                className="2xl:size-[0.9375rem] size-[0.345875rem] rounded-full md:size-[0.6719375rem] lg:size-[0.8165625rem] xl:size-[0.65625rem]"
-                style={{ backgroundColor: color }}
-              />
-            </div>
-          ))}
-        </div>
+        <CalendarHeader
+          selectedDate={selectedDate}
+          onPreviousMonth={handlePreviousMonth}
+          onNextMonth={handleNextMonth}
+        />
+        <CategoryLegend />
       </div>
 
       <div className="h-5 border-b border-gray-200" />

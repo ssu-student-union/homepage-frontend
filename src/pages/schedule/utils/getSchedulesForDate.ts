@@ -1,18 +1,6 @@
 import { parseISO, isWithinInterval, isSameDay, addDays } from 'date-fns';
 import { CalendarItem } from '../types';
-
-/**
- * 카테고리별 우선순위 정의
- * 학사 > 총학생회 > 공휴일/기념일 순서
- */
-const CATEGORY_PRIORITY = {
-  학사: 1,
-  총학생회: 2,
-  '공휴일/기념일': 3,
-} as const;
-
-/** 캘린더에 표시할 최대 일정 수 */
-const MAX_SCHEDULES_PER_DATE = 4;
+import { CATEGORY_PRIORITY, MAX_SCHEDULES_PER_DATE } from '../const/const';
 
 export type ScheduleWithDateInfo = CalendarItem & {
   isStart: boolean;

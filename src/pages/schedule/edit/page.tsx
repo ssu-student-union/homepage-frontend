@@ -13,8 +13,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { parseISO } from 'date-fns';
 import { checkSchedulePermission } from '../utils/checkSchedulePermission';
-import { AxiosError } from 'axios';
-import { ApiError } from '@/hooks/new/useStuQuery';
+import { SCHEDULE_PERMISSION_MESSAGES, SCHEDULE_SUCCESS_MESSAGES, SCHEDULE_TITLE_MAX_LENGTH } from '../const/const';
+import { handleScheduleError } from '../utils/handleScheduleError';
 
 export function ScheduleEditPage() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export function ScheduleEditPage() {
   // 권한이 없으면 리다이렉트
   useEffect(() => {
     if (!hasPermission) {
-      toast.error('일정을 작성/수정할 권한이 없습니다.');
+      toast.error(SCHEDULE_PERMISSION_MESSAGES.NO_PERMISSION);
       navigate('/schedule');
     }
   }, [hasPermission, navigate]);
@@ -77,35 +77,19 @@ export function ScheduleEditPage() {
   const startDate = watch('startDate');
   const endDate = watch('endDate');
 
-  // 등록 버튼 활성화 조건: title, category, startDate, endDate가 모두 입력되어야 하고, 제목은 50자 이하여야 함
-  const canSubmit = Boolean(title && category && startDate && endDate && title.length <= 50);
+  // 등록 버튼 활성화 조건: title, category, startDate, endDate가 모두 입력되어야 하고, 제목은 최대 길이 이하여야 함
+  const canSubmit = Boolean(title && category && startDate && endDate && title.length <= SCHEDULE_TITLE_MAX_LENGTH);
 
   const { mutate: createSchedule } = useCreateSchedule({
     mutationOptions: {
       onSuccess: () => {
         // 캐시를 무효화하여 /schedule 페이지로 이동할 때 최신 데이터를 가져오도록 함
         queryClient.invalidateQueries({ queryKey: ['getCalendars'] });
-        toast.success('일정이 등록되었습니다.');
+        toast.success(SCHEDULE_SUCCESS_MESSAGES.CREATED);
         navigate('/schedule');
       },
       onError: (error) => {
-        console.error('일정 등록 실패:', error);
-        if (error && typeof error === 'object' && 'isSuccess' in error && !error.isSuccess) {
-          // ApiError인 경우 서버에서 보낸 메시지 사용
-          const apiError = error as ApiError;
-          toast.error(apiError.message || '일정 등록에 실패했습니다. 다시 시도해주세요.');
-        } else if (error instanceof AxiosError) {
-          // AxiosError인 경우 네트워크 에러 등 처리
-          if (error.response) {
-            toast.error('일정 등록에 실패했습니다. 다시 시도해주세요.');
-          } else if (error.request) {
-            toast.error('서버로부터 응답을 받을 수 없습니다. 네트워크 연결을 확인해주세요.');
-          } else {
-            toast.error('일정 등록 중 오류가 발생했습니다. 다시 시도해주세요.');
-          }
-        } else {
-          toast.error('일정 등록에 실패했습니다. 다시 시도해주세요.');
-        }
+        handleScheduleError(error, 'create', '일정 등록 실패');
       },
     },
   });
@@ -115,27 +99,11 @@ export function ScheduleEditPage() {
       onSuccess: () => {
         // 캐시를 무효화하여 /schedule 페이지로 이동할 때 최신 데이터를 가져오도록 함
         queryClient.invalidateQueries({ queryKey: ['getCalendars'] });
-        toast.success('일정이 수정되었습니다.');
+        toast.success(SCHEDULE_SUCCESS_MESSAGES.UPDATED);
         navigate('/schedule');
       },
       onError: (error) => {
-        console.error('일정 수정 실패:', error);
-        if (error && typeof error === 'object' && 'isSuccess' in error && !error.isSuccess) {
-          // ApiError인 경우 서버에서 보낸 메시지 사용
-          const apiError = error as ApiError;
-          toast.error(apiError.message || '일정 수정에 실패했습니다. 다시 시도해주세요.');
-        } else if (error instanceof AxiosError) {
-          // AxiosError인 경우 네트워크 에러 등 처리
-          if (error.response) {
-            toast.error('일정 수정에 실패했습니다. 다시 시도해주세요.');
-          } else if (error.request) {
-            toast.error('서버로부터 응답을 받을 수 없습니다. 네트워크 연결을 확인해주세요.');
-          } else {
-            toast.error('일정 수정 중 오류가 발생했습니다. 다시 시도해주세요.');
-          }
-        } else {
-          toast.error('일정 수정에 실패했습니다. 다시 시도해주세요.');
-        }
+        handleScheduleError(error, 'update', '일정 수정 실패');
       },
     },
   });
