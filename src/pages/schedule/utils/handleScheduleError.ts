@@ -25,11 +25,7 @@ export type ScheduleAction = 'create' | 'update' | 'delete';
  * @param action - 수행한 작업 타입 ('create' | 'update' | 'delete')
  * @param context - 추가 컨텍스트 (예: '일정 등록 실패')
  */
-export function handleScheduleError(
-  error: unknown,
-  action: ScheduleAction,
-  context?: string
-): void {
+export function handleScheduleError(error: unknown, action: ScheduleAction, context?: string): void {
   console.error(context || `일정 ${action} 실패:`, error);
 
   // ApiError인 경우 서버에서 보낸 메시지 사용
@@ -72,4 +68,3 @@ export function handleScheduleError(
         : SCHEDULE_ERROR_MESSAGES.DELETE_FAILED;
   toast.error(defaultMessage);
 }
-

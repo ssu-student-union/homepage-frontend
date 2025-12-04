@@ -25,4 +25,3 @@ export const CalendarResponseSchema = z.object({
 });
 
 export type CalendarResponse = z.infer<typeof CalendarResponseSchema>;
-
