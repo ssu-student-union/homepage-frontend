@@ -5,7 +5,8 @@ import { CalendarItem } from '../../types';
 import { getSchedulesForDate } from '../../utils/getSchedulesForDate';
 import { getScheduleHeightMap } from '../../utils/getScheduleHeightMap';
 import { DateGridBase, type DateGridBaseProps } from './DateGridBase';
-import { CalendarHeader, useCalendarHeader } from './CalendarHeader';
+import { CalendarHeader } from './CalendarHeader';
+import { useCalendarHeader } from './useCalendarHeader';
 import { CategoryLegend } from './CategoryLegend';
 import { useMemo } from 'react';
 

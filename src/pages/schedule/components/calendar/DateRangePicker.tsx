@@ -2,7 +2,8 @@ import { isToday } from 'date-fns';
 import { cn } from '@/libs/utils';
 import { DATE_COLORS, DATE_SELECTION_COLORS, CALENDAR_DATE_BUTTON_STYLES } from '../../const/const';
 import { DateGridBase, type DateGridBaseProps } from './DateGridBase';
-import { CalendarHeader, useCalendarHeader } from './CalendarHeader';
+import { CalendarHeader } from './CalendarHeader';
+import { useCalendarHeader } from './useCalendarHeader';
 import { CategoryLegend } from './CategoryLegend';
 
 export interface DateRangePickerProps extends Omit<DateGridBaseProps, 'renderDateCell' | 'showCategoryLegend'> {
