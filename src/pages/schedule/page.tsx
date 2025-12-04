@@ -16,8 +16,8 @@ import { useDeleteSchedule } from './hook/mutations/useDeleteSchedule';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { checkSchedulePermission } from './utils/checkSchedulePermission';
-import { AxiosError } from 'axios';
-import { ApiError } from '@/hooks/new/useStuQuery';
+import { SCHEDULE_SUCCESS_MESSAGES } from './const/const';
+import { handleScheduleError } from './utils/handleScheduleError';
 import {
   Dialog,
   DialogContent,
@@ -48,26 +48,10 @@ export function SchedulePage() {
         setClickedScheduleId(null);
         setHoveredScheduleId(null);
         setIsDeleteDialogOpen(false);
-        toast.success('일정이 삭제되었습니다.');
+        toast.success(SCHEDULE_SUCCESS_MESSAGES.DELETED);
       },
       onError: (error) => {
-        console.error('일정 삭제 실패:', error);
-        if (error && typeof error === 'object' && 'isSuccess' in error && !error.isSuccess) {
-          // ApiError인 경우 서버에서 보낸 메시지 사용
-          const apiError = error as ApiError;
-          toast.error(apiError.message || '일정 삭제에 실패했습니다. 다시 시도해주세요.');
-        } else if (error instanceof AxiosError) {
-          // AxiosError인 경우 네트워크 에러 등 처리
-          if (error.response) {
-            toast.error('일정 삭제에 실패했습니다. 다시 시도해주세요.');
-          } else if (error.request) {
-            toast.error('서버로부터 응답을 받을 수 없습니다. 네트워크 연결을 확인해주세요.');
-          } else {
-            toast.error('일정 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
-          }
-        } else {
-          toast.error('일정 삭제에 실패했습니다. 다시 시도해주세요.');
-        }
+        handleScheduleError(error, 'delete', '일정 삭제 실패');
       },
     },
   });

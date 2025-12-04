@@ -4,6 +4,7 @@ import { ApiError, ApiResponse } from '@/hooks/new/useStuQuery';
 import { useStuMutation } from '@/hooks/new/useStuMutation';
 import { clientAuth } from '@/apis/client';
 import { ScheduleEditRequest } from '../../schema';
+import { SCHEDULE_API_PATHS } from '../../const/const';
 
 export interface UseUpdateScheduleOptions {
   mutationOptions?: Omit<
@@ -24,7 +25,7 @@ export function useUpdateSchedule({ mutationOptions }: UseUpdateScheduleOptions 
     return (
       await clientAuth<ApiResponse<UpdateScheduleResponse>>({
         method: 'patch',
-        url: `/board/캘린더/calendars/${calendarEventId}`,
+        url: SCHEDULE_API_PATHS.getById(calendarEventId),
         data: schedule,
       })
     ).data;

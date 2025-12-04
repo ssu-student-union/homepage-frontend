@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { ApiError, ApiResponse } from '@/hooks/new/useStuQuery';
 import { useStuMutation } from '@/hooks/new/useStuMutation';
 import { clientAuth } from '@/apis/client';
+import { SCHEDULE_API_PATHS } from '../../const/const';
 
 export interface UseDeleteScheduleOptions {
   mutationOptions?: Omit<
@@ -22,7 +23,7 @@ export function useDeleteSchedule({ mutationOptions }: UseDeleteScheduleOptions 
     return (
       await clientAuth<ApiResponse<DeleteScheduleResponse>>({
         method: 'delete',
-        url: `/board/캘린더/calendars/${calendarId}`,
+        url: SCHEDULE_API_PATHS.getById(calendarId),
       })
     ).data;
   }, mutationOptions);

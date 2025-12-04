@@ -37,7 +37,7 @@ export function DateGridBase({
 
   return (
     <div className="flex w-full flex-col gap-3 pt-3">
-      <div className="2xl:text-[1.375rem] grid grid-cols-7 place-items-center gap-x-0 text-[0.50725rem] font-semibold md:text-[0.9855rem] lg:text-[1.197625rem] xl:text-[0.9625rem]">
+      <div className="2xl:text-[1.375rem] grid grid-cols-7 place-items-center gap-x-0 text-xs font-semibold md:text-sm lg:text-lg xl:text-base">
         {weekDays.map((day, index) => {
           const isSunday = index === 0;
           const isSaturday = index === 6;

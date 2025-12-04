@@ -3,6 +3,7 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 import { UndefinedInitialDataOptions } from '@tanstack/react-query';
 import { ZodError } from 'zod';
 import { CalendarItem, CalendarItemSchema } from '../../types';
+import { SCHEDULE_API_PATHS } from '../../const/const';
 
 export interface UseGetScheduleOptions {
   calendarEventId: number;
@@ -19,7 +20,7 @@ export interface UseGetScheduleOptions {
 export function useGetSchedule({ calendarEventId, queryOptions }: UseGetScheduleOptions) {
   const queryKey = ['getSchedule', calendarEventId];
   const config: AxiosRequestConfig = {
-    url: `/board/캘린더/calendars/${calendarEventId}`,
+    url: SCHEDULE_API_PATHS.getById(calendarEventId),
     method: 'get',
   };
 
