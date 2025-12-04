@@ -4,8 +4,10 @@ import { cn } from '@/libs/utils';
 import { CATEGORY_COLORS, DATE_COLORS } from '../../const/const';
 import { CalendarItem } from '../../types';
 import { getSchedulesForDate } from '../../utils/getSchedulesForDate';
+import { getScheduleHeightMap } from '../../utils/getScheduleHeightMap';
 import { formatMonthYear } from '../../utils/dateFormat';
 import { DateGridBase, type DateGridBaseProps } from './DateGridBase';
+import { useMemo } from 'react';
 
 export interface ScheduleDateGridProps extends Omit<DateGridBaseProps, 'renderDateCell' | 'showCategoryLegend'> {
   calendarItems: CalendarItem[];
@@ -24,6 +26,9 @@ export function ScheduleDateGrid({
   weekStartsOn,
   calendarItems,
 }: ScheduleDateGridProps) {
+  // 월 전체 일정을 분석하여 각 일정의 고정 높이 맵 생성
+  const scheduleHeightMap = useMemo(() => getScheduleHeightMap(calendarItems), [calendarItems]);
+
   const getDateTextColor = (day: number) => {
     if (day === 0) return DATE_COLORS.gray;
     if (day === 6) return DATE_COLORS.gray;
@@ -65,14 +70,16 @@ export function ScheduleDateGrid({
           }}
         >
           <div className="absolute inset-0 flex flex-col">
-            {schedules.map((schedule, scheduleIndex) => {
+            {schedules.map((schedule) => {
               const color = CATEGORY_COLORS[schedule.calendarCategory];
               const isStart = schedule.isStart;
               const isEnd = schedule.isEnd;
 
+              // 고정된 높이 인덱스 사용
+              const heightIndex = scheduleHeightMap.get(schedule.calenderId) ?? 0;
               const gapPx = 4;
               const barHeight = 4;
-              const topOffset = scheduleIndex * (barHeight + gapPx);
+              const topOffset = heightIndex * (barHeight + gapPx);
 
               let barStyle = 'absolute';
               if (isStart && isEnd) {
@@ -87,7 +94,7 @@ export function ScheduleDateGrid({
 
               return (
                 <div
-                  key={`${schedule.calenderId}-${scheduleIndex}`}
+                  key={`${schedule.calenderId}-${date.getTime()}`}
                   className={cn(barStyle)}
                   style={{
                     backgroundColor: color,

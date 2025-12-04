@@ -20,6 +20,7 @@ interface ScheduleDatePickerProps {
   isDDayError?: FieldError;
   canSubmit: boolean;
   onSubmit: () => void;
+  isEditMode?: boolean;
 }
 
 function formatDateToMonthDay(date: Date | null): string {
@@ -41,6 +42,7 @@ export function ScheduleDatePicker({
   isDDayError,
   canSubmit,
   onSubmit,
+  isEditMode = false,
 }: ScheduleDatePickerProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -85,7 +87,7 @@ export function ScheduleDatePicker({
           </div>
           <div className="flex w-full items-center justify-center">
             <Button type="button" onClick={onSubmit} disabled={!canSubmit} className="mt-4 w-full rounded-xs">
-              등록하기
+              {isEditMode ? '수정하기' : '등록하기'}
             </Button>
           </div>
         </div>
