@@ -18,4 +18,3 @@ export function useCalendarHeader(selectedDate: Date, setSelectedDate: (date: Da
     handleNextMonth,
   };
 }
-

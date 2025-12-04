@@ -32,4 +32,3 @@ export function useCreateSchedule({ mutationOptions }: UseCreateScheduleOptions 
     ).data;
   }, mutationOptions);
 }
-
