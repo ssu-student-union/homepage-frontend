@@ -59,7 +59,7 @@ export function ScheduleDateGrid({
         <div
           className="relative w-full overflow-visible"
           style={{
-            height: schedules.length > 1 ? `${4 + (schedules.length - 1) * 8}px` : '4px',
+            height: '28px',
             marginLeft: '-0.25rem',
             marginRight: '-0.25rem',
           }}
@@ -106,7 +106,7 @@ export function ScheduleDateGrid({
   const formattedDate = formatMonthYear(selectedDate);
 
   return (
-    <div className="flex w-full max-w-full shrink-0 flex-col md:w-[602px] md:min-w-[602px] md:max-w-[602px]">
+    <div className="flex w-full min-w-[350px] shrink-0 flex-col md:w-[602px]">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-center gap-[3.875rem]">
           <button
