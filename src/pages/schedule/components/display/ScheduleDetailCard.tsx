@@ -33,9 +33,9 @@ export function ScheduleDetailCard({
       onMouseLeave={onMouseLeave}
       onClick={onClick}
     >
-      <p className="text-[10px] text-gray-900 md:text-sm xl:text-base">{category}</p>
-      <p className="text-xs font-bold text-gray-900 md:text-base xl:text-lg">{title}</p>
-      <p className="text-[10px] font-normal text-gray-500 md:text-sm xl:text-base">{dateRange}</p>
+      <p className="text-xs text-gray-900 md:text-sm xl:text-base">{category}</p>
+      <p className="text-sm font-bold text-gray-900 md:text-base xl:text-lg">{title}</p>
+      <p className="text-xs font-normal text-gray-500 md:text-sm xl:text-base">{dateRange}</p>
     </div>
   );
 }

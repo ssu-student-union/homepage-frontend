@@ -1,17 +1,5 @@
 import { CalendarItem } from '../types';
-
-/**
- * 카테고리별 우선순위 정의
- * 학사 > 총학생회 > 공휴일/기념일 순서
- */
-const CATEGORY_PRIORITY = {
-  학사: 1,
-  총학생회: 2,
-  '공휴일/기념일': 3,
-} as const;
-
-/** 캘린더에 표시할 최대 일정 수 */
-const MAX_SCHEDULES_PER_DATE = 4;
+import { CATEGORY_PRIORITY, MAX_SCHEDULES_PER_DATE } from '../const/const';
 
 /**
  * 월 전체 일정을 분석하여 각 일정의 고정 높이 인덱스를 반환하는 함수

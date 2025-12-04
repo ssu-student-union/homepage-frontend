@@ -19,9 +19,14 @@ export type ScheduleEditRequest = {
   isDDay: boolean;
 };
 
+import { SCHEDULE_TITLE_MAX_LENGTH } from './const/const';
+
 export const ScheduleEditFormSchema = z
   .object({
-    title: z.string().min(1, '제목을 입력해주세요.').max(50, '50자 이내로 써주세요'),
+    title: z
+      .string()
+      .min(1, '제목을 입력해주세요.')
+      .max(SCHEDULE_TITLE_MAX_LENGTH, `${SCHEDULE_TITLE_MAX_LENGTH}자 이내로 써주세요`),
     category: z.enum(SCHEDULE_CATEGORY_OPTIONS as [string, ...string[]], {
       required_error: '카테고리를 선택해주세요.',
     }),
