@@ -31,4 +31,3 @@ export function useUpdateSchedule({ mutationOptions }: UseUpdateScheduleOptions 
     ).data;
   }, mutationOptions);
 }
-

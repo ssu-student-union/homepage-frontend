@@ -36,4 +36,3 @@ export function useGetCalendars({ date, queryOptions }: UseGetCalendarsOptions) 
     ...queryOptions,
   });
 }
-

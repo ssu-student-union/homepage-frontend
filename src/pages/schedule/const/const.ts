@@ -113,5 +113,6 @@ export const CALENDAR_DATE_BUTTON_STYLES = {
    * xl: h-10 w-10, text-lg
    * 2xl: h-12 w-12, text-lg
    */
-  rangePicker: 'flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-xs transition-[background-color,color] md:h-10 md:w-10 md:text-base lg:h-10 lg:w-10 lg:text-base xl:h-10 xl:w-10 xl:text-lg 2xl:h-12 2xl:w-12 2xl:text-lg',
+  rangePicker:
+    'flex h-6 w-6 cursor-pointer items-center justify-center rounded-full text-xs transition-[background-color,color] md:h-10 md:w-10 md:text-base lg:h-10 lg:w-10 lg:text-base xl:h-10 xl:w-10 xl:text-lg 2xl:h-12 2xl:w-12 2xl:text-lg',
 } as const;
