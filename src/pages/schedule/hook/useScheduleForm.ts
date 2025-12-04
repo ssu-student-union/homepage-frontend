@@ -5,7 +5,7 @@ import { ScheduleEditForm, ScheduleEditFormSchema } from '../schema';
 export function useScheduleForm(defaultValues?: DefaultValues<ScheduleEditForm>) {
   const form = useForm<ScheduleEditForm>({
     resolver: zodResolver(ScheduleEditFormSchema),
-    mode: 'onBlur',
+    mode: 'onChange',
     shouldFocusError: false,
     defaultValues,
   });

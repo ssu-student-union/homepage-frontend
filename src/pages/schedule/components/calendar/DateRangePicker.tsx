@@ -131,7 +131,7 @@ export function DateRangePicker({
           {Object.entries(CATEGORY_COLORS).map(([label, color]) => (
             <div
               key={label}
-              className="2xl:text-sm flex flex-row items-center justify-end gap-1 text-[0.3228125rem] font-normal text-[#6B7280] md:text-[0.627125rem] lg:text-[0.762125rem] xl:text-[0.6125rem]"
+              className="2xl:text-sm flex flex-row items-center justify-end gap-1 text-[10px] font-normal text-[#6B7280] md:text-xs xl:text-[10px]"
             >
               <span>{label}</span>
               <div

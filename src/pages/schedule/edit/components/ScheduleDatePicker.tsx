@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DateGrid } from '@/pages/schedule/components/DateGrid';
+import { DateRangePicker } from '@/pages/schedule/components/calendar/DateRangePicker';
 import { getMonth, getDate } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { handleDateSelection, createDateSelectionHelpers } from '../../utils/dateSelectionHandler';
@@ -42,17 +42,16 @@ export function ScheduleDatePicker({
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
       <div className="flex-1">
-        <DateGrid
+        <DateRangePicker
           selectedDate={currentMonth}
           setSelectedDate={setCurrentMonth}
-          calendarItems={[]}
           onDateClick={handleDateClick}
           isDateSelected={isDateSelected}
           isDateStart={isDateStart}
           isDateEnd={isDateEnd}
         />
       </div>
-      <div className="flex flex-col gap-4 lg:w-[250px]">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <h3 className="text-lg font-semibold">시작일자</h3>
           <p className="text-base text-gray-700">{formatDateToMonthDay(startDate)}</p>
@@ -61,7 +60,7 @@ export function ScheduleDatePicker({
           <h3 className="text-lg font-semibold">종료일자</h3>
           <p className="text-base text-gray-700">{formatDateToMonthDay(endDate)}</p>
         </div>
-        <Button onClick={onSubmit} disabled={!canSubmit} className="mt-4">
+        <Button type="button" onClick={onSubmit} disabled={!canSubmit} className="mt-4">
           등록하기
         </Button>
       </div>

@@ -21,7 +21,7 @@ export type ScheduleEditRequest = {
 
 export const ScheduleEditFormSchema = z
   .object({
-    title: z.string().min(1, '제목을 입력해주세요.').max(50, '제목은 50자 이내여야 합니다.'),
+    title: z.string().min(1, '제목을 입력해주세요.').max(50, '50자 이내로 써주세요'),
     category: z.enum(SCHEDULE_CATEGORY_OPTIONS as [string, ...string[]], {
       required_error: '카테고리를 선택해주세요.',
     }),
