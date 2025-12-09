@@ -49,7 +49,7 @@ export function MainRouter() {
         <Route path="/qna/:id" element={<i.QnaDetailPage />} />
         <Route path="/qna/:id?/edit" element={<i.QnaEditPage />} />
         {/* 통합검색 */}
-        <Route path='/search' element={<i.IntegratedSearch />}/>
+        <Route path="/search" element={<i.IntegratedSearch />} />
       </Route>
       {/* 온보딩 */}
       <Route path="/register" element={<i.RegisterLayout />}>

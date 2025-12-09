@@ -15,10 +15,10 @@ function useWindowWidth() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
+
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
-    
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -27,10 +27,28 @@ function useWindowWidth() {
 
 // --- 임시 데이터 ---
 const mockNoticePosts = [
-  { postId: 1, title: '2024학년도 1학기 수강신청 안내', boardName: '학사공지', date: new Date().toISOString(), isNew: true },
-  { postId: 2, title: '도서관 열람실 이용 안내', boardName: '시설공지', date: new Date(Date.now() - 86400000).toISOString(), isNew: false },
+  {
+    postId: 1,
+    title: '2024학년도 1학기 수강신청 안내',
+    boardName: '학사공지',
+    date: new Date().toISOString(),
+    isNew: true,
+  },
+  {
+    postId: 2,
+    title: '도서관 열람실 이용 안내',
+    boardName: '시설공지',
+    date: new Date(Date.now() - 86400000).toISOString(),
+    isNew: false,
+  },
   { postId: 3, title: '장학금 신청 접수 시작', boardName: '장학공지', date: new Date().toISOString(), isNew: true },
-  { postId: 4, title: '캠퍼스 주차장 공사 안내', boardName: '시설공지', date: new Date(Date.now() - 172800000).toISOString(), isNew: false },
+  {
+    postId: 4,
+    title: '캠퍼스 주차장 공사 안내',
+    boardName: '시설공지',
+    date: new Date(Date.now() - 172800000).toISOString(),
+    isNew: false,
+  },
   { postId: 5, title: '추가 공지 1', boardName: '학사공지', date: new Date().toISOString(), isNew: false },
   { postId: 6, title: '추가 공지 2', boardName: '학사공지', date: new Date().toISOString(), isNew: false },
   { postId: 7, title: '추가 공지 3', boardName: '학사공지', date: new Date().toISOString(), isNew: false },
@@ -66,14 +84,31 @@ const mockDataPosts = [
 
 const mockServiceNoticePosts = [
   { postId: 1, title: '홈페이지 정기 점검 안내', date: new Date().toISOString(), Emergency: true },
-  { postId: 2, title: '새로운 기능 업데이트 안내', date: new Date(Date.now() - 86400000).toISOString(), Emergency: false },
+  {
+    postId: 2,
+    title: '새로운 기능 업데이트 안내',
+    date: new Date(Date.now() - 86400000).toISOString(),
+    Emergency: false,
+  },
   { postId: 3, title: '서버 점검 완료 안내', date: new Date(Date.now() - 172800000).toISOString(), Emergency: false },
 ];
 
 const mockSuggestPosts = [
   { postId: 1, title: '학생식당 메뉴 개선 건의', category: '답변대기' as const, author: '홍길동', date: new Date() },
-  { postId: 2, title: '도서관 열람실 확대 요청', category: '답변완료' as const, author: '김철수', date: new Date(Date.now() - 86400000) },
-  { postId: 3, title: '캠퍼스 와이파이 속도 개선 문의', category: '답변대기' as const, author: '이영희', date: new Date(Date.now() - 172800000) },
+  {
+    postId: 2,
+    title: '도서관 열람실 확대 요청',
+    category: '답변완료' as const,
+    author: '김철수',
+    date: new Date(Date.now() - 86400000),
+  },
+  {
+    postId: 3,
+    title: '캠퍼스 와이파이 속도 개선 문의',
+    category: '답변대기' as const,
+    author: '이영희',
+    date: new Date(Date.now() - 172800000),
+  },
 ];
 
 const categoryColors: { [category: string]: string } = {
@@ -145,13 +180,12 @@ export function IntegratedSearch() {
   return (
     <>
       <BoardHeader title="통합검색" className="border-b-neutral-200 max-md:px-5 md:border-b" />
-      <div className="flex w-full justify-center mb-10">
-        <div className="w-full max-w-[1530px] md:px-[72px] lg:px-[200px]">
+      <div className="mb-10 flex w-full justify-center">
+        <div className="w-full max-w-[1530px] px-[20px] md:px-[72px] lg:px-[200px]">
           <div className="flex w-full text-3xl font-bold">
             <span className="text-[#2F4BF7]">"{keyword}"</span>에 대한 검색 결과
           </div>
           <div className="mt-32 flex w-full flex-col items-center gap-[120px]">
-            
             {/* --- 공지사항 --- */}
             <div>
               <Subtitle title="중앙/단과대 공지사항" count={mockNoticePosts.length} />
