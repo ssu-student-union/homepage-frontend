@@ -36,7 +36,7 @@ export function FloatingButtons() {
         <KakaoIcon className="size-9 max-md:size-7" />
       </FloatingButton>
       <Spacing direction="vertical" size={13} />
-      <FloatingButton href="https://www.instagram.com/ssure65th/">
+      <FloatingButton href="https://www.instagram.com/focussu.66th/">
         <InstaIcon className="size-9 max-md:size-7" />
       </FloatingButton>
       <Spacing direction="vertical" size={13} />
