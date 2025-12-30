@@ -4,7 +4,7 @@ import { HeaderSheet } from './component/HeaderSheet';
 import { AuthButton } from './component/AuthButton';
 import { State } from './const/state';
 import { Link } from 'react-router';
-import SsureLogo from '@/components/logo/SsureLogo';
+import CouncilLogo from '@/components/logo/CouncilLogo';
 import { TranslateButton } from '@/components/Buttons/TranslateButton';
 import { Button } from '@/components/ui/button';
 import {
@@ -73,7 +73,7 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
           )}
           to="/"
         >
-          <SsureLogo className={cn('h-4 object-contain invert xl:h-6', state !== State.Onboarding && 'xl:invert-0')} />
+          <CouncilLogo className={cn('h-4 w-auto invert xl:h-6', state !== State.Onboarding && 'xl:invert-0')} />
         </Link>
         <NavigationMenu className="hidden h-full grow items-stretch *:grow xl:flex">
           <NavigationMenuList className="h-full items-stretch justify-stretch">
