@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import { State } from '../const/state';
 import { useTranslation } from 'react-i18next';
 import { Button, buttonVariants } from '@/components/ui/button';
-import SsureLogo from '@/components/logo/SsureLogo';
+import CouncilLogo from '@/components/logo/CouncilLogo';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { cn } from '@/libs/utils';
 
@@ -59,7 +59,7 @@ export function HeaderSheet({ trigger, state, onLogout }: HeaderSheetProps) {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>
-            <SsureLogo className="h-4 object-contain invert xl:h-6" />
+            <CouncilLogo className="h-4 w-auto object-contain invert xl:h-6" />
           </SheetTitle>
           <SheetDescription />
         </SheetHeader>
