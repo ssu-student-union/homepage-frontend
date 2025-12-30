@@ -8,7 +8,7 @@ export function RegisterButtonSection() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col items-center text-center">
-        <h1 className="mb-[-10px] text-xs font-normal">{t('onboarding.제65대 총학생회')}</h1>
+        <h1 className="mb-[-10px] text-xs font-normal">{t('onboarding.제66대 총학생회')}</h1>
         <h1 className="text-[56px] font-bold">{STUDENT_COUNCIL_NAME}</h1>
         <KakaoButton />
         <Link to={'/register/scouncil'}>

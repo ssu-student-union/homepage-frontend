@@ -56,7 +56,7 @@ const MainCarousel = ({ id, className = '' }: { id: string; className: string })
       </Slider>
 
       <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white">
-        <div className="pointer-events-auto text-xl font-bold">{t('main.제65대 총학생회')}</div>
+        <div className="pointer-events-auto text-xl font-bold">{t('main.제66대 총학생회')}</div>
         <SsureLogo className="h-[97.92px] w-[310.62px]" />
         {!isLogin && (
           <button
