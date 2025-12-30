@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { KakaoButton } from '@/components/Buttons/KakaoButton';
-import { STUDENT_COUNCIL_NAME } from '@/const/studentCouncil';
+import { STUDENT_COUNCIL_NAME, STUDENT_COUNCIL_NUMBER } from '@/const/studentCouncil';
 import { useTranslation } from 'react-i18next';
 
 export function RegisterButtonSection() {
@@ -8,7 +8,9 @@ export function RegisterButtonSection() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col items-center text-center">
-        <h1 className="mb-[-10px] text-xs font-normal">{t('onboarding.제65대 총학생회')}</h1>
+        <h1 className="mb-[-10px] text-xs font-normal">
+          {t('onboarding.총학생회', { count: STUDENT_COUNCIL_NUMBER, ordinal: true })}
+        </h1>
         <h1 className="text-[56px] font-bold">{STUDENT_COUNCIL_NAME}</h1>
         <KakaoButton />
         <Link to={'/register/scouncil'}>
