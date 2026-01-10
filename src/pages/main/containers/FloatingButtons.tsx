@@ -5,6 +5,7 @@ import FloatingButton from '@/components/Buttons/FloatingButton';
 import KakaoIcon from '@/components/svg-icon/KakaoIcon';
 import InstaIcon from '@/components/svg-icon/InstaIcon';
 import ChannelTalkIcon from '@/components/svg-icon/ChannelTalkIcon';
+import { STUDENT_COUNCIL_INSTAGRAM_ID } from '@/const/studentCouncil';
 
 export function FloatingButtons() {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,7 +37,7 @@ export function FloatingButtons() {
         <KakaoIcon className="size-9 max-md:size-7" />
       </FloatingButton>
       <Spacing direction="vertical" size={13} />
-      <FloatingButton href="https://www.instagram.com/focussu.66th/">
+      <FloatingButton href={`https://www.instagram.com/${STUDENT_COUNCIL_INSTAGRAM_ID}/`}>
         <InstaIcon className="size-9 max-md:size-7" />
       </FloatingButton>
       <Spacing direction="vertical" size={13} />

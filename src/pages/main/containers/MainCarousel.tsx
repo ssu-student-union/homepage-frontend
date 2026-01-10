@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { LoginState } from '@/atoms/atom';
-import CouncilLogo from '../../../components/logo/CouncilLogo';
+import CouncilLogo from '@/components/logo/CouncilLogo';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/libs/utils';
 import { useAtom } from 'jotai';
+import { STUDENT_COUNCIL_NUMBER } from '@/const/studentCouncil';
 
 const CounterItem = ({ isActive }: { isActive: boolean }) => (
   <span className={`block h-[7px] w-[45px] rounded-[15px] ${isActive ? 'bg-[#B8B8B8]' : 'bg-[#E4E4E4]'}`} />
@@ -56,7 +57,9 @@ const MainCarousel = ({ id, className = '' }: { id: string; className: string })
       </Slider>
 
       <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white">
-        <div className="pointer-events-auto text-xl font-bold">{t('main.제66대 총학생회')}</div>
+        <div className="pointer-events-auto text-xl font-bold">
+          {t('main.총학생회', { count: STUDENT_COUNCIL_NUMBER, ordinal: true })}
+        </div>
         <CouncilLogo className="h-[97.92px] w-[310.62px]" />
         {!isLogin && (
           <button
