@@ -68,12 +68,12 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
         <Link
           className={cn(
             navigationMenuTriggerStyle(),
-            'h-full bg-background text-foreground xl:px-7',
-            state !== State.Onboarding && 'xl:bg-primary xl:text-background'
+            'h-full bg-background text-foreground hover:text-foreground xl:px-7',
+            state !== State.Onboarding && 'hover:text-background xl:bg-primary xl:text-background'
           )}
           to="/"
         >
-          <CouncilLogo className={cn('h-4 w-auto invert xl:h-6', state !== State.Onboarding && 'xl:invert-0')} />
+          <CouncilLogo className={cn('h-4 w-auto xl:h-6')} />
         </Link>
         <NavigationMenu className="hidden h-full grow items-stretch *:grow xl:flex">
           <NavigationMenuList className="h-full items-stretch justify-stretch">
