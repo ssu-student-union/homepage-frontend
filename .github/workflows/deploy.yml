@@ -72,15 +72,6 @@ jobs:
       - name: Compress build artifacts
         run: tar -cvf ./dist.tar ./dist
 
-      - name: Upload with SCP
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          username: ubuntu
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          source: 'dist.tar'
-          target: '/home/ubuntu/'
-
       - name: Extract artifact with SSH
         uses: appleboy/ssh-action@v1.2.0
         with:

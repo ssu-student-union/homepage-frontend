@@ -4,7 +4,7 @@ import { kakaoAuthCodeApi } from '@/apis/kakaoLoginApi';
 import { LoginState } from '@/atoms/atom';
 import { baseUrl } from '@/pages/register/containers/const/data';
 import { useSetAtom } from 'jotai';
-import { moveToRedirectUrl } from '../../containers/utils/moveToRedirectUrl';
+import { moveToRedirectUrl } from '@/pages/register/containers/utils/moveToRedirectUrl';
 
 const KakaoRedirect = () => {
   const setLoginState = useSetAtom(LoginState);
@@ -27,7 +27,7 @@ const KakaoRedirect = () => {
           if (res.data.isFirst) {
             navigate('/register/tos'); // 최초 회원가입 유저는 약관 동의 화면으로 이동
           } else {
-            if (redirectUrl !== null) {
+            if (redirectUrl) {
               moveToRedirectUrl(redirectUrl, accessToken);
             } else {
               // 최초 회원가입 or 타 사이트 로그인이 아니라면 accessToken 로컬에 저장
