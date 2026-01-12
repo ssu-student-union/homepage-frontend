@@ -13,6 +13,7 @@ import usePostLoginData from '../hooks/mutation/usePostLoginData';
 import { PostScouncilLoginDataResponse } from '@/types/apis/get';
 import FloatingButton from '@/components/Buttons/FloatingButton';
 import ChannelTalkIcon from '@/components/svg-icon/ChannelTalkIcon';
+import { moveToRedirectUrl } from '@/pages/register/containers/utils/moveToRedirectUrl';
 export function GeneralLoginPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -36,7 +37,6 @@ export function GeneralLoginPage() {
   const formValues = watch();
 
   const redirectUrl = localStorage.getItem('redirectUrl');
-  const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
     setIsButtonDisabled(!isValid);
@@ -50,9 +50,13 @@ export function GeneralLoginPage() {
   const mutation = usePostLoginData({
     mutationOptions: {
       onSuccess: (data: PostScouncilLoginDataResponse) => {
-        setLoginState(true);
-        setDataInLocalStorage(data);
-        navigate('/');
+        if (redirectUrl !== null && data.accessToken !== null) {
+          moveToRedirectUrl(redirectUrl, data.accessToken);
+        } else {
+          setLoginState(true);
+          setDataInLocalStorage(data);
+          navigate('/');
+        }
       },
       onError: () => {
         setScouncilError(true);
@@ -65,14 +69,6 @@ export function GeneralLoginPage() {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async () => {
-    if (redirectUrl !== null && accessToken !== null) {
-      const separator = redirectUrl.includes('?') ? '&' : '?';
-      const newRedirectUrl = `${redirectUrl}${separator}accessToken=${encodeURIComponent(accessToken)}`;
-      localStorage.removeItem('redirectUrl');
-      localStorage.removeItem('kakaoData');
-      window.location.href = newRedirectUrl;
-      return;
-    }
     mutation.mutate({
       accountId: formValues.accountId,
       password: formValues.password,
