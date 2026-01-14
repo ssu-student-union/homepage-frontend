@@ -50,7 +50,7 @@ export function GeneralLoginPage() {
   const mutation = usePostLoginData({
     mutationOptions: {
       onSuccess: (data: PostScouncilLoginDataResponse) => {
-        if (redirectUrl !== null && data.accessToken !== null) {
+        if (redirectUrl && data.accessToken) {
           moveToRedirectUrl(redirectUrl, data.accessToken);
         } else {
           setLoginState(true);
