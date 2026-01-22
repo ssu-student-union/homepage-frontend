@@ -14,15 +14,15 @@ export function CalendarHeader({ selectedDate, onPreviousMonth, onNextMonth }: C
   const formattedDate = formatMonthYear(selectedDate);
 
   return (
-    <div className="flex items-center justify-center gap-[3.875rem]">
+    <div className="flex items-center justify-center gap-16">
       <button type="button" className="rounded p-1 hover:bg-gray-100" onClick={onPreviousMonth} aria-label="이전 달">
-        <CaretLeft weight="bold" className="size-4 text-gray-700" />
+        <CaretLeft weight="bold" className="size-[9px] text-gray-700 md:size-4" />
       </button>
-      <div className="text-lg font-bold leading-normal tracking-[-0.09rem] text-[#374151] md:text-[2.1501875rem] lg:text-[2.6130625rem] xl:text-[2.1rem]">
+      <div className="text-2xl font-bold leading-normal tracking-[-3%] text-[#374151] md:text-4xl lg:text-[48px]">
         {formattedDate}
       </div>
       <button type="button" className="rounded p-1 hover:bg-gray-100" onClick={onNextMonth} aria-label="다음 달">
-        <CaretRight weight="bold" className="size-4 text-gray-700" />
+        <CaretRight weight="bold" className="size-[9px] text-gray-700 md:size-4" />
       </button>
     </div>
   );

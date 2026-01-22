@@ -13,7 +13,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { parseISO } from 'date-fns';
 import { checkSchedulePermission } from '../utils/checkSchedulePermission';
-import { SCHEDULE_PERMISSION_MESSAGES, SCHEDULE_SUCCESS_MESSAGES, SCHEDULE_TITLE_MAX_LENGTH } from '../const/const';
+import { SCHEDULE_PERMISSION_MESSAGES, SCHEDULE_SUCCESS_MESSAGES } from '../const/const';
 import { handleScheduleError } from '../utils/handleScheduleError';
 
 export function ScheduleEditPage() {
@@ -50,7 +50,7 @@ export function ScheduleEditPage() {
     control,
     trigger,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useScheduleForm({
     title: '',
     category: undefined,
@@ -77,8 +77,8 @@ export function ScheduleEditPage() {
   const startDate = watch('startDate');
   const endDate = watch('endDate');
 
-  // 등록 버튼 활성화 조건: title, category, startDate, endDate가 모두 입력되어야 하고, 제목은 최대 길이 이하여야 함
-  const canSubmit = Boolean(title && category && startDate && endDate && title.length <= SCHEDULE_TITLE_MAX_LENGTH);
+  // 등록 버튼 활성화 조건: React Hook Form의 isValid 사용
+  const canSubmit = isValid;
 
   const { mutate: createSchedule } = useCreateSchedule({
     mutationOptions: {
@@ -165,14 +165,14 @@ export function ScheduleEditPage() {
             startDate={startDate || null}
             endDate={endDate || null}
             onStartDateChange={(date) => {
-              setValue('startDate', (date || undefined) as Date, { shouldValidate: true });
               if (date) {
+                setValue('startDate', date, { shouldValidate: true });
                 trigger(['title', 'category']);
               }
             }}
             onEndDateChange={(date) => {
-              setValue('endDate', (date || undefined) as Date, { shouldValidate: true });
               if (date) {
+                setValue('endDate', date, { shouldValidate: true });
                 trigger(['title', 'category']);
               }
             }}

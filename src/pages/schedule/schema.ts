@@ -39,7 +39,7 @@ export const ScheduleEditFormSchema = z
     isDDay: z.boolean().default(false),
   })
   .refine((data) => data.endDate >= data.startDate, {
-    message: '종료일자는 시작일자보다 이후여야 합니다.',
+    message: '종료일자는 시작일자와 같거나 이후여야 합니다.',
     path: ['endDate'],
   });
 

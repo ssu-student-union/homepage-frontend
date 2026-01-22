@@ -165,7 +165,7 @@ export function SchedulePage() {
               calendarsForCalendar={calendarsForCalendar}
             />
             <div className="2xl:px-[60px] flex h-[436px] w-full flex-col justify-center md:h-[536px] xl:w-1/2 xl:shrink-0 xl:px-[42px]">
-              <div className="flex min-h-0 w-full min-w-[160px] flex-1 flex-col gap-4 overflow-y-auto pb-px">
+              <div className="flex min-h-0 w-full min-w-[160px] flex-1 flex-col gap-[11px] overflow-y-auto pb-px">
                 {renderScheduleList()}
               </div>
               <ScheduleActionButtons
