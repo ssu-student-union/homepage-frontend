@@ -1,34 +1,24 @@
 import { BoardHeader } from '@/components/BoardHeader';
-import { BoardContainer } from '@/components/BoardContainer';
+import { Container } from '@/containers/new/Container';
 import { useState, useMemo } from 'react';
 import { Category } from '@/components/Category';
-import { ScheduleDateGrid } from './components/calendar/ScheduleDateGrid';
 import { ScheduleDetailCard } from './components/display/ScheduleDetailCard';
+import { ScheduleCalendarSection } from './components/sections/ScheduleCalendarSection';
+import { ScheduleActionButtons } from './components/sections/ScheduleActionButtons';
+import { ScheduleDeleteDialog } from './components/sections/ScheduleDeleteDialog';
 import { SCHEDULE_CATEGORIES, type ScheduleCategory } from './const/const';
 import { useGetCalendars } from './hook/query/useGetCalendars';
 import { formatDateRange } from './utils/formatDateRange';
 import { startOfMonth } from 'date-fns';
 import { CalendarItem } from './types';
-import { Pencil } from '@phosphor-icons/react';
-import { useNavigate } from 'react-router';
-import { Button } from '@/components/ui/button';
 import { useDeleteSchedule } from './hook/mutations/useDeleteSchedule';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { checkSchedulePermission } from './utils/checkSchedulePermission';
 import { SCHEDULE_SUCCESS_MESSAGES } from './const/const';
 import { handleScheduleError } from './utils/handleScheduleError';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 
 export function SchedulePage() {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [selectedCategory, setSelectedCategory] = useState<ScheduleCategory>('전체');
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -66,6 +56,11 @@ export function SchedulePage() {
     }
   };
 
+  const handleListClick = () => {
+    setClickedScheduleId(null);
+    setHoveredScheduleId(null);
+  };
+
   // 카테고리 필터링
   const filteredCalendars = useMemo((): CalendarItem[] => {
     if (!calendarData?.calendarEventResponseList) return [];
@@ -91,6 +86,57 @@ export function SchedulePage() {
   // 일정 관리 권한 확인 (총학생회 또는 중앙집행위원회만 가능)
   const hasSchedulePermission = useMemo(() => checkSchedulePermission(), []);
 
+  // 일정 목록 렌더링 함수
+  const renderScheduleList = () => {
+    if (isLoading) {
+      return (
+        <div className="flex items-center justify-center py-8">
+          <p className="text-gray-500">로딩 중...</p>
+        </div>
+      );
+    }
+
+    if (filteredCalendars.length === 0) {
+      return (
+        <div className="flex items-center justify-center py-8">
+          <p className="text-xs text-gray-500 md:text-base lg:text-lg">일정이 없습니다.</p>
+        </div>
+      );
+    }
+
+    return filteredCalendars.map((item) => (
+      <div key={item.calenderId} className="flex px-8">
+        <ScheduleDetailCard
+          calenderId={item.calenderId}
+          category={item.calendarCategory}
+          title={item.title}
+          dateRange={formatDateRange(item.startDate, item.endDate)}
+          isSelected={clickedScheduleId === item.calenderId}
+          isHovered={hoveredScheduleId === item.calenderId}
+          onMouseEnter={() => {
+            if (clickedScheduleId === null) {
+              setHoveredScheduleId(item.calenderId);
+            }
+          }}
+          onMouseLeave={() => {
+            if (clickedScheduleId === null) {
+              setHoveredScheduleId(null);
+            }
+          }}
+          onClick={() => {
+            if (clickedScheduleId === item.calenderId) {
+              setClickedScheduleId(null);
+              setHoveredScheduleId(null);
+            } else {
+              setClickedScheduleId(item.calenderId);
+              setHoveredScheduleId(null);
+            }
+          }}
+        />
+      </div>
+    ));
+  };
+
   return (
     <div className="pt-16">
       <BoardHeader
@@ -110,130 +156,35 @@ export function SchedulePage() {
           ))}
         </div>
       </div>
-      <BoardContainer isEmpty={false} className="[&>div]:max-w-none">
+      <Container className="pt-0 max-md:px-0 md:pt-14 [&>div]:max-w-none">
         <div className="relative">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-stretch lg:gap-[2.8125rem]">
-            <div className="flex w-full shrink-0 justify-center self-center px-[3.313rem] md:w-auto md:px-0">
-              <ScheduleDateGrid
-                selectedDate={currentDate}
-                setSelectedDate={setCurrentDate}
-                calendarItems={calendarsForCalendar}
-              />
-            </div>
+            <ScheduleCalendarSection
+              currentDate={currentDate}
+              setCurrentDate={setCurrentDate}
+              calendarsForCalendar={calendarsForCalendar}
+            />
             <div className="2xl:px-[60px] flex h-[436px] w-full flex-col justify-center md:h-[536px] xl:w-1/2 xl:shrink-0 xl:px-[42px]">
               <div className="flex min-h-0 w-full min-w-[160px] flex-1 flex-col gap-4 overflow-y-auto pb-px">
-                {isLoading ? (
-                  <div className="flex items-center justify-center py-8">
-                    <p className="text-gray-500">로딩 중...</p>
-                  </div>
-                ) : filteredCalendars.length === 0 ? (
-                  <div className="flex items-center justify-center py-8">
-                    <p className="text-xs text-gray-500 md:text-base lg:text-lg">일정이 없습니다.</p>
-                  </div>
-                ) : (
-                  filteredCalendars.map((item) => (
-                    <div key={item.calenderId} className="flex px-8">
-                      <ScheduleDetailCard
-                        calenderId={item.calenderId}
-                        category={item.calendarCategory}
-                        title={item.title}
-                        dateRange={formatDateRange(item.startDate, item.endDate)}
-                        isSelected={clickedScheduleId === item.calenderId}
-                        isHovered={hoveredScheduleId === item.calenderId}
-                        onMouseEnter={() => {
-                          if (clickedScheduleId === null) {
-                            setHoveredScheduleId(item.calenderId);
-                          }
-                        }}
-                        onMouseLeave={() => {
-                          if (clickedScheduleId === null) {
-                            setHoveredScheduleId(null);
-                          }
-                        }}
-                        onClick={() => {
-                          if (clickedScheduleId === item.calenderId) {
-                            setClickedScheduleId(null);
-                            setHoveredScheduleId(null);
-                          } else {
-                            setClickedScheduleId(item.calenderId);
-                            setHoveredScheduleId(null);
-                          }
-                        }}
-                      />
-                    </div>
-                  ))
-                )}
+                {renderScheduleList()}
               </div>
-              {hasSchedulePermission && (
-                <div className="w-full px-8 pt-4">
-                  <div className="flex justify-end">
-                    {clickedScheduleId === null ? (
-                      <Button
-                        variant="outline"
-                        onClick={() => navigate(`/schedule/edit`)}
-                        size={null}
-                        className="flex h-[2.625rem] min-w-[7.6875rem] items-center gap-2"
-                      >
-                        <Pencil className="size-4" />
-                        <p>글쓰기</p>
-                      </Button>
-                    ) : (
-                      <div className="flex flex-wrap justify-end gap-2">
-                        <Button
-                          variant="destructive"
-                          size={null}
-                          className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
-                          onClick={handleDeleteClick}
-                          isDisabled={isDeleting}
-                        >
-                          삭제
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size={null}
-                          className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
-                          onClick={() => navigate(`/schedule/edit?id=${clickedScheduleId}`)}
-                        >
-                          편집
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size={null}
-                          className="flex h-[2.625rem] min-w-16 items-center justify-center px-3"
-                          onClick={() => {
-                            setClickedScheduleId(null);
-                            setHoveredScheduleId(null);
-                          }}
-                        >
-                          목록
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+              <ScheduleActionButtons
+                hasSchedulePermission={hasSchedulePermission}
+                clickedScheduleId={clickedScheduleId}
+                isDeleting={isDeleting}
+                onDeleteClick={handleDeleteClick}
+                onListClick={handleListClick}
+              />
             </div>
           </div>
         </div>
-      </BoardContainer>
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent className="pt-10 sm:max-w-[425px] [&>button]:hidden">
-          <DialogHeader className="flex flex-row items-center justify-between">
-            <DialogTitle className="text-lg font-semibold">일정 삭제</DialogTitle>
-          </DialogHeader>
-          <DialogDescription className="mt-2 text-sm text-gray-600">
-            정말 이 일정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
-          </DialogDescription>
-          <DialogFooter className="mt-6">
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)} isDisabled={isDeleting}>
-              취소
-            </Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm} isDisabled={isDeleting}>
-              {isDeleting ? '삭제 중...' : '삭제'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      </Container>
+      <ScheduleDeleteDialog
+        isOpen={isDeleteDialogOpen}
+        isDeleting={isDeleting}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 }
