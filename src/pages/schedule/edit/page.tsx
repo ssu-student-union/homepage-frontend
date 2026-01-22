@@ -165,15 +165,13 @@ export function ScheduleEditPage() {
             startDate={startDate || null}
             endDate={endDate || null}
             onStartDateChange={(date) => {
-              // @ts-expect-error - setValue accepts undefined for optional fields
-              setValue('startDate', date || undefined, { shouldValidate: true });
+              setValue('startDate', (date || undefined) as Date, { shouldValidate: true });
               if (date) {
                 trigger(['title', 'category']);
               }
             }}
             onEndDateChange={(date) => {
-              // @ts-expect-error - setValue accepts undefined for optional fields
-              setValue('endDate', date || undefined, { shouldValidate: true });
+              setValue('endDate', (date || undefined) as Date, { shouldValidate: true });
               if (date) {
                 trigger(['title', 'category']);
               }
