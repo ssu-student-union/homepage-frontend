@@ -34,7 +34,7 @@ export function ScheduleBasicInfoForm({
           <FilterDropDown
             defaultValue="카테고리"
             optionValue={Array.from(SCHEDULE_CATEGORY_OPTIONS)}
-            onValueChange={(value) => setValue('category', value as ScheduleEditForm['category'])}
+            onValueChange={(value) => setValue('category', value as ScheduleEditForm['category'], { shouldValidate: true })}
             value={category}
             className="w-full !rounded-xl border-2 border-gray-300 px-5 py-4 text-xs font-medium md:!h-[60px]"
             itemStyle="text-base font-medium"
