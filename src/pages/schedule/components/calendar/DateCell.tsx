@@ -153,4 +153,3 @@ export function DateCell({ date, selectedDate, calendarItems, scheduleHeightMap,
     </>
   );
 }
-
