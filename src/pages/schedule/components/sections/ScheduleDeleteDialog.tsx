@@ -15,12 +15,7 @@ interface ScheduleDeleteDialogProps {
   onConfirm: () => void;
 }
 
-export function ScheduleDeleteDialog({
-  isOpen,
-  isDeleting,
-  onOpenChange,
-  onConfirm,
-}: ScheduleDeleteDialogProps) {
+export function ScheduleDeleteDialog({ isOpen, isDeleting, onOpenChange, onConfirm }: ScheduleDeleteDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="pt-10 sm:max-w-[425px] [&>button]:hidden">
@@ -42,4 +37,3 @@ export function ScheduleDeleteDialog({
     </Dialog>
   );
 }
-
