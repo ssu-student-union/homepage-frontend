@@ -17,7 +17,7 @@ export const buildQnACategories: (
     { id: '총학생회', name: t('board-selector.총학생회'), to: { search: '?target=총학생회' } },
     qnaMemberCode && {
       id: qnaMemberCode,
-      name: t(`board-selector.${qnaMemberCode}`),
+      name: t(`board-selector.${qnaMemberCode}`, { defaultValue: qnaMemberCode }),
       to: { search: `?target=${qnaMemberCode}` },
     },
     qnaMajorCode && {
