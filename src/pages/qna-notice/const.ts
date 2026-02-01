@@ -22,7 +22,7 @@ export const buildQnACategories: (
     },
     qnaMajorCode && {
       id: qnaMajorCode,
-      name: t(`board-selector.${qnaMajorCode}`),
+      name: t(`departments.${qnaMajorCode}`),
       to: { search: `?target=${qnaMajorCode}` },
     },
   ].filter(Boolean) as QnaCategory[];
