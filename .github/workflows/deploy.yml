@@ -50,7 +50,6 @@ jobs:
           VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
           VITE_REST_API_KEY: ${{ secrets.VITE_REST_API_KEY }}
 
-      ### 1. S3 + CloudFront 배포 ###
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -66,21 +65,3 @@ jobs:
           aws cloudfront create-invalidation \
             --distribution-id ${{ vars.HOMEPAGE_FE_CF_PROD }} \
             --paths "/*"
-
-      ### ✅ 2. EC2 배포 (기존 방식 유지) ###
-      # TODO: 인프라 전환 완료 후 EC2 배포 로직 제거 예정
-      - name: Compress build artifacts
-        run: tar -cvf ./dist.tar ./dist
-
-      - name: Extract artifact with SSH
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          username: ubuntu
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            tar -xvf ./dist.tar ./dist
-            sudo rm -rf ${{ vars.DEPLOYMENT_PATH }}
-            sudo mv ./dist ${{ vars.DEPLOYMENT_PATH }}
-            rm -rf ./dist
-            rm -f ./dist.tar
