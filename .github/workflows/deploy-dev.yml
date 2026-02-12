@@ -5,6 +5,10 @@ on:
     branches:
       - develop
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +23,7 @@ jobs:
         with:
           node-version-file: 'package.json'
 
-      - name: Retrive caches
+      - name: Retrieve caches
         uses: actions/cache@v4
         with:
           path: node_modules
