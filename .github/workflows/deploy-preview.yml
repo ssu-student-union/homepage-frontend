@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  deploy-preview:
     runs-on: ubuntu-latest
     environment:
       name: preview
