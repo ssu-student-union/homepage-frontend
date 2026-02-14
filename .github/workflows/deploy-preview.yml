@@ -1,5 +1,6 @@
 name: Lint & Build
 
+# This pipeline will be triggered when developers create a pull request targeting the develop or main branch
 on:
   pull_request:
     branches:
@@ -11,6 +12,7 @@ permissions:
   pull-requests: read
   checks: write
   statuses: write
+  id-token: write
 
 jobs:
   build:
@@ -21,38 +23,48 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
-      - name: Retrive caches
+
+      - name: Retrieve caches
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ hashFiles('yarn.lock') }}
+
       - name: Enable corepack
         run: corepack enable
+
       - name: Install project
         run: yarn install --immutable
+
       - name: Check Prettier
         run: yarn prettier:check
+
       - name: Lint
         run: yarn lint
+
       - name: Generate lint failure report
         if: failure()
         run: yarn lint:export
+
       - name: Annotate Code Linting Results
         if: failure()
         uses: ataylorme/eslint-annotate-action@v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           report-json: 'eslint-report.json'
+
       - name: Build
         run: yarn build
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
           VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
           VITE_REST_API_KEY: ${{ secrets.VITE_REST_API_KEY }}
+
       - name: Create a status check
         uses: actions/github-script@v7
         env:
@@ -69,28 +81,23 @@ jobs:
               description: '배포 중...',
               context: '미리보기 배포',
             })
-      - name: Compress build artifacts
-        run: tar -cvf ./dist.tar ./dist
-      - name: Upload with SCP
-        uses: appleboy/scp-action@v0.1.7
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v6.0.0
         with:
-          username: ubuntu
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          source: 'dist.tar'
-          target: '/home/ubuntu/'
-      - name: Extract artifact with SSH
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          username: ubuntu
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            tar -xvf ./dist.tar ./dist
-            sudo rm -rf ${{ vars.DEPLOYMENT_PATH }}
-            sudo mv ./dist ${{ vars.DEPLOYMENT_PATH }}
-            rm -rf ./dist
-            rm -f ./dist.tar
+          role-to-assume: ${{ secrets.AWS_ASSUME_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Upload to S3
+        run: |
+          aws s3 sync ./dist s3://${{ vars.HOMEPAGE_FE_BUCKET_PREVIEW }}/preview --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ vars.HOMEPAGE_FE_CF_PREVIEW }} \
+            --paths "/*"
+
       - name: Make a success status check
         if: success()
         uses: actions/github-script@v7
@@ -108,6 +115,7 @@ jobs:
               description: '배포 성공 - 좌측 링크를 눌러 접속하세요',
               context: '미리보기 배포',
             })
+
       - name: Make a failure status check
         if: failure()
         uses: actions/github-script@v7
