@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from './../libs/utils';
-import SsureLogo from '@/components/logo/SsureLogo';
+import CouncilLogo from './logo/CouncilLogo';
 
 // 소개페이지 소개글에 쓰이는 컴포넌트입니다. tailwindcss border는 그라데이션이 적용되지않아 이렇게 구현했는데, 더 좋은 방법 있으면 말씀해주세요.
 interface IntroCardProps {
@@ -21,7 +21,7 @@ export function IntroCard({ children, className = '' }: IntroCardProps) {
           )}
         >
           {children}
-          <SsureLogo.Navy className="w-40" />
+          <CouncilLogo.Skyblue className="h-24 w-40" />
         </CardContent>
       </Card>
     </div>
