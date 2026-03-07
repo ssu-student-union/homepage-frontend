@@ -42,9 +42,14 @@ export function GeneralLoginPage() {
     setIsButtonDisabled(!isValid);
   }, [isValid]);
 
-  const setDataInLocalStorage = (data: { groupCodeList: string[]; memberName: string; accessToken: string }) => {
+  const setDataInLocalStorage = (data: { groupCodeList: string[]; memberName: string; majorName: string | null; accessToken: string }) => {
     localStorage.setItem('groupCodeList', JSON.stringify(data?.groupCodeList));
     localStorage.setItem('memberName', data?.memberName);
+    if (data?.majorName) {
+      localStorage.setItem('majorName', data.majorName);
+    } else {
+      localStorage.removeItem('majorName');
+    }
     localStorage.setItem('accessToken', data?.accessToken);
   };
   const mutation = usePostLoginData({
