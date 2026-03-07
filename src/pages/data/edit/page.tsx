@@ -14,9 +14,8 @@ import { useNavigate, useParams } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
-import { userFileCategories } from '@/pages/data/const/category';
+import { userCategories, userFileCategories } from '@/pages/data/const/category';
 import { useGetDataPost, useUploadDataFiles } from '@/pages/data/queries';
-import { useGetDataFileCategories } from '@/pages/data/hook/query/useGetDataFileCategories';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
 import { useCreateDataPost } from '@/pages/data/hook/mutation/useCreateDataPost';
 import { FileInputs } from '@/components/edit/FileInputs';
@@ -55,10 +54,7 @@ export default function DataEditPage() {
   /* 카테고리 지정 */
   const memberName: string = localStorage.getItem('memberName') || '';
   const majorName: string = localStorage.getItem('majorName') || '';
-  // majorName이 있으면 하위 학과부 계정, 없으면 단과대 계정
-  const majorCategory = memberName;
-  const middleCategory = majorName || memberName;
-  const { data: categories } = useGetDataFileCategories({ majorCategory, middleCategory });
+  const categories: string[] = userCategories[memberName];
   const [category, setCategory] = useState<string>('');
   const fileCategories: string[] = userFileCategories[memberName];
 
@@ -276,7 +272,7 @@ export default function DataEditPage() {
             <FilterDropDown
               className="flex h-[44px] w-[200px] items-center justify-center border-gray-500 py-0 text-[19px] font-medium lg:w-[346px]"
               defaultValue="카테고리"
-              optionValue={Array.isArray(categories) ? categories : []}
+              optionValue={categories}
               onValueChange={(value) => {
                 setCategory(value);
                 setValue('category', value, { shouldValidate: true });
