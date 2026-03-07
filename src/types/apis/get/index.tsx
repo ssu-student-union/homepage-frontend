@@ -122,7 +122,6 @@ export interface PostScouncilLoginDataResponse {
   accessToken: string;
   groupCodeList: string[];
   memberName: string;
-  majorName: string | null;
 }
 
 export interface PostScouncilLoginDataRequest {
