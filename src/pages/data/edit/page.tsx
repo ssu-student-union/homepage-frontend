@@ -53,6 +53,7 @@ export default function DataEditPage() {
 
   /* 카테고리 지정 */
   const memberName: string = localStorage.getItem('memberName') || '';
+  const majorName: string = localStorage.getItem('majorName') || '';
   const categories: string[] = userCategories[memberName];
   const [category, setCategory] = useState<string>('');
   const fileCategories: string[] = userFileCategories[memberName];
@@ -246,7 +247,7 @@ export default function DataEditPage() {
     <article className="mt-[123px]">
       <EditHeader>
         <EditHeader.Title>자료집</EditHeader.Title>
-        {memberName && <EditHeader.Member>{memberName}</EditHeader.Member>}
+        {(majorName || memberName) && <EditHeader.Member>{majorName || memberName}</EditHeader.Member>}
       </EditHeader>
       <Container className="py-[58px]">
         <section className="mb-[12px] flex flex-col gap-[10px]">
