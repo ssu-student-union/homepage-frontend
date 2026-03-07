@@ -44,7 +44,7 @@ export function useSearchDataPosts({
     Object.entries({
       page,
       take: take ?? 11,
-      q: encodeURIComponent(q ?? ''),
+      q: q ?? '',
       majorCategory,
       middleCategory,
       subCategory,
