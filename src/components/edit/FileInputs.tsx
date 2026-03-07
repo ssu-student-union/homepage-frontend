@@ -58,9 +58,7 @@ export function FileInputs({ className, categories, files, onChange, sizeLimit }
     if (newFiles[idx]) {
       newFiles[idx].category = category;
     }
-    const updated = [...newFiles];
-    setInnerFiles(updated);
-    if (onChange) onChange(updated);
+    setInnerFiles([...newFiles]);
   }
 
   return (

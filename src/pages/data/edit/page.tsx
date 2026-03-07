@@ -77,7 +77,6 @@ export default function DataEditPage() {
     handleSubmit,
     setValue,
     trigger,
-    watch,
     formState: { errors },
   } = useDataForm({
     category: '',
@@ -144,7 +143,7 @@ export default function DataEditPage() {
 
   function handleContentChange() {
     if (editorRef.current && isPostLoaded) {
-      setValue('content', editorRef.current.getInstance().getMarkdown(), { shouldValidate: true });
+      setValue('content', editorRef.current.getInstance().getMarkdown());
     }
   }
 
@@ -159,7 +158,6 @@ export default function DataEditPage() {
   async function submitForm(formData: DataPostEditForm) {
     if (category === '') {
       alert('카테고리를 지정해야 합니다.');
-      return;
     }
 
     if (files.length === 0) {
@@ -274,8 +272,8 @@ export default function DataEditPage() {
               optionValue={categories}
               onValueChange={(value) => {
                 setCategory(value);
-                setValue('category', value, { shouldValidate: true });
-                setValue('fileCategory', value, { shouldValidate: true });
+                setValue('category', value);
+                setValue('fileCategory', value);
               }}
               value={category}
             />
@@ -303,16 +301,7 @@ export default function DataEditPage() {
         <Button
           variant="register"
           className="flex items-center justify-center gap-1 self-end px-2"
-          disabled={
-            !watch('title')?.trim() ||
-            !watch('content')?.trim() ||
-            !category ||
-            files.length === 0 ||
-            files.some((f) => !f.category || f.category.trim() === '') ||
-            Object.keys(errors).length > 0 ||
-            isImageProcessing ||
-            isFileUploadPending
-          }
+          disabled={Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
           onClick={handleSubmit(submitForm)}
         >
           <Loader2
