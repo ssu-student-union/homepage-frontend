@@ -14,8 +14,9 @@ import { useNavigate, useParams } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
-import { userCategories, userFileCategories } from '@/pages/data/const/category';
+import { userFileCategories } from '@/pages/data/const/category';
 import { useGetDataPost, useUploadDataFiles } from '@/pages/data/queries';
+import { useGetDataFileCategories } from '@/pages/data/hook/query/useGetDataFileCategories';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
 import { useCreateDataPost } from '@/pages/data/hook/mutation/useCreateDataPost';
 import { FileInputs } from '@/components/edit/FileInputs';
@@ -53,7 +54,11 @@ export default function DataEditPage() {
 
   /* 카테고리 지정 */
   const memberName: string = localStorage.getItem('memberName') || '';
-  const categories: string[] = userCategories[memberName];
+  const majorName: string = localStorage.getItem('majorName') || '';
+  // majorName이 있으면 하위 학과부 계정, 없으면 단과대 계정
+  const majorCategory = memberName;
+  const middleCategory = majorName || memberName;
+  const { data: categories } = useGetDataFileCategories({ majorCategory, middleCategory });
   const [category, setCategory] = useState<string>('');
   const fileCategories: string[] = userFileCategories[memberName];
 
@@ -77,6 +82,7 @@ export default function DataEditPage() {
     handleSubmit,
     setValue,
     trigger,
+    watch,
     formState: { errors },
   } = useDataForm({
     category: '',
@@ -143,7 +149,7 @@ export default function DataEditPage() {
 
   function handleContentChange() {
     if (editorRef.current && isPostLoaded) {
-      setValue('content', editorRef.current.getInstance().getMarkdown());
+      setValue('content', editorRef.current.getInstance().getMarkdown(), { shouldValidate: true });
     }
   }
 
@@ -158,6 +164,7 @@ export default function DataEditPage() {
   async function submitForm(formData: DataPostEditForm) {
     if (category === '') {
       alert('카테고리를 지정해야 합니다.');
+      return;
     }
 
     if (files.length === 0) {
@@ -244,7 +251,7 @@ export default function DataEditPage() {
     <article className="mt-[123px]">
       <EditHeader>
         <EditHeader.Title>자료집</EditHeader.Title>
-        {memberName && <EditHeader.Member>{memberName}</EditHeader.Member>}
+        {(majorName || memberName) && <EditHeader.Member>{majorName || memberName}</EditHeader.Member>}
       </EditHeader>
       <Container className="py-[58px]">
         <section className="mb-[12px] flex flex-col gap-[10px]">
@@ -269,11 +276,11 @@ export default function DataEditPage() {
             <FilterDropDown
               className="flex h-[44px] w-[200px] items-center justify-center border-gray-500 py-0 text-[19px] font-medium lg:w-[346px]"
               defaultValue="카테고리"
-              optionValue={categories}
+              optionValue={Array.isArray(categories) ? categories : []}
               onValueChange={(value) => {
                 setCategory(value);
-                setValue('category', value);
-                setValue('fileCategory', value);
+                setValue('category', value, { shouldValidate: true });
+                setValue('fileCategory', value, { shouldValidate: true });
               }}
               value={category}
             />
@@ -301,7 +308,16 @@ export default function DataEditPage() {
         <Button
           variant="register"
           className="flex items-center justify-center gap-1 self-end px-2"
-          disabled={Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
+          disabled={
+            !watch('title')?.trim() ||
+            !watch('content')?.trim() ||
+            !category ||
+            files.length === 0 ||
+            files.some((f) => !f.category || f.category.trim() === '') ||
+            Object.keys(errors).length > 0 ||
+            isImageProcessing ||
+            isFileUploadPending
+          }
           onClick={handleSubmit(submitForm)}
         >
           <Loader2
