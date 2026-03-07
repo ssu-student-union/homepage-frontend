@@ -4,9 +4,13 @@ export interface GetDataFileCategoriesParams {
   subCategory?: string;
 }
 
+export interface DataFileCategoriesData {
+  fileCategoryList: string[];
+}
+
 export interface DataFileCategoriesResponse {
   code: string;
   message: string;
-  data: string[];
+  data: DataFileCategoriesData;
   isSuccess: boolean;
 }
