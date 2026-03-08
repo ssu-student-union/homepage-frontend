@@ -60,7 +60,6 @@ export default function DataEditPage() {
   const { majorCategory, middleCategory } = resolveDataCategories(memberName, majorName);
 
   const { data: categories } = useGetDataFileCategories({ majorCategory, middleCategory });
-  console.log('[DataEdit] majorCategory:', majorCategory, '/ middleCategory:', middleCategory, '/ categories:', categories);
   const [category, setCategory] = useState<string>('');
   const fileCategories: string[] = userFileCategories[memberName];
 

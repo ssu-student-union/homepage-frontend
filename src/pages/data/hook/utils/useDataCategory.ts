@@ -18,7 +18,10 @@ export function useDataCategory() {
 }
 
 // localStorage의 memberName, majorName으로 API 파라미터 결정
-export function resolveDataCategories(memberName: string, majorName: string): {
+export function resolveDataCategories(
+  memberName: string,
+  majorName: string
+): {
   majorCategory: string;
   middleCategory: string;
 } {
