@@ -17,7 +17,7 @@ export function useGetDataFileCategories({
       params: { majorCategory, middleCategory },
     },
     {
-      enabled: !!majorCategory && !!middleCategory,
+      enabled: !!majorCategory,
       select: (data) => data.fileCategoryList,
     }
   );

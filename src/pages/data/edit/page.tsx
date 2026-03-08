@@ -15,6 +15,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
 import { userFileCategories } from '@/pages/data/const/category';
+import { resolveDataCategories } from '@/pages/data/hook/utils/useDataCategory';
 import { useGetDataPost, useUploadDataFiles } from '@/pages/data/queries';
 import { useGetDataFileCategories } from '@/pages/data/hook/query/useGetDataFileCategories';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
@@ -55,9 +56,9 @@ export default function DataEditPage() {
   /* 카테고리 지정 */
   const memberName: string = localStorage.getItem('memberName') || '';
   const majorName: string = localStorage.getItem('majorName') || '';
-  // majorName이 있으면 하위 학과부 계정, 없으면 단과대 계정
-  const majorCategory = memberName;
-  const middleCategory = majorName || memberName;
+
+  const { majorCategory, middleCategory } = resolveDataCategories(memberName, majorName);
+
   const { data: categories } = useGetDataFileCategories({ majorCategory, middleCategory });
   const [category, setCategory] = useState<string>('');
   const fileCategories: string[] = userFileCategories[memberName];
