@@ -48,7 +48,7 @@ export function useGetComments<TRaw, TData = TRaw>({
     {
       select: ({ postComments, ...data }) => {
         if (!zodSchema) return { postComments, ...data } as GetCommentsResponse<unknown> as GetCommentsResponse<TData>;
-        const list = z.array(zodSchema).parse(postComments) as TData[];
+        const list = z.array(zodSchema).parse(postComments);
         return {
           postComments: list,
           ...data,

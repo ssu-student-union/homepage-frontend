@@ -60,7 +60,7 @@ export function useSearchPosts<TRaw, TData = TRaw>({
   return useStuQuery<PostsResponse<TRaw>, PostsResponse<TData>, AxiosError | ApiError | ZodError>(queryKey, config, {
     select: ({ postListResDto, ...data }) => {
       if (!zodSchema) return { postListResDto, ...data } as PostsResponse<unknown> as PostsResponse<TData>;
-      const list = z.array(zodSchema).parse(postListResDto) as TData[];
+      const list = z.array(zodSchema).parse(postListResDto);
       return {
         postListResDto: list,
         ...data,

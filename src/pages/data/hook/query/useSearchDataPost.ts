@@ -1,7 +1,7 @@
 import { ApiError, useStuQuery } from '@/hooks/new/useStuQuery.ts';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { UndefinedInitialDataOptions } from '@tanstack/react-query';
-import { z, ZodError, type ZodType } from 'zod';
+import { z, ZodError } from 'zod';
 import { PostsResponse } from '@/hooks/new/query/useSearchPosts';
 import { DataPostSummary, DataPostSummaryResponse, DataPostSummarySchema } from '@/pages/data/schema';
 
@@ -16,7 +16,6 @@ export interface SearchDataPostsOptions {
   majorCategory?: string;
   middleCategory?: string;
   subCategory?: string;
-  zodSchema?: ZodType<DataPostSummary, DataPostSummaryResponse>;
   queryOptions?: Omit<
     UndefinedInitialDataOptions<
       PostsResponse<DataPostSummaryResponse>,
@@ -57,16 +56,13 @@ export function useSearchDataPosts({
     params,
   };
 
-  const zodSchema = DataPostSummarySchema;
-
   return useStuQuery<
     PostsResponse<DataPostSummaryResponse>,
     PostsResponse<DataPostSummary>,
     AxiosError | ApiError | ZodError
   >(queryKey, config, {
     select: ({ postListResDto, ...data }) => {
-      if (!zodSchema) return { postListResDto, ...data } as PostsResponse<unknown> as PostsResponse<DataPostSummary>;
-      const list = z.array(zodSchema).parse(postListResDto) as DataPostSummary[];
+      const list = z.array(DataPostSummarySchema).parse(postListResDto);
       return {
         postListResDto: list,
         ...data,
