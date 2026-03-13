@@ -28,13 +28,13 @@ export const ScheduleEditFormSchema = z
       .min(1, '제목을 입력해주세요.')
       .max(SCHEDULE_TITLE_MAX_LENGTH, `${SCHEDULE_TITLE_MAX_LENGTH}자 이내로 써주세요`),
     category: z.enum(SCHEDULE_CATEGORY_OPTIONS as [string, ...string[]], {
-      required_error: '카테고리를 선택해주세요.',
+      error: '카테고리를 선택해주세요.',
     }),
     startDate: z.date({
-      required_error: '시작일자를 선택해주세요.',
+      error: '시작일자를 선택해주세요.',
     }),
     endDate: z.date({
-      required_error: '종료일자를 선택해주세요.',
+      error: '종료일자를 선택해주세요.',
     }),
     isDDay: z.boolean().default(false),
   })
