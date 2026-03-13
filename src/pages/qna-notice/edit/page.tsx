@@ -34,20 +34,39 @@ function PageSkeleton() {
 }
 
 export default function QnaEditPage() {
+  /* Router Props */
   const { id } = useParams<{ id?: string }>();
   const postId = id ? parseInt(id ?? '') || undefined : undefined;
+  const navigate = useNavigate();
 
+  /* Load data by query */
   // 사용자의 단과대 학과를 가져오기 위해 로그인 확인 후 유저 데이터 페칭
+  const queryClient = useQueryClient();
+
   const [isLogin] = useAtom(LoginState);
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
 
+  const {
+    data: detail,
+    isError: isDetailError,
+    error: detailError,
+  } = useGetQnaDetail({
+    postId: postId ?? 0,
+    queryOptions: { enabled: postId !== null },
+  });
+
+  /* Register form hooks */
   // form과 Editor 사용
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit, reset, setValue } = useQnaForm();
 
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  // 단과대 선택에 따른 학과 선택 드롭다운 관리를 위해 단과대 선택 값 감시
+  const [selectedMember, setSelectedMember] = useState<keyof typeof qnaMemberMajor>();
 
+  // 수정의 경우 질문 대상 선택 불가 판정을 위해 state 사용
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  /* Mutation hooks */
   const {
     mutate: createQna,
     error: createError,
@@ -59,24 +78,9 @@ export default function QnaEditPage() {
       navigate(`/qna/${data.post_id}`);
     },
   });
-
   const { mutate: patchQna, error: patchError, isError: isPatchError, isPending: isPatchPending } = usePatchQna();
 
-  // 단과대 선택에 따른 학과 선택 드롭다운 관리를 위해 단과대 선택 값 감시
-  const [selectedMember, setSelectedMember] = useState<keyof typeof qnaMemberMajor>();
-
-  // 수정의 경우 질문 대상 선택 불가 판정을 위해 state 사용
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-
-  const {
-    data: detail,
-    isError: isDetailError,
-    error: detailError,
-  } = useGetQnaDetail({
-    postId: postId ?? 0,
-    queryOptions: { enabled: postId !== null },
-  });
-
+  // 기존 데이터 입력
   useEffect(() => {
     if (postId) {
       if (!detail || isDetailError) {
@@ -102,29 +106,6 @@ export default function QnaEditPage() {
       }
     }
   }, [postId, reset, detail, isDetailError, detailError]);
-
-  if (!isLogin) {
-    return (
-      <div className="mt-16 flex items-center justify-center">
-        <p>로그인 후 이용해 주세요.</p>
-      </div>
-    );
-  }
-
-  if (isUserLoading || isCreatePending || isPatchPending) {
-    return <PageSkeleton />;
-  }
-
-  if (!user || isUserError || isCreateError || isPatchError) {
-    if (isUserError) console.log('user error', userError);
-    if (isCreateError) console.log('create error', createError);
-    if (isPatchError) console.log('patch error', patchError);
-    return (
-      <div className="mt-16 flex items-center justify-center">
-        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
-      </div>
-    );
-  }
 
   function handleEditorChange() {
     const instance = editorRef.current?.getInstance();
@@ -165,6 +146,29 @@ export default function QnaEditPage() {
 
       createQna({ post: formData });
     }
+  }
+
+  if (!isLogin) {
+    return (
+      <div className="mt-16 flex items-center justify-center">
+        <p>로그인 후 이용해 주세요.</p>
+      </div>
+    );
+  }
+
+  if (isUserLoading || isCreatePending || isPatchPending) {
+    return <PageSkeleton />;
+  }
+
+  if (!user || isUserError || isCreateError || isPatchError) {
+    if (isUserError) console.log('user error', userError);
+    if (isCreateError) console.log('create error', createError);
+    if (isPatchError) console.log('patch error', patchError);
+    return (
+      <div className="mt-16 flex items-center justify-center">
+        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
+      </div>
+    );
   }
 
   return (
