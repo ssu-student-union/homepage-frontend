@@ -1,7 +1,7 @@
 import { ApiError, useStuQuery } from '@/hooks/new/useStuQuery';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { UndefinedInitialDataOptions } from '@tanstack/react-query';
-import z, { ZodError, ZodSchema, ZodTypeDef } from 'zod';
+import { z, ZodError, type ZodType } from 'zod';
 import { PageInfo } from '@/types/apis/get';
 import { PostAcl } from '@/schemas/common';
 
@@ -17,7 +17,7 @@ export interface PostsResponse<P> {
   deniedAuthorities: PostAcl[];
 }
 
-export interface SearchPostsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
+export interface SearchPostsOptions<TRaw, TData = TRaw> {
   boardCode: string;
   q?: string;
   page?: number;
@@ -25,7 +25,7 @@ export interface SearchPostsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodT
   category?: string;
   groupCode?: string;
   memberCode?: string;
-  zodSchema?: ZodSchema<TData, TZodTypeDef, TRaw>;
+  zodSchema?: ZodType<TData, TRaw>;
   queryOptions?: Omit<
     UndefinedInitialDataOptions<PostsResponse<TRaw>, AxiosError | ApiError | ZodError, PostsResponse<TData>>,
     'queryKey' | 'queryFn' | 'select'
@@ -60,8 +60,7 @@ export function useSearchPosts<TRaw, TData = TRaw>({
   return useStuQuery<PostsResponse<TRaw>, PostsResponse<TData>, AxiosError | ApiError | ZodError>(queryKey, config, {
     select: ({ postListResDto, ...data }) => {
       if (!zodSchema) return { postListResDto, ...data } as PostsResponse<unknown> as PostsResponse<TData>;
-      const schemaArray = z.array(zodSchema);
-      const list = schemaArray.parse(postListResDto);
+      const list = z.array(zodSchema).parse(postListResDto);
       return {
         postListResDto: list,
         ...data,

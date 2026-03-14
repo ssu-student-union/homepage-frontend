@@ -1,4 +1,4 @@
-import Slider from 'react-slick';
+import SliderImport from 'react-slick';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import 'slick-carousel/slick/slick.css';
@@ -9,6 +9,9 @@ import { useTranslation } from 'react-i18next';
 import { cn } from '@/libs/utils';
 import { useAtom } from 'jotai';
 import { STUDENT_COUNCIL_NUMBER } from '@/const/studentCouncil';
+
+// Vite 8 + CJS interop 환경에서 react-slick가 `{ default: Slider }` 형태로 로드될 수 있습니다.
+const Slider = (SliderImport as unknown as { default?: typeof SliderImport }).default ?? SliderImport;
 
 const CounterItem = ({ isActive }: { isActive: boolean }) => (
   <span className={`block h-[7px] w-[45px] rounded-[15px] ${isActive ? 'bg-[#B8B8B8]' : 'bg-[#E4E4E4]'}`} />

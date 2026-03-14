@@ -1,7 +1,7 @@
 import { ApiError, useStuQuery } from '@/hooks/new/useStuQuery.ts';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { UndefinedInitialDataOptions } from '@tanstack/react-query';
-import z, { ZodError, ZodSchema, ZodTypeDef } from 'zod';
+import { z, ZodError, type ZodType } from 'zod';
 import { PostAcl } from '@/schemas/common';
 
 /**
@@ -14,10 +14,10 @@ export interface GetCommentsResponse<P> {
   total: number;
 }
 
-export interface GetCommentsOptions<TRaw, TData = TRaw, TZodTypeDef extends ZodTypeDef = ZodTypeDef> {
+export interface GetCommentsOptions<TRaw, TData = TRaw> {
   postId: number;
   type: '인기순' | '최신순';
-  zodSchema?: ZodSchema<TData, TZodTypeDef, TRaw>;
+  zodSchema?: ZodType<TData, TRaw>;
   queryOptions?: Omit<
     UndefinedInitialDataOptions<
       GetCommentsResponse<TRaw>,
@@ -48,8 +48,7 @@ export function useGetComments<TRaw, TData = TRaw>({
     {
       select: ({ postComments, ...data }) => {
         if (!zodSchema) return { postComments, ...data } as GetCommentsResponse<unknown> as GetCommentsResponse<TData>;
-        const schemaArray = z.array(zodSchema);
-        const list = schemaArray.parse(postComments);
+        const list = z.array(zodSchema).parse(postComments);
         return {
           postComments: list,
           ...data,

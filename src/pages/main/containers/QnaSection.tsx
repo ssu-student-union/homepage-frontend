@@ -13,8 +13,8 @@ export default function QnaSection() {
 
   const {
     data: qnaData,
+    isLoading: isQnaLoading,
     isError: isQnaError,
-    error: qnaError,
   } = useGetQnaList({
     page: 0,
     take: 4,
@@ -22,8 +22,19 @@ export default function QnaSection() {
     qnaMemberCode: '',
   });
 
-  if (!qnaData || isQnaError) {
-    console.log('qna error', qnaError);
+  if (isQnaError) {
+    return (
+      <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">
+        오류가 발생했습니다. 잠시 후 다시 시도해주세요.
+      </p>
+    );
+  }
+
+  if (isQnaLoading) {
+    return <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">불러오는 중입니다.</p>;
+  }
+
+  if (!qnaData || qnaData.postListResDto.length === 0) {
     return (
       <p className="flex h-[24.25rem] w-full items-center justify-center text-gray-600">등록된 게시물이 없습니다.</p>
     );
