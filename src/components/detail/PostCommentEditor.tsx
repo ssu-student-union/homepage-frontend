@@ -73,12 +73,19 @@ export function PostCommentEditor({
         )}
         <Button
           variant="register"
-          className={cn('flex items-center justify-center gap-1')}
+          className="w-24 overflow-hidden"
           disabled={innerValue.length < 1 || uploading}
           onClick={handleClick}
         >
-          <Loader2 className={cn('animate-spin transition-all', uploading ? 'ml-0 opacity-100' : '-ml-7 opacity-0')} />
-          <p>{editing ? '수정' : '작성'}</p>
+          <div
+            className={cn(
+              'flex items-center justify-center gap-1 transition-transform',
+              uploading ? 'translate-x-0' : '-translate-x-[14px]'
+            )}
+          >
+            <Loader2 className={cn('animate-spin transition-opacity', uploading ? 'opacity-100' : 'opacity-0')} />
+            <p>{editing ? '수정' : '작성'}</p>
+          </div>
         </Button>
       </div>
     </section>
