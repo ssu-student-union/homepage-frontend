@@ -80,10 +80,12 @@ export function PostCommentEditor({
           <div
             className={cn(
               'flex items-center justify-center gap-1 transition-transform',
-              uploading ? 'translate-x-0' : '-translate-x-[14px]'
+              uploading ? 'translate-x-0' : '-translate-x-3.5'
             )}
           >
-            <Loader2 className={cn('animate-spin transition-opacity', uploading ? 'opacity-100' : 'opacity-0')} />
+            <Loader2
+              className={cn('transition-opacity', uploading && 'animate-spin', uploading ? 'opacity-100' : 'opacity-0')}
+            />
             <p>{editing ? '수정' : '작성'}</p>
           </div>
         </Button>
