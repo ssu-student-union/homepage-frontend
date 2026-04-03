@@ -29,6 +29,9 @@ const SsoRedirect = () => {
         localStorage.setItem('accessToken', id_token);
         localStorage.setItem('refreshToken', refresh_token);
 
+        // Remove tokens from URL to prevent exposure on back navigation
+        window.history.replaceState(null, '', window.location.pathname);
+
         try {
           const response = await getStudentInfo();
           localStorage.setItem('userData', JSON.stringify(response));
