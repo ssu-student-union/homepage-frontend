@@ -31,7 +31,7 @@ export function TOSPage() {
 
   const isAllChecked = checkList.length === 3;
 
-  const isSsoUser = localStorage.getItem('refreshToken') && !localStorage.getItem('kakaoData');
+  const isSsoUser = Boolean(localStorage.getItem('refreshToken') && !localStorage.getItem('kakaoData'));
 
   const handleNext = () => {
     if (isAllChecked || (checkList.includes('privacy') && checkList.includes('service'))) {

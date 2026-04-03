@@ -20,6 +20,10 @@ const SsoRedirect = () => {
 
         if (!tokensRaw) {
           alert('로그인에 실패했습니다');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('userData');
+          navigate('/register', {replace: true});
           return;
         }
 
@@ -40,9 +44,11 @@ const SsoRedirect = () => {
             navigate('/register/tos');
             return;
           } else {
+            alert('로그인에 실패했습니다');
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            alert('로그인에 실패했습니다');
+            localStorage.removeItem('userData');
+            navigate('/register', {replace: true});
             return;
           }
         }
@@ -65,7 +71,7 @@ const SsoRedirect = () => {
         setLoginState(false);
 
         // Cognito logout
-        await postSsoLogout({
+        postSsoLogout({
           refreshToken,
           clientId,
           redirectUri: baseUrl,
