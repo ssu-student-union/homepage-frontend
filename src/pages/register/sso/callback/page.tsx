@@ -23,7 +23,7 @@ const SsoRedirect = () => {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('userData');
-          navigate('/register', {replace: true});
+          navigate('/register', { replace: true });
           return;
         }
 
@@ -48,7 +48,7 @@ const SsoRedirect = () => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             localStorage.removeItem('userData');
-            navigate('/register', {replace: true});
+            navigate('/register', { replace: true });
             return;
           }
         }
