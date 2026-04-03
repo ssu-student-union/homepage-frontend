@@ -30,6 +30,14 @@ const SsoRedirect = () => {
         // Set jwt tokens into localStorage
         const tokens = JSON.parse(decodeURIComponent(tokensRaw));
         const { id_token, refresh_token } = tokens;
+        if (!id_token || !refresh_token) {
+          alert('로그인에 실패했습니다');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('userData');
+          navigate('/register', { replace: true });
+          return;
+        }
         localStorage.setItem('accessToken', id_token);
         localStorage.setItem('refreshToken', refresh_token);
 
@@ -55,7 +63,7 @@ const SsoRedirect = () => {
 
         // redirect user to the baseUrl
         setLoginState(true);
-        window.location.href = baseUrl;
+        window.location.replace(baseUrl);
       } catch (err) {
         console.error(err);
         alert('로그인에 실패했습니다');
