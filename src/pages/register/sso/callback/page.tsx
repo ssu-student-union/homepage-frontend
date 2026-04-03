@@ -7,6 +7,12 @@ import { getStudentInfo } from '@/apis/getStudentInfo';
 import axios from 'axios';
 import { getClientIdFromToken, postSsoLogout } from '@/apis/postSsoLogout';
 
+function clearAuthState() {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('userData');
+}
+
 const SsoRedirect = () => {
   const setLoginState = useSetAtom(LoginState);
   const navigate = useNavigate();
@@ -20,9 +26,7 @@ const SsoRedirect = () => {
 
         if (!tokensRaw) {
           alert('로그인에 실패했습니다');
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('userData');
+          clearAuthState();
           navigate('/register', { replace: true });
           return;
         }
@@ -32,9 +36,7 @@ const SsoRedirect = () => {
         const { id_token, refresh_token } = tokens;
         if (!id_token || !refresh_token) {
           alert('로그인에 실패했습니다');
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('userData');
+          clearAuthState();
           navigate('/register', { replace: true });
           return;
         }
@@ -53,9 +55,7 @@ const SsoRedirect = () => {
             return;
           } else {
             alert('로그인에 실패했습니다');
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('userData');
+            clearAuthState();
             navigate('/register', { replace: true });
             return;
           }
@@ -73,9 +73,7 @@ const SsoRedirect = () => {
         const accessToken = localStorage.getItem('accessToken') ?? '';
         const clientId = getClientIdFromToken(accessToken);
 
-        // Clear local tokens
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        clearAuthState();
         setLoginState(false);
 
         // Cognito logout
