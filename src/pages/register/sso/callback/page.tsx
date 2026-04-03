@@ -43,13 +43,13 @@ const SsoRedirect = () => {
         // Verify all mandatory JWT tokens and audience are available
         const tokens = JSON.parse(decodeURIComponent(tokensRaw));
         const { id_token, refresh_token } = tokens;
-        if (!id_token || !refresh_token ) {
+        if (!id_token || !refresh_token) {
           alert('로그인에 실패했습니다 1');
           clearAuthState();
           navigate('/register', { replace: true });
           return;
         }
-        
+
         // Get audience from id_token
         const audience = getClientIdFromToken(id_token);
         if (!audience) {
@@ -58,14 +58,15 @@ const SsoRedirect = () => {
           navigate('/register', { replace: true });
           return;
         }
-        
+
         // Set JWT tokens in localStorage
         localStorage.setItem('accessToken', id_token);
         localStorage.setItem('refreshToken', refresh_token);
         // Remove tokens from URL fragment to prevent exposure on back navigation
         window.history.replaceState(null, '', window.location.pathname);
-        
-        if (audience === userClientId) { // Normal user sso callback process
+
+        if (audience === userClientId) {
+          // Normal user sso callback process
           try {
             const response = await getStudentInfo();
             localStorage.setItem('userData', JSON.stringify(response));
@@ -85,7 +86,8 @@ const SsoRedirect = () => {
           // redirect user to the baseUrl
           setLoginState(true);
           window.location.replace(baseUrl);
-        } else if (audience === managerClientId) { // Manager account sso callback process
+        } else if (audience === managerClientId) {
+          // Manager account sso callback process
           // Fetch manager profile from backend
           const profile = await getManagerProfile();
 
@@ -98,9 +100,9 @@ const SsoRedirect = () => {
           return;
         } else {
           // If audience is not in a whitelist
-          alert('로그인에 실패했습니다 4');                                                                                                                                                                                                                                                                   
-          clearAuthState();                                                                                                                                                                                                                                                                                 
-          navigate('/register', { replace: true });                                                                                                                                                                                                                                                         
+          alert('로그인에 실패했습니다 4');
+          clearAuthState();
+          navigate('/register', { replace: true });
           return;
         }
       } catch (err) {
