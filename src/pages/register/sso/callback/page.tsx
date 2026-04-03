@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { LoginState } from '@/atoms/atom';
 import { baseUrl } from '@/pages/register/containers/const/data';
@@ -9,7 +9,6 @@ import { getClientIdFromToken, postSsoLogout } from '@/apis/postSsoLogout';
 
 const SsoRedirect = () => {
   const setLoginState = useSetAtom(LoginState);
-  const redirectUrl = useMemo(() => localStorage.getItem('redirectUrl'), []);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,8 +49,6 @@ const SsoRedirect = () => {
         window.location.href = baseUrl;
       } catch (err) {
         console.error(err);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
         alert('로그인에 실패했습니다');
 
         // Save values before clearing localStorage
@@ -74,7 +71,7 @@ const SsoRedirect = () => {
     };
 
     handleSsoCallback();
-  }, [navigate, setLoginState, redirectUrl]);
+  }, [navigate, setLoginState]);
 
   return <div>Loading…</div>;
 };
