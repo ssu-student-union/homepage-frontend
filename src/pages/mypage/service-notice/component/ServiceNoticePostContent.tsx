@@ -31,7 +31,6 @@ export function ServiceNoticePostContent({
     <Link
       {...props}
       className={cn('flex h-[64px] border-b-[1px] border-[#9CA3AF]', className)}
-      style={{ width: `${contentWidth}px` }}
     >
       {Emergency ? (
         <Badge variant="emergency-old" className="relative top-[22px] text-[12px]">
