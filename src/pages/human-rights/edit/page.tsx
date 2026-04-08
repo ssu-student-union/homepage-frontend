@@ -1,15 +1,24 @@
-import { Input } from '@/components/ui/input.tsx';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { useQueryClient } from '@tanstack/react-query';
 import { Editor } from '@toast-ui/react-editor';
-import { FrontmatterEditor } from '@/pages/human-rights/edit/components/FrontmatterEditor.tsx';
-import { cn } from '@/libs/utils.ts';
-import { ArticleHeader } from '@/containers/new/ArticleHeader.tsx';
-import { Container } from '@/containers/new/Container.tsx';
-import { ArticleFooter } from '@/containers/new/ArticleFooter.tsx';
+import { cn } from '@/libs/utils';
 import { MinusCircle, Plus } from '@phosphor-icons/react';
-import { useHumanRightsForm } from '@/pages/human-rights/edit/form.ts';
+
+import { Input } from '@/components/ui/input';
 import { FileInputs } from '@/components/edit/FileInputs';
-import { useEffect, useRef, useState } from 'react';
-import { useContentEditor } from '@/hooks/useContentEditor.ts';
+import { Container } from '@/containers/new/Container';
+import { EditHeader } from '@/components/EditHeader';
+import { EditFooter } from '@/components/EditFooter';
+import { EditPageSkeleton } from '@/components/EditPageSkeleton';
+import { EditPageError } from '@/components/EditPageError';
+
+import { useEditableContent } from '@/hooks/editor/useEditableContent';
+import { useFileAttachments } from '@/hooks/editor/useFileAttachments';
+import { collectPostFiles } from '@/hooks/editor/collectPostFiles';
+import { useGetUserInfo } from '@/hooks/new/query/useGetUserInfo';
+import { FrontmatterEditor } from '@/pages/human-rights/edit/components/FrontmatterEditor';
+import { useHumanRightsForm } from '@/pages/human-rights/edit/form';
 import {
   HumanRightsPerson,
   HumanRightsPost,
@@ -17,22 +26,13 @@ import {
   HumanRightsPostEditRequest,
   HumanRightsPostEditRequestSchema,
   HumanRightsReporter,
-} from '@/pages/human-rights/schema.ts';
+} from '@/pages/human-rights/schema';
 import {
   useCreateHumanRightsPost,
   useGetHumanRightsPost,
   usePatchHumanRightsPost,
   useUploadHumanRightsFiles,
-} from '@/pages/human-rights/queries.ts';
-import { useNavigate, useParams } from 'react-router';
-import { PostHeader } from '@/components/detail/PostHeader';
-import { PostFooter } from '@/components/detail/PostFooter';
-import { Button } from '@/components/ui/button.tsx';
-import { Loader2 } from 'lucide-react';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
-import { useGetUserInfo } from '@/hooks/new/query/useGetUserInfo.ts';
-import { useQueryClient } from '@tanstack/react-query';
-import { FileResponse } from '@/schemas/post';
+} from '@/pages/human-rights/queries';
 
 const BOARD_CODE = '인권신고게시판';
 
@@ -51,17 +51,6 @@ const DISCLAIMER = `학생인권위원회는 인권침해 구제와 관련하여
 접수 후 3년간
 
 ` as const;
-
-function PageSkeleton() {
-  return (
-    <article className="mb-20 mt-16">
-      <PostHeader.Skeleton />
-      <hr className="bg-[#E7E7E7]" />
-      <Container.Skeleton />
-      <PostFooter.Skeleton />
-    </article>
-  );
-}
 
 function postTransformer({
   postId,
@@ -113,13 +102,13 @@ function postTransformer({
 }
 
 export function HumanRightsEditPage() {
-  /* Router Props */
+  /* ── 라우트 ── */
   const { id } = useParams<{ id?: string }>();
   const postId = id ? parseInt(id ?? '') || null : null;
   const navigate = useNavigate();
-
-  /* Load data by query */
   const queryClient = useQueryClient();
+
+  /* ── 데이터 조회 ── */
   const {
     data: userInfo,
     isLoading: isUserInfoLoading,
@@ -135,9 +124,8 @@ export function HumanRightsEditPage() {
     postId: postId ?? 0,
     queryOptions: { enabled: postId !== null },
   });
-  const [isPostLoaded, setIsPostLoaded] = useState(false);
 
-  /* Register form hooks */
+  /* ── 폼 ── */
   const {
     register,
     reset,
@@ -174,13 +162,18 @@ export function HumanRightsEditPage() {
     },
   });
 
-  // 에디터 기능 훅
-  const editorRef = useRef<Editor>(null);
-  const { register: registerEditor, processImages, isImageProcessing } = useContentEditor('인권신고게시판', editorRef);
-  const [files, setFiles] = useState<PostFile[]>([]);
+  /* ── 에디터 ── */
+  const editor = useEditableContent({ boardCode: BOARD_CODE, setValue, trigger });
+  const { ref: editorRef, isPostLoaded, loadContent, markLoaded } = editor;
+
+  /* ── 파일 상태 ── */
+  const attachments = useFileAttachments();
+  const { loadFiles } = attachments;
+
+  /* ── 로컬 상태 ── */
   const [disclaimerAgreed, setDisclaimerAgreed] = useState(false);
 
-  /* Mutation hooks */
+  /* ── 뮤테이션 ── */
   const {
     mutate: createPost,
     error: createError,
@@ -200,30 +193,19 @@ export function HumanRightsEditPage() {
     isPending: isFileUploadPending,
   } = useUploadHumanRightsFiles();
 
-  // 기존 데이터 입력
+  /* ── 기존 데이터 로드 ── */
   useEffect(() => {
     if (post && editorRef.current && !isPostLoaded) {
-      setIsPostLoaded(false);
       reset(postTransformer(post));
-      editorRef.current!.getInstance().setMarkdown(post.content);
-      const uploadedFiles = post.postFileList
-        .filter(({ fileType }) => fileType === 'files')
-        .map(
-          ({ postFileId, fileName }): UploadedPostFile => ({
-            name: fileName,
-            isUploaded: true,
-            id: postFileId,
-          })
-        );
-      setFiles(uploadedFiles);
-      setIsPostLoaded(true);
+      loadContent(post.content);
+      loadFiles(post.postFileList);
+      markLoaded();
     }
     if (!postId) {
-      setIsPostLoaded(true);
+      markLoaded();
     }
-  }, [post, postId, reset, isPostLoaded]);
+  }, [post, postId, reset, editorRef, isPostLoaded, loadContent, loadFiles, markLoaded]);
 
-  // 사용자 정보 입력
   useEffect(() => {
     if (userInfo && isPostLoaded) {
       setValue('rightsDetailList.reporter.name', userInfo.name);
@@ -232,41 +214,20 @@ export function HumanRightsEditPage() {
     }
   }, [userInfo, isPostLoaded, setValue]);
 
-  // 디버그: 폼 검증 결과
-  // useEffect(() => {
-  //   console.log(errors);
-  // }, [errors]);
-
-  function handleContentChange() {
-    if (editorRef.current && isPostLoaded) {
-      setValue('content', editorRef.current.getInstance().getMarkdown());
-    }
-  }
-
-  function handleContentBlur() {
-    (async () => await trigger('content'))();
-  }
-
-  function handleFilesChange(newFiles: PostFile[]) {
-    setFiles(newFiles);
-  }
-
+  /* ── 제출 ── */
   async function submitForm(formData: HumanRightsPostEditForm) {
-    const postFileList: number[] = files
-      .filter((file): file is UploadedPostFile => file.isUploaded)
-      .map(({ id }) => id);
-    if (files) {
-      const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded).map(({ file }) => file);
-      const uploaded = await uploadFiles({ files: localFiles });
-      uploaded.postFiles.forEach(({ id }) => postFileList.push(id));
-    }
-    const uploadedImages: FileResponse[] = post?.postFileList?.filter(({ fileType }) => fileType === 'images') ?? [];
-    const { existedImages, newImages, content } = await processImages(uploadedImages);
-    existedImages.forEach(({ postFileId }) => postFileList.push(postFileId));
-    newImages.forEach(({ id }) => postFileList.push(id));
+    const existingImages = post?.postFileList?.filter(({ fileType }) => fileType === 'images') ?? [];
+    const { postFileList, content } = await collectPostFiles({
+      files: attachments.files,
+      uploadFiles,
+      processImages: editor.processImages,
+      existingImages,
+    });
+
     formData.postFileList = postFileList;
     formData.content = content;
     const data: HumanRightsPostEditRequest = HumanRightsPostEditRequestSchema.parse(formData);
+
     if (postId) {
       patchPost(
         { id: postId, post: data },
@@ -293,8 +254,9 @@ export function HumanRightsEditPage() {
     }
   }
 
+  /* ── 가드 ── */
   if (isLoading || isCreatePending || isPatchPending || isUserInfoLoading) {
-    return <PageSkeleton />;
+    return <EditPageSkeleton />;
   }
 
   if ((postId && !post) || isError || isCreateError || isPatchError || isFileUploadError || isUserInfoError) {
@@ -303,22 +265,17 @@ export function HumanRightsEditPage() {
     if (isPatchError) console.log(patchError);
     if (isFileUploadError) console.log(fileUploadError);
     if (isUserInfoError) console.log(userInfoError);
-    // TODO: 오류 발생 시 세부정보 제공
-    return (
-      <div className="mt-16 flex items-center justify-center py-12">
-        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
-      </div>
-    );
+    return <EditPageError />;
   }
 
   const titleError = errors?.title;
 
+  /* ── 렌더 ── */
   return (
     <article className="mt-[200px]">
-      {/* TODO: EditLayout에 `className` property 추가 필요, divider 추가 필요 */}
-      <ArticleHeader>
-        <h1 className="text-5xl font-bold">인권신고게시판</h1>
-      </ArticleHeader>
+      <EditHeader>
+        <EditHeader.Title>인권신고게시판</EditHeader.Title>
+      </EditHeader>
       <hr className="bg-[#E7E7E7]" />
       <Container>
         <section className="mb-16">
@@ -498,15 +455,12 @@ export function HumanRightsEditPage() {
             initialValue=""
             placeholder="글을 작성해주세요"
             useCommandShortcut={true}
-            onChange={handleContentChange}
-            onBlur={handleContentBlur}
-            {...registerEditor}
+            {...editor.editorProps}
           />
         </section>
         <section className="mb-16">
           <h2 className="mb-6 text-2xl font-semibold">증거 및 자료 첨부</h2>
-          {/* Limit file size to 5MB */}
-          <FileInputs files={files} onChange={handleFilesChange} sizeLimit={1024 * 1024 * 5} />
+          <FileInputs files={attachments.files} onChange={attachments.handleChange} sizeLimit={1024 * 1024 * 5} />
         </section>
         <section className="flex flex-col gap-6">
           <h2 className="text-2xl font-semibold">개인정보 수집 및 이용에 관한 동의</h2>
@@ -535,22 +489,11 @@ export function HumanRightsEditPage() {
           </p>
         </section>
       </Container>
-      <ArticleFooter className="pb-6">
-        <Button
-          variant="register"
-          className="flex items-center justify-center gap-1 self-end px-2"
-          disabled={!disclaimerAgreed || Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
-          onClick={handleSubmit(submitForm)}
-        >
-          <Loader2
-            className={cn(
-              'animate-spin transition-all',
-              isImageProcessing || isFileUploadPending ? 'ml-0 opacity-100' : '-ml-7 opacity-0'
-            )}
-          />
-          <p>등록</p>
-        </Button>
-      </ArticleFooter>
+      <EditFooter
+        onSubmit={handleSubmit(submitForm)}
+        disabled={!disclaimerAgreed || Object.keys(errors).length > 0 || editor.isImageProcessing || isFileUploadPending}
+        isLoading={editor.isImageProcessing || isFileUploadPending}
+      />
     </article>
   );
 }
