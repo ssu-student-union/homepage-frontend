@@ -31,7 +31,7 @@ export function ServiceNoticeDetailEditSection({
   const handleDelete = async () => {
     await delBoardPosts(boardCode, postId, fileurl);
     queryClient.invalidateQueries({
-      queryKey: ['get-board-boardCode-posts', boardCode],
+      queryKey: ['searchPosts', boardCode],
     });
     navigate(`/service-notice`);
   };

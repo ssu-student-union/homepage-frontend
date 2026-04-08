@@ -66,7 +66,7 @@ export function ServiceNoticePage() {
         </div>
         <div className="flex justify-end">
           {writable && (
-            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/data/edit">
+            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/service-notice/edit">
               <Pencil className="size-4" />
               <p>글쓰기</p>
             </Link>

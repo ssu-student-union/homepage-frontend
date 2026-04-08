@@ -28,11 +28,7 @@ export function ServiceNoticePostContent({
       : ''; // Default style
 
   return (
-    <Link
-      {...props}
-      className={cn('flex h-[64px] border-b-[1px] border-[#9CA3AF]', className)}
-      style={{ width: `${contentWidth}px` }}
-    >
+    <Link {...props} className={cn('flex h-[64px] border-b-[1px] border-[#9CA3AF]', className)}>
       {Emergency ? (
         <Badge variant="emergency-old" className="relative top-[22px] text-[12px]">
           긴급

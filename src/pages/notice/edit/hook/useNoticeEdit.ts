@@ -131,7 +131,7 @@ export function useNoticeEdit() {
       const postId = createPostResponse?.data.post_id;
 
       queryClient.invalidateQueries({
-        queryKey: ['get-board-boardCode-posts', SERVICE_NOTICE_BOARD_CODE],
+        queryKey: ['searchPosts', SERVICE_NOTICE_BOARD_CODE],
       });
 
       navigate(`/service-notice/${postId}`);
