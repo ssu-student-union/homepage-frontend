@@ -13,7 +13,13 @@ interface EditFooterProps {
   children?: ReactNode;
 }
 
-export function EditFooter({ onSubmit, disabled = false, isLoading = false, className, children = '등록' }: EditFooterProps) {
+export function EditFooter({
+  onSubmit,
+  disabled = false,
+  isLoading = false,
+  className,
+  children = '등록',
+}: EditFooterProps) {
   return (
     <ArticleFooter className={cn('pb-6', className)}>
       <Button
@@ -22,9 +28,7 @@ export function EditFooter({ onSubmit, disabled = false, isLoading = false, clas
         disabled={disabled}
         onClick={onSubmit}
       >
-        <Loader2
-          className={cn('animate-spin transition-all', isLoading ? 'ml-0 opacity-100' : '-ml-7 opacity-0')}
-        />
+        <Loader2 className={cn('animate-spin transition-all', isLoading ? 'ml-0 opacity-100' : '-ml-7 opacity-0')} />
         <p>{children}</p>
       </Button>
     </ArticleFooter>

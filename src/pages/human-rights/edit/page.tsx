@@ -491,7 +491,9 @@ export function HumanRightsEditPage() {
       </Container>
       <EditFooter
         onSubmit={handleSubmit(submitForm)}
-        disabled={!disclaimerAgreed || Object.keys(errors).length > 0 || editor.isImageProcessing || isFileUploadPending}
+        disabled={
+          !disclaimerAgreed || Object.keys(errors).length > 0 || editor.isImageProcessing || isFileUploadPending
+        }
         isLoading={editor.isImageProcessing || isFileUploadPending}
       />
     </article>

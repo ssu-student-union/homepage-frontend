@@ -96,11 +96,11 @@ if (!isLogin) return <EditPageError message="로그인 후 이용해 주세요."
 
 ```tsx
 interface EditFooterProps {
-  onSubmit: () => void;      // handleSubmit(submitForm)을 전달
-  disabled?: boolean;         // 비활성화 조건을 호출부에서 직접 조합
-  isLoading?: boolean;        // 스피너 표시 여부
+  onSubmit: () => void; // handleSubmit(submitForm)을 전달
+  disabled?: boolean; // 비활성화 조건을 호출부에서 직접 조합
+  isLoading?: boolean; // 스피너 표시 여부
   className?: string;
-  children?: ReactNode;       // 버튼 텍스트 (기본값: "등록")
+  children?: ReactNode; // 버튼 텍스트 (기본값: "등록")
 }
 ```
 
@@ -193,7 +193,7 @@ loadContent(post.content);
 markLoaded();
 
 // 렌더에서:
-<Editor {...editor.editorProps} />
+<Editor {...editor.editorProps} />;
 ```
 
 ### `src/hooks/editor/useFileAttachments.ts`
@@ -203,7 +203,9 @@ markLoaded();
 ```tsx
 // Before: 매 페이지에서 반복
 const [files, setFiles] = useState<PostFile[]>([]);
-function handleFilesChange(newFiles: PostFile[]) { setFiles(newFiles); }
+function handleFilesChange(newFiles: PostFile[]) {
+  setFiles(newFiles);
+}
 // useEffect 안에서 파일 변환 로직 6~10줄
 
 // After
@@ -216,7 +218,7 @@ loadFiles(post.fileResponseList);
 loadFiles(post.fileResponseList, { filter: () => true, withCategory: true });
 
 // 렌더에서:
-<FileInputs files={attachments.files} onChange={attachments.handleChange} />
+<FileInputs files={attachments.files} onChange={attachments.handleChange} />;
 ```
 
 ### `src/hooks/editor/collectPostFiles.ts`
@@ -253,17 +255,17 @@ const { postFileList, content } = await collectPostFiles({
 
 ### 공통 변경사항
 
-| 변경 | Before | After |
-|------|--------|-------|
-| 로딩 스켈레톤 | 인라인 `PageSkeleton` 함수 | `<EditPageSkeleton />` |
-| 에러 표시 | 인라인 `<div>` 블록 | `<EditPageError />` |
-| 헤더 | `<ArticleHeader><h1>...</h1></ArticleHeader>` | `<EditHeader><EditHeader.Title>...</EditHeader.Title></EditHeader>` |
-| 등록 버튼 | `<ArticleFooter>` + `<Button>` + `<Loader2>` | `<EditFooter onSubmit={...} disabled={...} isLoading={...} />` |
-| 에디터 셋업 | `useRef` + `useContentEditor` + `isPostLoaded` + 핸들러 함수들 (~20줄) | `useEditableContent({ boardCode, setValue, trigger })` |
-| 파일 상태 | `useState<PostFile[]>` + `handleFilesChange` + 파일 로드 로직 | `useFileAttachments()` |
-| 파일/이미지 수집 | 제출 함수 내 ~10줄 반복 | `collectPostFiles(...)` |
-| import 정리 | `PostHeader`, `PostFooter`, `ArticleHeader`, `ArticleFooter`, `Button`, `Loader2` 직접 import | 공유 컴포넌트/훅 import로 대체 |
-| 섹션 주석 | 없음 또는 비일관적 | `/* ── 라우트 ── */`, `/* ── 폼 ── */` 등 일관된 구조 |
+| 변경             | Before                                                                                        | After                                                               |
+| ---------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 로딩 스켈레톤    | 인라인 `PageSkeleton` 함수                                                                    | `<EditPageSkeleton />`                                              |
+| 에러 표시        | 인라인 `<div>` 블록                                                                           | `<EditPageError />`                                                 |
+| 헤더             | `<ArticleHeader><h1>...</h1></ArticleHeader>`                                                 | `<EditHeader><EditHeader.Title>...</EditHeader.Title></EditHeader>` |
+| 등록 버튼        | `<ArticleFooter>` + `<Button>` + `<Loader2>`                                                  | `<EditFooter onSubmit={...} disabled={...} isLoading={...} />`      |
+| 에디터 셋업      | `useRef` + `useContentEditor` + `isPostLoaded` + 핸들러 함수들 (~20줄)                        | `useEditableContent({ boardCode, setValue, trigger })`              |
+| 파일 상태        | `useState<PostFile[]>` + `handleFilesChange` + 파일 로드 로직                                 | `useFileAttachments()`                                              |
+| 파일/이미지 수집 | 제출 함수 내 ~10줄 반복                                                                       | `collectPostFiles(...)`                                             |
+| import 정리      | `PostHeader`, `PostFooter`, `ArticleHeader`, `ArticleFooter`, `Button`, `Loader2` 직접 import | 공유 컴포넌트/훅 import로 대체                                      |
+| 섹션 주석        | 없음 또는 비일관적                                                                            | `/* ── 라우트 ── */`, `/* ── 폼 ── */` 등 일관된 구조               |
 
 ### 페이지별 적용 상세
 
@@ -278,6 +280,7 @@ const { postFileList, content } = await collectPostFiles({
 **제출**: 파일 업로드 + 이미지 처리 + ID 합치기 ~15줄 → `collectPostFiles(...)` 호출 한 번으로 대체.
 
 **기존 데이터 로드 useEffect** 변경:
+
 ```tsx
 // Before
 if (post && editorRef.current && !isPostLoaded) {
@@ -305,11 +308,13 @@ if (post && editorRef.current && !isPostLoaded) {
 **에디터**: sug-notice와 동일하게 `useEditableContent` 적용. 기존에 `isImageProcessing`만 사용하고 `processImages`는 미사용 — `useEditableContent`가 둘 다 제공하므로 문제 없음.
 
 **파일**: `useFileAttachments()` 적용. 자료집은 모든 파일에 카테고리가 있어서 `loadFiles` 호출 시 옵션 사용:
+
 ```tsx
 loadFiles(post.fileResponseList, { filter: () => true, withCategory: true });
 ```
 
 **제출**: `collectPostFiles` 미사용. 자료집은 파일마다 개별 카테고리로 업로드하는 고유 로직이 있어서 기존 제출 로직을 유지합니다:
+
 ```tsx
 // 파일별로 카테고리를 붙여 개별 업로드 — 다른 페이지와 패턴이 다름
 const uploadedFiles = await Promise.all(
@@ -346,6 +351,7 @@ const uploadedFiles = await Promise.all(
 - `handleEditorChange`가 단순히 `setValue('content', ...)` — `useEditableContent`의 `shouldValidate` 옵션이나 `onBlur` 핸들러가 필요 없음
 
 적용된 것은 UI 컴포넌트만:
+
 - `EditPageSkeleton`, `EditPageError`, `EditHeader`, `EditFooter`
 - 로그인 체크 가드 → `<EditPageError message="로그인 후 이용해 주세요." />`
 - 등록/수정 버튼 텍스트 동적 변경 → `<EditFooter>{postId ? '수정' : '등록'}</EditFooter>`
@@ -416,16 +422,16 @@ export default function XxxEditPage() {
 
 ## 수정하지 않은 파일
 
-| 파일 | 이유 |
-|------|------|
-| `src/hooks/useContentEditor.ts` | `useEditableContent`가 내부에서 사용. 기존 인터페이스 변경 없음 |
-| `src/components/EditHeader.tsx` | 이미 존재하고 그대로 사용 |
-| `src/containers/new/Container.tsx` | 변경 불필요 |
-| `src/containers/new/ArticleHeader.tsx` | EditHeader 내부에서 사용 중 |
-| `src/containers/new/ArticleFooter.tsx` | EditFooter 내부에서 사용 중 |
-| `src/components/edit/FileInputs.tsx` | 변경 불필요 |
-| `src/pages/notice/edit/page.tsx` | 스코프 밖 (deprecated API 사용) |
-| `src/pages/audit/edit/page.tsx` | 스코프 밖 (deprecated API, 추후 삭제 예정) |
+| 파일                                   | 이유                                                            |
+| -------------------------------------- | --------------------------------------------------------------- |
+| `src/hooks/useContentEditor.ts`        | `useEditableContent`가 내부에서 사용. 기존 인터페이스 변경 없음 |
+| `src/components/EditHeader.tsx`        | 이미 존재하고 그대로 사용                                       |
+| `src/containers/new/Container.tsx`     | 변경 불필요                                                     |
+| `src/containers/new/ArticleHeader.tsx` | EditHeader 내부에서 사용 중                                     |
+| `src/containers/new/ArticleFooter.tsx` | EditFooter 내부에서 사용 중                                     |
+| `src/components/edit/FileInputs.tsx`   | 변경 불필요                                                     |
+| `src/pages/notice/edit/page.tsx`       | 스코프 밖 (deprecated API 사용)                                 |
+| `src/pages/audit/edit/page.tsx`        | 스코프 밖 (deprecated API, 추후 삭제 예정)                      |
 
 ---
 
@@ -603,7 +609,7 @@ export default function NoticeEditPage() {
   /* ── 기존 데이터 로드 ── */
   useEffect(() => {
     if (post && editorRef.current && !isPostLoaded) {
-      reset(post);  // 또는 postTransformer(post)로 변환
+      reset(post); // 또는 postTransformer(post)로 변환
       loadContent(post.content);
       loadFiles(post.fileResponseList);
       markLoaded();
@@ -685,9 +691,7 @@ export default function NoticeEditPage() {
                 titleError ? 'h-5 translate-y-0 opacity-100' : 'h-0 -translate-y-2 opacity-0'
               )}
             >
-              {titleError && titleError.type === 'too_big'
-                ? '제목은 50자 이내이여야 합니다.'
-                : '이 값은 필수입니다.'}
+              {titleError && titleError.type === 'too_big' ? '제목은 50자 이내이여야 합니다.' : '이 값은 필수입니다.'}
             </p>
           </div>
           <Editor
@@ -699,11 +703,7 @@ export default function NoticeEditPage() {
           />
         </section>
         <section>
-          <FileInputs
-            files={attachments.files}
-            onChange={attachments.handleChange}
-            sizeLimit={1024 * 1024 * 5}
-          />
+          <FileInputs files={attachments.files} onChange={attachments.handleChange} sizeLimit={1024 * 1024 * 5} />
         </section>
       </Container>
       <EditFooter
@@ -722,16 +722,16 @@ export default function NoticeEditPage() {
 
 ### 커스터마이징 참고
 
-| 상황 | 방법 | 참고 페이지 |
-|------|------|------------|
-| 카테고리 드롭다운이 필요 | `/* ── 로컬 상태 ── */`에 `useState`로 카테고리 관리, 렌더에 `FilterDropDown` 추가 | `data/edit/page.tsx` |
-| 동적 폼 필드가 필요 (추가/삭제) | `useFieldArray`를 폼 훅에서 반환, 렌더에서 `map`으로 렌더링 | `human-rights/edit/page.tsx` |
-| 이미지 업로드가 필요 없는 에디터 | `useEditableContent` 대신 `editorRef`만 직접 사용, `processImages`/`collectPostFiles` 호출 제거 | `qna-notice/edit/page.tsx` |
-| 파일 첨부가 필요 없음 | `useFileAttachments()`, `FileInputs` 생략, 제출에서 파일 관련 로직 제거 | `qna-notice/edit/page.tsx` |
-| 파일별 카테고리가 필요 | `loadFiles(list, { filter: () => true, withCategory: true })`, 제출은 커스텀 로직 유지 | `data/edit/page.tsx` |
-| 등록/수정 버튼 텍스트 동적 변경 | `<EditFooter>{postId ? '수정' : '등록'}</EditFooter>` | `qna-notice/edit/page.tsx` |
-| 추가 비활성화 조건이 필요 | `EditFooter`의 `disabled`에 조건 추가 (예: `!disclaimerAgreed \|\| ...`) | `human-rights/edit/page.tsx` |
-| 작성자 표시가 필요 | `<EditHeader.Member>{memberName}</EditHeader.Member>` 추가 | `data/edit/page.tsx` |
+| 상황                             | 방법                                                                                            | 참고 페이지                  |
+| -------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------- |
+| 카테고리 드롭다운이 필요         | `/* ── 로컬 상태 ── */`에 `useState`로 카테고리 관리, 렌더에 `FilterDropDown` 추가              | `data/edit/page.tsx`         |
+| 동적 폼 필드가 필요 (추가/삭제)  | `useFieldArray`를 폼 훅에서 반환, 렌더에서 `map`으로 렌더링                                     | `human-rights/edit/page.tsx` |
+| 이미지 업로드가 필요 없는 에디터 | `useEditableContent` 대신 `editorRef`만 직접 사용, `processImages`/`collectPostFiles` 호출 제거 | `qna-notice/edit/page.tsx`   |
+| 파일 첨부가 필요 없음            | `useFileAttachments()`, `FileInputs` 생략, 제출에서 파일 관련 로직 제거                         | `qna-notice/edit/page.tsx`   |
+| 파일별 카테고리가 필요           | `loadFiles(list, { filter: () => true, withCategory: true })`, 제출은 커스텀 로직 유지          | `data/edit/page.tsx`         |
+| 등록/수정 버튼 텍스트 동적 변경  | `<EditFooter>{postId ? '수정' : '등록'}</EditFooter>`                                           | `qna-notice/edit/page.tsx`   |
+| 추가 비활성화 조건이 필요        | `EditFooter`의 `disabled`에 조건 추가 (예: `!disclaimerAgreed \|\| ...`)                        | `human-rights/edit/page.tsx` |
+| 작성자 표시가 필요               | `<EditHeader.Member>{memberName}</EditHeader.Member>` 추가                                      | `data/edit/page.tsx`         |
 
 ---
 
@@ -739,23 +739,23 @@ export default function NoticeEditPage() {
 
 ### 추출한 것
 
-| 계층 | 파일 | 적용 페이지 |
-|------|------|------------|
-| UI | `EditHeader` (기존) | 4개 전체 |
-| UI | `EditFooter` | 4개 전체 |
-| UI | `EditPageSkeleton` | 4개 전체 |
-| UI | `EditPageError` | 4개 전체 |
+| 계층        | 파일                 | 적용 페이지                    |
+| ----------- | -------------------- | ------------------------------ |
+| UI          | `EditHeader` (기존)  | 4개 전체                       |
+| UI          | `EditFooter`         | 4개 전체                       |
+| UI          | `EditPageSkeleton`   | 4개 전체                       |
+| UI          | `EditPageError`      | 4개 전체                       |
 | 에디터 로직 | `useEditableContent` | sug-notice, human-rights, data |
-| 파일 로직 | `useFileAttachments` | sug-notice, human-rights, data |
-| 제출 로직 | `collectPostFiles` | sug-notice, human-rights |
+| 파일 로직   | `useFileAttachments` | sug-notice, human-rights, data |
+| 제출 로직   | `collectPostFiles`   | sug-notice, human-rights       |
 
 ### 의도적으로 남긴 것
 
-| 패턴 | 이유 |
-|------|------|
-| create/patch 분기 + invalidate + navigate | onSuccess 안에서 뭘 하는지 인라인으로 바로 보이는 게 더 읽기 좋음 |
-| 제목 입력 + 에러 표시 JSX | 페이지별 Input className이 다르고, 8줄짜리 JSX에 className prop 추가 시 오히려 복잡해짐 |
-| 가드 패턴 (loading/error 분기) | 페이지마다 체크하는 에러 조합이 다름 (qna: `isLogin`, human-rights: `isUserInfoError` 등) |
-| useEffect 로딩 세부 로직 | data: `setCategory`, human-rights: `postTransformer` 등 페이지별 고유 변환이 존재 |
-| data 제출 시 파일 업로드 | 파일마다 개별 카테고리로 업로드하는 고유 로직 — `collectPostFiles`와 패턴이 다름 |
-| qna-notice 에디터/파일 | `useContentEditor` 자체를 사용하지 않는 페이지 — 커스텀 에디터 설정, 파일 업로드 없음 |
+| 패턴                                      | 이유                                                                                      |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------- |
+| create/patch 분기 + invalidate + navigate | onSuccess 안에서 뭘 하는지 인라인으로 바로 보이는 게 더 읽기 좋음                         |
+| 제목 입력 + 에러 표시 JSX                 | 페이지별 Input className이 다르고, 8줄짜리 JSX에 className prop 추가 시 오히려 복잡해짐   |
+| 가드 패턴 (loading/error 분기)            | 페이지마다 체크하는 에러 조합이 다름 (qna: `isLogin`, human-rights: `isUserInfoError` 등) |
+| useEffect 로딩 세부 로직                  | data: `setCategory`, human-rights: `postTransformer` 등 페이지별 고유 변환이 존재         |
+| data 제출 시 파일 업로드                  | 파일마다 개별 카테고리로 업로드하는 고유 로직 — `collectPostFiles`와 패턴이 다름          |
+| qna-notice 에디터/파일                    | `useContentEditor` 자체를 사용하지 않는 페이지 — 커스텀 에디터 설정, 파일 업로드 없음     |

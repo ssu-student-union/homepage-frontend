@@ -28,9 +28,7 @@ export async function collectPostFiles({
   processImages,
   existingImages = [],
 }: CollectPostFilesOptions): Promise<{ postFileList: number[]; content: string }> {
-  const postFileList: number[] = files
-    .filter((file): file is UploadedPostFile => file.isUploaded)
-    .map(({ id }) => id);
+  const postFileList: number[] = files.filter((file): file is UploadedPostFile => file.isUploaded).map(({ id }) => id);
 
   const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded).map(({ file }) => file);
   if (localFiles.length > 0) {
