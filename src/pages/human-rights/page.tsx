@@ -159,7 +159,7 @@ export function HumanRightsPage() {
         </div>
         <div className="flex justify-end">
           {writable && (
-            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/qna/edit">
+            <Link className={cn(buttonVariants({ variant: 'outline' }), 'gap-2')} to="/human-rights/edit">
               <Pencil className="size-4" />
               <p>글쓰기</p>
             </Link>
