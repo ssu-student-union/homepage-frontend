@@ -27,6 +27,7 @@ export const subName2: string[] = [
   '인문대학',
   '자연과학대학',
   'IT대학',
+  'AI대학',
   '자유전공학부',
 ];
 
@@ -61,6 +62,7 @@ export const buildCollageSubCategories: (t: TFunction) => { id: string; name: st
   { id: '인문대학', name: t('board-selector.인문대학'), to: { search: '?category=단과대&sub=인문대학' } },
   { id: '자연과학대학', name: t('board-selector.자연과학대학'), to: { search: '?category=단과대&sub=자연과학대학' } },
   { id: 'IT대학', name: t('board-selector.IT대학'), to: { search: '?category=단과대&sub=IT대학' } },
+  { id: 'AI대학', name: t('board-selector.AI대학'), to: { search: '?category=단과대&sub=AI대학' } },
   {
     id: '자유전공학부',
     name: t('board-selector.자유전공학부'),
