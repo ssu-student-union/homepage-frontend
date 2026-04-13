@@ -1,9 +1,15 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
+import { useSearchParams } from 'react-router';
 
 export const useQueryUpdater = (): ((query: string, value: string | ((prevValue: string) => string)) => string) => {
-  const search = useMemo(() => new URLSearchParams(location.search), []);
-  return (query, value) => {
-    search.set(query, typeof value === 'string' ? value : value(search.get(query) ?? ''));
-    return `?${search.toString()}`;
-  };
+  const [searchParams] = useSearchParams();
+
+  return useCallback(
+    (query, value) => {
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.set(query, typeof value === 'string' ? value : value(newParams.get(query) ?? ''));
+      return `?${newParams.toString()}`;
+    },
+    [searchParams]
+  );
 };
