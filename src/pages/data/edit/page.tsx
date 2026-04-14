@@ -15,7 +15,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
 import { userFileCategories } from '@/pages/data/const/category';
-import { resolveDataCategories } from '@/pages/data/hook/utils/useDataCategory';
 import { useGetDataPost, useUploadDataFiles } from '@/pages/data/queries';
 import { useGetDataFileCategories } from '@/pages/data/hook/query/useGetDataFileCategories';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
@@ -23,6 +22,7 @@ import { useCreateDataPost } from '@/pages/data/hook/mutation/useCreateDataPost'
 import { FileInputs } from '@/components/edit/FileInputs';
 import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
 import { EditHeader } from '@/components/EditHeader';
+import { resolveUserRole } from '@/pages/data/utils/roles';
 
 function PageSkeleton() {
   return (
@@ -57,7 +57,7 @@ export default function DataEditPage() {
   const memberName: string = localStorage.getItem('memberName') || '';
   const majorName: string = localStorage.getItem('majorName') || '';
 
-  const { majorCategory, middleCategory } = resolveDataCategories(memberName, majorName);
+  const { majorCategory, middleCategory } = resolveUserRole(memberName, majorName);
 
   const { data: categories } = useGetDataFileCategories({ majorCategory, middleCategory });
   const [category, setCategory] = useState<string>('');
@@ -211,7 +211,7 @@ export default function DataEditPage() {
             queryClient
               .invalidateQueries({ queryKey: ['searchPosts', 'data'] })
               .then(() => queryClient.invalidateQueries({ queryKey: ['getPost', 'data', postId] }))
-              .then(() => navigate(`/data/${data}`));
+              .then(() => navigate(`/data/${data}`, { replace: true }));
           },
         }
       );
@@ -222,7 +222,7 @@ export default function DataEditPage() {
           onSuccess: (data) => {
             queryClient
               .invalidateQueries({ queryKey: ['searchPosts', 'data'] })
-              .then(() => navigate(`/data/${data.post_id}`));
+              .then(() => navigate(`/data/${data.post_id}`, { replace: true }));
           },
         }
       );

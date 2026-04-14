@@ -1,24 +1,7 @@
-import { useState } from 'react';
 import { CATEGORIES } from '@/pages/data/const/category';
 
-// 대분류, 중분류, 소분류 상태 관리 훅
-export function useDataCategory() {
-  const [majorCategory, setMajor] = useState<string>(''); // 대분류 선택 상태
-  const [middleCategory, setMiddle] = useState<string>(''); // 중분류 선택 상태
-  const [subCategory, setSub] = useState<string>(''); // 소분류 선택 상태
-
-  return {
-    majorCategory,
-    middleCategory,
-    subCategory,
-    setMajor,
-    setMiddle,
-    setSub,
-  };
-}
-
 // localStorage의 memberName, majorName으로 API 파라미터 결정
-export function resolveDataCategories(
+export function resolveUserRole(
   memberName: string,
   majorName: string
 ): {
