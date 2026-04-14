@@ -6,7 +6,7 @@ import { LoginState } from '@/atoms/atom';
 import { Footer } from '@/containers/common/Footer';
 import { useAtom } from 'jotai';
 
-export function Layout() {
+export function MainLayout() {
   const [loginState, setLoginState] = useAtom(LoginState);
   const navigate = useNavigate();
 
