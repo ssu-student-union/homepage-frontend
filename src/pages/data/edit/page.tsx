@@ -1,17 +1,21 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ArticleFooter } from '@/containers/new/ArticleFooter';
-import { Container } from '@/containers/new/Container';
-import { cn } from '@/libs/utils';
-import { Editor } from '@toast-ui/react-editor';
-import { Loader2 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { useContentEditor } from '@/hooks/useContentEditor';
-import { FilterDropDown } from '@/components/FilterDropDown';
-import { PostHeader } from '@/components/detail/PostHeader';
-import { PostFooter } from '@/components/detail/PostFooter';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
+import { Editor } from '@toast-ui/react-editor';
+import { cn } from '@/libs/utils';
+
+import { Input } from '@/components/ui/input';
+import { FileInputs } from '@/components/edit/FileInputs';
+import { FilterDropDown } from '@/components/FilterDropDown';
+import { Container } from '@/containers/new/Container';
+import { EditHeader } from '@/components/EditHeader';
+import { EditFooter } from '@/components/EditFooter';
+import { EditPageSkeleton } from '@/components/EditPageSkeleton';
+import { EditPageError } from '@/components/EditPageError';
+
+import { useEditableContent } from '@/hooks/editor/useEditableContent';
+import { useFileAttachments } from '@/hooks/editor/useFileAttachments';
+import { LocalPostFile, UploadedPostFile } from '@/components/edit/FileInput';
 import { DataPost, DataPostEditForm, DataPostEditFormSchema, DataPostEditRequest } from '@/pages/data/schema';
 import { useDataForm } from '@/pages/data/edit/form';
 import { userFileCategories } from '@/pages/data/const/category';
@@ -20,20 +24,6 @@ import { useGetDataPost, useUploadDataFiles } from '@/pages/data/queries';
 import { useGetDataFileCategories } from '@/pages/data/hook/query/useGetDataFileCategories';
 import { usePatchDataPost } from '@/pages/data/hook/mutation/usePatchDataPost';
 import { useCreateDataPost } from '@/pages/data/hook/mutation/useCreateDataPost';
-import { FileInputs } from '@/components/edit/FileInputs';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
-import { EditHeader } from '@/components/EditHeader';
-
-function PageSkeleton() {
-  return (
-    <article className="mb-20 mt-16">
-      <PostHeader.Skeleton />
-      <hr className="bg-[#E7E7E7]" />
-      <Container.Skeleton />
-      <PostFooter.Skeleton />
-    </article>
-  );
-}
 
 function postTransformer({ postId, title, category, fileResponseList, content }: DataPost): DataPostEditForm {
   return {
@@ -48,23 +38,13 @@ function postTransformer({ postId, title, category, fileResponseList, content }:
 }
 
 export default function DataEditPage() {
-  /* Router Props */
+  /* ── 라우트 ── */
   const { id } = useParams<{ id?: string }>();
   const postId = id ? parseInt(id ?? '') || null : null;
   const navigate = useNavigate();
-
-  /* 카테고리 지정 */
-  const memberName: string = localStorage.getItem('memberName') || '';
-  const majorName: string = localStorage.getItem('majorName') || '';
-
-  const { majorCategory, middleCategory } = resolveDataCategories(memberName, majorName);
-
-  const { data: categories } = useGetDataFileCategories({ majorCategory, middleCategory });
-  const [category, setCategory] = useState<string>('');
-  const fileCategories: string[] = userFileCategories[memberName];
-
-  /* Load data by query */
   const queryClient = useQueryClient();
+
+  /* ── 데이터 조회 ── */
   const {
     data: post,
     isLoading,
@@ -74,9 +54,16 @@ export default function DataEditPage() {
     postId: postId ?? 0,
     queryOptions: { enabled: postId !== null },
   });
-  const [isPostLoaded, setIsPostLoaded] = useState(false);
 
-  /* Register form hooks */
+  /* ── 로컬 상태 ── */
+  const memberName: string = localStorage.getItem('memberName') || '';
+  const majorName: string = localStorage.getItem('majorName') || '';
+  const { majorCategory, middleCategory } = resolveDataCategories(memberName, majorName);
+  const { data: categories } = useGetDataFileCategories({ majorCategory, middleCategory });
+  const [category, setCategory] = useState<string>('');
+  const fileCategories: string[] = userFileCategories[memberName];
+
+  /* ── 폼 ── */
   const {
     register,
     reset,
@@ -91,12 +78,15 @@ export default function DataEditPage() {
     postFileList: [],
   });
 
-  // 에디터 기능 훅
-  const editorRef = useRef<Editor>(null);
-  const { register: registerEditor, isImageProcessing } = useContentEditor('자료집', editorRef);
-  const [files, setFiles] = useState<PostFile[]>([]);
+  /* ── 에디터 ── */
+  const editor = useEditableContent({ boardCode: '자료집', setValue, trigger });
+  const { ref: editorRef, isPostLoaded, loadContent, markLoaded } = editor;
 
-  /* Mutation hooks */
+  /* ── 파일 상태 ── */
+  const attachments = useFileAttachments();
+  const { loadFiles } = attachments;
+
+  /* ── 뮤테이션 ── */
   const {
     mutate: createPost,
     error: createError,
@@ -116,75 +106,45 @@ export default function DataEditPage() {
     isPending: isFileUploadPending,
   } = useUploadDataFiles();
 
-  // 기존 데이터 입력
+  /* ── 기존 데이터 로드 ── */
   useEffect(() => {
     if (post && editorRef.current && !isPostLoaded) {
-      setIsPostLoaded(false);
-
       reset(postTransformer(post));
-      editorRef.current!.getInstance().setMarkdown(post.content);
+      loadContent(post.content);
       setCategory(post.category || '');
-
-      if (post.fileResponseList && post.fileResponseList.length > 0) {
-        const uploadedFiles = post.fileResponseList.map(
-          ({ postFileId, fileName, fileType }): UploadedPostFile => ({
-            name: fileName,
-            isUploaded: true,
-            id: postFileId,
-            category: fileType.replace(/ /g, '_'),
-          })
-        );
-
-        setFiles(uploadedFiles);
-      } else {
-        setFiles([]);
-      }
-
-      setIsPostLoaded(true);
+      loadFiles(post.fileResponseList, { filter: () => true, withCategory: true });
+      markLoaded();
     }
 
     if (!postId) {
-      setIsPostLoaded(true);
+      markLoaded();
     }
-  }, [post, postId, reset, isPostLoaded]);
+  }, [post, postId, reset, editorRef, isPostLoaded, loadContent, loadFiles, markLoaded]);
 
-  function handleContentChange() {
-    if (editorRef.current && isPostLoaded) {
-      setValue('content', editorRef.current.getInstance().getMarkdown(), { shouldValidate: true });
-    }
-  }
-
-  function handleContentBlur() {
-    (async () => await trigger('content'))();
-  }
-
-  function handleFilesChange(newFiles: PostFile[]) {
-    setFiles(newFiles);
-  }
-
+  /* ── 제출 ── */
   async function submitForm(formData: DataPostEditForm) {
     if (category === '') {
       alert('카테고리를 지정해야 합니다.');
       return;
     }
 
-    if (files.length === 0) {
+    if (attachments.files.length === 0) {
       alert('파일을 하나 이상 업로드해야 합니다.');
       return;
     }
 
-    const hasInvalidCategory = files.some((file) => !file.category || file.category.trim() === '');
+    const hasInvalidCategory = attachments.files.some((file) => !file.category || file.category.trim() === '');
     if (hasInvalidCategory) {
       alert('모든 파일의 파일종류를 선택해야 합니다.');
       return;
     }
 
-    const postFileList: number[] = files
+    const postFileList: number[] = attachments.files
       .filter((file): file is UploadedPostFile => file.isUploaded)
       .map(({ id }) => id);
 
-    if (files.length > 0) {
-      const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded);
+    if (attachments.files.length > 0) {
+      const localFiles = attachments.files.filter((file): file is LocalPostFile => !file.isUploaded);
 
       const uploadedFiles = await Promise.all(
         localFiles.map(async (file) => {
@@ -229,8 +189,9 @@ export default function DataEditPage() {
     }
   }
 
+  /* ── 가드 ── */
   if (isLoading || isCreatePending || isPatchPending) {
-    return <PageSkeleton />;
+    return <EditPageSkeleton />;
   }
 
   if ((postId && !post) || isError || isCreateError || isPatchError || isFileUploadError) {
@@ -238,16 +199,12 @@ export default function DataEditPage() {
     if (isCreateError) console.log(createError);
     if (isPatchError) console.log(patchError);
     if (isFileUploadError) console.log(fileUploadError);
-    // TODO: 오류 발생 시 세부정보 제공
-    return (
-      <div className="mt-16 flex items-center justify-center py-12">
-        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
-      </div>
-    );
+    return <EditPageError />;
   }
 
   const titleError = errors?.title;
 
+  /* ── 렌더 ── */
   return (
     <article className="mt-[123px]">
       <EditHeader>
@@ -291,42 +248,32 @@ export default function DataEditPage() {
             initialValue=""
             placeholder="글을 작성해주세요"
             useCommandShortcut={true}
-            onChange={handleContentChange}
-            onBlur={handleContentBlur}
-            {...registerEditor}
+            {...editor.editorProps}
           />
         </section>
         <section className="mb-16">
           <FileInputs
             categories={fileCategories}
-            files={files}
-            onChange={handleFilesChange}
+            files={attachments.files}
+            onChange={attachments.handleChange}
             sizeLimit={1024 * 1024 * 5}
           />
         </section>
       </Container>
-      <ArticleFooter className="pb-6">
-        <Button
-          variant="register"
-          className="flex items-center justify-center gap-1 self-end px-2"
-          disabled={
-            !watch('title')?.trim() ||
-            !watch('content')?.trim() ||
-            !category ||
-            files.length === 0 ||
-            files.some((f) => !f.category || f.category.trim() === '') ||
-            Object.keys(errors).length > 0 ||
-            isImageProcessing ||
-            isFileUploadPending
-          }
-          onClick={handleSubmit(submitForm)}
-        >
-          <Loader2
-            className={cn('animate-spin transition-all', isImageProcessing ? 'ml-0 opacity-100' : '-ml-7 opacity-0')}
-          />
-          <p>등록</p>
-        </Button>
-      </ArticleFooter>
+      <EditFooter
+        onSubmit={handleSubmit(submitForm)}
+        disabled={
+          !watch('title')?.trim() ||
+          !watch('content')?.trim() ||
+          !category ||
+          attachments.files.length === 0 ||
+          attachments.files.some((f) => !f.category || f.category.trim() === '') ||
+          Object.keys(errors).length > 0 ||
+          editor.isImageProcessing ||
+          isFileUploadPending
+        }
+        isLoading={editor.isImageProcessing}
+      />
     </article>
   );
 }

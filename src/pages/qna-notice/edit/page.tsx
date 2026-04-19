@@ -2,52 +2,52 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { Editor } from '@toast-ui/react-editor';
-import { cn } from '@/libs/utils.ts';
-import { ArticleHeader } from '@/containers/new/ArticleHeader';
-import { Container } from '@/containers/new/Container.tsx';
-import { ArticleFooter } from '@/containers/new/ArticleFooter';
-import { PostHeader } from '@/components/detail/PostHeader';
-import { PostFooter } from '@/components/detail/PostFooter';
+
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { Container } from '@/containers/new/Container';
+import { EditHeader } from '@/components/EditHeader';
+import { EditFooter } from '@/components/EditFooter';
+import { EditPageSkeleton } from '@/components/EditPageSkeleton';
+import { EditPageError } from '@/components/EditPageError';
+
 import { QnaPostForm } from './types';
 import { useQnaForm } from './form';
 import { useCreateQnaPost } from '../hooks/useCreateQna';
 import { usePatchQna } from '../hooks/usePatchQna';
 import { useGetQnaDetail } from '../hooks/useGetQnaDetail';
 import { useGetUserInfoQna } from '../hooks/useGetUserInfoQna';
-import { qnaMemberCodeData } from '../collegesData';
-import { qnaMemberMajor } from '../collegesData';
+import { qnaMemberCodeData, qnaMemberMajor } from '../collegesData';
 import { LoginState } from '@/atoms/atom';
 import { useAtom } from 'jotai';
 
-function PageSkeleton() {
-  return (
-    <article className="mb-20 mt-16">
-      <PostHeader.Skeleton />
-      <hr className="bg-[#E7E7E7]" />
-      <Container.Skeleton />
-      <PostFooter.Skeleton />
-    </article>
-  );
-}
-
 export default function QnaEditPage() {
+  /* ── 라우트 ── */
   const { id } = useParams<{ id?: string }>();
   const postId = id ? parseInt(id ?? '') || undefined : undefined;
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-  // 사용자의 단과대 학과를 가져오기 위해 로그인 확인 후 유저 데이터 페칭
+  /* ── 데이터 조회 ── */
   const [isLogin] = useAtom(LoginState);
   const { data: user, isLoading: isUserLoading, isError: isUserError, error: userError } = useGetUserInfoQna(isLogin);
+  const {
+    data: detail,
+    isError: isDetailError,
+    error: detailError,
+  } = useGetQnaDetail({
+    postId: postId ?? 0,
+    queryOptions: { enabled: postId !== null },
+  });
 
-  // form과 Editor 사용
+  /* ── 폼 ── */
   const editorRef = useRef<Editor>(null);
   const { register, handleSubmit, reset, setValue } = useQnaForm();
 
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  /* ── 로컬 상태 ── */
+  const [selectedMember, setSelectedMember] = useState<keyof typeof qnaMemberMajor>();
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
+  /* ── 뮤테이션 ── */
   const {
     mutate: createQna,
     error: createError,
@@ -59,24 +59,9 @@ export default function QnaEditPage() {
       navigate(`/qna/${data.post_id}`);
     },
   });
-
   const { mutate: patchQna, error: patchError, isError: isPatchError, isPending: isPatchPending } = usePatchQna();
 
-  // 단과대 선택에 따른 학과 선택 드롭다운 관리를 위해 단과대 선택 값 감시
-  const [selectedMember, setSelectedMember] = useState<keyof typeof qnaMemberMajor>();
-
-  // 수정의 경우 질문 대상 선택 불가 판정을 위해 state 사용
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-
-  const {
-    data: detail,
-    isError: isDetailError,
-    error: detailError,
-  } = useGetQnaDetail({
-    postId: postId ?? 0,
-    queryOptions: { enabled: postId !== null },
-  });
-
+  /* ── 기존 데이터 로드 ── */
   useEffect(() => {
     if (postId) {
       if (!detail || isDetailError) {
@@ -103,29 +88,7 @@ export default function QnaEditPage() {
     }
   }, [postId, reset, detail, isDetailError, detailError]);
 
-  if (!isLogin) {
-    return (
-      <div className="mt-16 flex items-center justify-center">
-        <p>로그인 후 이용해 주세요.</p>
-      </div>
-    );
-  }
-
-  if (isUserLoading || isCreatePending || isPatchPending) {
-    return <PageSkeleton />;
-  }
-
-  if (!user || isUserError || isCreateError || isPatchError) {
-    if (isUserError) console.log('user error', userError);
-    if (isCreateError) console.log('create error', createError);
-    if (isPatchError) console.log('patch error', patchError);
-    return (
-      <div className="mt-16 flex items-center justify-center">
-        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
-      </div>
-    );
-  }
-
+  /* ── 핸들러 ── */
   function handleEditorChange() {
     const instance = editorRef.current?.getInstance();
     if (instance) {
@@ -133,6 +96,7 @@ export default function QnaEditPage() {
     }
   }
 
+  /* ── 제출 ── */
   function onSubmit(formData: QnaPostForm) {
     if (editorRef.current) {
       formData.content = editorRef.current.getInstance().getMarkdown();
@@ -167,16 +131,32 @@ export default function QnaEditPage() {
     }
   }
 
+  /* ── 가드 ── */
+  if (!isLogin) {
+    return <EditPageError message="로그인 후 이용해 주세요." />;
+  }
+
+  if (isUserLoading || isCreatePending || isPatchPending) {
+    return <EditPageSkeleton />;
+  }
+
+  if (!user || isUserError || isCreateError || isPatchError) {
+    if (isUserError) console.log('user error', userError);
+    if (isCreateError) console.log('create error', createError);
+    if (isPatchError) console.log('patch error', patchError);
+    return <EditPageError />;
+  }
+
+  /* ── 렌더 ── */
   return (
     <article className="mt-[200px]">
-      <ArticleHeader>
-        <h1 className="text-5xl font-bold">건의게시판</h1>
-      </ArticleHeader>
+      <EditHeader>
+        <EditHeader.Title>건의게시판</EditHeader.Title>
+      </EditHeader>
       <hr className="bg-[#E7E7E7]" />
       <Container>
         {!isEdit && (
           <section className="xs:flex-col mb-4 flex justify-between sm:flex-col">
-            {/* 질문 대상 선택 드롭다운 */}
             <select
               {...register('qnaMemberCode')}
               onChange={(e: ChangeEvent<HTMLSelectElement>) =>
@@ -196,7 +176,6 @@ export default function QnaEditPage() {
                 ))}
             </select>
 
-            {/* 세부 대상 선택 드롭다운 */}
             <select
               {...register('qnaMajorCode')}
               className="xs:w-auto h-11 w-[49.5%] appearance-none rounded-[0.5rem] border border-gray-600 bg-[url(/image/arrow-down.svg)] bg-[position:calc(100%-3rem)_center] bg-no-repeat text-center text-gray-800 sm:w-auto"
@@ -238,22 +217,13 @@ export default function QnaEditPage() {
           />
         </section>
       </Container>
-      <ArticleFooter>
-        <Button
-          variant="register"
-          className="mb-10 flex items-center justify-center gap-1 self-end px-2"
-          disabled={isCreatePending || isPatchPending}
-          onClick={handleSubmit(onSubmit)}
-        >
-          <Loader2
-            className={cn(
-              'animate-spin transition-all',
-              isCreatePending || isPatchPending ? 'ml-0 opacity-100' : '-ml-7 opacity-0'
-            )}
-          />
-          {postId ? '수정' : '등록'}
-        </Button>
-      </ArticleFooter>
+      <EditFooter
+        onSubmit={handleSubmit(onSubmit)}
+        disabled={isCreatePending || isPatchPending}
+        isLoading={isCreatePending || isPatchPending}
+      >
+        {postId ? '수정' : '등록'}
+      </EditFooter>
     </article>
   );
 }

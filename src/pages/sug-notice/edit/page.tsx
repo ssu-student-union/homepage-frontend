@@ -1,44 +1,34 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { useQueryClient } from '@tanstack/react-query';
+import { Editor } from '@toast-ui/react-editor';
+import { cn } from '@/libs/utils';
+
 import { Input } from '@/components/ui/input';
 import { FileInputs } from '@/components/edit/FileInputs';
-import { Editor } from '@toast-ui/react-editor';
-import { cn } from '@/libs/utils.ts';
-import { PostHeader } from '@/components/detail/PostHeader';
 import { Container } from '@/containers/new/Container';
-import { PostFooter } from '@/components/detail/PostFooter';
-import { LocalPostFile, PostFile, UploadedPostFile } from '@/components/edit/FileInput';
-import { ArticleHeader } from '@/containers/new/ArticleHeader';
-import { ArticleFooter } from '@/containers/new/ArticleFooter';
-import { useContentEditor } from '@/hooks/useContentEditor';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
+import { EditHeader } from '@/components/EditHeader';
+import { EditFooter } from '@/components/EditFooter';
+import { EditPageSkeleton } from '@/components/EditPageSkeleton';
+import { EditPageError } from '@/components/EditPageError';
+
+import { useEditableContent } from '@/hooks/editor/useEditableContent';
+import { useFileAttachments } from '@/hooks/editor/useFileAttachments';
+import { collectPostFiles } from '@/hooks/editor/collectPostFiles';
 import { useSuggestForm } from './form';
 import { useCreateSuggestPost, useGetSuggestPost, usePatchSuggestPost, useUploadSuggestFiles } from '../queries';
 import { SuggestPostEditRequest, SuggestPostEditRequestSchema, SuggestPostWriteForm } from '../schema';
-import { FileResponse } from '@/schemas/post';
 
 const BOARD_CODE = '건의게시판';
 
-function PageSkeleton() {
-  return (
-    <article className="mb-20 mt-16">
-      <PostHeader.Skeleton />
-      <hr className="bg-[#E7E7E7]" />
-      <Container.Skeleton />
-      <PostFooter.Skeleton />
-    </article>
-  );
-}
-
 export function SuggestWritePage() {
+  /* ── 라우트 ── */
   const { id } = useParams<{ id?: string }>();
   const postId = id ? parseInt(id ?? '') || null : null;
   const navigate = useNavigate();
-
   const queryClient = useQueryClient();
 
+  /* ── 데이터 조회 ── */
   const {
     data: post,
     isLoading,
@@ -49,6 +39,7 @@ export function SuggestWritePage() {
     queryOptions: { enabled: Number.isFinite(postId) },
   });
 
+  /* ── 폼 ── */
   const {
     register,
     reset,
@@ -61,13 +52,15 @@ export function SuggestWritePage() {
     postFileList: [],
   });
 
-  //에디터 기능 훅
-  const editorRef = useRef<Editor>(null);
-  const { register: registerEditor, processImages, isImageProcessing } = useContentEditor(BOARD_CODE, editorRef);
-  const [files, setFiles] = useState<PostFile[]>([]);
-  const [isPostLoaded, setIsPostLoaded] = useState(false);
+  /* ── 에디터 ── */
+  const editor = useEditableContent({ boardCode: BOARD_CODE, setValue, trigger });
+  const { ref: editorRef, isPostLoaded, loadContent, markLoaded } = editor;
 
-  // mutation hooks
+  /* ── 파일 상태 ── */
+  const attachments = useFileAttachments();
+  const { loadFiles } = attachments;
+
+  /* ── 뮤테이션 ── */
   const {
     mutate: createPost,
     error: createError,
@@ -87,61 +80,33 @@ export function SuggestWritePage() {
     isPending: isFileUploadPending,
   } = useUploadSuggestFiles();
 
+  /* ── 기존 데이터 로드 ── */
   useEffect(() => {
     if (post && editorRef.current && !isPostLoaded) {
-      setIsPostLoaded(false);
       reset(post);
-      editorRef.current!.getInstance().setMarkdown(post.content);
-      const uploadedFiles = post.fileResponseList
-        .filter(({ fileType }) => fileType === 'files')
-        .map(
-          ({ postFileId, fileName }): UploadedPostFile => ({
-            name: fileName,
-            isUploaded: true,
-            id: postFileId,
-          })
-        );
-      setFiles(uploadedFiles);
-      setIsPostLoaded(true);
+      loadContent(post.content);
+      loadFiles(post.fileResponseList);
+      markLoaded();
     }
     if (!postId) {
-      setIsPostLoaded(true);
+      markLoaded();
     }
-  }, [post, postId, reset, isPostLoaded]);
+  }, [post, postId, reset, editorRef, isPostLoaded, loadContent, loadFiles, markLoaded]);
 
-  function handleContentChange() {
-    if (editorRef.current && isPostLoaded) {
-      setValue('content', editorRef.current.getInstance().getMarkdown());
-    }
-  }
-
-  function handleContentBlur() {
-    (async () => await trigger('content'))();
-  }
-
-  function handleFilesChange(newFiles: PostFile[]) {
-    setFiles(newFiles);
-  }
-
+  /* ── 제출 ── */
   async function submitForm(formData: SuggestPostWriteForm) {
-    const postFileList: number[] = files
-      .filter((file): file is UploadedPostFile => file.isUploaded)
-      .map(({ id }) => id);
+    const existingImages = post?.fileResponseList?.filter(({ fileType }) => fileType === 'images') ?? [];
+    const { postFileList, content } = await collectPostFiles({
+      files: attachments.files,
+      uploadFiles,
+      processImages: editor.processImages,
+      existingImages,
+    });
 
-    if (files) {
-      const localFiles = files.filter((file): file is LocalPostFile => !file.isUploaded).map(({ file }) => file);
-      const uploaded = await uploadFiles({ files: localFiles });
-      uploaded.postFiles.forEach(({ id }) => postFileList.push(id));
-    }
-
-    const uploadedImages: FileResponse[] =
-      post?.fileResponseList?.filter(({ fileType }) => fileType === 'images') ?? [];
-    const { existedImages, newImages, content } = await processImages(uploadedImages);
-    existedImages.forEach(({ postFileId }) => postFileList.push(postFileId));
-    newImages.forEach(({ id }) => postFileList.push(id));
     formData.postFileList = postFileList;
     formData.content = content;
     const data: SuggestPostEditRequest = SuggestPostEditRequestSchema.parse(formData);
+
     if (postId) {
       patchPost(
         { id: postId, post: data },
@@ -168,8 +133,9 @@ export function SuggestWritePage() {
     }
   }
 
+  /* ── 가드 ── */
   if (isLoading || isCreatePending || isPatchPending) {
-    return <PageSkeleton />;
+    return <EditPageSkeleton />;
   }
 
   if ((postId && !post) || isError || isCreateError || isPatchError || isFileUploadError) {
@@ -177,21 +143,17 @@ export function SuggestWritePage() {
     if (isCreateError) console.log(createError);
     if (isPatchError) console.log(patchError);
     if (isFileUploadError) console.log(fileUploadError);
-
-    return (
-      <div className="mt-16 flex items-center justify-center py-12">
-        <p>오류가 발생하였습니다. 관리자에게 문의하십시오.</p>
-      </div>
-    );
+    return <EditPageError />;
   }
 
   const titleError = errors?.title;
 
+  /* ── 렌더 ── */
   return (
     <article className="mt-[200px]">
-      <ArticleHeader>
-        <h1 className="text-5xl font-bold">건의게시판</h1>
-      </ArticleHeader>
+      <EditHeader>
+        <EditHeader.Title>건의게시판</EditHeader.Title>
+      </EditHeader>
       <hr className="bg-[#E7E7E7]" />
       <Container>
         <section className="mb-16 flex flex-col gap-6">
@@ -211,31 +173,18 @@ export function SuggestWritePage() {
             initialValue=""
             placeholder="글을 작성해주세요"
             useCommandShortcut={true}
-            onChange={handleContentChange}
-            onBlur={handleContentBlur}
-            {...registerEditor}
+            {...editor.editorProps}
           />
         </section>
         <section>
-          <FileInputs files={files} onChange={handleFilesChange} sizeLimit={1024 * 1024 * 5} />
+          <FileInputs files={attachments.files} onChange={attachments.handleChange} sizeLimit={1024 * 1024 * 5} />
         </section>
       </Container>
-      <ArticleFooter className="pb-6">
-        <Button
-          variant="register"
-          className="flex items-center justify-center gap-1 self-end px-2"
-          disabled={Object.keys(errors).length > 0 || isImageProcessing || isFileUploadPending}
-          onClick={handleSubmit(submitForm)}
-        >
-          <Loader2
-            className={cn(
-              'animate-spin transition-all',
-              isImageProcessing || isFileUploadPending ? 'ml-0 opacity-100' : '-ml-7 opacity-0'
-            )}
-          />
-          <p>등록</p>
-        </Button>
-      </ArticleFooter>
+      <EditFooter
+        onSubmit={handleSubmit(submitForm)}
+        disabled={Object.keys(errors).length > 0 || editor.isImageProcessing || isFileUploadPending}
+        isLoading={editor.isImageProcessing || isFileUploadPending}
+      />
     </article>
   );
 }
