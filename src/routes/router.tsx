@@ -34,10 +34,10 @@ import { OnboardingPage } from '../pages/register/step/onboarding/page';
 import { CertifyErrorPage } from '../pages/register/step/errorcheck/page';
 import { CertifyApplyPage } from '../pages/register/step/errorapply/page';
 import { GeneralLoginPage } from '../pages/register/step/scouncil/page';
-import { RegisterLayout } from '../pages/layout/RegisterLayout';
 import IntroPage from '../pages/intro/page';
 import { SchedulePage } from '../pages/schedule/page';
 import { ScheduleEditPage } from '../pages/schedule/edit/page';
+import { RegisterLayout } from '../pages/layout/RegisterLayout';
 
 export function MainRouter() {
   return (

@@ -43,7 +43,7 @@ export function NoticeDetailEditSection({
             className="sm:w-[100px]"
           />
         )}
-        <ListButton onClick={() => navigate(`/notice`)} className="sm:w-[100px]" />
+        <ListButton onClick={() => navigate(-1)} className="sm:w-[100px]" />
       </div>
     </ArticleFooter>
   );

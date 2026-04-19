@@ -13,27 +13,33 @@ export function useZodSearchParams<T extends z.ZodTypeAny>(schema: T) {
     return schema.parse(Object.fromEntries(searchParams));
   }, [searchParams, schema]) as z.output<T>;
 
-  const setParams = useCallback((updates: Record<string, string | number | undefined | null>) => {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev.toString());
-      for (const [key, value] of Object.entries(updates)) {
-        if (value === undefined || value === null || value === '') {
-          next.delete(key);
-        } else {
-          next.set(key, String(value));
+  const setParams = useCallback(
+    (updates: Record<string, string | number | undefined | null>) => {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev.toString());
+        for (const [key, value] of Object.entries(updates)) {
+          if (value === undefined || value === null || value === '') {
+            next.delete(key);
+          } else {
+            next.set(key, String(value));
+          }
         }
-      }
-      return next;
-    });
-  }, [setSearchParams]);
+        return next;
+      });
+    },
+    [setSearchParams]
+  );
 
-  const resetParams = useCallback((keysToRemove: string[]) => {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev.toString());
-      keysToRemove.forEach((key) => next.delete(key));
-      return next;
-    });
-  }, [setSearchParams]);
+  const resetParams = useCallback(
+    (keysToRemove: string[]) => {
+      setSearchParams((prev) => {
+        const next = new URLSearchParams(prev.toString());
+        keysToRemove.forEach((key) => next.delete(key));
+        return next;
+      });
+    },
+    [setSearchParams]
+  );
 
   return {
     parsed,

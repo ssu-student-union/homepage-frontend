@@ -24,21 +24,27 @@ export function useDataSearchParams() {
     return arr as DataCategoryValue;
   }, [parsed.majorCategory, parsed.middleCategory, parsed.subCategory]);
 
-  const setCategory = useCallback((newCategory: DataCategoryValue) => {
-    setParams({
-      majorCategory: newCategory[0] ?? null,
-      middleCategory: newCategory[1] ?? null,
-      subCategory: newCategory[2] ?? null,
-      page: null,
-    });
-  }, [setParams]);
+  const setCategory = useCallback(
+    (newCategory: DataCategoryValue) => {
+      setParams({
+        majorCategory: newCategory[0] ?? null,
+        middleCategory: newCategory[1] ?? null,
+        subCategory: newCategory[2] ?? null,
+        page: null,
+      });
+    },
+    [setParams]
+  );
 
-  const handleSearch = useCallback((value: string) => {
-    setParams({
-      q: value || null,
-      page: null,
-    });
-  }, [setParams]);
+  const handleSearch = useCallback(
+    (value: string) => {
+      setParams({
+        q: value || null,
+        page: null,
+      });
+    },
+    [setParams]
+  );
 
   return {
     parsed,

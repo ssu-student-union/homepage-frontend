@@ -10,7 +10,7 @@ interface PostFooterProps {
   boardUrl: string;
   deletable?: boolean;
   editable?: boolean;
-  editUrl?: string;
+  editUrl: string;
   className?: string;
   onDelete?: () => void;
 }
@@ -32,15 +32,19 @@ export function PostFooter({ boardUrl, deletable, editable, editUrl, onDelete, c
       <div className="flex w-full max-w-[1040px] justify-end gap-4">
         {deletable && <DeleteButton onClick={onDelete} />}
         {editable && (
-          <Link className={cn(buttonVariants({ variant: 'list-edit' }), 'select-none')} to={editUrl || '#'}>
+          <Link className={cn(buttonVariants({ variant: 'list-edit' }), 'select-none')} to={editUrl}>
             <Pencil className="text-lg" />
             <p className="text-lg">편집</p>
           </Link>
         )}
-        <a href={boardUrl} onClick={handleListClick} className={cn(buttonVariants({ variant: 'list-edit' }), 'select-none')}>
+        <Link
+          to={boardUrl}
+          onClick={handleListClick}
+          className={cn(buttonVariants({ variant: 'list-edit' }), 'select-none')}
+        >
           <List className="text-lg" />
           <p className="text-lg">목록</p>
-        </a>
+        </Link>
       </div>
     </ArticleFooter>
   );
