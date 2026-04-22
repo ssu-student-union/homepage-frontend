@@ -1,7 +1,8 @@
 import { DataContentItem } from '@/pages/data/components/DataContentItem.tsx';
-import { Link, useSearchParams } from 'react-router';
+import { Link } from 'react-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchDataPosts } from '@/pages/data/hook/query/useSearchDataPost';
+import { useDataSearchParams } from '@/pages/data/hook/useDataSearchParams';
 import { BoardHeader } from '@/components/BoardHeader';
 import { Search } from '@/components/Search';
 import LinkPagination from '@/components/LinkPagination';
@@ -9,22 +10,16 @@ import { Pencil, SearchIcon } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/libs/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { CategoryPopover, DataCategoryValue } from '@/pages/data/components/CategoryPopover';
+import { CategoryPopover } from '@/pages/data/components/CategoryPopover';
 import { BoardFooter } from '@/components/BoardFooter';
 import { BoardContainer } from '@/components/BoardContainer';
 
 export default function DataPage() {
-  /* Obtain query parameters */
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = useMemo(() => parseInt(searchParams.get('page') ?? '1') || 1, [searchParams]);
-  const q = useMemo(() => searchParams.get('q') ?? '', [searchParams]);
+  const { parsed, category, setCategory, handleSearch, resetParams } = useDataSearchParams();
+  const { page, q, majorCategory, middleCategory, subCategory } = parsed;
 
-  /* 카테고리 분류 */
-  const [category, setCategory] = useState<DataCategoryValue>([]);
-  const [majorCategory, middleCategory, subCategory] = category;
   const [filterOpen, setFilterOpen] = useState(false);
 
-  /* Load data from Query */
   const { data, isLoading, isError, error } = useSearchDataPosts({
     q,
     page: page - 1,
@@ -33,17 +28,18 @@ export default function DataPage() {
     subCategory: subCategory ?? '',
   });
 
-  // check wrong page params
   useEffect(() => {
-    if (data && (page < 1 || page > data.pageInfo.totalPages)) {
-      setSearchParams((prev) => {
-        prev.delete('page');
-        return prev;
-      });
+    if (data) {
+      const { totalPages } = data.pageInfo;
+      if (totalPages > 0 && (page < 1 || page > totalPages)) {
+        resetParams(['page']);
+      }
+      if (totalPages === 0 && page !== 1) {
+        resetParams(['page']);
+      }
     }
-  }, [data, page, majorCategory, middleCategory, subCategory, setSearchParams]);
+  }, [data, page, resetParams]);
 
-  /* Data preparation */
   const { totalPages } = useMemo(() => data?.pageInfo ?? { totalPages: 0 }, [data]);
   const posts = useMemo(() => data?.postListResDto ?? [], [data]);
   const authorities = useMemo(() => data?.allowedAuthorities ?? [], [data]);
@@ -58,18 +54,6 @@ export default function DataPage() {
       </div>
     );
   }
-
-  const handleSearch = (value: string) => {
-    setSearchParams((prev) => {
-      const newParams = new URLSearchParams(prev.toString());
-      if (value) {
-        newParams.set('q', value);
-      } else {
-        newParams.delete('q');
-      }
-      return newParams;
-    });
-  };
 
   return (
     <Collapsible open={filterOpen} onOpenChange={setFilterOpen}>

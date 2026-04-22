@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router';
-import { MainRouter } from './pages/router';
+import { MainRouter } from './routes/router.tsx';
 import { Toaster } from './components/ui/sonner';
 import { QueryClient, QueryCache, QueryClientProvider } from '@tanstack/react-query';
 import { APIResponseError } from 'endpoint-client';

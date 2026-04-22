@@ -2,6 +2,15 @@ import { z } from 'zod';
 import { FileResponseSchema } from '@/schemas/post';
 import { PostAclSchema } from '@/schemas/common';
 
+export const DataQuerySchema = z.object({
+  majorCategory: z.string().optional(),
+  middleCategory: z.string().optional(),
+  subCategory: z.string().optional(),
+  page: z.coerce.number().catch(1).default(1),
+  q: z.string().optional(),
+});
+export type DataQuery = z.infer<typeof DataQuerySchema>;
+
 /**
  * 자료집 목록에서 사용하는 각 게시물 정보의 원본 데이터입니다.
  */
