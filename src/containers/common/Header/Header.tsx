@@ -41,65 +41,64 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
   // 스타일 불러오기
   const styles = getStyles(state);
   return (
-    <div className="h-12 w-full xl:h-16">
-      <div
+    <div
+      className={cn(
+        'fixed top-0 z-50 flex h-12 w-full items-center justify-start bg-background transition-colors xl:h-16',
+        state !== State.Onboarding && 'xl:bg-primary'
+      )}
+    >
+      <HeaderSheet
+        trigger={
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(
+              navigationMenuTriggerStyle(),
+              'h-full w-16 bg-transparent px-4 text-base font-bold text-foreground transition-all hover:text-foreground xl:hidden',
+              state !== State.Onboarding && 'xl:text-background hover:xl:text-primary-foreground'
+            )}
+          >
+            <List className="size-6 shrink-0" />
+          </Button>
+        }
+        onLogout={onLogout}
+        state={state}
+      />
+      <Link
         className={cn(
-          'fixed top-0 z-50 flex h-12 w-full items-center justify-start bg-background transition-colors xl:h-16',
-          state !== State.Onboarding && 'xl:bg-primary'
+          navigationMenuTriggerStyle(),
+          'h-full bg-background text-foreground hover:text-foreground xl:px-7',
+          state !== State.Onboarding && 'hover:text-background xl:bg-primary xl:text-background'
         )}
+        to="/"
       >
-        <HeaderSheet
-          trigger={
-            <Button
-              variant="ghost"
-              size="icon"
-              className={cn(
-                navigationMenuTriggerStyle(),
-                'h-full w-16 bg-transparent px-4 text-base font-bold text-foreground transition-all hover:text-foreground xl:hidden',
-                state !== State.Onboarding && 'xl:text-background hover:xl:text-primary-foreground'
-              )}
-            >
-              <List className="size-6 shrink-0" />
-            </Button>
-          }
-          onLogout={onLogout}
-          state={state}
-        />
-        <Link
-          className={cn(
-            navigationMenuTriggerStyle(),
-            'h-full bg-background text-foreground hover:text-foreground xl:px-7',
-            state !== State.Onboarding && 'hover:text-background xl:bg-primary xl:text-background'
-          )}
-          to="/"
-        >
-          <CouncilLogo className={cn('h-4 w-auto xl:h-6')} />
-        </Link>
-        <NavigationMenu className="hidden h-full grow items-stretch *:grow xl:flex">
-          <NavigationMenuList className="h-full items-stretch justify-stretch">
-            {Object.entries(MENU_ITEMS).map(([category, items]) => (
-              <NavigationMenuItem key={category}>
-                <NavigationMenuTrigger
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    'h-full bg-transparent px-7 text-foreground transition-colors hover:text-foreground',
-                    state !== State.Onboarding && 'xl:text-primary-foreground hover:xl:text-primary-foreground',
-                    textSize
-                  )}
-                >
-                  {t(`header.${category}`)}
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <DropDownMenu
-                    items={items}
-                    bgColor={styles.bgColor}
-                    textColor={styles.textColor}
-                    hoverBgColor={styles.hoverBgColor}
-                  />
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            ))}
-            {/* <NavigationMenuItem>
+        <CouncilLogo className={cn('h-4 w-auto xl:h-6')} />
+      </Link>
+      <NavigationMenu className="hidden h-full grow items-stretch *:grow xl:flex">
+        <NavigationMenuList className="h-full items-stretch justify-stretch">
+          {Object.entries(MENU_ITEMS).map(([category, items]) => (
+            <NavigationMenuItem key={category}>
+              <NavigationMenuTrigger
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  'h-full bg-transparent px-7 text-foreground transition-colors hover:text-foreground',
+                  state !== State.Onboarding && 'xl:text-primary-foreground hover:xl:text-primary-foreground',
+                  textSize
+                )}
+              >
+                {t(`header.${category}`)}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <DropDownMenu
+                  items={items}
+                  bgColor={styles.bgColor}
+                  textColor={styles.textColor}
+                  hoverBgColor={styles.hoverBgColor}
+                />
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          ))}
+          {/* <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link
                   to={`${QNA_PATH}`}
@@ -115,45 +114,44 @@ export function Header({ state = State.Onboarding, onLogout = () => {} }: Header
               </NavigationMenuLink>
             </NavigationMenuItem> */}
 
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  to={`${DATA_PATH}`}
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    'h-full bg-transparent px-7 text-foreground transition-colors hover:text-foreground',
-                    state !== State.Onboarding && 'xl:text-primary-foreground hover:xl:text-primary-foreground',
-                    textSize
-                  )}
-                >
-                  {t('header.자료집')}
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <div className="hidden grow items-center justify-end gap-2 px-4 xl:flex">
-              <TranslateButton
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link
+                to={`${DATA_PATH}`}
                 className={cn(
                   navigationMenuTriggerStyle(),
-                  'h-full bg-transparent px-7 text-foreground transition-colors hover:bg-background hover:text-foreground hover:brightness-95',
-                  state !== State.Onboarding &&
-                    'hidden xl:flex xl:text-primary-foreground hover:xl:bg-primary hover:xl:text-primary-foreground'
+                  'h-full bg-transparent px-7 text-foreground transition-colors hover:text-foreground',
+                  state !== State.Onboarding && 'xl:text-primary-foreground hover:xl:text-primary-foreground',
+                  textSize
                 )}
-                onToggleLanguage={handleToggleLanguage}
-              />
-              <AuthButton
-                state={state}
-                onLogout={onLogout}
-                className={cn(
-                  navigationMenuTriggerStyle(),
-                  'h-full bg-transparent px-7 text-foreground transition-colors hover:bg-background hover:text-foreground hover:brightness-95',
-                  state !== State.Onboarding &&
-                    'hidden xl:flex xl:text-primary-foreground hover:xl:bg-primary hover:xl:text-primary-foreground'
-                )}
-              />
-            </div>
-          </NavigationMenuList>
-        </NavigationMenu>
-      </div>
+              >
+                {t('header.자료집')}
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <div className="hidden grow items-center justify-end gap-2 px-4 xl:flex">
+            <TranslateButton
+              className={cn(
+                navigationMenuTriggerStyle(),
+                'h-full bg-transparent px-7 text-foreground transition-colors hover:bg-background hover:text-foreground hover:brightness-95',
+                state !== State.Onboarding &&
+                  'hidden xl:flex xl:text-primary-foreground hover:xl:bg-primary hover:xl:text-primary-foreground'
+              )}
+              onToggleLanguage={handleToggleLanguage}
+            />
+            <AuthButton
+              state={state}
+              onLogout={onLogout}
+              className={cn(
+                navigationMenuTriggerStyle(),
+                'h-full bg-transparent px-7 text-foreground transition-colors hover:bg-background hover:text-foreground hover:brightness-95',
+                state !== State.Onboarding &&
+                  'hidden xl:flex xl:text-primary-foreground hover:xl:bg-primary hover:xl:text-primary-foreground'
+              )}
+            />
+          </div>
+        </NavigationMenuList>
+      </NavigationMenu>
     </div>
   );
 }

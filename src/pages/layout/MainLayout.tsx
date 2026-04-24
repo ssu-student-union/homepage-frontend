@@ -28,7 +28,7 @@ export function MainLayout() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header state={loginState ? State.Login : State.Logout} onLogout={handleLogout} />
-      <main className="grow">
+      <main className="mt-12 grow xl:mt-16">
         <Outlet />
       </main>
       <Footer />
