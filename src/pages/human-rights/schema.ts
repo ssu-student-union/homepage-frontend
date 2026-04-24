@@ -123,11 +123,12 @@ export const HumanRightsPostEditFormSchema = z.object({
   isNotice: z.literal(false),
   postFileList: z.array(z.number()),
   rightsDetailList: z.object({
-    reporter: HumanRightsReporterSchema,
-    victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM').default('VICTIM') })).nonempty(),
-    attackers: z
-      .array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER').default('ATTACKER') }))
-      .nonempty(),
+    reporter: HumanRightsPersonSchema.extend({
+      phoneNumber: z.string().min(1),
+      personType: z.literal('REPORTER'),
+    }),
+    victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM') })).min(1),
+    attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).min(1),
   }),
   content: z.string().min(1),
 });
@@ -136,8 +137,8 @@ export const HumanRightsPostEditRequestSchema = HumanRightsPostEditFormSchema.om
   rightsDetailList: z
     .object({
       reporter: HumanRightsReporterSchema,
-      victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM') })).nonempty(),
-      attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).nonempty(),
+      victims: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('VICTIM') })).min(1),
+      attackers: z.array(HumanRightsPersonSchema.extend({ personType: z.literal('ATTACKER') })).min(1),
     })
     .transform((obj) => [obj.reporter, ...obj.victims, ...obj.attackers]),
 });
