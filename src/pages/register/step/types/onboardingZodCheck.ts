@@ -26,15 +26,19 @@ export const LoginSchemaScouncil = z.object({
 export const LoginSchemaCertify = z.object({
   name: z
     .string()
-    .min(1, 'onboarding_validation.name_required')
-    .max(10, 'onboarding_validation.name_max')
-    .regex(/^[가-힣a-zA-Z]+$/, 'onboarding_validation.name_regex'),
-  email: z.string().email('onboarding_validation.email_format').min(1, 'onboarding_validation.email_required'),
+    .min(1, { error: 'onboarding_validation.name_required' })
+    .max(100, { error: 'onboarding_validation.name_max' })
+    .regex(/^[가-힣a-zA-Z]+$/, { error: 'onboarding_validation.name_regex' }),
+  email: z
+    .string()
+    .trim()
+    .min(1, { error: 'onboarding_validation.email_required' })
+    .check(z.email({ error: 'onboarding_validation.email_format' })),
   id: z
     .string()
-    .length(8, 'onboarding_validation.studentId_length')
-    .regex(/^\d+$/, 'onboarding_validation.studentId_regex'),
-  inquiry: z.string().min(1, 'onboarding_validation.inquiry_required'),
+    .length(8, { error: 'onboarding_validation.studentId_length' })
+    .regex(/^\d+$/, { error: 'onboarding_validation.studentId_regex' }),
+  inquiry: z.string().trim().min(1, 'onboarding_validation.inquiry_required'),
 });
 
 export type LoginType = z.infer<typeof LoginSchemaRegister>;

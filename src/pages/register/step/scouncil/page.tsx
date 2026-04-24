@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchemaScouncil, LoginScouncilType } from '../types/onboardingZodCheck';
@@ -14,6 +14,8 @@ import { PostScouncilLoginDataResponse } from '@/types/apis/get';
 import FloatingButton from '@/components/Buttons/FloatingButton';
 import ChannelTalkIcon from '@/components/svg-icon/ChannelTalkIcon';
 import { moveToRedirectUrl } from '@/pages/register/containers/utils/moveToRedirectUrl';
+import { Loader2 } from 'lucide-react';
+
 export function GeneralLoginPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -21,26 +23,19 @@ export function GeneralLoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitting, isValid },
-    watch,
-  } = useForm<FieldValues>({
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<LoginScouncilType>({
     resolver: zodResolver(LoginSchemaScouncil),
-    mode: 'onBlur',
-    defaultValues: {} as LoginScouncilType,
+    mode: 'onChange',
+    defaultValues: {
+      accountId: '',
+      password: '',
+    },
   });
 
   const setLoginState = useSetAtom(LoginState);
-
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [scouncilError, setScouncilError] = useState(false);
-
-  const formValues = watch();
-
   const redirectUrl = localStorage.getItem('redirectUrl');
-
-  useEffect(() => {
-    setIsButtonDisabled(!isValid);
-  }, [isValid]);
 
   const setDataInLocalStorage = (data: {
     groupCodeList: string[];
@@ -57,6 +52,7 @@ export function GeneralLoginPage() {
     }
     localStorage.setItem('accessToken', data?.accessToken);
   };
+
   const mutation = usePostLoginData({
     mutationOptions: {
       onSuccess: (data: PostScouncilLoginDataResponse) => {
@@ -72,16 +68,14 @@ export function GeneralLoginPage() {
         setScouncilError(true);
         alert(t('onboarding.로그인 정보가 일치하지 않습니다. 다시 시도해주세요.'));
       },
-      onSettled: () => {
-        setIsButtonDisabled(false);
-      },
     },
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = async () => {
+  const onSubmit: SubmitHandler<LoginScouncilType> = async (data) => {
+    setScouncilError(false);
     mutation.mutate({
-      accountId: formValues.accountId,
-      password: formValues.password,
+      accountId: data.accountId,
+      password: data.password,
     });
   };
 
@@ -97,43 +91,42 @@ export function GeneralLoginPage() {
               type="text"
               placeholder={t('onboarding.아이디')}
               className={cn('w-[250px] max-sm:min-h-9 max-sm:rounded-xs md:w-[420px]')}
-              {...register('accountId', {
-                required: t('onboarding.아이디는 필수 입력입니다'),
-              })}
-              aria-invalid={isSubmitted ? (errors.accountId ? 'true' : 'false') : undefined}
+              {...register('accountId')}
+              isInvalid={!!errors.accountId}
             />
             <div className="mt-3"></div>
             {errors.accountId && (
               <small className="text-[13px] text-red-600">{t(errors.accountId?.message as string)}</small>
             )}
+
             <Input
               type="password"
               placeholder={t('onboarding.비밀번호')}
               className={cn('w-[250px] max-sm:min-h-9 max-sm:rounded-xs md:w-[420px]')}
-              {...register('password', {
-                required: t('onboarding.비밀번호는 필수 입력입니다'),
-              })}
-              aria-invalid={isSubmitted ? (errors.password ? 'true' : 'false') : undefined}
+              {...register('password')}
+              isInvalid={!!errors.password}
             />
             <div className="mt-3"></div>
             {errors.password && (
               <small className="text-[13px] text-red-600">{t(errors.password?.message as string)}</small>
             )}
+
             {scouncilError && (
-              <>
-                <div className="mt-[10px] text-xs font-medium text-red-600">
-                  {t('onboarding.입력하신 정보가 올바르지 않습니다')}
-                </div>
-              </>
+              <div className="mt-[10px] text-xs font-medium text-red-600">
+                {t('onboarding.입력하신 정보가 올바르지 않습니다')}
+              </div>
             )}
+
             <Button
               type="submit"
-              disabled={isSubmitting || isButtonDisabled}
+              disabled={isSubmitting || !isValid}
               variant="default"
               size="default"
-              className={`mt-4 w-[250px] py-0 max-md:px-4 max-md:py-[0.1rem] max-sm:min-h-[36px] max-sm:rounded-xs md:w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
+              className={`mt-4 w-[250px] py-0 max-md:px-4 max-md:py-[0.1rem] max-sm:min-h-[36px] max-sm:rounded-xs md:w-[420px] ${
+                isSubmitting || !isValid ? 'bg-gray-400' : ''
+              }`}
             >
-              {t('onboarding.입력 완료')}
+              {isSubmitting ? <Loader2 className={cn('animate-spin')} /> : t('onboarding.입력 완료')}
             </Button>
           </form>
         </div>

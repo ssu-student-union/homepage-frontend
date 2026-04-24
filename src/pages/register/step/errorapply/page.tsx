@@ -1,42 +1,41 @@
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginSchemaCertify, LoginCertifyType } from '../types/onboardingZodCheck';
-import { postOnboardingMail } from '@/apis/postOnboardingMail'; // Import the postOnboardingMail function
+import { postOnboardingMail } from '@/apis/postOnboardingMail';
 import { AxiosError } from 'axios';
 import { useTranslation } from 'react-i18next';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { cn } from '@/libs/utils';
 
 export function CertifyApplyPage() {
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted, isSubmitting, isValid },
-    watch,
+    formState: { errors, isSubmitting, isValid },
   } = useForm<LoginCertifyType>({
     resolver: zodResolver(LoginSchemaCertify),
-    mode: 'onBlur',
+    mode: 'onTouched',
+    defaultValues: {
+      name: '',
+      id: '',
+      email: '',
+      inquiry: '',
+    },
   });
 
   const navigate = useNavigate();
 
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const formValues = watch();
-
-  useEffect(() => {
-    setIsButtonDisabled(!isValid);
-  }, [isValid]);
-
-  const onSubmit: SubmitHandler<LoginCertifyType> = async () => {
+  const onSubmit: SubmitHandler<LoginCertifyType> = async (data) => {
     try {
       const reqBody = {
-        name: formValues.name ?? '',
-        studentId: formValues.id ?? 0,
-        email: formValues.email ?? '',
-        content: formValues.inquiry ?? '',
+        name: data.name,
+        studentId: data.id,
+        email: data.email,
+        content: data.inquiry,
       };
 
       const response = await postOnboardingMail(reqBody);
@@ -61,70 +60,64 @@ export function CertifyApplyPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="flex w-full max-w-md flex-col items-center p-4">
-        <div className="max-w-[300px] pb-4 text-center text-2xl font-bold not-italic leading-[normal] text-[rgb(0,0,0)] md:text-3xl">
+      <div className="flex w-full max-w-md flex-col items-center">
+        <h1 className="max-w-[300px] pb-4 text-center text-2xl font-bold not-italic leading-[normal] text-black md:text-3xl">
           {t('onboarding.학생인증이 안 되시나요?')}
-        </div>
-        <div className="whitespace-pre-line text-center text-xs font-medium text-gray-700 md:w-[540px] md:text-base">
+        </h1>
+        <p className="whitespace-pre-line text-center text-xs font-medium text-gray-700 md:w-[540px] md:text-base">
           {t('onboarding.error_apply_description')}
-        </div>
-        <form className="mt-[36px] w-[300px] md:w-[420px]" noValidate onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            type="text"
-            placeholder={t('onboarding.이름')}
-            className="w-[300px] md:w-[420px]"
-            {...register('name', {
-              required: t('onboarding.이름은 필수 입력입니다'),
-            })}
-            aria-invalid={isSubmitted ? (errors.name ? 'true' : 'false') : undefined}
-          />
-          <div className="mt-3"></div>
-          {errors.name?.message && <small className="text-[13px] text-red-600">{t(errors.name?.message)}</small>}
+        </p>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <div className="mt-[36px] flex w-[300px] flex-col gap-4 md:w-[420px]">
+            <Input
+              type="text"
+              placeholder={t('onboarding.이름')}
+              className="w-[300px] md:w-[420px]"
+              {...register('name')}
+              isInvalid={!!errors.name}
+            />
+            {errors.name?.message && <small className="text-[13px] text-red-600">{t(errors.name?.message)}</small>}
 
-          <Input
-            type="text"
-            placeholder={t('onboarding.학번')}
-            className="mt-5 w-[300px] md:w-[420px]"
-            {...register('id', {
-              required: t('onboarding.학번은 필수 입력입니다'),
-            })}
-            aria-invalid={isSubmitted ? (errors.id ? 'true' : 'false') : undefined}
-          />
-          <div className="mt-3"></div>
-          {errors.id?.message && <small className="text-[13px] text-red-600">{t(errors.id?.message)}</small>}
+            <Input
+              type="text"
+              inputMode="numeric"
+              placeholder={t('onboarding.학번')}
+              className="w-[300px] md:w-[420px]"
+              {...register('id')}
+              isInvalid={!!errors.id}
+            />
+            {errors.id?.message && <small className="text-[13px] text-red-600">{t(errors.id?.message)}</small>}
 
-          <Input
-            type="email"
-            placeholder={t('onboarding.이메일')}
-            className="mt-3 w-[300px] md:w-[420px]"
-            {...register('email', {
-              required: t('onboarding_validation.email_required'),
-            })}
-            aria-invalid={isSubmitted ? (errors.email ? 'true' : 'false') : undefined}
-          />
-          <div className="mt-3"></div>
-          {errors.email?.message && <small className="text-[13px] text-red-600">{t(errors.email?.message)}</small>}
+            <Input
+              type="email"
+              placeholder={t('onboarding.이메일')}
+              className="w-[300px] md:w-[420px]"
+              {...register('email')}
+              isInvalid={!!errors.email}
+            />
+            {errors.email?.message && <small className="text-[13px] text-red-600">{t(errors.email?.message)}</small>}
 
-          <textarea
-            className="mt-5 flex h-24 min-h-[46px] w-[300px] rounded-md border border-gray-500 bg-background px-[20px] py-[16px] text-sm font-semibold ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus:border focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:w-[420px]"
-            placeholder={t('onboarding.문의내용')}
-            {...register('inquiry', {
-              required: t('onboarding_validation.inquiry_required'),
-            })}
-            aria-invalid={isSubmitted ? (errors.inquiry ? 'true' : 'false') : undefined}
-          />
-          <div className="mt-3"></div>
-          {errors.inquiry?.message && <small className="text-[13px] text-red-600">{t(errors.inquiry?.message)}</small>}
+            <textarea
+              className={`flex h-24 min-h-[46px] w-[300px] rounded-md border bg-background px-[20px] py-[16px] text-sm font-semibold ring-offset-background placeholder:text-gray-400 focus:border focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:w-[420px] ${
+                errors.inquiry ? 'border-red-400 focus:border-red-400' : 'border-gray-500 focus:border-primary'
+              }`}
+              placeholder={t('onboarding.문의내용')}
+              {...register('inquiry')}
+            />
+            {errors.inquiry?.message && (
+              <small className="text-[13px] text-red-600">{t(errors.inquiry?.message)}</small>
+            )}
 
-          <Button
-            type="submit"
-            disabled={isSubmitting || isButtonDisabled}
-            variant="default"
-            size="default"
-            className={`mt-4 w-[300px] md:w-[420px] ${isSubmitting || isButtonDisabled ? 'bg-gray-400' : ''}`}
-          >
-            {t('onboarding.error_apply_button')}
-          </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting || !isValid}
+              variant="default"
+              size="default"
+              className={`w-[300px] md:w-[420px] ${isSubmitting || !isValid ? 'bg-gray-400' : ''}`}
+            >
+              {isSubmitting ? <Loader2 className={cn('animate-spin')} /> : t('onboarding.error_apply_button')}
+            </Button>
+          </div>
         </form>
       </div>
     </div>

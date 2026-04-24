@@ -14,7 +14,7 @@
     "knip": "knip"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.10.0",
+    "@hookform/resolvers": "^5.2.2",
     "@phosphor-icons/react": "^2.1.7",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-aspect-ratio": "^1.1.2",
@@ -54,7 +54,7 @@
     "react-cookie": "^7.2.2",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.3.8",
-    "react-hook-form": "^7.55.0",
+    "react-hook-form": "^7.73.1",
     "react-i18next": "^15.4.1",
     "react-router": "^7.5.0",
     "react-slick": "0.30.3",
