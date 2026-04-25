@@ -1,10 +1,10 @@
 import { baseUrl } from '@/pages/register/containers/const/data';
 
-const sso_base_url = import.meta.env.VITE_SSO_API_URL;
-const new_redirect_uri = import.meta.env.VITE_NEW_REDIRECT_URI;
+const ssoBaseUrl = import.meta.env.VITE_SSO_API_URL;
+const newRedirectUri = import.meta.env.VITE_NEW_REDIRECT_URI;
 
-const ssoAuthUrl = new URL('auth/login', sso_base_url);
-ssoAuthUrl.searchParams.set('redirect_uri', `${baseUrl}${new_redirect_uri}`);
+const ssoAuthUrl = new URL('auth/login', ssoBaseUrl);
+ssoAuthUrl.searchParams.set('redirect_uri', `${baseUrl}${newRedirectUri}`);
 const SSO_AUTH_API = ssoAuthUrl.toString();
 
 export function SsoLoginButton() {
