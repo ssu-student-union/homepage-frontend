@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router';
 import { LoginState } from '@/atoms/atom';
 import { baseUrl } from '@/pages/register/containers/const/data';
 import { useSetAtom } from 'jotai';
-import { getStudentInfo } from '@/apis/getStudentInfo';
+import { useGetStudentInfo } from '@/hooks/new/query/useGetStudentInfo';
 import axios from 'axios';
 import { getClientIdFromToken, postSsoLogout } from '@/apis/postSsoLogout';
-import { getManagerProfile } from '@/apis/getManagerProfile';
+import { useGetManagerProfile } from '@/hooks/new/query/useGetManagerProfile';
 
 const managerClientId = import.meta.env.VITE_MANAGER_CLIENT_ID;
 const userClientId = import.meta.env.VITE_USER_CLIENT_ID;
@@ -25,6 +25,14 @@ function clearAuthState() {
 const SsoRedirect = () => {
   const setLoginState = useSetAtom(LoginState);
   const navigate = useNavigate();
+
+  const { refetch: fetchStudentInfo } = useGetStudentInfo({
+    queryOptions: { enabled: false },
+  });
+
+  const { refetch: fetchManagerProfile } = useGetManagerProfile({
+    queryOptions: { enabled: false },
+  });
 
   useEffect(() => {
     const handleSsoCallback = async () => {
@@ -68,8 +76,10 @@ const SsoRedirect = () => {
         if (audience === userClientId) {
           // Normal user sso callback process
           try {
-            const response = await getStudentInfo();
-            localStorage.setItem('userData', JSON.stringify(response));
+            const { data: response } = await fetchStudentInfo({ throwOnError: true });
+            if (response) {
+              localStorage.setItem('userData', JSON.stringify(response));
+            }
           } catch (err) {
             // If user didn't onboard in SSO system
             if (axios.isAxiosError(err) && err.response?.status === 404) {
@@ -89,12 +99,14 @@ const SsoRedirect = () => {
         } else if (audience === managerClientId) {
           // Manager account sso callback process
           // Fetch manager profile from backend
-          const profile = await getManagerProfile();
+          const { data: profile } = await fetchManagerProfile({ throwOnError: true });
 
           // Setup localStorage for manager
-          localStorage.setItem('groupCodeList', JSON.stringify(profile.groupCodeList));
-          if (profile.memberName) localStorage.setItem('memberName', profile.memberName);
-          if (profile.majorName) localStorage.setItem('majorName', profile.majorName);
+          if (profile) {
+            localStorage.setItem('groupCodeList', JSON.stringify(profile.groupCodeList));
+            if (profile.memberName) localStorage.setItem('memberName', profile.memberName);
+            if (profile.majorName) localStorage.setItem('majorName', profile.majorName);
+          }
           setLoginState(true);
           window.location.replace(baseUrl);
           return;
@@ -127,6 +139,7 @@ const SsoRedirect = () => {
     };
 
     handleSsoCallback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate, setLoginState]);
 
   return <div>Loading…</div>;

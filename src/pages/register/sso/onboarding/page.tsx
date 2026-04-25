@@ -10,7 +10,7 @@ import { useSetAtom } from 'jotai';
 import { LoginState } from '@/atoms/atom';
 import { useState } from 'react';
 import { clientAuth } from '@/apis/client';
-import { postSsoOnboard } from '@/apis/postSsoOnboard';
+import { usePostSsoOnboard } from '@/hooks/new/mutations/usePostSsoOnboard';
 import { getClientIdFromToken, postSsoLogout } from '@/apis/postSsoLogout';
 import { baseUrl } from '@/pages/register/containers/const/data';
 import axios from 'axios';
@@ -35,6 +35,7 @@ export function SsoOnboardingPage() {
   const isEn = i18n.language === 'en';
   const setLoginState = useSetAtom(LoginState);
   const [error, setError] = useState(false);
+  const { mutateAsync: onboardUser } = usePostSsoOnboard();
 
   const {
     register,
@@ -52,7 +53,7 @@ export function SsoOnboardingPage() {
   const onSubmit: SubmitHandler<SsoOnboardForm> = async (data) => {
     try {
       // 1. Call POST /auth/onboard to link Cognito sub with existing student record
-      await postSsoOnboard({
+      await onboardUser({
         student_id: data.studentId,
         student_name: data.name,
       });
