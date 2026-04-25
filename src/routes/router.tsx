@@ -38,6 +38,7 @@ import IntroPage from '../pages/intro/page';
 import { SchedulePage } from '../pages/schedule/page';
 import { ScheduleEditPage } from '../pages/schedule/edit/page';
 import { RegisterLayout } from '../pages/layout/RegisterLayout';
+import SsoRedirect from '@/pages/register/sso/callback/page';
 
 export function MainRouter() {
   return (
@@ -101,6 +102,7 @@ export function MainRouter() {
       </Route>
       <Route path="/register/redirect" element={<KakaoRegisterRedirectPage />} />
       <Route path="/auth/callback" element={<KakaoRedirect />} />
+      <Route path="/sso/callback" element={<SsoRedirect />} />
       {/* 이외 경로 리다이렉트 처리 */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

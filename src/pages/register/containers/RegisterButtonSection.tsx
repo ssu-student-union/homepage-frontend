@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { SsoLoginButton } from '@/components/Buttons/SsoButton';
 import { KakaoButton } from '@/components/Buttons/KakaoButton';
 import { STUDENT_COUNCIL_NAME, STUDENT_COUNCIL_NUMBER } from '@/const/studentCouncil';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ export function RegisterButtonSection() {
             {t('onboarding.학생자치기구 로그인')}
           </div>
         </Link>
+        <SsoLoginButton />
       </div>
     </div>
   );
