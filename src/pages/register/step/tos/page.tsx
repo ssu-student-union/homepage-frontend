@@ -31,9 +31,11 @@ export function TOSPage() {
 
   const isAllChecked = checkList.length === 3;
 
+  const isSsoUser = localStorage.getItem('refreshToken') && !localStorage.getItem('kakaoData');
+
   const handleNext = () => {
     if (isAllChecked || (checkList.includes('privacy') && checkList.includes('service'))) {
-      navigate('/register/onboarding');
+      navigate(isSsoUser ? '/sso/onboarding' : '/register/onboarding');
     } else {
       alert('필수 동의 항목을 모두 체크해주세요!');
     }

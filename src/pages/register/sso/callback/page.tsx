@@ -1,46 +1,82 @@
 import { useEffect, useMemo } from 'react';
-import { LoginState } from '@/atoms/atom';                                                                                                                                                                                                                                                          
-import { baseUrl } from '@/pages/register/containers/const/data';                                                                                                                                                                                                                                   
+import { useNavigate } from 'react-router';
+import { LoginState } from '@/atoms/atom';
+import { baseUrl } from '@/pages/register/containers/const/data';
 import { useSetAtom } from 'jotai';
+import { getStudentInfo } from '@/apis/getStudentInfo';
+import axios from 'axios';
+import { getClientIdFromToken, postSsoLogout } from '@/apis/postSsoLogout';
 
 const SsoRedirect = () => {
-    const setLoginState = useSetAtom(LoginState);
-    const redirectUrl = useMemo(() => localStorage.getItem('redirectUrl'), []);                                                                                                                                                                                                                       
-   
-    useEffect(() => {                                                                                                                                                                                                                                                                                 
-      const handleSsoCallback = async () => {
+  const setLoginState = useSetAtom(LoginState);
+  const redirectUrl = useMemo(() => localStorage.getItem('redirectUrl'), []);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleSsoCallback = async () => {
+      try {
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        const tokensRaw = params.get('tokens');
+
+        if (!tokensRaw) {
+          alert('로그인에 실패했습니다');
+          return;
+        }
+
+        // Set jwt tokens into localStorage
+        const tokens = JSON.parse(decodeURIComponent(tokensRaw));
+        const { id_token, refresh_token } = tokens;
+        localStorage.setItem('accessToken', id_token);
+        localStorage.setItem('refreshToken', refresh_token);
+
         try {
-          const hash = window.location.hash.substring(1);
-          const params = new URLSearchParams(hash);                                                                                                                                                                                                                                                   
-          const tokensRaw = params.get('tokens');
-                                                                                                                                                                                                                                                                                                      
-          if (!tokensRaw) {
+          const response = await getStudentInfo();
+          localStorage.setItem('userData', JSON.stringify(response));
+        } catch (err) {
+          if (axios.isAxiosError(err) && err.response?.status === 404) {
+            navigate('/register/tos');
+            return;
+          } else {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
             alert('로그인에 실패했습니다');
-            return;                                                                                                                                                                                                                                                                                   
+            return;
           }
-                                                                                                                                                                                                                                                                                                      
-          const tokens = JSON.parse(decodeURIComponent(tokensRaw));
-          const { id_token, refresh_token } = tokens;
+        }
 
-          // TODO: Check onboarding status via GET /auth/me                                                                                                                                                                                                                                           
-        
-          // Set jwt tokens into localStorage
-          localStorage.setItem('accessToken', id_token);
-          localStorage.setItem('refreshToken', refresh_token);
+        // redirect user to the baseUrl
+        setLoginState(true);
+        window.location.href = baseUrl;
+      } catch (err) {
+        console.error(err);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        alert('로그인에 실패했습니다');
 
-          // redirect user to the baseUrl
-          setLoginState(true);
-          window.location.href = baseUrl;
-        } catch (err) {                                                                                                                                                                                                                                                                               
-          console.error(err);
-          alert('로그인에 실패했습니다');                                                                                                                                                                                                                                                             
-        }         
-      };
+        // Save values before clearing localStorage
+        const refreshToken = localStorage.getItem('refreshToken') ?? '';
+        const accessToken = localStorage.getItem('accessToken') ?? '';
+        const clientId = getClientIdFromToken(accessToken);
 
-      handleSsoCallback();
-    }, [setLoginState, redirectUrl]);
+        // Clear local tokens
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        setLoginState(false);
 
-    return <div>Loading…</div>;                                                                                                                                                                                                                                                                       
+        // Cognito logout
+        await postSsoLogout({
+          refreshToken,
+          clientId,
+          redirectUri: baseUrl,
+        });
+      }
+    };
+
+    handleSsoCallback();
+  }, [navigate, setLoginState, redirectUrl]);
+
+  return <div>Loading…</div>;
 };
 
 export default SsoRedirect;
