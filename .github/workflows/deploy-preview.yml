@@ -62,8 +62,12 @@ jobs:
         run: yarn build
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_SSO_API_URL: ${{ vars.VITE_SSO_API_URL }}
           VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
+          VITE_NEW_REDIRECT_URI: ${{ vars.VITE_NEW_REDIRECT_URI }}
           VITE_REST_API_KEY: ${{ secrets.VITE_REST_API_KEY }}
+          VITE_MANAGER_CLIENT_ID: ${{ vars.VITE_MANAGER_CLIENT_ID }}
+          VITE_USER_CLIENT_ID: ${{ vars.VITE_USER_CLIENT_ID }}
 
       - name: Create a status check
         uses: actions/github-script@v7
