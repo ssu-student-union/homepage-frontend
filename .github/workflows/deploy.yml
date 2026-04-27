@@ -15,7 +15,7 @@ env:
 
 jobs:
   deploy-prod:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, ARM64]
     environment:
       name: prod
       url: https://stu.ssu.ac.kr

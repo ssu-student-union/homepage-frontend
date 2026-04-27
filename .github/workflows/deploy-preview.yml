@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   deploy-preview:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, ARM64]
     environment:
       name: preview
       url: https://dev-preview.sssupport.shop
