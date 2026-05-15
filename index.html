@@ -80,6 +80,15 @@
         hideChannelButtonOnBoot: true,
       });
     </script>
+    <script>
+      var ALLOWED_HOSTNAME = 'stu.ssu.ac.kr';
+      if (window.location.hostname !== ALLOWED_HOSTNAME) {
+        var meta = document.createElement('meta');
+        meta.name = 'robots';
+        meta.content = 'noindex, nofollow';
+        document.head.appendChild(meta);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
