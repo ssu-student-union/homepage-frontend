@@ -2,9 +2,24 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <script>
+      var ALLOWED_HOSTNAME = 'stu.ssu.ac.kr';
+      if (window.location.hostname !== ALLOWED_HOSTNAME) {
+        var meta = document.createElement('meta');
+        meta.name = 'robots';
+        meta.content = 'noindex, nofollow';
+        document.head.appendChild(meta);
+      }
+    </script>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/logo512.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>숭실대학교 총학생회 홈페이지</title>
+    <meta name="description" content="숭실대학교 제66대 총학생회 FOCUSS:U 공식 홈페이지입니다." />
+    <!-- OG 태그 (카카오톡, SNS 공유용) -->
+    <meta property="og:title" content="숭실대학교 총학생회 FOCUSS:U" />
+    <meta property="og:description" content="숭실대학교 제66대 총학생회 FOCUSS:U 공식 홈페이지입니다." />
+    <meta property="og:url" content="https://stu.ssu.ac.kr" />
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // https://github.com/rafrex/spa-github-pages
@@ -79,15 +94,6 @@
         customLauncherSelector: '.custom-button-1, #custom-button-2',
         hideChannelButtonOnBoot: true,
       });
-    </script>
-    <script>
-      var ALLOWED_HOSTNAME = 'stu.ssu.ac.kr';
-      if (window.location.hostname !== ALLOWED_HOSTNAME) {
-        var meta = document.createElement('meta');
-        meta.name = 'robots';
-        meta.content = 'noindex, nofollow';
-        document.head.appendChild(meta);
-      }
     </script>
   </head>
   <body>
